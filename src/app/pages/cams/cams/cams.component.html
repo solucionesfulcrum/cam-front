@@ -1,0 +1,99 @@
+        <div class="div-mat-tab">
+          <div class="filtros-notif" [formGroup]="form">
+            <div class="filtros-notif-left">
+              <mat-form-field class="mat-full-width">
+                <mat-icon matPrefix>search</mat-icon>
+                <input
+                  (keyup)="filtrarTabla($event)"
+                  matInput
+                  placeholder="Búscar"
+                />
+              </mat-form-field>
+              <mat-form-field>
+                <mat-label>Estado</mat-label>
+                <mat-select>
+                  <mat-option value="1">DISPONIBLES</mat-option>
+                  <mat-option value="2">SUSPENDIDO</mat-option>
+                  <mat-option value="3">NO DISPONIBLE</mat-option>
+                </mat-select>
+              </mat-form-field>
+            </div>
+            <div class="filtros-notif-right ">
+              
+              <button
+                mat-raised-button
+                class="mat-btn-primary text-uppercase"
+                routerLink="/cams/new"
+              >
+                Nuevo CAM 
+              </button>
+            </div>
+          </div>
+          <div class="table-responsive">
+            <table mat-table [dataSource]="dataSource">
+              <ng-container matColumnDef="descripcion" class="">
+                <th mat-header-cell *matHeaderCellDef>CAMS</th>
+                <td mat-cell *matCellDef="let element" class="justify-left" style="align-content: start;">
+                  <a
+                    mat-flat-button
+                    class="btn-flat-info"
+                    (click)="setLink2(element.descripcion, element.idCam)"
+                    routerLink="/cams/show/{{element.idCam}}"
+                  >
+                    {{ element.descripcion}}
+                  </a>
+                </td>
+              </ng-container>
+
+              <ng-container matColumnDef="celular">
+                <th mat-header-cell *matHeaderCellDef>CELULAR</th>
+                <td mat-cell *matCellDef="let element">
+                  {{ element.celular }}
+                </td>
+              </ng-container>
+
+              <ng-container matColumnDef="fechaInscripcion">
+                <th mat-header-cell *matHeaderCellDef>FECHA DE CREACION</th>
+                <td mat-cell *matCellDef="let element">
+                  {{ element.fechaInscripcion }}
+                </td>
+              </ng-container>
+
+              <ng-container matColumnDef="codigo">
+                <th mat-header-cell *matHeaderCellDef>CODIGO</th>
+                <td mat-cell *matCellDef="let element">
+                  {{ element.codigo }}
+                </td>
+              </ng-container>
+
+              <ng-container matColumnDef="red">
+                <th mat-header-cell *matHeaderCellDef>RED</th>
+                <td mat-cell *matCellDef="let element">
+                  {{ element.red?.nombre }}
+                </td>
+              </ng-container>
+
+              <ng-container matColumnDef="estado">
+                <th mat-header-cell *matHeaderCellDef>ESTADO</th>
+                <td mat-cell *matCellDef="let element">
+                  {{ element.estado}}
+                </td>
+              </ng-container>
+
+
+              <tr
+                mat-header-row
+                *matHeaderRowDef="displayedColumns"
+              ></tr>
+              <tr
+                mat-row
+                *matRowDef="let row; columns: displayedColumns"
+              ></tr>
+            </table>
+            <mat-paginator
+              #paginator
+              [pageSizeOptions]="[25, 50, 100]"
+              showFirstLastButtons
+            ></mat-paginator>
+          </div>
+        </div>

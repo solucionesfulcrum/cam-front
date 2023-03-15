@@ -1,0 +1,32 @@
+<!-- {{data | json}} -->
+<h2 mat-dialog-title>{{ data?.title }}</h2>
+<mat-dialog-content>
+  <div class="modal-form">
+    <!-- <mat-form-field class="full-width-input">
+      <mat-label>Nombre</mat-label>
+      <input matInput />
+    </mat-form-field>
+    <mat-form-field class="full-width-input">
+      <mat-label>Cod. Planilla</mat-label>
+      <input matInput />
+    </mat-form-field>
+    <mat-form-field class="full-width-input">
+      <mat-label>Área/Cargo</mat-label>
+      <input matInput />
+    </mat-form-field> -->
+    <img src="assets/img/participante.jpg" alt="">
+    <p> {{data?.element.nombres}} </p>
+    <p> DNI: {{data?.element.documento}} </p>
+  </div>
+</mat-dialog-content>
+<mat-dialog-actions>
+  <button mat-button mat-dialog-close>Cancel</button>
+  <button
+    mat-raised-button
+    class="btn-primary"
+    cdkFocusInitial
+    (click)="editarMiembroEquipo()"
+  >
+    Registrar
+  </button>
+</mat-dialog-actions>

@@ -1,0 +1,71 @@
+<div class="login-form">
+    <!-- <div>
+        <img src="assets/img/cam_login.png" alt="">
+    </div> -->
+  <mat-card class="login-form__div">
+    
+      <div>
+        <img class="img-logo" src="assets/img/logo-essalud.png" />
+      </div>
+      <h1>Inicio de Sesión</h1>
+      <form [formGroup]="loginForm" (ngSubmit)="onLogin()">
+        <mat-form-field class="full-width-input">
+          <mat-label>Usuario</mat-label>
+          <input type="text" formControlName="username" matInput required />
+          <mat-icon matSuffix>account_circle</mat-icon>
+          <mat-error *ngIf="loginForm.controls.username.hasError('minlength')">
+            Mínimo 8 dígitos
+          </mat-error>
+        </mat-form-field>
+        <mat-form-field class="full-width-input separator">
+          <mat-label>Contraseña</mat-label>
+          <input
+            type="password"
+            formControlName="password"
+            matInput
+            required
+            [type]="hide ? 'password' : 'text'"
+          />
+          <button
+            type="button"
+            mat-icon-button
+            matSuffix
+            (click)="hide = !hide"
+          >
+            <mat-icon> {{ hide ? "visibility_off" : "visibility" }} </mat-icon>
+          </button>
+          <mat-error *ngIf="loginForm.controls.password.hasError('minlength')">
+            Mínimo 6 dígitos
+          </mat-error>
+        </mat-form-field>
+        <div class="btn-login">
+          <button
+            type="submit"
+            mat-raised-button
+            [disabled]="loginForm.invalid || loading"
+          >
+            {{ loading ? "Validando..." : "Ingresar" }}
+          </button>
+        </div>
+      </form>
+      <div>
+        <button
+          mat-button
+          color="primary"
+          (click)="irRegistroUsuario()"
+          class="font-boton font-primary"
+        >
+          Registrarse
+        </button>
+        <button
+          mat-button
+          color="warn"
+          (click)="irOlvidoPassword()"
+          class="font-boton font-secondary"
+        >
+          ¿Olvidaste tu contraseña?
+        </button>
+      </div>
+    
+  </mat-card>
+</div>

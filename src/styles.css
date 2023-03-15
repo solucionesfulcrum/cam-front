@@ -1,0 +1,454 @@
+/* You can add global styles to this file, and also import other style files */
+/*@import "/node_modules/bootstrap/dist/css/bootstrap.css";*/
+html,
+body {
+  height: 100%;
+}
+body {
+  margin: 0;
+  font-family: Roboto, "Helvetica Neue", sans-serif;
+  background: #f4fcfd !important;
+}
+
+.loader-container{
+  position:fixed;
+  width: 100%;
+  z-index: 999;
+}
+
+.mat-btn-primary{
+  background: #075985;
+  color: #fff;
+}
+
+.mat-btn-secondary{
+  background: #64748b;
+  color: #fff;
+}
+
+.mat-btn-success{
+  background: #15803d;
+  color: #fff;
+}
+
+.mat-btn-info{
+  background: #06b6d4;
+  color: #fff;
+}
+
+.mat-btn-warning{
+  background: #f97316;
+  color: #fff;
+}
+
+.mat-btn-danger{
+  background: #b91c1c;
+  color: #fff;
+}
+
+.mat-btn-ligth{
+  background: #cbd5e1;
+  color: #1f2937;
+}
+
+
+
+.bg-primary{
+  background: #075985;
+}
+
+.bg-secondary{
+  background: #64748b;
+}
+
+.bg-success{
+  background: #15803d;
+}
+
+.bg-info{
+  background: #06b6d4;
+}
+
+.bg-warning{
+  background: #f97316;
+}
+
+.bg-danger{
+  background: #b91c1c;
+}
+
+.bg-ligth{
+  background: #cbd5e1;
+}
+
+.bg-ligth2{
+  background: #f1f5f9 ;
+}
+
+.matform-btn {
+  margin-top: 0.45rem !important;
+  font-size: 16px;
+  height: 45px;
+}
+
+.matform-btn {
+  margin-top: 0.45rem !important;
+  font-size: 16px;
+  height: 45px;
+}
+.bg-side{
+  background-color: #f8fafc;
+}
+
+.text-primary2{
+  color: #0c4a6e;
+}
+.text-primary{
+  color: #075985;
+}
+
+.text-secondary{
+  color: #64748b;
+}
+
+.text-success{
+  color: #15803d;
+}
+
+.text-info{
+  color: #06b6d4;
+}
+
+.text-warning{
+  color: #f97316;
+}
+
+.text-danger{
+  color: #b91c1c;
+}
+
+.text-ligth{
+  color: #cbd5e1;
+}
+
+.text-white{
+  color: white;
+}
+
+.text-w-bold{
+  font-weight: 700; 
+}
+.text-w-fine{
+  font-weight:200
+}
+.text-w-normal{
+  font-weight: 400; 
+}
+.text-w-semibold{
+  font-weight:590
+}
+
+.text-style-cursiva{
+  font-style: italic;
+}
+
+.text-uppercase{
+   text-transform: uppercase;
+}
+
+.text-s-1r{
+  font-size: 1rem;
+}
+.text-s-2r{
+  font-size: 2rem;
+}
+.text-s-3r{
+  font-size: 3rem;
+}
+.text-s-4r{
+  font-size: 4rem;
+}
+.text-s-5r{
+  font-size: 5rem;
+}
+.text-s-6r{
+  font-size: 6rem;
+}
+.text-s-7r{
+  font-size: 7rem;
+}
+.text-s-8r{
+  font-size: 8rem;
+}
+.text-s-9r{
+  font-size: 9rem;
+}
+.text-s-10r{
+  font-size: 10rem;
+}
+
+.text-s-5{
+  font-size: 5px;
+}
+.text-s-6{
+  font-size: 6px;
+}
+.text-s-7{
+  font-size: 7px;
+}
+.text-s-8{
+  font-size: 8px;
+}
+.text-s-9{
+  font-size: 9px;
+}
+.text-s-10{
+  font-size: 10px;
+}
+.text-s-11{
+  font-size: 11px;
+}
+.text-s-12{
+  font-size: 12px;
+}
+.text-s-13{
+  font-size: 13px;
+}
+.text-s-14{
+  font-size: 14px;
+}
+.text-s-15{
+  font-size: 15px;
+}
+.text-s-16{
+  font-size: 16px;
+}
+.text-s-17{
+  font-size:17px;
+}
+.text-s-18{
+  font-size:18px;
+}
+.text-s-19{
+  font-size:19px;
+}
+.text-s-20{
+  font-size:20px;
+}
+.text-s-21{
+  font-size:21px;
+}
+.text-s-22{
+  font-size:22px;
+}
+.text-s-23{
+  font-size:23px;
+}
+.text-s-24{
+  font-size:24px;
+}
+.text-s-25{
+  font-size:25px;
+}
+
+.m-1{
+  margin: 1px;
+}
+.m-2{
+  margin: 2px;
+}
+.m-3{
+  margin: 3px;
+}
+.m-4{
+  margin: 4px;
+}
+.m-5{
+  margin: 5px;
+}
+.mt-5{
+  margin-top: 5px;
+}
+.mt-4{
+  margin-top: 4px;
+}
+.mt-3{
+  margin-top: 3px;
+}
+.mt-2{
+  margin-top: 2px;
+}
+.mt-1{
+  margin-top: 1px;
+}
+
+.mb-5{
+  margin-bottom: 5px;
+}
+.mb-4{
+  margin-bottom: 4px;
+}
+.mb-3{
+  margin-bottom: 3px;
+}
+.mb-2{
+  margin-bottom: 2px;
+}
+.mb-1{
+  margin-bottom: 1px;
+}
+
+.ml-5{
+  margin-left: 5px;
+}
+.ml-4{
+  margin-left: 4px;
+}
+.ml-3{
+  margin-left: 3px;
+}
+.ml-2{
+  margin-left: 2px;
+}
+.ml-1{
+  margin-left: 1px;
+}
+
+.mr-5{
+  margin-right: 5px;
+}
+.mr-4{
+  margin-right: 4px;
+}
+.mr-3{
+  margin-right: 3px;
+}
+.mr-2{
+  margin-right: 2px;
+}
+.mr-1{
+  margin-right: 1px;
+}
+
+.p-1{
+  padding: 1px;
+}
+.p-2{
+  padding: 2px;
+}
+.p-3{
+  padding: 3px;
+}
+.p-4{
+  padding: 4px;
+}
+.p-5{
+  padding: 5px;
+}
+
+.pt-5{
+  padding-top: 5px;
+}
+.pt-4{
+  padding-top: 4px;
+}
+.pt-3{
+  padding-top: 3px;
+}
+.pt-2{
+  padding-top: 2px;
+}
+.pt-1{
+  padding-top: 1px;
+}
+
+.pb-5{
+  padding-bottom: 5px;
+}
+.pb-4{
+  padding-bottom: 4px;
+}
+.pb-3{
+  padding-bottom: 3px;
+}
+.pb-2{
+  padding-bottom: 2px;
+}
+.pb-1{
+  padding-bottom: 1px;
+}
+
+.pl-5{
+  padding-left: 5px;
+}
+.pl-4{
+  padding-left: 4px;
+}
+.pl-3{
+  padding-left: 3px;
+}
+.pl-2{
+  padding-left: 2px;
+}
+.pl-1{
+  padding-left: 1px;
+}
+
+.pr-5{
+  padding-right: 5px;
+}
+.pr-4{
+  padding-right: 4px;
+}
+.pr-3{
+  padding-right: 3px;
+}
+.pr-2{
+  padding-right: 2px;
+}
+.pr-1{
+  padding-right: 1px;
+}
+
+.d-flex{
+  display: flex;
+}
+.d-block{
+  display: block;
+}
+
+.cursor{
+  cursor: pointer;
+}
+.none{
+  cursor: none;
+}
+.decorator-none{
+  text-decoration: none;
+}
+
+.align-content-flex-start{
+  align-content: flex-start;
+}
+.align-content-flex-end{
+  align-content: flex-end;
+}
+.align-content-center{
+  align-content: center;
+}
+.justify-content-start{
+  justify-content: start;
+}
+.justify-content-center{
+  justify-content: center;
+}
+.justify-content-end{
+  justify-content: end;
+}
+
+.w-100{
+  width: 100%;
+}
+.w-50{
+  width: 50%;
+}

@@ -1,0 +1,125 @@
+<div class="d-flex bg-ligth2 p-2 w-100 mt-3 mb-3">
+    <div class="w-50 justify-content-start">
+        <div class="d-flex">
+        <a routerLink="../" class="text-primary2 decorator-none"> 
+        <span class="material-symbols-outlined text-s-15 pt-2">
+            keyboard_backspace 
+        </span>
+        <span class="text-w-fine text-w-semibold text-s-15 pt-2">
+            REGRESAR 
+        </span>
+        </a>
+      </div>
+    </div>
+    <div class="w-50 d-flex justify-content-end">
+      <div class="">
+        <a  class="text-primary2 decorator-none"> 
+        <span class="text-w-fine text-w-semibold text-s-15 pt-2">
+           ELIMINAR CIRAM 
+        </span>
+        <span class="material-symbols-outlined text-s-15 pt-2">
+           delete 
+        </span>
+        </a>
+      </div>
+    </div>
+  </div>
+
+    <mat-card-title class="text-secondary text-uppercase text-s-15 text-w-semibold"> Editar CIRAMS</mat-card-title>
+
+    <div>
+      <div class="div-content-form">
+        <mat-form-field>
+          <mat-label> Nombres </mat-label>
+          <input matInput />
+        </mat-form-field>
+        <mat-form-field>
+          <mat-label> Administrador </mat-label>
+          <input matInput />
+        </mat-form-field>
+      </div>
+      <div class="div-content-form">
+        <mat-form-field>
+          <mat-label> Dirección </mat-label>
+          <input matInput />
+        </mat-form-field>
+      </div>
+      <div class="div-content-form">
+        <mat-form-field>
+          <mat-label> DNI </mat-label>
+          <input matInput />
+        </mat-form-field>
+        <mat-form-field>
+          <mat-label> Celular </mat-label>
+          <input matInput />
+        </mat-form-field>
+      </div>
+      <div class="div-content-form">
+        <mat-form-field>
+          <mat-label> Fecha de Nacimiento </mat-label>
+          <input matInput [matDatepicker]="picker" />
+          <mat-hint>dd/mm/YYYY</mat-hint>
+          <mat-datepicker-toggle
+            matSuffix
+            [for]="picker"
+          ></mat-datepicker-toggle>
+          <mat-datepicker #picker></mat-datepicker>
+        </mat-form-field>
+        <mat-form-field>
+          <mat-label> Correo Electrónico </mat-label>
+          <input matInput />
+        </mat-form-field>
+      </div>
+      <div class="div-content-form">
+        <mat-form-field>
+          <mat-label> Sexo </mat-label>
+          <mat-select>
+            <mat-option value="1">Masculino</mat-option>
+            <mat-option value="2">Femenino</mat-option>
+          </mat-select>
+        </mat-form-field>
+        <mat-form-field>
+          <mat-label> Estado Civil </mat-label>
+          <mat-select>
+            <mat-option value="1">Soltero</mat-option>
+            <mat-option value="2">Casado</mat-option>
+            <mat-option value="3">Divorciado</mat-option>
+          </mat-select>
+        </mat-form-field>
+      </div>
+      <div class="div-content-form">
+        <mat-form-field>
+          <mat-label> Fecha de Ingreso a EsSalud </mat-label>
+          <input matInput [matDatepicker]="picker2" />
+          <mat-hint>dd/mm/YYYY</mat-hint>
+          <mat-datepicker-toggle
+            matSuffix
+            [for]="picker2"
+          ></mat-datepicker-toggle>
+          <mat-datepicker #picker2></mat-datepicker>
+        </mat-form-field>
+        <mat-form-field>
+          <mat-label> Régimen Laboral </mat-label>
+          <input matInput />
+        </mat-form-field>
+      </div>
+      <div class="div-content-form">
+        <mat-form-field>
+          <mat-label> Código de Planilla </mat-label>
+          <input matInput />
+        </mat-form-field>
+        <mat-form-field>
+          <mat-label> Centro Laboral </mat-label>
+          <input matInput />
+        </mat-form-field>
+      </div>
+      <div class="div-content-form-grid">
+        <mat-form-field>
+          <mat-label> Sueldo </mat-label>
+          <input matInput />
+        </mat-form-field>
+        <div></div>
+      </div>
+    </div>
+ 
+

@@ -1,0 +1,59 @@
+mat-icon {
+    color : #0284c7;
+}
+.mat-icon{
+    color : #0284c7;
+}
+
+mat-nav-list a {
+  height: 55px;
+}
+mat-menu a {
+  height: 55px;
+}
+mat-nav-list a:hover {
+  background: #e2e8f0;
+  border-left: 4px solid #0284c7;
+  color: #374151;
+}
+
+mat-nav-list a:active{
+  background: #cbd5e1;
+  color: #374151;
+}
+
+mat-nav-list a span {
+  margin: 0 0 0 0.5rem;
+}
+
+mat-nav-list a div {
+  margin: 0 0 0 0.5rem;
+}
+
+button {
+  height: 55px;
+}
+.mat-button {
+  font-weight: 400;
+}
+.div-sidenav-img {
+  text-align: center;
+}
+.div-sidenav-img img {
+  width: 100%;
+  max-width: 175px;
+}
+.div-desc-mod {
+  text-align: center;
+  margin-top: 12px;
+  font-weight: 500;
+}
+
+.list-item-activo {
+  font-weight: 550;
+  font-size: 17px;
+  /*background: #e7fcff;*/
+  background: #cbd5e1;
+  color: #374151;
+  border-left: 4px solid  #0c4a6e;
+}

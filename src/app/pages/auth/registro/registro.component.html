@@ -1,0 +1,95 @@
+<div class="login-form">
+  <!-- <div>
+        <img src="assets/img/cam_login.png" alt="">
+    </div> -->
+  <mat-card class="login-form__div">
+    <div>
+      <img class="img-logo" src="assets/img/logo-essalud.png" />
+    </div>
+    <h1>Registrarse</h1>
+    <form [formGroup]="registroForm" (ngSubmit)="registrarUsuario()">
+      <div>
+        <div class="form-div-datos">
+          <mat-form-field class="full-width-input">
+            <mat-label>Usuario</mat-label>
+            <mat-select formControlName="tipoDocumentoCtrl">
+              <mat-option value="1">DNI - Documento Nacional de Identidad</mat-option>
+              <mat-option value="2">CE - Carnét de Extranjería</mat-option>
+            </mat-select>
+          </mat-form-field>
+          <mat-form-field class="full-width-input">
+            <mat-label>Número de documento</mat-label>
+            <input matInput formControlName="nroDocumentoCtrl" />
+          </mat-form-field>
+        </div>
+        <div class="form-div-datos">
+          <mat-form-field class="full-width-input">
+            <mat-label>Código de planilla</mat-label>
+            <input matInput formControlName="codigoPlanCtrl" />
+          </mat-form-field>
+          <mat-form-field class="full-width-input">
+            <mat-label>Correo electrónico</mat-label>
+            <input matInput formControlName="correoCtrl" />
+          </mat-form-field>
+        </div>
+        <div class="form-div-datos">
+          <mat-form-field class="full-width-input">
+            <mat-label>Nombres y apellidos</mat-label>
+            <input matInput formControlName="nombresCtrl" />
+          </mat-form-field>
+        </div>
+      </div>
+
+      <div class="form-div-datos">
+        <mat-form-field class="full-width-input">
+          <mat-label>Crear contraseña</mat-label>
+          <input
+            matInput
+            type="password"
+            formControlName="passwordCtrl"
+            [type]="hide ? 'password' : 'text'"
+          />
+          <button
+            type="button"
+            mat-icon-button
+            matSuffix
+            (click)="hide = !hide"
+          >
+            <mat-icon> {{ hide ? "visibility_off" : "visibility" }} </mat-icon>
+          </button>
+        </mat-form-field>
+        <mat-form-field class="full-width-input">
+          <mat-label>Confirmar contraseña</mat-label>
+          <input
+            matInput
+            type="password"
+            formControlName="confirmPasswordCtrl"
+            [type]="hide2 ? 'password' : 'text'"
+          />
+          <button
+            type="button"
+            mat-icon-button
+            matSuffix
+            (click)="hide2 = !hide2"
+          >
+            <mat-icon> {{ hide2 ? "visibility_off" : "visibility" }} </mat-icon>
+          </button>
+        </mat-form-field>
+      </div>
+
+      <div class="btn-login">
+        <button
+          type="submit"
+          mat-raised-button
+          class="btn-mat-primary"
+          [disabled]="registroForm.invalid || loading"
+        >
+        {{ loading ? "Validando..." : "Registrar" }}
+        </button>
+      </div>
+      <div class="btn-login">
+        <button mat-raised-button (click)="volverLogin()">Cancelar</button>
+      </div>
+    </form>
+  </mat-card>
+</div>

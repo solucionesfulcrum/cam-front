@@ -1,0 +1,41 @@
+.tutulo{
+  color: #3f51b5;
+}
+
+.fondo-azul{
+  text-align: center;
+  background-color: #3f51b5;
+  color: white;
+}
+
+.mat-raised-button{
+  margin: 10px;
+}
+
+.mat-form{
+  margin-right: 2%;
+  width: 35%;
+}
+
+.input-minimize{
+  width: 70%;
+  color: #3f51b5;
+}
+
+.color-label{
+  color: #3f51b5;
+}
+
+.card{
+  margin: 2%;
+}
+
+.espacio{
+  flex: 1 1 auto;
+}
+
+.margen-hora{
+  margin-right: 2%;
+}
+
+

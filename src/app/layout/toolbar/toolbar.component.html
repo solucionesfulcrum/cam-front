@@ -1,0 +1,23 @@
+<mat-toolbar color="primary" *ngIf="isLogged">
+  <ng-container *ngIf="isLogged">
+    <button mat-icon-button (click)="onToggleSidenav()" class="icon-menu">
+      <mat-icon>menu</mat-icon>
+    </button>
+  </ng-container>
+  <!-- <a routerLink='/' class="logo-link-home">
+        <img src="assets/img/logo-essalud-2022.png" class="logo-2022">
+    </a> -->
+  <span class="spacer"></span>
+  <div class="right-spacer"></div>
+
+  <button mat-button [matMenuTriggerFor]="beforeMenu" class="btn-user">
+    <mat-icon>account_circle</mat-icon> Admin
+  </button>
+  <mat-menu #beforeMenu="matMenu" xPosition="before">
+    <button mat-menu-item (click)="onLogout()">
+      <mat-icon>exit_to_app</mat-icon>Login
+    </button>
+  </mat-menu>
+
+  <a *ngIf="!isLogged" mat-button [routerLink]="'/'">Login</a>
+</mat-toolbar>

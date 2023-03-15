@@ -1,0 +1,91 @@
+.login-form {
+    display: flex;
+    height: 100vh;
+    justify-content: center;
+    align-items: center;
+    background: url(../../../../assets/img/cam_login.png);
+    background-repeat: no-repeat;
+    background-size: contain;
+}
+
+.login-form__div {
+    /* max-width: 335px; */
+    /* margin: 2rem auto; */
+    text-align: center;
+    /* height: 490px; */
+    border-radius: 25px;
+    /* box-shadow: 5px 5px 30px rgba(0, 0, 0, 0.1); */
+    max-width: 500px;
+    width: 100%;
+}
+
+.login-form__div h1{
+    font-family: Roboto;
+    color: #038AD3;
+    /* color: #009EAD; */
+    font-style: normal;
+    font-weight: 600;
+    font-size: 30px;
+    line-height: 33px;
+    margin: 55px 0;
+}
+
+.full-width-input, button {
+    width: 100%;
+}
+
+.separator {
+    margin-bottom: 2rem;
+}
+
+.img-logo{
+    width: 100%;
+    max-width: 250px;
+    /* margin-top: 2rem; */
+}
+
+form {
+    margin: 0 3rem;
+    font-size: 16px;
+}
+form mat-form-field {
+    margin-bottom: .5rem;
+}
+
+.btn-login {
+    margin: 1rem 0;
+}
+
+.btn-login button{
+    background: #008BD2;
+    color: #fff;
+    font-size: 20px;
+    height: 45px;
+}
+
+.btn-login button:disabled{
+    background: #e5e5e5;
+    color: #fff;
+}
+mat-icon {
+    color: #A4A4A4;
+}
+.font-boton {
+    font-size: 17.5px;
+}
+.font-primary {
+    color: #008bd2 !important;
+}
+.font-secondary {
+    color: #365df4 !important;
+}
+.mat-card {
+    padding: 35px 16px;
+}
+/* 
+::ng-deep .mat-form-field-appearance-outline.mat-focused .mat-form-field-outline-thick {
+    color: #009EAD;
+}
+::ng-deep .mat-form-field-appearance-outline:hover {
+    color: #009EAD;
+} */

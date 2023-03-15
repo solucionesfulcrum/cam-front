@@ -1,0 +1,25 @@
+mat-drawer {
+  width: 250px;
+  box-shadow: 0px 4px 4px rgb(0 0 0 / 25%);
+}
+
+mat-drawer-content {
+  background: #0284c7;
+}
+
+mat-drawer-container {
+  height: 100%;
+}
+
+.mat-toolbar.mat-primary {
+  background: #fff;
+  color: #000;
+  box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.25);
+}
+
+::ng-deep .mat-badge-medium.mat-badge-overlap.mat-badge-after .mat-badge-content {
+  right: 0px;
+}
+::ng-deep .mat-badge-medium.mat-badge-above .mat-badge-content {
+  top: 0px;
+}

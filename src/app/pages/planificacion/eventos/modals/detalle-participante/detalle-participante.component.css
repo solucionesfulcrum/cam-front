@@ -1,0 +1,33 @@
+.modal-form {
+    padding: 1rem 0;
+    text-align: center;
+}
+.modal-form .full-width-input {
+    width: 100%;
+}
+
+.mat-dialog-actions {
+    justify-content: center;
+    /* text-align: end; */
+}
+
+.btn-primary {
+    color: #fff;
+    background: #008BD2;
+}
+
+.modal-form img {
+    width: 100%;
+    max-width: 200px;
+    margin-bottom: 1rem;
+}
+
+.modal-form p {
+    font-size: 18px;
+}
+
+.mat-dialog-title {
+    background: #008bd2;
+padding: .5rem;
+color: #fff;
+}
