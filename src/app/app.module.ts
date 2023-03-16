@@ -23,6 +23,9 @@ import {MatListModule} from '@angular/material/list';
 import {MatMenuModule} from '@angular/material/menu';
 import {MatProgressBarModule} from '@angular/material/progress-bar';
 import { InterceptorService } from './shared/loader/interceptor.service';
+import { BtnComponent } from './shared/components/btn/btn.component';
+import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
+import { SelectComponent } from './shared/components/select/select.component';
 
 
 @NgModule({
@@ -34,6 +37,7 @@ import { InterceptorService } from './shared/loader/interceptor.service';
     DialogConfirmacionComponent,
     SidenavComponent,
     ToolbarComponent,
+    SelectComponent,
   ],
   imports: [
     ToastrModule.forRoot({
@@ -54,8 +58,10 @@ import { InterceptorService } from './shared/loader/interceptor.service';
     MatListModule,
     MatMenuModule,
     AppRoutingModule,
-    MatProgressBarModule 
+    MatProgressBarModule,
   ],
+ exports: [
+ ],
   providers: [
     {provide: MAT_FORM_FIELD_DEFAULT_OPTIONS, useValue: {appearance: 'outline'}},
     {provide: MAT_DATE_LOCALE, useValue: 'es-PE'},

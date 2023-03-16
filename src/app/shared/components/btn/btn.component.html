@@ -1,0 +1,14 @@
+<button
+  [type]="typeBtn"
+  [disabled]="disabled || loading"
+  [ngClass]="colors"
+  class="w-100 rounded text-s-12 p-2"
+>
+  <fa-icon
+    *ngIf="loading"
+    class="mr-2"
+    [icon]="faSpinner"
+    [pulse]="true"
+  ></fa-icon>
+  <ng-content></ng-content>
+</button>

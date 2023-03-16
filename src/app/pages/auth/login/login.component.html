@@ -9,15 +9,17 @@
       </div>
       <h1>Inicio de Sesión</h1>
       <form [formGroup]="loginForm" (ngSubmit)="onLogin()">
+        <div class="form-div-datos">
         <mat-form-field class="full-width-input">
           <mat-label>Usuario</mat-label>
-          <input type="text" formControlName="username" matInput required />
+          <input formControlName="username" matInput required />
           <mat-icon matSuffix>account_circle</mat-icon>
           <mat-error *ngIf="loginForm.controls.username.hasError('minlength')">
             Mínimo 8 dígitos
           </mat-error>
         </mat-form-field>
-        <mat-form-field class="full-width-input separator">
+        </div>
+       <mat-form-field class="full-width-input separator">
           <mat-label>Contraseña</mat-label>
           <input
             type="password"
@@ -38,6 +40,7 @@
             Mínimo 6 dígitos
           </mat-error>
         </mat-form-field>
+ 
         <div class="btn-login">
           <button
             type="submit"

@@ -10,7 +10,7 @@
   margin: 5px;
 }
 .div-margin-btn {
-  margin-top: 0.1rem;
+  margin-top: 0.3rem;
 }
 .div-filtro {
   display: grid;
@@ -147,5 +147,6 @@ td.mat-cell {
   width: 100%;
   max-width: 400px;
 }
+
 
 

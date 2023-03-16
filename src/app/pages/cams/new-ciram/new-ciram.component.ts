@@ -1,20 +1,18 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
-import { RequestStatus } from 'src/app/core/_model/request-status.model';
 import { BreadcrumService } from 'src/app/shared/services/breadcrum.service';
 
 @Component({
-  selector: 'app-new-cam',
-  templateUrl: './new-cam.component.html',
-  styleUrls: ['./new-cam.component.css']
+  selector: 'app-new-ciram',
+  templateUrl: './new-ciram.component.html',
+  styleUrls: ['./new-ciram.component.css']
 })
-export class NewCamComponent implements OnInit {
+export class NewCiramComponent implements OnInit {
 
   subBreadcrum1:{url:string, title:string }
   subBreadcrum2:{url:string, title:string } 
   subBreadcrum3:{url:string, title:string } 
-  status: RequestStatus = 'init' 
 
  constructor(
   private router: Router, 
@@ -24,10 +22,10 @@ export class NewCamComponent implements OnInit {
     ) {
 
       //for breadcrum
-      this.breadcrumService.link1$.next({url:'/cams', title:'CAMS'});
-      this.breadcrumService.link2$.next({ url: '/cams/new', title:'NUEVO CAM'});
+      this.breadcrumService.link1$.next({url:'/cams/cirams', title:'CIRAMS'});
+      this.breadcrumService.link2$.next({ url: '/cams/cirams/new', title:'NUEVO CIRAM'});
       this.breadcrumService.link3$.next({ url: '', title:''});
-      this.breadcrumService.activeTab$.next('/cams');
+      this.breadcrumService.activeTab$.next('/cirams');
   }
 
   ngOnInit(): void {

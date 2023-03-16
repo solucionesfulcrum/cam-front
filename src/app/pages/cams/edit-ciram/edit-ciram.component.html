@@ -2,7 +2,7 @@
   <div class="d-flex bg-ligth2 p-2 w-100">
     <div class="w-50 justify-content-start">
         <div class="d-flex">
-        <a routerLink="/cams" class="text-primary2 decorator-none"> 
+        <a routerLink="/cams/cirams/show/{{this.id}}" class="text-primary2 decorator-none"> 
         <span class="material-symbols-outlined text-s-15 pt-2">
             keyboard_backspace 
         </span>
@@ -13,54 +13,22 @@
       </div>
     </div>
     <div class="w-50 d-flex justify-content-end">
-         <app-btn
-      typeBtn="button"
-      color="success"
-      [loading]="status === 'loading'"
-      >GUARDAR </app-btn>
-
-         <app-btn
-      typeBtn="button"
-      color="primary"
-      [loading]="status === 'loading'"
-      >GUARDAR </app-btn>
-
-         <app-btn
-      typeBtn="button"
-      color="danger"
-      [loading]="status === 'loading'"
-      >GUARDAR </app-btn>
-
-      <app-btn
-      typeBtn="button"
-      color="light"
-      [loading]="status === 'loading'"
-      >GUARDAR </app-btn>
-
-      <app-btn
-      typeBtn="button"
-      color="secondary"
-      [loading]="status === 'loading'"
-      >GUARDAR </app-btn>
-
-      <app-btn
-      typeBtn="button"
-      color="sky"
-      [loading]="status === 'loading'"
-      >GUARDAR </app-btn>
+         <button mat-raised-button class="mat-btn-primary">
+               GUARDAR CAMBIOS 
+        </button>
     </div>
   </div>
 </div>
 
           <div class="cards-contents">
             <mat-card>
-              <mat-card-title class="text-secondary text-w-semibold text-uppercase text-s-20"> NUEVO CENTRO DE ADULTO MAYOR </mat-card-title>
+              <mat-card-title class="text-secondary text-w-semibold text-uppercase text-s-20"> Editar ciram</mat-card-title>
   
               <mat-card-content>
                 <div class="div-content-form">
                   <mat-form-field>
                     <mat-label> Nombres </mat-label>
-                    <input matInput class="" />
+                    <input matInput />
                   </mat-form-field>
                   <mat-form-field>
                     <mat-label> Apellidos </mat-label>

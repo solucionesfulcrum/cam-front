@@ -20,6 +20,11 @@ import { SubListProgramasCiramComponent } from './show-ciram/sub-list-programas-
 import { SubViewProgramasCiramComponent } from './show-ciram/sub-view-programas-ciram/sub-view-programas-ciram.component';
 import { SubListUsuariosCiramComponent } from './show-ciram/sub-list-usuarios-ciram/sub-list-usuarios-ciram.component';
 import { SubViewUsuariosCiramComponent } from './show-ciram/sub-view-usuarios-ciram/sub-view-usuarios-ciram.component';
+import { EditCiramComponent } from './edit-ciram/edit-ciram.component';
+import { NewCiramComponent } from './new-ciram/new-ciram.component';
+import { NewServicioComponent } from './new-servicio/new-servicio.component';
+import { EditServicioComponent } from './edit-servicio/edit-servicio.component';
+import { ShowServicioComponent } from './show-servicio/show-servicio.component';
 
 const routes: Routes = [
  // { path: '', component: CamsComponent},
@@ -131,6 +136,23 @@ const routes: Routes = [
     path: 'new',
     component: NewCamComponent,
   }, 
+  {
+    path: 'cirams/new',
+    component: NewCiramComponent,
+  }, 
+  {
+    path: 'cirams/edit/:id',
+    component: EditCiramComponent,
+  }, 
+  {
+    path: 'servicios/new',
+    component: NewServicioComponent,
+  }, 
+  {
+    path: 'servicios/edit/:id',
+    component: EditServicioComponent,
+  }, 
+
 
 ];
 

@@ -38,6 +38,13 @@ import { SubViewUsuariosCiramComponent } from './show-ciram/sub-view-usuarios-ci
 import { SubListUsuariosCiramComponent } from './show-ciram/sub-list-usuarios-ciram/sub-list-usuarios-ciram.component';
 import { SubViewProgramasCiramComponent } from './show-ciram/sub-view-programas-ciram/sub-view-programas-ciram.component';
 import { SubListProgramasCiramComponent } from './show-ciram/sub-list-programas-ciram/sub-list-programas-ciram.component';
+import { EditCiramComponent } from './edit-ciram/edit-ciram.component';
+import { NewCiramComponent } from './new-ciram/new-ciram.component';
+import { NewServicioComponent } from './new-servicio/new-servicio.component';
+import { EditServicioComponent } from './edit-servicio/edit-servicio.component';
+import { ShowServicioComponent } from './show-servicio/show-servicio.component';
+import { BtnComponent } from 'src/app/shared/components/btn/btn.component';
+import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 
 
 @NgModule({
@@ -65,6 +72,13 @@ import { SubListProgramasCiramComponent } from './show-ciram/sub-list-programas-
     SubListUsuariosCiramComponent,
     SubViewProgramasCiramComponent,
     SubListProgramasCiramComponent,
+    EditCiramComponent,
+    NewCiramComponent,
+    NewServicioComponent,
+    EditServicioComponent,
+    ShowServicioComponent,
+    BtnComponent
+     
   ],
   imports: [
     CamsRoutingModule, 
@@ -82,7 +96,8 @@ import { SubListProgramasCiramComponent } from './show-ciram/sub-list-programas-
     RouterModule,
     CommonModule,
     MatTabsModule,
-    MatPaginatorModule
+    MatPaginatorModule,
+    FontAwesomeModule
   ],
   exports:[
     MaterialModule,

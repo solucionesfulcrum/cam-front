@@ -1,5 +1,8 @@
 /* You can add global styles to this file, and also import other style files */
 /*@import "/node_modules/bootstrap/dist/css/bootstrap.css";*/
+/*
+@import '@angular/cdk/overlay-prebuilt.css';
+*/
 html,
 body {
   height: 100%;
@@ -451,4 +454,345 @@ body {
 }
 .w-50{
   width: 50%;
+}
+
+/* 800 */
+.customer-btn-bg-success{ 
+ background-color: #166534;
+}
+
+/* 800 */
+.customer-btn-border-success{
+  border-style: solid; 
+  border-width: 2px;
+  border-color: #166534
+}
+
+/* 600 */
+.customer-btn-bg-success:hover{
+  background-color: #16a34a
+}
+
+/* 600 */
+.customer-btn-border-success:hover{
+  border-style: solid; 
+  border-width: 2px;
+  border-color: #16a34a;
+}
+
+/* 600 */
+.customer-btn-bg-success:focus{
+  background-color: #16a34a
+}
+
+/* 600 */
+.customer-btn-border-success:focus{
+  border-style: solid; 
+  border-width: 2px;
+  border-color: #16a34a;
+}
+
+/** 900 */
+.customer-btn-bg-success:active{
+  background-color: #14532d;
+}
+
+/** 900 */
+.customer-btn-border-success:active{
+  border-style: solid; 
+  border-width: 2px;
+  border-color: #14532d;
+}
+
+.customer-btn-text-success{
+  color: white;
+}
+
+
+/** PRIMARY **/
+/* 800 */
+.customer-btn-bg-primary{ 
+ background-color: #1e40af;
+}
+
+/* 800 */
+.customer-btn-border-primary{
+  border-style: solid; 
+  border-width: 2px;
+  border-color: #1e40af;
+}
+
+/* 600 */
+.customer-btn-bg-primary:hover{
+  background-color: #2563eb
+}
+
+/* 600 */
+.customer-btn-border-primary:hover{
+  border-style: solid; 
+  border-width: 2px;
+  border-color: #2563eb
+}
+
+/* 600 */
+.customer-btn-bg-primary:focus{
+  background-color: #2563eb
+}
+
+/* 600 */
+.customer-btn-border-primary:focus{
+  border-style: solid; 
+  border-width: 2px;
+  border-color: #2563eb
+}
+
+/** 900 */
+.customer-btn-bg-primary:active{
+  background-color: #1e3a8a;
+}
+
+/** 900 */
+.customer-btn-border-primary:active{
+  border-style: solid; 
+  border-width: 2px;
+  border-color: #1e3a8a;
+}
+
+.customer-btn-text-primary{
+  color: white;
+}
+
+/** DANGER **/
+/* 800 */
+.customer-btn-bg-danger{ 
+ background-color: #9a3412;
+}
+
+/* 800 */
+.customer-btn-border-danger{
+  border-style: solid; 
+  border-width: 2px;
+  border-color: #9a3412;
+}
+
+/* 600 */
+.customer-btn-bg-danger:hover{
+  background-color: #ea580c
+}
+
+/* 600 */
+.customer-btn-border-danger:hover{
+  border-style: solid; 
+  border-width: 2px;
+  border-color:  #ea580c
+}
+
+/* 600 */
+.customer-btn-bg-danger:focus{
+  background-color: #ea580c
+}
+
+/* 600 */
+.customer-btn-border-danger:focus{
+  border-style: solid; 
+  border-width: 2px;
+  border-color: #ea580c
+}
+
+/** 900 */
+.customer-btn-bg-danger:active{
+  background-color: #7c2d12 
+}
+
+/** 900 */
+.customer-btn-border-danger:active{
+  border-style: solid; 
+  border-width: 2px;
+  border-color: #7c2d12;
+}
+
+.customer-btn-text-danger{
+  color: white;
+}
+
+
+
+/** secondary **/
+/* 800 */
+.customer-btn-bg-secondary{ 
+ background-color: #1e293b;
+}
+
+/* 800 */
+.customer-btn-border-secondary{
+  border-style: solid; 
+  border-width: 2px;
+  border-color: #1e293b;
+}
+
+/* 600 */
+.customer-btn-bg-secondary:hover{
+  background-color: #475569
+}
+
+/* 600 */
+.customer-btn-border-secondary:hover{
+  border-style: solid; 
+  border-width: 2px;
+  border-color: #475569;
+}
+
+/* 600 */
+.customer-btn-bg-secondary:focus{
+  background-color: #475569
+}
+
+/* 600 */
+.customer-btn-border-secondary:focus{
+  border-style: solid; 
+  border-width: 2px;
+  border-color: #475569
+}
+
+/** 900 */
+.customer-btn-bg-secondary:active{
+  background-color: #111827;
+}
+
+/** 900 */
+.customer-btn-border-secondary:active{
+  border-style: solid; 
+  border-width: 2px;
+  border-color: #111827;
+}
+
+.customer-btn-text-secondary{
+  color: white;
+}
+
+
+
+/** light **/
+/* 200 */
+.customer-btn-bg-light{ 
+ background-color: #e2e8f0;
+}
+
+/* 200 */
+.customer-btn-border-light{
+  border-style: solid; 
+  border-width: 2px;
+  border-color: #e2e8f0;
+}
+
+/* 500 */
+.customer-btn-bg-light:hover{
+  background-color: #64748b;
+  color:white
+}
+
+/* 500 */
+.customer-btn-border-light:hover{
+  border-style: solid; 
+  border-width: 2px;
+  border-color: #64748b;
+  color:white
+}
+
+/* 500 */
+.customer-btn-bg-light:focus{
+  background-color: #64748b
+}
+
+/* 500 */
+.customer-btn-border-light:focus{
+  border-style: solid; 
+  border-width: 2px;
+  border-color: #64748b
+}
+
+/** 300 */
+.customer-btn-bg-light:active{
+  background-color: #cbd5e1;
+  color: #475569;
+}
+
+/** 300 */
+.customer-btn-border-light:active{
+  border-style: solid; 
+  border-width: 2px;
+  border-color: #cbd5e1;
+  color: #475569;
+}
+
+.customer-btn-text-light{
+  color: #475569;
+}
+
+
+
+/** sky **/
+/* 800 */
+.customer-btn-bg-sky{ 
+ background-color: #075985;
+}
+
+/* 800 */
+.customer-btn-border-sky{
+  border-style: solid; 
+  border-width: 2px;
+  border-color: #075985;
+}
+
+/* 600 */
+.customer-btn-bg-sky:hover{
+  background-color: #0284c7
+}
+
+/* 600 */
+.customer-btn-border-sky:hover{
+  border-style: solid; 
+  border-width: 2px;
+  border-color: #0284c7;
+}
+
+/* 600 */
+.customer-btn-bg-sky:focus{
+  background-color: #0284c7
+}
+
+/* 600 */
+.customer-btn-border-sky:focus{
+  border-style: solid; 
+  border-width: 2px;
+  border-color: #0284c7
+}
+
+/** 900 */
+.customer-btn-bg-sky:active{
+  background-color: #0c4a6e;
+}
+
+/** 900 */
+.customer-btn-border-sky:active{
+  border-style: solid; 
+  border-width: 2px;
+  border-color: #0c4a6e;
+}
+
+.customer-btn-text-sky{
+  color: white;
+}
+
+.radius-2{
+  border-radius: 2px
+}
+.radius-4{
+  border-radius: 4px
+}
+.radius-6{
+  border-radius: 6px
+}
+.radius-8{
+  border-radius: 8px
 }
