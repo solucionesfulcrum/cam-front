@@ -3,7 +3,7 @@ import { Red } from './red.model';
 import { UbiGeo } from './ubigeo.model';
 
 export class Cam extends VariablesAuditoria{
-  idCam: number;
+  idCam?: number;
   fechaInscripcion:string;
   estado: string;
   email:string;

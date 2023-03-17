@@ -1,167 +1,230 @@
-<div class="div-mat-tab">
-  <div class="d-flex bg-ligth2 p-2 w-100">
-    <div class="w-50 justify-content-start">
+<form [formGroup]="form" novalidate class="space-y-4" (ngSubmit)="saveCam()">
+  <div class="div-mat-tab">
+    <div class="d-flex bg-ligth2 p-2 w-100">
+      <div class="w-50 justify-content-start">
         <div class="d-flex">
-        <a routerLink="/cams" class="text-primary2 decorator-none"> 
-        <span class="material-symbols-outlined text-s-15 pt-2">
-            keyboard_backspace 
-        </span>
-        <span class="text-w-fine text-w-semibold text-s-15 pt-2">
-            REGRESAR 
-        </span>
-        </a>
+          <a routerLink="/cams" class="text-primary2 decorator-none">
+            <span class="material-symbols-outlined text-s-15 pt-2">
+              keyboard_backspace
+            </span>
+            <span class="text-w-fine text-w-semibold text-s-15 pt-2">
+              REGRESAR
+            </span>
+          </a>
+        </div>
+      </div>
+      <div class="w-50 d-flex justify-content-end">
+        <app-btn
+          typeBtn="button"
+          color="success"
+          [loading]="status === 'loading'"
+          >GUARDAR
+        </app-btn>
+
+        <app-btn
+          typeBtn="button"
+          color="primary"
+          [loading]="status === 'loading'"
+          >GUARDAR
+        </app-btn>
+
+        <app-btn
+          typeBtn="button"
+          color="danger"
+          [loading]="status === 'loading'"
+          >GUARDAR
+        </app-btn>
+
+        <app-btn typeBtn="button" color="light" [loading]="status === 'loading'"
+          >GUARDAR
+        </app-btn>
+
+        <app-btn
+          typeBtn="button"
+          color="secondary"
+          [loading]="status === 'loading'"
+          >GUARDAR
+        </app-btn>
+
+        <app-btn typeBtn="button" color="sky" [loading]="status === 'loading'"
+          >GUARDAR
+        </app-btn>
       </div>
     </div>
-    <div class="w-50 d-flex justify-content-end">
-         <app-btn
-      typeBtn="button"
-      color="success"
-      [loading]="status === 'loading'"
-      >GUARDAR </app-btn>
-
-         <app-btn
-      typeBtn="button"
-      color="primary"
-      [loading]="status === 'loading'"
-      >GUARDAR </app-btn>
-
-         <app-btn
-      typeBtn="button"
-      color="danger"
-      [loading]="status === 'loading'"
-      >GUARDAR </app-btn>
-
-      <app-btn
-      typeBtn="button"
-      color="light"
-      [loading]="status === 'loading'"
-      >GUARDAR </app-btn>
-
-      <app-btn
-      typeBtn="button"
-      color="secondary"
-      [loading]="status === 'loading'"
-      >GUARDAR </app-btn>
-
-      <app-btn
-      typeBtn="button"
-      color="sky"
-      [loading]="status === 'loading'"
-      >GUARDAR </app-btn>
-    </div>
   </div>
-</div>
 
-          <div class="cards-contents">
-            <mat-card>
-              <mat-card-title class="text-secondary text-w-semibold text-uppercase text-s-20"> NUEVO CENTRO DE ADULTO MAYOR </mat-card-title>
-  
-              <mat-card-content>
-                <div class="div-content-form">
-                  <mat-form-field>
-                    <mat-label> Nombres </mat-label>
-                    <input matInput class="" />
-                  </mat-form-field>
-                  <mat-form-field>
-                    <mat-label> Apellidos </mat-label>
-                    <input matInput />
-                  </mat-form-field>
-                </div>
-                <div class="div-content-form">
-                  <mat-form-field>
-                    <mat-label> Dirección </mat-label>
-                    <input matInput />
-                  </mat-form-field>
-                </div>
-                <div class="div-content-form">
-                  <mat-form-field>
-                    <mat-label> DNI </mat-label>
-                    <input matInput />
-                  </mat-form-field>
-                  <mat-form-field>
-                    <mat-label> Celular </mat-label>
-                    <input matInput />
-                  </mat-form-field>
-                </div>
-                <div class="div-content-form">
-                  <mat-form-field>
-                    <mat-label> Fecha de Nacimiento </mat-label>
-                    <input matInput [matDatepicker]="picker" />
-                    <mat-hint>dd/mm/YYYY</mat-hint>
-                    <mat-datepicker-toggle
-                      matSuffix
-                      [for]="picker"
-                    ></mat-datepicker-toggle>
-                    <mat-datepicker #picker></mat-datepicker>
-                  </mat-form-field>
-                  <mat-form-field>
-                    <mat-label> Correo Electrónico </mat-label>
-                    <input matInput />
-                  </mat-form-field>
-                </div>
-                <div class="div-content-form">
-                  <mat-form-field>
-                    <mat-label> Sexo </mat-label>
-                    <mat-select>
-                      <mat-option value="1">Masculino</mat-option>
-                      <mat-option value="2">Femenino</mat-option>
-                    </mat-select>
-                  </mat-form-field>
-                  <mat-form-field>
-                    <mat-label> Estado Civil </mat-label>
-                    <mat-select>
-                      <mat-option value="1">Soltero</mat-option>
-                      <mat-option value="2">Casado</mat-option>
-                      <mat-option value="3">Divorciado</mat-option>
-                    </mat-select>
-                  </mat-form-field>
-                </div>
-                <div class="div-content-form">
-                  <mat-form-field>
-                    <mat-label> Fecha de Ingreso a EsSalud </mat-label>
-                    <input matInput [matDatepicker]="picker2" />
-                    <mat-hint>dd/mm/YYYY</mat-hint>
-                    <mat-datepicker-toggle
-                      matSuffix
-                      [for]="picker2"
-                    ></mat-datepicker-toggle>
-                    <mat-datepicker #picker2></mat-datepicker>
-                  </mat-form-field>
-                  <mat-form-field>
-                    <mat-label> Régimen Laboral </mat-label>
-                    <input matInput />
-                  </mat-form-field>
-                </div>
-                <div class="div-content-form">
-                  <mat-form-field>
-                    <mat-label> Código de Planilla </mat-label>
-                    <input matInput />
-                  </mat-form-field>
-                  <mat-form-field>
-                    <mat-label> Centro Laboral </mat-label>
-                    <input matInput />
-                  </mat-form-field>
-                </div>
-                <div class="div-content-form-grid">
-                  <mat-form-field>
-                    <mat-label> Sueldo </mat-label>
-                    <input matInput />
-                  </mat-form-field>
-                  <div></div>
-                </div>
-              </mat-card-content>
-            </mat-card>
-            <mat-card>
-              <mat-card-title class="text-secondary text-w-semibold text-uppercase text-s-20"> IMAgen CAM</mat-card-title>
-              <div>
-                <input type="file" class="form-control" >
-              </div>
-              <div *ngIf="false" class="div-img-pre">
-                <!--
+  <div class="cards-contents">
+    <mat-card>
+      <mat-card-title
+        class="text-secondary text-w-semibold text-uppercase text-s-20"
+      >
+        NUEVO CIRAM</mat-card-title
+      >
+
+      <mat-card-content>
+        <div class="div-content-form">
+          <mat-form-field class="p-1">
+            <mat-label> CODIGO</mat-label>
+            <input
+              #nameInput
+              formControlName="codigo"
+              placeholder="Codigo CAM"
+              matInput
+              type="email"
+            />
+            <mat-hint
+              *ngIf="
+                form.controls.codigo.touched &&
+                form.controls.codigo.invalid &&
+                form.controls.codigo.hasError('required')
+              "
+              class="text-danger"
+            >
+              Codigo es obligatorio
+            </mat-hint>
+            <mat-hint
+              *ngIf="
+                form.controls.codigo.touched &&
+                form.controls.codigo.invalid &&
+                form.controls.codigo.hasError('minlength')
+              "
+              class="text-danger"
+            >
+              Descripcion inválida - Mínimo 6 Caracteres 
+            </mat-hint>
+          </mat-form-field>
+
+          <mat-form-field class="p-1">
+            <mat-label> DESCRIPCION</mat-label>
+            <input
+              #nameInput
+              formControlName="descripcion"
+              placeholder="Descripcion del CAM"
+              matInput
+              type="text"
+            />
+            <mat-hint
+              *ngIf="
+                form.controls.descripcion.touched &&
+                form.controls.descripcion.invalid &&
+                form.controls.descripcion.hasError('required')
+              "
+              class="text-danger"
+            >
+              Descripcion es obligatorio
+            </mat-hint><br>
+            <mat-hint
+              *ngIf="
+                form.controls.descripcion.touched &&
+                form.controls.descripcion.invalid &&
+                form.controls.descripcion.hasError('minlength')
+              "
+              class="text-danger"
+            >
+              Descripcion inválida - Mínimo 8 Caracteres 
+            </mat-hint>
+          </mat-form-field>
+
+        </div>
+
+        <div class="div-content-form">
+          <mat-form-field>
+            <mat-label> DNI </mat-label>
+            <input matInput />
+          </mat-form-field>
+          <mat-form-field>
+            <mat-label> Celular </mat-label>
+            <input matInput />
+          </mat-form-field>
+        </div>
+        <div class="div-content-form">
+          <mat-form-field>
+            <mat-label> Dirección </mat-label>
+            <input matInput />
+          </mat-form-field>
+        </div>
+        <div class="div-content-form">
+          <mat-form-field>
+            <mat-label> Fecha de Nacimiento </mat-label>
+            <input matInput [matDatepicker]="picker" />
+            <mat-hint>dd/mm/YYYY</mat-hint>
+            <mat-datepicker-toggle
+              matSuffix
+              [for]="picker"
+            ></mat-datepicker-toggle>
+            <mat-datepicker #picker></mat-datepicker>
+          </mat-form-field>
+          <mat-form-field>
+            <mat-label> Correo Electrónico </mat-label>
+            <input matInput />
+          </mat-form-field>
+        </div>
+        <div class="div-content-form">
+          <mat-form-field>
+            <mat-label> Sexo </mat-label>
+            <mat-select>
+              <mat-option value="1">Masculino</mat-option>
+              <mat-option value="2">Femenino</mat-option>
+            </mat-select>
+          </mat-form-field>
+          <mat-form-field>
+            <mat-label> Estado Civil </mat-label>
+            <mat-select>
+              <mat-option value="1">Soltero</mat-option>
+              <mat-option value="2">Casado</mat-option>
+              <mat-option value="3">Divorciado</mat-option>
+            </mat-select>
+          </mat-form-field>
+        </div>
+        <div class="div-content-form">
+          <mat-form-field>
+            <mat-label> Fecha de Ingreso a EsSalud </mat-label>
+            <input matInput [matDatepicker]="picker2" />
+            <mat-hint>dd/mm/YYYY</mat-hint>
+            <mat-datepicker-toggle
+              matSuffix
+              [for]="picker2"
+            ></mat-datepicker-toggle>
+            <mat-datepicker #picker2></mat-datepicker>
+          </mat-form-field>
+          <mat-form-field>
+            <mat-label> Régimen Laboral </mat-label>
+            <input matInput />
+          </mat-form-field>
+        </div>
+        <div class="div-content-form">
+          <mat-form-field>
+            <mat-label> Código de Planilla </mat-label>
+            <input matInput />
+          </mat-form-field>
+          <mat-form-field>
+            <mat-label> Centro Laboral </mat-label>
+            <input matInput />
+          </mat-form-field>
+        </div>
+        <div class="div-content-form-grid">
+          <mat-form-field>
+            <mat-label> Sueldo </mat-label>
+            <input matInput />
+          </mat-form-field>
+          <div></div>
+        </div>
+      </mat-card-content>
+    </mat-card>
+    <mat-card>
+      <mat-card-title
+        class="text-secondary text-w-semibold text-uppercase text-s-20"
+      >
+        IMAgen CAM</mat-card-title
+      >
+      <div>
+        <input type="file" class="form-control" />
+      </div>
+      <div *ngIf="false" class="div-img-pre">
+        <!--
                 <img [src]="false" alt="" />
                 -->
-              </div>
-            </mat-card>
-          </div>
-
-
+      </div>
+    </mat-card>
+  </div>
+</form>
