@@ -19,13 +19,13 @@ export class NewCamComponent implements OnInit {
     codigo: ['', [Validators.minLength(6), Validators.required]],
     descripcion: ['', [ Validators.required, Validators.minLength(8)]],
     tipo: ['', [ Validators.required, Validators.minLength(8)]],
-    celular: ['', [ Validators.required, Validators.minLength(8)]],
-    email: ['', [ Validators.required, Validators.minLength(8)]],
-    fechaInscripcion: ['', [ Validators.required, Validators.minLength(8)]],
-    direccion: ['', [ Validators.required, Validators.minLength(8)]],
-    red: ['', [ Validators.required, Validators.minLength(8)]],
-    ubigeo: ['', [ Validators.required, Validators.minLength(8)]],
-    estado: ['', [ Validators.required, Validators.minLength(8)]],
+    celular: ['', [ Validators.required, Validators.minLength(7), Validators.pattern("^[0-9]*$")]],
+    email: ['', [ Validators.required, Validators.email]],
+    //fechaInscripcion: ['', [ Validators.required, Validators.pattern(/^\d{1,2}\/\d{1,2}\/\d{4}$/)]],
+    fechaInscripcion: ['', [ Validators.required ]],
+    direccion: ['', [ Validators.required]],
+    red: ['', [ Validators.required ]],
+    ubigeo: ['', [ Validators.required, Validators.minLength(6)]],
   });
 
   subBreadcrum1:{url:string, title:string }
@@ -58,8 +58,8 @@ export class NewCamComponent implements OnInit {
     console.log("newCam function")
       if (this.form.valid) {
       this.status = 'loading';
-      const { codigo, descripcion, tipo, celular, email, fechaInscripcion, direccion, estado} = this.form.getRawValue();
-      this.newCam= {codigo, descripcion, tipo, celular, email, fechaInscripcion, direccion, estado, red:this.red, ubigeo:this.ubigeo }
+      const { codigo, descripcion, tipo, celular, email, fechaInscripcion, direccion} = this.form.getRawValue();
+      this.newCam= {codigo, descripcion, tipo, celular, email, fechaInscripcion, direccion, estado:1, red:this.red, ubigeo:this.ubigeo }
 
       this.camService.registrar(this.newCam)
       .subscribe({

@@ -5,7 +5,7 @@ import { UbiGeo } from './ubigeo.model';
 export class Cam extends VariablesAuditoria{
   idCam?: number;
   fechaInscripcion:string;
-  estado: string;
+  estado: number;
   email:string;
   direccion:string;
   descripcion:string;
