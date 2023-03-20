@@ -4,13 +4,13 @@ import { UbiGeo } from './ubigeo.model';
 import { Cam } from './cam.model';
 
 export class Ciram extends VariablesAuditoria{
-  idCiram : number;
+  idCiram? : number;
   codigo :string;
   descripcion : string;
   tipo:string;
   celular :string;
   email:string;
-  fechaInscripcion:string;
+  fechaInscripcion?:string;
   direccion:string;
   cam:Cam;
   ubigeo:UbiGeo;

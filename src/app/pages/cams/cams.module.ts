@@ -45,6 +45,7 @@ import { EditServicioComponent } from './edit-servicio/edit-servicio.component';
 import { ShowServicioComponent } from './show-servicio/show-servicio.component';
 import { BtnComponent } from 'src/app/shared/components/btn/btn.component';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
+import {MatAutocompleteModule} from '@angular/material/autocomplete';
 
 
 @NgModule({
@@ -97,7 +98,8 @@ import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
     CommonModule,
     MatTabsModule,
     MatPaginatorModule,
-    FontAwesomeModule
+    FontAwesomeModule,
+    MatAutocompleteModule,
   ],
   exports:[
     MaterialModule,

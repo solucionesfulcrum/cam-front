@@ -8,4 +8,7 @@ export class UbiGeo extends VariablesAuditoria {
   descProv: string;
   ubigeoDis: string;
   descDis: string;
+
+  nombres?:string;
+  idAsegurado?:string;
 }

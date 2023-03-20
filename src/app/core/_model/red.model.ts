@@ -7,4 +7,7 @@ export class Red extends VariablesAuditoria{
   redasiscod:string;
   tipo:string;
   region:string;
+  //TMP
+  nombres?:string;
+  idAsegurado?:string;
 }
