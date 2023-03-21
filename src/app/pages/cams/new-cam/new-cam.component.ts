@@ -22,7 +22,7 @@ export class NewCamComponent  implements OnInit{
 
  form = this.formBuilder.nonNullable.group({
     codigo: ['', [Validators.minLength(6), Validators.required]],
-    descripcion: ['', [ Validators.required, Validators.minLength(8)]],
+    descripcion: ['', [ Validators.required, Validators.minLength(3)]],
     //tipo: ['', [ Validators.required, Validators.minLength(8)]],
     celular: ['', [ Validators.required, Validators.minLength(7), Validators.pattern("^[0-9]*$")]],
     email: ['', [ Validators.required, Validators.email]],

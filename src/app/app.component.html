@@ -1,9 +1,11 @@
 <div class="loader-container" *ngIf="this.loaderService.isLoading | async">
   <mat-progress-bar mode="determinate" value="this.loaderService.percent">
   </mat-progress-bar>
+  <!--
   <div class="bg-secondary">
   {{this.loaderService.percent}}
   </div>
+  -->
 </div>
 <mat-drawer-container>
   <mat-drawer #drawer mode="side" [(opened)]="opened" class="bg-side">

@@ -1,14 +1,17 @@
-<div class="login-form">
     <!-- <div>
         <img src="assets/img/cam_login.png" alt="">
     </div> -->
+    <div class="login-form bg-white w-100">
+
   <mat-card class="login-form__div">
-    
+
       <div>
-        <img class="img-logo" src="assets/img/logo-essalud.png" />
+        <img class="img-logo" src="assets/img/cam_logo_for_login.svg" />
       </div>
-      <h1>Inicio de Sesión</h1>
-      <form [formGroup]="loginForm" (ngSubmit)="onLogin()">
+      <form [formGroup]="loginForm" (ngSubmit)="onLogin()" class="">
+      <div class="d-flex">
+      <span class="text-s-1r text-w-fine text-secondary text-uppercase ml-13 pt-2 pb-2 justify-content-start align-content-flex-start ">Inicio de Sesión</span>
+      </div>
         <div class="form-div-datos">
         <mat-form-field class="full-width-input">
           <mat-label>Usuario</mat-label>
@@ -40,7 +43,7 @@
             Mínimo 6 dígitos
           </mat-error>
         </mat-form-field>
- 
+
         <div class="btn-login">
           <button
             type="submit"
@@ -69,6 +72,7 @@
           ¿Olvidaste tu contraseña?
         </button>
       </div>
-    
+
   </mat-card>
+
 </div>

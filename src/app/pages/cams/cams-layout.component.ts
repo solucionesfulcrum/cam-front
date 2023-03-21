@@ -10,17 +10,17 @@ import { BreadcrumService } from 'src/app/shared/services/breadcrum.service';
 export class CamsLayoutComponent implements OnInit {
 
   links=[
-    {url:'/cams', title:'CENTRO ADULTO MAYOR - CAMS'},
+    {url:'/cams', title:'CAMS'},
     {url:'cirams', title:'CIRAMS'},
-    {url:'servicios', title:'SERVICIOS'},
-    {url:'programas', title:'PROGRAMAS'},
-    {url:'redes', title:'REDES'},
-    {url:'ubigeos', title:'UBIGEOS'},
+    //{url:'servicios', title:'SERVICIOS'},
+    //{url:'programas', title:'PROGRAMAS'},
+    //{url:'redes', title:'REDES'},
+    //{url:'ubigeos', title:'UBIGEOS'},
   ]
 
-  breadcrum1:{url:string, title:string }   
-  breadcrum2:{url:string, title:string } 
-  breadcrum3:{url:string, title:string } 
+  breadcrum1:{url:string, title:string }
+  breadcrum2:{url:string, title:string }
+  breadcrum3:{url:string, title:string }
 
   //activeLink = this.links[0].url;
   activeTab= '/cams'
@@ -29,9 +29,9 @@ export class CamsLayoutComponent implements OnInit {
 
  constructor(
     private router: Router,
-    private route: ActivatedRoute, 
+    private route: ActivatedRoute,
     private breadcrumService:BreadcrumService
-  ) { 
+  ) {
 
     /*
     //this.activeTab= this.getActiveLink(router.url)
@@ -58,7 +58,7 @@ export class CamsLayoutComponent implements OnInit {
         this.activeTab =event
     })
 
-  } // end constructor 
+  } // end constructor
 
   ngOnInit(): void {
   }
@@ -67,7 +67,7 @@ export class CamsLayoutComponent implements OnInit {
   {
     let active = '/cams'
     if ( path === '/cams/cirams')
-     active= 'cirams' 
+     active= 'cirams'
 
     if ( path === '/cams/servicios')
      active= 'servicios'
