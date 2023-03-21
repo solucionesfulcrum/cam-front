@@ -128,16 +128,15 @@
     </div>
   </mat-card>
   <mat-card>
-    <div>
-    <div class="text-uppercase text-secondary text-s-18 text-w-semibold">
-      historial 
-    </div>
+    <div class="d-flex">
 
-  <div class="d-flex">
+    <span class="mt-2 d-flex text-uppercase text-secondary text-s-18 text-w-semibold">
+      historial&nbsp;&nbsp; 
+    </span>
+  <div class="d-flex bg-econdary ">
+    <div class="d-flex  " *ngIf="subBreadcrum1.url">
 
-      <div class="d-flex pb-2" *ngIf="subBreadcrum1.url">
-
-        <span class="text-secondary text-w-fine text-style-cursiva text-s-12 pt-2">
+        <span class="text-secondary text-w-fine text-style-cursiva text-s-10 pt-2">
           <a routerLink="{{ subBreadcrum1.url }}" class="text-secondary decorator-none"> {{subBreadcrum1.title}}</a>
         </span>
       </div>
@@ -147,7 +146,7 @@
           / 
         </span>
 
-        <span class="text-secondary text-w-fine text-style-cursiva text-s-12 pt-2 ml-5">
+        <span class="text-secondary text-w-fine text-style-cursiva text-s-10 pt-2 ml-5">
           <a routerLink="{{ subBreadcrum2.url }}" class="text-secondary decorator-none"> {{subBreadcrum2.title}} </a>
         </span>
       </div>
@@ -157,7 +156,7 @@
           / 
         </span>
 
-        <span class="text-secondary text-w-fine text-style-cursiva text-s-12 pt-2 ml-5">
+        <span class="text-secondary text-w-fine text-style-cursiva text-s-10 pt-2 ml-5">
           <a routerLink="{{ subBreadcrum3.url }}" class="text-secondary decorator-none"> {{subBreadcrum3.title}} </a>
         </span>
       </div>

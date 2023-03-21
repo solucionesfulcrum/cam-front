@@ -103,6 +103,10 @@ body {
   background-color: #f8fafc;
 }
 
+.text-primary3{
+  color: #0179be;
+}
+
 .text-primary2{
   color: #0c4a6e;
 }
@@ -285,6 +289,9 @@ body {
   margin-top: 1px;
 }
 
+.mb-10{
+  margin-bottom: 10px;
+}
 .mb-5{
   margin-bottom: 5px;
 }

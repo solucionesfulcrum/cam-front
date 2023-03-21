@@ -419,18 +419,41 @@
     </mat-card>
     <mat-card>
       <mat-card-title
-        class="text-secondary text-w-semibold text-uppercase text-s-20"
+        class="text-secondary text-w-semibold text-uppercase text-s-12"
       >
-        IMAgen CAM</mat-card-title
+        Información adicional </mat-card-title
       >
-      <div>
-        <input type="file" class="form-control" />
+
+        <div class="d-block text-secondary">
+        <div class="d-flex p-1"
+         > 
+          <div class="w-50 text-w-bold text-s-11 text-uppercase">Fecha creación</div>
+          <div class="w-50 text-s-14 text-uppercase">
+            {{this.cam.fecCreacion ?? '--'}}
+          </div>
+        </div>
+
+        <div class="d-flex bg-ligth2 p-1" >
+          <div class="w-50 text-w-bold text-s-11 text-uppercase">Usuario registro</div>
+          <div class="w-50 text-s-14 text-uppercase">{{this.cam.userCreacion ?? '--'}}</div>
+        </div>
+
+        <div class="d-flex p-1" > 
+          <div class="w-50 text-w-bold text-s-11 text-uppercase">Fecha de ultima modificación</div>
+          <div class="w-50 text-s-14 text-uppercase">
+            {{this.cam.fecModificacion ?? '--'}}
+          </div>
+        </div>
+
+        <div class="d-flex p-1 bg-ligth2" > 
+          <div class="w-50 text-w-bold text-s-11 text-uppercase">Usuario ultima modificación</div>
+          <div class="w-50 text-s-14 text-uppercase">
+            {{this.cam.userModificacion ?? '--'}}
+          </div>
+        </div>
+
       </div>
-      <div *ngIf="false" class="div-img-pre">
-        <!--
-                <img [src]="false" alt="" />
-                -->
-      </div>
+
     </mat-card>
   </div>
 </form>

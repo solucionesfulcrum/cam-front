@@ -75,9 +75,9 @@ form = this.formBuilder.nonNullable.group({
       if (this.form.valid) {
       this.status = 'loading';
       const { codigo, descripcion,  celular, email, fechaInscripcion, direccion} = this.form.getRawValue();
-      const updateCamm= { idCam:parseInt(this.id), codigo, descripcion, tipo:'1', celular, email, fechaInscripcion: moment(fechaInscripcion).format('DD MM YYYY'), direccion, estado:1, red:this.red, ubigeo:this.ubigeo }
+      const updateCamm= { idCam:parseInt(this.id), codigo, descripcion, tipo:'1', celular, email, fechaInscripcion: moment(fechaInscripcion).format('YYYY-MM-DD'), direccion, estado:1, red:this.red, ubigeo:this.ubigeo }
       Object.assign(this.cam, updateCamm  )
-      this.camsService.actualizar(this.cam)
+      this.camsService.actualizar(this.cam, parseInt(this.id))
       .subscribe({
         next: () =>{
           this.status = 'success';

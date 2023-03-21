@@ -22,7 +22,7 @@ export class CiramsComponent implements OnInit {
   dataSource= new MatTableDataSource<any>();
 
   displayedColumns: string[] = [
-    'descripcion',
+    'descripcionC',
     'celular',
     'fechaInscripcion',
     'codigo',

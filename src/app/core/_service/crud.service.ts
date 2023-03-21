@@ -13,7 +13,7 @@ export class CRUDService<T> {
 
   listar() {
     return this._http.get<T[]>(this.url, {
-      reportProgress: true  // this is important!
+      reportProgress: true  // this is importante!
     } );
   }
 
@@ -25,8 +25,8 @@ export class CRUDService<T> {
     return this._http.post<T>(this.url, t)
   }
 
-  actualizar(t: T) {
-    return this._http.put<T>(this.url, t);
+  actualizar(t: T, id:number) {
+    return this._http.put<T>(`${this.url}/${id}`, t)
   }
 
   eliminar(id: number) {
