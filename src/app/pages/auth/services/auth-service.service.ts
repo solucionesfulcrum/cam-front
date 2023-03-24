@@ -129,7 +129,9 @@ export class AuthService {
   }
 
   isLogin() {
-    return !!localStorage.getItem('token');
+    const res =  !localStorage.getItem('token');
+    console.log("isLogin ... ", res)
+    return res 
   }
 
 }
