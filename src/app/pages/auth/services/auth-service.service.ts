@@ -127,4 +127,9 @@ export class AuthService {
     }
     return throwError(() => errorMensaje);
   }
+
+  isLogin() {
+    return !!localStorage.getItem('token');
+  }
+
 }
