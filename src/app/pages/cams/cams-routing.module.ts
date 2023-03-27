@@ -25,6 +25,7 @@ import { NewCiramComponent } from './new-ciram/new-ciram.component';
 import { NewServicioComponent } from './new-servicio/new-servicio.component';
 import { EditServicioComponent } from './edit-servicio/edit-servicio.component';
 import { ShowServicioComponent } from './show-servicio/show-servicio.component';
+import { AuthGuard } from 'src/app/shared/services/auth.guard';
 
 const routes: Routes = [
  // { path: '', component: CamsComponent},

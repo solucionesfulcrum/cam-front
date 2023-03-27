@@ -127,4 +127,11 @@ export class AuthService {
     }
     return throwError(() => errorMensaje);
   }
+
+  isLogin() {
+    const res =  !!localStorage.getItem('usuario');
+    console.log("isLogin ... ", res)
+    return res 
+  }
+
 }
