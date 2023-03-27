@@ -59,10 +59,10 @@
 
   <div class="cards-contents">
     <mat-card>
-      <mat-card-title
+      <mat-card-title *ngIf="cam?.descripcion"
         class="text-secondary text-w-semibold text-uppercase text-s-20"
       >
-        EDITAR CAM:  {{cam?.descripcion}}</mat-card-title
+        EDITAR CAM:  {{cam.descripcion}}</mat-card-title
       >
 
       <mat-card-content>

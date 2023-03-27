@@ -1,8 +1,10 @@
 import { VariablesAuditoria } from './variables-auditoria';
 
 export class Programa extends VariablesAuditoria{
-  idPrograma: number;
-  codPrograma: string;
-  descPrograma: string;
-  estado: string;
+  idAsignatura:number;
+  codAsignatura:string;
+  descAsignatura:string;
+  nivel:number;
+  idPrograma: Programa;
+  idSubPrograma:Programa;
 }

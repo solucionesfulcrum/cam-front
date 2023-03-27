@@ -12,7 +12,7 @@ export class ProgramasService extends CRUDService<Programa>{
   constructor(protected override _http: HttpClient) {
     super(
       _http,
-      `${environment.HOST}/programas`
+      `${environment.HOST}/programa`
     )
    }
 }
