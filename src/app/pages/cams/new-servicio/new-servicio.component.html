@@ -1,8 +1,4 @@
-<form
-  [formGroup]="form"
-  novalidate
-  (ngSubmit)="saveProgram()"
->
+<form [formGroup]="form" novalidate (ngSubmit)="saveProgram()">
   <div class="div-mat-tab">
     <div class="d-flex bg-ligth2 p-2 w-100">
       <div class="w-50 justify-content-start">
@@ -24,51 +20,193 @@
           [loading]="status === 'loading'"
           >GUARDAR CAMBIOS
         </app-btn>
+
+        <app-btn
+          class="ml-3"
+          typeBtn="submit"
+          color="danger"
+          [loading]="status === 'loading'"
+          >GUARDAR Y REGISTRAR OTRO 
+        </app-btn>
       </div>
     </div>
   </div>
 
   <div class="cards-contents">
     <mat-card>
-      <mat-card-title
-        class="text-secondary text-w-semibold text-uppercase text-s-20"
-      >
-        NUEVO servicio
-      </mat-card-title>
+      <div class="">
+        <!--BORDER PRINCIPAL, SI ES QUE ES NECESARIO -->
+        <div class="p-11">
+          <mat-card-title
+            class="text-secondary text-w-bold text-uppercase text-s-15"
+          >
+            Información general sobre la cartera de servicios <br />
+            <span class="text-s-10 text-w-fine text-secondary"
+              >1) Complete los datos de la cartera de servicios, luego click en
+              el boton "GUARDAR PROGRAMA"</span
+            >
+          </mat-card-title>
 
-      <mat-card-content>
-        <div class="div-content-form">
-          <mat-form-field class="p-1">
-            <mat-label> CODIGO</mat-label>
-            <input
-              #nameInput
-              formControlName="idAsignatura"
-              placeholder="Codigo asignatura"
-              matInput
-              type="text"
-            />
-            <mat-hint
-              *ngIf="
-                form.controls.idAsignatura.touched &&
-                form.controls.idAsignatura.invalid &&
-                form.controls.idAsignatura.hasError('required')
-              "
-              class="text-danger"
-            >
-              Codigo de asignatura es obligatorio
-            </mat-hint>
-            <mat-hint
-              *ngIf="
-                form.controls.idAsignatura.touched &&
-                form.controls.idAsignatura.invalid &&
-                form.controls.idAsignatura.hasError('minlength')
-              "
-              class="text-danger"
-            >
-              Código de asignatura inválido - Mínimo 6 Caracteres
-            </mat-hint>
-          </mat-form-field>
+          <mat-card-content>
+            <div class="div-content-form">
+              <mat-form-field class="p-1">
+                <mat-label> PROGRAMA</mat-label>
+                <input
+                  #nameInput
+                  formControlName="idAsignatura"
+                  placeholder="PROGRAMA DE AUTOCUIDADO BIENESTAR FÍSICO E INTELECTUAL"
+                  matInput
+                  type="text"
+                />
+                <mat-hint
+                  *ngIf="
+                    form.controls.idAsignatura.touched &&
+                    form.controls.idAsignatura.invalid &&
+                    form.controls.idAsignatura.hasError('required')
+                  "
+                  class="text-danger"
+                >
+                  Codigo de asignatura es obligatorio
+                </mat-hint>
+                <mat-hint
+                  *ngIf="
+                    form.controls.idAsignatura.touched &&
+                    form.controls.idAsignatura.invalid &&
+                    form.controls.idAsignatura.hasError('minlength')
+                  "
+                  class="text-danger"
+                >
+                  Código de asignatura inválido - Mínimo 6 Caracteres
+                </mat-hint>
+              </mat-form-field>
+              <app-btn
+                typeBtn="button"
+                color="secondary"
+                [loading]="status === 'loading'"
+                >CREAR PROGRAMA
+              </app-btn>
+            </div>
+          </mat-card-content>
         </div>
+
+        <div class="m-11 p-11">
+          <div class="border-left-2 pl-11">
+            <mat-card-title
+              class="text-secondary text-w-bold text-uppercase text-s-15"
+            >
+              detalle de los subprogramas<br />
+              <span class="text-s-12 text-w-fine text-secondary"
+                >2) Click en el boton "AGREGAR SUB PROGRAMA" Y LLENE LOS DATOS
+                DEL sub programa. Repita la operación para crear los sub
+                programas necesarios</span
+              >
+            </mat-card-title>
+
+            <mat-card-content>
+              <div class="d-block">
+                <div class="d-flex">
+                  <mat-form-field class="p-1 w-100">
+                    <mat-label>TITULO DEL SUB PROGRAMA</mat-label>
+                    <input
+                      style="border-color: #075985;"
+                      #nameInput
+                      placeholder="Ejm. Taller de mejora funcional"
+                      matInput
+                      type="text"
+                    />
+                    <mat-hint *ngIf="false" class="text-danger">
+                      Título del Sub Programa es obligatorio
+                    </mat-hint>
+                    <mat-hint *ngIf="false" class="text-danger">
+                      Título del Sub Programa es inválido - Mínimo 6 Caracteres
+                    </mat-hint>
+                  </mat-form-field>
+                  <button
+                    mat-raised-button
+                    class="text-uppercase mat-btn-danger p-2 heigth-fit mt-2"
+                    type="button"
+                  >
+                    <span class="material-symbols-outlined"> delete </span>
+                  </button>
+                </div>
+                <div class="m-11 p-11"><!-- SERVICIOS - unidad mínima -->
+
+                  <div class="border-left-2-sky pl-11">
+                    <mat-card-title
+                      class="text-sky text-w-bold text-uppercase text-s-15"
+                    >
+                      detalle de los subprogramas<br />
+                      <span class="text-s-12 text-w-fine text-sky text-w-bold"
+                        >3) Click en el boton "AGREGAR SERVICIO" Y LLENE LOS
+                        DATOS DEL NUEVO SERVICIO. Repita la operación para crear
+                        los servicios necesarios</span
+                      >
+                    </mat-card-title>
+
+                    <mat-card-content>
+                      <div class="d-block">
+                        <div class="d-flex">
+                          <mat-form-field class="p-1 w-100">
+                            <mat-label>TITULO DEL SUB PROGRAMA</mat-label>
+                            <input
+                              #nameInput
+                              placeholder="Ejm. Taller de mejora funcional"
+                              matInput
+                              type="text"
+                            />
+                            <mat-hint *ngIf="false" class="text-danger">
+                              Título del Sub Programa es obligatorio
+                            </mat-hint>
+                            <mat-hint *ngIf="false" class="text-danger">
+                              Título del Sub Programa es inválido - Mínimo 6
+                              Caracteres
+                            </mat-hint>
+                          </mat-form-field>
+                          <button
+                            mat-raised-button
+                            class="text-uppercase mat-btn-danger p-2 heigth-fit mt-2"
+                            type="button"
+                          >
+                            <span class="material-symbols-outlined">
+                              delete
+                            </span>
+                          </button>
+                        </div>
+                        <div class="m-11 p-11">
+                          <!-- SERVICIOS - unidad mínima -->
+                        </div>
+                      </div>
+
+                      <button
+                        mat-raised-button
+                        type="button"
+                        class="text-uppercase mat-btn-sky"
+                      >
+                        AGREGAR SERVICIO
+                      </button>
+                    </mat-card-content>
+                  </div>
+                </div>
+                <!-- END SERVICIOS  - UNIDAD MÍNIMA -->
+              </div>
+
+              <button
+                mat-raised-button
+                type="button"
+                class="text-uppercase mat-btn-secondary"
+              >
+                AGREGAR SUB PROGRAMA
+              </button>
+            </mat-card-content>
+          </div>
+        </div>
+      </div>
+    </mat-card>
+  </div>
+</form>
+
+<!--
+
         <div class="div-content-form">
           <mat-form-field class="p-1">
             <mat-label> Codigo de asignatura </mat-label>
@@ -103,7 +241,7 @@
         </div>
 
         <div class="div-content-form">
-  <mat-form-field class="p-1">
+          <mat-form-field class="p-1">
             <mat-label> Descripción de la asignatura</mat-label>
             <input
               #nameInput
@@ -143,10 +281,8 @@
               Solo numeros.
             </mat-hint>
           </mat-form-field>
-          </div>
+        </div>
         <div class="div-content-form">
-        
-
           <mat-form-field class="p-1">
             <mat-label> Nivel </mat-label>
             <input
@@ -179,8 +315,5 @@
           </mat-form-field>
         </div>
 
-        
-      </mat-card-content>
-    </mat-card>
-  </div>
-</form>
+
+      -->

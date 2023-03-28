@@ -28,10 +28,11 @@ export class NewServicioComponent implements OnInit {
   ubigeos: UbiGeo[];
   ubigeo: UbiGeo;
 
+  descripcion:string;
+
   newProgram: Programa;
-  idProgram: Programa;
-  idSubPrograma: Programa;
-  programs: Programa[];
+  //idProgram: Programa;
+  //idSubPrograma: Programa;
 
   form = this.formBuilder.nonNullable.group({
     idAsignatura: ['', [Validators.minLength(6), Validators.required]],
@@ -42,15 +43,20 @@ export class NewServicioComponent implements OnInit {
     idSubPrograma: ['', [Validators.required, Validators.minLength(6)]],
   });
 
+  /*
+  formSubPrograma= this.formBuilderSubPrograma.nonNullable.group({
+    descSubPrograma : ['', [Validators.minLength(6), Validators.required]],
+  });
+  */
+
   constructor(
     private router: Router,
     private formBuilder: FormBuilder,
-    private route: ActivatedRoute,
+   // private formBuilderSubPrograma: FormBuilder,
     private breadcrumService: BreadcrumService,
     private programService: ProgramasService,
     private camsService: CamsService,
     private ubigeoService: UbiGeoService,
-    private http: HttpClient
   ) {
     //for breadcrum
     this.breadcrumService.link1$.next({
@@ -76,12 +82,7 @@ export class NewServicioComponent implements OnInit {
       const { idAsignatura, codAsignatura, descAsignatura, nivel } =
         this.form.getRawValue();
       this.newProgram = {
-        idAsignatura: parseInt(idAsignatura),
-        codAsignatura,
-        descAsignatura,
-        nivel: parseInt(nivel),
-        idPrograma: this.idProgram,
-        idSubPrograma: this.idSubPrograma,
+        descripcion:this.descripcion,
       };
       this.programService.registrar(this.newProgram).subscribe({
         next: () => {

@@ -46,6 +46,7 @@ import { ShowServicioComponent } from './show-servicio/show-servicio.component';
 import { BtnComponent } from 'src/app/shared/components/btn/btn.component';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import {MatAutocompleteModule} from '@angular/material/autocomplete';
+import {MatDividerModule} from '@angular/material/divider';
 
 
 @NgModule({
@@ -100,6 +101,7 @@ import {MatAutocompleteModule} from '@angular/material/autocomplete';
     MatPaginatorModule,
     FontAwesomeModule,
     MatAutocompleteModule,
+    MatDividerModule,
   ],
   exports:[
     MaterialModule,

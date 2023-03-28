@@ -1,8 +1,7 @@
 import { SubPrograma } from './sub-programa.model';
 import { VariablesAuditoria } from './variables-auditoria';
 
-export class Programa extends VariablesAuditoria{
-  idPrograma?:string;
+export class Servicios extends VariablesAuditoria{
+  idServicio:number;
   descripcion:string;
-  subPrograma?: SubPrograma[];
 }
