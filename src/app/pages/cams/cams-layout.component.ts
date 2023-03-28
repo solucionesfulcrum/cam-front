@@ -12,7 +12,7 @@ export class CamsLayoutComponent implements OnInit {
   links=[
     {url:'/cams', title:'CAMS'},
     {url:'cirams', title:'CIRAMS'},
-    //{url:'servicios', title:'SERVICIOS'},
+    {url:'servicios', title:'SERVICIOS'},
     //{url:'programas', title:'PROGRAMAS'},
     //{url:'redes', title:'REDES'},
     //{url:'ubigeos', title:'UBIGEOS'},

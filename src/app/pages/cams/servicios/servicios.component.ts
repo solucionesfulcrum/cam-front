@@ -3,7 +3,7 @@ import { FormBuilder } from '@angular/forms';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatTableDataSource } from '@angular/material/table';
 import { ActivatedRoute, Router } from '@angular/router';
-import { CiramsService } from 'src/app/core/_service/cirams.service';
+import { ProgramasService } from 'src/app/core/_service/programas.service';
 import { BreadcrumService } from 'src/app/shared/services/breadcrum.service';
 
 @Component({
@@ -35,13 +35,13 @@ export class ServiciosComponent implements OnInit {
     private router: Router, 
     private route: ActivatedRoute,
     private breadcrumService: BreadcrumService,
-    private serviciosService: CiramsService
+    private serviciosService: ProgramasService
     ) {
       breadcrumService.link1$.next({ url: '/cams/servicios', title:'SERVICIOS' });
       breadcrumService.activeTab$.next('servicios');
       this.breadcrumService.link2$.next({url:'' ,title:''});
       this.breadcrumService.link3$.next({url:'', title:''});
-      //this.loadServicios()
+      this.loadServicios()
 
   }
 
@@ -50,10 +50,11 @@ export class ServiciosComponent implements OnInit {
 
   filtrarTabla(event: any): void {}
 
-  loadCirams(){
+  loadServicios(){
     const tmp = this.serviciosService.listar()
     .subscribe((rta:any) =>{
-      this.dataSource = rta
+      console.log("rta for servicios-programas ", rta)
+      this.dataSource = rta 
     })
   }
 
