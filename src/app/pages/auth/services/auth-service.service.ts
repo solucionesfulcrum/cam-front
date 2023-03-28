@@ -130,7 +130,6 @@ export class AuthService {
 
   isLogin() {
     const res =  !!localStorage.getItem('usuario');
-    console.log("isLogin ... ", res)
     return res 
   }
 

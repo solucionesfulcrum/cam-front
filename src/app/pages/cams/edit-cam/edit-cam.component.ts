@@ -96,19 +96,18 @@ form = this.formBuilder.nonNullable.group({
     const tmp = this.camsService.listarPorId(parseInt(this.id))
     .subscribe((rta:any) =>{
       this.cam = rta
-      console.log("rta fron edit cam: ", rta , " cam: ", this.cam)
+      console.log("rta cam.fechaInscripcion: ",  moment(this.cam.fechaInscripcion).format('YYYY-MM-DD'), " without moment: ", this.cam.fechaInscripcion)
       this.form.get('codigo')?.setValue(this.cam?.codigo!);
       this.form.get('descripcion')?.setValue(this.cam?.descripcion!);
       this.form.get('celular')?.setValue(this.cam?.celular!);
       this.form.get('email')?.setValue(this.cam?.email!);
-      this.form.get('fechaInscripcion')?.setValue(moment(this.cam?.fechaInscripcion!).format('DD MM YYYY'));
+      this.form.get('fechaInscripcion')?.setValue( this.cam.fechaInscripcion );
       this.form.get('direccion')?.setValue(this.cam?.direccion!);
       this.form.get('red')?.setValue(rta.red.nombre);
       this.form.get('ubigeo')?.setValue(rta.ubigeo.descDis!);
 
       this.red = rta.red
       this.ubigeo = rta.ubigeo
-      console.log("red: ", this.red, " ubigeo: ", this.ubigeo)
       this.breadcrumService.link2$.next({ url: '/cams/show/'+this.id, title:rta.descripcion });
     })
   }
