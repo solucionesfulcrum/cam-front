@@ -53,16 +53,16 @@
                 <mat-label> PROGRAMA</mat-label>
                 <input
                   #nameInput
-                  formControlName="idAsignatura"
+                  formControlName="descAsignatura"
                   placeholder="PROGRAMA DE AUTOCUIDADO BIENESTAR FÍSICO E INTELECTUAL"
                   matInput
                   type="text"
                 />
                 <mat-hint
                   *ngIf="
-                    form.controls.idAsignatura.touched &&
-                    form.controls.idAsignatura.invalid &&
-                    form.controls.idAsignatura.hasError('required')
+                    form.controls.descAsignatura.touched &&
+                    form.controls.descAsignatura.invalid &&
+                    form.controls.descAsignatura.hasError('required')
                   "
                   class="text-danger"
                 >
@@ -70,9 +70,9 @@
                 </mat-hint>
                 <mat-hint
                   *ngIf="
-                    form.controls.idAsignatura.touched &&
-                    form.controls.idAsignatura.invalid &&
-                    form.controls.idAsignatura.hasError('minlength')
+                    form.controls.descAsignatura.touched &&
+                    form.controls.descAsignatura.invalid &&
+                    form.controls.descAsignatura.hasError('minlength')
                   "
                   class="text-danger"
                 >
@@ -102,8 +102,9 @@
               >
             </mat-card-title>
 
-            <mat-card-content>
-              <div class="d-block">
+
+            <mat-card-content >
+              <div class="d-block bg-ligth2 p-2 mt-5" *ngFor="let forSubPrograma of newProgram?.subProgramas; let indexSubPrograma=index"> <!-- SUB PROGRAMA -->
                 <div class="d-flex">
                   <mat-form-field class="p-1 w-100">
                     <mat-label>TITULO DEL SUB PROGRAMA</mat-label>
@@ -114,28 +115,26 @@
                       matInput
                       type="text"
                     />
-                    <mat-hint *ngIf="false" class="text-danger">
-                      Título del Sub Programa es obligatorio
-                    </mat-hint>
-                    <mat-hint *ngIf="false" class="text-danger">
-                      Título del Sub Programa es inválido - Mínimo 6 Caracteres
+                    <mat-hint *ngIf="true" class="text-danger">
+                      {{messageAlertSubPrograma}} 
                     </mat-hint>
                   </mat-form-field>
                   <button
                     mat-raised-button
                     class="text-uppercase mat-btn-danger p-2 heigth-fit mt-2"
                     type="button"
+                    (click)="delSubPrograma(forSubPrograma.idFront)"
                   >
                     <span class="material-symbols-outlined"> delete </span>
                   </button>
                 </div>
-                <div class="m-11 p-11"><!-- SERVICIOS - unidad mínima -->
+                <div class="m-11 p-11 bg-white">
 
                   <div class="border-left-2-sky pl-11">
                     <mat-card-title
                       class="text-sky text-w-bold text-uppercase text-s-15"
                     >
-                      detalle de los subprogramas<br />
+                      detalle de los servicios<br />
                       <span class="text-s-12 text-w-fine text-sky text-w-bold"
                         >3) Click en el boton "AGREGAR SERVICIO" Y LLENE LOS
                         DATOS DEL NUEVO SERVICIO. Repita la operación para crear
@@ -144,28 +143,25 @@
                     </mat-card-title>
 
                     <mat-card-content>
-                      <div class="d-block">
+                      <div class="d-block bg-warning-ligth p-4 m-4" *ngFor="let forServicio of forSubPrograma.servicios; let indexServicio=index"><!-- SERVICIOS - unidad mínima -->
                         <div class="d-flex">
                           <mat-form-field class="p-1 w-100">
-                            <mat-label>TITULO DEL SUB PROGRAMA</mat-label>
+                            <mat-label>TITULO DEL SERVICIO</mat-label>
                             <input
                               #nameInput
-                              placeholder="Ejm. Taller de mejora funcional"
+                              placeholder="Ejm. Servicio de mejora funcional"
                               matInput
                               type="text"
                             />
-                            <mat-hint *ngIf="false" class="text-danger">
-                              Título del Sub Programa es obligatorio
-                            </mat-hint>
-                            <mat-hint *ngIf="false" class="text-danger">
-                              Título del Sub Programa es inválido - Mínimo 6
-                              Caracteres
+                            <mat-hint *ngIf="true" class="text-danger">
+                                {{ messageAlertServicio }}
                             </mat-hint>
                           </mat-form-field>
                           <button
                             mat-raised-button
-                            class="text-uppercase mat-btn-danger p-2 heigth-fit mt-2"
+                            class="text-uppercase mat-btn-warning p-2 heigth-fit mt-2"
                             type="button"
+                            (click)="delServicio(indexSubPrograma, forServicio.idFront )"
                           >
                             <span class="material-symbols-outlined">
                               delete
@@ -173,27 +169,28 @@
                           </button>
                         </div>
                         <div class="m-11 p-11">
-                          <!-- SERVICIOS - unidad mínima -->
+                          
                         </div>
-                      </div>
+                      </div><!-- SERVICIOS - unidad mínima -->
 
                       <button
                         mat-raised-button
                         type="button"
                         class="text-uppercase mat-btn-sky"
+                        (click)="addServicio(indexSubPrograma)"
                       >
                         AGREGAR SERVICIO
                       </button>
                     </mat-card-content>
                   </div>
-                </div>
-                <!-- END SERVICIOS  - UNIDAD MÍNIMA -->
-              </div>
+                </div> <!-- END SERVICIOS  - UNIDAD MÍNIMA -->
+              </div> <!-- END SUB PROGRAMA -->
 
               <button
                 mat-raised-button
                 type="button"
-                class="text-uppercase mat-btn-secondary"
+                class="text-uppercase mat-btn-secondary mt-5"
+                (click)="addSubPrograma()"
               >
                 AGREGAR SUB PROGRAMA
               </button>
@@ -204,116 +201,3 @@
     </mat-card>
   </div>
 </form>
-
-<!--
-
-        <div class="div-content-form">
-          <mat-form-field class="p-1">
-            <mat-label> Codigo de asignatura </mat-label>
-            <input
-              #nameInput
-              formControlName="codAsignatura"
-              placeholder="Codigo de asignatura"
-              matInput
-              type="text"
-            />
-            <mat-hint
-              *ngIf="
-                form.controls.codAsignatura.touched &&
-                form.controls.codAsignatura.invalid &&
-                form.controls.codAsignatura.hasError('required')
-              "
-              class="text-danger"
-            >
-              Codigo de asignatura es obligatorio
-            </mat-hint>
-            <mat-hint
-              *ngIf="
-                form.controls.codAsignatura.touched &&
-                form.controls.codAsignatura.invalid &&
-                form.controls.codAsignatura.hasError('minlength')
-              "
-              class="text-danger"
-            >
-              Codigo de asignatura inválida - Mínimo 6 Caracteres
-            </mat-hint>
-          </mat-form-field>
-        </div>
-
-        <div class="div-content-form">
-          <mat-form-field class="p-1">
-            <mat-label> Descripción de la asignatura</mat-label>
-            <input
-              #nameInput
-              formControlName="descAsignatura"
-              placeholder="Descripción de la asignatura"
-              matInput
-              type="text"
-            />
-            <mat-hint
-              *ngIf="
-                form.controls.descAsignatura.touched &&
-                form.controls.descAsignatura.invalid &&
-                form.controls.descAsignatura.hasError('required')
-              "
-              class="text-danger"
-            >
-              Descripción de la asignatura es obligatorio.
-            </mat-hint>
-            <mat-hint
-              *ngIf="
-                form.controls.descAsignatura.touched &&
-                form.controls.descAsignatura.invalid &&
-                form.controls.descAsignatura.hasError('minlength')
-              "
-              class="text-danger pl-5"
-            >
-              Descripción de la asignatura inválido, mínimo 7 Caracteres.
-            </mat-hint>
-            <mat-hint
-              *ngIf="
-                form.controls.descAsignatura.touched &&
-                form.controls.descAsignatura.invalid &&
-                form.controls.descAsignatura.hasError('pattern')
-              "
-              class="text-danger pl-5"
-            >
-              Solo numeros.
-            </mat-hint>
-          </mat-form-field>
-        </div>
-        <div class="div-content-form">
-          <mat-form-field class="p-1">
-            <mat-label> Nivel </mat-label>
-            <input
-              #nameInput
-              formControlName="nivel"
-              placeholder="Nivel"
-              matInput
-              type="text"
-            />
-            <mat-hint
-              *ngIf="
-                form.controls.nivel.touched &&
-                form.controls.nivel.invalid &&
-                form.controls.nivel.hasError('required')
-              "
-              class="text-danger"
-            >
-              Nivel es obligatorio
-            </mat-hint>
-            <mat-hint
-              *ngIf="
-                form.controls.nivel.touched &&
-                form.controls.nivel.invalid &&
-                form.controls.nivel.hasError('nivel')
-              "
-              class="text-danger"
-            >
-              Nivel inválido
-            </mat-hint>
-          </mat-form-field>
-        </div>
-
-
-      -->

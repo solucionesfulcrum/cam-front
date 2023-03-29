@@ -1,16 +1,11 @@
-import { HttpClient } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, Validators } from '@angular/forms';
-import { ActivatedRoute, Router } from '@angular/router';
+import {  Router } from '@angular/router';
 import { Cam } from 'src/app/core/_model/cam.model';
-import { Ciram } from 'src/app/core/_model/ciram.model';
 import { Programa } from 'src/app/core/_model/programa.model';
 import { RequestStatus } from 'src/app/core/_model/request-status.model';
 import { UbiGeo } from 'src/app/core/_model/ubigeo.model';
-import { CamsService } from 'src/app/core/_service/cams.service';
-import { CiramsService } from 'src/app/core/_service/cirams.service';
 import { ProgramasService } from 'src/app/core/_service/programas.service';
-import { UbiGeoService } from 'src/app/core/_service/ubigeo.service';
 import { BreadcrumService } from 'src/app/shared/services/breadcrum.service';
 
 @Component({
@@ -27,36 +22,20 @@ export class NewServicioComponent implements OnInit {
   cams: Cam[];
   ubigeos: UbiGeo[];
   ubigeo: UbiGeo;
-
-  descripcion:string;
+  messageAlertSubPrograma:string = "";
+  messageAlertServicio:string = "";
 
   newProgram: Programa;
-  //idProgram: Programa;
-  //idSubPrograma: Programa;
 
   form = this.formBuilder.nonNullable.group({
-    idAsignatura: ['', [Validators.minLength(6), Validators.required]],
-    codAsignatura: ['', [Validators.minLength(6), Validators.required]],
     descAsignatura: ['', [Validators.required, Validators.minLength(8)]],
-    nivel: ['', [Validators.minLength(2), Validators.required]],
-    idPrograma: ['', [Validators.required]],
-    idSubPrograma: ['', [Validators.required, Validators.minLength(6)]],
   });
-
-  /*
-  formSubPrograma= this.formBuilderSubPrograma.nonNullable.group({
-    descSubPrograma : ['', [Validators.minLength(6), Validators.required]],
-  });
-  */
 
   constructor(
     private router: Router,
     private formBuilder: FormBuilder,
-   // private formBuilderSubPrograma: FormBuilder,
     private breadcrumService: BreadcrumService,
     private programService: ProgramasService,
-    private camsService: CamsService,
-    private ubigeoService: UbiGeoService,
   ) {
     //for breadcrum
     this.breadcrumService.link1$.next({
@@ -69,23 +48,26 @@ export class NewServicioComponent implements OnInit {
     });
     this.breadcrumService.link3$.next({ url: '', title: '' });
     this.breadcrumService.activeTab$.next('servicios');
+
+    //temporal, hasta que exista el endPoint CrearPrograma
+      this.newProgram = new Programa();
+      this.newProgram = { descripcion: "nuevo programa" };
   }
 
   ngOnInit(): void {
-    this.loadCams();
-    this.loadUbigeos();
   }
 
   saveProgram() {
     if (this.form.valid) {
       this.status = 'loading';
-      const { idAsignatura, codAsignatura, descAsignatura, nivel } =
-        this.form.getRawValue();
+      const { descAsignatura } = this.form.getRawValue();
       this.newProgram = {
-        descripcion:this.descripcion,
+        descripcion: descAsignatura,
       };
       this.programService.registrar(this.newProgram).subscribe({
-        next: () => {
+        next: (rta) => {
+          this.newProgram.idPrograma = rta.idPrograma;
+          this.newProgram.descripcion = rta.descripcion;
           this.status = 'success';
           this.router.navigate(['/cams/servicios']);
         },
@@ -98,15 +80,55 @@ export class NewServicioComponent implements OnInit {
     }
   }
 
-  loadCams() {
-    const tmp = this.camsService.listar().subscribe((rta: any) => {
-      this.cams = rta;
-    });
+  addSubPrograma() {
+    if (  !this.newProgram.subProgramas )
+    {
+      this.newProgram.subProgramas = []
+    }
+
+    if ( this.newProgram && this.newProgram.subProgramas )
+    {
+      this.newProgram.subProgramas.push({"descripcion":"nuevo subPrograma", "idFront":Math.random() })
+      console.log('addsubprograma... subprograma.length: ', this.newProgram.subProgramas?.length ?? 0 , " params.index: ");
+    }
+    else  console.log('addsubprograma... subprograma is UNDEFINED.  params.index: ');
   }
 
-  loadUbigeos() {
-    const tmp = this.ubigeoService.listar().subscribe((rta: any) => {
-      this.ubigeos = rta;
-    });
+  delSubPrograma(idFront:number) {
+    console.log("params.index: ", idFront)
+    if ( this.newProgram && this.newProgram.subProgramas )
+    {
+      console.log("before newSubprogramas: ",this.newProgram.subProgramas);
+      this.newProgram.subProgramas = this.newProgram.subProgramas.filter((item) => item.idFront !== idFront);
+      console.log("after newSubprogramas: ",this.newProgram.subProgramas);
+    }
+    else  console.log('delsubprograma... subprograma is UNDEFINED.  params.index: ', idFront);
+  }
+
+  addServicio(indexSubPrograma: number) {
+    console.log("params.idSubprograma: ", indexSubPrograma )
+
+    if ( this.newProgram.subProgramas && !this.newProgram?.subProgramas[indexSubPrograma]?.servicios )
+    {
+      this.newProgram.subProgramas[indexSubPrograma].servicios= []
+    }
+
+    if ( this.newProgram && this.newProgram.subProgramas && this.newProgram.subProgramas[indexSubPrograma].servicios)
+    {
+      console.log("before servicios: ",this.newProgram.subProgramas[indexSubPrograma].servicios);
+      this.newProgram.subProgramas[indexSubPrograma].servicios?.push({"descripcion":"nuevo servicio", "idFront":Math.random() })
+      console.log("after servicios: ",this.newProgram.subProgramas[indexSubPrograma].servicios);
+    }
+    else  console.log('addservicio... servicio is UNDEFINED.  params.index: ', indexSubPrograma);
+  }
+
+  delServicio(indexSubPrograma: number, idFront:number) {
+    console.log("index raw: ", indexSubPrograma)
+    if ( this.newProgram && this.newProgram.subProgramas && this.newProgram?.subProgramas[indexSubPrograma])
+    {
+      this.newProgram.subProgramas[indexSubPrograma].servicios = this.newProgram.subProgramas[indexSubPrograma].servicios?.filter((item) => item.idFront !== idFront);
+      console.log("after newSubprogramas: ",this.newProgram.subProgramas[indexSubPrograma].servicios);
+    }
+    else  console.log('delservicio... servicio is UNDEFINED.  params.index: ', indexSubPrograma);
   }
 }

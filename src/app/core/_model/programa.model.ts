@@ -4,5 +4,5 @@ import { VariablesAuditoria } from './variables-auditoria';
 export class Programa extends VariablesAuditoria{
   idPrograma?:string;
   descripcion:string;
-  subPrograma?: SubPrograma[];
+  subProgramas?: SubPrograma[];
 }
