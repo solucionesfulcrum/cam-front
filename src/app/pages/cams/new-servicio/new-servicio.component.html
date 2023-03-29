@@ -94,7 +94,9 @@
             <mat-card-title
               class="text-secondary text-w-bold text-uppercase text-s-15"
             >
-              detalle de los subprogramas<br />
+              detalle de los subprogramas
+              <span *ngIf="newProgram?.descripcion"> del programa "{{newProgram.descripcion}}" </span>
+              <br />
               <span class="text-s-12 text-w-fine text-secondary"
                 >2) Click en el boton "AGREGAR SUB PROGRAMA" Y LLENE LOS DATOS
                 DEL sub programa. Repita la operación para crear los sub
@@ -113,6 +115,8 @@
                       #nameInput
                       placeholder="Ejm. Taller de mejora funcional"
                       matInput
+                      [(ngModel)]="this.forSubPrograma.descripcion"
+                      [ngModelOptions]="{standalone: true}"
                       type="text"
                     />
                     <mat-hint *ngIf="true" class="text-danger">
@@ -134,7 +138,9 @@
                     <mat-card-title
                       class="text-sky text-w-bold text-uppercase text-s-15"
                     >
-                      detalle de los servicios<br />
+                      detalle de los servicios
+                      <span *ngIf="newProgram?.descripcion"> del sub programa "{{forSubPrograma.descripcion}}" </span>
+                      <br />
                       <span class="text-s-12 text-w-fine text-sky text-w-bold"
                         >3) Click en el boton "AGREGAR SERVICIO" Y LLENE LOS
                         DATOS DEL NUEVO SERVICIO. Repita la operación para crear

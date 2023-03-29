@@ -89,24 +89,19 @@ export class NewServicioComponent implements OnInit {
     if ( this.newProgram && this.newProgram.subProgramas )
     {
       this.newProgram.subProgramas.push({"descripcion":"nuevo subPrograma", "idFront":Math.random() })
-      console.log('addsubprograma... subprograma.length: ', this.newProgram.subProgramas?.length ?? 0 , " params.index: ");
     }
     else  console.log('addsubprograma... subprograma is UNDEFINED.  params.index: ');
   }
 
   delSubPrograma(idFront:number) {
-    console.log("params.index: ", idFront)
     if ( this.newProgram && this.newProgram.subProgramas )
     {
-      console.log("before newSubprogramas: ",this.newProgram.subProgramas);
       this.newProgram.subProgramas = this.newProgram.subProgramas.filter((item) => item.idFront !== idFront);
-      console.log("after newSubprogramas: ",this.newProgram.subProgramas);
     }
     else  console.log('delsubprograma... subprograma is UNDEFINED.  params.index: ', idFront);
   }
 
   addServicio(indexSubPrograma: number) {
-    console.log("params.idSubprograma: ", indexSubPrograma )
 
     if ( this.newProgram.subProgramas && !this.newProgram?.subProgramas[indexSubPrograma]?.servicios )
     {
@@ -115,19 +110,15 @@ export class NewServicioComponent implements OnInit {
 
     if ( this.newProgram && this.newProgram.subProgramas && this.newProgram.subProgramas[indexSubPrograma].servicios)
     {
-      console.log("before servicios: ",this.newProgram.subProgramas[indexSubPrograma].servicios);
       this.newProgram.subProgramas[indexSubPrograma].servicios?.push({"descripcion":"nuevo servicio", "idFront":Math.random() })
-      console.log("after servicios: ",this.newProgram.subProgramas[indexSubPrograma].servicios);
     }
     else  console.log('addservicio... servicio is UNDEFINED.  params.index: ', indexSubPrograma);
   }
 
   delServicio(indexSubPrograma: number, idFront:number) {
-    console.log("index raw: ", indexSubPrograma)
     if ( this.newProgram && this.newProgram.subProgramas && this.newProgram?.subProgramas[indexSubPrograma])
     {
       this.newProgram.subProgramas[indexSubPrograma].servicios = this.newProgram.subProgramas[indexSubPrograma].servicios?.filter((item) => item.idFront !== idFront);
-      console.log("after newSubprogramas: ",this.newProgram.subProgramas[indexSubPrograma].servicios);
     }
     else  console.log('delservicio... servicio is UNDEFINED.  params.index: ', indexSubPrograma);
   }
