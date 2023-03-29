@@ -88,7 +88,7 @@ export class NewServicioComponent implements OnInit {
 
     if ( this.newProgram && this.newProgram.subProgramas )
     {
-      this.newProgram.subProgramas.push({"descripcion":"nuevo subPrograma", "idFront":Math.random() })
+      this.newProgram.subProgramas.push({"descripcion":"", "idFront":Math.random() })
     }
     else  console.log('addsubprograma... subprograma is UNDEFINED.  params.index: ');
   }
@@ -110,7 +110,7 @@ export class NewServicioComponent implements OnInit {
 
     if ( this.newProgram && this.newProgram.subProgramas && this.newProgram.subProgramas[indexSubPrograma].servicios)
     {
-      this.newProgram.subProgramas[indexSubPrograma].servicios?.push({"descripcion":"nuevo servicio", "idFront":Math.random() })
+      this.newProgram.subProgramas[indexSubPrograma].servicios?.push({"descripcion":"", "idFront":Math.random() })
     }
     else  console.log('addservicio... servicio is UNDEFINED.  params.index: ', indexSubPrograma);
   }
