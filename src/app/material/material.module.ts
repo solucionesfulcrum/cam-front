@@ -18,6 +18,8 @@ import { MatRadioModule } from '@angular/material/radio';
 import {MatDividerModule} from '@angular/material/divider';
 import { MatTab, MatTabsModule } from '@angular/material/tabs';
 import { MatPaginator } from '@angular/material/paginator';
+import {MatCheckboxModule} from '@angular/material/checkbox';
+
 
 
 @NgModule({
@@ -43,6 +45,7 @@ import { MatPaginator } from '@angular/material/paginator';
     MatRadioModule,
     MatDividerModule,
     MatTabsModule,
+    MatCheckboxModule 
   ],
   providers: [
     { provide: MAT_DATE_LOCALE, useValue: 'es-ES' },

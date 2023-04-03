@@ -1,8 +1,6 @@
-import { HttpClient } from '@angular/common/http';
 import { AfterViewInit, Component, OnInit } from '@angular/core';
 import { FormBuilder, Validators } from '@angular/forms';
-import { ActivatedRoute, Router } from '@angular/router';
-import { debounceTime, distinctUntilChanged, filter, finalize, Observable, switchMap, tap } from 'rxjs';
+import { Router } from '@angular/router';
 import { Cam } from 'src/app/core/_model/cam.model';
 import { Red } from 'src/app/core/_model/red.model';
 import { RequestStatus } from 'src/app/core/_model/request-status.model';
@@ -11,7 +9,6 @@ import { CamsService } from 'src/app/core/_service/cams.service';
 import { RedesService } from 'src/app/core/_service/redes.service';
 import { UbiGeoService } from 'src/app/core/_service/ubigeo.service';
 import { BreadcrumService } from 'src/app/shared/services/breadcrum.service';
-import { environment } from 'src/environments/environment';
 
 @Component({
   selector: 'app-new-cam',
@@ -57,10 +54,8 @@ export class NewCamComponent  implements OnInit{
  constructor(
   private router: Router,
   private formBuilder: FormBuilder,
-  private route: ActivatedRoute,
   private breadcrumService: BreadcrumService,
   private camService:CamsService,
-  private http: HttpClient,
   private redesService: RedesService,
   private ubigeoService:UbiGeoService,
     ) {
@@ -70,16 +65,13 @@ export class NewCamComponent  implements OnInit{
       this.breadcrumService.link2$.next({ url: '/cams/new', title:'NUEVO CAM'});
       this.breadcrumService.link3$.next({ url: '', title:''});
       this.breadcrumService.activeTab$.next('/cams');
-  }
-  ngAfterViewInit(): void {
 
+      this.loadRedes();
+      this.loadUbigeos();
   }
+
 
   ngOnInit(): void {
-
-
-    this.loadRedes();
-    this.loadUbigeos();
 
     /**
       this.form

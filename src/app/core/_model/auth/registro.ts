@@ -1,3 +1,5 @@
+import { Cam } from "../cam.model";
+
 export interface RegistroUsuario {
     tipDocIden?: string | null;
     numDocIden?: string | null;
@@ -5,6 +7,8 @@ export interface RegistroUsuario {
     email?: string | null;
     nombres?: string | null;
     codigoPlanilla?: string | null;
+    accept:boolean | null;
+    cam? : Cam
 }
 
 export interface ResponseRegistro {

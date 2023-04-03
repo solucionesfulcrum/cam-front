@@ -13,7 +13,9 @@
           <mat-form-field class="full-width-input">
             <mat-label>Usuario</mat-label>
             <mat-select formControlName="tipoDocumentoCtrl">
-              <mat-option value="1">DNI - Documento Nacional de Identidad</mat-option>
+              <mat-option value="1"
+                >DNI - Documento Nacional de Identidad</mat-option
+              >
               <mat-option value="2">CE - Carnét de Extranjería</mat-option>
             </mat-select>
           </mat-form-field>
@@ -77,14 +79,32 @@
         </mat-form-field>
       </div>
 
+      <div class="form-div-datos">
+        <mat-form-field class="full-width-input">
+          <mat-label>Unidad operativa</mat-label>
+          <mat-select placeholder="CAM"  [(value)]="cam"  formControlName="cam">
+            <mat-option *ngFor="let iCam of cams" [value]="iCam">
+              {{ iCam.descripcion }}
+            </mat-option>
+          </mat-select>
+
+        </mat-form-field>
+      </div>
+
+      <div class="form-div-datos">
+        <mat-checkbox formControlName="accept" checked="true" (change)="onCheckBox($event)">
+          Acepto los terminos y condiciones
+        </mat-checkbox>
+      </div>
+
       <div class="btn-login">
         <button
           type="submit"
           mat-raised-button
           class="btn-mat-primary"
-          [disabled]="registroForm.invalid || loading"
+          [disabled]="registroForm.invalid || loading "
         >
-        {{ loading ? "Validando..." : "Registrar" }}
+          {{ loading ? "Validando..." : "Registrar" }}
         </button>
       </div>
       <div class="btn-login">

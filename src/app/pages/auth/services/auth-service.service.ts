@@ -56,6 +56,7 @@ export class AuthService {
 
   registrarUsuario(data: RegistroUsuario) {
     const params = this._authBasic();
+    console.log("registroUsuario...", data )
     return this.http
       .post(`${environment.authApi}/pre-register`, data, {
         params,

@@ -1,28 +1,53 @@
-    <!-- <div>
+<!-- <div>
         <img src="assets/img/cam_login.png" alt="">
     </div> -->
-    <div class="login-form bg-white w-100">
-
-  <mat-card class="login-form__div">
-
+<div class="d-flex h-100v">
+  <div class="bg-primary2
+  w-30 d-block align-content-center position-relative">
+  <div class="center">
+    <div class="d-block">
+      <img class="img-logo" src="assets/img/logo-essalud-white.svg" />
+    </div>
+    <div class="mt-4 text-center">
+    <span class="text-w-bold text-white text-s-3r">CAM</span>
+    </div>
+    <div class="mt-1 text-center">
+    <span class="text-w.semibold text-white text-s-18">CENTRO DE ADULTO MAYOR</span>
+    </div>
+  </div>
+  </div>
+  <div class="bg-white w-70 d-flex h-100 justify-content-center">
+    <div
+      class="
+      border-1-ligth
+      radius-2
+      p-3
+      vertical-center
+      "
+    >
       <div>
         <img class="img-logo" src="assets/img/cam_logo_for_login.svg" />
       </div>
       <form [formGroup]="loginForm" (ngSubmit)="onLogin()" class="">
-      <div class="d-flex">
-      <span class="text-s-1r text-w-fine text-secondary text-uppercase ml-13 pt-2 pb-2 justify-content-start align-content-flex-start ">Inicio de Sesión</span>
-      </div>
-        <div class="form-div-datos">
-        <mat-form-field class="full-width-input">
-          <mat-label>Usuario</mat-label>
-          <input formControlName="username" matInput required />
-          <mat-icon matSuffix>account_circle</mat-icon>
-          <mat-error *ngIf="loginForm.controls.username.hasError('minlength')">
-            Mínimo 8 dígitos
-          </mat-error>
-        </mat-form-field>
+        <div class="d-flex">
+          <span
+            class="text-s-1r text-w-fine text-secondary text-uppercase ml-13 pt-2 pb-2 justify-content-start align-content-flex-start"
+            >Inicio de Sesión</span
+          >
         </div>
-       <mat-form-field class="full-width-input separator">
+        <div class="form-div-datos">
+          <mat-form-field class="full-width-input">
+            <mat-label>Usuario</mat-label>
+            <input formControlName="username" matInput required />
+            <mat-icon matSuffix>account_circle</mat-icon>
+            <mat-error
+              *ngIf="loginForm.controls.username.hasError('minlength')"
+            >
+              Mínimo 8 dígitos
+            </mat-error>
+          </mat-form-field>
+        </div>
+        <mat-form-field class="full-width-input separator">
           <mat-label>Contraseña</mat-label>
           <input
             type="password"
@@ -72,7 +97,6 @@
           ¿Olvidaste tu contraseña?
         </button>
       </div>
-
-  </mat-card>
-
+    </div>
+  </div>
 </div>

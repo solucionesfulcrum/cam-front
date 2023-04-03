@@ -18,7 +18,7 @@ import { Moment } from 'moment';
   templateUrl: './edit-cam.component.html',
   styleUrls: ['./edit-cam.component.css']
 })
-export class EditCamComponent implements OnInit {
+export class EditCamComponent {
 
 form = this.formBuilder.nonNullable.group({
     codigo: ['', [Validators.minLength(1), Validators.required]],
@@ -64,11 +64,8 @@ form = this.formBuilder.nonNullable.group({
       this.breadcrumService.activeTab$.next('/cams');
       this.loadCamById(this.id)
 
-  }
-
-  ngOnInit(): void {
-    this.loadRedes();
-    this.loadUbigeos();
+      this.loadRedes();
+      this.loadUbigeos();
   }
 
   saveEditCam(){

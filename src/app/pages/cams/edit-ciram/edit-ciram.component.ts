@@ -1,5 +1,5 @@
 import { HttpClient } from '@angular/common/http';
-import { Component, OnInit } from '@angular/core';
+import { AfterViewInit, Component, OnInit } from '@angular/core';
 import { FormBuilder, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Cam } from 'src/app/core/_model/cam.model';
@@ -17,7 +17,7 @@ import * as moment from 'moment';
   templateUrl: './edit-ciram.component.html',
   styleUrls: ['./edit-ciram.component.css']
 })
-export class EditCiramComponent implements OnInit {
+export class EditCiramComponent {
 
 form = this.formBuilder.nonNullable.group({
     codigo: ['', [Validators.minLength(1), Validators.required]],
@@ -61,11 +61,10 @@ form = this.formBuilder.nonNullable.group({
       this.breadcrumService.link1$.next({url:'/cams/cirams', title:'CIRAMS'});
       this.breadcrumService.link3$.next({ url: '/cams/cirams/edit/'+this.id, title:'EDITAR'});
       this.breadcrumService.activeTab$.next('cirams');
-  }
 
-  ngOnInit(): void {
-    this.loadCams();
-    this.loadUbigeos();
+      this.loadCams();
+      this.loadUbigeos();
+
   }
 
   saveEditCiram(){
@@ -105,7 +104,7 @@ form = this.formBuilder.nonNullable.group({
   }
 
   loadUbigeos(){
-    const tmp = this.ubigeoService.listar()
+    this.ubigeoService.listar()
     .subscribe((rta:any) =>{
       this.ubigeos= rta
     })

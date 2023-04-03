@@ -4,12 +4,10 @@ import { FormBuilder, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Cam } from 'src/app/core/_model/cam.model';
 import { Ciram } from 'src/app/core/_model/ciram.model';
-import { Red } from 'src/app/core/_model/red.model';
 import { RequestStatus } from 'src/app/core/_model/request-status.model';
 import { UbiGeo } from 'src/app/core/_model/ubigeo.model';
 import { CamsService } from 'src/app/core/_service/cams.service';
 import { CiramsService } from 'src/app/core/_service/cirams.service';
-import { RedesService } from 'src/app/core/_service/redes.service';
 import { UbiGeoService } from 'src/app/core/_service/ubigeo.service';
 import { BreadcrumService } from 'src/app/shared/services/breadcrum.service';
 
@@ -18,7 +16,7 @@ import { BreadcrumService } from 'src/app/shared/services/breadcrum.service';
   templateUrl: './new-ciram.component.html',
   styleUrls: ['./new-ciram.component.css']
 })
-export class NewCiramComponent implements OnInit {
+export class NewCiramComponent {
 
 subBreadcrum1:{url:string, title:string }
 subBreadcrum2:{url:string, title:string }
@@ -61,9 +59,8 @@ form = this.formBuilder.nonNullable.group({
       this.breadcrumService.link2$.next({ url: '/cams/cirams/new', title:'NUEVO CIRAM'});
       this.breadcrumService.link3$.next({ url: '', title:''});
       this.breadcrumService.activeTab$.next('cirams');
-  }
 
-  ngOnInit(): void {
+
     this.loadCams();
     this.loadUbigeos();
   }

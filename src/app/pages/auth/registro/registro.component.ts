@@ -1,11 +1,13 @@
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder, Validators } from '@angular/forms';
+import { FormBuilder, FormControl, Validators } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 import { Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
 import { RegistroUsuario } from 'src/app/core/_model/auth/registro';
 import { RegistroCodigoComponent } from '../modals/registro-codigo/registro-codigo.component';
 import { AuthService } from '../services/auth-service.service';
+import { CamsService } from 'src/app/core/_service/cams.service';
+import { Cam } from 'src/app/core/_model/cam.model';
 
 @Component({
   selector: 'app-registro',
@@ -13,25 +15,37 @@ import { AuthService } from '../services/auth-service.service';
   styleUrls: ['./registro.component.css'],
 })
 export class RegistroComponent implements OnInit {
+
   registroForm = this.fb.group({
     tipoDocumentoCtrl: ['', [Validators.required]],
     nroDocumentoCtrl: ['', [Validators.required]],
     codigoPlanCtrl: [''],
-    correoCtrl: ['', [Validators.required]],
+    correoCtrl: ['', [Validators.required, Validators.email]],
     nombresCtrl: ['', [Validators.required]],
     passwordCtrl: ['', [Validators.required]],
     confirmPasswordCtrl: ['', [Validators.required]],
+    accept: ['', [Validators.required]],
+    cam: [ '', [Validators.required]],
+
   });
+
+
+  cams: Cam[];
+  cam:Cam;
   hide = true;
   hide2 = true;
   loading: boolean;
+  accept= false;
   constructor(
     private fb: FormBuilder,
     private router: Router,
     private authSvc: AuthService,
     private toastrSvc: ToastrService,
-    private dialog: MatDialog
-  ) {}
+    private dialog: MatDialog,
+    private camsService: CamsService
+  ) {
+    this.loadCams()
+  }
 
   ngOnInit(): void {}
 
@@ -45,6 +59,8 @@ export class RegistroComponent implements OnInit {
       email: formValue.correoCtrl,
       nombres: formValue.nombresCtrl,
       codigoPlanilla: formValue.codigoPlanCtrl,
+      accept: formValue.accept ? true: false,
+      cam :  this.cam,
     };
     this.authSvc.registrarUsuario(DATA).subscribe({
       next: (resp) => {
@@ -81,4 +97,24 @@ export class RegistroComponent implements OnInit {
   volverLogin(): void {
     this.router.navigate(['/']);
   }
+
+  loadCams(){
+    const tmp = this.camsService.listar()
+    .subscribe((rta:any) =>{
+      this.cams= rta
+    })
+  }
+
+  onCheckBox(event:any){
+    if ( event.checked === true )
+    {
+      this.registroForm.controls.accept.setValue('true')
+      console.log("si...",event)
+    }
+    else{
+      this.registroForm.controls.accept.setValue('')
+      console.log("no..", event)
+    }
+  }
+
 }
