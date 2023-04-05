@@ -39,7 +39,10 @@ export class LoginComponent implements OnInit {
       },
       error: (error) => {
         console.log(error);
-        this.toastrSvc.error(error.message);
+        let msgText = 'Problemas con la autentificación' 
+        if ( error.message === 'Bad credentials')
+          msgText = 'Credenciales incorrectas'
+        this.toastrSvc.error(msgText);
         this.loading = false;
       },
       complete: () => {

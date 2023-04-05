@@ -116,7 +116,8 @@ export class AuthService {
   private _authBasic() {
     const params = new HttpParams().set(
       'g',
-      '1ddd7536-e95e-479e-9571-d820dc583d89'
+      //'1ddd7536-e95e-479e-9571-d820dc583d89'
+      '1fd720df-c793-4039-8be7-44351edd7820'
     );
     return params;
   }

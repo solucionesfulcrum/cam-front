@@ -30,27 +30,6 @@ constructor(
     });
   }
 
-
-  /*
- constructor(
-    private fb: FormBuilder, 
-    private router: Router, 
-    private route: ActivatedRoute,
-    private breadcrumService: BreadcrumService
-    ) {
-      this.route.parent?.paramMap.subscribe(params => {
-      this.id = params.get('id')!;
-
-      breadcrumService.subLink1$.next({ url: './servicios', title:'CIRAMS'});
-      breadcrumService.subLink2$.next({ url: '', title:'' });
-      breadcrumService.subLink3$.next({ url: '', title:'' });
-      breadcrumService.subActiveTab$.next('/cams/show/'+this.id+'/cirams');
-  
-    });
-  }
-
-    **/
-
   ngOnInit(): void {
   }
 

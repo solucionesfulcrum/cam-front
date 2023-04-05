@@ -59,6 +59,7 @@ import { SelectComponent } from './shared/components/select/select.component';
     MatMenuModule,
     AppRoutingModule,
     MatProgressBarModule,
+    
   ],
  exports: [
  ],
