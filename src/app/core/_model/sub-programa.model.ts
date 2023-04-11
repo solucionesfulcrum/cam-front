@@ -5,5 +5,5 @@ export class SubPrograma extends VariablesAuditoria{
   idSubPrograma?:string;
   descripcion:string;
   servicios?:Servicios[];
-  idFront:number;
+  idFront:number; // valid for 1 version front -  JSON 
 }

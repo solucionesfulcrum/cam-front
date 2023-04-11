@@ -1075,3 +1075,15 @@ body {
   -ms-transform: translate(-50%, -50%);
   transform: translate(-50%, -50%);
 }
+
+.justify-end {
+    justify-content: flex-end;
+}
+
+.justify-end{
+  justify-content: flex-end;
+}
+
+.uppercase {
+    text-transform: uppercase;
+}

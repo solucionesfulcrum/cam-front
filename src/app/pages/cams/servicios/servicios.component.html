@@ -1,94 +1,59 @@
-<div *ngIf="!dataSource; else templateElse">
-  <div class="div-mat-tab">
-    <div class="filtros-notif" [formGroup]="form">
-      <div class="filtros-notif-left">
-        <mat-form-field class="mat-full-width">
-          <mat-icon matPrefix>search</mat-icon>
-          <input (keyup)="filtrarTabla($event)" matInput placeholder="Búscar" />
-        </mat-form-field>
-        <mat-form-field>
-          <mat-label>Estado</mat-label>
-          <mat-select>
-            <mat-option value="1">DISPONIBLES</mat-option>
-            <mat-option value="2">SUSPENDIDO</mat-option>
-            <mat-option value="3">NO DISPONIBLE</mat-option>
-          </mat-select>
-        </mat-form-field>
+<div *ngIf="programas.length > 0; else templateElse">
+  <div class="div-mat-tab bg-ligth p-3">
+    <div class="programa p-2 mt-3 bg-white" *ngFor="let program of programas; let i = index">
+      <div class="headProgram d-flex w-100 ">
+        <div class="title w-90">
+          <span class="text-s-25 text-w-semibold uppercase"
+            >{{program.descripcion}}</span
+          >
+        </div>
+        <div class="actions w-10 d-flex justify-end content-end">
+          <button mat-raised-button class="text-uppercase mat-btn-secondary">
+            EDITAR
+          </button>
+        </div>
       </div>
-      <div class="filtros-notif-right">
-        <button mat-raised-button class="mat-btn-primary text-uppercase">
-          Nuevo CIRAM
-        </button>
+      <div class="detailProgram flex w-full ">
+        <span class=" text-success uppercase text-w-semibold text-s-10">Cant. subprogramas: {{program.subProgramas?.length}}</span>
+        <span class=" text-success uppercase text-w-semibold text-s-10">&nbsp;-&nbsp;</span>
+        <span class=" text-success uppercase text-w-semibold text-s-10">Cant. servicios: {{ program.cant_servicios }}</span>
+      </div>
+
+      <div class="subPrograms w-full p-2">
+        <div class="subprograma1 bg-ligth2 mt-3 ml-3 p-3" *ngFor="let subprogram of program.subProgramas; let i_sub = index"  >
+          <div class="headSubprograma d-flex w-100 bg-red uppercase">
+            <div class="title w-100 bg-secondary p-1">
+              <span class="text-white text-s-14 text-w-semibold uppercase">
+               {{subprogram.descripcion}} 
+              </span>
+            </div>
+          </div>
+
+
+          <div class="servicios w-full bg-white p-2">
+            <div class="servicio1 d-flex" *ngFor="let servicio of subprogram.servicios ; let i_sub_servicios = index"   >
+              <span>
+                <img class="img-logo" src="assets/services.svg" />
+              </span>
+              <span class="text-primary3 uppercase text-w-semibold "> {{servicio.descripcion}}</span>
+            </div>
+          </div>
+
+        </div>
+
       </div>
     </div>
-    <div class="table-responsive">
-      <table mat-table [dataSource]="dataSource">
-        <ng-container matColumnDef="descripcion">
-          <th mat-header-cell *matHeaderCellDef>CIRAM</th>
-          <td mat-cell *matCellDef="let element">
-            <a
-              mat-flat-button
-              class="btn-flat-info"
-              (click)="setLink2(element.descripcion, element.codigo)"
-              routerLink="/servicios/show/{{ element.codigo }}"
-            >
-              {{ element.descripcion }}
-            </a>
-          </td>
-        </ng-container>
 
-        <ng-container matColumnDef="celular">
-          <th mat-header-cell *matHeaderCellDef>CELULAR</th>
-          <td mat-cell *matCellDef="let element">
-            {{ element.celular }}
-          </td>
-        </ng-container>
+  
 
-        <ng-container matColumnDef="fechaInscripcion">
-          <th mat-header-cell *matHeaderCellDef>FECHA DE CREACION</th>
-          <td mat-cell *matCellDef="let element">
-            {{ element.fechaInscripcion }}
-          </td>
-        </ng-container>
-
-        <ng-container matColumnDef="codigo">
-          <th mat-header-cell *matHeaderCellDef>CODIGO</th>
-          <td mat-cell *matCellDef="let element">
-            {{ element.codigo }}
-          </td>
-        </ng-container>
-
-        <ng-container matColumnDef="red">
-          <th mat-header-cell *matHeaderCellDef>RED</th>
-          <td mat-cell *matCellDef="let element">
-            {{ element.cam?.red?.nombre }}
-          </td>
-        </ng-container>
-
-        <ng-container matColumnDef="estado">
-          <th mat-header-cell *matHeaderCellDef>ESTADO</th>
-          <td mat-cell *matCellDef="let element">
-            {{ element.estado }}
-          </td>
-        </ng-container>
-
-        <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
-        <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
-      </table>
-      <mat-paginator
-        #paginator
-        [pageSizeOptions]="[25, 50, 100]"
-        showFirstLastButtons
-      ></mat-paginator>
-    </div>
   </div>
 </div>
+
+
 <ng-template #templateElse>
   <mat-card class="bg-ligth3">
-    <div
-      class="d-block text-secondary text-w-semibold text-uppercase mt-4"
-    >
-      <div class="text-s-2r d-flex justify-content-center ">
+    <div class="d-block text-secondary text-w-semibold text-uppercase mt-4">
+      <div class="text-s-2r d-flex justify-content-center">
         no hay servicios creados
       </div>
       <div class="text-s-12 d-flex justify-content-center mt-3">
@@ -96,11 +61,15 @@
         primera cartera de servicios
       </div>
       <div class="text-s-1r d-flex justify-content-center mt-2">
-       <button mat-raised-button class="text-uppercase mat-btn-primary" routerLink="/cams/servicios/new">
-              nueva cartera de servicios 
+        <button
+          mat-raised-button
+          class="text-uppercase mat-btn-primary"
+          routerLink="/cams/servicios/new"
+        >
+          nueva cartera de servicios
         </button>
       </div>
-      <div class="d-flex justify-content-center ">
+      <div class="d-flex justify-content-center">
         <img src="assets/img/new-services.png" alt="" />
       </div>
     </div>

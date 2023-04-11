@@ -51,7 +51,7 @@ export class NewServicioComponent implements OnInit {
 
     //temporal, hasta que exista el endPoint CrearPrograma
       this.newProgram = new Programa();
-      this.newProgram = { descripcion: "nuevo programa" };
+      this.newProgram = { descripcion: "nuevo programa", cant_servicios:0 };
   }
 
   ngOnInit(): void {
@@ -63,6 +63,7 @@ export class NewServicioComponent implements OnInit {
       const { descAsignatura } = this.form.getRawValue();
       this.newProgram = {
         descripcion: descAsignatura,
+        cant_servicios:0
       };
       this.programService.registrar(this.newProgram).subscribe({
         next: (rta) => {
