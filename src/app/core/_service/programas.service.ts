@@ -24,6 +24,7 @@ export class ProgramasService extends CRUDService<Programa> {
         map((data: any) => {
           data = data.map((item: any) => ({
             idPrograma: item['idasignatura'],
+            cant_servicios:0,
             descripcion: item['descasignatura'],
           }));
           return data;
@@ -62,7 +63,6 @@ export class ProgramasService extends CRUDService<Programa> {
         map((data: any) => {
           data = data.map((item: any) => ({
             idServicio: item['idasignatura'],
-            cant_servicios:0, 
             descripcion: item['descasignatura'],
           }));
           return data;

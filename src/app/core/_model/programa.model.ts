@@ -6,7 +6,7 @@ export class Programa extends VariablesAuditoria{
   idPrograma?:string;
   descripcion:string;
   subProgramas?: SubPrograma[];
-  cant_servicios:number = 0
+  cant_servicios= 0
 
   //para IRME PRESO 
   //idAsignatura?:string;

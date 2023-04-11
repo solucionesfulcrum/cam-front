@@ -47,6 +47,8 @@ import { BtnComponent } from 'src/app/shared/components/btn/btn.component';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import {MatAutocompleteModule} from '@angular/material/autocomplete';
 import {MatDividerModule} from '@angular/material/divider';
+import {MatExpansionModule} from '@angular/material/expansion';
+
 
 
 @NgModule({
@@ -79,7 +81,8 @@ import {MatDividerModule} from '@angular/material/divider';
     NewServicioComponent,
     EditServicioComponent,
     ShowServicioComponent,
-    BtnComponent
+    BtnComponent,
+    
      
   ],
   imports: [
@@ -102,6 +105,7 @@ import {MatDividerModule} from '@angular/material/divider';
     FontAwesomeModule,
     MatAutocompleteModule,
     MatDividerModule,
+    MatExpansionModule,
   ],
   exports:[
     MaterialModule,

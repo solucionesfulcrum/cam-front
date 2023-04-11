@@ -8,6 +8,7 @@ import { Servicios } from 'src/app/core/_model/servicios.model';
 import { SubPrograma } from 'src/app/core/_model/sub-programa.model';
 import { ProgramasService } from 'src/app/core/_service/programas.service';
 import { BreadcrumService } from 'src/app/shared/services/breadcrum.service';
+import {MatAccordion} from '@angular/material/expansion';
 
 @Component({
   selector: 'app-servicios',
@@ -15,6 +16,9 @@ import { BreadcrumService } from 'src/app/shared/services/breadcrum.service';
   styleUrls: ['./servicios.component.css'],
 })
 export class ServiciosComponent implements OnInit {
+
+  @ViewChild(MatAccordion) accordion: MatAccordion;
+
   form = this.fb.group({
     fechaIni: [''],
     fechaFin: [''],
@@ -49,34 +53,22 @@ export class ServiciosComponent implements OnInit {
 
   loadProgramas(): any {
     return this.serviciosService.listarProgramas().subscribe((rta) => {
-      console.log(
-        'rta PROGRAMAS no real from back - mapping in angularsJS ',
-        rta
-      );
       this.programas = rta;
 
       //CARGAMOS LOS SUBPROGRAMAS
       this.programas.map((i_programa: Programa) => {
         const subProgramas = this.serviciosService
           .listarSubProgramas(i_programa.idPrograma!)
-          .subscribe((rta) => {
-            console.log(
-              'rta SUBPROGRAMAS no real from back - mapping in angularsJS ',
-              rta
-            );
-            i_programa.subProgramas = rta;
+          .subscribe((rtaSubProgramas) => {
+            i_programa.subProgramas = rtaSubProgramas;
 
             //CARGAMOS LOS SERVICIOS DEL SUBPROGRAMA
             i_programa.subProgramas?.map((i_subPrograma: SubPrograma) => {
               const subProgramas = this.serviciosService
                 .listarServicios(i_programa.idPrograma!, i_subPrograma.idSubPrograma!)
-                .subscribe((rta) => {
-                  console.log(
-                    'rta SERVICIOS no real from back - mapping in angularsJS ',
-                    rta.length ,' cant servicios: ', i_programa.cant_servicios
-                  );
-                  i_programa.cant_servicios = i_programa.cant_servicios + rta.length
-                  i_subPrograma.servicios= rta;
+                .subscribe((rtaServicios) => {
+                  i_programa.cant_servicios = i_programa.cant_servicios + rtaServicios.length
+                  i_subPrograma.servicios= rtaServicios;
                   //END SERVICOS
                 });
             });
@@ -109,5 +101,20 @@ export class ServiciosComponent implements OnInit {
       title: nameLink,
     });
     this.router.navigate(['/servicios/show/', codigo]);
+  }
+
+  checkSubPrograms(i :number): number{
+    let res= 0 
+    if( this.programas)
+    {
+      if ( this.programas[i]) 
+      {
+        if ( this.programas[i].subProgramas !== undefined)
+        {
+          res = this.programas[i].subProgramas?.length! 
+        }
+      }
+    }
+    return res 
   }
 }
