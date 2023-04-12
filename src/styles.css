@@ -373,6 +373,18 @@ body {
   margin-bottom: 1px;
 }
 
+.ml-30 {
+  margin-left: 30px;
+}
+
+.ml-20 {
+  margin-left: 20px;
+}
+
+.ml-15 {
+  margin-left: 15px;
+}
+
 .ml-10 {
   margin-left: 10px;
 }

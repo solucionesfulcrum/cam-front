@@ -1,13 +1,21 @@
+import { CommonModule } from '@angular/common';
 import { Component, Input, OnInit } from '@angular/core';
+import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { faSpinner } from '@fortawesome/free-solid-svg-icons';
 
 
 @Component({
   selector: 'app-btn',
   templateUrl: './btn.component.html',
-  //standalone: true,
+  standalone: true,
+  imports: [
+    CommonModule,
+    FontAwesomeModule,
+    
+  ],
   styleUrls: ['./btn.component.css']
 })
+
 export class BtnComponent implements OnInit {
 
   @Input() disabled = false;

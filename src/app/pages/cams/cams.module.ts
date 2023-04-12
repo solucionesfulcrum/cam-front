@@ -43,12 +43,16 @@ import { NewCiramComponent } from './new-ciram/new-ciram.component';
 import { NewServicioComponent } from './new-servicio/new-servicio.component';
 import { EditServicioComponent } from './edit-servicio/edit-servicio.component';
 import { ShowServicioComponent } from './show-servicio/show-servicio.component';
-import { BtnComponent } from 'src/app/shared/components/btn/btn.component';
-import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import {MatAutocompleteModule} from '@angular/material/autocomplete';
 import {MatDividerModule} from '@angular/material/divider';
 import {MatExpansionModule} from '@angular/material/expansion';
-
+import { SubViewUsuariosRedComponent } from './show-red/sub-view-usuarios-red/sub-view-usuarios-red.component';
+import { SubListUsuariosRedComponent } from './show-red/sub-list-usuarios-red/sub-list-usuarios-red.component';
+import { SubViewProgramasRedComponent } from './show-red/sub-view-programas-red/sub-view-programas-red.component';
+import { SubListProgramasRedComponent } from './show-red/sub-list-programas-red/sub-list-programas-red.component';
+import { EditRedComponent } from './edit-red/edit-red.component';
+import { UsersLayoutComponent } from '../users/users-layout.component';
+import { BtnComponent } from 'src/app/shared/components/btn/btn.component';
 
 
 @NgModule({
@@ -81,8 +85,14 @@ import {MatExpansionModule} from '@angular/material/expansion';
     NewServicioComponent,
     EditServicioComponent,
     ShowServicioComponent,
-    BtnComponent,
-    
+
+    SubViewUsuariosRedComponent,
+    SubListUsuariosRedComponent,
+    SubViewProgramasRedComponent,
+    SubListProgramasRedComponent,
+
+    EditRedComponent,
+
      
   ],
   imports: [
@@ -102,10 +112,12 @@ import {MatExpansionModule} from '@angular/material/expansion';
     CommonModule,
     MatTabsModule,
     MatPaginatorModule,
-    FontAwesomeModule,
     MatAutocompleteModule,
     MatDividerModule,
     MatExpansionModule,
+
+    BtnComponent,
+
   ],
   exports:[
     MaterialModule,

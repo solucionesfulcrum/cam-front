@@ -37,7 +37,7 @@ export class RedesComponent implements OnInit {
     private breadcrumService: BreadcrumService,
     private redesService: RedesService 
     ) {
-      breadcrumService.link1$.next({ url: '/redes/cirams', title:'REDES' });
+      breadcrumService.link1$.next({ url: '/cams/redes', title:'REDES' });
       breadcrumService.activeTab$.next('redes');
       this.breadcrumService.link2$.next({url:'' ,title:''});
       this.breadcrumService.link3$.next({url:'', title:''});
@@ -58,7 +58,7 @@ export class RedesComponent implements OnInit {
 
   setLink2(nameLink: string, codigo:string){
       this.breadcrumService.link2$.next({url:'/redes/show/'+codigo, title:nameLink});
-      this.router.navigate(['/redes/show/', codigo]);
+      this.router.navigate(['/cams/redes/show/', codigo]);
   } 
 
 }

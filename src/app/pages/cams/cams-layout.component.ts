@@ -14,7 +14,7 @@ export class CamsLayoutComponent implements OnInit {
     {url:'cirams', title:'CIRAMS'},
     {url:'servicios', title:'SERVICIOS'},
     //{url:'programas', title:'PROGRAMAS'},
-    //{url:'redes', title:'REDES'},
+    {url:'redes', title:'UNIDADES OPERATIVAS'},
     //{url:'ubigeos', title:'UBIGEOS'},
   ]
 
@@ -71,6 +71,9 @@ export class CamsLayoutComponent implements OnInit {
 
     if ( path === '/cams/servicios')
      active= 'servicios'
+
+    if ( path === '/cams/redes')
+     active= 'redes'
 
      return active
   }

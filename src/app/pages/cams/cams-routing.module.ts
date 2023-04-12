@@ -1,6 +1,6 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-import { CamsComponent} from './cams/cams.component';
+import { CamsComponent } from './cams/cams.component';
 import { ServiciosComponent } from './servicios/servicios.component';
 import { CiramsComponent } from './cirams/cirams.component';
 import { EditCamComponent } from './edit-cam/edit-cam.component';
@@ -26,12 +26,18 @@ import { NewServicioComponent } from './new-servicio/new-servicio.component';
 import { EditServicioComponent } from './edit-servicio/edit-servicio.component';
 import { ShowServicioComponent } from './show-servicio/show-servicio.component';
 import { AuthGuard } from 'src/app/shared/services/auth.guard';
+import { ShowRedComponent } from './show-red/show-red.component';
+import { SubListProgramasRedComponent } from './show-red/sub-list-programas-red/sub-list-programas-red.component';
+import { SubViewProgramasRedComponent } from './show-red/sub-view-programas-red/sub-view-programas-red.component';
+import { SubListUsuariosRedComponent } from './show-red/sub-list-usuarios-red/sub-list-usuarios-red.component';
+import { SubViewUsuariosRedComponent } from './show-red/sub-view-usuarios-red/sub-view-usuarios-red.component';
+import { EditRedComponent } from './edit-red/edit-red.component';
 
 const routes: Routes = [
- // { path: '', component: CamsComponent},
- {
+  // { path: '', component: CamsComponent},
+  {
     path: '',
-    component:  CamsComponent,
+    component: CamsComponent,
   },
   /*
   {
@@ -42,62 +48,11 @@ const routes: Routes = [
   {
     path: 'servicios',
     component: ServiciosComponent,
-  }, 
+  },
   {
     path: 'programas',
     component: ProgramasComponent,
-  }, 
-  {
-    path: 'redes',
-    component: RedesComponent,
-  }, 
-  {
-    path: 'ubigeos',
-    component: UbigeosComponent,
-  }, 
-  {
-    path: 'show/:id',
-    component: ShowCamComponent,
-    children: [
-      {
-        path: '',
-        redirectTo: 'usuarios',
-        pathMatch: 'full'
-      },
-      {
-        path: 'programas',
-        component:SubListProgramasCamComponent
-      },
-      {
-        path: 'programas/:sid',
-        component:SubViewProgramasCamComponent
-      },
-      {
-        path: 'cirams',
-        component:SubListCiramsCamComponent
-      },
-      {
-        path: 'cirams/:sid',
-        component:SubViewCiramsCamComponent
-      },
-      {
-        path: 'usuarios',
-        component:SubListUsuariosCamComponent
-      },
-      {
-        path: 'usuarios/:sid',
-        component:SubViewUsuariosCamComponent
-      },
-      {
-        path:'**',
-        redirectTo:'programas'
-      },
-    ],
-  }, 
-  {
-    path: 'cirams',
-    component: CiramsComponent,
-  }, 
+  },
   {
     path: 'cirams/show/:id',
     component: ShowCiramComponent,
@@ -105,56 +60,146 @@ const routes: Routes = [
       {
         path: '',
         redirectTo: 'usuarios',
-        pathMatch: 'full'
+        pathMatch: 'full',
       },
       {
         path: 'programas',
-        component: SubListProgramasCiramComponent
+        component: SubListProgramasCiramComponent,
       },
       {
         path: 'programas/:sid',
-        component: SubViewProgramasCiramComponent
+        component: SubViewProgramasCiramComponent,
       },
       {
         path: 'usuarios',
-        component: SubListUsuariosCiramComponent 
+        component: SubListUsuariosCiramComponent,
       },
       {
         path: 'usuarios/:sid',
-        component: SubViewUsuariosCiramComponent
+        component: SubViewUsuariosCiramComponent,
       },
       {
-        path:'**',
-        redirectTo:'programas'
+        path: '**',
+        redirectTo: 'programas',
       },
     ],
-  }, 
+  },
+  {
+    path: 'cirams',
+    component: CiramsComponent,
+  },
+  {
+    path: 'redes',
+    component: RedesComponent,
+  },
+  {
+    path: 'redes/show/:id',
+    component: ShowRedComponent,
+    children: [
+      {
+        path: '',
+        redirectTo: 'usuarios',
+        pathMatch: 'full',
+      },
+      {
+        path: 'programas',
+        component: SubListProgramasRedComponent,
+      },
+      {
+        path: 'programas/:sid',
+        component: SubViewProgramasRedComponent,
+      },
+      {
+        path: 'usuarios',
+        component: SubListUsuariosRedComponent,
+      },
+      {
+        path: 'usuarios/:sid',
+        component: SubViewUsuariosRedComponent,
+      },
+      {
+        path: '**',
+        redirectTo: 'programas',
+      },
+    ],
+  },
+
+  {
+    path: 'ubigeos',
+    component: UbigeosComponent,
+  },
+  {
+    path: 'show/:id',
+    component: ShowCamComponent,
+    children: [
+      {
+        path: '',
+        redirectTo: 'usuarios',
+        pathMatch: 'full',
+      },
+      {
+        path: 'programas',
+        component: SubListProgramasCamComponent,
+      },
+      {
+        path: 'programas/:sid',
+        component: SubViewProgramasCamComponent,
+      },
+      {
+        path: 'cirams',
+        component: SubListCiramsCamComponent,
+      },
+      {
+        path: 'cirams/:sid',
+        component: SubViewCiramsCamComponent,
+      },
+      {
+        path: 'usuarios',
+        component: SubListUsuariosCamComponent,
+      },
+      {
+        path: 'usuarios/:sid',
+        component: SubViewUsuariosCamComponent,
+      },
+      {
+        path: '**',
+        redirectTo: 'programas',
+      },
+    ],
+  },
+
   {
     path: 'edit/:id',
     component: EditCamComponent,
-  }, 
+  },
   {
     path: 'new',
     component: NewCamComponent,
-  }, 
+  },
   {
     path: 'cirams/new',
     component: NewCiramComponent,
-  }, 
+  },
   {
     path: 'cirams/edit/:id',
     component: EditCiramComponent,
-  }, 
+  },
   {
     path: 'servicios/new',
     component: NewServicioComponent,
-  }, 
+  },
   {
     path: 'servicios/edit/:id',
     component: EditServicioComponent,
-  }, 
-
-
+  },
+  //{
+    //path: 'redes/new',
+    //component: NewRedComponent,
+  //},
+  {
+    path: 'redes/edit/:id',
+    component: EditRedComponent,
+  },
 ];
 
 @NgModule({

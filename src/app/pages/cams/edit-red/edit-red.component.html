@@ -1,0 +1,209 @@
+<form [formGroup]="form" novalidate class="space-y-4" (ngSubmit)="saveEditRed()">
+  <div class="div-mat-tab">
+    <div class="d-flex bg-ligth2 p-2 w-100">
+      <div class="w-50 justify-content-start">
+        <div class="d-flex">
+          <a routerLink="/cams/redes/show/{{this.id}}" class="text-primary2 decorator-none">
+            <span class="material-symbols-outlined text-s-15 pt-2">
+              keyboard_backspace
+            </span>
+            <span class="text-w-fine text-w-semibold text-s-15 pt-2">
+              REGRESAR
+            </span>
+          </a>
+        </div>
+      </div>
+      <div class="w-50 d-flex justify-content-end">
+
+        <app-btn
+          typeBtn="submit"
+          color="sky"
+          [loading]="status === 'loading'"
+          >GUARDAR
+        </app-btn>
+      </div>
+    </div>
+  </div>
+
+  <div class="cards-contents">
+    <mat-card>
+      <mat-card-title *ngIf="red?.nombre"
+        class="text-secondary text-w-semibold text-uppercase text-s-20"
+      >
+        EDITAR RED:  {{red.nombre}}</mat-card-title
+      >
+
+      <mat-card-content>
+        <div class="div-content-form">
+          <mat-form-field class="p-1">
+            <mat-label> CODIGO</mat-label>
+            <input
+              #nameInput
+              formControlName="codigo"
+              placeholder="Codigo RED"
+              matInput
+            />
+            <mat-hint
+              *ngIf="
+                form.controls.codigo.touched &&
+                form.controls.codigo.invalid &&
+                form.controls.codigo.hasError('required')
+              "
+              class="text-danger"
+            >
+              Codigo es obligatorio
+            </mat-hint>
+            <mat-hint
+              *ngIf="
+                form.controls.codigo.touched &&
+                form.controls.codigo.invalid &&
+                form.controls.codigo.hasError('minlength')
+              "
+              class="text-danger"
+            >
+              Codigo inválido - Mínimo 1 Caracteres
+            </mat-hint>
+          </mat-form-field>
+
+          <mat-form-field class="p-1">
+            <mat-label> NOMBRE UNIDAD OPERATIVA </mat-label>
+            <input
+              #nameInput
+              formControlName="nombre"
+              placeholder="NOMBRE DE LA UNIDAD OPERATIVA"
+              matInput
+              type="text"
+            />
+            <mat-hint
+              *ngIf="
+                form.controls.nombre.touched &&
+                form.controls.nombre.invalid &&
+                form.controls.nombre.hasError('required')
+              "
+              class="text-danger"
+            >
+              Nombre es obligatorio
+            </mat-hint>
+            <mat-hint
+              *ngIf="
+                form.controls.nombre.touched &&
+                form.controls.nombre.invalid &&
+                form.controls.nombre.hasError('minlength')
+              "
+              class="text-danger"
+            >
+              NOMBRE inválido - Mínimo 3 Caracteres
+            </mat-hint>
+          </mat-form-field>
+
+        </div>
+
+        <div class="div-content-form">
+          <mat-form-field class="p-1">
+            <mat-label> TIPO </mat-label>
+            <input
+              #nameInput
+              formControlName="tipo"
+              placeholder="TIPO"
+              matInput
+              type="text"
+            />
+            <mat-hint
+              *ngIf="
+                form.controls.tipo.touched &&
+                form.controls.tipo.invalid &&
+                form.controls.tipo.hasError('required')
+              "
+              class="text-danger "
+            >
+              Tipo es obligatorio.
+            </mat-hint>
+            <mat-hint
+              *ngIf="
+                form.controls.tipo.touched &&
+                form.controls.tipo.invalid &&
+                form.controls.tipo.hasError('minlength')
+              "
+              class="text-danger pl-5"
+            >
+              Tipo, mínimo 3 Caracteres.
+            </mat-hint>
+            <mat-hint
+              *ngIf="
+                form.controls.tipo.touched &&
+                form.controls.tipo.invalid &&
+                form.controls.tipo.hasError('pattern')
+              "
+              class="text-danger pl-5"
+            >
+              Solo numeros.
+            </mat-hint>
+          </mat-form-field>
+
+          
+        </div>
+
+      <div class="div-content-form">
+          <mat-form-field class="p-1">
+            <mat-label> REGION </mat-label>
+
+            <input
+            matInput
+            #nameInput
+            formControlName="region"
+             />
+            <mat-hint
+              *ngIf="
+                form.controls.region.touched &&
+                form.controls.region.hasError('required')
+              "
+              class="text-danger pl-5"
+            >
+              Region es obligatorio.
+            </mat-hint>
+          </mat-form-field>
+        </div>
+
+      </mat-card-content>
+    </mat-card>
+    <mat-card>
+      <mat-card-title
+        class="text-secondary text-w-semibold text-uppercase text-s-12"
+      >
+        Información adicional </mat-card-title
+      >
+
+        <div class="d-block text-secondary">
+        <div class="d-flex p-1" *ngIf="this.cam?.fecCreacion"> 
+          <div class="w-50 text-w-bold text-s-11 text-uppercase">Fecha creación</div>
+          <div class="w-50 text-s-14 text-uppercase">
+            {{this.cam.fecCreacion}}
+          </div>
+        </div>
+
+        <div class="d-flex bg-ligth2 p-1" *ngIf="this.cam?.userCreacion" >
+          <div class="w-50 text-w-bold text-s-11 text-uppercase">Usuario registro</div>
+          <div class="w-50 text-s-14 text-uppercase">{{this.cam.userCreacion}}</div>div>
+        </div>
+
+        <div class="d-flex p-1" *ngIf="this.cam?.fecModificacion" > 
+          <div class="w-50 text-w-bold text-s-11 text-uppercase">Fecha de ultima modificación</div>
+          <div class="w-50 text-s-14 text-uppercase">
+            {{this.cam.fecModificacion}}
+          </div>
+        </div>
+
+        <div class="d-flex p-1 bg-ligth2" *ngIf="this.cam?.userModificacion"  > 
+          <div class="w-50 text-w-bold text-s-11 text-uppercase">Usuario ultima modificación</div>
+          <div class="w-50 text-s-14 text-uppercase">
+            {{this.cam.userModificacion}}
+          </div>
+        </div>
+
+      </div>
+
+    </mat-card>
+  </div>
+</form>
+
+

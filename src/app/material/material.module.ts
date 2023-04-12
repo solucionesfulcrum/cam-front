@@ -37,7 +37,6 @@ import {MatCheckboxModule} from '@angular/material/checkbox';
     MatSelectModule,
     MatFormFieldModule,
     MatToolbarModule,
-    MatCardModule,
     MatIconModule,
     MatTooltipModule,
     MatDatepickerModule,
@@ -45,7 +44,11 @@ import {MatCheckboxModule} from '@angular/material/checkbox';
     MatRadioModule,
     MatDividerModule,
     MatTabsModule,
-    MatCheckboxModule 
+    MatCheckboxModule ,
+    MatCardModule,
+
+
+
   ],
   providers: [
     { provide: MAT_DATE_LOCALE, useValue: 'es-ES' },

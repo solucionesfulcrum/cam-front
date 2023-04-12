@@ -103,18 +103,5 @@ export class ServiciosComponent implements OnInit {
     this.router.navigate(['/servicios/show/', codigo]);
   }
 
-  checkSubPrograms(i :number): number{
-    let res= 0 
-    if( this.programas)
-    {
-      if ( this.programas[i]) 
-      {
-        if ( this.programas[i].subProgramas !== undefined)
-        {
-          res = this.programas[i].subProgramas?.length! 
-        }
-      }
-    }
-    return res 
-  }
+  
 }
