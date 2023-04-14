@@ -5,6 +5,7 @@ import { MatTableDataSource } from '@angular/material/table';
 import { ActivatedRoute, Router } from '@angular/router';
 import { CiramsService } from 'src/app/core/_service/cirams.service';
 import { BreadcrumService } from 'src/app/shared/services/breadcrum.service';
+import { AuthService } from '../../auth/services/auth-service.service';
 
 @Component({
   selector: 'app-roles',
@@ -19,15 +20,12 @@ export class RolesComponent implements OnInit {
   });
 
   @ViewChild('paginator') paginator: MatPaginator;
-  dataSource= new MatTableDataSource<any>();
+  dataSource2= new MatTableDataSource<any>();
 
   displayedColumns: string[] = [
-    'descripcionC',
-    'celular',
-    'fechaInscripcion',
+    'idRolAplicacion',
     'codigo',
-    'red',
-    'estado',
+    'nombre',
   ];
 
   constructor(
@@ -35,14 +33,13 @@ export class RolesComponent implements OnInit {
     private router: Router, 
     private route: ActivatedRoute,
     private breadcrumService: BreadcrumService,
-    private ciramService: CiramsService
+    private authService: AuthService 
     ) {
       breadcrumService.link1$.next({ url: '/usuarios/roles', title:'ROLES DE USUARIOS' });
       breadcrumService.activeTab$.next('roles');
       this.breadcrumService.link2$.next({url:'' ,title:''});
       this.breadcrumService.link3$.next({url:'', title:''});
       this.loadRoles()
-
   }
 
   ngOnInit(): void {
@@ -51,9 +48,11 @@ export class RolesComponent implements OnInit {
   filtrarTabla(event: any): void {}
 
   loadRoles(){
-    const tmp = this.ciramService.listar()
+    return this.authService.getRolesFromSSO(1,20)
     .subscribe((rta:any) =>{
-      this.dataSource = rta
+      const respuesta = JSON.parse(rta as string);
+      console.log("role...", respuesta.list )
+      this.dataSource2 = respuesta.list
     })
   }
 

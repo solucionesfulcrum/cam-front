@@ -51,7 +51,7 @@ export class ShowRedComponent implements OnInit {
       this.subLinks[1]={url:'/cams/redes/show/'+this.id+'/programas', title:'Programas'}
 
       //for breadcrum
-      this.breadcrumService.link1$.next({url:'/cams/redes', title:'REDES'});
+      this.breadcrumService.link1$.next({url:'/cams/redes', title:'REDES ESSALUD'});
       this.loadRedById(this.id) //carga datos reales del servidor
       this.breadcrumService.link3$.next({url:'', title:''});
       this.breadcrumService.activeTab$.next('redes');

@@ -54,7 +54,7 @@ form = this.formBuilder.nonNullable.group({
       this.id = this.route.snapshot.paramMap.get('id')! 
 
       //for breadcrum
-      this.breadcrumService.link1$.next({url:'/cams/redes', title:'REDES'});
+      this.breadcrumService.link1$.next({url:'/cams/redes', title:'REDES ESSALUD'});
       this.breadcrumService.link3$.next({ url: '/cams/redes/edit/'+this.id, title:'EDITAR'});
       this.breadcrumService.activeTab$.next('redes');
       this.loadCams();

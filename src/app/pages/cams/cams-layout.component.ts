@@ -14,7 +14,7 @@ export class CamsLayoutComponent implements OnInit {
     {url:'cirams', title:'CIRAMS'},
     {url:'servicios', title:'SERVICIOS'},
     //{url:'programas', title:'PROGRAMAS'},
-    {url:'redes', title:'UNIDADES OPERATIVAS'},
+    {url:'redes', title:'REDES ESSALUD'},
     //{url:'ubigeos', title:'UBIGEOS'},
   ]
 

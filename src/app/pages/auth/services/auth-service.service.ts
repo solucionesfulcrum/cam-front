@@ -24,17 +24,14 @@ export class AuthService {
     return this.logueado.asObservable();
   }
 
-  constructor(
-    private http: HttpClient,
-    private router: Router,
-  ) {
+  constructor(private http: HttpClient, private router: Router) {
     this.checkToken();
   }
 
   login(data: Logueo): Observable<LogueoResponse> {
     const params = this._authBasic();
     return this.http
-      .post<LogueoResponse>(`${environment.authApi}/login`, data, {
+      .post<LogueoResponse>(`${environment.apiSSO}/auth/login`, data, {
         params,
       })
       .pipe(
@@ -56,9 +53,9 @@ export class AuthService {
 
   registrarUsuario(data: RegistroUsuario) {
     const params = this._authBasic();
-    console.log("registroUsuario...", data )
+    console.log('registroUsuario...', data);
     return this.http
-      .post(`${environment.authApi}/pre-register`, data, {
+      .post(`${environment.apiSSO}/auth/pre-register`, data, {
         params,
         responseType: 'text' as const,
       })
@@ -68,7 +65,7 @@ export class AuthService {
   completarRegistro(data: CompletoRegistro): Observable<any> {
     const params = this._authBasic();
     return this.http
-      .post<any>(`${environment.authApi}/register`, data, {
+      .post<any>(`${environment.apiSSO}/auth/register`, data, {
         params,
       })
       .pipe(catchError(this.handleError));
@@ -77,7 +74,7 @@ export class AuthService {
   preCambiarPassword(data: any) {
     const params = this._authBasic();
     return this.http
-      .post(`${environment.authApi}/pre-recover-password`, data, {
+      .post(`${environment.apiSSO}/auth/pre-recover-password`, data, {
         params,
         responseType: 'text',
       })
@@ -86,7 +83,7 @@ export class AuthService {
 
   cambiarPassword(data: CambioPass) {
     return this.http
-      .post(`${environment.authApi}/recover-password`, data)
+      .post(`${environment.apiSSO}/auth/recover-password`, data)
       .pipe(catchError(this.handleError));
   }
 
@@ -131,8 +128,320 @@ export class AuthService {
   }
 
   isLogin() {
-    const res =  !!localStorage.getItem('usuario');
-    return res 
+    const res = !!localStorage.getItem('usuario');
+    return res;
+  }
+
+  // SERVICIOS USUARIOS-APP SSO
+  getUsuariosAppFromSSO(pageNum:number, pageSize:number) {
+    //let paramsTMP = new HttpParams().set('g', '1fd720df-c793-4039-8be7-44351edd7820' )
+    const params = this._authBasic();
+    const localUsuario = localStorage.getItem('usuario');
+    const dataUsuario = JSON.parse(localUsuario as string);
+    const token = dataUsuario.token 
+    const data={
+      "pageNum": pageNum,
+      "pageSize":pageSize, //PREGUNTAR SSO - funciona envando 20, set 1, y solo envia 1 registro
+      "estado":1 //PREGUNTAR AL SSO
+    }
+    return this.http
+      .post<any>(`${environment.apiSSO}/usuario-app/listar`, 
+      data,
+      {
+        params,
+        headers:{Authorization: `Bearer ${token}`}
+      },
+      )
+      .pipe(catchError(this.handleError));
+  }
+
+  registrarUsuarioAppFromSSO(guiid:string){
+    const params = this._authBasic();
+    const localUsuario = localStorage.getItem('usuario');
+    const dataUsuario = JSON.parse(localUsuario as string);
+    const token = dataUsuario.token 
+    const data={
+      "guiid": guiid,
+      "idRolAplicacion": 5, //PREGUNTAR AL SSO
+    }
+    return this.http
+      .post(`${environment.apiSSO}/usuario-app/registrar`, 
+      data,
+      {
+        params,
+        responseType: 'text' as const,
+        headers:{Authorization: `Bearer ${token}`}
+      },
+      )
+      .pipe(catchError(this.handleError));
+  }
+
+  eliminarUsuarioAppFromSSO(guiid:string){
+    const params = this._authBasic();
+    const localUsuario = localStorage.getItem('usuario');
+    const dataUsuario = JSON.parse(localUsuario as string);
+    const token = dataUsuario.token 
+    const options =
+    {
+      Headers:{
+        params,
+        headers:{Authorization: `Bearer ${token}`}
+      },
+      body:{
+        "guiid":guiid 
+      }
+    }
+    return this.http
+      .delete(`${environment.apiSSO}/usuario-app/delete`, 
+        options
+      )
+      .pipe(catchError(this.handleError));
+  }
+
+
+  // SERVICIO VIGENCIA SSO
+  getVigenciasFromSSO(pageNum:number, pageSize:number) {
+    //let paramsTMP = new HttpParams().set('g', '1fd720df-c793-4039-8be7-44351edd7820' )
+    const params = this._authBasic();
+    const localUsuario = localStorage.getItem('usuario');
+    const dataUsuario = JSON.parse(localUsuario as string);
+    const token = dataUsuario.token 
+    const data={
+      "pageNum": pageNum,
+      "pageSize":pageSize,
+      "estado":1
+    }
+    return this.http
+      .post(`${environment.apiSSO}/vigencia/listar`, 
+      data,
+      {
+        params,
+        responseType: 'text' as const,
+        headers:{Authorization: `Bearer ${token}`}
+      },
+      )
+      .pipe(catchError(this.handleError));
+  
+}
+
+registrarVigenciaFromSSO(guiid:string, fechaInicio:string, fechaFin:string, observacion:string){
+    const params = this._authBasic();
+    const localUsuario = localStorage.getItem('usuario');
+    const dataUsuario = JSON.parse(localUsuario as string);
+    const token = dataUsuario.token 
+    const data={
+      "guiid": guiid,
+      "fechaInicio": fechaInicio, 
+      "fechaFin":fechaFin,
+      "observacion":observacion,
+    }
+    return this.http
+      .post(`${environment.apiSSO}/vigencia/registrar`, 
+      data,
+      {
+        params,
+        responseType: 'text' as const,
+        headers:{Authorization: `Bearer ${token}`}
+      },
+      )
+      .pipe(catchError(this.handleError));
+  }
+
+  actualizarVigenciaFromSSO(guiid:string, idUsuarioVigencia:string, fechaInicio:string, fechaFin:string, observacion:string){
+    const params = this._authBasic();
+    const localUsuario = localStorage.getItem('usuario');
+    const dataUsuario = JSON.parse(localUsuario as string);
+    const token = dataUsuario.token 
+    const data={
+      "idUsuarioVigencia":idUsuarioVigencia,
+      "guiid": guiid,
+      "fechaInicio": fechaInicio, 
+      "fechaFin":fechaFin,
+      "observacion":observacion,
+    }
+    return this.http
+      .post(`${environment.apiSSO}/vigencia/actualizar`, 
+      data,
+      {
+        params,
+        responseType: 'text' as const,
+        headers:{Authorization: `Bearer ${token}`}
+      },
+      )
+      .pipe(catchError(this.handleError));
+  }
+
+  // SERVICIO ROLES SSO
+  getRolesFromSSO(pageNum:number, pageSize:number) {
+    //let paramsTMP = new HttpParams().set('g', '1fd720df-c793-4039-8be7-44351edd7820' )
+    const params = this._authBasic();
+    const localUsuario = localStorage.getItem('usuario');
+    const dataUsuario = JSON.parse(localUsuario as string);
+    const token = dataUsuario.token 
+    const data={
+      "pageNum": pageNum,
+      "pageSize":pageSize,
+      "estado":1  // PREGUNTAR AL BACK SSO
+    }
+    return this.http
+      .post(`${environment.apiSSO}/rol-app/listar`, 
+      data,
+      {
+        params,
+        responseType: 'text' as const,
+        headers:{Authorization: `Bearer ${token}`}
+      },
+      )
+      .pipe(catchError(this.handleError));
+}
+
+registrarRolesFromSSO(codigo:string, nombre :string ){
+    const params = this._authBasic();
+    const localUsuario = localStorage.getItem('usuario');
+    const dataUsuario = JSON.parse(localUsuario as string);
+    const token = dataUsuario.token 
+    const data={
+      "codigo":codigo,
+      "nombre":nombre,
+    }
+    return this.http
+      .post(`${environment.apiSSO}/rol-app/registrar`, 
+      data,
+      {
+        params,
+        responseType: 'text' as const,
+        headers:{Authorization: `Bearer ${token}`}
+      },
+      )
+      .pipe(catchError(this.handleError));
+  }
+
+  actualizarRolesFromSSO(idRolAplicacion:string, nombre:string, codigo:string){
+    const params = this._authBasic();
+    const localUsuario = localStorage.getItem('usuario');
+    const dataUsuario = JSON.parse(localUsuario as string);
+    const token = dataUsuario.token 
+    const data={
+      "idRolAplicacion": idRolAplicacion, 
+      "nombre": nombre,
+      "codigo":codigo,
+    }
+    return this.http
+      .post(`${environment.apiSSO}/rol-app/actualizar`, 
+      data,
+      {
+        params,
+        responseType: 'text' as const,
+        headers:{Authorization: `Bearer ${token}`}
+      },
+      )
+      .pipe(catchError(this.handleError));
+  }
+
+  // SERVICIOS USUARIOS SSO
+  getUserInfoSessionFromSSO(pageNum:number, pageSize:number) {
+    //let paramsTMP = new HttpParams().set('g', '1fd720df-c793-4039-8be7-44351edd7820' )
+    const params = this._authBasic();
+    const localUsuario = localStorage.getItem('usuario');
+    const dataUsuario = JSON.parse(localUsuario as string);
+    const token = dataUsuario.token 
+    const guiid = dataUsuario.guiid
+    const data={
+      "guiid": guiid,
+    }
+    return this.http
+      .post<any>(`${environment.apiSSO}/usuario/getUserInfo`, 
+      data,
+      {
+        params,
+        headers:{Authorization: `Bearer ${token}`}
+      },
+      )
+      .pipe(catchError(this.handleError));
+  }
+
+  updateUserInfoFromSSO(body:any) {
+    const params = this._authBasic();
+    const localUsuario = localStorage.getItem('usuario');
+    const dataUsuario = JSON.parse(localUsuario as string);
+    const token = dataUsuario.token 
+    const guiid = dataUsuario.guiid
+    const data={
+      body,
+      "guiid": guiid,
+    }
+    return this.http
+      .post<any>(`${environment.apiSSO}/usuario/listar`, 
+      data,
+      {
+        params,
+        headers:{Authorization: `Bearer ${token}`}
+      },
+      )
+      .pipe(catchError(this.handleError));
+  }
+
+  getUsuariosFromSSO(pageNum:number, pageSize:number) {
+    //let paramsTMP = new HttpParams().set('g', '1fd720df-c793-4039-8be7-44351edd7820' )
+    const params = this._authBasic();
+    const localUsuario = localStorage.getItem('usuario');
+    const dataUsuario = JSON.parse(localUsuario as string);
+    const token = dataUsuario.token 
+    const data={
+      "pageNum": pageNum,
+      "pageSize":pageSize, //PREGUNTAR SSO - funciona envando 20, set 1, y solo envia 1 registro
+    }
+    return this.http
+      .post<any>(`${environment.apiSSO}/usuario/listar`, 
+      data,
+      {
+        params,
+        headers:{Authorization: `Bearer ${token}`}
+      },
+      )
+      .pipe(catchError(this.handleError));
+  }
+
+  getRolesForUsuarioFromSSO() {
+    const params = this._authBasic();
+    const localUsuario = localStorage.getItem('usuario');
+    const dataUsuario = JSON.parse(localUsuario as string);
+    const token = dataUsuario.token 
+    const guiid = dataUsuario.guiid
+    const data={
+      "guiid": guiid,
+    }
+    return this.http
+      .post<any>(`${environment.apiSSO}/usuario/roles`, 
+      data,
+      {
+        params,
+        headers:{Authorization: `Bearer ${token}`}
+      },
+      )
+      .pipe(catchError(this.handleError));
+  }
+
+  asignarRolesForUsuarioFromSSO(roles:string[]){
+    const params = this._authBasic();
+    const localUsuario = localStorage.getItem('usuario');
+    const dataUsuario = JSON.parse(localUsuario as string);
+    const token = dataUsuario.token 
+    const guiid = dataUsuario.guiid
+    const data={
+      "guiid": guiid,
+      roles
+    }
+    return this.http
+      .post(`${environment.apiSSO}/usuario/asignar-roles`, 
+      data,
+      {
+        params,
+        responseType: 'text' as const,
+        headers:{Authorization: `Bearer ${token}`}
+      },
+      )
+      .pipe(catchError(this.handleError));
   }
 
 }

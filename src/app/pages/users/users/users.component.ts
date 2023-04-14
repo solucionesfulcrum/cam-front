@@ -5,6 +5,7 @@ import { MatTableDataSource } from '@angular/material/table';
 import { ActivatedRoute, Router } from '@angular/router';
 import { CamsService } from 'src/app/core/_service/cams.service';
 import { BreadcrumService } from 'src/app/shared/services/breadcrum.service';
+import { AuthService } from '../../auth/services/auth-service.service';
 
 
 @Component({
@@ -20,12 +21,11 @@ form= this.fb.group({
 });
 
 displayedColumns: string[] = [
-    'descripcion',
-    'celular',
-    'fechaInscripcion',
-    'codigo',
-    'red',
-    'estado',
+    'usuario',
+    'nombres',
+    'rol',
+    'tieneVigencia',
+    'detalle',
   ];
 
   breadcrum1:{url:string, title:string }   
@@ -40,22 +40,24 @@ displayedColumns: string[] = [
     private router: Router, 
     private route: ActivatedRoute,
     private breadcrumService: BreadcrumService,
-    private camsService: CamsService 
+    private authService: AuthService,
+
     ) {
       breadcrumService.link1$.next({ url: '/usuarios', title:'USUARIOS' });
       this.breadcrumService.link2$.next({url:'' ,title:''});
       this.breadcrumService.link3$.next({url:'', title:''});
       breadcrumService.activeTab$.next('/usuarios');
-      this.loadCams()
+      this.loadUsers()
   }
 
   ngOnInit(): void {
   }
 
-  loadCams(){
-    const tmp = this.camsService.listar()
+  loadUsers(){
+    return this.authService.getUsuariosFromSSO(1,20)
     .subscribe((rta:any) =>{
-      this.dataSource = rta
+      console.log("its loadUser from SSO ", rta )
+      this.dataSource = rta.list
     })
   }
 
