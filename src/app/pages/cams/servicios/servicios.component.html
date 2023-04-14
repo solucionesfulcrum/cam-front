@@ -1,5 +1,5 @@
 <div *ngIf="programas.length > 0; else templateElse">
-  <div class="div-mat-tab bg-ligth p-3">
+  <div class="div-mat-tab bg-sky-100 p-3">
       <div class="programa p-2 mt-3 bg-white" *ngFor="let program of programas; let i = index">
       <div class="headProgram d-flex w-100 ">
         <div class="title w-90">
@@ -8,7 +8,7 @@
           >
         </div>
         <div class="actions w-10 d-flex justify-end content-end mr-10">
-          <button mat-raised-button class="text-uppercase mat-btn-secondary">
+          <button mat-raised-button class="text-uppercase mat-btn-ligth px-1 px-0">
             EDITAR
           </button>
         </div>
@@ -16,22 +16,22 @@
 
       <div *ngIf="program.subProgramas">
       <div class="detailProgram flex w-full " *ngIf="program.subProgramas.length > 0 ; else templateNODATA">
-        <span class=" text-success uppercase text-w-semibold text-s-10">Cant. subprogramas: {{program.subProgramas?.length}}</span>
-        <span class=" text-success uppercase text-w-semibold text-s-10">&nbsp;-&nbsp;</span>
-        <span class=" text-success uppercase text-w-semibold text-s-10">Cant. servicios: {{ program.cant_servicios }}</span>
+        <span class=" text-success uppercase text-w-semibold text-s-12">Cant. subprogramas: {{program.subProgramas.length}}</span>
+        <span class=" text-success uppercase text-w-semibold text-s-12">&nbsp;-&nbsp;</span>
+        <span class=" text-success uppercase text-w-semibold text-s-12">Cant. servicios: {{ program.cant_servicios }}</span>
       </div>
 
       <ng-template #templateNODATA class="detailProgram flex w-full " >
-        <span class="text-success uppercase text-w-semibold text-s-13 uppercase">no hay información para mostrar</span>
+        <span class="text-success uppercase text-w-semibold text-s-14 uppercase">no hay información para mostrar</span>
       </ng-template>
       </div>
       <div class="subPrograms w-full p-2">
         <mat-accordion class="example-headers-align" multi>
-          <mat-expansion-panel class="subprograma1 bg-ligth2 mt-3 ml-3 p-3" *ngFor="let subprogram of program.subProgramas; let i_sub = index"  >
+          <mat-expansion-panel class="subprograma1 bg-blue-50 mt-3 ml-3 p-3" *ngFor="let subprogram of program.subProgramas; let i_sub = index"  >
 
             <mat-expansion-panel-header>
-          <div class="headSubprograma d-flex w-100 bg-red uppercase mr-10">
-            <div class="title w-100 bg-secondary p-1">
+          <div class="headSubprograma d-flex w-100  uppercase mr-10">
+            <div class="title w-100 bg-sky-700 p-1">
               <span class="text-white text-s-14 text-w-semibold uppercase">
                {{subprogram.descripcion}} 
               </span>

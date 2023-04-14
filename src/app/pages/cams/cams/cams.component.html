@@ -83,12 +83,14 @@
 
               <tr
                 mat-header-row
-                *matHeaderRowDef="displayedColumns"
+                *matHeaderRowDef="displayedColumns" [ngClass]="{'headerRow':true}"
               ></tr>
               <tr
                 mat-row
-                *matRowDef="let row; columns: displayedColumns"
+                *matRowDef="let row; columns: displayedColumns; index as i" [ngClass]="getClassRow(i)"
               ></tr>
+
+
             </table>
             <mat-paginator
               #paginator

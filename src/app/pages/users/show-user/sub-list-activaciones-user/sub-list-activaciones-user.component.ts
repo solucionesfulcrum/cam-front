@@ -7,19 +7,17 @@ import { BreadcrumService } from 'src/app/shared/services/breadcrum.service';
 
 const CAMS= [
   {
-    cam:'PROGRAMA ADULTO MAYOR ', 
-    adminCam: 'ROXANA ESTRADA ARIAS',
-    fechaCreacion: '31/08/2022', 
-    codigo: '3145000', 
-    red: 'RED TUMBES', 
-    estado: 'DISPONIBLE',
+    i:'1', 
+    usuarioResponsable: 'ROXANA ESTRADA ARIAS',
+    fechaInicio: '31/08/2022', 
+    fechaFin: '3145000', 
+    perfil: 'TV', 
   },{
-    cam:'PROGRAMA SALUD INTEGRAL ', 
-    adminCam: 'JUAN ALBERTO DORADO RIVERA',
-    fechaCreacion: '03/03/2022', 
-    codigo: '3145420', 
-    red: 'RED AYACUCHO', 
-    estado: 'DISPONIBLE',
+    i:'2', 
+    usuarioResponsable: 'SILVA PAIVA MIGUEL ANGEL',
+    fechaInicio: '31/08/2022', 
+    fechaFin: '3145000', 
+    perfil: 'USER', 
   },
 ];
 
@@ -36,12 +34,11 @@ form= this.fb.group({
 });
 
 displayedColumns: string[] = [
-    'cam',
-    'adminCam',
-    'fechaCreacion',
-    'codigo',
-    'red',
-    'estado',
+    'i',
+    'usuarioResponsable',
+    'fechaInicio',
+    'fechaFin',
+    'perfil',
   ];
 
   @ViewChild('paginatorProfesional') paginatorProfesional: MatPaginator;
@@ -67,6 +64,13 @@ displayedColumns: string[] = [
   }
 
   ngOnInit(): void {
+  }
+
+getClassRow(i:number) :string {
+    let row =""
+    if ( i%2!=0)
+     row ="rowColor" 
+    return row
   }
 
 }

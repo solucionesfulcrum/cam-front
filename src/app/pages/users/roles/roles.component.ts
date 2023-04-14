@@ -61,4 +61,12 @@ export class RolesComponent implements OnInit {
       this.router.navigate(['/usuarios/roles/show/', codigo]);
   }
 
+  getClassRow(i:number) :string {
+    console.log("getClassRow: ", i)
+    let row =""
+    if ( i%2!=0)
+     row ="rowColor" 
+    return row
+  }
+
 }

@@ -21,11 +21,11 @@ form= this.fb.group({
 });
 
 displayedColumns: string[] = [
-    'usuario',
     'nombres',
+    'usuario',
+    'cam',
     'rol',
     'tieneVigencia',
-    'detalle',
   ];
 
   breadcrum1:{url:string, title:string }   
@@ -68,6 +68,13 @@ displayedColumns: string[] = [
   setLink2(nameLink: string, codigo:string){
       this.breadcrumService.link2$.next({url:'/usuarios/show/'+codigo, title:nameLink});
       this.router.navigate(['/usuarios/show/', codigo]);
+  }
+
+  getClassRow(i:number) :string {
+    let row =""
+    if ( i%2!=0)
+     row ="rowColor" 
+    return row
   }
 
 }

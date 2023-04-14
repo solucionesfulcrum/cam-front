@@ -32,6 +32,7 @@ import { ShowUserComponent } from './show-user/show-user.component';
 import { UsersComponent } from './users/users.component';
 import { SubListActivacionesUserComponent } from './show-user/sub-list-activaciones-user/sub-list-activaciones-user.component';
 import {MatCardModule} from '@angular/material/card';
+import { ModalActivarUsuarioComponent } from './show-user/modalActivar/modal-activar-usuario.component';
 
 
 
@@ -49,6 +50,7 @@ import {MatCardModule} from '@angular/material/card';
     UsersComponent,
 
     SubListActivacionesUserComponent,
+    ModalActivarUsuarioComponent,
     
 
 

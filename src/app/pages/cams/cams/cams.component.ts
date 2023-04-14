@@ -68,4 +68,12 @@ displayedColumns: string[] = [
       this.router.navigate(['/cams/show/', codigo]);
   }
 
+  getClassRow(i:number) :string {
+    console.log("getClassRow: ", i)
+    let row =""
+    if ( i%2!=0)
+     row ="rowColor" 
+    return row
+  }
+
 }

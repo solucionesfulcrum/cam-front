@@ -1,0 +1,132 @@
+<div class="mat-dialog-padding">
+  <div class="head bg-sky-900 p-2">
+    <span class="text-s-18 text-white font-medium text-base ml-5"
+      >ACTIVAR USUARIO</span
+    >
+  </div>
+  <div class="body p-4">
+    <form>
+      <div
+        class="flex w-full detailUser bg-sky-100 justify-content-center space-x-5 p-2"
+      >
+        <span class="font-semibold text-sm"> {{ data.user.nombres }}</span>
+        <span class="font-semibold text-sm"> - DNI {{ data.user.numDoc }}</span>
+      </div>
+
+      <div class="detailTiempoVigencia bg-slate-100 p-3 space-x-5 mt-2">
+        <div class="text-base font-semibold text-xs ml-5">
+          <span>VIGENCIA DEL SERVICIO</span>
+        </div>
+        <div class="flex mt-2">
+          <mat-form-field class="p-1 w-50">
+            <mat-label> FECHA INICIO VIGENCIA - dd/mm/YYYY</mat-label>
+
+            <input
+              matInput
+              #nameInput
+              formControlName="fechaInicio"
+              [matDatepicker]="picker"
+            />
+            <mat-datepicker-toggle
+              matSuffix
+              [for]="picker"
+            ></mat-datepicker-toggle>
+            <mat-datepicker #picker></mat-datepicker>
+
+            <mat-hint
+              *ngIf="
+                form.controls.fechaInicio.touched &&
+                form.controls.fechaInicio.hasError('required')
+              "
+              class="text-danger pl-5"
+            >
+              Fecha inicio es obligatorio.
+            </mat-hint>
+          </mat-form-field>
+
+          <mat-form-field class="p-1 w-50">
+            <mat-label> FECHA FIN VIGENCIA - dd/mm/YYYY</mat-label>
+
+            <input
+              matInput
+              #nameInput
+              formControlName="fechaFin"
+              [matDatepicker]="picker"
+            />
+            <mat-datepicker-toggle
+              matSuffix
+              [for]="picker"
+            ></mat-datepicker-toggle>
+            <mat-datepicker #picker></mat-datepicker>
+
+            <mat-hint
+              *ngIf="
+                form.controls.fechaFin.touched &&
+                form.controls.fechaFin.hasError('required')
+              "
+              class="text-danger pl-5"
+            >
+              Fecha fin de vigencia es obligatorio.
+            </mat-hint>
+          </mat-form-field>
+        </div>
+      </div>
+      <div class="detailRoles bg-slate-100 p-3 space-x-5 mt-2">
+        <div class="text-base font-semibold text-xs ml-5">
+          <span>ROLES DE USUARIO</span>
+        </div>
+        <div class="flex mt-2">
+          <mat-form-field class="p-1 w-full">
+            <mat-label>ROLES</mat-label>
+            <input
+              #nameInput
+              formControlName="roles"
+              placeholder="ROLES DE USUARIO"
+              matInput
+              type="text"
+            />
+            <mat-hint
+              *ngIf="
+                form.controls.roles.touched &&
+                form.controls.roles.invalid &&
+                form.controls.roles.hasError('required')
+              "
+              class="text-danger"
+            >
+              Roles de usuario es obligatorio
+            </mat-hint>
+            <mat-hint
+              *ngIf="
+                form.controls.roles.touched &&
+                form.controls.roles.invalid &&
+                form.controls.roles.hasError('email')
+              "
+              class="text-danger"
+            >
+              Roles de usuario es inválido
+            </mat-hint>
+          </mat-form-field>
+        </div>
+      </div>
+
+      <div class="mt-2">
+        <div class="">
+        <button
+          mat-raised-button
+          class="bg-sky-800 text-white text-uppercase w-full"
+        >
+          ACTIVAR
+        </button>
+
+        </div>
+        <!--
+          <app-btn
+          typeBtn="submit"
+          color="sky"
+          [loading]="status === 'loading'"
+          >GUARDAR CAMBIOS
+        </app-btn> 
+      --></div>
+    </form>
+  </div>
+</div>

@@ -7,6 +7,9 @@ import { MatTableDataSource } from '@angular/material/table';
 import { FormBuilder } from '@angular/forms';
 import { CamsService } from 'src/app/core/_service/cams.service';
 import {Cam } from 'src/app/core/_model/cam.model'
+import { AuthService } from '../../auth/services/auth-service.service';
+import { ModalActivarUsuarioComponent } from './modalActivar/modal-activar-usuario.component';
+import { MatDialog } from '@angular/material/dialog';
 
 @Component({
   selector: 'app-show-user',
@@ -15,7 +18,7 @@ import {Cam } from 'src/app/core/_model/cam.model'
 })
 export class ShowUserComponent implements OnInit {
 
-  cam: Cam  
+  user: any 
   subLinks=[
     {url:'', title:''},
   ]
@@ -39,7 +42,8 @@ export class ShowUserComponent implements OnInit {
   private fb: FormBuilder, 
   private route: ActivatedRoute,
   private breadcrumService: BreadcrumService,
-  private camsService : CamsService
+  private authService : AuthService,
+  private dialog: MatDialog,
     ) {
       this.id = this.route.snapshot.paramMap.get('id')! 
       this.subLinks[0]={url:'/usuarios/show/'+this.id+'/activaciones', title:'ACTIVACIONES'}
@@ -72,10 +76,22 @@ export class ShowUserComponent implements OnInit {
   }
 
   loadUserById(id:string){
-    const tmp = this.camsService.listarPorId(parseInt(this.id))
+    const tmp = this.authService.getUserInfoSessionFromSSO(1,20)
     .subscribe((rta:any) =>{
-      this.cam = rta
-      this.breadcrumService.link2$.next({ url: '/usuarios/show/'+this.id, title:rta.descripcion });
+      this.user = rta
+      this.breadcrumService.link2$.next({ url: '/usuarios/show/'+this.id, title:rta.nombres});
+    })
+
+  }
+
+  loadModalActivarUsuario(){
+      const dialogRef = this.dialog.open(ModalActivarUsuarioComponent, {
+      width: '1050px',
+      height:"auto",
+      data: {user: this.user }
+    });
+    dialogRef.afterClosed().subscribe((rta:any)=> {
+      console.log("resul post modal: ", rta)
     })
   }
 

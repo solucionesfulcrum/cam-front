@@ -9,17 +9,16 @@ import { BreadcrumService } from 'src/app/shared/services/breadcrum.service';
 @Component({
   selector: 'app-cirams',
   templateUrl: './cirams.component.html',
-  styleUrls: ['./cirams.component.css']
+  styleUrls: ['./cirams.component.css'],
 })
 export class CiramsComponent implements OnInit {
-
-  form= this.fb.group({
+  form = this.fb.group({
     fechaIni: [''],
     fechaFin: [''],
   });
 
   @ViewChild('paginator') paginator: MatPaginator;
-  dataSource= new MatTableDataSource<any>();
+  dataSource = new MatTableDataSource<any>();
 
   displayedColumns: string[] = [
     'descripcionC',
@@ -31,35 +30,40 @@ export class CiramsComponent implements OnInit {
   ];
 
   constructor(
-    private fb: FormBuilder, 
-    private router: Router, 
+    private fb: FormBuilder,
+    private router: Router,
     private route: ActivatedRoute,
     private breadcrumService: BreadcrumService,
     private ciramService: CiramsService
-    ) {
-      breadcrumService.link1$.next({ url: '/cams/cirams', title:'CIRAMS' });
-      breadcrumService.activeTab$.next('cirams');
-      this.breadcrumService.link2$.next({url:'' ,title:''});
-      this.breadcrumService.link3$.next({url:'', title:''});
-      this.loadCirams()
-
+  ) {
+    breadcrumService.link1$.next({ url: '/cams/cirams', title: 'CIRAMS' });
+    breadcrumService.activeTab$.next('cirams');
+    this.breadcrumService.link2$.next({ url: '', title: '' });
+    this.breadcrumService.link3$.next({ url: '', title: '' });
+    this.loadCirams();
   }
 
-  ngOnInit(): void {
-  }
+  ngOnInit(): void {}
 
   filtrarTabla(event: any): void {}
 
-  loadCirams(){
-    const tmp = this.ciramService.listar()
-    .subscribe((rta:any) =>{
-      this.dataSource = rta
-    })
+  loadCirams() {
+    const tmp = this.ciramService.listar().subscribe((rta: any) => {
+      this.dataSource = rta;
+    });
   }
 
-  setLink2(nameLink: string, codigo:string){
-      this.breadcrumService.link2$.next({url:'/cirams/show/'+codigo, title:nameLink});
-      this.router.navigate(['/cams/cirams/show/', codigo]);
+  setLink2(nameLink: string, codigo: string) {
+    this.breadcrumService.link2$.next({
+      url: '/cirams/show/' + codigo,
+      title: nameLink,
+    });
+    this.router.navigate(['/cams/cirams/show/', codigo]);
   }
-
+  getClassRow(i: number): string {
+    console.log('getClassRow: ', i);
+    let row = '';
+    if (i % 2 != 0) row = 'rowColor';
+    return row;
+  }
 }

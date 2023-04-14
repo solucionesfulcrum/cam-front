@@ -1,27 +1,36 @@
 <div class="div-mat-tab">
   <div class="d-flex bg-ligth2 p-2 w-100">
     <div class="w-50 justify-content-start">
-        <div class="d-flex">
-        <a routerLink="/usuarios" class="text-primary2 decorator-none"> 
-        <span class="material-symbols-outlined text-s-15 pt-2">
-            keyboard_backspace 
-        </span>
-        <span class="text-w-fine text-w-semibold text-s-15 pt-2">
-            REGRESAR 
-        </span>
+      <div class="d-flex">
+        <a routerLink="/usuarios" class="text-primary2 decorator-none">
+          <span class="material-symbols-outlined text-s-15 pt-2">
+            keyboard_backspace
+          </span>
+          <span class="text-w-fine text-w-semibold text-s-15 pt-2">
+            REGRESAR
+          </span>
         </a>
       </div>
     </div>
     <div class="w-50 d-flex justify-content-end">
-      <div class="">
-        <a routerLink="/usuarios/edit/{{id}}" class="text-primary2 decorator-none"> 
-        <span class="text-w-fine text-w-semibold text-s-15 pt-2">
-            EDITAR USUARIO 
-        </span>
-        <span class="material-symbols-outlined text-s-15 pt-2">
-            edit 
-        </span>
+      <div class="px-5 space-x-5">
+        <a
+          routerLink="/usuarios/edit/{{ id }}"
+          class="text-primary2 decorator-none"
+        >
+          <span class="text-w-fine text-w-semibold text-s-15 pt-2">
+            EDITAR USUARIO
+          </span>
+          <span class="material-symbols-outlined text-s-15 pt-2"> edit </span>
         </a>
+          <button
+                mat-raised-button
+                class="bg-green-800 text-white text-uppercase "
+                (click)="loadModalActivarUsuario()"
+          >
+                ACTIVAR 
+              </button>
+
       </div>
     </div>
   </div>
@@ -36,154 +45,117 @@
           </span>
         </div>
         <div
-        *ngIf="this.cam?.descripcion"
+          *ngIf="this.user?.nombres"
           class="justify-content-center d-flex text-s-18 text-uppercase text-w-semibold"
         >
-        {{this.cam.descripcion}}
-        </div>
-        <div
-          *ngIf="this.cam?.codigo"
-          class="mb-4 mt-1 justify-content-center d-flex text-s-15 text-uppercase text-w-semibold"
-        >
-          codigo {{this.cam.codigo}} 
+          {{ this.user.nombres }}
         </div>
       </div>
-      <div class="">
-        <div class="d-flex p-1"
-          *ngIf="this.cam?.tipo"
-         > 
-          <div class="w-50 text-w-bold text-s-11 text-uppercase">Tipo</div>
+      <div class="mt-5">
+        <div class="d-flex p-1" *ngIf="this.user?.numDoc">
+          <div class="w-50 text-w-bold text-s-11 text-uppercase">Documento</div>
           <div class="w-50 text-s-14 text-uppercase">
-            {{this.cam.tipo === '1' ? 'CAM': '' }}
-            {{this.cam.tipo === '2' ? 'CIRAM': '' }}
+            {{ this.user.tipoDoc === "1" ? "DNI" : "" }} {{ this.user.numDoc }}
           </div>
         </div>
-        <div class="d-flex bg-ligth2 p-1"
-          *ngIf="this.cam?.celular"
-         >
-          <div class="w-50 text-w-bold text-s-11 text-uppercase">Celular</div>
-          <div class="w-50 text-s-14 text-uppercase">{{this.cam.celular }}</div>
-        </div>
-        <div class="d-flex p-1"
-          *ngIf="this.cam?.email"
-         >
-          <div class="w-50 text-w-bold text-s-11 text-uppercase">Correo</div>
-          <div class="w-50 text-s-14 text-uppercase">{{this.cam.email }}</div>
-        </div>
-        <div class="d-flex p-1 bg-ligth2"
-          *ngIf="this.cam?.fechaInscripcion"
-         >
+        <div class="d-flex bg-sky-100 p-1" *ngIf="this.user?.email">
           <div class="w-50 text-w-bold text-s-11 text-uppercase">
-            Fecha de inscripción
+            CORREO ELECTRÓNICO
           </div>
-          <div class="w-50 text-s-14 text-uppercase">{{this.cam.fechaInscripcion}}</div>
+          <div class="w-50 text-s-14 text-uppercase">{{ this.user.email }}</div>
         </div>
-        <div class="d-flex p-1" 
-          *ngIf="this.cam?.direccion"
-        >
-          <div class="w-50 text-w-bold text-s-11 text-uppercase">Dirección</div>
-          <div class="w-50 text-s-14 text-uppercase">{{this.cam.direccion}}</div>
-        </div>
-        <div class="d-flex p-1 bg-ligth2"
-          *ngIf="this.cam?.ubigeo?.descDis"
-        >
-          <div class="w-50 text-w-bold text-s-11 text-uppercase">DISTRITO</div>
-          <div class="w-50 text-s-14 text-uppercase">{{this.cam.ubigeo.descDis}}</div>
-        </div>
-        <div class="d-flex p-1"
-          *ngIf="this.cam?.ubigeo?.descProv"
-        >
-          <div class="w-50 text-w-bold text-s-11 text-uppercase">Provincia</div>
-          <div class="w-50 text-s-14 text-uppercase">{{this.cam.ubigeo.descProv}}</div>
-        </div>
-        <div class="d-flex p-1 bg-ligth2"
-          *ngIf="this.cam?.ubigeo?.descDep"
-        >
-          <div class="w-50 text-w-bold text-s-11 text-uppercase">Región</div>
-          <div class="w-50 text-s-14 text-uppercase">{{this.cam.ubigeo.descDep}}</div>
-        </div>
-        <div class="d-flex p-1"
-          *ngIf="this.cam?.red?.nombre"
-        >
-          <div class="w-50 text-w-bold text-s-11 text-uppercase">Red</div>
+
+        <div class="d-flex p-1" *ngIf="this.user?.roles">
+          <div class="w-50 text-w-bold text-s-11 text-uppercase">
+            ROLES DE USUARIO
+          </div>
           <div class="w-50 text-s-14 text-uppercase">
-            {{ this.cam.red.nombre }} 
+            <span 
+              *ngFor="let rol of this.user.roles;"
+              class="inline-flex items-center p-2 mr-2 text-sm font-fine text-blue-800 bg-slate-200 rounded dark:bg-gray-700 dark:text-blue-400"
+            >
+              {{rol.codigo}} 
+            </span>
           </div>
-        </div>
-        <div class="d-flex p-1 bg-ligth2"
-          *ngIf="this.cam?.fecCreacion"
-         >
-          <div class="w-50 text-w-bold text-s-11 text-uppercase">
-            fecha registro
-          </div>
-          <div class="w-50 text-s-14 text-uppercase">{{this.cam.fecCreacion}}</div>
-        </div>
-        <div class="d-flex p-1"
-          *ngIf="this.cam?.estado"
-        >
-          <div class="w-50 text-w-bold text-s-11 text-uppercase">estado</div>
-          <div class="w-50 text-s-14 text-uppercase">{{this.cam.estado.toString() === '1' ? 'ACTIVO' : 'NO ACTIVO'}}</div>
         </div>
       </div>
     </div>
   </mat-card>
   <mat-card>
     <div class="d-flex">
+      <span
+        class="mt-2 d-flex text-uppercase text-secondary text-s-18 text-w-semibold"
+      >
+        historial&nbsp;&nbsp;
+      </span>
+      <div class="d-flex bg-econdary">
+        <div class="d-flex" *ngIf="subBreadcrum1.url">
+          <span
+            class="text-secondary text-w-fine text-style-cursiva text-s-10 pt-2"
+          >
+            <a
+              routerLink="{{ subBreadcrum1.url }}"
+              class="text-secondary decorator-none"
+            >
+              {{ subBreadcrum1.title }}</a
+            >
+          </span>
+        </div>
 
-    <span class="mt-2 d-flex text-uppercase text-secondary text-s-18 text-w-semibold">
-      historial&nbsp;&nbsp; 
-    </span>
-  <div class="d-flex bg-econdary ">
-    <div class="d-flex  " *ngIf="subBreadcrum1.url">
+        <div class="d-flex pb-2" *ngIf="subBreadcrum2.url">
+          <span
+            class="text-secondary material-symbols-outlined text-s-20 pt-1 ml-5"
+          >
+            /
+          </span>
 
-        <span class="text-secondary text-w-fine text-style-cursiva text-s-10 pt-2">
-          <a routerLink="{{ subBreadcrum1.url }}" class="text-secondary decorator-none"> {{subBreadcrum1.title}}</a>
-        </span>
+          <span
+            class="text-secondary text-w-fine text-style-cursiva text-s-10 pt-2 ml-5"
+          >
+            <a
+              routerLink="{{ subBreadcrum2.url }}"
+              class="text-secondary decorator-none"
+            >
+              {{ subBreadcrum2.title }}
+            </a>
+          </span>
+        </div>
+
+        <div class="d-flex pb-2" *ngIf="subBreadcrum3.url">
+          <span
+            class="text-secondary material-symbols-outlined text-s-20 pt-1 ml-5"
+          >
+            /
+          </span>
+
+          <span
+            class="text-secondary text-w-fine text-style-cursiva text-s-10 pt-2 ml-5"
+          >
+            <a
+              routerLink="{{ subBreadcrum3.url }}"
+              class="text-secondary decorator-none"
+            >
+              {{ subBreadcrum3.title }}
+            </a>
+          </span>
+        </div>
       </div>
-
-      <div class="d-flex pb-2" *ngIf="subBreadcrum2.url">
-        <span class="text-secondary material-symbols-outlined text-s-20 pt-1 ml-5">
-          / 
-        </span>
-
-        <span class="text-secondary text-w-fine text-style-cursiva text-s-10 pt-2 ml-5">
-          <a routerLink="{{ subBreadcrum2.url }}" class="text-secondary decorator-none"> {{subBreadcrum2.title}} </a>
-        </span>
-      </div>
-
-      <div class="d-flex pb-2" *ngIf="subBreadcrum3.url">
-        <span class="text-secondary material-symbols-outlined text-s-20 pt-1 ml-5">
-          / 
-        </span>
-
-        <span class="text-secondary text-w-fine text-style-cursiva text-s-10 pt-2 ml-5">
-          <a routerLink="{{ subBreadcrum3.url }}" class="text-secondary decorator-none"> {{subBreadcrum3.title}} </a>
-        </span>
-      </div>
-
-      
     </div>
-
-    </div>
-
-
 
     <div class="">
-
-    <nav mat-tab-nav-bar [tabPanel]="tabPanel">
-      <a
-        mat-tab-link
-        *ngFor="let link of subLinks"
-        (click)="subActiveTab = link.url"
-        routerLink="{{ link.url }}"
-        [active]="subActiveTab == link.url"
-      >
-        {{ link.title }} 
-      </a>
-    </nav>
-    <mat-tab-nav-panel #tabPanel> </mat-tab-nav-panel>
-    <router-outlet></router-outlet>
-
+      <nav mat-tab-nav-bar [tabPanel]="tabPanel">
+        <a
+          mat-tab-link
+          *ngFor="let link of subLinks"
+          (click)="subActiveTab = link.url"
+          routerLink="{{ link.url }}"
+          [active]="subActiveTab == link.url"
+        >
+          {{ link.title }}
+        </a>
+      </nav>
+      <mat-tab-nav-panel #tabPanel> </mat-tab-nav-panel>
+      <router-outlet></router-outlet>
     </div>
   </mat-card>
 </div>

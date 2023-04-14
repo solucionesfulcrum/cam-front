@@ -103,5 +103,14 @@ export class ServiciosComponent implements OnInit {
     this.router.navigate(['/servicios/show/', codigo]);
   }
 
+
+getClassRow(i:number) :string {
+    console.log("getClassRow: ", i)
+    let row =""
+    if ( i%2!=0)
+     row ="rowColor" 
+    return row
+  }
+
   
 }

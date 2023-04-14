@@ -1031,8 +1031,20 @@ body {
   border: 1px solid #c6c6c6;
 }
 
+.border-1-blue{
+  border: 1px solid #0b3bc2;
+}
+
 .border-1-sky{
   border: 1px solid #075985;
+}
+
+.border-sky{
+  border: 1px solid #0284c7;
+}
+
+.border-red{
+  border: 1px solid #b91c1c;
 }
 
 .border-2-sky{
@@ -1130,3 +1142,14 @@ body {
 .uppercase {
     text-transform: uppercase;
 }
+
+.rowColor{
+  background-color: #e0f2fe;
+}
+
+.headerRow{
+  background-color: #e2e8f0;
+}
+
+
+
