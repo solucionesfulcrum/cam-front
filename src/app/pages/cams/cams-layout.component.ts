@@ -10,11 +10,11 @@ import { BreadcrumService } from 'src/app/shared/services/breadcrum.service';
 export class CamsLayoutComponent implements OnInit {
 
   links=[
+    {url:'redes', title:'REDES ESSALUD'},
     {url:'/cams', title:'CAMS'},
     {url:'cirams', title:'CIRAMS'},
     {url:'servicios', title:'SERVICIOS'},
     //{url:'programas', title:'PROGRAMAS'},
-    {url:'redes', title:'REDES ESSALUD'},
     //{url:'ubigeos', title:'UBIGEOS'},
   ]
 
