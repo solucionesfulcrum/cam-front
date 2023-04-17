@@ -11,6 +11,8 @@ import { MatSidenavModule } from '@angular/material/sidenav';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatListModule } from '@angular/material/list';
 import { MatMenuModule } from '@angular/material/menu';
+import {MatSnackBarModule} from '@angular/material/snack-bar';
+
 
 
 import { UsersLayoutComponent } from './users-layout.component';
@@ -78,7 +80,8 @@ import { ModalActivarUsuarioComponent } from './show-user/modalActivar/modal-act
     MatAutocompleteModule,
     MatDividerModule,
     MatExpansionModule,
-    BtnComponent
+    BtnComponent,
+    MatSnackBarModule,
   ],
   exports:[
     MaterialModule,

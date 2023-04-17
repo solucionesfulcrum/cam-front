@@ -56,7 +56,7 @@ displayedColumns: string[] = [
   loadUsers(){
     return this.authService.getUsuariosFromSSO(1,20)
     .subscribe((rta:any) =>{
-      console.log("its loadUser from SSO ", rta )
+      console.log("its loadUsers from SSO ", rta )
       this.dataSource = rta.list
     })
   }

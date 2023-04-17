@@ -103,9 +103,18 @@
           </span>
           -->
 
-          <span>
-            <img class="img-logo" src="assets/userDisponible.png" />
+          <span
+              *ngIf="!element.tieneVigencia"
+          >
+            <img class="img-logo" src="assets/userAzul.svg" />
           </span>
+
+          <span
+              *ngIf="element.tieneVigencia"
+          >
+            <img class="img-logo" src="assets/userVerde.svg" />
+          </span>
+
         </td>
       </ng-container>
 

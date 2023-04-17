@@ -1244,3 +1244,13 @@ body {
 --tw-ring-opacity: 1;
     --tw-ring-color: rgb(125 211 252 / var(--tw-ring-opacity));
 }
+
+.snackGreen{
+  background-color: #15803d;
+  color: white;
+}
+
+.snackRed{
+  background-color: #b91c1c;
+  color: white;
+}

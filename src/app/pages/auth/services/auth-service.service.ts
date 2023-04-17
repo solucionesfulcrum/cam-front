@@ -221,14 +221,12 @@ export class AuthService {
       },
       )
       .pipe(catchError(this.handleError));
-  
 }
 
-registrarVigenciaFromSSO( fechaInicio:string, fechaFin:string, observacion:string){
+registrarVigenciaFromSSO( guiid:string,  fechaInicio:string, fechaFin:string, observacion:string){
     const params = this._authBasic();
     const localUsuario = localStorage.getItem('usuario');
     const dataUsuario = JSON.parse(localUsuario as string);
-    const guiid = dataUsuario.guiid
     const token = dataUsuario.token 
     const data={
       "guiid": guiid,
@@ -423,12 +421,11 @@ registrarRolesFromSSO(codigo:string, nombre :string ){
       .pipe(catchError(this.handleError));
   }
 
-  asignarRolesForUsuarioFromSSO(roles:string[]){
+  asignarRolesForUsuarioFromSSO(guiid: string, roles:string[]){
     const params = this._authBasic();
     const localUsuario = localStorage.getItem('usuario');
     const dataUsuario = JSON.parse(localUsuario as string);
     const token = dataUsuario.token 
-    const guiid = dataUsuario.guiid
     const data={
       "guiid": guiid,
       roles
