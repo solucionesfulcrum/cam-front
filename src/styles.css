@@ -1153,34 +1153,36 @@ body {
 
 
 
-
-.bg-success-700{
+.bg-green-700{
   background-color: #15803d;
+
 }
 
-.bg-success-800:hover{
+.bg-green-800:hover{
   background-color: #166534;
 }
-.ring-success-300:focus{
+
+.ring-green-300:focus{
   --tw-ring-opacity: 1;
     --tw-ring-color: rgb(134 239 172 / var(--tw-ring-opacity));
 }
+
 
 .text-white {
     --tw-text-opacity: 1;
     color: rgb(255 255 255 / var(--tw-text-opacity));
 }
 
-.bg-primary-700{
+.bg-blue-700{
     --tw-bg-opacity: 1;
     background-color: rgb(29 78 216 / var(--tw-bg-opacity));
 }
 
-.bg-primary-800:hover{
+.bg-blue-800:hover{
   background-color: #1e40af;
 }
 
-.ring-primary-300:focus{
+.ring-blue-300:focus{
   --tw-ring-opacity: 1;
     --tw-ring-color: rgb(147 197 253 / var(--tw-ring-opacity));
 }

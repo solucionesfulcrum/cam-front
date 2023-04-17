@@ -5,70 +5,91 @@
     >
   </div>
   <div class="body p-4">
-    <form>
+    <form
+      [formGroup]="form"
+      novalidate
+      class="space-y-4"
+      (ngSubmit)="activaUsuarioYAsignaRoles()"
+    >
       <div
         class="flex w-full detailUser bg-slate-100 justify-content-rigth space-x-5 p-2"
       >
-        <span class="font-semibold text-sm"> {{ data.user.nombres }}</span>
-        <span class="font-semibold text-sm"> - DNI {{ data.user.numDoc }}</span>
+        <span class="font-semibold text-sm ml-7"> {{ data.user.nombres }}</span>
+        <span class="font-semibold text-sm">- DNI {{ data.user.numDoc }}</span>
       </div>
 
       <div class="detailTiempoVigencia bg-slate-50 p-3 space-x-5 mt-2">
         <div class="text-base font-semibold text-xs ml-5">
           <span>VIGENCIA DEL SERVICIO</span>
         </div>
-        <div class="flex mt-2">
-          <mat-form-field class="p-1 w-50">
-            <mat-label> FECHA INICIO VIGENCIA - dd/mm/YYYY</mat-label>
+        <div class="flex w-full mt-2 space-x-5">
+          <div class="flex w-50">
+            <mat-form-field class="flex w-full">
+              <textarea
+                matInput
+                formControlName="observaciones"
+                placeholder="Observaciones"
+              ></textarea>
+              <mat-hint
+                *ngIf="
+                  form.controls.observaciones.touched &&
+                  form.controls.observaciones.invalid &&
+                  form.controls.observaciones.hasError('required')
+                "
+                class="text-danger"
+              >
+                Observaciones es obligatorio
+              </mat-hint>
+            </mat-form-field>
+          </div>
 
-            <input
-              matInput
-              #nameInput
-              formControlName="fechaInicio"
-              [matDatepicker]="picker"
-            />
-            <mat-datepicker-toggle
-              matSuffix
-              [for]="picker"
-            ></mat-datepicker-toggle>
-            <mat-datepicker #picker></mat-datepicker>
-
-            <mat-hint
-              *ngIf="
-                form.controls.fechaInicio.touched &&
-                form.controls.fechaInicio.hasError('required')
-              "
-              class="text-danger pl-5"
-            >
-              Fecha inicio es obligatorio.
-            </mat-hint>
-          </mat-form-field>
-
-          <mat-form-field class="p-1 w-50">
-            <mat-label> FECHA FIN VIGENCIA - dd/mm/YYYY</mat-label>
-
-            <input
-              matInput
-              #nameInput
-              formControlName="fechaFin"
-              [matDatepicker]="picker"
-            />
-            <mat-datepicker-toggle
-              matSuffix
-              [for]="picker"
-            ></mat-datepicker-toggle>
-            <mat-datepicker #picker></mat-datepicker>
-
-            <mat-hint
-              *ngIf="
-                form.controls.fechaFin.touched &&
-                form.controls.fechaFin.hasError('required')
-              "
-              class="text-danger pl-5"
-            >
-              Fecha fin de vigencia es obligatorio.
-            </mat-hint>
-          </mat-form-field>
+          <div class="flex w-50">
+            <mat-form-field class="flex w-full">
+              <mat-label>Rango de la vigencia</mat-label>
+              <mat-date-range-input [rangePicker]="rangePicker">
+                <input
+                  matStartDate
+                  placeholder="INICIO DE VIGENCIA"
+                  formControlName="fechaInicio"
+                />
+                <input
+                  matEndDate
+                  placeholder="FIN DE VIGENCIA"
+                  formControlName="fechaFin"
+                />
+              </mat-date-range-input>
+              <mat-hint
+                *ngIf="
+                  (form.controls.fechaInicio.touched &&
+                    form.controls.fechaInicio.invalid &&
+                    form.controls.fechaInicio.hasError('required')) ||
+                  (form.controls.fechaFin.touched &&
+                    form.controls.fechaFin.invalid &&
+                    form.controls.fechaFin.hasError('required'))
+                "
+                class="text-danger"
+              >
+                El rango de fecha es obligatorio
+              </mat-hint>
+              <mat-datepicker-toggle
+                matIconSuffix
+                [for]="rangePicker"
+                class="float-left"
+              ></mat-datepicker-toggle>
+              <mat-date-range-picker #rangePicker>
+                <mat-date-range-picker-actions>
+                  <button mat-button matDateRangePickerCancel>Cancelar</button>
+                  <button
+                    mat-raised-button
+                    color="primary"
+                    matDateRangePickerApply
+                  >
+                    Aplicar
+                  </button>
+                </mat-date-range-picker-actions>
+              </mat-date-range-picker>
+            </mat-form-field>
+          </div>
         </div>
       </div>
       <div class="detailRoles bg-slate-50 p-3 space-x-5 mt-2">
@@ -76,68 +97,41 @@
           <span>ROLES DE USUARIO</span>
         </div>
         <div class="mt-2">
-        <div class="flex">
-          <mat-form-field class="p-1 w-full">
-            <mat-label>ROLES</mat-label>
-            <input
-              #nameInput
-              formControlName="roles"
-              placeholder="ROLES DE USUARIO"
-              matInput
-              type="text"
-            />
-            <mat-hint
-              *ngIf="
-                form.controls.roles.touched &&
-                form.controls.roles.invalid &&
-                form.controls.roles.hasError('required')
-              "
-              class="text-danger"
-            >
-              Roles de usuario es obligatorio
-            </mat-hint>
-            <mat-hint
-              *ngIf="
-                form.controls.roles.touched &&
-                form.controls.roles.invalid &&
-                form.controls.roles.hasError('email')
-              "
-              class="text-danger"
-            >
-              Roles de usuario es inválido
-            </mat-hint>
-          </mat-form-field>
-        </div>
-          <div class="block">
-            <span id="badge-dismiss-green" class="inline-flex items-center px-2 py-1 mr-2 text-sm font-medium text-green-800 bg-green-200 rounded dark:bg-green-900 dark:text-green-700">
- ADMIN 
-  <button type="button" class="inline-flex items-center p-0.5 ml-2 text-sm text-green-700 bg-transparent rounded-sm hover:bg-green-200 hover:text-green-900 dark:hover:bg-green-800 dark:hover:text-green-300" data-dismiss-target="#badge-dismiss-green" aria-label="Remove">
-      <svg aria-hidden="true" class="w-3.5 h-3.5" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z" clip-rule="evenodd"></path></svg>
-      <span class="sr-only">Remove badge</span>
-  </button>
-</span>
+          <div class="flex">
+            <mat-form-field *ngIf="roles">
+              <mat-label> ROL DE USUARIO </mat-label>
+              <mat-select
+                placeholder="ROLES DE USUARIO"
+                [(ngModel)]="roles.codigo"
+                formControlName="rol"
+              >
+                <mat-option *ngFor="let rol of roles" [value]="rol.codigo">
+                  {{ rol.nombre }}
+                </mat-option>
+              </mat-select>
+              <mat-hint
+                *ngIf="
+                  form.controls.rol.touched &&
+                  form.controls.rol.invalid &&
+                  form.controls.rol.hasError('required')
+                "
+                class="text-danger"
+              >
+                Rol es obligatorio
+              </mat-hint>
+            </mat-form-field>
+            
           </div>
         </div>
       </div>
 
       <div class="mt-2">
         <div class="">
-        <button
-          mat-raised-button
-          class="bg-sky-800 text-white text-uppercase w-full"
-        >
-          ACTIVAR
-        </button>
-
+          <app-btn typeBtn="submit" color="sky" [loading]="status === 'loading'"
+            >ACTIVAR USUARIO
+          </app-btn>
         </div>
-        <!--
-          <app-btn
-          typeBtn="submit"
-          color="sky"
-          [loading]="status === 'loading'"
-          >GUARDAR CAMBIOS
-        </app-btn> 
-      --></div>
+      </div>
     </form>
   </div>
 </div>

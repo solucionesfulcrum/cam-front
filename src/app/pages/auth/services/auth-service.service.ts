@@ -224,10 +224,11 @@ export class AuthService {
   
 }
 
-registrarVigenciaFromSSO(guiid:string, fechaInicio:string, fechaFin:string, observacion:string){
+registrarVigenciaFromSSO( fechaInicio:string, fechaFin:string, observacion:string){
     const params = this._authBasic();
     const localUsuario = localStorage.getItem('usuario');
     const dataUsuario = JSON.parse(localUsuario as string);
+    const guiid = dataUsuario.guiid
     const token = dataUsuario.token 
     const data={
       "guiid": guiid,

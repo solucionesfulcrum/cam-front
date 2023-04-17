@@ -27,15 +27,15 @@ export class BtnComponent implements OnInit {
 
   mapColors = {
     success: {
-      'bg-success-700': true,
-      'hover:bg-success-800': true,
-      'focus:ring-success-300': true,
+      'bg-green-700': true,
+      'hover:bg-green-800': true,
+      'focus:ring-green-300': true,
       'text-white': true,
     },
     primary: {
-      'bg-primary-700': true,
-      'hover:bg-primary-800': true,
-      'focus:ring-primary-300': true,
+      'bg-blue-700': true,
+      'hover:bg-blue-800': true,
+      'focus:ring-blue-300': true,
       'text-white': true,
     },
     danger: {

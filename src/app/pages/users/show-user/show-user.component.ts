@@ -79,6 +79,7 @@ export class ShowUserComponent implements OnInit {
     const tmp = this.authService.getUserInfoSessionFromSSO(1,20)
     .subscribe((rta:any) =>{
       this.user = rta
+      console.log("User sesion... ", rta)
       this.breadcrumService.link2$.next({ url: '/usuarios/show/'+this.id, title:rta.nombres});
     })
 
@@ -91,7 +92,7 @@ export class ShowUserComponent implements OnInit {
       data: {user: this.user }
     });
     dialogRef.afterClosed().subscribe((rta:any)=> {
-      console.log("resul post modal: ", rta)
+      console.log("resul post modal from parent: ", rta)
     })
   }
 

@@ -7,8 +7,8 @@ module.exports = {
   theme: {
     extend: {
       colors:{
-        success: colors.green,
-        primary: colors.blue,
+        //success: colors.green,
+        //primary: colors.blue,
       },
       container:{
         screens:{
@@ -22,6 +22,6 @@ module.exports = {
     },
   },
   plugins: [
-    require('@tailwindcss/forms')
+    //require('@tailwindcss/forms')
   ],
 }
