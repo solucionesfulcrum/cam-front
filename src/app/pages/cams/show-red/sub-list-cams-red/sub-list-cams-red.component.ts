@@ -5,6 +5,9 @@ import { MatTableDataSource } from '@angular/material/table';
 import { ActivatedRoute, Router } from '@angular/router';
 import { BreadcrumService } from 'src/app/shared/services/breadcrum.service';
 import { FormControl, FormGroup } from '@angular/forms';
+import { CamsService } from 'src/app/core/_service/cams.service';
+import { RedesService } from 'src/app/core/_service/redes.service';
+import { MatSort } from '@angular/material/sort';
 
 
 const history_programs= [
@@ -26,11 +29,11 @@ const history_programs= [
 ];
 
 @Component({
-  selector: 'app-sub-list-programas-red',
-  templateUrl: './sub-list-programas-red.component.html',
+  selector: 'app-sub-list-cams-red',
+  templateUrl: './sub-list-cams-red.component.html',
   styleUrls: ['../show-red.component.css']
 })
-export class SubListProgramasRedComponent implements OnInit {
+export class SubListCamsRedComponent implements OnInit {
 
 form= this.fb.group({
   fechaIni: [''],
@@ -38,6 +41,7 @@ form= this.fb.group({
 });
 
 displayedColumns: string[] = [
+    'index',
     'cam',
     'adminCam',
     'fechaCreacion',
@@ -46,8 +50,9 @@ displayedColumns: string[] = [
     'estado',
   ];
 
-  @ViewChild('paginatorProfesional') paginatorProfesional: MatPaginator;
-  dataSource= new MatTableDataSource<any>(history_programs);
+  dataSource: MatTableDataSource<any>;
+  @ViewChild(MatPaginator) paginator: MatPaginator;
+  @ViewChild(MatSort) sort: MatSort;
 
   id ='' 
   name ='ACTUALIZAMEEEE' 
@@ -56,20 +61,31 @@ displayedColumns: string[] = [
     private fb: FormBuilder, 
     private router: Router, 
     private route: ActivatedRoute,
-    private breadcrumService: BreadcrumService
+    private breadcrumService: BreadcrumService,
+    private redesService: RedesService,
     ) {
       this.route.parent?.paramMap.subscribe(params => {
       this.id = params.get('id')!;
-      breadcrumService.subLink1$.next({ url: './', title:'PROGRAMAS'});
+      breadcrumService.subLink1$.next({ url: './', title:'CAMS'});
       breadcrumService.subLink2$.next({ url: '', title:'' });
       breadcrumService.subLink3$.next({ url: '', title:'' });
-      breadcrumService.subActiveTab$.next('/cams/redes/show/'+this.id+'/programas');
-      
+      breadcrumService.subActiveTab$.next('/cams/redes/show/'+this.id+'/cams');
+      this.loadCamsByIdRed() 
     });
 
   }
 
   ngOnInit(): void {
+  }
+
+  loadCamsByIdRed(){
+    console.log("iot....", this.id)
+    this.redesService.listarPorId(parseInt(this.id)).subscribe((rta:any)=>{
+      console.log(rta.cams)
+      this.dataSource= rta.cams
+      this.dataSource.paginator = this.paginator;
+      this.dataSource.sort = this.sort;
+    })
   }
 
 }

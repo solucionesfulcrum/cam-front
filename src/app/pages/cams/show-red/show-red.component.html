@@ -54,22 +54,25 @@
           *ngIf="this.red?.tipo"
          > 
           <div class="w-50 text-w-bold text-s-11 text-uppercase">Tipo</div>
-          <div class="w-50 text-s-14 text-uppercase">
-            {{this.red.tipo === '1' ? 'NACIONAL': '' }}
-            {{this.red.tipo === '2' ? 'PROVINCIA': '' }}
-          </div>
+            <span *ngIf="this.red.tipo=== '1'">NACIONAL</span>
+            <span *ngIf="this.red.tipo=== '2'">PROVINCIA</span>
+            <span *ngIf="this.red.tipo=== 'L'">L</span>
         </div>
         <div class="d-flex bg-ligth2 p-1"
           *ngIf="this.red?.region"
          >
           <div class="w-50 text-w-bold text-s-11 text-uppercase">Region</div>
-          <div class="w-50 text-s-14 text-uppercase">{{this.red.region}}</div>
+            <span *ngIf="this.red.region=== 'L'">L</span>
+
         </div>
         <div class="d-flex p-1"
           *ngIf="this.red?.estado"
          >
           <div class="w-50 text-w-bold text-s-11 text-uppercase">estado</div>
-          <div class="w-50 text-s-14 text-uppercase">{{this.red.estado}}</div>
+          <div class="w-50 text-s-14 text-uppercase">
+            <span *ngIf="this.red.estado === '1'">DISPONIBLE</span>
+            <span *ngIf="this.red.estado === '0'">INACTIVO</span>
+          </div>
         </div>
         
       </div>

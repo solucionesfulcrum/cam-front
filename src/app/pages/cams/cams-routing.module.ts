@@ -27,8 +27,8 @@ import { EditServicioComponent } from './edit-servicio/edit-servicio.component';
 import { ShowServicioComponent } from './show-servicio/show-servicio.component';
 import { AuthGuard } from 'src/app/shared/services/auth.guard';
 import { ShowRedComponent } from './show-red/show-red.component';
-import { SubListProgramasRedComponent } from './show-red/sub-list-programas-red/sub-list-programas-red.component';
-import { SubViewProgramasRedComponent } from './show-red/sub-view-programas-red/sub-view-programas-red.component';
+import { SubListCamsRedComponent } from './show-red/sub-list-cams-red/sub-list-cams-red.component';
+import { SubViewCamsRedComponent } from './show-red/sub-view-cams-red/sub-view-cams-red.component';
 import { SubListUsuariosRedComponent } from './show-red/sub-list-usuarios-red/sub-list-usuarios-red.component';
 import { SubViewUsuariosRedComponent } from './show-red/sub-view-usuarios-red/sub-view-usuarios-red.component';
 import { EditRedComponent } from './edit-red/edit-red.component';
@@ -102,12 +102,12 @@ const routes: Routes = [
         pathMatch: 'full',
       },
       {
-        path: 'programas',
-        component: SubListProgramasRedComponent,
+        path: 'cams',
+        component: SubListCamsRedComponent,
       },
       {
-        path: 'programas/:sid',
-        component: SubViewProgramasRedComponent,
+        path: 'cams/:sid',
+        component: SubViewCamsRedComponent,
       },
       {
         path: 'usuarios',

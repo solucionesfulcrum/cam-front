@@ -48,7 +48,7 @@ export class ShowRedComponent implements OnInit {
     ) {
       this.id = this.route.snapshot.paramMap.get('id')! 
       this.subLinks[0]={url:'/cams/redes/show/'+this.id, title:'USUARIOS'}
-      this.subLinks[1]={url:'/cams/redes/show/'+this.id+'/programas', title:'Programas'}
+      this.subLinks[1]={url:'/cams/redes/show/'+this.id+'/cams', title:'CAMS'}
 
       //for breadcrum
       this.breadcrumService.link1$.next({url:'/cams/redes', title:'REDES ESSALUD'});

@@ -62,4 +62,9 @@ export class ProgramasComponent implements OnInit {
       this.router.navigate(['/programas/show/', codigo]);
   }
 
+  applyFilter(event: Event) {
+    const filterValue = (event.target as HTMLInputElement).value;
+    this.dataSource.filter = filterValue.trim().toLowerCase();
+  }
+
 }

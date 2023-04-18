@@ -61,9 +61,13 @@ export class CiramsComponent implements OnInit {
     this.router.navigate(['/cams/cirams/show/', codigo]);
   }
   getClassRow(i: number): string {
-    console.log('getClassRow: ', i);
     let row = '';
     if (i % 2 != 0) row = 'rowColor';
     return row;
+  }
+
+  applyFilter(event: Event) {
+    const filterValue = (event.target as HTMLInputElement).value;
+    this.dataSource.filter = filterValue.trim().toLowerCase();
   }
 }

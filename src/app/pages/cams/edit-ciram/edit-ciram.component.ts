@@ -50,10 +50,10 @@ form = this.formBuilder.nonNullable.group({
   private formBuilder: FormBuilder,
   private route: ActivatedRoute,
   private breadcrumService: BreadcrumService,
-  private camsService:CamsService,
   private http: HttpClient,
   private ubigeoService:UbiGeoService,
-  private ciramsService: CiramsService
+  private ciramsService: CiramsService,
+  private camsService:CamsService
     ) {
       this.id = this.route.snapshot.paramMap.get('id')! 
 
@@ -71,13 +71,13 @@ form = this.formBuilder.nonNullable.group({
       if (this.form.valid) {
       this.status = 'loading';
       const { codigo, descripcion,  celular, email, fechaInscripcion, direccion} = this.form.getRawValue();
-      const updateCamm= { idCam:parseInt(this.id), codigo, descripcion, tipo:'1', celular, email, fechaInscripcion: moment(fechaInscripcion).format('YYYY-MM-DD'), direccion, estado:1, cam:this.cam, ubigeo:this.ubigeo }
-      Object.assign(this.cam, updateCamm  )
-      this.camsService.actualizar(this.cam, parseInt(this.id))
+      const updateCiram = { idCam:parseInt(this.id), codigo, descripcion, tipo:'2', celular, email, fechaInscripcion: moment(fechaInscripcion).format('YYYY-MM-DD'), direccion, estado:1, cam:this.cam, ubigeo:this.ubigeo }
+      Object.assign(this.ciram, updateCiram)
+      this.ciramsService.actualizar(this.ciram, parseInt(this.id))
       .subscribe({
         next: () =>{
           this.status = 'success';
-          this.router.navigate(['/cams'])
+          this.router.navigate(['/cirams'])
         },
         error : () =>{
           this.status = 'failed';

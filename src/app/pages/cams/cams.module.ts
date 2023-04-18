@@ -48,11 +48,14 @@ import {MatDividerModule} from '@angular/material/divider';
 import {MatExpansionModule} from '@angular/material/expansion';
 import { SubViewUsuariosRedComponent } from './show-red/sub-view-usuarios-red/sub-view-usuarios-red.component';
 import { SubListUsuariosRedComponent } from './show-red/sub-list-usuarios-red/sub-list-usuarios-red.component';
-import { SubViewProgramasRedComponent } from './show-red/sub-view-programas-red/sub-view-programas-red.component';
-import { SubListProgramasRedComponent } from './show-red/sub-list-programas-red/sub-list-programas-red.component';
+import { SubViewCamsRedComponent } from './show-red/sub-view-cams-red/sub-view-cams-red.component';
+import { SubListCamsRedComponent } from './show-red/sub-list-cams-red/sub-list-cams-red.component';
 import { EditRedComponent } from './edit-red/edit-red.component';
 import { UsersLayoutComponent } from '../users/users-layout.component';
 import { BtnComponent } from 'src/app/shared/components/btn/btn.component';
+import {MatSelectModule} from '@angular/material/select';
+
+
 
 
 @NgModule({
@@ -88,8 +91,8 @@ import { BtnComponent } from 'src/app/shared/components/btn/btn.component';
 
     SubViewUsuariosRedComponent,
     SubListUsuariosRedComponent,
-    SubViewProgramasRedComponent,
-    SubListProgramasRedComponent,
+    SubViewCamsRedComponent,
+    SubListCamsRedComponent,
 
     EditRedComponent,
 
@@ -115,7 +118,7 @@ import { BtnComponent } from 'src/app/shared/components/btn/btn.component';
     MatAutocompleteModule,
     MatDividerModule,
     MatExpansionModule,
-
+    MatSelectModule,
     BtnComponent,
 
   ],

@@ -62,7 +62,6 @@ export class RolesComponent implements OnInit {
   }
 
   getClassRow(i:number) :string {
-    console.log("getClassRow: ", i)
     let row =""
     if ( i%2!=0)
      row ="rowColor" 
