@@ -1,6 +1,7 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { FormBuilder } from '@angular/forms';
 import { MatPaginator } from '@angular/material/paginator';
+import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
 import { ActivatedRoute, Router } from '@angular/router';
 import { CiramsService } from 'src/app/core/_service/cirams.service';
@@ -19,8 +20,9 @@ export class RedesComponent implements OnInit {
     fechaFin: [''],
   });
 
-  @ViewChild('paginator') paginator: MatPaginator;
-  dataSource= new MatTableDataSource<any>();
+  dataSource: MatTableDataSource<any>;
+  @ViewChild(MatPaginator) paginator: MatPaginator;
+  @ViewChild(MatSort) sort: MatSort;
 
   displayedColumns: string[] = [
     'nombre',
@@ -52,7 +54,9 @@ export class RedesComponent implements OnInit {
   loadRedes(){
     const tmp = this.redesService.listar()
     .subscribe((rta:any) =>{
-      this.dataSource = rta
+      this.dataSource = new MatTableDataSource(rta);
+      this.dataSource.paginator = this.paginator;
+      this.dataSource.sort = this.sort;
     })
   }
 
@@ -69,9 +73,13 @@ getClassRow(i:number) :string {
   }
 
 
-  applyFilter(event: Event) {
+applyFilter(event: Event) {
     const filterValue = (event.target as HTMLInputElement).value;
     this.dataSource.filter = filterValue.trim().toLowerCase();
+
+    if (this.dataSource.paginator) {
+      this.dataSource.paginator.firstPage();
+    }
   }
 
 }

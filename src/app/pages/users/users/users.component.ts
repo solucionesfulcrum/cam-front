@@ -6,6 +6,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { CamsService } from 'src/app/core/_service/cams.service';
 import { BreadcrumService } from 'src/app/shared/services/breadcrum.service';
 import { AuthService } from '../../auth/services/auth-service.service';
+import { MatSort } from '@angular/material/sort';
 
 
 @Component({
@@ -32,8 +33,9 @@ displayedColumns: string[] = [
   breadcrum2:{url:string, title:string } 
   breadcrum3:{url:string, title:string } 
 
-  @ViewChild('paginator') paginator: MatPaginator;
-  dataSource= new MatTableDataSource<any>();
+  dataSource: MatTableDataSource<any>;
+  @ViewChild(MatPaginator) paginator: MatPaginator;
+  @ViewChild(MatSort) sort: MatSort;
 
   constructor(
     private fb: FormBuilder, 
@@ -56,8 +58,9 @@ displayedColumns: string[] = [
   loadUsers(){
     return this.authService.getUsuariosFromSSO(1,20)
     .subscribe((rta:any) =>{
-      console.log("its loadUsers from SSO ", rta )
-      this.dataSource = rta.list
+      this.dataSource = new MatTableDataSource(rta.list);
+      this.dataSource.paginator = this.paginator;
+      this.dataSource.sort = this.sort;
     })
   }
 
@@ -77,10 +80,13 @@ displayedColumns: string[] = [
     return row
   }
 
-
-  applyFilter(event: Event) {
+ applyFilter(event: Event) {
     const filterValue = (event.target as HTMLInputElement).value;
     this.dataSource.filter = filterValue.trim().toLowerCase();
+
+    if (this.dataSource.paginator) {
+      this.dataSource.paginator.firstPage();
+    }
   }
 
 }

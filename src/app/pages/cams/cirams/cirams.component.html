@@ -3,11 +3,7 @@
             <div class="filtros-notif-left">
               <mat-form-field class="mat-full-width">
                 <mat-icon matPrefix>search</mat-icon>
-                <input
-                  (keyup)="applyFilter($event)"
-                  matInput
-                  placeholder="Búscar"
-                />
+                <input matInput (keyup)="applyFilter($event)" placeholder="Consultar" #input>
               </mat-form-field>
               <mat-form-field>
                 <mat-label>Estado</mat-label>
