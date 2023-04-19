@@ -53,8 +53,8 @@ export class ModalActivarUsuarioComponent implements OnInit {
       this.data.guiid
     );
     let { fechaInicio, fechaFin, observaciones } = this.form.getRawValue();
-    fechaInicio = moment(fechaInicio).format('DD-MM-YYYY');
-    fechaFin = moment(fechaFin).format('DD-MM-YYYY');
+    fechaInicio = moment(fechaInicio).format('DD/MM/YYYY');
+    fechaFin = moment(fechaFin).format('DD/MM/YYYY');
     const rules = [this.form.controls.rol.value];
     this.authService
       .registrarVigenciaFromSSO(
@@ -84,7 +84,7 @@ export class ModalActivarUsuarioComponent implements OnInit {
         this.snackBar.open('Asignación de rol exitoso. ', rta, {
           duration: 1500,
           horizontalPosition: 'start',
-          verticalPosition: 'bottom',
+          verticalPosition: 'top',
           panelClass: ['snackGreen'],
         });
         this.status = 'success';

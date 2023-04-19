@@ -32,7 +32,6 @@ export class CamsComponent implements OnInit {
   breadcrum2: { url: string; title: string };
   breadcrum3: { url: string; title: string };
 
-  //dataSource= new MatTableDataSource<any>();
   dataSource: MatTableDataSource<any>;
   @ViewChild(MatPaginator) paginator: MatPaginator;
   @ViewChild(MatSort) sort: MatSort;
@@ -55,7 +54,6 @@ export class CamsComponent implements OnInit {
 
   loadCams() {
     const tmp = this.camsService.listar().subscribe((rta: any) => {
-      //this.dataSource = rta
       this.dataSource = new MatTableDataSource(rta);
       this.dataSource.paginator = this.paginator;
       this.dataSource.sort = this.sort;
@@ -88,26 +86,24 @@ export class CamsComponent implements OnInit {
   }
 
   changeDisponible(event: any) {
-    console.log('changeDisponible...', event.value);
     switch (parseInt(event.value)) {
       case 1: {
-        //statements;
-        this.dataSource.filterPredicate = function (record, filter) {
-          return (
-            record.Gender.toLocaleLowerCase() == filter.toLocaleLowerCase()
-          );
-        };
+        console.log('changeDisponible 1...');
+        this.dataSource.filterPredicate = (data, filter) => {
+        return data.articolo.code.indexOf(filter) != -1;
+      }
         break;
       }
       case 2: {
-        //statements;
+        console.log('changeDisponible 2...');
         break;
       }
       default: {
-        //0
-        //statements;
+        console.log('changeDisponible 0...');
         break;
       }
     }
   }
+
+
 }

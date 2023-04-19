@@ -27,6 +27,7 @@ export class ServiciosComponent implements OnInit {
   isLoadingEspecial =true 
 
   programas: Programa[];
+  dbProgramas: Programa[];
 
   constructor(
     private fb: FormBuilder,
@@ -51,6 +52,9 @@ export class ServiciosComponent implements OnInit {
 
   buildProgramas = async () => {
     this.programas = await this.loadProgramas();
+    this.dbProgramas = await this.loadDBProgramas();
+    //this.dbProgramas= Object.assign({}, this.programas);
+    //this.dbProgramas = this.programas
   };
 
   loadProgramas(): any {
@@ -59,6 +63,37 @@ export class ServiciosComponent implements OnInit {
 
       //CARGAMOS LOS SUBPROGRAMAS
       this.programas.map((i_programa: Programa) => {
+        const subProgramas = this.serviciosService
+          .listarSubProgramas(i_programa.idPrograma!)
+          .subscribe((rtaSubProgramas) => {
+            i_programa.subProgramas = rtaSubProgramas;
+
+            //CARGAMOS LOS SERVICIOS DEL SUBPROGRAMA
+            i_programa.subProgramas?.map((i_subPrograma: SubPrograma) => {
+              const subProgramas = this.serviciosService
+                .listarServicios(
+                  i_programa.idPrograma!,
+                  i_subPrograma.idSubPrograma!
+                )
+                .subscribe((rtaServicios) => {
+                  i_programa.cant_servicios =
+                    i_programa.cant_servicios + rtaServicios.length;
+                  i_subPrograma.servicios = rtaServicios;
+                  this.isLoadingEspecial = false
+                  //END SERVICOS
+                });
+            });
+          });
+      });
+    });
+  }
+
+  loadDBProgramas(): any {
+    return this.serviciosService.listarProgramas().subscribe((rta) => {
+      this.dbProgramas = rta;
+
+      //CARGAMOS LOS SUBPROGRAMAS
+      this.dbProgramas.map((i_programa: Programa) => {
         const subProgramas = this.serviciosService
           .listarSubProgramas(i_programa.idPrograma!)
           .subscribe((rtaSubProgramas) => {
@@ -118,11 +153,13 @@ export class ServiciosComponent implements OnInit {
 
   applyFilter(event: Event) {
     const searchTex = (event.target as HTMLInputElement).value;
-    const results = this.programas.filter((pr)=> pr.descripcion === searchTex ).map((res) => res)
-
-    console.log("  ---- "+results)
-
-    Object.assign(this.programas, results)
+    const results:any = this.dbProgramas.filter((pr)=> (
+      pr.descripcion.toLowerCase().indexOf(searchTex.toLowerCase()) > -1
+    ) 
+  ).map((res) => res)
+    if (results.length > 0)
+      this.programas= results
     return results 
   }
+
 }
