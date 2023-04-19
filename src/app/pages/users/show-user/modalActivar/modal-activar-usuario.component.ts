@@ -68,7 +68,7 @@ export class ModalActivarUsuarioComponent implements OnInit {
         this.snackBar.open('Registro de vigencia del usuario exitoso. ', rta, {
           duration: 1500,
           horizontalPosition: 'start',
-          verticalPosition: 'bottom',
+          verticalPosition: 'top',
           panelClass: ['snackGreen'],
         });
         this.asignarRoles();
