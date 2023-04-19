@@ -64,10 +64,9 @@ export class ModalActivarUsuarioComponent implements OnInit {
         observaciones!
       )
       .subscribe((rta) => {
-        console.log('rta registraVigencia... OK ', rta);
         this.snackBar.open('Registro de vigencia del usuario exitoso. ', rta, {
-          duration: 1500,
-          horizontalPosition: 'start',
+          duration: 8500,
+          horizontalPosition: 'end',
           verticalPosition: 'top',
           panelClass: ['snackGreen'],
         });
@@ -80,7 +79,6 @@ export class ModalActivarUsuarioComponent implements OnInit {
     this.authService
       .asignarRolesForUsuarioFromSSO(this.data.guiid, rules)
       .subscribe((rta) => {
-        console.log('rta asginar roles...OK ', rta);
         this.snackBar.open('Asignación de rol exitoso. ', rta, {
           duration: 1500,
           horizontalPosition: 'start',
