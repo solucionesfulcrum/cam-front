@@ -8,7 +8,9 @@ import { Servicios } from 'src/app/core/_model/servicios.model';
 import { SubPrograma } from 'src/app/core/_model/sub-programa.model';
 import { ProgramasService } from 'src/app/core/_service/programas.service';
 import { BreadcrumService } from 'src/app/shared/services/breadcrum.service';
-import {MatAccordion} from '@angular/material/expansion';
+import { MatAccordion } from '@angular/material/expansion';
+//import { search } from "ss-search"
+
 
 @Component({
   selector: 'app-servicios',
@@ -16,13 +18,13 @@ import {MatAccordion} from '@angular/material/expansion';
   styleUrls: ['./servicios.component.css'],
 })
 export class ServiciosComponent implements OnInit {
-
   @ViewChild(MatAccordion) accordion: MatAccordion;
 
   form = this.fb.group({
     fechaIni: [''],
     fechaFin: [''],
   });
+  isLoadingEspecial =true 
 
   programas: Programa[];
 
@@ -65,10 +67,15 @@ export class ServiciosComponent implements OnInit {
             //CARGAMOS LOS SERVICIOS DEL SUBPROGRAMA
             i_programa.subProgramas?.map((i_subPrograma: SubPrograma) => {
               const subProgramas = this.serviciosService
-                .listarServicios(i_programa.idPrograma!, i_subPrograma.idSubPrograma!)
+                .listarServicios(
+                  i_programa.idPrograma!,
+                  i_subPrograma.idSubPrograma!
+                )
                 .subscribe((rtaServicios) => {
-                  i_programa.cant_servicios = i_programa.cant_servicios + rtaServicios.length
-                  i_subPrograma.servicios= rtaServicios;
+                  i_programa.cant_servicios =
+                    i_programa.cant_servicios + rtaServicios.length;
+                  i_subPrograma.servicios = rtaServicios;
+                  this.isLoadingEspecial = false
                   //END SERVICOS
                 });
             });
@@ -103,13 +110,19 @@ export class ServiciosComponent implements OnInit {
     this.router.navigate(['/servicios/show/', codigo]);
   }
 
-
-getClassRow(i:number) :string {
-    let row =""
-    if ( i%2!=0)
-     row ="rowColor" 
-    return row
+  getClassRow(i: number): string {
+    let row = '';
+    if (i % 2 != 0) row = 'rowColor';
+    return row;
   }
 
-  
+  applyFilter(event: Event) {
+    const searchTex = (event.target as HTMLInputElement).value;
+    const results = this.programas.filter((pr)=> pr.descripcion === searchTex ).map((res) => res)
+
+    console.log("  ---- "+results)
+
+    Object.assign(this.programas, results)
+    return results 
+  }
 }

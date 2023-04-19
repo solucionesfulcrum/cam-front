@@ -192,14 +192,17 @@ const routes: Routes = [
     path: 'servicios/edit/:id',
     component: EditServicioComponent,
   },
-  //{
-    //path: 'redes/new',
-    //component: NewRedComponent,
-  //},
+  {
+    path: 'servicios/show/:id',
+    component: ShowServicioComponent,
+  },
   {
     path: 'redes/edit/:id',
     component: EditRedComponent,
   },
+
+
+
 ];
 
 @NgModule({

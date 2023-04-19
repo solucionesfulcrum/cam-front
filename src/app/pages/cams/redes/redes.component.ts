@@ -25,6 +25,7 @@ export class RedesComponent implements OnInit {
   @ViewChild(MatSort) sort: MatSort;
 
   displayedColumns: string[] = [
+    'index',
     'nombre',
     'redasiscod',
     'tipo',

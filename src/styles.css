@@ -1254,3 +1254,7 @@ body {
   background-color: #b91c1c;
   color: white;
 }
+
+min-h50{
+  height: 300px;
+}

@@ -23,6 +23,7 @@ export class CiramsComponent implements OnInit {
   @ViewChild(MatSort) sort: MatSort;
 
   displayedColumns: string[] = [
+    'index',
     'descripcionC',
     'celular',
     'fechaInscripcion',
