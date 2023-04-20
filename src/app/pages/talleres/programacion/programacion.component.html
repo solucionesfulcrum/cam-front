@@ -8,7 +8,9 @@
     <div class="pl-3 pr-3">
       <mat-form-field class="w-full">
         <mat-label> Consultar</mat-label>
-        <input #nameInput placeholder="Consultar" matInput type="text" />
+        <input #nameInput placeholder="Consultar" matInput type="text"
+                (keyup)="applyFilter($event)"
+          />
       </mat-form-field>
     </div>
     <div class="pl-3 pr-3 block overflow-y-auto h-100c space-y-1">
@@ -25,40 +27,20 @@
         </div>
       </div>
 
-      <div class="bg-slate-50 flex w-full hover:bg-slate-200 cursor">
+      <div class="bg-slate-50 flex w-full hover:bg-slate-200 cursor" *ngFor="let cam of cams;let i=index">
         <!-- NG-FOR -->
         <div class="flex p-1 text-slate-400 w-90">
           <span *ngIf="true">
             <img class="" src="assets/eventos-casa-cam.svg" />
           </span>
-          <span class="ml-2 text-slate-600"> CAM CUSCO </span>
+          <span class="ml-2 text-slate-600"> {{cam.descripcion}}</span>
         </div>
         <div class="text-slate-400 w-10 flex justify-end pt-1 text-slate-600">
-          0
+         {{i}} 
         </div>
       </div>
 
-      <div class="bg-slate-50 flex w-full hover:bg-slate-200 cursor">
-        <!-- NG-FOR -->
-        <div class="flex p-1 text-slate-400 w-90">
-          <span *ngIf="true">
-            <img class="" src="assets/eventos-casa-cam.svg" />
-          </span>
-          <span class="ml-2 text-slate-600"> CAM CUSCO </span>
-        </div>
-        <div class="w-10 flex justify-end pt-1 text-slate-600">0</div>
-      </div>
-
-      <div class="bg-slate-50 flex w-full hover:bg-slate-200 cursor">
-        <!-- NG-FOR -->
-        <div class="flex p-1 text-slate-400 w-90">
-          <span *ngIf="true">
-            <img class="" src="assets/eventos-casa-cam.svg" />
-          </span>
-          <span class="ml-2 text-slate-600"> CAM CUSCO </span>
-        </div>
-        <div class="w-10 flex justify-end pt-1 text-slate-600">0</div>
-      </div>
+     
     </div>
   </div>
   <div class="w-70 bg-white block">
