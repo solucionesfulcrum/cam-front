@@ -1258,3 +1258,7 @@ body {
 min-h50{
   height: 300px;
 }
+
+.h-100c {
+    height: 30rem/* 80px */;
+}

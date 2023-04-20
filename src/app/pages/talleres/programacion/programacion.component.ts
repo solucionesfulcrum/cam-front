@@ -1,11 +1,12 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
-import { FormBuilder } from '@angular/forms';
+import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatTableDataSource } from '@angular/material/table';
 import { ActivatedRoute, Router } from '@angular/router';
 import { CiramsService } from 'src/app/core/_service/cirams.service';
 import { BreadcrumService } from 'src/app/shared/services/breadcrum.service';
 import { AuthService } from '../../auth/services/auth-service.service';
+import { MatSort } from '@angular/material/sort';
 
 @Component({
   selector: 'app-programacion',
@@ -14,22 +15,30 @@ import { AuthService } from '../../auth/services/auth-service.service';
 })
 export class ProgramacionComponent implements OnInit {
 
-  form= this.fb.group({
-    fechaIni: [''],
-    fechaFin: [''],
-  });
-
-  @ViewChild('paginator') paginator: MatPaginator;
-  dataSource2= new MatTableDataSource<any>();
-
-  displayedColumns: string[] = [
-    'idRolAplicacion',
-    'codigo',
-    'nombre',
+displayedColumns: string[] = [
+    'nombres',
+    'usuario',
+    'cam',
+    'rol',
+    'tieneVigencia',
   ];
 
+  dataSource: MatTableDataSource<any>;
+  @ViewChild(MatPaginator) paginator: MatPaginator;
+  @ViewChild(MatSort) sort: MatSort;
+
+  form = this.formBuilder.group({
+    fechaInicio: ['', [Validators.required]],
+    fechaFin: ['', [Validators.required]],
+  });
+
+  range = new FormGroup({
+    start: new FormControl<Date | null>(null),
+    end: new FormControl<Date | null>(null),
+  });
+
   constructor(
-    private fb: FormBuilder, 
+    private formBuilder: FormBuilder,
     private router: Router, 
     private route: ActivatedRoute,
     private breadcrumService: BreadcrumService,
@@ -39,22 +48,13 @@ export class ProgramacionComponent implements OnInit {
       breadcrumService.activeTab$.next('programacion');
       this.breadcrumService.link2$.next({url:'' ,title:''});
       this.breadcrumService.link3$.next({url:'', title:''});
-      this.loadRoles()
+      this.loadUsers()
   }
 
   ngOnInit(): void {
   }
 
   filtrarTabla(event: any): void {}
-
-  loadRoles(){
-    return this.authService.getRolesFromSSO(1,20)
-    .subscribe((rta:any) =>{
-      const respuesta = JSON.parse(rta as string);
-      console.log("role...", respuesta.list )
-      this.dataSource2 = respuesta.list
-    })
-  }
 
   setLink2(nameLink: string, codigo:string){
       this.breadcrumService.link2$.next({url:'/talleres/show/'+codigo, title:nameLink});
@@ -68,4 +68,30 @@ export class ProgramacionComponent implements OnInit {
     return row
   }
 
+ changeEstado(event: any) {
+    switch (parseInt(event.value)) {
+      case 1: {
+        console.log('changeDisponible 1...');
+        break
+      }
+      case 2: {
+        console.log('changeDisponible 2...');
+        break;
+      }
+      default: {
+        break;
+      }
+    }
+  }
+
+  loadUsers(){
+    return this.authService.getUsuariosFromSSO(1,20)
+    .subscribe((rta:any) =>{
+      this.dataSource = new MatTableDataSource(rta.list);
+      this.dataSource.paginator = this.paginator;
+      this.dataSource.sort = this.sort;
+    })
+  }
+
 }
+

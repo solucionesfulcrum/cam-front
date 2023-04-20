@@ -28,7 +28,6 @@ export class ModalActivarUsuarioComponent implements OnInit {
   });
 
   constructor(
-    private fb: FormBuilder,
     public dialogRef: MatDialogRef<ModalActivarUsuarioComponent>,
     private formBuilder: FormBuilder,
     private authService: AuthService,
