@@ -1,14 +1,63 @@
-<div class="block">
-  <div class="head block bg-white m-5">
-    <div class="title">
-      <span class="uppercase text-gray-500">eventos</span>
-    </div>
-    <div class="pestanias">
-      <span class="uppercase text-gray-500">pestanias</span>
+<div class="div-container">
+  <div class="mb-2">
+    <span class="text-white text-w-fine text-s-20 d-block"
+      ><b>GESTIÓN DE EVENTOS</b></span
+    >
+    <div class="d-flex">
+      <div class="d-flex">
+        <span class="text-white material-symbols-outlined text-s-15 pt-2">
+          <a routerLink="/home" class="text-white decorator-none"> home </a>
+        </span>
+
+        <span class="text-white text-w-fine text-style-cursiva text-s-12 pt-2">
+          <a routerLink="/home" class="text-white decorator-none"> INICIO </a>
+        </span>
+      </div>
+
+      <div class="d-flex ml-5" *ngIf="breadcrum1?.url">
+        <span class="text-white material-symbols-outlined text-s-20 pt-1 ml-5">
+          / 
+        </span>
+
+        <span class="text-white text-w-fine text-style-cursiva text-s-12 pt-2 ml-5">
+          <a routerLink="{{ breadcrum1.url }}" class="text-white decorator-none"> {{breadcrum1.title}}</a>
+        </span>
+      </div>
+
+      <div class="d-flex ml-5" *ngIf="breadcrum2?.url">
+        <span class="text-white material-symbols-outlined text-s-20 pt-1 ml-5">
+          / 
+        </span>
+
+        <span class="text-white text-w-fine text-style-cursiva text-s-12 pt-2 ml-5">
+          <a routerLink="{{ breadcrum2.url }}" class="text-white decorator-none"> {{breadcrum2.title}}</a>
+        </span>
+      </div>
+
+      <div class="d-flex ml-5" *ngIf="breadcrum3?.url">
+        <span class="text-white material-symbols-outlined text-s-20 pt-1 ml-5">
+          / 
+        </span>
+
+        <span class="text-white text-w-fine text-style-cursiva text-s-12 pt-2 ml-5">
+          <a routerLink="{{ breadcrum3.url }}" class="text-white decorator-none"> {{breadcrum3.title}}</a>
+        </span>
+      </div>
     </div>
   </div>
-  <div class="body flex m-5">
-    <div class="izquierda w-30 bg-white">Left</div>
-    <div class="derecha w-70 bg-white">RIGHTH</div>
-  </div>
+  <mat-card>
+    <nav mat-tab-nav-bar [tabPanel]="tabPanel">
+      <a
+        mat-tab-link
+        *ngFor="let link of links"
+        (click)="activeTab = link.url"
+        routerLink="{{ link.url }}"
+        [active]="activeTab == link.url"
+      >
+        {{ link.title }}
+      </a>
+    </nav>
+    <mat-tab-nav-panel #tabPanel> </mat-tab-nav-panel>
+    <router-outlet></router-outlet>
+  </mat-card>
 </div>
