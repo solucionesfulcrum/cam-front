@@ -25,6 +25,7 @@ import { ProgramacionComponent } from './programacion/programacion.component';
 import { ServiciosComponent } from './servicios/servicios.component';
 import { TalleristasComponent } from './talleristas/talleristas.component';
 import { CiramsComponent } from './cirams/cirams.component';
+import { ShowProgramacionTallerComponent } from './show-programacion-taller/show-programacion-taller.component';
 
 
 
@@ -36,6 +37,8 @@ import { CiramsComponent } from './cirams/cirams.component';
     ServiciosComponent,
     TalleristasComponent,
     CiramsComponent,
+
+    ShowProgramacionTallerComponent, 
   ],
   imports: [
     CommonModule,

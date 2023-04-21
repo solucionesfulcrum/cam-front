@@ -5,6 +5,7 @@ import { ProgramacionComponent } from './programacion/programacion.component';
 import { ServiciosComponent } from './servicios/servicios.component';
 import { CiramsComponent } from './cirams/cirams.component';
 import { TalleristasComponent } from './talleristas/talleristas.component';
+import { ShowProgramacionTallerComponent } from './show-programacion-taller/show-programacion-taller.component';
 
 const routes: Routes = [
   // { path: '', component: CamsComponent},
@@ -15,10 +16,6 @@ const routes: Routes = [
   {
     path:'analisis',
     component:AnalisisComponent,
-  },
-  {
-    path:'programacion',
-    component:ProgramacionComponent
   },
   {
     path:'servicios',
@@ -32,7 +29,16 @@ const routes: Routes = [
     path:'talleristas',
     component:TalleristasComponent
   },
-
+  {
+    path:'programacion',
+    component:ProgramacionComponent,
+    children:[
+      {
+        path: ':id',
+        component:  ShowProgramacionTallerComponent,
+      },
+    ]
+  }
 ];
 
 @NgModule({

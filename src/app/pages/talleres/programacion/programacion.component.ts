@@ -14,6 +14,9 @@ import { AuthService } from '../../auth/services/auth-service.service';
 import { MatSort } from '@angular/material/sort';
 import { CamsService } from 'src/app/core/_service/cams.service';
 import { Cam } from 'src/app/core/_model/cam.model';
+import { HelpperService } from 'src/app/shared/services/helpper.service';
+import { Ciram } from 'src/app/core/_model/ciram.model';
+import { Programa } from 'src/app/core/_model/programa.model';
 
 @Component({
   selector: 'app-programacion',
@@ -29,6 +32,10 @@ export class ProgramacionComponent implements OnInit {
     'tieneVigencia',
   ];
 
+  breadcrum1: { url: string; title: string };
+  breadcrum2: { url: string; title: string };
+  breadcrum3: { url: string; title: string };
+
   dataSource: MatTableDataSource<any>;
   @ViewChild(MatPaginator) paginator: MatPaginator;
   @ViewChild(MatSort) sort: MatSort;
@@ -43,38 +50,37 @@ export class ProgramacionComponent implements OnInit {
     end: new FormControl<Date | null>(null),
   });
 
-  cams: Cam[];
-  dbCams: Cam[];
+  list_uo: any[];
+  DB_list_uo: any[];
 
   constructor(
     private formBuilder: FormBuilder,
     private router: Router,
     private route: ActivatedRoute,
     private breadcrumService: BreadcrumService,
+    private helpperService: HelpperService,
     private authService: AuthService,
     private camsService: CamsService
   ) {
-    breadcrumService.link1$.next({
-      url: '/talleres/programacion',
-      title: 'PROGRAMACIÓN',
-    });
+
     breadcrumService.activeTab$.next('programacion');
+    breadcrumService.link1$.next({ url: '/talleres/programacion',  title: 'PROGRAMACIÓNYYY' });
     this.breadcrumService.link2$.next({ url: '', title: '' });
     this.breadcrumService.link3$.next({ url: '', title: '' });
+    helpperService.uo$.next(null);
     this.loadUsers();
     this.loadCams();
+
   }
 
   ngOnInit(): void {}
 
   filtrarTabla(event: any): void {}
 
-  setLink2(nameLink: string, codigo: string) {
-    this.breadcrumService.link2$.next({
-      url: '/talleres/show/' + codigo,
-      title: nameLink,
-    });
-    this.router.navigate(['/talleres/programacion/show/', codigo]);
+  setLink2(nameLink: string, codigo: string, unidadOperativa: Cam | Ciram | Programa ) {
+    this.helpperService.uo$.next(unidadOperativa);
+    this.breadcrumService.link2$.next({ url: '/talleres/programacion/' + codigo, title: nameLink });
+    this.router.navigate(['/talleres/programacion/', codigo]);
   }
 
   getClassRow(i: number): string {
@@ -109,20 +115,18 @@ export class ProgramacionComponent implements OnInit {
 
   loadCams() {
     const tmp = this.camsService.listar().subscribe((rta: any) => {
-      this.cams = rta;
-      this.dbCams = rta;
+      this.helpperService.list_uo$.next(rta);
+      this.list_uo = rta;
+      this.DB_list_uo = rta;
     });
   }
 
   applyFilter(event: Event) {
     const searchTex = (event.target as HTMLInputElement).value;
-    const results: any = this.dbCams
-      .filter(
-        (pr) =>
-          pr.descripcion.toLowerCase().indexOf(searchTex.toLowerCase()) > -1
-      )
-      .map((res) => res);
-    if (results.length > 0) this.cams= results;
+    const results: any = this.DB_list_uo.filter(
+      (pr) => pr.descripcion.toLowerCase().indexOf(searchTex.toLowerCase()) > -1
+    ).map((res) => res);
+    if (results.length > 0) this.list_uo = results;
     return results;
   }
 }

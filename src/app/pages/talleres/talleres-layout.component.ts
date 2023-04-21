@@ -21,7 +21,7 @@ export class TalleresLayoutComponent implements OnInit {
   breadcrum2:{url:string, title:string }
   breadcrum3:{url:string, title:string }
 
-  activeTab= '/cams'
+  activeTab= 'analisis'
 
  constructor(
     private router: Router,
