@@ -67,6 +67,7 @@ displayedColumns: string[] = [
     this.breadcrumService.link3$.next({ url: '', title: '' });
     this.loadCamById(this.id); //carga datos reales del servidor
     this.breadcrumService.activeTab$.next('programacion');
+    helpperService.show_list$.next(true);
 
     
     this.helpperService.uo$.subscribe((event) => {
@@ -94,6 +95,7 @@ displayedColumns: string[] = [
   setLink2(nameLink: string, codigo: string, unidadOperativa: Cam | Ciram | Programa ) {
     this.helpperService.uo$.next(unidadOperativa);
     this.breadcrumService.link2$.next({ url: '/talleres/programacion/' + codigo, title: nameLink });
+    this.breadcrumService.link3$.next({ url: '' , title: ''});
     this.router.navigate(['/talleres/programacion/', codigo]);
   }
 

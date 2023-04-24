@@ -6,6 +6,7 @@ import { ServiciosComponent } from './servicios/servicios.component';
 import { CiramsComponent } from './cirams/cirams.component';
 import { TalleristasComponent } from './talleristas/talleristas.component';
 import { ShowProgramacionTallerComponent } from './show-programacion-taller/show-programacion-taller.component';
+import { AsignarTalleristaComponent } from './asignar-tallerista/asignar-tallerista.component';
 
 const routes: Routes = [
   // { path: '', component: CamsComponent},
@@ -36,6 +37,10 @@ const routes: Routes = [
       {
         path: ':id',
         component:  ShowProgramacionTallerComponent,
+      },
+      {
+        path: ':id/asignar-tallerista',
+        component:  AsignarTalleristaComponent,
       },
     ]
   }

@@ -26,6 +26,7 @@ import { ServiciosComponent } from './servicios/servicios.component';
 import { TalleristasComponent } from './talleristas/talleristas.component';
 import { CiramsComponent } from './cirams/cirams.component';
 import { ShowProgramacionTallerComponent } from './show-programacion-taller/show-programacion-taller.component';
+import { AsignarTalleristaComponent } from './asignar-tallerista/asignar-tallerista.component';
 
 
 
@@ -39,6 +40,7 @@ import { ShowProgramacionTallerComponent } from './show-programacion-taller/show
     CiramsComponent,
 
     ShowProgramacionTallerComponent, 
+    AsignarTalleristaComponent,
   ],
   imports: [
     CommonModule,

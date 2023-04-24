@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { BreadcrumService } from 'src/app/shared/services/breadcrum.service';
+import { HelpperService } from 'src/app/shared/services/helpper.service';
 
 @Component({
   selector: 'app-talleres-layout',
@@ -26,7 +27,8 @@ export class TalleresLayoutComponent implements OnInit {
  constructor(
     private router: Router,
     private route: ActivatedRoute,
-    private breadcrumService:BreadcrumService
+    private breadcrumService:BreadcrumService,
+    private helpperService:HelpperService
   ) {
 
     breadcrumService.link1$.subscribe(event => {
@@ -71,6 +73,8 @@ export class TalleresLayoutComponent implements OnInit {
 
   setLink1(){
     this.breadcrumService.link2$.next({ url: '' , title: ''});
+    this.helpperService.show_list$.next(true);
+    this.breadcrumService.link3$.next({ url: '' , title: ''});
   }
 
 }

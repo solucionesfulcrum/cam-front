@@ -11,6 +11,7 @@ export class HelpperService {
 
   public uo$ = new Subject<Cam | Ciram | Programa  | null>();
   public list_uo$ = new Subject< any[] >();
+  public show_list$ = new Subject< boolean >();
 
   constructor() { }
 }
