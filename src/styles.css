@@ -1055,6 +1055,10 @@ body {
   border-left: 1px solid #f97316
 }
 
+.border-left-2-gray{
+  border-left: 1px solid #cbd5e1 
+}
+
 .border-left-2-sky{
   border-left: 1px solid #075985;
 }

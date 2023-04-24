@@ -17,6 +17,9 @@ import { Cam } from 'src/app/core/_model/cam.model';
 import { HelpperService } from 'src/app/shared/services/helpper.service';
 import { Ciram } from 'src/app/core/_model/ciram.model';
 import { Programa } from 'src/app/core/_model/programa.model';
+import { RequestStatus } from 'src/app/core/_model/request-status.model';
+import { MatDialog } from '@angular/material/dialog';
+import { ModalAgregarEventoComponent } from './modalAgregarEvento/modal-agregar-evento.component';
 
 @Component({
   selector: 'app-asignar-tallerista',
@@ -54,6 +57,7 @@ export class AsignarTalleristaComponent implements OnInit {
   list_uo: any[] 
   id = '';
   name = '';
+  status: RequestStatus = 'init';
 
   constructor(
     private formBuilder: FormBuilder,
@@ -62,7 +66,8 @@ export class AsignarTalleristaComponent implements OnInit {
     private breadcrumService: BreadcrumService,
     private helpperService: HelpperService,
     private authService: AuthService,
-    private camsService: CamsService
+    private camsService: CamsService,
+    private dialog: MatDialog,
   ) {
     this.id = this.route.snapshot.paramMap.get('id')!;
     breadcrumService.activeTab$.next('programacion');
@@ -141,6 +146,18 @@ async loadCamById(id: string) {
           title: rta.descripcion,
         });
       });
+  }
+
+ loadModalAgregarEvento() {
+    const dialogRef = this.dialog.open(ModalAgregarEventoComponent, {
+      width: '1050px',
+      height: 'auto',
+      data: { uo: this.uo , guiid: this.id },
+    });
+    dialogRef.afterClosed().subscribe((rta: any) => {
+      
+      console.log('resul post modal from parent: ', rta);
+    });
   }
 
 }

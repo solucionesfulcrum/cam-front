@@ -27,6 +27,7 @@ import { TalleristasComponent } from './talleristas/talleristas.component';
 import { CiramsComponent } from './cirams/cirams.component';
 import { ShowProgramacionTallerComponent } from './show-programacion-taller/show-programacion-taller.component';
 import { AsignarTalleristaComponent } from './asignar-tallerista/asignar-tallerista.component';
+import { ModalAgregarEventoComponent } from './asignar-tallerista/modalAgregarEvento/modal-agregar-evento.component';
 
 
 
@@ -41,6 +42,7 @@ import { AsignarTalleristaComponent } from './asignar-tallerista/asignar-talleri
 
     ShowProgramacionTallerComponent, 
     AsignarTalleristaComponent,
+    ModalAgregarEventoComponent,
   ],
   imports: [
     CommonModule,
