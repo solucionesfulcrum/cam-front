@@ -62,9 +62,8 @@ export class ProgramacionComponent implements OnInit {
     private authService: AuthService,
     private camsService: CamsService
   ) {
-
     breadcrumService.activeTab$.next('programacion');
-    breadcrumService.link1$.next({ url: '/talleres/programacion',  title: 'PROGRAMACIÓNYYY' });
+    breadcrumService.link1$.next({ url: '/talleres/programacion',  title: 'PROGRAMACIÓN' });
     this.breadcrumService.link2$.next({ url: '', title: '' });
     this.breadcrumService.link3$.next({ url: '', title: '' });
     helpperService.uo$.next(null);
@@ -129,4 +128,6 @@ export class ProgramacionComponent implements OnInit {
     if (results.length > 0) this.list_uo = results;
     return results;
   }
+
+
 }

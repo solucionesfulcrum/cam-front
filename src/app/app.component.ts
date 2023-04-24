@@ -20,7 +20,6 @@ export class AppComponent implements OnInit, OnDestroy {
     this.utilSvc.sidenavOpen$
       .pipe(takeUntil(this.destroy$))
       .subscribe((sidenav) => {
-        console.log(sidenav);
         this.opened = sidenav;
       });
   }

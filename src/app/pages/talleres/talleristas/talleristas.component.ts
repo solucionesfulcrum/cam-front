@@ -51,7 +51,6 @@ export class TalleristasComponent implements OnInit {
     return this.authService.getRolesFromSSO(1,20)
     .subscribe((rta:any) =>{
       const respuesta = JSON.parse(rta as string);
-      console.log("role...", respuesta.list )
       this.dataSource2 = respuesta.list
     })
   }

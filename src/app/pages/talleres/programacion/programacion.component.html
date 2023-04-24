@@ -8,31 +8,38 @@
     <div class="pl-3 pr-3">
       <mat-form-field class="w-full">
         <mat-label> Consultar</mat-label>
-        <input #nameInput placeholder="Consultar" matInput type="text"
-                (keyup)="applyFilter($event)"
-          />
+        <input
+          #nameInput
+          placeholder="Consultar"
+          matInput
+          type="text"
+          (keyup)="applyFilter($event)"
+        />
       </mat-form-field>
     </div>
     <div class="pl-3 pr-3 block overflow-y-auto h-100c space-y-1">
-
-      <div class="bg-slate-50 flex w-full hover:bg-slate-200 cursor" *ngFor="let uo of list_uo;let i=index"  >
+      <div
+        class="bg-slate-50 flex w-full hover:bg-slate-200 cursor"
+        *ngFor="let uo of list_uo; let i = index"
+      >
         <!-- NG-FOR -->
-      <a *ngIf="uo.idCam" routerLink="/talleres/programacion/{{uo.idCam}}"  
-      (click)="setLink2(uo.descripcion, uo.idCam.toString(), uo )"
-      class="flex w-full">
-        <div class="flex p-1 text-slate-400 w-90">
-          <span *ngIf="true">
-            <img class="" src="assets/eventos-casa-cam.svg" />
-          </span>
-          <span class="ml-2 text-slate-600"> {{uo.descripcion}}</span>
-        </div>
-        <div class="text-slate-400 w-10 flex justify-end pt-1 text-slate-600">
-         {{i}} 
-        </div>
-      </a>
+        <a
+          *ngIf="uo.idCam"
+          routerLink="/talleres/programacion/{{ uo.idCam }}"
+          (click)="setLink2(uo.descripcion, uo.idCam.toString(), uo)"
+          class="flex w-full"
+        >
+          <div class="flex p-1 text-slate-400 w-90">
+            <span *ngIf="true">
+              <img class="" src="assets/eventos-casa-cam.svg" />
+            </span>
+            <span class="ml-2 text-slate-600"> {{ uo.descripcion }}</span>
+          </div>
+          <div class="text-slate-400 w-10 flex justify-end pt-1 text-slate-600">
+            {{ i }}
+          </div>
+        </a>
       </div>
-
-     
     </div>
   </div>
   <div class="w-70 bg-white block">
@@ -165,6 +172,6 @@
       </table>
     </div>
   -->
-    <router-outlet ></router-outlet>
+    <router-outlet></router-outlet>
   </div>
 </div>

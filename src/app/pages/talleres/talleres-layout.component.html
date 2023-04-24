@@ -20,7 +20,7 @@
         </span>
 
         <span class="text-white text-w-fine text-style-cursiva text-s-12 pt-2 ml-5">
-          <a routerLink="{{ breadcrum1.url }}" class="text-white decorator-none"> {{breadcrum1.title}}</a>
+          <a routerLink="{{ breadcrum1.url }}" class="text-white decorator-none" (click)=setLink1()> {{breadcrum1.title}}</a>
         </span>
       </div>
 
@@ -50,7 +50,7 @@
       <a
         mat-tab-link
         *ngFor="let link of links"
-        (click)="activeTab = link.url"
+        (click)="activeTab = link.url;setLink1()"
         routerLink="{{ link.url }}"
         [active]="activeTab == link.url"
       >

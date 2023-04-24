@@ -53,8 +53,9 @@ export class TalleresLayoutComponent implements OnInit {
   getActiveLink(path:string)
   {
     let active = '/talleres/analisis'
-    if ( path === '/talleres/programacion')
-     active= 'programacion'
+    if ( path === '/talleres/programacion'){
+      active= 'programacion'
+    }
 
     if ( path === '/talleres/servicios')
      active= 'servicios'
@@ -66,6 +67,10 @@ export class TalleresLayoutComponent implements OnInit {
      active= 'talleristas'
 
      return active
+  }
+
+  setLink1(){
+    this.breadcrumService.link2$.next({ url: '' , title: ''});
   }
 
 }
