@@ -1063,6 +1063,10 @@ body {
   border-left: 1px solid #075985;
 }
 
+.border-left-2-green{
+  border-left: 1px solid #22c55e;
+}
+
 .heigth-fit{
   height: fit-content;
 }

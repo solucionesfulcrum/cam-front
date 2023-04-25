@@ -39,8 +39,10 @@
         <div class="actions w-10 d-flex justify-end content-end mr-10">
           <button
             mat-raised-button
-            class="text-uppercase mat-btn-ligth px-1 px-0"
-            routerLink="/cams/servicios/edit/{program.idPrograma}"
+            class="text-uppercase mat-btn-ligth px-1"
+            
+            
+            
           >
             EDITAR
           </button>
@@ -65,7 +67,7 @@
 
         <ng-template #templateNODATA class="detailProgram flex w-full">
           <span
-            class="text-success uppercase text-w-semibold text-s-14 uppercase"
+            class="text-success uppercase text-w-semibold text-s-14 "
             >no hay información para mostrar</span
           >
         </ng-template>
@@ -73,7 +75,7 @@
       <div class="subPrograms w-full p-2">
         <mat-accordion class="example-headers-align" multi>
           <mat-expansion-panel
-            class="subprograma1 mt-3 ml-3"
+            class="subprograma1 mt-3 ml-3" [expanded]="true"
             *ngFor="let subprogram of program.subProgramas; let i_sub = index"
           >
             <mat-expansion-panel-header>
