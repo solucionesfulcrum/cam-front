@@ -1253,6 +1253,16 @@ body {
     --tw-ring-color: rgb(125 211 252 / var(--tw-ring-opacity));
 }
 
+.snackSky{
+  background-color: #0369a1;
+  color: white;
+}
+
+.snackCyan{
+  background-color: #06b6d4;
+  color: white;
+}
+
 .snackGreen{
   background-color: #15803d;
   color: white;

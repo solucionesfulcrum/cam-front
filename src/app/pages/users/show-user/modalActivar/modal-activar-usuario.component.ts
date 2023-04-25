@@ -19,6 +19,7 @@ export class ModalActivarUsuarioComponent implements OnInit {
   roles: any;
   guiid: string;
   status: RequestStatus = 'init';
+  durationEnSegundos = 10;
 
   form = this.formBuilder.group({
     rol: ['', [Validators.required]],
@@ -32,25 +33,29 @@ export class ModalActivarUsuarioComponent implements OnInit {
     private formBuilder: FormBuilder,
     private authService: AuthService,
     @Inject(MAT_DIALOG_DATA) public data: any,
-    private snackBar: MatSnackBar
+    private snackBar: MatSnackBar,
+    private snackBar2: MatSnackBar
   ) {
     this.loadRoles();
   }
 
   ngOnInit(): void {}
 
-  activaUsuarioYAsignaRoles() {
-    this.status = 'loading';
-    this.activarUsuario();
+  async activaUsuarioYAsignaRoles() {
+    if (this.form.valid) {
+      this.status = 'loading';
+      await this.activarUsuario();
+      await this.asignarRoles();
+      this.dialogRef.close({
+        data: {
+          message: 'exito despues de cerrar',
+        },
+        disableClose: false,
+      });
+    }
   }
 
   async activarUsuario() {
-    console.log(
-      'from parents... ',
-      '  this.data',
-      ' this.data.guiiid',
-      this.data.guiid
-    );
     let { fechaInicio, fechaFin, observaciones } = this.form.getRawValue();
     fechaInicio = moment(fechaInicio).format('DD/MM/YYYY');
     fechaFin = moment(fechaFin).format('DD/MM/YYYY');
@@ -62,14 +67,16 @@ export class ModalActivarUsuarioComponent implements OnInit {
         fechaFin,
         observaciones!
       )
-      .subscribe((rta) => {
-        this.snackBar.open('Registro de vigencia del usuario exitoso. ', rta, {
-          duration: 8500,
+      .subscribe((rta: any) => {
+        console.log('rta for vigencia: ', rta);
+        rta = JSON.parse(rta as string);
+        this.snackBar.open('Registro de vigencia - ' + rta.message, 'Cerrar', {
+          duration: this.durationEnSegundos * 1000,
           horizontalPosition: 'end',
           verticalPosition: 'top',
-          panelClass: ['snackGreen'],
+          panelClass: ['snackCyan'],
         });
-        this.asignarRoles();
+        this.status = 'success';
       });
   }
 
@@ -77,20 +84,18 @@ export class ModalActivarUsuarioComponent implements OnInit {
     const rules = [this.form.controls.rol.value!];
     this.authService
       .asignarRolesForUsuarioFromSSO(this.data.guiid, rules)
-      .subscribe((rta) => {
-        this.snackBar.open('Asignación de rol exitoso. ', rta, {
-          duration: 1500,
-          horizontalPosition: 'start',
-          verticalPosition: 'top',
-          panelClass: ['snackGreen'],
+      .subscribe((rta: any) => {
+        let msg = '';
+        if (rta === 'true') msg = 'se realizó correctamente';
+        else msg = 'no se pudo realizar';
+
+        this.snackBar2.open('Asignación de roles - ' + msg, 'Cerrar', {
+          duration: this.durationEnSegundos * 1000,
+          horizontalPosition: 'end',
+          verticalPosition: 'bottom',
+          panelClass: ['snackSky'],
         });
         this.status = 'success';
-        this.dialogRef.close({
-          data: {
-            message: 'exito despues de cerrar',
-          },
-          disableClose: false,
-        });
       });
   }
 
