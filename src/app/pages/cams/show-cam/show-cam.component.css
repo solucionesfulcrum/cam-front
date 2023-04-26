@@ -59,8 +59,8 @@ table td button {
 
 th.mat-header-cell,
 td.mat-cell {
-  text-align: center;
-  padding: 0 5px;
+  /* text-align: center; */
+  padding: 0 0 0 25px;
 }
 
 .div-botton {
@@ -148,7 +148,4 @@ td.mat-cell {
   max-width: 400px;
 }
 
-
-
-
-@import '../cams-layout.component.css'
+@import "../cams-layout.component.css";

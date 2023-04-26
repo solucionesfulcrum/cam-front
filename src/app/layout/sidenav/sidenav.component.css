@@ -1,8 +1,8 @@
 mat-icon {
-    color : #0284c7;
+  color: #0284c7;
 }
-.mat-icon{
-    color : #0284c7;
+.mat-icon {
+  color: #0284c7;
 }
 
 mat-nav-list a {
@@ -17,7 +17,7 @@ mat-nav-list a:hover {
   color: #374151;
 }
 
-mat-nav-list a:active{
+mat-nav-list a:active {
   background: #cbd5e1;
   color: #374151;
 }
@@ -37,14 +37,15 @@ button {
   font-weight: 400;
 }
 .div-sidenav-img {
-  text-align: center;
+  display: flex;
+  justify-content: center;
 }
 .div-sidenav-img img {
   width: 100%;
   max-width: 175px;
 }
 .div-desc-mod {
-  text-align: center;
+  justify-content: center;
   margin-top: 12px;
   font-weight: 500;
 }
@@ -55,5 +56,5 @@ button {
   /*background: #e7fcff;*/
   background: #cbd5e1;
   color: #374151;
-  border-left: 4px solid  #0c4a6e;
+  border-left: 4px solid #0c4a6e;
 }
