@@ -10,6 +10,7 @@ import { RegistroComponent } from './registro/registro.component';
 import { OlvidoPasswordComponent } from './olvido-password/olvido-password.component';
 import { CambioPasswordComponent } from './modals/cambio-password/cambio-password.component';
 import { RegistroCodigoComponent } from './modals/registro-codigo/registro-codigo.component';
+import { MatAutocompleteModule } from '@angular/material/autocomplete';
 //import { NgxMatSelectSearchModule } from 'ngx-mat-select-search';
 import { MatSelect } from '@angular/material/select';
 
@@ -27,6 +28,7 @@ import { MatSelect } from '@angular/material/select';
     AuthRoutingModule,
     MaterialModule,
     ReactiveFormsModule,
+    MatAutocompleteModule,
     //NgxMatSelectSearchModule,
   ]
 })

@@ -1,4 +1,10 @@
-import { AfterViewInit, Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
+import {
+  AfterViewInit,
+  Component,
+  OnDestroy,
+  OnInit,
+  ViewChild,
+} from '@angular/core';
 import { FormBuilder, FormControl, Validators } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 import { Router } from '@angular/router';
@@ -8,8 +14,10 @@ import { RegistroCodigoComponent } from '../modals/registro-codigo/registro-codi
 import { AuthService } from '../services/auth-service.service';
 import { CamsService } from 'src/app/core/_service/cams.service';
 import { Cam } from 'src/app/core/_model/cam.model';
-import { ReplaySubject, Subject, take, takeUntil } from 'rxjs';
+import { ReplaySubject, Subject, debounceTime, distinctUntilChanged, filter, finalize, switchMap, take, takeUntil, tap } from 'rxjs';
 import { MatSelect } from '@angular/material/select';
+import { HttpClient } from '@angular/common/http';
+import { environment } from 'src/environments/environment';
 
 @Component({
   selector: 'app-registro',
@@ -36,6 +44,11 @@ export class RegistroComponent implements OnInit, AfterViewInit, OnDestroy {
   loading: boolean;
   accept = false;
 
+  unidadOperativa: any;
+  filterUnidadOperativas: any;
+  isCargando= false;
+  errorMsg:string;
+
   camCtrl: FormControl<Cam | null> = new FormControl<Cam>(null!);
   camFilterCtrl: FormControl<string | null> = new FormControl<string>('');
   filteredCams: ReplaySubject<Cam[]> = new ReplaySubject<Cam[]>(1);
@@ -48,7 +61,8 @@ export class RegistroComponent implements OnInit, AfterViewInit, OnDestroy {
     private authSvc: AuthService,
     private toastrSvc: ToastrService,
     private dialog: MatDialog,
-    private camsService: CamsService
+    private camsService: CamsService,
+    private http: HttpClient,
   ) {
     this.loadCams();
   }
@@ -64,6 +78,42 @@ export class RegistroComponent implements OnInit, AfterViewInit, OnDestroy {
       .subscribe(() => {
         this.filterCams();
       });
+
+
+      this.registroForm
+      .get('cam')
+      ?.valueChanges.pipe(
+        filter((res) => {
+          return res !== null && res?.length >= 3;
+        }),
+        distinctUntilChanged(),
+        debounceTime(1000),
+        tap(() => {
+          this.errorMsg = '';
+          this.filterUnidadOperativas = [];
+          this.isCargando = true;
+        }),
+        switchMap((value) =>
+          this.http
+            .get(environment.HOST + '/red/texto2/' + value)
+            .pipe(
+              finalize(() => {
+                this.isCargando = false;
+              })
+            )
+        )
+      )
+      .subscribe((data: any) => {
+        if (data == undefined) {
+          this.errorMsg = data['Error'];
+          this.filterUnidadOperativas= [];
+        } else {
+          this.errorMsg = '';
+          this.filterUnidadOperativas= data;
+        }
+      });
+
+
   }
 
   registrarUsuario(): void {
@@ -126,10 +176,8 @@ export class RegistroComponent implements OnInit, AfterViewInit, OnDestroy {
   onCheckBox(event: any) {
     if (event.checked === true) {
       this.registroForm.controls.accept.setValue('true');
-      console.log('si...', event);
     } else {
       this.registroForm.controls.accept.setValue('');
-      console.log('no..', event);
     }
   }
 
@@ -159,16 +207,30 @@ export class RegistroComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   protected setInitialValue() {
-    this.filteredCams
-      .pipe(take(1), takeUntil(this._onDestroy))
-      .subscribe(() => {
+    //this.filteredCams
+     // .pipe(take(1), takeUntil(this._onDestroy))
+     // .subscribe(() => {
         // setting the compareWith property to a comparison function
         // triggers initializing the selection according to the initial value of
         // the form control (i.e. _initializeSelection())
         // this needs to be done after the filteredBanks are loaded initially
         // and after the mat-option elements are available
-        this.singleSelect.compareWith = (a: Cam, b: Cam) =>
-          a && b && a.codigo === b.codigo;
-      });
+      //  this.singleSelect.compareWith = (a: Cam, b: Cam) =>
+      //    a && b && a.codigo === b.codigo;
+      //});
   }
+
+  clearSelection() {
+    this.unidadOperativa = '';
+    this.filterUnidadOperativas = [];
+  }
+
+  async onSelected() {
+    this.unidadOperativa= this.unidadOperativa;
+  }
+
+  displayWith(value: any) {
+    return value?.nombre;
+  }
+
 }

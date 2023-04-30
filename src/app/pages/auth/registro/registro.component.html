@@ -80,6 +80,7 @@
       </div>
 
       <div class="form-div-datos">
+        <!--
         <mat-form-field class="full-width-input">
           <mat-label>Unidad operativa</mat-label>
           <mat-select placeholder="CAM" [(value)]="cam" formControlName="cam">
@@ -93,6 +94,65 @@
             </mat-option>
           </mat-select>
         </mat-form-field>
+
+        -->
+
+                 <mat-form-field class="anchor80">
+            <mat-label>Lugar de nacimiento</mat-label>
+            <input
+              name="cam"
+              formControlName="cam"
+              matInput
+              placeholder="Ejm Rebaleategui"
+              [(ngModel)]="unidadOperativa"
+              [matAutocomplete]="auto"
+            />
+            <button
+              *ngIf="unidadOperativa"
+              matSuffix
+              mat-icon-button
+              aria-label="Clear"
+              (click)="clearSelection()"
+            >
+              <mat-icon>close</mat-icon>
+            </button>
+            <mat-autocomplete
+              [panelWidth]="600"
+              #auto="matAutocomplete"
+              (optionSelected)="onSelected()"
+              [displayWith]="displayWith"
+            >
+              <mat-option *ngIf="isCargando" class="is-loading"
+                >Cargando...</mat-option
+              >
+              <ng-container *ngIf="!isCargando" class="w-100">
+                <mat-option
+                  *ngFor="let uo of filterUnidadOperativas"
+                  [value]="uo"
+                >
+                  <span
+                    ><b>{{ uo.nombre }} </b></span>
+                </mat-option>
+              </ng-container>
+            </mat-autocomplete>
+
+            <mat-hint *ngIf="unidadOperativa">
+              <span class="font-w-semibold" *ngIf="unidadOperativa.nivel === 1" >
+                Tipo: RED 
+              </span>
+
+              <span class="font-w-semibold" *ngIf="unidadOperativa.nivel === 2" >
+                Tipo: CAM 
+              </span>
+
+              <span class="font-w-semibold" *ngIf="unidadOperativa.nivel === 3" >
+                Tipo: CIRAM 
+              </span>
+            </mat-hint >
+
+          </mat-form-field>
+
+
       </div>
 
       <div class="form-div-datos">
