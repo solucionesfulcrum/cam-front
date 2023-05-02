@@ -54,6 +54,7 @@ import { EditRedComponent } from './edit-red/edit-red.component';
 import { UsersLayoutComponent } from '../users/users-layout.component';
 import { BtnComponent } from 'src/app/shared/components/btn/btn.component';
 import {MatSelectModule} from '@angular/material/select';
+import { NewRedComponent } from './new-red/new-red.component';
 
 
 
@@ -95,6 +96,7 @@ import {MatSelectModule} from '@angular/material/select';
     SubListCamsRedComponent,
 
     EditRedComponent,
+    NewRedComponent,
 
      
   ],

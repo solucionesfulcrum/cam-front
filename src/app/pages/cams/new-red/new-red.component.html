@@ -1,0 +1,286 @@
+<form [formGroup]="form" novalidate class="space-y-4" (ngSubmit)="saveRed()">
+  <div class="div-mat-tab">
+    <div class="d-flex bg-ligth2 p-2 w-100">
+      <div class="w-50 justify-content-start">
+        <div class="d-flex">
+          <a routerLink="/cams/cirams" class="text-primary2 decorator-none">
+            <span class="material-symbols-outlined text-s-15 pt-2">
+              keyboard_backspace
+            </span>
+            <span class="text-w-fine text-w-semibold text-s-15 pt-2">
+              REGRESAR
+            </span>
+          </a>
+        </div>
+      </div>
+      <div class="w-50 d-flex justify-content-end">
+        <app-btn
+          typeBtn="submit"
+          color="success"
+          [loading]="status === 'loading'"
+          >GUARDAR
+        </app-btn>
+      </div>
+    </div>
+  </div>
+
+  <div class="cards-contents">
+    <mat-card>
+      <mat-card-title
+        class="text-secondary text-w-semibold text-uppercase text-s-20"
+      >
+        NUEVO RED ASISTENCIAL</mat-card-title
+      >
+
+      <mat-card-content>
+        <div class="div-content-form">
+          <mat-form-field class="p-1">
+            <mat-label> CODIGO RED ASISTENCIAL </mat-label>
+            <input
+              #nameInput
+              formControlName="redasiscod"
+              placeholder="CODIGO RED ASISTENCIAL"
+              matInput
+              type="text"
+            />
+            <mat-hint
+              *ngIf="
+                form.controls.redasiscod.touched &&
+                form.controls.redasiscod.invalid &&
+                form.controls.redasiscod.hasError('required')
+              "
+              class="text-danger"
+            >
+              Código de red es obligatorio
+            </mat-hint>
+            <mat-hint
+              *ngIf="
+                form.controls.redasiscod.touched &&
+                form.controls.redasiscod.invalid &&
+                form.controls.redasiscod.hasError('minlength')
+              "
+              class="text-danger"
+            >
+              Código de red inválido - Mínimo 8 Caracteres
+            </mat-hint>
+          </mat-form-field>
+          <mat-form-field class="p-1">
+            <mat-label> FECHA INSCRIPCION</mat-label>
+
+            <input
+              matInput
+              #nameInput
+              formControlName="fechaInscripcion"
+              [matDatepicker]="picker"
+            />
+            <mat-hint>dd/mm/YYYY</mat-hint>
+            <mat-datepicker-toggle
+              matSuffix
+              [for]="picker"
+            ></mat-datepicker-toggle>
+            <mat-datepicker #picker></mat-datepicker>
+
+            <mat-hint
+              *ngIf="
+                form.controls.fechaInscripcion.touched &&
+                form.controls.fechaInscripcion.hasError('required')
+              "
+              class="text-danger pl-5"
+            >
+              Fecha es obligatorio.
+            </mat-hint>
+          </mat-form-field>
+        </div>
+
+        <div class="div-content-form">
+          <mat-form-field class="p-1">
+            <mat-label>NOMBRE</mat-label>
+            <input
+              #nameInput
+              formControlName="nombre"
+              placeholder="NOMBRE"
+              matInput
+            />
+            <mat-hint
+              *ngIf="
+                form.controls.nombre.touched &&
+                form.controls.nombre.invalid &&
+                form.controls.nombre.hasError('required')
+              "
+              class="text-danger"
+            >
+              Nombre es obligatorio
+            </mat-hint>
+            <mat-hint
+              *ngIf="
+                form.controls.nombre.touched &&
+                form.controls.nombre.invalid &&
+                form.controls.nombre.hasError('minlength')
+              "
+              class="text-danger"
+            >
+              Nombre inválido - Mínimo 6 Caracteres
+            </mat-hint>
+          </mat-form-field>
+        </div>
+
+        <div class="div-content-form">
+          <mat-form-field class="p-1">
+            <mat-label> DIRECCIÓN</mat-label>
+            <input
+              #nameInput
+              formControlName="direccion"
+              placeholder="DIRECCIÓN"
+              matInput
+              type="text"
+            />
+            <mat-hint
+              *ngIf="
+                form.controls.direccion.touched &&
+                form.controls.direccion.invalid &&
+                form.controls.direccion.hasError('required')
+              "
+              class="text-danger"
+            >
+              Dirección es obligatorio
+            </mat-hint>
+          </mat-form-field>
+        </div>
+
+        <div class="div-content-form">
+          <mat-form-field *ngIf="ubigeos">
+            <mat-label> DISTRITO </mat-label>
+            <mat-select
+              placeholder="UBIGEO"
+              [(value)]="ubigeo"
+              formControlName="ubigeo"
+            >
+              <mat-option *ngFor="let ubigeo of ubigeos" [value]="ubigeo">
+                {{ ubigeo.descDis }}
+              </mat-option>
+            </mat-select>
+            <mat-hint
+              *ngIf="
+                form.controls.ubigeo.touched &&
+                form.controls.ubigeo.invalid &&
+                form.controls.ubigeo.hasError('required')
+              "
+              class="text-danger"
+            >
+              UBIGEO es obligatorio
+            </mat-hint>
+          </mat-form-field>
+
+          <mat-form-field *ngIf="regions">
+            <mat-label> REGION </mat-label>
+            <mat-select
+              placeholder="Region"
+              [(value)]="region"
+              formControlName="region"
+            >
+              <mat-option *ngFor="let region of regions" [value]="region">
+                {{ region.nombre }}
+              </mat-option>
+            </mat-select>
+            <mat-hint
+              *ngIf="
+                form.controls.region.touched &&
+                form.controls.region.invalid &&
+                form.controls.region.hasError('required')
+              "
+              class="text-danger"
+            >
+              REGION es obligatorio
+            </mat-hint>
+          </mat-form-field>
+        </div>
+
+        <div class="div-content-form">
+          <mat-form-field class="p-1">
+            <mat-label> CELULAR</mat-label>
+            <input
+              #nameInput
+              formControlName="celular"
+              placeholder="CELULAR"
+              matInput
+              type="text"
+            />
+            <mat-hint
+              *ngIf="
+                form.controls.celular.touched &&
+                form.controls.celular.invalid &&
+                form.controls.celular.hasError('required')
+              "
+              class="text-danger"
+            >
+              Celular es obligatorio.
+            </mat-hint>
+            <mat-hint
+              *ngIf="
+                form.controls.celular.touched &&
+                form.controls.celular.invalid &&
+                form.controls.celular.hasError('minlength')
+              "
+              class="text-danger pl-5"
+            >
+              Celular inválido, mínimo 7 Caracteres.
+            </mat-hint>
+            <mat-hint
+              *ngIf="
+                form.controls.celular.touched &&
+                form.controls.celular.invalid &&
+                form.controls.celular.hasError('pattern')
+              "
+              class="text-danger pl-5"
+            >
+              Solo numeros.
+            </mat-hint>
+          </mat-form-field>
+
+          <mat-form-field class="p-1">
+            <mat-label> EMAIL</mat-label>
+            <input
+              #nameInput
+              formControlName="email"
+              placeholder="CORREO ELECTRÓNICO"
+              matInput
+              type="text"
+            />
+            <mat-hint
+              *ngIf="
+                form.controls.email.touched &&
+                form.controls.email.invalid &&
+                form.controls.email.hasError('required')
+              "
+              class="text-danger"
+            >
+              Correo electrónico es obligatorio
+            </mat-hint>
+            <mat-hint
+              *ngIf="
+                form.controls.email.touched &&
+                form.controls.email.invalid &&
+                form.controls.email.hasError('email')
+              "
+              class="text-danger"
+            >
+              Correo electrónico inválido
+            </mat-hint>
+          </mat-form-field>
+        </div>
+      </mat-card-content>
+    </mat-card>
+    <mat-card>
+      <mat-card-title
+        class="text-secondary text-w-semibold text-uppercase text-s-20"
+      >
+        Información adicional</mat-card-title
+      >
+      <div *ngIf="false" class="div-img-pre">
+        <!--
+                <img [src]="false" alt="" />
+                -->
+      </div>
+    </mat-card>
+  </div>
+</form>

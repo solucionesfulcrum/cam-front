@@ -32,6 +32,7 @@ import { SubViewCamsRedComponent } from './show-red/sub-view-cams-red/sub-view-c
 import { SubListUsuariosRedComponent } from './show-red/sub-list-usuarios-red/sub-list-usuarios-red.component';
 import { SubViewUsuariosRedComponent } from './show-red/sub-view-usuarios-red/sub-view-usuarios-red.component';
 import { EditRedComponent } from './edit-red/edit-red.component';
+import { NewRedComponent } from './new-red/new-red.component';
 
 const routes: Routes = [
   // { path: '', component: CamsComponent},
@@ -199,6 +200,10 @@ const routes: Routes = [
   {
     path: 'redes/edit/:id',
     component: EditRedComponent,
+  },
+  {
+    path: 'redes/new',
+    component: NewRedComponent,
   },
 
 

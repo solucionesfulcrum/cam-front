@@ -80,6 +80,7 @@ export class ShowRedComponent implements OnInit {
   loadRedById(id:string){
     const tmp = this.redesService.listarPorId(parseInt(this.id))
     .subscribe((rta:any) =>{
+      console.log("region.... ", rta)
       this.red= rta
       this.breadcrumService.link2$.next({ url: '/cams/redes/show/'+this.id, title:rta.descripcion });
     })

@@ -15,4 +15,10 @@ export class RedesService extends CRUDService<Red>{
       `${environment.HOST}/red`
     )
    }
+
+   getParametrosClase(nameParametro:string){
+    let url = `${environment.HOST}/parametro/clase/${nameParametro}`;
+    return this._http.get<any>(url);
+   }
+
 }
