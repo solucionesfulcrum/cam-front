@@ -11,7 +11,7 @@
       <div>
         <div class="form-div-datos">
           <mat-form-field class="full-width-input">
-            <mat-label>Usuario</mat-label>
+            <mat-label>TIPO DOCUMENTO</mat-label>
             <mat-select formControlName="tipoDocumentoCtrl">
               <mat-option value="1"
                 >DNI - Documento Nacional de Identidad</mat-option
@@ -160,7 +160,8 @@
         </button>
       </div>
       <div class="btn-login">
-        <button mat-raised-button (click)="volverLogin()">Cancelar</button>
+          <span class="text-s-12 text-gray-500 ">Ya tienes cuenta? </span>
+          <span class="text-s-12 text-sky-500 cursor" (click)="volverLogin()">Inicia session</span>
       </div>
     </form>
   </mat-card>

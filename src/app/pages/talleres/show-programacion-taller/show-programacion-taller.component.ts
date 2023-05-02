@@ -20,7 +20,7 @@ import { AuthService } from '../../auth/services/auth-service.service';
   styleUrls: ['./show-programacion-taller.component.css'],
 })
 export class ShowProgramacionTallerComponent implements OnInit {
-  uo: Cam | Ciram | Programa | null;
+  uo: any;
   list_uo: any[] 
 
   form1 = this.fb.group({

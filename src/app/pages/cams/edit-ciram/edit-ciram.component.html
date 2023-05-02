@@ -3,7 +3,7 @@
     <div class="d-flex bg-ligth2 p-2 w-100">
       <div class="w-50 justify-content-start">
         <div class="d-flex">
-          <a routerLink="/cams/show/{{this.id}}" class="text-primary2 decorator-none">
+          <a routerLink="/cams/cirams/show/{{this.id}}" class="text-primary2 decorator-none">
             <span class="material-symbols-outlined text-s-15 pt-2">
               keyboard_backspace
             </span>
@@ -193,7 +193,7 @@
                 form.controls.fechaInscripcion.touched &&
                 form.controls.fechaInscripcion.hasError('required')
               "
-              class="text-danger pl-5"
+              class="text-danger"
             >
               Fecha es obligatorio.
             </mat-hint>
@@ -219,6 +219,47 @@
             </mat-hint>
           </mat-form-field>
         </div>
+
+
+    <div class="div-content-form">
+      <mat-form-field *ngIf="cams">
+        <mat-label> CAM </mat-label>
+          <mat-select placeholder="CAMS"  [(ngModel)]="cam.idCam"  formControlName="cam">
+            <mat-option *ngFor="let cam of cams" [value]="cam.idCam">
+              {{ cam.descripcion }}
+            </mat-option>
+          </mat-select>
+          <mat-hint
+              *ngIf="
+                form.controls.cam.touched &&
+                form.controls.cam.invalid &&
+                form.controls.cam.hasError('required')
+              "
+              class="text-danger "
+            >
+              CAM es obligatorio
+            </mat-hint>
+        </mat-form-field>
+
+        <mat-form-field *ngIf="ubigeos ">
+          <mat-label> DISTRITO </mat-label>
+          <mat-select placeholder="UBIGEO" [(ngModel)]="ubigeo.idUbigeo" formControlName="ubigeo" >
+            <mat-option *ngFor="let ubigeo of ubigeos" [value]="ubigeo.idUbigeo">
+              {{ ubigeo.descDis }}
+            </mat-option>
+          </mat-select>
+          <mat-hint
+              *ngIf="
+                form.controls.ubigeo.touched &&
+                form.controls.ubigeo.invalid &&
+                form.controls.ubigeo.hasError('required')
+              "
+              class="text-danger "
+            >
+              UBIGEO es obligatorio
+            </mat-hint>
+        </mat-form-field>
+      </div>
 
 
       </mat-card-content>

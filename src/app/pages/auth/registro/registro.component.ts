@@ -34,7 +34,7 @@ export class RegistroComponent implements OnInit, AfterViewInit, OnDestroy {
     passwordCtrl: ['', [Validators.required]],
     confirmPasswordCtrl: ['', [Validators.required]],
     accept: ['', [Validators.required]],
-    cam: ['', [Validators.required]],
+    cam: ['', []],
   });
 
   cams: Cam[];
