@@ -4,8 +4,12 @@ import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
 import { CompletoRegistro } from 'src/app/core/_model/auth/registro';
-import { RegistroUsuario } from 'src/app/core/_model/dataModal/modal';
+import {
+  DataUsuario,
+  RegistroUsuario,
+} from 'src/app/core/_model/dataModal/modal';
 import { AuthService } from '../../services/auth-service.service';
+import { RegistroUsuarioForSistema } from 'src/app/core/_model/auth/registroForSistema';
 
 @Component({
   selector: 'app-registro-codigo',
@@ -35,30 +39,50 @@ export class RegistroCodigoComponent implements OnInit {
 
   registrarUsuario(): void {
     const formValue = this.form.value;
+
     const DATA: CompletoRegistro = {
       codigo: formValue.codigoCtrl as string,
-      guiid: this.data.data.guiid
-    }
+      guiid: this.data.data.guiid,
+    };
+
+    const dataSend: any = {
+      idSSO: this.data.data.guiid,
+      activo: '1',
+      numDoc: this.data.data.numDoc!,
+      tipoDoc: this.data.data.tipoDoc!,
+      correo: this.data.data.email,
+      tipoUnidad: this.data.data.tipoUnidad,
+      unidadOperativa: this.data.data.unidadOperativa,
+    };
+
     this.authSvc.completarRegistro(DATA).subscribe({
       next: (resp) => {
-        console.log("RESP COMPLETAR",resp)
-        if (typeof(resp) === 'boolean' && resp === true) {
-          this.toastrSvc.success("Registro realizado", "Para ingresar comunique a su administrador de usuarios");
+        if (typeof resp === 'boolean' && resp === true) {
+          this.authSvc.createUserForSistema(dataSend).subscribe({
+            next: (resp) => {
+              this.toastrSvc.warning(
+                'Registro de usuario para el sistema realizado correctamente',
+              );
+            },
+          });
+
+          this.toastrSvc.success(
+            'Registro realizado - SSO',
+            'Para ingresar comunique a su administrador de usuarios'
+          );
           this.dialogRef.close();
           this.router.navigate(['/']);
         }
-        if (typeof(resp) === 'object') {
+        if (typeof resp === 'object') {
           this.toastrSvc.warning(resp.message);
           this.dialogRef.close();
         }
-
       },
       error: (error) => {
         console.log(error);
-        this.toastrSvc.error("Ha ocurrido un error");
+        this.toastrSvc.error('Ha ocurrido un error');
         this.dialogRef.close();
-      }
-    })
-
+      },
+    });
   }
 }

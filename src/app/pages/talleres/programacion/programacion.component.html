@@ -1,9 +1,10 @@
 <div class="div-mat-tab flex bg-sky-100 p-3 w-full space-x-5">
-  <div class="block w-30 bg-white" *ngIf="show_list" >
-    <div class="pl-3 pt-3">
+  <div class="block w-30 bg-white" *ngIf="show_list">
+    <div class="pl-3 pt-3 flex">
       <p class="text-slate-600 uppercase text-s-20 font-semibold">
         unidades operativas
       </p>
+      <span class="text-s-10 text-green-500 ml-1 mt-1">{{nameRed}}</span>
     </div>
     <div class="pl-3 pr-3">
       <mat-form-field class="w-full">
@@ -24,16 +25,33 @@
       >
         <!-- NG-FOR -->
         <a
-          *ngIf="uo.idCam"
-          routerLink="/talleres/programacion/{{ uo.idCam }}"
-          (click)="setLink2(uo.descripcion, uo.idCam.toString(), uo)"
+          *ngIf="uo.nivel === 2"
+          routerLink="/talleres/programacion/{{ uo.idcam }}"
+          (click)="setLink2(uo.nombre , uo.idcam , uo)"
           class="flex w-full"
         >
           <div class="flex p-1 text-slate-400 w-90">
             <span *ngIf="true">
               <img class="" src="assets/eventos-casa-cam.svg" />
             </span>
-            <span class="ml-2 text-slate-600"> {{ uo.descripcion }}</span>
+            <span class="ml-2 text-slate-600"> {{ uo.nombre }}</span>
+          </div>
+          <div class="text-slate-400 w-10 flex justify-end pt-1 text-slate-600">
+            {{ i }}
+          </div>
+        </a>
+
+        <a
+          *ngIf="uo.nivel === 3"
+          routerLink="/talleres/programacion/{{ uo.idciram }}"
+          (click)="setLink2(uo.nombre , uo.idciram , uo)"
+          class="flex w-full"
+        >
+          <div class="flex p-1 text-slate-400 w-90">
+            <span *ngIf="true">
+              <img class="" src="assets/eventos-casa-ciram.svg" />
+            </span>
+            <span class="ml-2 text-slate-600"> {{ uo.nombre }}</span>
           </div>
           <div class="text-slate-400 w-10 flex justify-end pt-1 text-slate-600">
             {{ i }}
@@ -42,8 +60,10 @@
       </div>
     </div>
   </div>
-  <div class=" bg-white block" [ngClass]="{'w-70':show_list,'w-100':!show_list}" >
-    
+  <div
+    class="bg-white block"
+    [ngClass]="{ 'w-70': show_list, 'w-100': !show_list }"
+  >
     <router-outlet></router-outlet>
   </div>
 </div>

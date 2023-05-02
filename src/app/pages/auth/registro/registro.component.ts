@@ -131,12 +131,11 @@ export class RegistroComponent implements OnInit, AfterViewInit, OnDestroy {
     };
     this.authSvc.registrarUsuario(DATA).subscribe({
       next: (resp) => {
-        console.log('RESP', resp);
         if (resp.charAt(0) === '{') {
           const respJson = JSON.parse(resp);
           this.toastrSvc.warning(respJson.message);
         } else {
-          this.abrirModalRegistro(resp, DATA.email as string);
+          this.abrirModalRegistro(resp, DATA.email as string, this.unidadOperativa, DATA.tipDocIden!, DATA.numDocIden! );
         }
       },
       error: (error) => {
@@ -148,11 +147,28 @@ export class RegistroComponent implements OnInit, AfterViewInit, OnDestroy {
     });
   }
 
-  abrirModalRegistro(guiid: string, email: string): void {
+  abrirModalRegistro(guiid: string, email: string, uo:any, tipoDoc:string, numDoc:string): void {
+    console.log("from modalRegistro: ", uo)
+    let idUnidadOperativa = 0;
+    if (uo.nivel === 1)
+     idUnidadOperativa = uo.idred;
+
+    if (uo.nivel === 2)
+     idUnidadOperativa = uo.idcam;
+
+    if (uo.nivel === 3)
+     idUnidadOperativa = uo.idciram;
+
+
     const data = {
       guiid,
       email,
+      tipoDoc,
+      numDoc,
+      tipoUnidad:uo.nivel.toString(),
+      unidadOperativa: idUnidadOperativa.toString(),
     };
+
     const dialog = this.dialog.open(RegistroCodigoComponent, {
       data: { title: 'Completar Registro', data },
       width: '450px',

@@ -17,6 +17,7 @@ import { Cam } from 'src/app/core/_model/cam.model';
 import { HelpperService } from 'src/app/shared/services/helpper.service';
 import { Ciram } from 'src/app/core/_model/ciram.model';
 import { Programa } from 'src/app/core/_model/programa.model';
+import { UnidadOperativaService } from 'src/app/core/_service/unidad-operativa.service';
 
 @Component({
   selector: 'app-programacion',
@@ -54,6 +55,8 @@ export class ProgramacionComponent implements OnInit {
   DB_list_uo: any[];
   show_list:boolean= true
 
+  nameRed:string 
+
   constructor(
     private formBuilder: FormBuilder,
     private router: Router,
@@ -61,7 +64,8 @@ export class ProgramacionComponent implements OnInit {
     private breadcrumService: BreadcrumService,
     private helpperService: HelpperService,
     private authService: AuthService,
-    private camsService: CamsService
+    private camsService: CamsService,
+    private unidadesOperativasService: UnidadOperativaService,
   ) {
     breadcrumService.activeTab$.next('programacion');
     breadcrumService.link1$.next({ url: '/talleres/programacion',  title: 'PROGRAMACIÓN' });
@@ -69,7 +73,8 @@ export class ProgramacionComponent implements OnInit {
     this.breadcrumService.link3$.next({ url: '', title: '' });
     helpperService.uo$.next(null);
     this.loadUsers();
-    this.loadCams();
+    this.loadUnidadesOperativas();
+    this.nameRed= localStorage.getItem("nombreUnidad")!
 
 
     helpperService.show_list$.subscribe(event => {
@@ -82,7 +87,7 @@ export class ProgramacionComponent implements OnInit {
 
   filtrarTabla(event: any): void {}
 
-  setLink2(nameLink: string, codigo: string, unidadOperativa: Cam | Ciram | Programa ) {
+  setLink2(nameLink: string, codigo: string, unidadOperativa: any ) {
     this.helpperService.uo$.next(unidadOperativa);
     this.breadcrumService.link2$.next({ url: '/talleres/programacion/' + codigo, title: nameLink });
     this.breadcrumService.link3$.next({ url: '' , title: ''});
@@ -127,10 +132,20 @@ export class ProgramacionComponent implements OnInit {
     });
   }
 
+
+  loadUnidadesOperativas() {
+    const idRed = localStorage.getItem("unidadOperativa")
+    const tmp = this.unidadesOperativasService.getUnidadesOperativasForRed(idRed!).subscribe((rta: any) => {
+      this.helpperService.list_uo$.next(rta);
+      this.list_uo = rta;
+      this.DB_list_uo = rta;
+    });
+  }
+
   applyFilter(event: Event) {
     const searchTex = (event.target as HTMLInputElement).value;
     const results: any = this.DB_list_uo.filter(
-      (pr) => pr.descripcion.toLowerCase().indexOf(searchTex.toLowerCase()) > -1
+      (pr) => pr.nombre.toLowerCase().indexOf(searchTex.toLowerCase()) > -1
     ).map((res) => res);
     if (results.length > 0) this.list_uo = results;
     return results;

@@ -11,6 +11,7 @@ import {
 import { environment } from 'src/environments/environment';
 import { JwtHelperService } from '@auth0/angular-jwt';
 import { Router } from '@angular/router';
+import { RegistroUsuarioForSistema } from 'src/app/core/_model/auth/registroForSistema';
 
 const helperJWT = new JwtHelperService();
 
@@ -70,6 +71,19 @@ export class AuthService {
       .pipe(catchError(this.handleError));
   }
 
+  createUserForSistema(data: RegistroUsuarioForSistema): Observable<any> {
+    return this.http
+      .post<any>(`${environment.HOST}/usuario`, data)
+      .pipe(catchError(this.handleError));
+  }
+
+
+  getUsuarioFromSistema (gui: string ): Observable<any> {
+    return this.http
+      .get<any>(`${environment.HOST}/usuario/`+gui)
+      .pipe(catchError(this.handleError));
+  }
+
   preCambiarPassword(data: any) {
     const params = this._authBasic();
     return this.http
@@ -94,6 +108,12 @@ export class AuthService {
       roles: decodedToken.roles,
     };
     localStorage.setItem('usuario', JSON.stringify(data));
+  }
+
+  guardarLocalStorageForSistema(unidadOperativa: string, tipoUnidad:string, nombreUnidad:string): void {
+    localStorage.setItem('unidadOperativa', unidadOperativa );
+    localStorage.setItem('tipoUnidad', tipoUnidad );
+    localStorage.setItem('nombreUnidad', nombreUnidad );
   }
 
   private checkToken(): void {

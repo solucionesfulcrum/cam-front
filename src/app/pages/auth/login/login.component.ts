@@ -32,8 +32,22 @@ export class LoginComponent implements OnInit {
     const formValue = this.loginForm.value;
     this.loading = true;
     this.authSvc.login(formValue).subscribe({
-      next: (resp) => {
-        console.log(resp);
+      next: (resp:any) => {
+        console.log("success login from SSO.-.... ", resp);
+
+
+        this.authSvc.getUsuarioFromSistema(resp.id).subscribe({
+            next: (resp:any) => {
+              console.log("success login from SYSTEM .... ", resp);
+              this.authSvc.guardarLocalStorageForSistema(resp.unidadOperativa, resp.tipoUnidad, resp.nombreUnidad)
+            },
+            error: (resp) => {
+              console.log("NO ENCONTRADO userlogin from SYSTEM .... ", resp);
+              this.authSvc.guardarLocalStorageForSistema("15", "1", "R.P. REBAGLIATI")
+            },
+          });
+
+
         this.utilSvc.openSidenav(true);
         this.router.navigate(['/home']);
       },

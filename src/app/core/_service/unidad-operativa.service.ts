@@ -25,4 +25,11 @@ export class UnidadOperativaService extends CRUDService<UnidadOperativa>{
     let url = `${environment.HOST}/unidad-operativa/unidades-operativas-hijas/${idUnidadOperativaPadre}`
     return this._http.get<UnidadOperativa[]>(url);
    }
+
+
+    getUnidadesOperativasForRed(idRed: string ){
+    let url = `${environment.HOST}/red/cuentatallerista/${idRed}`
+    return this._http.get<UnidadOperativa[]>(url);
+   }
+
 }
