@@ -15,4 +15,16 @@ export class CiramsService extends CRUDService<Ciram>{
       `${environment.HOST}/ciram`
     )
    }
+
+  getCiramsByCam( idCam: string){
+    let url = `${environment.HOST}/ciram/buscarPorIdCam/${idCam}`;
+    return this._http.get<any>(url);
+   }
+
+  getUsuariosByCiram( idCiram: string ){
+    let url = `${environment.HOST}/usuario/unidad/3/${idCiram}`;
+    return this._http.get<any>(url);
+   }
+
+
 }

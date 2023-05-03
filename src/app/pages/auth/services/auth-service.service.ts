@@ -80,7 +80,7 @@ export class AuthService {
 
   getUsuarioFromSistema (gui: string ): Observable<any> {
     return this.http
-      .get<any>(`${environment.HOST}/usuario/`+gui)
+      .get<any>(`${environment.HOST}/usuario/idsso/`+gui)
       .pipe(catchError(this.handleError));
   }
 

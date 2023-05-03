@@ -8,25 +8,10 @@ import { FormControl, FormGroup } from '@angular/forms';
 import { CamsService } from 'src/app/core/_service/cams.service';
 import { RedesService } from 'src/app/core/_service/redes.service';
 import { MatSort } from '@angular/material/sort';
+import { Cam } from 'src/app/core/_model/cam.model';
 
 
-const history_programs= [
-  {
-    cam:'PROGRAMA RED ADULTO MAYOR ', 
-    adminCam: 'ROXANA ESTRADA ARIAS',
-    fechaCreacion: '31/08/2022', 
-    codigo: '3145000', 
-    red: 'RED TUMBES', 
-    estado: 'DISPONIBLE',
-  },{
-    cam:'PROGRAMA RED SALUD INTEGRAL ', 
-    adminCam: 'JUAN ALBERTO DORADO RIVERA',
-    fechaCreacion: '03/03/2022', 
-    codigo: '3145420', 
-    red: 'RED AYACUCHO', 
-    estado: 'DISPONIBLE',
-  },
-];
+
 
 @Component({
   selector: 'app-sub-list-cams-red',
@@ -53,6 +38,7 @@ displayedColumns: string[] = [
   dataSource: MatTableDataSource<any>;
   @ViewChild(MatPaginator) paginator: MatPaginator;
   @ViewChild(MatSort) sort: MatSort;
+  cams:Cam[]= []
 
   id ='' 
   name ='ACTUALIZAMEEEE' 
@@ -79,10 +65,10 @@ displayedColumns: string[] = [
   }
 
   loadCamsByIdRed(){
-    console.log("iot....", this.id)
     this.redesService.listarPorId(parseInt(this.id)).subscribe((rta:any)=>{
       console.log(rta.cams)
       this.dataSource= rta.cams
+      this.cams= rta.cams
       this.dataSource.paginator = this.paginator;
       this.dataSource.sort = this.sort;
     })

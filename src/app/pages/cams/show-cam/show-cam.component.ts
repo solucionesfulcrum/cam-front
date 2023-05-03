@@ -21,7 +21,7 @@ export class ShowCamComponent implements OnInit {
   subLinks=[
     {url:'', title:''},
     {url:'', title:''},
-    {url:'', title:''},
+    //{url:'', title:''},
   ]
 
   subBreadcrum1:{url:string, title:string }
@@ -51,7 +51,7 @@ export class ShowCamComponent implements OnInit {
       this.id = this.route.snapshot.paramMap.get('id')! 
       this.subLinks[0]={url:'/cams/show/'+this.id, title:'USUARIOS'}
       this.subLinks[1]={url:'/cams/show/'+this.id+'/cirams', title:'CIRAMS'}
-      this.subLinks[2]={url:'/cams/show/'+this.id+'/programas', title:'PROGRAMAS'}
+      //this.subLinks[2]={url:'/cams/show/'+this.id+'/programas', title:'PROGRAMAS'}
 
       //for breadcrum
       this.breadcrumService.link1$.next({url:'/cams', title:'CAMS'});

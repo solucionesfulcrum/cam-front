@@ -15,4 +15,10 @@ export class CamsService extends CRUDService<Cam>{
       `${environment.HOST}/cam`
     )
    }
+
+  getUsuariosByCam( idCam: string){
+    let url = `${environment.HOST}/usuario/unidad/2/${idCam}`;
+    return this._http.get<any>(url);
+   }
+
 }

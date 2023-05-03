@@ -21,4 +21,9 @@ export class RedesService extends CRUDService<Red>{
     return this._http.get<any>(url);
    }
 
+  getUsuariosByRed( idRed : string){
+    let url = `${environment.HOST}/usuario/unidad/1/${idRed}`;
+    return this._http.get<any>(url);
+   }
+
 }

@@ -3,25 +3,11 @@ import { FormBuilder } from '@angular/forms';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatTableDataSource } from '@angular/material/table';
 import { ActivatedRoute, Router } from '@angular/router';
+import { Usuario } from 'src/app/core/_model/usuario';
+import { CamsService } from 'src/app/core/_service/cams.service';
 import { BreadcrumService } from 'src/app/shared/services/breadcrum.service';
 
-const CAMS= [
-  {
-    cam:'PROGRAMA ADULTO MAYOR ', 
-    adminCam: 'ROXANA ESTRADA ARIAS',
-    fechaCreacion: '31/08/2022', 
-    codigo: '3145000', 
-    red: 'RED TUMBES', 
-    estado: 'DISPONIBLE',
-  },{
-    cam:'PROGRAMA SALUD INTEGRAL ', 
-    adminCam: 'JUAN ALBERTO DORADO RIVERA',
-    fechaCreacion: '03/03/2022', 
-    codigo: '3145420', 
-    red: 'RED AYACUCHO', 
-    estado: 'DISPONIBLE',
-  },
-];
+
 
 @Component({
   selector: 'app-sub-list-usuarios-cam',
@@ -45,16 +31,19 @@ displayedColumns: string[] = [
   ];
 
   @ViewChild('paginatorProfesional') paginatorProfesional: MatPaginator;
-  dataSource= new MatTableDataSource<any>(CAMS);
+  dataSource= new MatTableDataSource<any>();
 
   id ='' 
   name ='CAM TALARA' 
+
+  usuarios : Usuario[] = []
 
  constructor(
     private fb: FormBuilder, 
     private router: Router, 
     private route: ActivatedRoute,
-    private breadcrumService: BreadcrumService
+    private breadcrumService: BreadcrumService,
+    private camService: CamsService,
     ) {
       this.route.parent?.paramMap.subscribe(params => {
       this.id = params.get('id')!;
@@ -67,6 +56,16 @@ displayedColumns: string[] = [
   }
 
   ngOnInit(): void {
+    this.loadCiramsByCam()
+  }
+
+  loadCiramsByCam(){
+    this.camService.getUsuariosByCam(this.id)
+    .subscribe((rta:any) =>{
+      console.log("its loading get usuarios by cvam.... ", rta )
+      this.usuarios = rta
+      this.dataSource = rta
+    })
   }
 
 }

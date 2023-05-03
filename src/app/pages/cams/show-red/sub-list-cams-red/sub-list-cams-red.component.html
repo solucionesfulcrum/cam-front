@@ -1,3 +1,4 @@
+    <div *ngIf="this.cams.length > 0 else nodata ">
 <div class="mt-3" [formGroup]="form">
   <div class="d-flex">
     <div class="w-50">
@@ -69,3 +70,19 @@
     showFirstLastButtons
   ></mat-paginator>
 </div>
+</div>
+
+    <ng-template #nodata>
+      <div class="vertical-center center ">
+        <div class="block space-y-5">
+          <div>
+          <span >
+            <img class="ml-20" src="assets/noRegistrosHijos.svg" />
+          </span>
+          </div>
+          <div>
+          <span class="text-gray-500 text-s-14">NO EXISTEN REGISTROS DISPONIBLES</span>
+          </div>
+        </div>
+      </div>
+     </ng-template>

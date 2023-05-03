@@ -4,6 +4,8 @@ import { MatPaginator } from '@angular/material/paginator';
 import { MatTableDataSource } from '@angular/material/table';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Usuario } from 'src/app/core/_model/usuario';
+import { RedesService } from 'src/app/core/_service/redes.service';
+import { UsuarioService } from 'src/app/core/_service/usuario.service';
 import { BreadcrumService } from 'src/app/shared/services/breadcrum.service';
 
 const CIRAMS= [
@@ -57,7 +59,8 @@ displayedColumns: string[] = [
     private fb: FormBuilder, 
     private router: Router, 
     private route: ActivatedRoute,
-    private breadcrumService: BreadcrumService
+    private breadcrumService: BreadcrumService, 
+    private redesService: RedesService,
     ) {
       this.route.parent?.paramMap.subscribe(params => {
       this.id = params.get('id')!;
@@ -70,6 +73,16 @@ displayedColumns: string[] = [
   }
 
   ngOnInit(): void {
+   this.loadUsuariosByRed() 
+  }
+
+  loadUsuariosByRed(){
+    this.redesService.getUsuariosByRed(this.id)
+    .subscribe((rta:any) =>{
+      console.log("its loading get usuarios by cvam.... ", rta )
+      this.usuarios = rta
+      this.dataSource = rta
+    })
   }
 
 }

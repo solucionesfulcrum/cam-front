@@ -3,6 +3,7 @@ import { FormBuilder } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Cam } from 'src/app/core/_model/cam.model';
 import { Ciram } from 'src/app/core/_model/ciram.model';
+import { Usuario } from 'src/app/core/_model/usuario';
 import { CamsService } from 'src/app/core/_service/cams.service';
 import { CiramsService } from 'src/app/core/_service/cirams.service';
 import { BreadcrumService } from 'src/app/shared/services/breadcrum.service';
@@ -17,7 +18,7 @@ export class ShowCiramComponent implements OnInit {
   ciram: Ciram 
   subLinks=[
     {url:'', title:''},
-    {url:'', title:''},
+    //{url:'', title:''},
   ]
 
   subBreadcrum1:{url:string, title:string }
@@ -36,6 +37,7 @@ export class ShowCiramComponent implements OnInit {
   //sid = this.route.snapshot.paramMap.get('sid')
   id ='' 
   name ='' 
+  usuarios : Usuario[]= []
 
  constructor(
   private router: Router, 
@@ -46,7 +48,7 @@ export class ShowCiramComponent implements OnInit {
     ) {
       this.id = this.route.snapshot.paramMap.get('id')! 
       this.subLinks[0]={url:'/cams/cirams/show/'+this.id, title:'USUARIOS'}
-      this.subLinks[1]={url:'/cams/cirams/show/'+this.id+'/programas', title:'Programas'}
+      //this.subLinks[1]={url:'/cams/cirams/show/'+this.id+'/programas', title:'Programas'}
 
       //for breadcrum
       this.breadcrumService.link1$.next({url:'/cams/cirams', title:'CIRAMS'});
