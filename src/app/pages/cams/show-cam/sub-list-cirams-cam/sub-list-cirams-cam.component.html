@@ -15,7 +15,7 @@
           <ng-container matColumnDef="circuloAdultoMayor">
             <th mat-header-cell *matHeaderCellDef>CIRCULO ADULTO MAYOR</th>
             <td mat-cell *matCellDef="let element">
-              <a mat-flat-button class="text-primary2" routerLink="/cams/show/{{this.id}}/cirams/{{element.codigo}}">
+              <a mat-flat-button class="text-primary2" routerLink="/cams/cirams/show/{{element.idciram}}">
                 {{ element.descripcion }}
               </a>
             </td>

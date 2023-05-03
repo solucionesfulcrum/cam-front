@@ -52,13 +52,10 @@ export class NewRedComponent {
     private ubigeoService: UbiGeoService
   ) {
     //for breadcrum
-    this.breadcrumService.link1$.next({ url: '/cams/cirams', title: 'CIRAMS' });
-    this.breadcrumService.link2$.next({
-      url: '/cams/cirams/new',
-      title: 'NUEVO CIRAM',
-    });
+    this.breadcrumService.link1$.next({ url: '/cams/redes', title: 'REDES' });
+    this.breadcrumService.link2$.next({ url: '/cams/redes/new', title:'NUEVA RED'});
     this.breadcrumService.link3$.next({ url: '', title: '' });
-    this.breadcrumService.activeTab$.next('cirams');
+    this.breadcrumService.activeTab$.next('redes');
     this.loadUbigeos();
     this.loadRegions();
   }

@@ -19,9 +19,11 @@
     <ng-container matColumnDef="cam">
       <th mat-header-cell *matHeaderCellDef>CAMS</th>
       <td mat-cell *matCellDef="let element">
-          <span class="text-primary3">
+        <a class="text-sky-700" routerLink="/cams/show/{{element.idCam}}">
+          <span class="text-sky-700">
           {{ element.descripcion }}
           </span>
+        </a>
       </td>
     </ng-container>
 
@@ -45,7 +47,8 @@
     <ng-container matColumnDef="red">
       <th mat-header-cell *matHeaderCellDef>RED</th>
       <td mat-cell *matCellDef="let element">
-        {{ element.red.nombre }}
+        <span *ngIf="element.red"> {{ element.red.nombre }} </span> 
+        <span *ngIf="element.red!"> --- </span> 
       </td>
     </ng-container>
 
