@@ -82,7 +82,7 @@ export class ShowRedComponent implements OnInit {
     .subscribe((rta:any) =>{
       console.log("region.... ", rta)
       this.red= rta
-      this.breadcrumService.link2$.next({ url: '/cams/redes/show/'+this.id, title:rta.descripcion });
+      this.breadcrumService.link2$.next({ url: '/cams/redes/show/'+this.id, title:rta.nombre });
     })
   } 
 

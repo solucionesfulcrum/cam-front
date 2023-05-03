@@ -3,6 +3,7 @@ import { FormBuilder } from '@angular/forms';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatTableDataSource } from '@angular/material/table';
 import { ActivatedRoute, Router } from '@angular/router';
+import { Usuario } from 'src/app/core/_model/usuario';
 import { BreadcrumService } from 'src/app/shared/services/breadcrum.service';
 
 const CIRAMS= [
@@ -46,6 +47,8 @@ displayedColumns: string[] = [
 
   @ViewChild('paginatorProfesional') paginatorProfesional: MatPaginator;
   dataSource= new MatTableDataSource<any>(CIRAMS);
+
+  usuarios:Usuario[]
 
   id ='' 
   name ='ACTUALIZAMEEEE' 

@@ -26,8 +26,8 @@
         <th mat-header-cell *matHeaderCellDef>№</th>
         <td mat-cell *matCellDef="let element; let i = index">{{ i + 1 }}</td>
       </ng-container>
-      <ng-container matColumnDef="nombre">
-        <th mat-header-cell *matHeaderCellDef>RED</th>
+      <ng-container matColumnDef="nombreAsistencial">
+        <th mat-header-cell *matHeaderCellDef>RED ASISTENCIAL</th>
         <td mat-cell *matCellDef="let element">
           <a
             class="btn-flat-info"
@@ -39,24 +39,27 @@
         </td>
       </ng-container>
 
-      <ng-container matColumnDef="redasiscod">
-        <th mat-header-cell *matHeaderCellDef>RED ASISTENCIAL</th>
+      <ng-container matColumnDef="adminRed">
+        <th mat-header-cell *matHeaderCellDef>ADMINISTRADOR DE LA RED</th>
         <td mat-cell *matCellDef="let element">
           {{ element.redasiscod }}
         </td>
       </ng-container>
 
-      <ng-container matColumnDef="tipo">
-        <th mat-header-cell *matHeaderCellDef>TIPO</th>
-        <td mat-cell *matCellDef="let element">
-          {{ element.tipo }}
-        </td>
+      <ng-container matColumnDef="macroRegion">
+        <th mat-header-cell *matHeaderCellDef>MACRO REGION</th>
+        <td mat-cell *matCellDef="let element" >
+          <span *ngIf="element.region === 'N'"> NORTE  </span>
+          <span *ngIf="element.region === 'S'"> SUR </span>
+          <span *ngIf="element.region === 'E'"> ESTE </span>
+          <span *ngIf="element.region === 'O'"> OESTE </span>
+          </td>
       </ng-container>
 
-      <ng-container matColumnDef="region">
-        <th mat-header-cell *matHeaderCellDef>REGION</th>
+      <ng-container matColumnDef="fechaApertura">
+        <th mat-header-cell *matHeaderCellDef>FECHA APERTURA</th>
         <td mat-cell *matCellDef="let element">
-          {{ element.region }}
+          {{ element.tipo }}
         </td>
       </ng-container>
 

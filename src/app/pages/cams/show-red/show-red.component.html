@@ -60,7 +60,10 @@
           </div>
           <div class="d-flex bg-ligth2 p-1" *ngIf="this.red?.region">
             <div class="w-50 text-w-bold text-s-11 text-uppercase">Region</div>
-            <span *ngIf="this.red.region === 'L'">L</span>
+            <span *ngIf="this.red.region === 'N'">NORTE</span>
+            <span *ngIf="this.red.region === 'S'">SUR</span>
+            <span *ngIf="this.red.region === 'E'">ESTE</span>
+            <span *ngIf="this.red.region === 'O'">OESTE</span>
           </div>
           <div class="d-flex p-1" *ngIf="this.red?.celular">
             <div class="w-50 text-w-bold text-s-11 text-uppercase">Celular</div>
@@ -89,12 +92,7 @@
             <span  *ngIf="this.red?.provincia">{{this.red.provincia}}</span>
           </div>
 
-          <div class="d-flex p-1 bg-ligth2" >
-            <div class="w-50 text-w-bold text-s-11 text-uppercase">REGION</div>
-            <span *ngIf="this.red?.region" >{{this.red.region}}</span>
-          </div>
-
-          <div class="d-flex p-1" *ngIf="this.red?.estado">
+          <div class="d-flex p-1 bg-ligth2 " *ngIf="this.red?.estado">
             <div class="w-50 text-w-bold text-s-11 text-uppercase">estado</div>
             <div class="w-50 text-s-14 text-uppercase">
               <span *ngIf="this.red.estado === '1'">DISPONIBLE</span>
@@ -112,6 +110,7 @@
         >
           historial&nbsp;&nbsp;
         </span>
+      <!--
         <div class="d-block">
           <div class="d-flex" *ngIf="subBreadcrum1.url">
             <span
@@ -164,6 +163,7 @@
             </span>
           </div>
         </div>
+      -->
       </div>
 
       <div class="p-2">

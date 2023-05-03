@@ -26,10 +26,10 @@ export class RedesComponent implements OnInit {
 
   displayedColumns: string[] = [
     'index',
-    'nombre',
-    'redasiscod',
-    'tipo',
-    'region',
+    'nombreAsistencial',
+    'adminRed', 
+    'macroRegion', 
+    'fechaApertura', 
     'estado',
   ];
 
