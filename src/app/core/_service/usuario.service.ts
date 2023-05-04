@@ -24,4 +24,8 @@ export class UsuarioService extends CRUDService<Usuario>{
     return this._http.get<Usuario>(url);
    }
 
+   getUsuarioFromSys(id:string ){
+      return this._http.get<any>(`${environment.HOST}/usuario/idsso/${id}`);
+   }
+
 }

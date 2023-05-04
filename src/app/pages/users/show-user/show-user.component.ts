@@ -11,6 +11,7 @@ import { AuthService } from '../../auth/services/auth-service.service';
 import { ModalActivarUsuarioComponent } from './modalActivar/modal-activar-usuario.component';
 import { MatDialog } from '@angular/material/dialog';
 import { MatSnackBar } from '@angular/material/snack-bar';
+import { UsuarioService } from 'src/app/core/_service/usuario.service';
 
 @Component({
   selector: 'app-show-user',
@@ -42,6 +43,7 @@ export class ShowUserComponent implements OnInit {
     private breadcrumService: BreadcrumService,
     private authService: AuthService,
     private dialog: MatDialog,
+    private usuariosService: UsuarioService,
   ) {
     this.id = this.route.snapshot.paramMap.get('id')!;
     this.subLinks[0] = {
@@ -51,7 +53,8 @@ export class ShowUserComponent implements OnInit {
 
     //for breadcrum
     this.breadcrumService.link1$.next({ url: '/usuarios', title: 'USUARIOS' });
-    this.loadUserById(this.id); //carga datos reales del servidor
+    //this.loadUserById(this.id); //carga datos reales del servidor
+    this.loadUserByIdFromSys(this.id); //carga datos reales del servidor
     this.breadcrumService.link3$.next({ url: '', title: '' });
     this.breadcrumService.activeTab$.next('/usuarios');
 
@@ -87,6 +90,19 @@ export class ShowUserComponent implements OnInit {
       });
   }
 
+  loadUserByIdFromSys(id: string) {
+    const tmp = this.usuariosService
+      .getUsuarioFromSys(this.id)
+      .subscribe((rta: any) => {
+        this.user = rta;
+        console.log('User sesion from sys... ', rta);
+        this.breadcrumService.link2$.next({
+          url: '/usuarios/show/' + this.id,
+          title: rta.nombres,
+        });
+      });
+  }
+
   loadModalActivarUsuario() {
     const dialogRef = this.dialog.open(ModalActivarUsuarioComponent, {
       width: '1050px',
@@ -94,7 +110,6 @@ export class ShowUserComponent implements OnInit {
       data: { user: this.user, guiid: this.id },
     });
     dialogRef.afterClosed().subscribe((rta: any) => {
-      
       console.log('resul post modal from parent: ', rta);
     });
   }

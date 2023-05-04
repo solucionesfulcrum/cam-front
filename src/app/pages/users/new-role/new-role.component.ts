@@ -10,6 +10,7 @@ import { CamsService } from 'src/app/core/_service/cams.service';
 import { CiramsService } from 'src/app/core/_service/cirams.service';
 import { UbiGeoService } from 'src/app/core/_service/ubigeo.service';
 import { BreadcrumService } from 'src/app/shared/services/breadcrum.service';
+import { AuthService } from '../../auth/services/auth-service.service';
 
 @Component({
   selector: 'app-new-role',
@@ -29,14 +30,11 @@ ubigeos: UbiGeo[];
 cam:Cam;
 ubigeo: UbiGeo;
 
+rol: any
+
 form = this.formBuilder.nonNullable.group({
-    codigo: ['', [Validators.minLength(6), Validators.required]],
-    descripcion: ['', [ Validators.required, Validators.minLength(8)]],
-    celular: ['', [ Validators.required, Validators.minLength(7), Validators.pattern("^[0-9]*$")]],
-    email: ['', [ Validators.required, Validators.email]],
-    direccion: ['', [ Validators.required]],
-    cam: ['', [ Validators.required ]],
-    ubigeo: ['', [ Validators.required, Validators.minLength(6)]],
+    codigo: ['', [Validators.minLength(4), Validators.required]],
+    nombre: ['', [Validators.minLength(4), Validators.required]],
   });
 
  constructor(
@@ -46,7 +44,7 @@ form = this.formBuilder.nonNullable.group({
   private breadcrumService: BreadcrumService,
   private ciramService: CiramsService,
   private http: HttpClient,
-  private camsService: CamsService,
+  private authService: AuthService,
   private ubigeoService:UbiGeoService,
 
     ) {
@@ -61,13 +59,13 @@ form = this.formBuilder.nonNullable.group({
   saveRole(){
       if (this.form.valid) {
       this.status = 'loading';
-      const { codigo, descripcion,  celular, email, direccion} = this.form.getRawValue();
-      this.newCiram= {codigo, descripcion, tipo:'2', celular, email,  direccion, estado:1, cam:this.cam, ubigeo:this.ubigeo }
-      this.ciramService.registrar(this.newCiram)
+      const { codigo, nombre } = this.form.getRawValue();
+      this.rol = {codigo, nombre }
+      this.authService.registrarRolesFromSSO(codigo, nombre )
       .subscribe({
         next: () =>{
           this.status = 'success';
-          this.router.navigate(['/usuarios/cirams'])
+          this.router.navigate(['/usuarios/roles'])
         },
         error : () =>{
           this.status = 'failed';

@@ -44,47 +44,58 @@
           </span>
         </div>
         <div
-          *ngIf="this.user?.nombres"
           class="justify-content-center d-flex text-s-18 text-uppercase text-w-semibold"
         >
+        <span *ngIf="this.user?.nombres">
           {{ this.user.nombres }}
+        </span>
         </div>
       </div>
       <div class="mt-5">
-        <div class="d-flex p-1" *ngIf="this.user?.numDoc">
+        <div class="d-flex p-1" >
           <div class="w-50 text-w-bold text-s-11 text-uppercase">Documento</div>
           <div class="w-50 text-s-14 text-uppercase">
+            <span *ngIf="this.user?.numDoc">
             {{ this.user.tipoDoc === "1" ? "DNI" : "" }} {{ this.user.numDoc }}
+            </span>
           </div>
         </div>
-        <div class="d-flex bg-sky-100 p-1" *ngIf="this.user?.email">
+        <div class="d-flex bg-sky-100 p-1" >
           <div class="w-50 text-w-bold text-s-11 text-uppercase">
-            CORREO ELECTRÓNICO
+              CORREO ELECTRÓNICO
           </div>
-          <div class="w-50 text-s-14 text-uppercase">{{ this.user.email }}</div>
+          <div class="w-50 text-s-14 text-uppercase">
+            <span *ngIf="this.user?.email">
+            {{ this.user.email }}
+            </span>
+          </div>
         </div>
 
-        <div class="d-flex p-1" *ngIf="this.user?.email">
+        <div class="d-flex p-1" >
           <div class="w-50 text-w-bold text-s-11 text-uppercase">
             INICIO DE VIGENCIA 
           </div>
           <div class="w-50 text-s-14 text-uppercase">
-            17-03-2021
+            <span *ngIf="this.user?.email">
+              17-03-2021
+            </span>
           </div>
         </div>
 
-        <div class="d-flex bg-sky-100 p-1" *ngIf="this.user?.email">
+        <div class="d-flex bg-sky-100 p-1" >
           <div class="w-50 text-w-bold text-s-11 text-uppercase">
             FIN DE VIGENCIA 
           </div>
           <div class="w-50 text-s-14 text-uppercase">
-            24-03-2022
+            <span *ngIf="this.user?.email">
+              24-03-2022
+            </span>
           </div>
         </div>
 
-        <div class="d-flex p-1" *ngIf="this.user?.roles">
+        <div class="d-flex p-1" >
           <div class="w-50 text-w-bold text-s-11 text-uppercase">ESTADO</div>
-          <div class="w-50 text-s-14 text-uppercase">
+          <div class="w-50 text-s-14 text-uppercase" *ngIf="this.user?.roles">
             <span
               *ngIf="!user.tieneVigencia"
               class="bg-blue-100 text-blue-800 text-xs font-medium inline-flex items-center px-2.5 py-0.5 rounded border-sky"
@@ -126,11 +137,11 @@
           </div>
         </div>
 
-        <div class="d-flex p-1 bg-sky-100" *ngIf="this.user?.roles">
+        <div class="d-flex p-1 bg-sky-100" >
           <div class="w-50 text-w-bold text-s-11 text-uppercase">
             ROLES DE USUARIO
           </div>
-          <div class="w-50 text-s-14 text-uppercase">
+          <div class="w-50 text-s-14 text-uppercase" *ngIf="this.user?.roles">
             <span
               *ngFor="let rol of this.user.roles"
               class="inline-flex items-center p-2 mr-2 text-sm font-fine text-blue-800 bg-slate-200 rounded dark:bg-gray-700 dark:text-blue-400"
