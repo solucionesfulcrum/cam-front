@@ -25,5 +25,10 @@ export class RedesService extends CRUDService<Red>{
     let url = `${environment.HOST}/usuario/unidad/1/${idRed}`;
     return this._http.get<any>(url);
    }
+  
+  actualizaRedByPost(  red : Red, idRed : string){
+    let url = `${environment.HOST}/red/${idRed}`;
+    return this._http.post<any>(url, red)
+   }
 
 }
