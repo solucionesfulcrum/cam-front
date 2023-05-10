@@ -2,19 +2,18 @@ import { HttpClient } from '@angular/common/http';
 import { Inject, Injectable } from '@angular/core';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class CRUDService<T> {
-
   constructor(
     protected _http: HttpClient,
     @Inject(String) protected url: string
-  ) { }
+  ) {}
 
   listar() {
     return this._http.get<T[]>(this.url, {
-      reportProgress: true  // this is importante!
-    } );
+      reportProgress: true, // this is importante!
+    });
   }
 
   listarPorId(id: number) {
@@ -22,14 +21,14 @@ export class CRUDService<T> {
   }
 
   registrar(t: T) {
-    return this._http.post<T>(this.url, t)
+    return this._http.post<T>(this.url, t);
   }
 
-  actualizar(t: T, id:number) {
-    return this._http.put<T>(`${this.url}/${id}`, t)
+  actualizar(t: T, id: number) {
+    return this._http.put<T>(`${this.url}/${id}`, t);
   }
 
   eliminar(id: number) {
-    return this._http.delete(`${this.url}/${id}`)
+    return this._http.delete(`${this.url}/${id}`);
   }
 }

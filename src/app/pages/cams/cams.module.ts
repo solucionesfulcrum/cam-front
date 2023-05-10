@@ -2,7 +2,10 @@ import { NgModule } from '@angular/core';
 import { CamsRoutingModule } from './cams-routing.module';
 import { MaterialModule } from 'src/app/material/material.module';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { MatFormFieldModule, MAT_FORM_FIELD_DEFAULT_OPTIONS } from '@angular/material/form-field';
+import {
+  MatFormFieldModule,
+  MAT_FORM_FIELD_DEFAULT_OPTIONS,
+} from '@angular/material/form-field';
 import { HttpClientModule } from '@angular/common/http';
 import { FlexLayoutModule } from '@angular/flex-layout';
 import { MatSidenavModule } from '@angular/material/sidenav';
@@ -43,9 +46,9 @@ import { NewCiramComponent } from './new-ciram/new-ciram.component';
 import { NewServicioComponent } from './new-servicio/new-servicio.component';
 import { EditServicioComponent } from './edit-servicio/edit-servicio.component';
 import { ShowServicioComponent } from './show-servicio/show-servicio.component';
-import {MatAutocompleteModule} from '@angular/material/autocomplete';
-import {MatDividerModule} from '@angular/material/divider';
-import {MatExpansionModule} from '@angular/material/expansion';
+import { MatAutocompleteModule } from '@angular/material/autocomplete';
+import { MatDividerModule } from '@angular/material/divider';
+import { MatExpansionModule } from '@angular/material/expansion';
 import { SubViewUsuariosRedComponent } from './show-red/sub-view-usuarios-red/sub-view-usuarios-red.component';
 import { SubListUsuariosRedComponent } from './show-red/sub-list-usuarios-red/sub-list-usuarios-red.component';
 import { SubViewCamsRedComponent } from './show-red/sub-view-cams-red/sub-view-cams-red.component';
@@ -53,11 +56,9 @@ import { SubListCamsRedComponent } from './show-red/sub-list-cams-red/sub-list-c
 import { EditRedComponent } from './edit-red/edit-red.component';
 import { UsersLayoutComponent } from '../users/users-layout.component';
 import { BtnComponent } from 'src/app/shared/components/btn/btn.component';
-import {MatSelectModule} from '@angular/material/select';
+import { MatSelectModule } from '@angular/material/select';
 import { NewRedComponent } from './new-red/new-red.component';
-
-
-
+import { NgxMatSelectSearchModule } from 'ngx-mat-select-search';
 
 @NgModule({
   declarations: [
@@ -97,11 +98,9 @@ import { NewRedComponent } from './new-red/new-red.component';
 
     EditRedComponent,
     NewRedComponent,
-
-     
   ],
   imports: [
-    CamsRoutingModule, 
+    CamsRoutingModule,
     MaterialModule,
     ReactiveFormsModule,
     MatFormFieldModule,
@@ -121,19 +120,17 @@ import { NewRedComponent } from './new-red/new-red.component';
     MatDividerModule,
     MatExpansionModule,
     MatSelectModule,
+    NgxMatSelectSearchModule,
     BtnComponent,
-
   ],
-  exports:[
+  exports: [
     MaterialModule,
     ReactiveFormsModule,
     MatFormFieldModule,
     ReactiveFormsModule,
     FormsModule,
-    MatPaginatorModule
+    MatPaginatorModule,
   ],
-  providers: [
-  ],
+  providers: [],
 })
-export class CamsModule { 
-}
+export class CamsModule {}

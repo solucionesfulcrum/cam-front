@@ -1,4 +1,7 @@
-import { MatFormFieldModule, MAT_FORM_FIELD_DEFAULT_OPTIONS } from '@angular/material/form-field';
+import {
+  MatFormFieldModule,
+  MAT_FORM_FIELD_DEFAULT_OPTIONS,
+} from '@angular/material/form-field';
 import { MaterialModule } from './material/material.module';
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
@@ -17,16 +20,15 @@ import { MAT_DATE_LOCALE } from '@angular/material/core';
 import { ToastrModule } from 'ngx-toastr';
 import { SidenavComponent } from './layout/sidenav/sidenav.component';
 import { ToolbarComponent } from './layout/toolbar/toolbar.component';
-import {MatSidenavModule} from '@angular/material/sidenav';
-import {MatToolbarModule} from '@angular/material/toolbar';
-import {MatListModule} from '@angular/material/list';
-import {MatMenuModule} from '@angular/material/menu';
-import {MatProgressBarModule} from '@angular/material/progress-bar';
+import { MatSidenavModule } from '@angular/material/sidenav';
+import { MatToolbarModule } from '@angular/material/toolbar';
+import { MatListModule } from '@angular/material/list';
+import { MatMenuModule } from '@angular/material/menu';
+import { MatProgressBarModule } from '@angular/material/progress-bar';
 import { InterceptorService } from './shared/loader/interceptor.service';
 import { BtnComponent } from './shared/components/btn/btn.component';
 import { SelectComponent } from './shared/components/select/select.component';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
-
 
 @NgModule({
   declarations: [
@@ -43,7 +45,7 @@ import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
     ToastrModule.forRoot({
       timeOut: 3000,
       preventDuplicates: true,
-      closeButton: true
+      closeButton: true,
     }),
     BrowserModule,
     BrowserAnimationsModule,
@@ -60,15 +62,16 @@ import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
     AppRoutingModule,
     MatProgressBarModule,
     FontAwesomeModule,
-    
   ],
- exports: [
- ],
+  exports: [],
   providers: [
-    {provide: MAT_FORM_FIELD_DEFAULT_OPTIONS, useValue: {appearance: 'outline'}},
-    {provide: MAT_DATE_LOCALE, useValue: 'es-PE'},
-    {provide: HTTP_INTERCEPTORS, useClass: InterceptorService, multi:true}
+    {
+      provide: MAT_FORM_FIELD_DEFAULT_OPTIONS,
+      useValue: { appearance: 'outline' },
+    },
+    { provide: MAT_DATE_LOCALE, useValue: 'es-PE' },
+    { provide: HTTP_INTERCEPTORS, useClass: InterceptorService, multi: true },
   ],
-  bootstrap: [AppComponent]
+  bootstrap: [AppComponent],
 })
-export class AppModule { }
+export class AppModule {}

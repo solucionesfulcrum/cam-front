@@ -1,6 +1,14 @@
-import { AfterViewInit, Component, OnInit } from '@angular/core';
+import {
+  AfterViewInit,
+  ChangeDetectionStrategy,
+  ChangeDetectorRef,
+  Component,
+  OnInit,
+  OnDestroy,
+} from '@angular/core';
 import { FormBuilder, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
+import { ReplaySubject, Subject, takeUntil } from 'rxjs';
 import { Cam } from 'src/app/core/_model/cam.model';
 import { Red } from 'src/app/core/_model/red.model';
 import { RequestStatus } from 'src/app/core/_model/request-status.model';
@@ -14,8 +22,9 @@ import { BreadcrumService } from 'src/app/shared/services/breadcrum.service';
   selector: 'app-new-cam',
   templateUrl: './new-cam.component.html',
   styleUrls: ['./new-cam.component.css'],
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class NewCamComponent implements OnInit {
+export class NewCamComponent implements OnInit, OnDestroy {
   form = this.formBuilder.nonNullable.group({
     codigo: ['', [Validators.minLength(6), Validators.required]],
     descripcion: ['', [Validators.required, Validators.minLength(3)]],
@@ -34,6 +43,7 @@ export class NewCamComponent implements OnInit {
     direccion: ['', [Validators.required]],
     red: ['', [Validators.required]],
     ubigeo: ['', [Validators.required, Validators.minLength(6)]],
+    redFilterCtrl: [''],
   });
 
   subBreadcrum1: { url: string; title: string };
@@ -53,9 +63,17 @@ export class NewCamComponent implements OnInit {
   filteredUbigeo: UbiGeo[];
   isCargandoUbigeo = false;
 
+  filteredRedes$ = new ReplaySubject<Red[]>(1);
+
   //TMP
   userTipo = 'admin';
   idPersona = '1';
+
+  get formRedFilterCtrl() {
+    return this.form.get('redFilterCtrl');
+  }
+
+  private destroy$ = new Subject<void>();
 
   constructor(
     private router: Router,
@@ -63,17 +81,19 @@ export class NewCamComponent implements OnInit {
     private breadcrumService: BreadcrumService,
     private camService: CamsService,
     private redesService: RedesService,
-    private ubigeoService: UbiGeoService
+    private ubigeoService: UbiGeoService,
+    private ref: ChangeDetectorRef
   ) {
     //for breadcrum
     this.breadcrumService.link1$.next({ url: '/cams', title: 'CAMS' });
     this.breadcrumService.link2$.next({ url: '/cams/new', title: 'NUEVO CAM' });
     this.breadcrumService.link3$.next({ url: '', title: '' });
     this.breadcrumService.activeTab$.next('/cams');
-
     this.loadRedes();
     this.loadUbigeos();
   }
+
+  ngOnInit(): void {}
 
   saveCam() {
     if (this.form.valid) {
@@ -112,6 +132,28 @@ export class NewCamComponent implements OnInit {
     }
   }
 
+  filterRedCam(): void {
+    this.formRedFilterCtrl?.valueChanges
+      .pipe(takeUntil(this.destroy$))
+      .subscribe(() => {
+        if (!this.redes) {
+          return;
+        }
+        let value = this.formRedFilterCtrl?.value;
+        if (!value) {
+          this.filteredRedes$.next(this.redes.slice());
+          return;
+        }
+        value = value.toLowerCase();
+
+        this.filteredRedes$.next(
+          this.redes.filter(
+            (red) => red.nombre.toLowerCase().indexOf(value as string) > -1
+          )
+        );
+      });
+  }
+
   clearSelectionRed() {
     this.red!;
     this.filteredRed = [];
@@ -146,18 +188,21 @@ export class NewCamComponent implements OnInit {
   }
 
   loadRedes() {
-    const tmp = this.redesService.listar().subscribe((rta: any) => {
+    this.redesService.listar().subscribe((rta: any) => {
       this.redes = rta;
+      this.filteredRedes$.next(rta.slice());
+      this.filterRedCam();
     });
   }
 
   loadUbigeos() {
-    const tmp = this.ubigeoService.listar().subscribe((rta: any) => {
+    this.ubigeoService.listar().subscribe((rta: any) => {
       this.ubigeos = rta;
     });
   }
 
-  ngOnInit(): void {
-    throw new Error('Method not implemented.');
+  ngOnDestroy(): void {
+    this.destroy$.next();
+    this.destroy$.complete();
   }
 }
