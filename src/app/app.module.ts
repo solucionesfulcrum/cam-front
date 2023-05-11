@@ -26,7 +26,6 @@ import { MatListModule } from '@angular/material/list';
 import { MatMenuModule } from '@angular/material/menu';
 import { MatProgressBarModule } from '@angular/material/progress-bar';
 import { InterceptorService } from './shared/loader/interceptor.service';
-import { BtnComponent } from './shared/components/btn/btn.component';
 import { SelectComponent } from './shared/components/select/select.component';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 

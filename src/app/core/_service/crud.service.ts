@@ -1,10 +1,12 @@
 import { HttpClient } from '@angular/common/http';
 import { Inject, Injectable } from '@angular/core';
+import { environment } from 'src/environments/environment';
 
 @Injectable({
   providedIn: 'root',
 })
 export class CRUDService<T> {
+  // url_api = `${environment.HOST}/red`;
   constructor(
     protected _http: HttpClient,
     @Inject(String) protected url: string
@@ -14,6 +16,7 @@ export class CRUDService<T> {
     return this._http.get<T[]>(this.url, {
       reportProgress: true, // this is importante!
     });
+    // return this._http.get<any>('https://reqres.in/api/users');
   }
 
   listarPorId(id: number) {
