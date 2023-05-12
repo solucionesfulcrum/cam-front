@@ -6,7 +6,6 @@ import { MaterialModule } from 'src/app/material/material.module';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MatFormFieldModule, MAT_FORM_FIELD_DEFAULT_OPTIONS } from '@angular/material/form-field';
 import { HttpClientModule } from '@angular/common/http';
-import { FlexLayoutModule } from '@angular/flex-layout';
 import { MatSidenavModule } from '@angular/material/sidenav';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatListModule } from '@angular/material/list';
@@ -67,7 +66,6 @@ import { ModalActivarUsuarioComponent } from './show-user/modalActivar/modal-act
     ReactiveFormsModule,
     FormsModule,
     HttpClientModule,
-    FlexLayoutModule,
     MatSidenavModule,
     MatToolbarModule,
     MatListModule,

@@ -89,9 +89,13 @@ export class CamsComponent implements OnInit {
     switch (parseInt(event.value)) {
       case 1: {
         console.log('changeDisponible 1...');
-        this.dataSource.filterPredicate = (data, filter) => {
-        return data.articolo.code.indexOf(filter) != -1;
-      }
+
+        this.dataSource.filterPredicate = function (record, filter) {
+          return (
+            record.estado.toLocaleLowerCase() == filter.toLocaleLowerCase()
+          );
+        };
+
         break;
       }
       case 2: {
@@ -104,6 +108,4 @@ export class CamsComponent implements OnInit {
       }
     }
   }
-
-
 }

@@ -4,7 +4,6 @@ import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { ReactiveFormsModule, FormsModule } from '@angular/forms';
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
-import { FlexLayoutModule } from '@angular/flex-layout';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
@@ -26,6 +25,9 @@ import { InterceptorService } from './shared/loader/interceptor.service';
 import { BtnComponent } from './shared/components/btn/btn.component';
 import { SelectComponent } from './shared/components/select/select.component';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
+import { NgxMatSelectSearchModule } from 'ngx-mat-select-search';
+import {MatSelectModule} from '@angular/material/select';
+
 
 
 @NgModule({
@@ -52,7 +54,6 @@ import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
     ReactiveFormsModule,
     FormsModule,
     HttpClientModule,
-    FlexLayoutModule,
     MatSidenavModule,
     MatToolbarModule,
     MatListModule,
@@ -60,6 +61,8 @@ import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
     AppRoutingModule,
     MatProgressBarModule,
     FontAwesomeModule,
+    MatSelectModule,
+    NgxMatSelectSearchModule,
     
   ],
  exports: [

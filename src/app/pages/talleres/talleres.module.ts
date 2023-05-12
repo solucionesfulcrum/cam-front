@@ -6,7 +6,6 @@ import { MaterialModule } from 'src/app/material/material.module';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
-import { FlexLayoutModule } from '@angular/flex-layout';
 import { MatSidenavModule } from '@angular/material/sidenav';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatListModule } from '@angular/material/list';
@@ -53,7 +52,6 @@ import { ModalAgregarEventoComponent } from './asignar-tallerista/modalAgregarEv
     ReactiveFormsModule,
     FormsModule,
     HttpClientModule,
-    FlexLayoutModule,
     MatSidenavModule,
     MatToolbarModule,
     MatListModule,

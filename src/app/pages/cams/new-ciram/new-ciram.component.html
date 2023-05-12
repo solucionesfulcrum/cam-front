@@ -14,7 +14,6 @@
         </div>
       </div>
       <div class="w-50 d-flex justify-content-end">
-
         <app-btn
           typeBtn="submit"
           color="success"
@@ -30,8 +29,8 @@
       <mat-card-title
         class="text-secondary text-w-semibold text-uppercase text-s-20"
       >
-        NUEVO CIRAM </mat-card-title
-      >
+        NUEVO CIRAM
+      </mat-card-title>
 
       <mat-card-content>
         <div class="div-content-form">
@@ -95,7 +94,6 @@
               Descripcion inválida - Mínimo 8 Caracteres
             </mat-hint>
           </mat-form-field>
-
         </div>
 
         <div class="div-content-form">
@@ -114,7 +112,7 @@
                 form.controls.celular.invalid &&
                 form.controls.celular.hasError('required')
               "
-              class="text-danger "
+              class="text-danger"
             >
               Celular es obligatorio.
             </mat-hint>
@@ -172,8 +170,7 @@
           </mat-form-field>
         </div>
 
-      <div class="div-content-form">
-
+        <div class="div-content-form">
           <mat-form-field class="p-1">
             <mat-label> DIRECCIÓN</mat-label>
             <input
@@ -189,175 +186,84 @@
                 form.controls.direccion.invalid &&
                 form.controls.direccion.hasError('required')
               "
-              class="text-danger "
+              class="text-danger"
             >
               Dirección es obligatorio
             </mat-hint>
           </mat-form-field>
         </div>
-        <!--
-      <div class="div-content-form">
-          <mat-form-field class="p-1">
-            <mat-label>RED</mat-label>
-            <input
-              name="red"
-              formControlName="red"
-              matInput
-              placeholder="Ejm. Red cusco"
-              [(ngModel)]="red"
-              [matAutocomplete]="auto"
-            />
-            <button
-              *ngIf="red"
-              matSuffix
-              mat-icon-button
-              aria-label="Clear"
-              (click)="clearSelectionRed()"
-            >
-              <mat-icon>close</mat-icon>
-            </button>
 
-            <mat-autocomplete
-              [panelWidth]="400"
-              #auto="matAutocomplete"
-              (optionSelected)="onSelectedRed()"
-              [displayWith]="displayWith"
+        <div class="div-content-form">
+          <!--
+          <mat-form-field>
+            <mat-select
+              [formControl]="camCtrl"
+              placeholder="Cams"
+              #singleSelect
             >
-            <mat-option *ngIf="isCargandoRed" class="is-loading"
-                >Cargando...</mat-option
+              <mat-option>
+                <ngx-mat-select-search
+                  [formControl]="camFilterCtrl"
+                ></ngx-mat-select-search>
+              </mat-option>
+              <mat-option
+                *ngFor="let cam of filteredCams | async"
+                [value]="cam"
               >
-              <ng-container *ngIf="!isCargandoRed">
-                <mat-option
-                  *ngFor="let red of filteredRed"
-                  [value]="red"
-                >
-                  <span class="text-w-fine text-secondary text-s-12" >
-                    <b>{{ red.nombres}} - {{red.idAsegurado}}</b>
-                  </span>
-                </mat-option>
-              </ng-container>
-            </mat-autocomplete>
-
-            <mat-hint *ngIf="this.red" >
-              <span class="font-weight-bold" >
-                {{ this.red.nombres ?? '' }} &nbsp;&nbsp;-&nbsp;&nbsp;{{ this.red.idAsegurado ?? '' }}
-              </span>
-            </mat-hint >
-
-            <mat-hint
-              *ngIf="
-                form.controls.red.touched &&
-                form.controls.red.invalid &&
-                form.controls.red.hasError('required')
-              "
-              class="text-danger "
-            >
-              RED es obligatorio.
-            </mat-hint>
-
+                {{ cam.descripcion }}
+              </mat-option>
+            </mat-select>
           </mat-form-field>
 
-          <mat-form-field class="p-1">
-            <mat-label> UBIGEO</mat-label>
-            <input
-              name="ubigeo"
-              formControlName="ubigeo"
-              matInput
-              placeholder="Ejm. Jesus maria"
-              [(ngModel)]="ubigeo"
-              [matAutocomplete]="auto"
-            />
-            <button
-              *ngIf="ubigeo"
-              matSuffix
-              mat-icon-button
-              aria-label="Clear"
-              (click)="clearSelectionUbigeo()"
-            >
-              <mat-icon>close</mat-icon>
-            </button>
+          -->
 
-            <mat-autocomplete
-              [panelWidth]="400"
-              #auto="matAutocomplete"
-              (optionSelected)="onSelectedUbigeo()"
-              [displayWith]="displayWithUbigeo"
-            >
-            <mat-option *ngIf="isCargandoUbigeo" class="is-loading"
-                >Cargando...</mat-option
-              >
-              <ng-container *ngIf="!isCargandoUbigeo">
-                <mat-option
-                  *ngFor="let ubigeo of filteredUbigeo"
-                  [value]="ubigeo"
-                >
-                  <span class="text-w-fine text-secondary text-s-12" >
-                    <b>{{ ubigeo.nombres}} - {{ ubigeo.idAsegurado}}</b>
-                  </span>
-                </mat-option>
-              </ng-container>
-            </mat-autocomplete>
-
-            <mat-hint *ngIf="this.ubigeo" >
-              <span class="font-weight-bold" >
-                {{ this.ubigeo.nombres ?? '' }} &nbsp;&nbsp;-&nbsp;&nbsp;{{ this.ubigeo.idAsegurado ?? '' }}
-              </span>
-            </mat-hint >
-
+          <mat-form-field *ngIf="cams">
+            <mat-label> CAM </mat-label>
+            <mat-select placeholder="CAM" [(value)]="cam" formControlName="cam">
+              <mat-option>
+                <ngx-mat-select-search
+                  [formControl]="camFilterCtrl"
+                ></ngx-mat-select-search>
+              </mat-option>
+              <mat-option *ngFor="let cam of cams" [value]="cam">
+                {{ cam.descripcion }}
+              </mat-option>
+            </mat-select>
             <mat-hint
-              *ngIf="
-                form.controls.ubigeo.touched &&
-                form.controls.ubigeo.invalid &&
-                form.controls.ubigeo.hasError('required')
-              "
-              class="text-danger "
-            >
-              Distrito es obligatorio.
-            </mat-hint>
-          </mat-form-field>
-        </div>
-      -->
-      <div class="div-content-form">
-      <mat-form-field *ngIf="cams">
-        <mat-label> CAM </mat-label>
-          <mat-select placeholder="CAM"  [(value)]="cam"  formControlName="cam">
-            <mat-option *ngFor="let cam of cams" [value]="cam">
-              {{ cam.descripcion }}
-            </mat-option>
-          </mat-select>
-          <mat-hint
               *ngIf="
                 form.controls.cam.touched &&
                 form.controls.cam.invalid &&
                 form.controls.cam.hasError('required')
               "
-              class="text-danger "
+              class="text-danger"
             >
               CAM es obligatorio
             </mat-hint>
-        </mat-form-field>
+          </mat-form-field>
 
-        <mat-form-field *ngIf="ubigeos ">
-          <mat-label> DISTRITO </mat-label>
-          <mat-select placeholder="UBIGEO" [(value)]="ubigeo" formControlName="ubigeo" >
-            <mat-option *ngFor="let ubigeo of ubigeos" [value]="ubigeo">
-              {{ ubigeo.descDis }}
-            </mat-option>
-          </mat-select>
-          <mat-hint
+          <mat-form-field *ngIf="ubigeos">
+            <mat-label> DISTRITO </mat-label>
+            <mat-select
+              placeholder="UBIGEO"
+              [(value)]="ubigeo"
+              formControlName="ubigeo"
+            >
+              <mat-option *ngFor="let ubigeo of ubigeos" [value]="ubigeo">
+                {{ ubigeo.descDis }}
+              </mat-option>
+            </mat-select>
+            <mat-hint
               *ngIf="
                 form.controls.ubigeo.touched &&
                 form.controls.ubigeo.invalid &&
                 form.controls.ubigeo.hasError('required')
               "
-              class="text-danger "
+              class="text-danger"
             >
               UBIGEO es obligatorio
             </mat-hint>
-        </mat-form-field>
-      </div>
-
-
+          </mat-form-field>
+        </div>
       </mat-card-content>
     </mat-card>
     <mat-card>
@@ -374,4 +280,3 @@
     </mat-card>
   </div>
 </form>
-
