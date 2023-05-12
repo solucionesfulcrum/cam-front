@@ -2,6 +2,7 @@ import { HttpClient } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
+import { ReplaySubject, Subject, distinctUntilChanged, takeUntil } from 'rxjs';
 import { Cam } from 'src/app/core/_model/cam.model';
 import { Ciram } from 'src/app/core/_model/ciram.model';
 import { Red } from 'src/app/core/_model/red.model';
@@ -28,6 +29,7 @@ export class NewRedComponent {
   region: any;
   cantMinCaracterForBusqueda = 3;
   ubigeos: UbiGeo[];
+  filteredUbigeos$ = new ReplaySubject<UbiGeo[]>(1);
   ubigeo: UbiGeo;
 
   form = this.formBuilder.nonNullable.group({
@@ -37,9 +39,23 @@ export class NewRedComponent {
     direccion: ['', [Validators.required]],
     ubigeo: ['', [Validators.required, Validators.minLength(6)]],
     region: ['', [Validators.required]],
-    celular: ['', [ Validators.required, Validators.minLength(7),  Validators.pattern('^[0-9]*$'), ], ],
+    celular: [
+      '',
+      [
+        Validators.required,
+        Validators.minLength(7),
+        Validators.pattern('^[0-9]*$'),
+      ],
+    ],
     email: ['', [Validators.required, Validators.email]],
+    ubigeoFilterCtrl: [''],
   });
+
+  get formUbigeoFilterCtrl() {
+    return this.form.get('ubigeoFilterCtrl');
+  }
+
+  private destroy$ = new Subject<void>();
 
   constructor(
     private router: Router,
@@ -53,7 +69,10 @@ export class NewRedComponent {
   ) {
     //for breadcrum
     this.breadcrumService.link1$.next({ url: '/cams/redes', title: 'REDES' });
-    this.breadcrumService.link2$.next({ url: '/cams/redes/new', title:'NUEVA RED'});
+    this.breadcrumService.link2$.next({
+      url: '/cams/redes/new',
+      title: 'NUEVA RED',
+    });
     this.breadcrumService.link3$.next({ url: '', title: '' });
     this.breadcrumService.activeTab$.next('redes');
     this.loadUbigeos();
@@ -63,16 +82,24 @@ export class NewRedComponent {
   saveRed() {
     if (this.form.valid) {
       this.status = 'loading';
-      const { nombre, redasiscod, region, celular, email, fechaInscripcion, direccion,  } = this.form.getRawValue();
+      const {
+        nombre,
+        redasiscod,
+        region,
+        celular,
+        email,
+        fechaInscripcion,
+        direccion,
+      } = this.form.getRawValue();
       this.newRed = {
         nombre,
         redasiscod,
         celular,
         tipo: '2',
-        email, 
+        email,
         fechaInscripcion,
-        direccion, 
-        ubigeo:this.ubigeo, 
+        direccion,
+        ubigeo: this.ubigeo,
         estado: '1',
         region: this.region.idparametro,
       };
@@ -88,6 +115,28 @@ export class NewRedComponent {
     } else {
       this.form.markAllAsTouched();
     }
+  }
+
+  filterUbigeo(): void {
+    this.formUbigeoFilterCtrl?.valueChanges
+      .pipe(distinctUntilChanged(), takeUntil(this.destroy$))
+      .subscribe(() => {
+        if (!this.ubigeos) {
+          return;
+        }
+        let value = this.formUbigeoFilterCtrl?.value;
+        if (!value) {
+          this.filteredUbigeos$.next(this.ubigeos.slice());
+          return;
+        }
+        value = value.toLowerCase();
+
+        this.filteredUbigeos$.next(
+          this.ubigeos.filter(
+            (cm) => cm.descDis.toLowerCase().indexOf(value as string) > -1
+          )
+        );
+      });
   }
 
   loadRegions() {

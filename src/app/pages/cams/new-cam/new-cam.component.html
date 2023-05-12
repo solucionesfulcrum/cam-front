@@ -14,14 +14,12 @@
         </div>
       </div>
       <div class="w-50 d-flex justify-content-end">
-
         <app-btn
           typeBtn="submit"
           color="success"
           [loading]="status === 'loading'"
           >GUARDAR
         </app-btn>
-
       </div>
     </div>
   </div>
@@ -44,7 +42,7 @@
               placeholder="Codigo CAM"
               matInput
             />
-            <mat-hint
+            <mat-error
               *ngIf="
                 form.controls.codigo.touched &&
                 form.controls.codigo.invalid &&
@@ -53,8 +51,8 @@
               class="text-danger"
             >
               Codigo es obligatorio
-            </mat-hint>
-            <mat-hint
+            </mat-error>
+            <mat-error
               *ngIf="
                 form.controls.codigo.touched &&
                 form.controls.codigo.invalid &&
@@ -63,7 +61,7 @@
               class="text-danger"
             >
               Codigo inválido - Mínimo 1 Caracteres
-            </mat-hint>
+            </mat-error>
           </mat-form-field>
 
           <mat-form-field class="p-1">
@@ -75,7 +73,7 @@
               matInput
               type="text"
             />
-            <mat-hint
+            <mat-error
               *ngIf="
                 form.controls.descripcion.touched &&
                 form.controls.descripcion.invalid &&
@@ -84,8 +82,8 @@
               class="text-danger"
             >
               Descripcion es obligatorio
-            </mat-hint>
-            <mat-hint
+            </mat-error>
+            <mat-error
               *ngIf="
                 form.controls.descripcion.touched &&
                 form.controls.descripcion.invalid &&
@@ -94,9 +92,8 @@
               class="text-danger"
             >
               Descripcion inválida - Mínimo 3 Caracteres
-            </mat-hint>
+            </mat-error>
           </mat-form-field>
-
         </div>
 
         <div class="div-content-form">
@@ -109,17 +106,17 @@
               matInput
               type="text"
             />
-            <mat-hint
+            <mat-error
               *ngIf="
                 form.controls.celular.touched &&
                 form.controls.celular.invalid &&
                 form.controls.celular.hasError('required')
               "
-              class="text-danger "
+              class="text-danger"
             >
               Celular es obligatorio.
-            </mat-hint>
-            <mat-hint
+            </mat-error>
+            <mat-error
               *ngIf="
                 form.controls.celular.touched &&
                 form.controls.celular.invalid &&
@@ -128,8 +125,8 @@
               class="text-danger pl-5"
             >
               Celular inválido, mínimo 7 Caracteres.
-            </mat-hint>
-            <mat-hint
+            </mat-error>
+            <mat-error
               *ngIf="
                 form.controls.celular.touched &&
                 form.controls.celular.invalid &&
@@ -138,7 +135,7 @@
               class="text-danger pl-5"
             >
               Solo numeros.
-            </mat-hint>
+            </mat-error>
           </mat-form-field>
 
           <mat-form-field class="p-1">
@@ -150,7 +147,7 @@
               matInput
               type="text"
             />
-            <mat-hint
+            <mat-error
               *ngIf="
                 form.controls.email.touched &&
                 form.controls.email.invalid &&
@@ -159,8 +156,8 @@
               class="text-danger"
             >
               Correo electrónico es obligatorio
-            </mat-hint>
-            <mat-hint
+            </mat-error>
+            <mat-error
               *ngIf="
                 form.controls.email.touched &&
                 form.controls.email.invalid &&
@@ -169,27 +166,28 @@
               class="text-danger"
             >
               Correo electrónico inválido
-            </mat-hint>
+            </mat-error>
           </mat-form-field>
         </div>
 
-      <div class="div-content-form">
+        <div class="div-content-form">
           <mat-form-field class="p-1">
             <mat-label> FECHA INSCRIPCION</mat-label>
 
             <input
-            matInput
-            #nameInput
-            formControlName="fechaInscripcion"
-            [matDatepicker]="picker" />
-            <mat-hint>dd/mm/YYYY</mat-hint>
+              matInput
+              #nameInput
+              formControlName="fechaInscripcion"
+              [matDatepicker]="picker"
+            />
+
             <mat-datepicker-toggle
               matSuffix
               [for]="picker"
             ></mat-datepicker-toggle>
             <mat-datepicker #picker></mat-datepicker>
 
-            <mat-hint
+            <mat-error
               *ngIf="
                 form.controls.fechaInscripcion.touched &&
                 form.controls.fechaInscripcion.hasError('required')
@@ -197,7 +195,7 @@
               class="text-danger pl-5"
             >
               Fecha es obligatorio.
-            </mat-hint>
+            </mat-error>
           </mat-form-field>
           <mat-form-field class="p-1">
             <mat-label> DIRECCIÓN</mat-label>
@@ -208,61 +206,87 @@
               matInput
               type="text"
             />
-            <mat-hint
+            <mat-error
               *ngIf="
                 form.controls.direccion.touched &&
                 form.controls.direccion.invalid &&
                 form.controls.direccion.hasError('required')
               "
-              class="text-danger "
+              class="text-danger"
             >
               Dirección es obligatorio
-            </mat-hint>
+            </mat-error>
           </mat-form-field>
         </div>
-      
 
-      <div class="div-content-form">
-      <mat-form-field *ngIf="redes ">
-        <mat-label> RED ASISTENCIAL </mat-label>
-          <mat-select placeholder="RED ASISTENCIAL"  [(value)]="red"  formControlName="red">
-            <mat-option *ngFor="let red of redes" [value]="red">
-              {{ red.nombre}}
-            </mat-option>
-          </mat-select>
-          <mat-hint
+        <div class="div-content-form">
+          <mat-form-field>
+            <mat-label> RED ASISTENCIAL </mat-label>
+            <mat-select
+              placeholder="RED ASISTENCIAL"
+              [(value)]="red"
+              formControlName="red"
+            >
+              <mat-option>
+                <ngx-mat-select-search
+                  formControlName="redFilterCtrl"
+                  placeholderLabel="Buscar Red"
+                  noEntriesFoundLabel="Sin resultados"
+                ></ngx-mat-select-search>
+              </mat-option>
+              <mat-option
+                *ngFor="let red of filteredRedes$ | async"
+                [value]="red"
+              >
+                {{ red.nombre }}
+              </mat-option>
+            </mat-select>
+            <mat-error
               *ngIf="
                 form.controls.red.touched &&
                 form.controls.red.invalid &&
                 form.controls.red.hasError('required')
               "
-              class="text-danger "
+              class="text-danger"
             >
               Red es obligatorio
-            </mat-hint>
-        </mat-form-field>
+            </mat-error>
+          </mat-form-field>
 
-        <mat-form-field *ngIf="ubigeos ">
-          <mat-label> DISTRITO </mat-label>
-          <mat-select placeholder="UBIGEO" [(value)]="ubigeo" formControlName="ubigeo" >
-            <mat-option *ngFor="let ubigeo of ubigeos" [value]="ubigeo">
-              {{ ubigeo.descDis }}
-            </mat-option>
-          </mat-select>
-          <mat-hint
+          <mat-form-field>
+            <mat-label> DISTRITO </mat-label>
+            <mat-select
+              placeholder="UBIGEO"
+              [(value)]="ubigeo"
+              formControlName="ubigeo"
+            >
+              <mat-option>
+                <ngx-mat-select-search
+                  formControlName="ubigeoFilterCtrl"
+                  placeholderLabel="Buscar ubigeo"
+                  noEntriesFoundLabel="Sin resultados"
+                ></ngx-mat-select-search>
+              </mat-option>
+              <mat-option
+                *ngFor="let ubigeo of filteredUbigeos$ | async"
+                [value]="ubigeo"
+              >
+                {{ ubigeo.descDis }}
+              </mat-option>
+            </mat-select>
+            <mat-error
               *ngIf="
                 form.controls.ubigeo.touched &&
                 form.controls.ubigeo.invalid &&
                 form.controls.ubigeo.hasError('required')
               "
-              class="text-danger "
+              class="text-danger"
             >
-              UBIGEO es obligatorio
-            </mat-hint>
-        </mat-form-field>
-      </div>
-
-
+              Ubigeo es obligatorio
+            </mat-error>
+          </mat-form-field>
+          
+        </div>
       </mat-card-content>
     </mat-card>
     <mat-card>

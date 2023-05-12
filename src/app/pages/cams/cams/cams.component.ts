@@ -50,7 +50,11 @@ export class CamsComponent implements OnInit {
     this.loadCams();
   }
 
-  ngOnInit(): void {}
+  ngOnInit(): void {
+    this.dataSource.filterPredicate = function (record, filter) {
+      return record.estado.toLocaleLowerCase() == filter.toLocaleLowerCase();
+    };
+  }
 
   loadCams() {
     const tmp = this.camsService.listar().subscribe((rta: any) => {
@@ -89,12 +93,9 @@ export class CamsComponent implements OnInit {
     switch (parseInt(event.value)) {
       case 1: {
         console.log('changeDisponible 1...');
-
-        this.dataSource.filterPredicate = function (record, filter) {
-          return (
-            record.estado.toLocaleLowerCase() == filter.toLocaleLowerCase()
-          );
-        };
+        //const filterValue = (event.target as HTMLInputElement).value;
+        const filterValue = '1'
+        this.dataSource.filter = filterValue.trim().toLowerCase();
 
         break;
       }

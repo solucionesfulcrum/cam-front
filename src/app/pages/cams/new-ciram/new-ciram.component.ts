@@ -1,9 +1,9 @@
 import { HttpClient } from '@angular/common/http';
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { FormBuilder, FormControl, Validators } from '@angular/forms';
 import { MatSelect } from '@angular/material/select';
 import { ActivatedRoute, Router } from '@angular/router';
-import { ReplaySubject, Subject } from 'rxjs';
+import { ReplaySubject, Subject, distinctUntilChanged, takeUntil } from 'rxjs';
 import { Cam } from 'src/app/core/_model/cam.model';
 import { Ciram } from 'src/app/core/_model/ciram.model';
 import { RequestStatus } from 'src/app/core/_model/request-status.model';
@@ -18,36 +18,20 @@ import { BreadcrumService } from 'src/app/shared/services/breadcrum.service';
   templateUrl: './new-ciram.component.html',
   styleUrls: ['./new-ciram.component.css'],
 })
-export class NewCiramComponent implements OnInit {
-
-    /** list of banks */
-  protected cams: Cam[] = [];
-
-  /** control for the selected bank */
-  public camCtrl: FormControl<Cam | null > = new FormControl<Cam>(null!);
-
-  /** control for the MatSelect filter keyword */
-  public camFilterCtrl: FormControl<string | null> = new FormControl<string>('');
-
-  /** list of banks filtered by search keyword */
-  public filteredCams: ReplaySubject<Cam[]> = new ReplaySubject<Cam[]>(1);
-
-  @ViewChild('singleSelect', { static: true }) singleSelect: MatSelect;
-
-  /** Subject that emits when the component has been destroyed. */
-  protected _onDestroy = new Subject<void>();
-
-
+export class NewCiramComponent implements OnInit, OnDestroy {
   subBreadcrum1: { url: string; title: string };
   subBreadcrum2: { url: string; title: string };
   subBreadcrum3: { url: string; title: string };
   status: RequestStatus = 'init';
   newCiram: Ciram;
   cantMinCaracterForBusqueda = 3;
-  //cams: Cam[];
+  cams!: Cam[];
   ubigeos: UbiGeo[];
   cam: Cam;
   ubigeo: UbiGeo;
+
+  filteredCams$ = new ReplaySubject<Cam[]>(1);
+  filteredUbigeos$ = new ReplaySubject<UbiGeo[]>(1);
 
   form = this.formBuilder.nonNullable.group({
     codigo: ['', [Validators.minLength(6), Validators.required]],
@@ -64,7 +48,19 @@ export class NewCiramComponent implements OnInit {
     direccion: ['', [Validators.required]],
     cam: ['', [Validators.required]],
     ubigeo: ['', [Validators.required, Validators.minLength(6)]],
+    camFilterCtrl: [''],
+    ubigeoFilterCtrl: [''],
   });
+
+  get formCamFilterCtrl() {
+    return this.form.get('camFilterCtrl');
+  }
+
+  get formUbigeoFilterCtrl() {
+    return this.form.get('ubigeoFilterCtrl');
+  }
+
+  private destroy$ = new Subject<void>();
 
   constructor(
     private router: Router,
@@ -84,13 +80,15 @@ export class NewCiramComponent implements OnInit {
     });
     this.breadcrumService.link3$.next({ url: '', title: '' });
     this.breadcrumService.activeTab$.next('cirams');
-
-    this.loadCams();
-    //this.loadUbigeos();
+  }
+  ngOnDestroy(): void {
+    this.destroy$.next();
+    this.destroy$.complete();
   }
 
   ngOnInit(): void {
-
+    this.loadCams();
+    this.loadUbigeos();
   }
 
   saveCiram() {
@@ -123,16 +121,63 @@ export class NewCiramComponent implements OnInit {
     }
   }
 
+  filterRedCam(): void {
+    this.formCamFilterCtrl?.valueChanges
+      .pipe(distinctUntilChanged(), takeUntil(this.destroy$))
+      .subscribe(() => {
+        if (!this.cams) {
+          return;
+        }
+        let value = this.formCamFilterCtrl?.value;
+        if (!value) {
+          this.filteredCams$.next(this.cams.slice());
+          return;
+        }
+        value = value.toLowerCase();
+
+        this.filteredCams$.next(
+          this.cams.filter(
+            (cm) => cm.descripcion.toLowerCase().indexOf(value as string) > -1
+          )
+        );
+      });
+  }
+
+  filterUbigeo(): void {
+    this.formUbigeoFilterCtrl?.valueChanges
+      .pipe(distinctUntilChanged(), takeUntil(this.destroy$))
+      .subscribe(() => {
+        if (!this.ubigeos) {
+          return;
+        }
+        let value = this.formUbigeoFilterCtrl?.value;
+        if (!value) {
+          this.filteredUbigeos$.next(this.ubigeos.slice());
+          return;
+        }
+        value = value.toLowerCase();
+
+        this.filteredUbigeos$.next(
+          this.ubigeos.filter(
+            (cm) => cm.descDis.toLowerCase().indexOf(value as string) > -1
+          )
+        );
+      });
+  }
+
   loadCams() {
     this.camsService.listar().subscribe((rta: any) => {
-      console.log("rta: ", rta)
-        this.cams = rta;
+      this.filteredCams$.next(rta.slice());
+      this.filterRedCam();
+      this.cams = rta;
     });
   }
 
   loadUbigeos() {
     const tmp = this.ubigeoService.listar().subscribe((rta: any) => {
       this.ubigeos = rta;
+      this.filteredUbigeos$.next(rta.slice());
+      this.filterUbigeo();
     });
   }
 }

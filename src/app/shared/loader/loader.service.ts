@@ -1,12 +1,22 @@
 import { Injectable } from '@angular/core';
-import { BehaviorSubject } from 'rxjs';
+import { BehaviorSubject, Observable } from 'rxjs';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class LoaderService {
+  public isLoading: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(
+    false
+  );
+  public percent: BehaviorSubject<number> = new BehaviorSubject<number>(0);
 
-  public isLoading: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(false)
-  public percent: BehaviorSubject<number> = new BehaviorSubject<number>(0)
-  constructor() { }
+  get isLoading$(): Observable<boolean> {
+    return this.isLoading.asObservable();
+  }
+
+  get percent$(): Observable<number> {
+    return this.percent.asObservable();
+  }
+
+  constructor() {}
 }
