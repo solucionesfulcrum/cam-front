@@ -3,7 +3,9 @@
 }
 
 .div-dialog-form_content {
-    padding: 0 45px;
+    padding: 0px !important;
+   /* padding: 0 45px;*/
+   
 }
 
 .div-dialog-form_content form {
@@ -13,17 +15,25 @@
 .div-dialog-form_content h1 {
     font-size: 27px;
     color: #008BD2;
-    font-weight: 500;
+    font-weight: 500px;
 }
 
 .div-dialog-form_content h2 {
-    color: #777; 
+    color: #057EC9;
+    font-family: 'Roboto';
+    font-weight: 300;
+    font-size: 20px;   
+    /*color: #777; */
 }
-
+@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@700&display=swap');
 .div-dialog-form_content p {
-    color: #008BD2; 
+    color: #057EC9;
+    font-family: 'Roboto';
+    font-weight: 700;
+    font-size: 26px;
+    /*color: #008BD2; 
     font-weight: 400;
-    font-size: 25px;
+    font-size: 25px;*/
 }
 
 .mat-input-element {
@@ -34,12 +44,44 @@
     display: grid !important;
     gap: 1rem !important;
 }
+
 .btn-dialog button{
     font-size: 17px;
     width: 100%;
 }
 
+.btn-dialog button_RegCod{
+    width: 40px !important;
+}
+
+
 .btn-mat-primary {
     background: #008BD2;
     color: #fff;
 }
+
+.line-horizontal{
+    border-top: 0.2px solid rgba(0, 0, 0, 0.4);
+ }
+
+.caractr_equiv {
+    margin: 0px !important; 
+    padding: 0px !important; 
+    border: 0px !important; 
+    
+}
+
+.custom-dialog-container{
+        padding: 0px !important;
+ }
+
+ .mat-dialog-container::before {
+    content: "";
+    position: absolute;
+    padding: 0;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 20px; /* Ajusta la altura del padding superior según tus necesidades */
+    background-color:#057EC9; /* Establece el color deseado para el padding superior */
+  }

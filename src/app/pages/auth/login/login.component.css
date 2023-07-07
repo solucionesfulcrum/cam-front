@@ -4,6 +4,7 @@
     justify-content: center;
     align-items: center;
     background: url(../../../../assets/img/cam_login.png);
+    
     background-repeat: no-repeat;
     background-size: contain;
 }
@@ -11,8 +12,9 @@
 .login-form__div {
     /* max-width: 335px; */
     /* margin: 2rem auto; */
-    justify-content: center;
-    align-items: center;
+    
+    /*justify-content: center;
+    align-items: center;*/
     text-align: center;
     /* height: 490px; */
     border-radius: 25px;
@@ -31,6 +33,15 @@
     font-size: 30px;
     line-height: 33px;
     margin: 55px 0;
+    
+}
+
+.line-blue {
+    background-color: #057EC9;
+    height: 1px;
+    margin-top:35px;
+    margin-left: 0rem !important;
+    width: 38%;
 }
 
 .full-width-input, button {
@@ -45,6 +56,22 @@
     width: 100%;
     max-width: 250px;
     /* margin-top: 2rem; */
+}
+
+.img-logoCAM{
+    width: 250px;
+    height: 128.69px;
+}
+
+.img-logoEssl{
+    width: 400px !important;
+    height: 89.52px;
+}
+
+.img-hand{
+    align-content: center;
+    width: 90px;
+    height: 72px;
 }
 
 form {
@@ -84,6 +111,13 @@ mat-icon {
 }
 .mat-card {
     padding: 35px 16px;
+}
+
+@media screen and (max-width:400px){
+    .responsi{
+        display: none !important;
+        
+    }
 }
 /*
 ::ng-deep .mat-form-field-appearance-outline.mat-focused .mat-form-field-outline-thick {

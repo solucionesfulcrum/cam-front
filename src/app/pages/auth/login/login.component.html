@@ -1,43 +1,56 @@
 <!-- <div>
         <img src="assets/img/cam_login.png" alt="">
     </div> -->
-<div class="d-flex h-100v">
+<div class="bg-primary3 d-flex h-100v"> 
   <div class="bg-primary2
-  w-30 d-block align-content-center position-relative">
+  w-50 d-block align-content-center position-relative responsi">
   <div class="center">
-    <div class="d-block">
-      <img class="img-logo" src="assets/img/logo-essalud-white.svg" />
+    <div class="content-Essl">
+      <img class="img-logoEssl " src="assets/img/logo-essalud-white.svg" />
     </div>
-    <div class="mt-4 text-center">
-    <span class="text-w-bold text-white text-s-3r">CAM</span>
+    <div class="content-imagen2">
+      <img class="img-hand" src="assets/img/hand.png" />
+    </div>
+    <div class="content-imagen2 mt-4 text-center">
+    <!--<span class="text-w-bold text-white text-s-3r">CAM</span>-->
+    <p class="content-imagen2 text-w-bold text-white text-s-40">CAM</p>
     </div>
     <div class="mt-1 text-center">
-    <span class="text-w.semibold text-white text-s-18">CENTRO DE ADULTO MAYOR</span>
+    <span class="content-imagen2 text-w-semibold text-white text-s-25">Centro del Adulto Mayor</span>
     </div>
   </div>
   </div>
-  <div class="bg-white w-70 d-flex h-100 justify-content-center">
+  <div class="bg-primary3 w-100 d-flex h-100 justify-content-center" >
     <div
-      class="
-      border-1-ligth
-      radius-2
+      class="bg-white
+      border-1-light
+      radius-8
       p-3
       vertical-center
       "
+      style="margin-right: 38px"
     >
-      <div>
-        <img class="img-logo" src="assets/img/cam_logo_for_login.svg" />
+      <div class="content-imagen">
+        <img class="img-logoCAM"  src="assets/img/cam_logo_for_login.svg"  />
       </div>
       <form [formGroup]="loginForm" (ngSubmit)="onLogin()" class="">
-        <div class="d-flex">
+        <div class="d-flex content-textos">
           <span
-            class="text-s-1r text-w-fine text-secondary text-uppercase ml-13 pt-2 pb-2 justify-content-start align-content-flex-start"
-            >Inicio de Sesión</span
-          >
+            class="text-s-20 text-w-normal text-black ml-13 pt-2 pb-2 justify-content-start align-content-flex-start"
+            style="border-bottom: 2px solid #057EC9;"
+            >Inicia Sesión </span
+          > 
+        </div>
+        <div class="separator"> </div>
+        <div class="content-textos-small text-s-18 text-black" >
+          Bienvenido al módulo CAM 
+        </div>
+        <div class="content-textos text-s-14 text-w-fine" style="color:#37474F">
+          Llene los datos del usuario
         </div>
         <div class="form-div-datos">
           <mat-form-field class="full-width-input">
-            <mat-label>Usuario</mat-label>
+            <mat-label class="text-s-20 text-secondary" >DNI</mat-label>
             <input formControlName="username" matInput required />
             <mat-icon matSuffix>account_circle</mat-icon>
             <mat-error
@@ -47,8 +60,8 @@
             </mat-error>
           </mat-form-field>
         </div>
-        <mat-form-field class="full-width-input separator">
-          <mat-label>Contraseña</mat-label>
+        <mat-form-field class="full-width-input separator" style="display:block" style="margin-bottom: 0%">
+          <mat-label class="text-s-20 text-secondary">Contraseña</mat-label>
           <input
             type="password"
             formControlName="password"
@@ -69,6 +82,16 @@
           </mat-error>
         </mat-form-field>
 
+        <div class="content-textos">
+          <button
+            mat-button
+            color="primary"
+            (click)="irOlvidoPassword()"
+            class="font-boton text-s-18" style="color: #0085FF"
+          > 
+            ¿Olvidaste tu contraseña?
+          </button>
+        </div>
         <div class="btn-login">
           <button
             type="submit"
@@ -80,22 +103,17 @@
         </div>
       </form>
       <div>
+        
         <button
           mat-button
           color="primary"
           (click)="irRegistroUsuario()"
-          class="font-boton font-primary"
+          class="text-s-18" style="color: #0085FF"
         >
-          Registrarse
+        <label class="text-s-18 text-secondary2">Aún no tienes usuario? </label>
+          Registrate
         </button>
-        <button
-          mat-button
-          color="warn"
-          (click)="irOlvidoPassword()"
-          class="font-boton font-secondary"
-        >
-          ¿Olvidaste tu contraseña?
-        </button>
+
       </div>
     </div>
   </div>

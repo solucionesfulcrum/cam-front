@@ -170,8 +170,9 @@ export class RegistroComponent implements OnInit, AfterViewInit, OnDestroy {
     };
 
     const dialog = this.dialog.open(RegistroCodigoComponent, {
-      data: { title: 'Completar Registro', data },
-      width: '450px',
+      data: { title: 'Confirmar correo del Usuario', data },
+      width: '535px',
+      /*width: '450px',*/
       disableClose: true,
     });
     dialog.afterClosed().subscribe();

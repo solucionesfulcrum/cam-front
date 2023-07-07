@@ -1,17 +1,66 @@
-<div class="login-form">
+<div class="login-form d-flex bg-primary3">
   <!-- <div>
         <img src="assets/img/cam_login.png" alt="">
     </div> -->
-  <mat-card class="login-form__div">
-    <div>
-      <img class="img-logo" src="assets/img/logo-essalud.png" />
+    
+    <div class="bg-primary2 d-flex
+    w-50 d-block align-content-center position-relative responsiv1" >
+    <div class="center justify-content-start">
+      <div class="content-Essl" style="margin: 8px">
+        <img class="img-logoEssl " src="assets/img/logo-essalud-white.svg" />
+      </div>
+      <div class="content-imagen2 mt-4 pt-2" style="margin: 8px">
+        <img class="img-hand" src="assets/img/hand.png" />
+      </div>
+      <div class="content-imagen2 mt-4 pt-2 text-center" style="margin: 8px">
+      <!--<span class="text-w-bold text-white text-s-3r">CAM</span>-->
+      <p class="content-imagen2 text-w-bold text-white text-s-40">CAM</p>
+      </div>
+      <div class="mt-4 text-center" style="margin: 8px">
+      <span class="content-imagen2 text-w-semibold text-white text-s-25" style="margin: 8px">Centro del Adulto Mayor</span>
+      </div>
     </div>
-    <h1>Registrarse</h1>
+    </div>
+
+  <div class="bg-primary3 d-flex align-content-center" style="width: 880px !important">
+  <mat-card class="login-form__div_reg mt-8 mr-16 w-750 contRegistro" >
+    <div class="content-imagen">
+      <!-- <img class="img-logo" src="assets/img/logo-essalud.png" /> -->
+      <img class="img-logoCAM" src="assets/img/cam_logo_for_login.svg" />
+    </div>
+
+    <div class="d-flex content-textos">
+      <span
+        class="text-s-20 text-w-normal text-black ml-8 pt-1 pb-1 justify-content-start align-content-flex-start"
+        style="border-bottom: 3px solid #057EC9"
+        >Registro de Usuario <br> </span
+      > 
+    </div>
+
+    <div class="d-flex content-textos">
+      <span
+        class="text-s-20 text-w-normal text-black pt-4" style="margin-left: 38px"
+        >Información del Usuario<br>
+      </span>
+    </div>
+
+    <div class="d-flex content-textos">
+      <span
+        class=" text-s-14 text-secondary" style="margin-left: 38px; text-align: left;"
+        > <br>Vamos a preparar todo para que pueda verificar su cuenta de usuario
+      </span>     
+  
+    </div>
+   
+    <div class="d-flex content-textos-small">
+      
+    </div>
+
     <form [formGroup]="registroForm" (ngSubmit)="registrarUsuario()">
-      <div>
-        <div class="form-div-datos">
-          <mat-form-field class="full-width-input">
-            <mat-label>TIPO DOCUMENTO</mat-label>
+      <div class="login-form__div_reg">
+        <div class="form-div-datos ">
+          <mat-form-field class="formRegistro full-width-input">
+            <mat-label class="text-s-16r text-w-fine">Tipo de Documento</mat-label>
             <mat-select formControlName="tipoDocumentoCtrl">
               <mat-option value="1"
                 >DNI - Documento Nacional de Identidad</mat-option
@@ -19,32 +68,32 @@
               <mat-option value="2">CE - Carnét de Extranjería</mat-option>
             </mat-select>
           </mat-form-field>
-          <mat-form-field class="full-width-input">
-            <mat-label>Número de documento</mat-label>
+          <mat-form-field class="formRegistro full-width-input">
+            <mat-label class="formRegistro text-s-16r text-w-fine">Número de documento</mat-label>
             <input matInput formControlName="nroDocumentoCtrl" />
           </mat-form-field>
         </div>
         <div class="form-div-datos">
-          <mat-form-field class="full-width-input">
-            <mat-label>Código de planilla</mat-label>
+          <mat-form-field class="formRegistro full-width-input">
+            <mat-label class="text-s-16r text-w-fine">Código de Planilla</mat-label>
             <input matInput formControlName="codigoPlanCtrl" />
           </mat-form-field>
-          <mat-form-field class="full-width-input">
-            <mat-label>Correo electrónico</mat-label>
+          <mat-form-field class="formRegistro full-width-input" >
+            <mat-label class="text-s-16r text-w-fine">Correo Electrónico</mat-label>
             <input matInput formControlName="correoCtrl" />
           </mat-form-field>
         </div>
         <div class="form-div-datos">
-          <mat-form-field class="full-width-input">
-            <mat-label>Nombres y apellidos</mat-label>
+          <mat-form-field class="formRegistro full-width-input">
+            <mat-label class="text-s-16r text-w-fine">Nombres y Apellidos</mat-label>
             <input matInput formControlName="nombresCtrl" />
           </mat-form-field>
         </div>
-      </div>
+      
 
       <div class="form-div-datos">
-        <mat-form-field class="full-width-input">
-          <mat-label>Crear contraseña</mat-label>
+        <mat-form-field class="formRegistro full-width-input">
+          <mat-label class="text-s-16r text-w-fine">Contraseña</mat-label>
           <input
             matInput
             type="password"
@@ -60,8 +109,8 @@
             <mat-icon> {{ hide ? "visibility_off" : "visibility" }} </mat-icon>
           </button>
         </mat-form-field>
-        <mat-form-field class="full-width-input">
-          <mat-label>Confirmar contraseña</mat-label>
+        <mat-form-field class="formRegistro full-width-input" >
+          <mat-label class="text-s-16r text-w-fine">Confirma Contraseña</mat-label>
           <input
             matInput
             type="password"
@@ -81,13 +130,13 @@
 
       <div class="form-div-datos">
 
-                 <mat-form-field class="anchor80">
-            <mat-label>UNIDAD OPERATIVA</mat-label>
+            <mat-form-field class="formRegistro anchor80">
+            <mat-label class="text-s-16r text-w-fine">Unidad Operativa</mat-label>
             <input
               name="cam"
               formControlName="cam"
               matInput
-              placeholder="Ejm Rebaleategui"
+              placeholder="Ejm Rebagliati"
               [(ngModel)]="unidadOperativa"
               [matAutocomplete]="auto"
             />
@@ -139,30 +188,36 @@
 
       </div>
 
-      <div class="form-div-datos">
+      <div class="d-flex content-textos-small">
+      
+    </div>
+
+      <div class="form-div-datos" style="text-align: left">
         <mat-checkbox
           formControlName="accept"
           checked="true"
           (change)="onCheckBox($event)"
-        >
-          Acepto los terminos y condiciones
+        >Acepto terminos y condiciones
         </mat-checkbox>
       </div>
 
-      <div class="btn-login">
+      <div class="btn-login text-s-18 text-w-bold pb-3" style="margin:0% !important">
         <button
           type="submit"
           mat-raised-button
           class="btn-mat-primary"
           [disabled]="registroForm.invalid || loading"
         >
-          {{ loading ? "Validando..." : "Registrar" }}
+          {{ loading ? "Validando..." : "Registrarme" }}
         </button>
       </div>
       <div class="btn-login">
-          <span class="text-s-14 text-gray-500 ">Ya tienes cuenta? </span>
-          <span class="text-s-14 text-sky-500 cursor" (click)="volverLogin()">Inicia session</span>
+          <span class="text-s-18 text-secondary2">Ya tienes una cuenta? </span>
+          <span class="text-s-18 text-primary4 cursor" (click)="volverLogin()">Inicia Sesión</span>
       </div>
+    </div>
     </form>
+    
   </mat-card>
+</div>
 </div>
