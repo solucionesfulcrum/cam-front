@@ -160,7 +160,10 @@ mat-icon {
             height: 60px !important;
     }
  }
- 
+ .custom-dialog-container .mat-dialog-container {
+    padding-top: 0 !important;
+    padding-bottom: 0 !important;
+}
  
 /* ::ng-deep.mat-form-field-flex{
     height: 50px !important;

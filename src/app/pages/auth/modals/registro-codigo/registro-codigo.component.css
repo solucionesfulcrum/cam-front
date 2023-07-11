@@ -64,24 +64,34 @@
     border-top: 0.2px solid rgba(0, 0, 0, 0.4);
  }
 
-.caractr_equiv {
-    margin: 0px !important; 
-    padding: 0px !important; 
-    border: 0px !important; 
-    
-}
-
-.custom-dialog-container{
+ .custom-dialog-container{
         padding: 0px !important;
  }
+  
+ ::ng-deep.formRegistroCod{
+    .mat-form-field-flex{
+            height: 42px !important;
+            padding-top: 0px;
+            padding-bottom: 10px;
+            margin-top: 1px;
+    }
+    .mat-form-field-infix{
+        padding: 0px !important;
+        height: 40px !important;
+        margin-top: 0px;
+    }
+    .mat-form-field-autofill-control{
+        margin-top: 0px !important;
+        margin-bottom: 1px !important;
+        padding-top:0px !important;
+        height: 28px !important;
+        border: none !important;
+    }
+    .mat-form-field-wrapper{
+        margin-top: 2px !important;
+        margin-bottom: 3px !important;
+        padding-bottom:  0px !important;
+    }
+ }
 
- .mat-dialog-container::before {
-    content: "";
-    position: absolute;
-    padding: 0;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 20px; /* Ajusta la altura del padding superior según tus necesidades */
-    background-color:#057EC9; /* Establece el color deseado para el padding superior */
-  }
+

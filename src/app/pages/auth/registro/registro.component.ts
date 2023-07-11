@@ -174,6 +174,7 @@ export class RegistroComponent implements OnInit, AfterViewInit, OnDestroy {
       width: '535px',
       /*width: '450px',*/
       disableClose: true,
+      panelClass:'custom-dialog-container',
     });
     dialog.afterClosed().subscribe();
   }
