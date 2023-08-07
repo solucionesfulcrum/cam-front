@@ -1,38 +1,60 @@
-        <div class="div-mat-tab">
+        <div class="div-mat-tab" style="margin-left: 0px; border: none !important" ></div>
           <div class="filtros-notif" [formGroup]="form">
-            <div class="filtros-notif-left">
-              <mat-form-field class="mat-full-width">
+            <div class="filtros-notif-left" style="width: 520px">
+              <mat-form-field class="field-full-width" style="width: 250px">
+                <!-- <mat-label>Seleccionar rango de fechas</mat-label> -->
+                <mat-label class="text-s-16r" style="font-size: 14px !important; line-height: 0.15px">dd/mm/YYYY – dd/mm/YYYY</mat-label>
+                <mat-date-range-input [rangePicker]="picker">
+                    <input matStartDate formControlName="fechaIni">
+                    <input matEndDate formControlName="fechaFin">
+                </mat-date-range-input>
+                <!-- <mat-hint>dd/mm/YYYY – dd/mm/YYYY</mat-hint> -->
+                <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+                <mat-date-range-picker #picker color="warn"></mat-date-range-picker>
+              </mat-form-field>
+
+              <mat-form-field class="mat-full-width" style="width: 200px; height: 54px !important">
                 <mat-icon matPrefix>search</mat-icon>
                 <input
                   (keyup)="filtrarTabla($event)"
                   matInput
-                  placeholder="Búscar"
+                  placeholder="Búsqueda de Roles"
                 />
               </mat-form-field>
-              <mat-form-field>
-                <mat-label>Estado</mat-label>
+            </div>
+
+            <div class="filtros-notif-right" style="margin-top: 0px; align-items: center; justify-items: center;">
+              <mat-form-field style="width: 180px; margin-right: 15px; height: 40px !important;">
+                <mat-label class="text-s-16r" style="font-size: 14px !important; line-height: 0.15px">Todos los Estados</mat-label>
                 <mat-select>
                   <mat-option value="1">DISPONIBLES</mat-option>
                   <mat-option value="2">SUSPENDIDO</mat-option>
                   <mat-option value="3">NO DISPONIBLE</mat-option>
                 </mat-select>
               </mat-form-field>
-            </div>
-            <div class="filtros-notif-right ">
               
               <button
                 mat-raised-button
                 class="mat-btn-primary text-uppercase"
                 routerLink="/usuarios/roles/new"
+                style="height: 40px !important; margin-top: 0px; padding-top: 0px; background-color: #057EC9"
               >
-                Nuevo rol de usuario 
+                Nuevo rol 
               </button>
             </div>
           </div>
           <div class="">
 
             <table mat-table [dataSource]="dataSource2">
-            <ng-container matColumnDef="idRolAplicacion">
+
+              <ng-container matColumnDef="counter">
+                <th mat-header-cell *matHeaderCellDef class="" style="width: 64px !important;">Nro</th>
+                <td mat-cell *matCellDef="let element" class="justify-left " style="align-content: start;">
+                  {{ element.counter }}
+                </td>
+              </ng-container>
+              
+              <!--<ng-container matColumnDef="idRolAplicacion">
                 <th mat-header-cell *matHeaderCellDef class="">ID</th>
                 <td mat-cell *matCellDef="let element" class="justify-left " style="align-content: start;">
                   <a
@@ -46,27 +68,56 @@
               </ng-container>
 
 
-              <ng-container matColumnDef="codigo">
+               <ng-container matColumnDef="codigo">
                 <th mat-header-cell *matHeaderCellDef class="">CODIGO </th>
                 <td mat-cell *matCellDef="let element">
                   {{ element.codigo }}
                 </td>
-              </ng-container>
+              </ng-container> -->
 
              <ng-container matColumnDef="nombre">
-                <th mat-header-cell *matHeaderCellDef>NOMBRE DE ROL DE USUARIO</th>
+                <th mat-header-cell *matHeaderCellDef style="width: 297px !important;">NOMBRE DE ROL</th>
                 <td mat-cell *matCellDef="let element">
                   {{ element.nombre }}
                 </td>
               </ng-container>
+
+              <ng-container matColumnDef="descripcion">
+                <th mat-header-cell *matHeaderCellDef style="width: 388px !important;">DESCRIPCION</th>
+                <td mat-cell *matCellDef="let element">
+                  {{ element.descripcion }}
+                </td>
+              </ng-container>
+
+              <ng-container matColumnDef="permisos">
+                <th mat-header-cell *matHeaderCellDef style="width: 140px !important;">PERMISOS</th>
+                <td mat-cell *matCellDef="let element">
+                  {{ element.permisos }}
+                </td>
+              </ng-container>
+
+              <ng-container matColumnDef="fechReg">
+                <th mat-header-cell *matHeaderCellDef style="width: 140px !important;">FECHA DE REGISTRO</th>
+                <td mat-cell *matCellDef="let element">
+                  {{ element.fechReg }}
+                </td>
+              </ng-container>
+
+              <ng-container matColumnDef="estado">
+                <th mat-header-cell *matHeaderCellDef style="width: 130px !important; text-align: center !important;">ESTADO</th>
+                <td mat-cell *matCellDef="let element">
+                  {{ element.estado }}
+                </td>
+              </ng-container>
+             
 
               <tr
                 mat-header-row [ngClass]="{'headerRow':true}" *matHeaderRowDef="displayedColumns" >
               </tr>
               <tr
                 mat-row
-                *matRowDef="let row; columns: displayedColumns;  index as i"   [ngClass]="getClassRow(i)"
-              ></tr>
+                *matRowDef="let row; columns: displayedColumns;  index as i"  
+              ></tr>  <!-- [ngClass]="getClassRow(i)" -->
             </table>
             <mat-paginator
               #paginator
@@ -74,4 +125,4 @@
               showFirstLastButtons
             ></mat-paginator>
           </div>
-        </div>
+      

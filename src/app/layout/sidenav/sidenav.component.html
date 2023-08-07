@@ -1,43 +1,47 @@
 <!-- superadmin, admin, registrador, usuarioadmin -->
-<div class="div-sidenav-img pt-4">
-  <img src="assets/img/logo-essalud.png" alt="" />
+<div class="div-sidenav-img pt-3">
+  <img src="assets/img/logo-essalud.png" alt="" style="width: 200px !important; height: 43.97 !important;"/>
 </div>
 <div class="div-desc-mod mt-4 mb-2 flex">
-  <span class="text-s-13 text-w-semibold"> CENTRO DE ADULTO MAYOR </span>
+  <!--<span class="text-s-13 text-w-semibold"> CENTRO DE ADULTO MAYOR </span> -->
 </div>
 <mat-nav-list>
   <div class="">
     <a mat-list-item routerLink="/home" routerLinkActive="list-item-activo">
-      <span class="material-symbols-outlined" style="color: #0284c7">
+      <img class="" src="assets/iconDash.svg" style="color: #0284c7 !important; margin-left: 14px"/> 
+      <!-- <span class="material-symbols-outlined" style="color: #0284c7">
         home
-      </span>
-      <span class="text-s-12">DASHBOARD</span>
+      </span> -->
+      <span class="text-s-16p pl-1" style="line-height: 24px !important; color: #3E4348 !important"> Dashboard</span>
     </a>
-    <a mat-list-item routerLink="/usuarios" routerLinkActive="list-item-activo">
-      <span class="material-symbols-outlined" style="color: #0284c7">
-        <!-- <img class="" src="assets/sideUsers.svg" style="color: #0284c7" />-->
-        person
-      </span>
 
-      <span class="text-s-12"> USUARIOS </span>
+    <a mat-list-item routerLink="/cams/redes" routerLinkActive="list-item-activo">
+      <img class="" src="assets/iconGst.svg" style="color: #0284c7; margin-left: 14px"/>
+      <!--<span class="material-symbols-outlined" style="color: #0284c7"> -->
+          <!-- <img class="" src="assets/sideuo.svg" style="color: #0284c7" /> -->
+      <!--  hr_resting
+      </span> -->
+      <span class="text-s-16p pl-1" style="line-height: 24px !important; color: #3E4348 !important"> Gestión </span>
     </a>
+
     <a
-      mat-list-item
-      routerLink="/cams/redes"
-      routerLinkActive="list-item-activo"
-    >
-      <span class="material-symbols-outlined" style="color: #0284c7">
-        <!-- <img class="" src="assets/sideuo.svg" style="color: #0284c7" /> -->
-        hr_resting
-      </span>
-      <span class="text-s-12"> UNIDADES OPERATIVA </span>
-    </a>
+    mat-list-item
+    routerLink="/planificacion"
+    routerLinkActive="list-item-activo"
+  >
+    <img class="" src="assets/iconPlanif.svg" style="color: #0284c7; margin-left: 14px"/> 
+    <!-- <span class="material-symbols-outlined" style="color: #0284c7">
+      groups
+    </span> -->
+    <span class="text-s-16p pl-1" style="line-height: 24px !important; color: #3E4348 !important"> Planificación </span>
+  </a>
 
     <a mat-list-item routerLink="/talleres" routerLinkActive="list-item-activo">
-      <span class="material-symbols-outlined" style="color: #0284c7">
+      <img class="" src="assets/iconProg.svg" style="color: #0284c7; margin-left: 14px"/> 
+      <!-- <span class="material-symbols-outlined" style="color: #0284c7">
         sports_gymnastics
-      </span>
-      <span class="text-s-12"> EVENTOS </span>
+      </span> -->
+      <span class="text-s-16p pl-1" style="line-height: 24px !important; color: #3E4348 !important"> Programacióm </span>
     </a>
 
 
@@ -56,10 +60,11 @@
       routerLink="/asegurados"
       routerLinkActive="list-item-activo"
     >
-      <span class="material-symbols-outlined" style="color: #0284c7">
+      <img class="" src="assets/iconEjec.svg" style="color: #0284c7; margin-left: 14px"/> 
+      <!-- <span class="material-symbols-outlined" style="color: #0284c7">
         groups
-      </span>
-      <span class="text-s-12"> CONTACTOS </span>
+      </span> -->
+      <span class="text-s-16p pl-1" style="line-height: 24px !important; color: #3E4348 !important"> Ejecución </span>
     </a>
 
     <a
@@ -67,16 +72,29 @@
       routerLink="/afiliados"
       routerLinkActive="list-item-activo"
     >
-      <span class="material-symbols-outlined" style="color: #0284c7">
+      <img class="" src="assets/iconAfiliac.svg" style="color: #0284c7; margin-left: 14px"/> 
+      <!-- <span class="material-symbols-outlined" style="color: #0284c7">
         beenhere
-      </span>
-      <span class="text-s-12"> AFILIADOS </span>
+      </span> -->
+      <span class="text-s-16p pl-1" style="line-height: 24px !important; color: #3E4348 !important"> Afiliaciones </span>
     </a>
+
+    <a mat-list-item routerLink="/usuarios" routerLinkActive="list-item-activo">
+      <img class="icon-black" src="assets/iconSecur.svg" style="color: #0284c7; margin-left: 14px"/> 
+      <!-- <span class="material-symbols-outlined" style="color: #0284c7" > -->
+                    <!-- <img class="" src="assets/sideUsers.svg" style="color: #0284c7" />-->
+      <!--  person -->
+      <!-- </span> -->
+
+      <span class="text-s-16p pl-1" style="line-height: 24px !important; color: #3E4348 !important"> Seguridad </span>
+    </a>
+
     <a mat-list-item routerLink="/reportes" routerLinkActive="list-item-activo">
-      <span class="material-symbols-outlined" style="color: #0284c7">
+      <img class="" src="assets/iconReport.svg" style="color: #0284c7; margin-left: 14px"/> 
+      <!-- <span class="material-symbols-outlined" style="color: #0284c7">
         leaderboard
-      </span>
-      <span class="text-s-12 text-secondary"> REPORTES </span>
+      </span> -->
+      <span class="text-s-16p pl-1" style="line-height: 24px !important; color: #3E4348 !important"> Reportes </span>
     </a>
 
     <!--

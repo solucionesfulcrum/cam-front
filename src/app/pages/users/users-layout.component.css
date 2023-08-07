@@ -178,3 +178,18 @@ td.mat-cell {
 .div-content-cards__right .mat-icon {
   margin-right: 1rem;
 }
+
+
+/* Cambiar el color al dar clic */
+/*::ng-deep.mat-checkbox-frame{
+  .mat-checkbox-checked {
+  border-color: blue; /* Cambia el color del borde del checkbox cuando se selecciona 
+}}
+::ng-deep.mat-checkbox-background{
+  .mat-checkbox-checked {
+  background-color: #057EC9; /* Cambia el color de fondo del checkbox cuando se selecciona 
+}} */
+
+
+
+

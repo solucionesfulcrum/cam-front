@@ -54,7 +54,9 @@ button {
   font-weight: 550;
   font-size: 17px;
   /*background: #e7fcff;*/
-  background: #cbd5e1;
+  /*background: #cbd5e1;*/
+  background:linear-gradient(90deg, #e3fbff, #f0fcfe) !important ;
   color: #374151;
   border-left: 4px solid #0c4a6e;
+  border-right-color: #150557;
 }

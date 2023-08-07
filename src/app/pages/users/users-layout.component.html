@@ -1,58 +1,77 @@
-<div class="div-container">
+<div class="div-container pt-4" style="height: 100% !important; margin: 0px !important; padding: 10px !important; border-color: #F0FCFE; box-shadow: #F0FCFE;">
   <div class="mb-2">
-    <span class="text-white text-w-fine text-s-20 d-block"
-      ><b>ADMINISTRACIÓN DE USUARIOS</b></span
+    <span class="text-s-26p d-block" style="margin-left: 10px"
+      ><b>Usuarios</b></span
     >
-    <div class="d-flex">
+  <!--<div class="d-flex">
       <div class="d-flex">
-        <span class="text-white material-symbols-outlined text-s-15 pt-2">
-          <a routerLink="/home" class="text-white decorator-none"> home </a>
+        <span class="material-symbols-outlined text-s-20" style="padding-top: 20px !important">
+          <a routerLink="/home" class="decorator-none" style="color: #3E4348"> home </a>
         </span>
 
-        <span class="text-white text-w-fine text-style-cursiva text-s-12 pt-2">
-          <a routerLink="/home" class="text-white decorator-none"> INICIO </a>
+        <span class="text-s-15p" style="padding-top: 20px;">
+          <a routerLink="/home" class="decorator-none" style="color: #3E4348"> INICIO </a>
         </span>
       </div>
 
-      <div class="d-flex ml-5" *ngIf="breadcrum1?.url">
-        <span class="text-white material-symbols-outlined text-s-20 pt-1 ml-5">
+      <div class="d-flex ml-3" style="padding-top: 15px !important" *ngIf="breadcrum1?.url">
+        <span class="material-symbols-outlined text-s-20 ml-4" style="color: #3E4348">
           / 
         </span>
 
-        <span class="text-white text-w-fine text-style-cursiva text-s-12 pt-2 ml-5">
-          <a routerLink="{{ breadcrum1.url }}" class="text-white decorator-none"> {{breadcrum1.title}}</a>
+        <span class="text-s-15p pt-1 ml-5" style="padding-top: 20px">
+          <a routerLink="{{ breadcrum1.url }}" class="decorator-none" style="color: #3E4348"> {{breadcrum1.title}}</a>
         </span>
       </div>
 
-      <div class="d-flex ml-5" *ngIf="breadcrum2?.url">
-        <span class="text-white material-symbols-outlined text-s-20 pt-1 ml-5">
+      <div class="d-flex ml-3" style="padding-top: 11px !important" *ngIf="breadcrum2?.url">
+        <span class="material-symbols-outlined text-s-20 pt-1 ml-5" style="color: #3E4348">
           / 
         </span>
 
-        <span class="text-white text-w-fine text-style-cursiva text-s-12 pt-2 ml-5">
-          <a routerLink="{{ breadcrum2.url }}" class="text-white decorator-none"> {{breadcrum2.title}}</a>
+        <span class="text-s-15p pt-1 ml-5" style="padding-top: 6.5px !important;">
+          <a routerLink="{{ breadcrum2.url }}" class="decorator-none" style="color: #3E4348"> {{breadcrum2.title}}</a>
         </span>
       </div>
 
-      <div class="d-flex ml-5" *ngIf="breadcrum3?.url">
-        <span class="text-white material-symbols-outlined text-s-20 pt-1 ml-5">
+      <div class="d-flex ml-3" style="padding-top: 11px !important;" *ngIf="breadcrum3?.url">
+        <span class="material-symbols-outlined text-s-20 pt-1 ml-5" style="color: #3E4348">
           / 
         </span>
 
-        <span class="text-white text-w-fine text-style-cursiva text-s-12 pt-2 ml-5">
-          <a routerLink="{{ breadcrum3.url }}" class="text-white decorator-none"> {{breadcrum3.title}}</a>
+        <span class="text-s-15p pt-2 ml-5" style="padding-top: 6.5px !important;">
+          <a routerLink="{{ breadcrum3.url }}" class="decorator-none" style="color: #3E4348"> {{breadcrum3.title}}</a>
         </span>
       </div>
-    </div>
-  </div>
-  <mat-card>
+    </div> 
+  </div> -->
+  <style>
+    .custom-height {
+      height: 35px;
+      color: #3E4348
+    }
+
+    .active-link {
+    color: #057EC9; /* Cambiar el color de fuente al hacer clic */
+    }
+
+    .custom-font {
+      font-weight: 400px !important;
+    }
+  </style>
+  
+
+  <mat-card class="bg-primarydeg" style="border-left: none">
     <nav mat-tab-nav-bar [tabPanel]="tabPanel">
-      <a
+      <a 
         mat-tab-link
         *ngFor="let link of links"
         (click)="activeTab = link.url"
         routerLink="{{ link.url }}"
         [active]="activeTab == link.url"
+        [style.min-width]="link.minWidth"
+        class="custom-height text-s-14p custom-font"
+        [class.active-link]="activeTab == link.url"
       >
         {{ link.title }}
       </a>

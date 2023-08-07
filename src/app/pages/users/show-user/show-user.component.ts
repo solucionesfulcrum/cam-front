@@ -48,7 +48,7 @@ export class ShowUserComponent implements OnInit {
     this.id = this.route.snapshot.paramMap.get('id')!;
     this.subLinks[0] = {
       url: '/usuarios/show/' + this.id + '/activaciones',
-      title: 'ACTIVACIONES',
+      title: 'Activaciones',
     };
 
     //for breadcrum

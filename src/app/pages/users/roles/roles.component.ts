@@ -21,11 +21,15 @@ export class RolesComponent implements OnInit {
 
   @ViewChild('paginator') paginator: MatPaginator;
   dataSource2= new MatTableDataSource<any>();
+  counter: number = 1; // Initialize the counter to 1
 
   displayedColumns: string[] = [
-    'idRolAplicacion',
-    'codigo',
+    'counter', // Add the new column for the counter field
     'nombre',
+    'descripcion',
+    'permisos',
+    'fechReg',
+    'estado',
   ];
 
   constructor(
@@ -52,7 +56,12 @@ export class RolesComponent implements OnInit {
     .subscribe((rta:any) =>{
       const respuesta = JSON.parse(rta as string);
       console.log("role...", respuesta.list )
-      this.dataSource2 = respuesta.list
+      //this.dataSource2 = respuesta.list
+      // Update the dataSource2 with roles and set the counter for each role
+      this.dataSource2.data = respuesta.list.map((role: any) => {
+      role.counter = this.counter++;
+      return role;
+});
     })
   }
 

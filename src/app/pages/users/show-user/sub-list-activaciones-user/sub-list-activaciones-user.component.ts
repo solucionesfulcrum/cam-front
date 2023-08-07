@@ -10,13 +10,15 @@ const CAMS= [
     i:'1', 
     usuarioResponsable: 'ROXANA ESTRADA ARIAS',
     fechaInicio: '31/08/2022', 
-    fechaFin: '3145000', 
+    fechaFin: '31/12/2022', 
+    rol: 'Administrador CAM',
     perfil: 'TV', 
   },{
     i:'2', 
     usuarioResponsable: 'SILVA PAIVA MIGUEL ANGEL',
     fechaInicio: '31/08/2022', 
-    fechaFin: '3145000', 
+    fechaFin: '31/12/2022', 
+    rol: 'Usuario CAM',
     perfil: 'USER', 
   },
 ];
@@ -34,11 +36,13 @@ form= this.fb.group({
 });
 
 displayedColumns: string[] = [
-    'i',
+    //'i',
     'usuarioResponsable',
     'fechaInicio',
     'fechaFin',
-    'perfil',
+    'rol',
+    'estado',
+    'opcion',
   ];
 
   @ViewChild('paginatorProfesional') paginatorProfesional: MatPaginator;

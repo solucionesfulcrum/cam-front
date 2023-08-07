@@ -10,8 +10,8 @@ import { BreadcrumService } from 'src/app/shared/services/breadcrum.service';
 export class UsersLayoutComponent  implements OnInit {
 
   links=[
-    {url:'/usuarios', title:'USUARIOS'},
-    {url:'roles', title:'ROLES DE USUARIOS'},
+    {url:'/usuarios', title:'Usuarios', minWidth:'71px'},
+    {url:'roles', title:'Roles', minWidth:'47px'}
   ]
 
   breadcrum1:{url:string, title:string }
@@ -19,7 +19,8 @@ export class UsersLayoutComponent  implements OnInit {
   breadcrum3:{url:string, title:string }
 
   //activeLink = this.links[0].url;
-  activeTab= '/usuarios'
+  activeTab= '/usuarios'  // Valor predeterminado para activar la pestaña de usuarios
+
 
  constructor(
     private router: Router,

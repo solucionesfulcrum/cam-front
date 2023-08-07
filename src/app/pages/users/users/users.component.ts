@@ -22,10 +22,12 @@ form= this.fb.group({
 });
 
 displayedColumns: string[] = [
-    'nombres',
+    'seleccion',
     'usuario',
-    'cam',
+    'nombres',
+    'fechReg',
     'rol',
+    'cam',
     'tieneVigencia',
   ];
 
@@ -89,4 +91,13 @@ displayedColumns: string[] = [
     }
   }
 
+  // Se agrega esta funcion para opcion de seleccion TODOS
+  selectAll = false;   //dataSource: MatTableDataSource<any>; 
+  toggleSelectAll() {
+    const data = this.dataSource.data;
+    for (const element of data) {
+      element.isSelected = this.selectAll;
+    }
+  }
+ 
 }
