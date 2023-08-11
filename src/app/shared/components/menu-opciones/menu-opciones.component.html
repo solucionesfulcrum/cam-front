@@ -1,0 +1,13 @@
+<div class="titulo"><span>{{titulo}}</span></div>
+<nav mat-tab-nav-bar class="border-b" [tabPanel]="tabPanel" >
+  <a class="tabsSubTemas"
+    mat-tab-link
+    *ngFor="let link of links"
+    (click)="activeTab = link.url"
+    routerLink="{{ link.url }}"
+    [active]="activeTab == link.url"
+  >
+    {{ link.title }}
+  </a>
+</nav>
+<mat-tab-nav-panel #tabPanel> </mat-tab-nav-panel>

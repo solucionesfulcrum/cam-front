@@ -1,48 +1,19 @@
+<esp-opciones-busqueda 
+  [showDateFilter]="true"
+  [setFilterDateTextColour]="'#057EC9'"
+  [setFilterDateOptionSelected]="'linear-gradient(90.57deg, #057EC9 13.31%, #28C2FF 99.53%)'"
+  [setFilterDateSelectionBg]="'#008BD2'"
+  [setFilterDateButtonBg]="'#008BD2'"
+  [showSearch]="true"
+  [searchInputPlaceHolder]="'Busqueda de Usuarios'"
+  [showFirstDisplayFilter]="true"
+  [firstDisplayFilterPlaceholder]="{'indicador': false, 'placeholder': 'Todos los estados'}"
+  [firstDisplayFilterData]="optEstados"
+  [showSecondDisplayFilter]="true"
+  [secDisplayFilterPlaceholder]="{'indicador': false, 'placeholder': 'Acciones'}"
+  [secDisplayFilterData]="optAcciones"
+></esp-opciones-busqueda>
 <div class="div-mat-tab" style="margin-left: 0px; border: none !important;" >
-  <div class="filtros-notif" [formGroup]="form">
-    <div class="filtros-notif-left" style="width: 520px;">
-      <mat-form-field class="field-full-width" style="width: 250px;">
-        <!-- <mat-label>Seleccionar rango de fechas</mat-label> -->
-        <mat-label class="text-s-16r" style="font-size: 14px !important; line-height: 0.15px">dd/mm/YYYY – dd/mm/YYYY</mat-label>
-        <mat-date-range-input [rangePicker]="picker">
-            <input matStartDate formControlName="fechaIni">
-            <input matEndDate formControlName="fechaFin">
-        </mat-date-range-input>
-        <!-- <mat-hint>dd/mm/YYYY – dd/mm/YYYY</mat-hint> -->
-        <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
-        <mat-date-range-picker #picker color="warn"></mat-date-range-picker>
-      </mat-form-field>
- 
-      <mat-form-field class="mat-full-width" style="width: 250px; height: 54px !important;">
-        <mat-icon matPrefix>search</mat-icon>
-        <input class="text-s-18r" style="line-height: 0.15px; font-weight: 500px !important; font-size: 16px !important;"
-        (keyup)="applyFilter($event)"
-        matInput placeholder=" Busqueda de Usuarios" />
-      </mat-form-field>
-    </div>
-
-    <div class="filtros-notif-right">
-      <mat-form-field style="width: 120px">
-        <mat-label class="text-s-16r" style="line-height: 0.15px !important; font-weight: 500px">Acciones</mat-label>
-        <mat-select>
-          <mat-option value="1">TODOS</mat-option>
-          <mat-option value="1">ACCION 1</mat-option>
-          <mat-option value="2">ACCION 2</mat-option>
-          <mat-option value="3">ACCION 3</mat-option>
-        </mat-select>
-      </mat-form-field>
-
-      <mat-form-field style="margin-left: 1rem; width: 180px">
-        <mat-label class="text-s-16r" style="line-height: 0.15px !important; font-weight: 500px">Todos los Estados</mat-label>
-        <mat-select>
-          <mat-option value="1">TODOS</mat-option>
-          <mat-option value="1">DISPONIBLES</mat-option>
-          <mat-option value="2">SUSPENDIDO</mat-option>
-          <mat-option value="3">NO DISPONIBLE</mat-option>
-        </mat-select>
-      </mat-form-field>
-    </div>
-  </div>
   <div class="">
     <table mat-table [dataSource]="dataSource">
       <ng-container matColumnDef="nombres" class="">

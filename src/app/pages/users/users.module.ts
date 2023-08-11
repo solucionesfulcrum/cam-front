@@ -34,6 +34,10 @@ import { UsersComponent } from './users/users.component';
 import { SubListActivacionesUserComponent } from './show-user/sub-list-activaciones-user/sub-list-activaciones-user.component';
 import {MatCardModule} from '@angular/material/card';
 import { ModalActivarUsuarioComponent } from './show-user/modalActivar/modal-activar-usuario.component';
+import { MenuOpcionesComponent } from 'src/app/shared/components/menu-opciones/menu-opciones.component';
+import { OpcionesBusquedaComponent } from 'src/app/shared/components/opciones-busqueda/opciones-busqueda.component';
+import { NgxDaterangepickerMd } from 'ngx-daterangepicker-material';
+import { FiltroFechaComponent } from 'src/app/shared/components/filtro-fecha/filtro-fecha.component';
 
 
 
@@ -79,7 +83,11 @@ import { ModalActivarUsuarioComponent } from './show-user/modalActivar/modal-act
     MatDividerModule,
     MatExpansionModule,
     BtnComponent,
+    MenuOpcionesComponent,
+    OpcionesBusquedaComponent,
+    FiltroFechaComponent,
     MatSnackBarModule,
+    NgxDaterangepickerMd.forRoot(),
   ],
   exports:[
     MaterialModule,

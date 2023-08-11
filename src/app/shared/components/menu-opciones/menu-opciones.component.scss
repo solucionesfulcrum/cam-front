@@ -1,0 +1,33 @@
+::root {
+    --color-tabs: #FFFFFF;
+}
+.titulo{
+    color:#3E4348;
+    font-weight: 500;
+    font-size: 28px;
+    line-height: 2.25rem;
+    margin-bottom: 0.75rem;
+    // font-family: "Nunito", sans-serif;
+}
+
+::ng-deep.border-b .mat-ink-bar{
+    background-color: var(--color-tabs) !important;
+}
+
+.mat-tab-label-active{
+    opacity: 1;
+    color:var(--color-tabs) !important;
+}
+
+::ng-deep.tabsSubTemas.mat-tab-link{
+    font-size: 16px;
+    padding-right: 2px;
+    padding-left: 2px;
+    margin-right: 6px;
+}
+.mat-tab-link{
+    height: 35px;
+    min-width: 75px;
+    //font-family: 'Poppins' !important;
+    letter-spacing: 0;
+}

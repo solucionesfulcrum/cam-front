@@ -120,9 +120,6 @@ td.mat-cell {
 .mat-tab-body.mat-tab-body-active {
   overflow-y: hidden;
 }
-.div-mat-tab {
-  padding-top: 1.5rem;
-}
 
 .btn-flat-info {
   color: #369fed;

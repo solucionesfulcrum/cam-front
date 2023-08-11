@@ -1,0 +1,66 @@
+
+<div [formGroup]="form" class="flex justify-between my-3 space-x-2 w-full">
+    <div class="flex space-x-3">
+      <div *ngIf="showDateFilter" class="relative rounded-md !h-9 shadow-sm" [cdkMenuTriggerFor]="prueba.menu">
+        <input  type="text" name="searchdate" id="searchDate" readonly formControlName="frmSearchDate"
+        class="inputTextoDialog focusCampo !h-9 pr-7" placeholder="Buscar por fecha">
+        <div class="pointer-events-none right-0 absolute inset-y-0 flex items-center pr-3">
+        <span datepicker class="text-gray-500 sm:text-sm">
+            <esp-icon icon="faCalendarAlt"></esp-icon>
+        </span>
+        </div>
+        <esp-filtro-fecha
+        [setSelectionBg]="setFilterDateSelectionBg"
+        [setButtonBg]="setFilterDateButtonBg"
+        [setOptionSelected]="setFilterDateOptionSelected"
+        [setTextColour]="setFilterDateTextColour"
+        (sendDateFilter)="setDateFilter($event)"
+        (sendDateFilterWithCeros)="setDateFilterWithCeros($event)"
+        (sendDateFilterWithoutCeros)="setDateFilterWithoutCeros($event)"
+        (sendDateFilterUSDate)="setDateFilterUSDate($event)"
+        #prueba></esp-filtro-fecha>
+      </div>
+      <div *ngIf="showSearch">
+          <div class="relative rounded-md shadow-sm">
+          <input type="text" name="search" id="search" formControlName="frmSearch"
+          class="inputTextoDialog focusCampo !h-9 pr-7"
+          [placeholder] = 'searchInputPlaceHolder'>
+          <div class="pointer-events-none right-0 absolute inset-y-0 flex items-center pr-3">
+          <span class="text-gray-500 sm:text-sm">
+              <esp-icon icon="faSearch"></esp-icon>
+          </span>
+          </div>
+          </div>
+      </div>
+
+    </div>
+    <div class="flex space-x-3">
+      <div *ngIf="showSecondDisplayFilter">
+        <div class="relative rounded-md shadow-sm">
+          <select id="acciones" class="bg-slate-50 border border-gray-300 text-gray-600 text-sm rounded-lg focusCampo !h-9 block w-full">
+            <option *ngIf="secDisplayFilterPlaceholder.indicador == true" value="" selected>{{secDisplayFilterPlaceholder.placeholder}}</option> 
+            <option *ngIf="secDisplayFilterPlaceholder.indicador == false" disabled selected>{{secDisplayFilterPlaceholder.placeholder}}</option>
+            
+            <option *ngFor="let option of secDisplayFilterData" [value]='option.valor1'>{{option.nombre | titlecase}}</option>
+          </select>
+        </div>
+      </div>
+      <div *ngIf="showFirstDisplayFilter">
+          <div class="relative rounded-md shadow-sm">
+            <select id="docs" class="bg-slate-50 border border-gray-300 text-gray-600 text-sm rounded-lg focusCampo !h-9 block w-full">
+              <option *ngIf="firstDisplayFilterPlaceholder.indicador == true" value="" selected>{{firstDisplayFilterPlaceholder.placeholder}}</option> 
+              <option *ngIf="firstDisplayFilterPlaceholder.indicador == false" disabled selected>{{firstDisplayFilterPlaceholder.placeholder}}</option>
+              
+              <option *ngFor="let option of firstDisplayFilterData" [value]='option.valor1'>{{option.nombre | titlecase}}</option>
+            </select>
+          </div>
+      </div>
+      <div *ngIf="showButton">
+          <div class="relative rounded-md">
+            <button typeBtn="submit" class="btnStructure botonApariencia" (click)="buttonAccion.emit()">
+              {{buttonText}}
+            </button>
+          </div>
+      </div>
+    </div>
+  </div>

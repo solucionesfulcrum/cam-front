@@ -9,6 +9,10 @@ import { BreadcrumService } from 'src/app/shared/services/breadcrum.service';
 })
 export class UsersLayoutComponent  implements OnInit {
 
+  links2=[
+    {url:'/usuarios', title:'Usuarios'},
+    {url:'/usuarios/roles', title:'Roles'}
+  ]
   links=[
     {url:'/usuarios', title:'Usuarios', minWidth:'71px'},
     {url:'roles', title:'Roles', minWidth:'47px'}

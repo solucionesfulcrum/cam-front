@@ -6,6 +6,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { CiramsService } from 'src/app/core/_service/cirams.service';
 import { BreadcrumService } from 'src/app/shared/services/breadcrum.service';
 import { AuthService } from '../../auth/services/auth-service.service';
+import { Parametro } from 'src/app/shared/components/opciones-busqueda/parametros-busqueda.model';
 
 @Component({
   selector: 'app-roles',
@@ -13,6 +14,12 @@ import { AuthService } from '../../auth/services/auth-service.service';
   styleUrls: ['./roles.component.css']
 })
 export class RolesComponent implements OnInit {
+
+  opciones: Parametro[] = [
+    {nombre:'Disponibles', valor1:'01'},
+    {nombre:'Suspendido', valor1:'02'},
+    {nombre:'No Disponible', valor1:'03'}
+  ]
 
   form= this.fb.group({
     fechaIni: [''],
@@ -63,6 +70,10 @@ export class RolesComponent implements OnInit {
       return role;
 });
     })
+  }
+
+  goToNewRol(){
+    this.router.navigate(['/usuarios/roles/new']);
   }
 
   setLink2(nameLink: string, codigo:string){

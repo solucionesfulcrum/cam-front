@@ -1,0 +1,69 @@
+<ng-template #calendar>
+    <div>
+      <div cdkMenu>
+        <div cdkMenuGroup>
+          <ngx-daterangepicker-material class="calendario"
+          [locale]="{applyLabel: 'Elegir', format: 'DD/MM/YYYY'}"
+          (choosedDate)="choosedDate($event)">
+          </ngx-daterangepicker-material>
+        </div>
+      </div>
+    </div>
+  </ng-template>
+<ng-template #menu>
+    <div>
+        <div class="example-menu" cdkMenu>
+        <div cdkMenuGroup>
+          <div *ngFor="let opcion of opcionesFecha">
+          <button
+            *ngIf="opcion.accion !=11"
+              cdkMenuItemRadio
+              class="example-menu-item text-white rounded"
+              [cdkMenuItemChecked]="opcion === selectedSize"
+              (cdkMenuItemTriggered)="selectedSize = opcion"
+              (click)="selectRangoFecha(opcion.accion)">
+              {{opcion.descripcion}}
+          </button>
+          <button *ngIf="opcion.accion == 11" cdkMenuItemRadio class="example-menu-item text-white rounded" [cdkMenuItemChecked]="selectedPersonalizado"
+              (cdkMenuItemTriggered)="selectedSize = opcion" [cdkMenuTriggerFor]="calendar">
+              Personalizado
+          </button>
+          </div>
+        </div>
+        </div>
+    </div>
+</ng-template>
+
+<!-- Ejemplo de como era directamente en el html -->
+<!-- <ng-template #calendar>
+    <div>
+      <div class="example-menu" cdkMenu>
+        <div cdkMenuGroup>
+          <ngx-daterangepicker-material
+          [locale]="{applyLabel: 'Elegir', format: 'DD/MM/YYYY'}" 
+          (choosedDate)="choosedDate($event)">
+          </ngx-daterangepicker-material>
+        </div>
+      </div>
+    </div>
+  </ng-template>
+  <ng-template #menu>
+    <div>
+      <div class="example-menu" cdkMenu>
+        <div cdkMenuGroup>
+          <button
+              *ngFor="let opcion of opcionesFecha"
+              cdkMenuItemRadio
+              class="example-menu-item text-white rounded" (click)="selectRangoFecha(opcion.accion)"
+              [cdkMenuItemChecked]="opcion === selectedSize"
+              (cdkMenuItemTriggered)="selectedSize = opcion">
+            {{opcion.descripcion}}
+          </button>
+          <button cdkMenuItemRadio class="example-menu-item text-white rounded" [cdkMenuTriggerFor]="calendar"
+             [cdkMenuItemChecked]="{descripcion: 'Personalizado', accion: 11} === selectedSize" (cdkMenuItemTriggered)="selectedSize = {descripcion: 'Personalizado', accion: 11}">
+            Personalizado
+          </button>
+        </div>
+      </div>
+    </div>
+  </ng-template> -->

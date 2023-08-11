@@ -7,6 +7,7 @@ import { CamsService } from 'src/app/core/_service/cams.service';
 import { BreadcrumService } from 'src/app/shared/services/breadcrum.service';
 import { AuthService } from '../../auth/services/auth-service.service';
 import { MatSort } from '@angular/material/sort';
+import { Parametro } from 'src/app/shared/components/opciones-busqueda/parametros-busqueda.model';
 
 
 @Component({
@@ -16,12 +17,24 @@ import { MatSort } from '@angular/material/sort';
 })
 export class UsersComponent implements OnInit {
 
-form= this.fb.group({
-  fechaIni: [''],
-  fechaFin: [''],
-});
+  optAcciones: Parametro[] = [
+    {nombre:'Accion 1', valor1:'01'},
+    {nombre:'Accion 2', valor1:'02'},
+    {nombre:'Accion 3', valor1:'03'}
+  ];
 
-displayedColumns: string[] = [
+  optEstados: Parametro[] = [
+    {nombre:'Disponibles', valor1:'01'},
+    {nombre:'Suspendidos', valor1:'02'},
+    {nombre:'No Disponibles', valor1:'03'}
+  ];
+
+  form= this.fb.group({
+    fechaIni: [''],
+    fechaFin: [''],
+  });
+
+  displayedColumns: string[] = [
     'seleccion',
     'usuario',
     'nombres',
