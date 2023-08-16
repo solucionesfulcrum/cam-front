@@ -179,6 +179,10 @@ body {
   color: #075985;
 }
 
+.text-menucolor {
+  color:#3E4348 !important;
+}
+
 .text-white {
   color: white;
 }

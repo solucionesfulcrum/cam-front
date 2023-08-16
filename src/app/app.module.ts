@@ -29,7 +29,9 @@ import { SelectComponent } from './shared/components/select/select.component';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { NgxMatSelectSearchModule } from 'ngx-mat-select-search';
 import {MatSelectModule} from '@angular/material/select';
-
+import dayjs from 'dayjs';
+import { MatCheckboxModule } from '@angular/material/checkbox';
+import { MatTooltipModule } from '@angular/material/tooltip';
 
 @NgModule({
   declarations: [
@@ -62,6 +64,8 @@ import {MatSelectModule} from '@angular/material/select';
     AppRoutingModule,
     MatProgressBarModule,
     FontAwesomeModule,
+    MatCheckboxModule,
+    MatTooltipModule,
   ],
   exports: [],
   providers: [

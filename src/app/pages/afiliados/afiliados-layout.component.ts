@@ -1,15 +1,33 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit  } from '@angular/core';
+import { ActivatedRoute, Router } from '@angular/router';
 
 @Component({
   selector: 'app-afiliados-layout',
   templateUrl: './afiliados-layout.component.html',
   styleUrls: ['./afiliados-layout.component.css']
 })
-export class AfiliadosLayoutComponent implements OnInit {
+export class AfiliadosLayoutComponent {
+
+  links3=[
+    {url:'/afiliados/analisis', title:'Análisis'},
+    {url:'/afiliados/solicitudes', title:'Solicitudes'},
+    {url:'/afiliados/afiliados', title:'Afiliados'},
+    {url:'/afiliados/evaluacion', title:'Evaluación'},
+  ]
 
   constructor() { }
 
   ngOnInit(): void {
   }
 
+  getActiveLink(path:string)
+  {
+      let active = '/afiliados/afiliados'
+
+      if ( path === '/afiliados/afiliados')
+        active= '/afiliados/afiliados'
+
+      return active
+  }
 }
+

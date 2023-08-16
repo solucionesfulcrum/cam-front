@@ -33,6 +33,7 @@ const routes: Routes = [
   {
     path: 'planificacion',
     title: 'CAM - PLANIFICACION',
+    canActivate: [AuthGuard],
     component:PlanificacionLayoutComponent,
     loadChildren: () =>  import('./pages/planificacion/planificacion.module').then(  (m) => m.PlanificacionModule  ),
   },
