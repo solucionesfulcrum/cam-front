@@ -1,0 +1,84 @@
+    <p>sub-list-activaciones-afil works!</p>
+
+    <!--  <div class="mt-3" [formGroup]="form"> 
+      <div class="d-flex">
+          <div class="w-50">
+            <mat-form-field class="w-100">
+              <mat-icon matPrefix>search</mat-icon>
+              <input matInput placeholder="Búscar" />
+            </mat-form-field>
+          </div>
+        </div>
+      </div> -->
+
+      <div class="table-responsive">
+        <table mat-table [dataSource]="dataSource">
+
+          <!--<ng-container matColumnDef="i">
+            <th mat-header-cell *matHeaderCellDef>CAMS</th>
+            <td mat-cell *matCellDef="let element">
+                {{ element.i}}
+            </td>
+          </ng-container> -->
+
+          <ng-container matColumnDef="usuarioResponsable">
+            <th mat-header-cell *matHeaderCellDef class="bg-white text-s-14r">Unidad Operativa</th>
+            <td mat-cell *matCellDef="let element">
+              {{ element.usuarioResponsable}}
+            </td>
+          </ng-container>
+
+          <ng-container matColumnDef="fechaInicio">
+            <th mat-header-cell *matHeaderCellDef class="bg-white text-s-14r">Fecha de inicio</th>
+            <td mat-cell *matCellDef="let element">
+              {{ element.fechaInicio }}
+            </td>
+          </ng-container>
+
+          <ng-container matColumnDef="fechaFin">
+            <th mat-header-cell *matHeaderCellDef class="bg-white text-s-14r">Fecha fin</th>
+            <td mat-cell *matCellDef="let element">
+              {{ element.fechaFin }}
+            </td>
+          </ng-container>
+
+          <ng-container matColumnDef="rol">
+            <th mat-header-cell *matHeaderCellDef class="bg-white text-s-14r">Rol</th>
+            <td mat-cell *matCellDef="let element">
+              {{ element.rol }}
+            </td>
+          </ng-container>
+
+          <ng-container matColumnDef="estado">
+            <th mat-header-cell *matHeaderCellDef class="bg-white text-s-14r">Estado</th>
+            <td mat-cell *matCellDef="let element">
+              {{ element.estado }}
+            </td>
+          </ng-container>
+
+          <ng-container matColumnDef="opcion">
+            <th mat-header-cell *matHeaderCellDef class="bg-white text-s-14r">Opc</th>
+            <td mat-cell *matCellDef="let element">
+              {{ element.opcion }}
+            </td>
+          </ng-container>
+
+
+          <tr
+                mat-header-row
+                *matHeaderRowDef="displayedColumns" [ngClass]="{'headerRow':true}"
+              ></tr>
+              <tr
+                mat-row
+                *matRowDef="let row; columns: displayedColumns; index as i" 
+              ></tr> <!-- [ngClass]="getClassRow(i)" -->
+
+        </table>
+        <mat-paginator
+          #paginator1
+          [pageSizeOptions]="[25, 50, 100]"
+          showFirstLastButtons
+        ></mat-paginator>
+      </div>
+
+

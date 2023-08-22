@@ -15,6 +15,9 @@ export class AfiliadosLayoutComponent {
     {url:'/afiliados/evaluacion', title:'Evaluación'},
   ]
 
+  //activeLink = this.links3[2].url;
+  activeTab= '/afiliados/afiliados'  // Valor predeterminado para activar la pestaña de afiliados
+
   constructor() { }
 
   ngOnInit(): void {

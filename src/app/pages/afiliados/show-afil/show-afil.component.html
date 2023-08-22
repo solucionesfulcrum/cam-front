@@ -1,1 +1,306 @@
-<p>show-afil works!</p>
+<div class="div-mat-tab">
+    <div class="d-flex p-2 w-200">
+      <div class="w-100 justify-content-start">
+        <div class="d-flex">
+          <a routerLink="/afiliados" class="">
+            <span class="material-symbols-outlined pt-2" style="display: inline-block">
+              <img src="assets/img/regresar.png"/> 
+            </span>
+            <span class="text-w-fine text-s-16r" style="color: gray; margin-left: 2px; letter-spacing: 0.15px;">
+               Regresar
+            </span>
+          </a>
+        </div>
+      </div>
+      <div class="w-100 d-flex justify-content-end">
+        <div class="w-24 px-1 space-x-5 w-100px">
+          <a
+            routerLink="/afiliados"
+            class="mat-focus-indicator text-s-16p pt-2 pb-2 mat-raised-button mat-button-base w-90px"
+            style="display: inline-block; height: 36px; text-align: center; padding: 0px; cursor: pointer; text-decoration: none; border: 1px solid #ccc; border-radius: 4px; line-height: 20px; letter-spacing: 0.15px"
+          >
+            <span class="bg-white text-w-fine text-s-16p">Cancelar</span>
+          </a>
+        </div>
+  
+        <div class="w-24 px-1 space-x-5 w-100px">
+          <a
+            routerLink="/afiliados/edit/{{ id }}"
+            class="mat-focus-indicator text-s-16p pt-2 pb-2 mat-raised-button mat-button-base w-90px"
+            style="display: inline-block; height: 36px; text-align: center; padding: 0px; cursor: pointer; text-decoration: none; border: 1px solid #ccc; border-radius: 4px; line-height: 20px; letter-spacing: 0.15px"
+          >
+            <img class="" src="assets/editor.svg" style="display:inline-block; margin-right: 6px; padding-bottom: 3px;" />
+            <span class="bg-white text-w-fine text-s-16p" style="padding-top: 0px; padding-bottom: 4px;">Editar</span>
+          </a>
+        </div>
+        
+        
+        <div class="px-1 space-x-5">  
+          <button
+            mat-raised-button
+            class="text-white text-s-16p pt-2 pb-2"
+            style="background-color: #057EC9; line-height: 20px; letter-spacing: 0.15px"
+            (click)="loadModalActivarUsuario()"
+          >
+            Activar
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="cards-contents" style="height: 500px">
+    <mat-card class="d-flex" style="margin-right: 0px;max-width: 400px;">
+      <div class="text-secondary" style="width: 320px !important;">
+        <div class="">
+          <div class="justify-content-center d-flex text">
+            <span class="material-symbols-outlined text-s-5r">
+              <img src="assets/search-sharp.svg"/> 
+            </span>
+          </div>
+          <div
+            class="justify-content-center d-flex text-s-18r text-uppercase text-w-semibold mt-2"
+          > n
+          <span *ngIf="this.user?.nombres"> 
+            {{ this.user.nombres }}
+          </span>
+          </div>
+           <div class="w-100 text-s-16r text-w-bold mt-2" style="text-align: center; letter-spacing: 0.15px; line-height: 20px;" >
+           <span *ngIf="this.user?.numDoc">
+            {{ this.user.tipoDoc === "1" ? "DNI" : "" }} {{ this.user.numDoc }}
+          </span>
+        </div>
+        </div>
+        <div class="mt-4">
+          <div class="d-flex p-1" >
+            <div class="w-30 text-w-bold text-s-16r" style="line-height: 20px; letter-spacing: 0.15px">Perfil</div>
+            <div class="w-70 text-s-16r">
+              <span *ngIf="this.user?.perfil">
+              {{ this.user.perfil }}
+              </span>
+            </div>
+          </div>
+          <div class="d-flex p-1" >
+            <div class="w-30 text-w-bold text-s-16r" style="line-height: 20px; letter-spacing: 0.15px">Celular</div>
+            <div class="w-70 text-s-16r">
+              <span *ngIf="this.user?.celular">
+              {{ this.user.celular }}
+              </span>
+            </div>
+          </div>
+          <div class="d-flex p-1" >
+            <div class="w-30 text-w-bold text-s-16r" style="line-height: 20px; letter-spacing: 0.15px">
+                Correo
+            </div>
+            <div class="w-70 text-s-16r">
+              <span *ngIf="this.user?.email">
+              {{ this.user.email }}
+              </span>
+            </div>
+          </div>
+  
+          <div class="d-flex p-1" >
+            <div class="w-50 text-w-bold text-s-16r" style="line-height: 20px; letter-spacing: 0.15px">
+              Fecha nacimiento 
+            </div>
+            <div class="w-50 text-s-16r">
+              <span *ngIf="this.user?.nacimiento">
+                {{ this.user.nacimiento }}
+              </span>
+            </div>
+          </div>
+  
+          <div class="d-flex p-1" >
+            <div class="w-30 text-w-bold text-s-16r" style="line-height: 20px; letter-spacing: 0.15px">
+              Sexo
+            </div>
+            <div class="w-70 text-s-16r">
+              <span *ngIf="this.user?.Sexo">
+                {{ this.user.Sexo }}
+              </span>
+            </div>
+          </div>
+  
+          <div class="d-flex p-1" >
+            <div class="w-30 text-w-bold text-s-16r" style="line-height: 20px; letter-spacing: 0.15px">
+              Dirección
+            </div>
+            <div class="w-70 text-s-16r">
+              <span *ngIf="this.user?.direccion">
+                {{ this.user.direccion }}
+              </span>
+            </div>
+          </div>
+  
+          <div class="d-flex p-1" >
+            <div class="w-50 text-w-bold text-s-16r" style="line-height: 20px; letter-spacing: 0.15px">
+              Fecha Registro
+            </div>
+            <div class="w-50 text-s-16r">
+              <span *ngIf="this.user?.fechReg">
+                {{ this.user.fechReg }}
+              </span>
+            </div>
+          </div>
+  
+          <div class="d-flex p-1" >
+            <div class="w-30 text-w-bold text-s-16r" style="line-height: 20px; letter-spacing: 0.15px">
+              Regimen
+            </div>
+            <div class="w-70 text-s-16r">
+              <span *ngIf="this.user?.Regimen">
+                {{ this.user.Regimen }}
+              </span>
+            </div>
+          </div>
+  
+          <div class="d-flex p-1" >
+            <div class="w-50 text-w-bold text-s-16r" style="line-height: 20px; letter-spacing: 0.15px">
+              Código Planilla
+            </div>
+            <div class="w-50 text-s-16r">
+              <span *ngIf="this.user?.Planilla">
+                {{ this.user.Planilla }}
+              </span>
+            </div>
+          </div>       
+          
+          <div class="d-flex p-1" >
+            <div class="w-50 text-w-bold text-s-16r" style="line-height: 20px; letter-spacing: 0.15px">
+              Centro de labor
+            </div>
+            <div class="w-50 text-s-16r text-uppercase">
+              <span *ngIf="this.user?.Centro">
+                {{ this.user.Centro }}
+              </span>
+            </div>
+          </div>       
+  
+          <div class="d-flex p-1" >
+            <div class="w-30 text-w-bold text-s-16r" style="line-height: 20px; letter-spacing: 0.15px">Estado</div>
+            <div class="w-70 text-s-16r" *ngIf="this.user?.roles">
+              <span
+                *ngIf="!user.tieneVigencia"
+                class="bg-blue-100 text-blue-800 text-xs font-medium inline-flex items-center px-2.5 py-0.5 rounded border-sky"
+              >
+                <svg
+                  aria-hidden="true"
+                  class="w-3 h-3"
+                  fill="currentColor"
+                  viewBox="0 0 20 20"
+                  xmlns="http://www.w3.org/2000/svg"
+                >
+                  <path
+                    fill-rule="evenodd"
+                    d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z"
+                    clip-rule="evenodd"
+                  ></path>
+                </svg>
+                ACTIVO
+              </span>
+              <span
+                *ngIf="user.tieneVigencia"
+                class="bg-red-100 text-red-800 text-xs font-medium inline-flex items-center px-2.5 py-0.5 rounded dark:bg-blue-700 dark:text-gray-400 border-red"
+              >
+                <svg
+                  aria-hidden="true"
+                  class="w-3 h-3 mr-1"
+                  fill="currentColor"
+                  viewBox="0 0 20 20"
+                  xmlns="http://www.w3.org/2000/svg"
+                >
+                  <path
+                    fill-rule="evenodd"
+                    d="M10 18a8 8 0 100-16 8 8 0 000 16zm1-12a1 1 0 10-2 0v4a1 1 0 00.293.707l2.828 2.829a1 1 0 101.415-1.415L11 9.586V6z"
+                    clip-rule="evenodd"
+                  ></path>
+                </svg>
+                EN PROCESO
+              </span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </mat-card>
+
+    <mat-card class="d-block" >
+      <div class="d-flex" >
+        <!--<span
+          class="mt-2 d-flex text-uppercase text-secondary text-s-18 text-w-semibold"
+        >
+0          historil&nbsp;&nbsp;
+        </span>-->
+        <div class="d-flex" style="border: none;">
+          <div class="d-flex" *ngIf="subBreadcrum1.url">
+            <!--
+            <span
+              class="text-secondary text-w-fine text-style-cursiva text-s-10 pt-2"
+            >
+              <a
+                routerLink="{{ subBreadcrum1.url }}"
+                class="text-secondary decorator-none"
+              >
+                {{ subBreadcrum1.title }}</a
+              >
+            </span>
+  
+            -->
+          </div>
+  
+          <div class="d-flex pb-2" *ngIf="subBreadcrum2.url">
+            <span
+              class="text-secondary material-symbols-outlined text-s-20 pt-1 ml-5"
+            >
+              /
+            </span>
+  
+            <span
+              class="text-secondary text-w-fine text-style-cursiva text-s-10 pt-2 ml-5"
+            >
+              <a
+                routerLink="{{ subBreadcrum2.url }}"
+                class="text-secondary decorator-none"
+              >
+                {{ subBreadcrum2.title }}
+              </a>
+            </span>
+          </div>
+  
+          <div class="d-flex pb-2" *ngIf="subBreadcrum3.url">
+            <span
+              class="text-secondary material-symbols-outlined text-s-20 pt-1 ml-5"
+            >
+              /
+            </span>
+  
+            <span
+              class="text-secondary text-w-fine text-style-cursiva text-s-10 pt-2 ml-5"
+            >
+              <a
+                routerLink="{{ subBreadcrum3.url }}"
+                class="text-secondary decorator-none"
+              >
+                {{ subBreadcrum3.title }}
+              </a>
+            </span>
+          </div>
+        </div>
+      </div>
+  
+      <div class="">
+        <nav mat-tab-nav-bar [tabPanel]="tabPanel">
+          <a
+            mat-tab-link
+            *ngFor="let link of subLinks"
+            (click)="subActiveTab = link.url"
+            routerLink="{{ link.url }}"
+            [active]="subActiveTab == link.url"
+          >
+            {{ link.title }}
+          </a>
+        </nav>
+        <mat-tab-nav-panel #tabPanel> </mat-tab-nav-panel>
+        <router-outlet></router-outlet>
+      </div>
+    </mat-card>
+  </div>
+  

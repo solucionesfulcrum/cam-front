@@ -1,18 +1,18 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { ShowAfilComponent } from './show-afil.component';
+import { EditSolComponent } from './edit-sol.component';
 
-describe('ShowAfilComponent', () => {
-  let component: ShowAfilComponent;
-  let fixture: ComponentFixture<ShowAfilComponent>;
+describe('EditSolComponent', () => {
+  let component: EditSolComponent;
+  let fixture: ComponentFixture<EditSolComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ ShowAfilComponent ]
+      declarations: [ EditSolComponent ]
     })
     .compileComponents();
 
-    fixture = TestBed.createComponent(ShowAfilComponent);
+    fixture = TestBed.createComponent(EditSolComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

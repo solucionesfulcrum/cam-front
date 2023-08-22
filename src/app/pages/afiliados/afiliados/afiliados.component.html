@@ -5,6 +5,7 @@
   [setFilterDateOptionSelected]="'linear-gradient(90.57deg, #057EC9 13.31%, #28C2FF 99.53%)'"
   [setFilterDateSelectionBg]="'#008BD2'"
   [setFilterDateButtonBg]="'#008BD2'"
+  [filterDateAppearance]="2"
   [showSearch]="true"
   [searchInputPlaceHolder]="'Busqueda de texto'"
   [showFirstDisplayFilter]="true"
@@ -55,7 +56,7 @@
             <a
             class="decorator-none text-primary3 text-w-semibold"
             (click)="setLink2(element.nombres, element.guiid)"
-            routerLink="/usuarios/show/{{ element.guiid }}"
+            routerLink="/afiliados/show-afil/{{ element.guiid }}"
             >
               {{ element.nombres }}
             </a>
@@ -130,10 +131,12 @@
   
   
       </table>
+  
       <mat-paginator
         #paginator
         [pageSizeOptions]="[25, 50, 100]"
         showFirstLastButtons
       ></mat-paginator>
+
     </div>
   </div>

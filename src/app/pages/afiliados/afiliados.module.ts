@@ -17,6 +17,14 @@ import { MenuOpcionesComponent } from '@shared/components/menu-opciones/menu-opc
 import { MatCheckboxModule } from '@angular/material/checkbox';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { ShowAfilComponent } from './show-afil/show-afil.component';
+import { FichaAfilComponent } from './afiliados/ficha-afil/ficha-afil.component';
+import { ModalActivarAfilComponent } from './show-afil/modalActivar/modal-activar-afil.component';
+import { MatCardModule } from '@angular/material/card';
+import { SubListActivacionesAfilComponent } from './show-afil/sub-list-activaciones-afil/sub-list-activaciones-afil.component';
+import { ShowSolComponent } from './show-sol/show-sol.component';
+import { ModalActivarSolComponent } from './show-sol/modal-activar-sol/modal-activar-sol.component';
+import { SubListActivacionesSolComponent } from './show-sol/sub-list-activaciones-sol/sub-list-activaciones-sol.component';
+import { EditSolComponent } from './edit-sol/edit-sol.component';
 
 @NgModule({
   declarations: [
@@ -26,6 +34,13 @@ import { ShowAfilComponent } from './show-afil/show-afil.component';
     SolicitudesComponent,
     EvaluacionComponent,
     ShowAfilComponent,
+    FichaAfilComponent,
+    ModalActivarAfilComponent,
+    SubListActivacionesAfilComponent,
+    ShowSolComponent,
+    ModalActivarSolComponent,
+    SubListActivacionesSolComponent,
+    EditSolComponent,
   ],
   imports: [
     AfiliadosRoutingModule,
@@ -36,6 +51,7 @@ import { ShowAfilComponent } from './show-afil/show-afil.component';
     MatCheckboxModule,
     MenuOpcionesComponent,
     MatTooltipModule,
+    MatCardModule,
     RouterModule,
     SharedModule,
    

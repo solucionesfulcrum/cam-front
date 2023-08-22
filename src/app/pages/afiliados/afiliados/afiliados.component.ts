@@ -57,10 +57,10 @@ export class AfiliadosComponent implements OnInit  {
   
 
   ) {
-    breadcrumService.link1$.next({ url: '/afiliados/afiliados', title:'AFILIADOS' });
+    breadcrumService.link1$.next({ url: '/afiliados', title:'AFILIADOS' });
     this.breadcrumService.link2$.next({url:'' ,title:''});
     this.breadcrumService.link3$.next({url:'', title:''});
-    breadcrumService.activeTab$.next('/afiliados/afiliados');
+    breadcrumService.activeTab$.next('/afiliados');
     this.loadUsers()
    }
 
