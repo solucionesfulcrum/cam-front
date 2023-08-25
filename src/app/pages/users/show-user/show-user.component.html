@@ -1,56 +1,23 @@
-<div class="div-mat-tab">
-  <div class="d-flex p-2 w-200">
-    <div class="w-100 justify-content-start">
-      <div class="d-flex">
-        <a routerLink="/usuarios" class="">
-          <span class="material-symbols-outlined pt-2" style="display: inline-block">
-            <img src="assets/img/regresar.png"/> 
-          </span>
-          <span class="text-w-fine text-s-16r" style="color: gray; margin-left: 2px; letter-spacing: 0.15px;">
-             Regresar
-          </span>
-        </a>
-      </div>
-    </div>
-    <div class="w-100 d-flex justify-content-end">
-      <div class="w-24 px-1 space-x-5 w-100px">
-        <a
-          routerLink="/usuarios"
-          class="mat-focus-indicator text-s-16p pt-2 pb-2 mat-raised-button mat-button-base w-90px"
-          style="display: inline-block; height: 36px; text-align: center; padding: 0px; cursor: pointer; text-decoration: none; border: 1px solid #ccc; border-radius: 4px; line-height: 20px; letter-spacing: 0.15px"
-        >
-          <span class="bg-white text-w-fine text-s-16p">Cancelar</span>
-        </a>
-      </div>
 
-      <div class="w-24 px-1 space-x-5 w-100px">
-        <a
-          routerLink="/usuarios/edit/{{ id }}"
-          class="mat-focus-indicator text-s-16p pt-2 pb-2 mat-raised-button mat-button-base w-90px"
-          style="display: inline-block; height: 36px; text-align: center; padding: 0px; cursor: pointer; text-decoration: none; border: 1px solid #ccc; border-radius: 4px; line-height: 20px; letter-spacing: 0.15px"
-        >
-          <img class="" src="assets/editor.svg" style="display:inline-block; margin-right: 6px; padding-bottom: 3px;" />
-          <span class="bg-white text-w-fine text-s-16p" style="padding-top: 0px; padding-bottom: 4px;">Editar</span>
-        </a>
-      </div>
-      
-      
-      <div class="px-1 space-x-5">  
-        <button
-          mat-raised-button
-          class="text-white text-s-16p pt-2 pb-2"
-          style="background-color: #057EC9; line-height: 20px; letter-spacing: 0.15px"
-          (click)="loadModalActivarUsuario()"
-        >
-          Activar
-        </button>
-      </div>
-    </div>
+<div class="my-3 w-full flex place-content-between">
+  <div class="flex cursor-pointer text-base text-[#37474F]" routerLink="/usuarios">
+      <img class="h-6 self-center" src="assets/circle-arrow-left2.svg"> <span class="self-center ml-2">Regresar</span>
+  </div>
+  <div class="flex space-x-3">
+    <button typeBtn="submit" class="btnStructure botonApariencia btnOtrasOpciones" routerLink="/usuarios">
+      Cancelar
+    </button>
+    <button typeBtn="submit" class="btnStructure botonApariencia btnOtrasOpciones" routerLink="/usuarios/edit/{{ id }}">
+      <div class="flex"><img class="h-5 self-center" src="assets/editor.svg"><span class="ml-1"> Editar</span></div>
+    </button>
+    <button typeBtn="submit" class="btnStructure botonApariencia btnAccion" (click)="loadModalActivarUsuario()">
+      Activar
+    </button>
   </div>
 </div>
 <div class="cards-contents" style="height: 500px">
-  <mat-card class="d-flex" style="margin-right: 0px;max-width: 400px;">
-    <div class="text-secondary" style="width: 320px !important;">
+  <mat-card class="d-flex">
+    <div class="text-secondary w-full">
       <div class="">
         <div class="justify-content-center d-flex text">
           <span class="material-symbols-outlined text-s-5r">
@@ -59,7 +26,7 @@
         </div>
         <div
           class="justify-content-center d-flex text-s-18r text-uppercase text-w-semibold mt-2"
-        > n
+        >
         <span *ngIf="this.user?.nombres"> 
           {{ this.user.nombres }}
         </span>

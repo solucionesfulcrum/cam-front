@@ -123,7 +123,6 @@ td.mat-cell {
 .cards-contents {
   display: grid;
   grid-template-columns: 1fr 2fr;
-  margin: 1rem;
   gap: 2rem;
 }
 .div-content-form {
@@ -149,3 +148,31 @@ td.mat-cell {
 }
 
 @import "../cams-layout.component.css";
+
+.btnStructure{
+  width: 100%;
+  border-radius: 0.25rem;
+  padding-left: 1.25rem;
+  padding-right: 1.25rem;
+  padding-top: 0.5rem;
+  padding-bottom: 0.5rem;
+  font-size: 0.875rem;
+  line-height: 1.25rem;
+  font-weight: 500;
+  --tw-text-opacity: 1;
+}
+.btnAccion{
+  color: rgb(255 255 255 / var(--tw-text-opacity));
+  background: var(--color-CAM);
+}
+.btnOtrasOpciones{
+  color: rgb(55 65 81 / var(--tw-text-opacity));
+  background-color: white;
+}
+.btnOtrasOpciones:hover {
+  --tw-bg-opacity: 1;
+  background-color: rgb(243 244 246 / var(--tw-bg-opacity));
+}
+.botonApariencia{
+  box-shadow: 1px 1px 4px 0px #00000066;
+}

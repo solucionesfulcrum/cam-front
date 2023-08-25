@@ -3,13 +3,19 @@
 /*
 @import '@angular/cdk/overlay-prebuilt.css';
 */
+:root {
+  --color-CAM: #057EC9;
+  --color-CAM-Claro: #008BD2;
+  --color-CAM-mezclado: linear-gradient(90.57deg, #057EC9 13.31%, #28C2FF 99.53%);
+}
 html,
 body {
   height: 100%;
 }
 body {
   margin: 0;
-  font-family: Roboto, "Helvetica Neue", sans-serif;
+  font-family: 'Poppins' !important;
+  /* font-family: Roboto, "Helvetica Neue", sans-serif; */
   background: #f4fcfd !important;
 }
 
@@ -1427,11 +1433,6 @@ body {
     --tw-ring-color: rgb(249 250 251 / var(--tw-ring-opacity)); 
 }
 
-.text-gray-700{
-  background-color: #374151;
-}
-
-
 .gradient-text {
   background: linear-gradient(90deg, #057EC9, #28C2FF);
   background-clip: text;
@@ -1508,17 +1509,3 @@ min-h50{
   filter: invert(0%) sepia(0%) saturate(0%) hue-rotate(0deg) brightness(0%) contrast(100%);
 }
 
-
-
-.botonApariencia{
-  color: #3e4348;
-  border-radius: 5px;
-  box-shadow: 1px 1px 4px 0px #00000066;
-}
-
-
-:root{
-  --color-CAMWEB : #057EC9;
-  --color-CAMWEB-Claro : #14b8a6;
-  --color-CAMWEB-Mezclado: linear-gradient(90deg, rgba(51,153,153,1) 0%, rgba(7,127,200,1) 100%);
-}

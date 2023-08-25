@@ -38,6 +38,7 @@ import { MenuOpcionesComponent } from 'src/app/shared/components/menu-opciones/m
 import { OpcionesBusquedaComponent } from 'src/app/shared/components/opciones-busqueda/opciones-busqueda.component';
 import { NgxDaterangepickerMd } from 'ngx-daterangepicker-material';
 import { FiltroFechaComponent } from 'src/app/shared/components/filtro-fecha/filtro-fecha.component';
+import { IconComponent } from '@shared/components/icon/icon.component';
 
 
 
@@ -83,6 +84,7 @@ import { FiltroFechaComponent } from 'src/app/shared/components/filtro-fecha/fil
     MatDividerModule,
     MatExpansionModule,
     BtnComponent,
+    IconComponent,
     MenuOpcionesComponent,
     OpcionesBusquedaComponent,
     FiltroFechaComponent,

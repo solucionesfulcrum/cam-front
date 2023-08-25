@@ -4,7 +4,7 @@ mat-drawer {
 }
 
 mat-drawer-content {
-  background:linear-gradient(90deg, #e7fbff, #f0fcfe);
+  background:#F3FCFE;
   /*background:linear-gradient(90deg,#057EC9, #28C2FF);
   background: #0284c7;*/
 }
