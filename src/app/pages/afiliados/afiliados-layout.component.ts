@@ -11,8 +11,9 @@ export class AfiliadosLayoutComponent {
   links3=[
     {url:'/afiliados/analisis', title:'Análisis'},
     {url:'/afiliados/solicitudes', title:'Solicitudes'},
-    {url:'/afiliados/afiliados', title:'Afiliados'},
+    {url:'/afiliados', title:'Afiliados'},
     {url:'/afiliados/evaluacion', title:'Evaluación'},
+   
   ]
 
   //activeLink = this.links3[2].url;
@@ -25,9 +26,9 @@ export class AfiliadosLayoutComponent {
 
   getActiveLink(path:string)
   {
-      let active = '/afiliados/afiliados'
+      let active = '/afiliados'
 
-      if ( path === '/afiliados/afiliados')
+      if ( path === '/afiliados')
         active= '/afiliados/afiliados'
 
       return active

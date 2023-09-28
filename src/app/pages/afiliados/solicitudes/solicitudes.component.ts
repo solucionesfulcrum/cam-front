@@ -1,13 +1,15 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
-import { FormBuilder } from '@angular/forms';
-import { MatPaginator } from '@angular/material/paginator';
+import { FormBuilder, FormControl, FormGroup, FormGroupDirective } from '@angular/forms';
+import { MatPaginator, PageEvent } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
 import { ActivatedRoute, Router } from '@angular/router';
 import { BreadcrumService } from 'src/app/shared/services/breadcrum.service';
 import { AuthService } from '../../auth/services/auth-service.service';
 import { Parametro } from 'src/app/shared/components/opciones-busqueda/parametros-busqueda.model';
-
+import { Dialog } from '@angular/cdk/dialog';
+import { AfiliadoService } from '@shared/services/afiliado.service';
+import { fichasResponse } from '@models/ficha-solicitud.model';
 
 @Component({
   selector: 'app-solicitudes',
@@ -20,6 +22,36 @@ export class SolicitudesComponent implements OnInit {
     {nombre:'Suspendidos', valor1:'02'},
     {nombre:'No Disponibles', valor1:'03'}
   ];
+
+
+ /* 
+  filtroFecInit!: string;
+  filtroFecFin!: string;
+
+  @ViewChild(MatPaginator, { static: true }) paginator: MatPaginator = {} as MatPaginator;
+  // dataSource!: MatTableDataSource<any>;
+  // @ViewChild(MatSort) sort!: MatSort;
+  // @ViewChild(MatPaginator) paginator2!: MatPaginator;
+  dataSource: fichasResponse[] = [];
+  // dataSourceRespaldo: fichasResponse[] = [];
+
+  columns: string[] = ['numHistClinica','fullName', 'documento', 'dni', 'date','status'];
+  pageIndex = 0;
+  pageNum = 1;
+  pageSize = 10;
+  pageSizeOptions:number[] = [5,10,20];
+  total = 0;
+
+  opciones: Parametro[] = [];
+ 
+  form:FormGroup = this.fb.group({
+    frmSearch:new FormControl(""),
+    frmSearchDate:new FormControl(""),
+    frmSearchEstado:new FormControl(),
+  });
+
+*/ 
+
 
   form= this.fb.group({
     fechaIni: [''],
@@ -45,15 +77,14 @@ export class SolicitudesComponent implements OnInit {
   @ViewChild(MatPaginator) paginator: MatPaginator;
   @ViewChild(MatSort) sort: MatSort;
 
-
   constructor(
     private fb: FormBuilder, 
     private router: Router, 
     private route: ActivatedRoute,
     private breadcrumService: BreadcrumService,
     private authService: AuthService,
-   
-  
+    private dialog : Dialog,
+    private afiliadoService: AfiliadoService
 
   ) {
     breadcrumService.link1$.next({ url: '/afiliados/solicitudes', title:'SOLICITUDES' });
@@ -108,6 +139,17 @@ export class SolicitudesComponent implements OnInit {
       element.isSelected = this.selectAll;
     }
   }
+  
+  /*
+  AsignarFiltro(filtro: string){
+    this.form.get('frmSearchDate')?.setValue(filtro);
+    var init = filtro.split(' - ')[0];
+    var fin = filtro.split(' - ')[1];
+    this.filtroFecInit = init.split('/')[2]+'-'+init.split('/')[1]+'-'+init.split('/')[0];
+    this.filtroFecFin = fin.split('/')[2]+'-'+fin.split('/')[1]+'-'+fin.split('/')[0];
+    this.onLoadData();
+  }
+  */
 }
 
 

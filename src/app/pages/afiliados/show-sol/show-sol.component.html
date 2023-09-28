@@ -1,221 +1,158 @@
-<div class="div-mat-tab pt-1">
-    <div class="d-flex pb-3">
-      <div class="w-100 justify-content-start">
-        <div class="d-flex">
-          <a routerLink="/solicitudes" class="">
-            <div class="flex cursor-pointer" [routerLink]="['..']">
-              <img class="h-6 self-center ml-6" src="assets/circle-arrow-left.svg"> <span class="self-center ml-2 text-s-16r">Regresar</span>
-            </div>
-          </a>
-        </div>       
-      </div>
+<div class="info-container">
 
-      <div class="w-100 d-flex justify-content-end mr-4 space-x-3">
-         
-        <div class="w-24 px-1 space-x-3 w-100px">
-          <!-- <a routerLink="/solicitudes/edit/{{ id }}" -->
-          <a
-            
-            class="mat-focus-indicator text-s-16p pt-2 pb-2 mat-raised-button mat-button-base w-90px"
-            style="display: inline-block; height: 36px; text-align: center; padding: 0px; cursor: pointer; text-decoration: none; border: 1px solid #ccc; border-radius: 4px; line-height: 20px; letter-spacing: 0.15px"
-          >
-            <img class="" src="assets/editor.svg" style="display:inline-block; margin-right: 6px; padding-bottom: 3px;" />
-            <span class="bg-white text-w-fine text-s-16p" style="padding-top: 0px; padding-bottom: 4px;">Notas</span>
-          </a>
-        </div>
-        
-        
-        <div class="px-1 space-x-5">  
-          <button
-            mat-raised-button
-            class="text-white text-s-16p pt-2 pb-2 pl-2 pr-2"
-            style="background-color: #057EC9; line-height: 20px; letter-spacing: 0.15px; border-radius: 4px;"
-          >
-          <!-- (click)="loadModalActivarUsuario()">  -->
-            Evaluar Afiliado
-          </button>
-        </div>
- 
-      </div>
+  <span class="flex w-1/4 flex-col">
+    <app-opcion-regresar
+    [link]="'/afiliados/solicitudes'">
+    </app-opcion-regresar>
+  </span>
+
+  <span class="flex w-3/4 flex-col additional-text">
+    <esp-opciones-busqueda class=""
+    [showButton]="true"
+    [buttonText] = "'Evaluar Afiliado'"
+    (buttonAccion)="EvalAfiliado()"
+    [showotroBtn]="true"
+    [otroBtnText] = "'Notas'"
+    (otroBtnAccion)="Notas()"
+    ></esp-opciones-busqueda>
+  </span>
+
+</div>
+<div class="div-mat-tab pt-1">
+    <div class="d-flex pb-0">  
     </div>
   </div>
  
 <div class="d-flex bg-white mr-6 ml-6"> 
-  <p class="field-full-width text-s-26p pl-6 pt-2">Ficha de Solicitud</p>
+  <p class="field-full-width text-s-26p pl-6 pt-2"><b>Ficha de Solicitud</b></p>
   <p class="field-full-width text-end pt-2 pr-6 text-s-16p text-secondary">N° de Historia 
-  <br><span class="text-s-20p text-primary2" style="color: #057EC9 !important" >00000014523</span>  <!--{{this.user.numHistoria}}-->
+  <br><span class="text-s-20p text-primary2" style="color: #057EC9 !important" >{{dataFicha.numHistoria}}00000000001</span>  <!--{{this.user.numHistoria}}     o   {{dataFicha.numHistoria}}-->
 </p>
 </div>
 
-<div class="px-4 pb-3 bg-white ml-6 mr-6 mb-3 grid grid-cols-3 gap-8" [formGroup]="formContacto">
+<div class="px-4 py-1 bg-white ml-6 mr-6 mb-3 grid grid-cols-3 gap-8" [formGroup]="formContacto">
   <div class="text-gray-600">
-      <div class="grid text-center relative justify-center">
-          <p class=" py-1 px-3 anios absolute right-0 text-white text-xl">{{edadPersona}} Años</p>
-          <img class="my-1 imagen">
-          <p class="pt-1 bordColorEstablecido font-bold text-2xl">{{dataAsegurado.nombres | titlecase}}</p>
-          <p class="font-semibold text-lg">{{dataAsegurado.apePaterno | titlecase}} {{dataAsegurado.apeMaterno | titlecase}}</p>
+      <div class="grid text-center relative justify-center border-gradient-2">
+          <p class=" py-1 px-3 my-2 mx-1 anios absolute right-0 text-white text-xl bg-primary3 ">{{edadPersona}} Años</p>
+          <img class="my-2 imagen" >
+          <p class="pt-1 bordColorEstablecido font-bold text-2xl m-1 text-color-primary2 text-sky-600 " style="line-height: 10px;">{{dataAsegurado.nombres | titlecase}}</p>
+          <p class="font-semibold text-lg m-0">{{dataAsegurado.apePaterno | titlecase}} {{dataAsegurado.apeMaterno | titlecase}}</p>
           <p class="font-thin">DNI {{dataAsegurado.numDoc}}</p>
       </div>
-      <div class="border-t-2 mt-3 font-thin">
-          <p class="py-1 border-l-4 pl-2 text-sky-600 bordColorEstablecido font-bold">Datos Generales</p>
-          <p class="py-1 font-semibold">Lugar de Nacimiento</p>
-          <p class="py-1">{{dataAsegurado.departNacimiento | titlecase}} - {{dataAsegurado.provinNacimiento | titlecase}} - {{dataAsegurado.distriNacimiento | titlecase}}</p>
-          <p class="py-1 font-semibold">Fecha Nacimiento</p>
-          <p class="py-1">{{dataAsegurado.fecNacimiento | titlecase}}</p>
-          <p class="py-1"><b class="font-semibold">Sexo </b>{{dataAsegurado.descSexo | titlecase}}</p>
-          <p class="py-1 font-semibold">Estado Civil</p>
-          <p class="py-1">{{dataAsegurado.descEstCivil | titlecase}}</p>
-          <p class="py-1 border-l-4 pl-2 text-sky-600 font-bold">Datos Del Seguro</p>
-          <p class="py-1 font-semibold">Tipo de Asegurado</p>
-          <p class="py-1">{{dataAsegurado.desTitular | titlecase}}</p>
-          <p class="py-1 font-semibold">Tipo de seguro</p>
-          <p class="py-1">{{dataAsegurado.nomProdSeguro | titlecase}}</p>
-          <p class="py-1 font-semibold">IPRESS  de Adscripcion</p>
-          <p class="py-1">{{dataAsegurado.nomIpressAdscrip | titlecase}}</p>
-          <p class="py-1 font-semibold">Red Asistencial</p>
-          <p class="py-1">{{dataAsegurado.nomRedAsisten | titlecase}}</p>   
+      <div class="border-t-2 overflow-y mt-0 font-thin scrollbarra" >
+          <p class="py-1 border-l-4 border-[#057EC9] pl-2 text-sky-600 font-semibold text-s-18p my-2 mt-2">Datos Personales</p>
+          <div class="info-container">
+            <p class="flex w-1/2 flex-col text-s-16r py-1 bg-slate-100 text-w-semibold m-1"> Fecha Nacimiento </p> 
+            <p class="flex w-1/2 flex-col additional-text my-1"> {{dataAsegurado.fecNacimiento | titlecase}} </p>
+          </div>
+
+          <div class="info-container">
+            <p class="flex w-1/2 flex-col text-s-16r py-1 bg-slate-100 text-w-semibold m-1"> Sexo </p> 
+            <p class="flex w-1/2 flex-col additional-text my-1"> {{dataAsegurado.descSexo | titlecase}} </p>
+          </div>          
+
+          <div class="info-container">
+            <p class="flex w-1/2 flex-col text-s-16r py-1 bg-slate-100 text-w-semibold m-1"> Estado Civil </p> 
+            <p class="flex w-1/2 flex-col additional-text my-1"> {{dataAsegurado.descEstCivil | titlecase}} </p>
+          </div>          
+ 
+          <p class="flex w-2/2 flex-col text-s-16r py-1 bg-slate-100 text-w-semibold m-1">Lugar de Nacimiento</p>
+          <p class="flex w-2/2 flex-col additional-text mx-1 my-0"> {{dataAsegurado.departNacimiento | titlecase}} - {{dataAsegurado.provinNacimiento | titlecase}} - {{dataAsegurado.distriNacimiento | titlecase}}</p>
+
+          <p class="py-1 border-l-4 border-[#057EC9] pl-2 text-sky-600 font-bold text-s-18p my-2">Datos del Seguro</p>
+          <p class="py-1 my-0 bg-slate-100 font-semibold">Tipo de Asegurado</p>
+          <p class="py-0 my-0 h-6">{{dataAsegurado.desTitular | titlecase}} </p>
+          <p class="py-1 my-0 bg-slate-100 font-semibold">Nombre del Seguro</p>
+          <p class="py-0 my-0 h-6">{{dataAsegurado.nomProdSeguro | titlecase}} </p>
+          <p class="py-1 my-0 bg-slate-100 font-semibold">IPRESS de Adscripcion</p>
+          <p class="py-0 my-0 h-6">{{dataAsegurado.nomIpressAdscrip | titlecase}} </p>
+          <p class="py-1 my-0 bg-slate-100 font-semibold">Red Asistencial</p>
+          <p class="py-0 my-0 h-6">{{dataAsegurado.nomRedAsisten | titlecase}} </p>   
       </div>
   </div>
+  
   <div class="col-span-2">
-      <p class="border-l-4 pl-2 bordColorEstablecido font-semibold text-sky-600 text-xl"> Verificar dirección actual</p>
+    <!-- DATOS DE DIRECCION -->
+      <p class="border-l-4 border-[#057EC9] pl-2 text-sky-600 font-semibold bordColorEstablecido text-s-18p"> Datos de dirección</p>
       
-      <ul class="grid w-full text-gray-600 gap-3 mt-5 mb-3">
-          <li class="elementoSeleccionable" *ngFor="let item of direcciones, index as i">
-              <input type="radio" [id]="'direccion'+i" name="direccion" [disabled]="true" class="peer right-0 mt-2 mr-2 focusCampo">
-              <label [for]="'direccion'+i" class="flex cuadroRadioButton">                           
-                  <div class="flex flex-col justify-center text-center w-1/12">
-                      <esp-icon class="text-3xl" icon="faLocationDot"></esp-icon>
-                      <span>{{item.nombreDireccion}}</span>
+      <ul class="grid w-full text-gray-600 gap-3 mt-1 mb-3 border-gradient-2" >
+          <li class="elementoSeleccionable border-gradient" *ngFor="let item of direcciones, index as i">
+              <!--<input type="radio" [id]="'direccion'+i" name="direccion" [disabled]="false" class="peer right-0 mt-2 mr-2 focusCampo"> -->
+              <label [for]="'direccion'+i" class="flex cuadroRadioButton">   
+
+                  <div class="flex flex-col justify-center text-center w-1/12" >
+                      <esp-icon class="text-2xl" icon="faLocationDot" style="color: #057EC9;"></esp-icon>
+                      <span style="color: #057EC9;">{{item.nombreDireccion}}</span> 
+                      <span>  </span> 
                   </div>
-                  <div class="flex w-11/12 pl-4"> 
+                  <div class="flex w-11/12 pl-4" > 
                       <div class="w-full flex space-x-2">
                           <div class="flex w-1/6 flex-col">
-                              <span class="text-gray-600 font-semibold">Dirección</span>
-                              <span class="text-gray-600 font-semibold">Distrito</span>
-                              <span class="text-gray-600 font-semibold">Provincia</span>
-                              <span class="text-gray-600 font-semibold">Departamento</span>
+                              <span class="text-s-14r text-w-semibold">Dirección </span>
+                              <span class="text-s-14r text-w-semibold">Distrito </span>
+                              <span class="text-s-14r text-w-semibold">Provincia </span>
+                              <span class="text-s-14r text-w-semibold">Departamento </span>
                           </div>
-                          <div class="flex w-5/6 flex-col">
-                              <span>{{item.direccion | titlecase}}</span>
-                              <span>{{item.distrito | titlecase}}</span>
-                              <span>{{item.provincia | titlecase}}</span>
-                              <span>{{item.departamento | titlecase}}</span>
+                          <div class="flex w-5/6 flex-col text-s-14r">
+                              <span class="text-s-16r" style="color: #057EC9">{{item.direccion | titlecase}} </span>
+                              <span>{{item.distrito | titlecase}}  </span>
+                              <span>{{item.provincia | titlecase}} </span>
+                              <span>{{item.departamento | titlecase}} </span>
+                          </div>  
+                          <div class="flex w-1/6 flex-col icono-derecha">
+                            <img class="h-6 icono-derecha" src="assets/dotcircle.svg"> 
                           </div>
+                          
                       </div>
                   </div>
               </label>
-          </li>
+          </li>   
       </ul>
-      <p class="border-l-4 pl-2 bordColorEstablecido font-semibold text-sky-600 text-xl my-5"> Datos de Contacto</p>
+      <!-- DATOS DE CONTACTO -->
+      <p class="border-l-4 border-[#057EC9] pl-2 bordColorEstablecido font-semibold text-sky-600 text-xl my-3 text-s-18p"> Datos de Contacto</p>
           <div >
-              <div class="flex space-x-2 my-2">
+              <div class="flex space-x-2 my-0">
                   <div class="w-1/6 bg-slate-100 justify-end pr-2 flex items-center">
-                      <span class="font-thin align-middle">Teléfono</span>
+                      <span class="font-thin align-middle TituloTextColor text-s-16r">Teléfono</span>
                   </div>
                   <div class="w-5/6">
-                      <input type="text" formControlName="frmTelefono" placeholder="Numero de telefono" class="block w-full p-2 text-gray-900 placeholder-gray-300 border border-gray-300 focusCampo">
+                      <input type="text" formControlName="frmTelefono" placeholder="Numero de telefono" class="text-menucolor text-s-16r block w-full placeholder-gray-300 border-white focusCampo">
+                  </div>
+              </div>
+              <div class="flex space-x-2 mb-0">
+                  <div class="w-1/6 bg-slate-100 justify-end pr-2 flex items-center">
+                      <span class="font-thin TituloTextColor text-s-16r">Celular</span>
+                  </div>
+                  <div class="w-5/6">
+                      <input type="text" formControlName="frmCelular" id="small-input" placeholder="Numero de celular" class="block w-full text-gray-900 placeholder-gray-300 border border-white focusCampo">
                   </div>
               </div>
               <div class="flex space-x-2 mb-2">
                   <div class="w-1/6 bg-slate-100 justify-end pr-2 flex items-center">
-                      <span class="font-thin">Celular</span>
+                      <span class="font-thin TituloTextColor text-s-16r">Correo</span>
                   </div>
                   <div class="w-5/6">
-                      <input type="text" formControlName="frmCelular" id="small-input" placeholder="Numero de celular" class="block w-full p-2 text-gray-900 placeholder-gray-300 border border-gray-300 focusCampo">
-                  </div>
-              </div>
-              <div class="flex space-x-2 mb-2">
-                  <div class="w-1/6 bg-slate-100 justify-end pr-2 flex items-center">
-                      <span class="font-thin">Correo</span>
-                  </div>
-                  <div class="w-5/6">
-                  <input type="text" formControlName="frmCorreo" id="small-input" placeholder="Direccion de correo Electronico" class="block w-full p-2 text-gray-900 placeholder-gray-300 border border-gray-300 focusCampo">
+                  <input type="text" formControlName="frmCorreo" id="small-input" placeholder="Direccion de correo Electronico" class="block w-full text-gray-900 placeholder-gray-300 border border-white focusCampo">
                   </div>
               </div>
           </div>
-          <p class="border-l-4 pl-2 bordColorEstablecido font-semibold text-xl my-5"> Datos de Procedencia</p>
-              <p class="mb-1 font-semibold">Modalidad de ingreso <b class="text-red-500">*</b></p>
-              <ul class="grid w-full gap-3 md:grid-cols-3 mb-2">
-                  <li class="elementoSeleccionable">
-                      <!--Propiedad checked="true" para marcar un radio predefinidamente-->
-                      <input type="radio" id="iniciatiaPropia" name="procedencia" value="iniciatiaPropia" [disabled]="true" class="peer absolute mt-4 ml-3 focusCampo">
-                      <label for="iniciatiaPropia" class="inline-flex items-center cuadroRadioButton">                           
-                          <div class="flex justify-center w-full">
-                              <div class="w-full text-center">Iniciativa Propia</div>
-                          </div>
-                      </label>
-                  </li>
-                  <li class="elementoSeleccionable">
-                      <input type="radio" id="rehabilitacionOnline" name="procedencia" value="rehabilitacionOnline" [disabled]="true" class="peer absolute mt-4 ml-3 focusCampo">
-                      <label for="rehabilitacionOnline" class="inline-flex items-center cuadroRadioButton">
-                          <div class="flex justify-center w-full">
-                              <div class="w-full text-center">Rehabilitacion Online</div>
-                          </div>
-                      </label>
-                  </li>
-                  <li class="elementoSeleccionable">
-                      <input type="radio" id="derivacionCentroLaboral" name="procedencia" value="derivacionCentroLaboral" [disabled]="true" class="peer absolute mt-4 ml-3 focusCampo" >
-                      <label for="derivacionCentroLaboral" class="inline-flex items-center cuadroRadioButton">
-                          <div class="flex justify-center w-full">
-                              <div class="w-full text-center">Derivacion De Centro Laboral</div>
-                          </div>
-                      </label>
-                  </li>
-                  <li class="elementoSeleccionable">
-                      <input type="radio" id="derivacionIpress" name="procedencia" value="derivacionIpress" [disabled]="true" class="peer absolute mt-4 ml-3 focusCampo" >
-                      <label for="derivacionIpress" class="inline-flex items-center cuadroRadioButton">
-                          <div class="flex justify-center w-full">
-                              <div class="w-full text-center">Derivacion IPRESS</div>
-                          </div>
-                      </label>
-                  </li>
-                  <li class="elementoSeleccionable">
-                      <input type="radio" id="unidadOperativaCerps" name="procedencia" value="unidadOperativaCerps" [disabled]="true" class="peer absolute mt-4 ml-3 focusCampo" >
-                      <label for="unidadOperativaCerps" class="inline-flex items-center cuadroRadioButton">
-                          <div class="flex justify-center w-full">
-                              <div class="w-full text-center">Otra Unidad Operativa CERPS</div>
-                          </div>
-                      </label>
-                  </li>
-                  <li class="elementoSeleccionable">
-                      <input type="radio" id="unidadOperativaMbrps" name="procedencia" value="unidadOperativaMbrps" [disabled]="true" class="peer absolute mt-4 ml-3 focusCampo" >
-                      <label for="unidadOperativaMbrps" class="inline-flex items-center cuadroRadioButton">
-                          <div class="flex justify-center w-full">
-                              <div class="w-full text-center">Otra Unidad Operativa MBRPS</div>
-                          </div>
-                      </label>
-                  </li>
-              </ul>
-          <p class="border-l-4 pl-2 bordColorEstablecido font-semibold text-xl my-5"> Datos del Acompañante</p>
-          <p class="mb-2 font-semibold">¿Requiere apoyo de otra persona? Si es Menor <b class="text-red-500">*</b></p>
-              <ul class="grid w-full gap-3 md:grid-cols-2 mb-2">
-                  <li class="elementoSeleccionable">
-                      <input type="radio" id="siApoyo" name="acompaniante" [checked]="selectSi" [disabled]="true" class="peer absolute mt-4 ml-3 focusCampo" >
-                      <label for="siApoyo" class="inline-flex items-center cuadroRadioButton">                           
-                          <div class="flex justify-center w-full">
-                              <div class="w-full text-center">Si</div>
-                          </div>
-                      </label>
-                  </li>
-                  <li class="elementoSeleccionable">
-                      <input type="radio" id="noApoyo" name="acompaniante" [checked]="selectNo"  [disabled]="true" class="peer absolute mt-4 ml-3 focusCampo" >
-                      <label for="noApoyo" class="inline-flex items-center cuadroRadioButton">
-                          <div class="flex justify-center w-full">
-                              <div class="w-full text-center">No</div>
-                          </div>
-                      </label>
-                  </li>
-              </ul>
-              <div class="mt-2 mb-4 border-b-2 border-bg-gray-300 flex justify-between" *ngIf="selectSi">
-                  <div class="inline-flex items-center">
-                      <div class="bg-gray-100 py-1 px-2">
-                          <span class="font-semibold">{{parentesco}}</span>
-                      </div>
-                      <span class="ml-2 text-sm">{{dataAsegurado.nombresAcomp | titlecase}} {{dataAsegurado.apellidoAcomp | titlecase}} (DNI {{dataAsegurado.numDocIdentAcomp | titlecase}}) - {{dataAsegurado.telefAcomp | titlecase}}</span>
-                  </div>
-                  <img class="h-4 self-center" src="assets/svg/SelectOption.svg">
-              </div>
-          <p class="border-l-4 pl-2 bordColorEstablecido font-semibold text-xl my-5">Observación</p>
-          <textarea id="message" formControlName="frmObservacion" rows="2" class="my-2 block p-2.5 w-full text-gray-900 border border-gray-300 focusCampo placeholder-gray-300" placeholder="Descripción"></textarea>
+
+          <!-- SOLICITUD -->
+          <p class="border-l-4 border-[#057EC9] pl-2 bordColorEstablecido font-semibold text-sky-600 text-xl my-3 text-s-18p">Solicitud</p>
+          <!--<textarea id="message" formControlName="frmObservacion"  class="my-2 block p-2.5 w-full text-gray-600 border border-gray-300 focusCampo placeholder-gray-300 text-s-16r" placeholder="Descripción" >
+           </textarea>-->
+           <div  contenteditable="true" id="message" class="text-s-16r text-menucolor">
+            <p>Yo.  [Nombre del afiliado]   identificado con   [Tipo de documento]   N°  [Numero de documento]   Domiciliado en  [Dirección]  de  [distrito-provincia-región].  
+              Solicito ser parte del programa de ADULTO MAYOR.</p> 
+            <br>
+            <p>[mensaje]  </p>
+            <br>
+            <p>Es por ello que envío mis datos de contacto. </p>
+            <p></p>  
+            <p>Gracias. </p>
+            <p></p>
+            <p></p>
+        </div>
   </div>
 </div>
+

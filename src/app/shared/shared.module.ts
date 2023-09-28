@@ -10,6 +10,8 @@ import { OpcionesBusquedaComponent } from './components/opciones-busqueda/opcion
 import { MatTabsModule } from '@angular/material/tabs';
 import { BtnComponent } from './components/btn/btn.component';
 import { IconComponent } from './components/icon/icon.component';
+import { OpcionRegresarComponent } from './components/opcion-regresar/opcion-regresar.component';
+import { PreguntasComponent } from './components/preguntas/preguntas.component';
 
 const modules:any[] = [
   CommonModule,
@@ -24,13 +26,15 @@ const modules:any[] = [
    IconComponent,
    FiltroFechaComponent,
    MenuOpcionesComponent,
-   OpcionesBusquedaComponent
+   OpcionesBusquedaComponent,
+   OpcionRegresarComponent,
+   PreguntasComponent,
 ]
 
 @NgModule({
-  declarations: [],
+  
   imports: [
     ...modules
-  ],exports:[...modules]
+  ],exports:[...modules], declarations: []
 })
 export class SharedModule { }

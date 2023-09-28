@@ -55,12 +55,24 @@
             </select>
           </div>
       </div>
-      <div *ngIf="showButton">
-          <div class="relative rounded-md">
-            <button typeBtn="submit" class="btnStructure botonApariencia" (click)="buttonAccion.emit()">
-              {{buttonText}}
-            </button>
-          </div>
+
+      <div *ngIf="showotroBtn">
+        <div class="relative rounded-md pr-2 text-s-16p">
+          <button typeBtn="submit" class="btnNotasStructure botonApariencia" (click)="otroBtnAccion.emit()">
+            {{otroBtnText}}
+          </button>
+        </div>
       </div>
+
+      <div *ngIf="showButton">
+        <div class="relative rounded-md pr-6 text-s-16p">
+          <button typeBtn="submit" class="btnStructure botonApariencia" (click)="buttonAccion.emit()">
+            {{buttonText}}
+          </button>
+        </div>
+      </div>
+
+
+
     </div>
   </div>

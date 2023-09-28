@@ -1,5 +1,5 @@
 import { NgModule } from '@angular/core';
-import { RouterModule, Routes } from '@angular/router';
+import { RouterModule, Routes, Router, RouterLink } from '@angular/router';
 import { AfiliadosComponent } from './afiliados/afiliados.component';
 import { ShowAfilComponent } from './show-afil/show-afil.component';
 import { SubListActivacionesAfilComponent } from './show-afil/sub-list-activaciones-afil/sub-list-activaciones-afil.component';
@@ -9,6 +9,11 @@ import { ShowSolComponent } from './show-sol/show-sol.component';
 import { SubListActivacionesSolComponent } from './show-sol/sub-list-activaciones-sol/sub-list-activaciones-sol.component';
 import { EditSolComponent } from './edit-sol/edit-sol.component';
 import { EvaluacionComponent } from './evaluacion/evaluacion.component';
+import { NewEvalAfiliadoComponent } from './components/new-eval-afiliado/new-eval-afiliado.component';
+import { NewEval2AfiliadoComponent } from './components/new-eval2-afiliado/new-eval2-afiliado.component';
+import { NewEval3AfiliadoComponent } from './components/new-eval3-afiliado/new-eval3-afiliado.component';
+import { NewEval4AfiliadoComponent } from './components/new-eval4-afiliado/new-eval4-afiliado.component';
+import { ResultEvalAfiliadoComponent } from './components/result-eval-afiliado/result-eval-afiliado.component';
 
 
 const routes: Routes = [
@@ -95,8 +100,26 @@ const routes: Routes = [
     path: 'evaluacion', 
     component: EvaluacionComponent,
   },
-
-  
+  {
+    path: 'agregaEval',
+    component: NewEvalAfiliadoComponent,
+  },
+  {
+    path: 'agregaEval2',
+    component: NewEval2AfiliadoComponent,
+  },
+  {
+    path: 'agregaEval3',
+    component: NewEval3AfiliadoComponent,
+  },
+  {
+    path: 'agregaEval4',
+    component: NewEval4AfiliadoComponent,
+  },
+  {
+    path: 'resultEval',
+    component: ResultEvalAfiliadoComponent,
+  },
       /*children:[
       {path: '', component: AfiliadosComponent},
       {path: 'analisis', component: AnalisisComponent},

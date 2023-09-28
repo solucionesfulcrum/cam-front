@@ -1,6 +1,6 @@
 .botonMezclado {
   ::ng-deep.bg-success-700{
-  background: var(--color-CAMWEB-Mezclado) !important;
+  background: var(--color-CAM-Mezclado) !important;
 }
 border-radius: 5px;
 box-shadow: 1px 1px 4px 0px #00000066;
@@ -27,15 +27,54 @@ h2{
 }
 
 .imagen{
-  width: 120px;
-  height: 150px;
+  width: 60px;
+  height: 75px;
   justify-self: center;
 }
 
 .anios{
-  background: var(--color-CAMWEB-Mezclado);
+  background: var(--color-CAM-Mezclado);
 }
 
 .field-full-width {
   width: 100%;
 }
+
+.info-container {
+  display: flex; /* Usar display flex para alinear los elementos horizontalmente */
+  align-items: center; /* Alinear verticalmente al centro */
+  padding-top: -2px;
+  margin-top: -2px;
+}
+  
+.additional-text {
+  margin-left: 10px; /* Agregar margen izquierdo para separar el texto "dfd" del otro párrafo */
+}
+  
+#message {
+  width: 100%;
+  height: 210px;
+  border: 0.25px dotted #979797;
+  padding: 5px;
+  overflow-y: auto; /* Agrega una barra de desplazamiento vertical si es necesario */
+}
+
+.scrollbarra {
+width: 100%;
+height: 430px;
+border: 0.75px dotted #02a9c7;
+border-left: none;
+border-bottom: none;
+padding: 5px;
+overflow-y: auto;
+}
+
+.icono-derecha {
+/* Alinea el contenido a la derecha */
+align-items: end;
+margin-right: 10px;
+margin-top: 2.5px;
+display: flex;
+}
+
+

@@ -4,7 +4,7 @@
 
 .btnNuevaFicha{
     ::ng-deep.bg-success-700{
-        background: var(--color-boton);
+        background: var(--color-CAM);
     }
 }
 .inputTextoDialog{	
@@ -49,18 +49,39 @@ select{
 }
 .btnStructure{
   width: 100%;
-  border-radius: 0.25rem;
-  padding-left: 1.25rem;
-  padding-right: 1.25rem;
+  border-radius: 4px;      //0.25rem
+  padding-left: 0.5rem;   //1.25rem
+  padding-right: 0.5rem;  //1.25rem
   padding-top: 0.5rem;
   padding-bottom: 0.5rem;
-  font-size: 0.875rem;
-  line-height: 1.25rem;
-  font-weight: 500;
+  font-size: 16px;     //0.875rem
+  line-height: 20px;   //1.25rem
+  font-weight: 400px;  //500
   --tw-text-opacity: 1;
   color: rgb(255 255 255 / var(--tw-text-opacity));
-  background: var(--color-boton);
+  background: var(--color-CAM);   //var(--color-boton);
 }
+
 .botonApariencia{
   box-shadow: 1px 1px 4px 0px #00000066;
+}
+
+.btnNotasStructure{
+  width: 100%;
+  border-radius: 4px;      //0.25rem
+  padding-left: 2.25rem;   //1.25rem
+  padding-right: 0.5rem;  //1.25rem
+  padding-top: 0.5rem;
+  padding-bottom: 0.5rem;
+  font-size: 16px;     //0.875rem
+  line-height: 20px;   //1.25rem
+  font-weight: 400px;  //500
+  --tw-text-opacity: 1;
+  color: #3E4348;
+  background: var(--color-CAM-blanco);   //var(--color-boton);
+  background-image: url('../../../../assets/editor.svg'); /* Ruta a tu imagen SVG */
+  background-size: 20px 20px; /* Tamaño deseado del icono */
+  background-repeat: no-repeat;
+  background-position: 10px;
+  display: flex;
 }

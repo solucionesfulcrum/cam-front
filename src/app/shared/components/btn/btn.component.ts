@@ -21,7 +21,7 @@ export class BtnComponent implements OnInit {
   @Input() disabled = false;
   @Input() loading = false;
   @Input() typeBtn: 'reset' | 'submit' | 'button' = 'button';
-  @Input() color:  'success' | 'primary' |'secondary' | 'danger' | 'light' | 'sky' =
+  @Input() color:  'success' | 'primary' |'secondary' | 'danger' | 'light' | 'sky' | "white" | "none" =
     'primary';
   faSpinner = faSpinner;
 
@@ -33,7 +33,7 @@ export class BtnComponent implements OnInit {
       'text-white': true,
     },
     primary: {
-      'bg-blue-700': true,
+      'bg-sky-600': true,
       'hover:bg-blue-800': true,
       'focus:ring-blue-300': true,
       'text-white': true,
@@ -56,6 +56,18 @@ export class BtnComponent implements OnInit {
       'focus:ring-slate-50': true,
       'text-slate-700': true,
     },
+    cancel: {
+      'bg-gray-200': true,
+      'hover:bg-gray-300': true,
+      'focus:ring-gray-50': true,
+      'text-gray-700': true,
+    },
+    white: {
+      'bg-white': true,
+      'hover:bg-gray-100': true,
+      'ring-gray-50': true,
+      'text-gray-700': true,
+    },
     sky: {
       'bg-sky-700': true,
       'hover:bg-sky-800': true,
@@ -66,6 +78,7 @@ export class BtnComponent implements OnInit {
       //'customer-btn-border-sky':true,
       //'customer-btn-text-sky': true,
     },
+    none:{}
   };
 
   constructor() {}

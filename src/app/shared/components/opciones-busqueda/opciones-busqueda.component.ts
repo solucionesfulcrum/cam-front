@@ -33,6 +33,9 @@ export class OpcionesBusquedaComponent{
   @Input()
   showButton = false;
 
+  @Input()
+  showotroBtn = false;
+
   //Filtro de Fecha----------------------------------------------------------------------------------------------------------------
   @Input()
   filterDateAppearance: number = 1; // 1: DateFilter - 2: DateFilterWithCeros - 3: DateFilterWithoutCeros - 4: DateFilterUSDate
@@ -104,6 +107,17 @@ export class OpcionesBusquedaComponent{
   @Output()
   buttonAccion = new EventEmitter<any>();
 
+
+  @Input()
+  otroBtnBg: string = '';
+
+  @Input()
+  otroBtnText: string = 'Notas';
+
+  @Output()
+  otroBtnAccion = new EventEmitter<any>();
+
+
   //Variables del componente-------------------------------------------------------------------------------------------------------------
   form:FormGroup = this.fb.group({
     frmSearchDate:new FormControl(""),
@@ -120,6 +134,11 @@ export class OpcionesBusquedaComponent{
   ngOnInit(): void {
     if(this.buttonBg != undefined){
       document.documentElement.style.setProperty('--color-boton',this.buttonBg);
+    }
+    //this.onFil                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                         ter();
+
+    if(this.otroBtnBg != undefined){
+      document.documentElement.style.setProperty('--color-boton',this.otroBtnBg);
     }
     this.onFilter();
   }

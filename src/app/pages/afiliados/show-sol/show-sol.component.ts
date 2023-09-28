@@ -1,7 +1,12 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, OnInit, ViewChild, NgModule } from '@angular/core';
 import { FormBuilder } from '@angular/forms';
-import { ActivatedRoute, Router } from '@angular/router';
+import { ActivatedRoute, Router, RouterLink, RouterModule } from '@angular/router';
 import { AfiliadoService } from '@shared/services/afiliado.service';
+import { AfiliadosComponent } from '../afiliados/afiliados.component';
+import { EvaluacionComponent } from '../evaluacion/evaluacion.component';
+import { NewEvalAfiliadoComponent } from '../components/new-eval-afiliado/new-eval-afiliado.component';
+import { Dialog } from '@angular/cdk/dialog';
+import { NotasAfilComponent } from '../components/notas-afil/notas-afil.component';
 
 export interface direccionData {
   estadoEnvio?: number;
@@ -16,8 +21,10 @@ export interface direccionData {
 @Component({
   selector: 'app-show-sol',
   templateUrl: './show-sol.component.html',
-  styleUrls: ['./show-sol.component.css']
+  styleUrls: ['./show-sol.component.css'],
+  
 })
+
 
 export class ShowSolComponent implements OnInit {
   show= false;
@@ -32,8 +39,10 @@ export class ShowSolComponent implements OnInit {
   parentesco: string = '';
   tipoDocAcomp: string = '';
 
-  direcciones: direccionData[] = [{estadoEnvio:1, nombreDireccion: 'Datos RENIEC', direccion: '', piso: '', distrito: '', provincia: '', departamento: ''},
-  {estadoEnvio:1, nombreDireccion: 'Casa', direccion: '', piso: '', distrito: '', provincia: '', departamento: ''}];
+  /*direcciones: direccionData[] = [{estadoEnvio:1, nombreDireccion: 'Datos RENIEC', direccion: '', piso: '', distrito: '', provincia: '', departamento: ''},
+  {estadoEnvio:1, nombreDireccion: 'Casa', direccion: '', piso: '', distrito: '', provincia: '', departamento: ''}]; */
+
+  direcciones: direccionData[] = [{estadoEnvio:1, nombreDireccion: 'Casa', direccion: '', piso: '', distrito: '', provincia: '', departamento: ''}];
 
   formContacto = this.fb.nonNullable.group({
     frmTelefono:[''],
@@ -43,9 +52,10 @@ export class ShowSolComponent implements OnInit {
   });
   //-----
 
-  constructor(
+  constructor(private router: Router,
     private activeRoute: ActivatedRoute,
     private fb: FormBuilder,
+    private dialog : Dialog,
     private _afiliaddoService: AfiliadoService ) {
     this.idFicha=this.activeRoute.snapshot.paramMap.get('id')!;
   }
@@ -60,7 +70,7 @@ export class ShowSolComponent implements OnInit {
       var dateObject = new Date(+dateParts[0], +dateParts[1] - 1, +dateParts[1]); 
       var timeDiff = Math.abs(Date.now() - dateObject.getTime());
       this.edadPersona = Math.floor(timeDiff / (1000 * 3600 * 24) / 365.25);
-      this.direcciones[0].direccion = dataObj.data.asegurado.direccionActual;
+/*      this.direcciones[0].direccion = dataObj.data.asegurado.direccionActual;
       this.direcciones[0].distrito = dataObj.data.asegurado.distriActual;
       this.direcciones[0].provincia = dataObj.data.asegurado.provinActual;
       this.direcciones[0].departamento = dataObj.data.asegurado.departActual;
@@ -69,6 +79,12 @@ export class ShowSolComponent implements OnInit {
       this.direcciones[1].distrito = dataObj.data.asegurado.distriDomicilio;
       this.direcciones[1].provincia = dataObj.data.asegurado.provinDomicilio;
       this.direcciones[1].departamento = dataObj.data.asegurado.departDomicilio;
+*/
+      //Obtener datos de direccion casa
+      this.direcciones[0].direccion = dataObj.data.asegurado.direccDomicilio;
+      this.direcciones[0].distrito = dataObj.data.asegurado.distriDomicilio;
+      this.direcciones[0].provincia = dataObj.data.asegurado.provinDomicilio;
+      this.direcciones[0].departamento = dataObj.data.asegurado.departDomicilio;
 
       this.formContacto = this.fb.nonNullable.group({
         frmTelefono:[{value: dataObj.data.asegurado.telefRefer, disabled:true}],
@@ -97,4 +113,31 @@ export class ShowSolComponent implements OnInit {
   Imprimir(){
     window.print()
   }
+
+  EvalAfiliado(){
+    
+    this.router.navigate(['/afiliados/agregaEval'])
+
+    // const dialogRef = this.dialog.open(NewEvalAfiliadoComponent,{
+    //   minWidth:'800px',
+    //   maxWidth:'50%',
+    //   data:{}
+    // })
+    // dialogRef.closed.subscribe(out =>{
+    //   // console.log(out)
+    // })
+  }
+
+  Notas(){
+    const dialogRef = this.dialog.open(NotasAfilComponent,{
+      minWidth:'800px',
+      maxWidth:'50%',        
+      data:{}
+    })
+    dialogRef.closed.subscribe(out =>{
+      // console.log(out)
+    })
+  }
+
+  
 }
