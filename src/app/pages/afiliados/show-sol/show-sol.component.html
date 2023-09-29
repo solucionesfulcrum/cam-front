@@ -40,40 +40,40 @@
           <p class="font-thin">DNI {{dataAsegurado.numDoc}}</p>
       </div>
       <div class="border-t-2 overflow-y mt-0 font-thin scrollbarra" >
-          <p class="py-1 border-l-4 border-[#057EC9] pl-2 text-sky-600 font-semibold text-s-18p my-2 mt-2">Datos Personales</p>
+          <p class="py-1 border-l-4 border-[#057EC9] pl-2 text-sky-600 font-semibold text-s-18p text-w-500 my-2 mt-2">Datos Personales</p>
           <div class="info-container">
-            <p class="flex w-1/2 flex-col text-s-16r py-1 bg-slate-100 text-w-semibold m-1"> Fecha Nacimiento </p> 
+            <p class="flex w-1/2 flex-col text-s-16r py-1 bg-slate-100 text-w-500 m-1"> Fecha Nacimiento </p> 
             <p class="flex w-1/2 flex-col additional-text my-1"> {{dataAsegurado.fecNacimiento | titlecase}} </p>
           </div>
 
           <div class="info-container">
-            <p class="flex w-1/2 flex-col text-s-16r py-1 bg-slate-100 text-w-semibold m-1"> Sexo </p> 
-            <p class="flex w-1/2 flex-col additional-text my-1"> {{dataAsegurado.descSexo | titlecase}} </p>
+            <p class="flex w-1/2 flex-col text-s-16r py-1 bg-slate-100 text-w-500 m-1"> Sexo </p> 
+            <p class="flex w-1/2 flex-col additional-text my-1 text-s-16r text-w-300"> {{dataAsegurado.descSexo | titlecase}} </p>
           </div>          
 
           <div class="info-container">
-            <p class="flex w-1/2 flex-col text-s-16r py-1 bg-slate-100 text-w-semibold m-1"> Estado Civil </p> 
-            <p class="flex w-1/2 flex-col additional-text my-1"> {{dataAsegurado.descEstCivil | titlecase}} </p>
+            <p class="flex w-1/2 flex-col text-s-16r py-1 bg-slate-100 text-w-500 m-1"> Estado Civil </p> 
+            <p class="flex w-1/2 flex-col additional-text my-1 text-s-16r text-w-300"> {{dataAsegurado.descEstCivil | titlecase}} </p>
           </div>          
  
-          <p class="flex w-2/2 flex-col text-s-16r py-1 bg-slate-100 text-w-semibold m-1">Lugar de Nacimiento</p>
-          <p class="flex w-2/2 flex-col additional-text mx-1 my-0"> {{dataAsegurado.departNacimiento | titlecase}} - {{dataAsegurado.provinNacimiento | titlecase}} - {{dataAsegurado.distriNacimiento | titlecase}}</p>
+          <p class="flex w-2/2 flex-col text-s-16r py-1 bg-slate-100 text-w-500 m-1">Lugar de Nacimiento</p>
+          <p class="flex w-2/2 flex-col additional-text mx-1 my-0 text-s-16r text-w-300"> {{dataAsegurado.departNacimiento | titlecase}} - {{dataAsegurado.provinNacimiento | titlecase}} - {{dataAsegurado.distriNacimiento | titlecase}}</p>
 
-          <p class="py-1 border-l-4 border-[#057EC9] pl-2 text-sky-600 font-bold text-s-18p my-2">Datos del Seguro</p>
-          <p class="py-1 my-0 bg-slate-100 font-semibold">Tipo de Asegurado</p>
-          <p class="py-0 my-0 h-6">{{dataAsegurado.desTitular | titlecase}} </p>
-          <p class="py-1 my-0 bg-slate-100 font-semibold">Nombre del Seguro</p>
-          <p class="py-0 my-0 h-6">{{dataAsegurado.nomProdSeguro | titlecase}} </p>
-          <p class="py-1 my-0 bg-slate-100 font-semibold">IPRESS de Adscripcion</p>
-          <p class="py-0 my-0 h-6">{{dataAsegurado.nomIpressAdscrip | titlecase}} </p>
-          <p class="py-1 my-0 bg-slate-100 font-semibold">Red Asistencial</p>
-          <p class="py-0 my-0 h-6">{{dataAsegurado.nomRedAsisten | titlecase}} </p>   
+          <p class="py-1 border-l-4 border-[#057EC9] pl-2 text-sky-600 font-bold text-s-18p text-w-500 my-2">Datos del Seguro</p>
+          <p class="py-1 my-0 bg-slate-100 text-s-16r text-w-500">Tipo de Asegurado</p>
+          <p class="py-0 my-0 h-6 text-s-16r text-w-300">{{dataAsegurado.desTitular | titlecase}} </p>
+          <p class="py-1 my-0 bg-slate-100 text-s-16r text-w-500">Nombre del Seguro</p>
+          <p class="py-0 my-0 h-6 text-s-16r text-w-300">{{dataAsegurado.nomProdSeguro | titlecase}} </p>
+          <p class="py-1 my-0 bg-slate-100 text-s-16r text-w-500">IPRESS de Adscripcion</p>
+          <p class="py-0 my-0 h-6 text-s-16r text-w-300">{{dataAsegurado.nomIpressAdscrip | titlecase}} </p>
+          <p class="py-1 my-0 bg-slate-100 text-s-16r text-w-500">Red Asistencial</p>
+          <p class="py-0 my-0 h-6 text-s-16r text-w-300">{{dataAsegurado.nomRedAsisten | titlecase}} </p>   
       </div>
   </div>
   
   <div class="col-span-2">
     <!-- DATOS DE DIRECCION -->
-      <p class="border-l-4 border-[#057EC9] pl-2 text-sky-600 font-semibold bordColorEstablecido text-s-18p"> Datos de dirección</p>
+      <p class="border-l-4 border-[#057EC9] pl-2 text-sky-600 font-semibold bordColorEstablecido text-s-18p text-w-500"> Datos de Dirección</p>
       
       <ul class="grid w-full text-gray-600 gap-3 mt-1 mb-3 border-gradient-2" >
           <li class="elementoSeleccionable border-gradient" *ngFor="let item of direcciones, index as i">
@@ -109,7 +109,7 @@
           </li>   
       </ul>
       <!-- DATOS DE CONTACTO -->
-      <p class="border-l-4 border-[#057EC9] pl-2 bordColorEstablecido font-semibold text-sky-600 text-xl my-3 text-s-18p"> Datos de Contacto</p>
+      <p class="border-l-4 border-[#057EC9] pl-2 bordColorEstablecido font-semibold text-sky-600 text-xl my-3 text-s-18p text-w-500"> Datos de Contacto</p>
           <div >
               <div class="flex space-x-2 my-0">
                   <div class="w-1/6 bg-slate-100 justify-end pr-2 flex items-center">
@@ -138,7 +138,7 @@
           </div>
 
           <!-- SOLICITUD -->
-          <p class="border-l-4 border-[#057EC9] pl-2 bordColorEstablecido font-semibold text-sky-600 text-xl my-3 text-s-18p">Solicitud</p>
+          <p class="border-l-4 border-[#057EC9] pl-2 bordColorEstablecido font-semibold text-sky-600 text-xl my-3 text-s-18p text-w-500">Solicitud</p>
           <!--<textarea id="message" formControlName="frmObservacion"  class="my-2 block p-2.5 w-full text-gray-600 border border-gray-300 focusCampo placeholder-gray-300 text-s-16r" placeholder="Descripción" >
            </textarea>-->
            <div  contenteditable="true" id="message" class="text-s-16r text-menucolor">

@@ -216,6 +216,42 @@ body {
   font-weight: 590;
 }
 
+.text-w-900 {
+  font-weight: 900;
+}
+
+.text-w-800 {
+  font-weight: 800;
+}
+
+.text-w-700 {
+  font-weight: 700;
+}
+
+.text-w-600 {
+  font-weight: 600;
+}
+
+.text-w-500 {
+  font-weight: 500;
+}
+
+.text-w-400 {
+  font-weight: 400;
+}
+
+.text-w-300 {
+  font-weight: 300;
+}
+
+.text-w-200 {
+  font-weight: 200;
+}
+
+.text-w-100 {
+  font-weight: 100;
+}
+
 .text-style-cursiva {
   font-style: italic;
 }
