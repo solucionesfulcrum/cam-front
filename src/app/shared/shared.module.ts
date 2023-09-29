@@ -12,6 +12,7 @@ import { BtnComponent } from './components/btn/btn.component';
 import { IconComponent } from './components/icon/icon.component';
 import { OpcionRegresarComponent } from './components/opcion-regresar/opcion-regresar.component';
 import { PreguntasComponent } from './components/preguntas/preguntas.component';
+import { Pregunt1opcComponent } from './components/pregunt1opc/pregunt1opc.component';
 
 const modules:any[] = [
   CommonModule,
@@ -29,12 +30,15 @@ const modules:any[] = [
    OpcionesBusquedaComponent,
    OpcionRegresarComponent,
    PreguntasComponent,
+   Pregunt1opcComponent,
 ]
 
 @NgModule({
   
   imports: [
     ...modules
-  ],exports:[...modules], declarations: []
+  ],exports:[...modules], declarations: [
+    
+  ]
 })
 export class SharedModule { }
