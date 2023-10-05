@@ -8,14 +8,23 @@
 
   <span class="flex w-3/4 flex-col additional-text">
     <esp-opciones-busqueda class=""
-    [showButton]="true"
-    [buttonText] = "'Actualizar Datos'"
-    (buttonAccion)="ActualizDatos()"
-    [showotroBtn]="true"
-    [otroBtnText] = "'Notas'"
-    (otroBtnAccion)="Notas()"
+    
+      [showButton]="true"
+      [buttonText] = "'Evaluar Afiliado'"
+      (buttonAccion)="EvalAfiliado()"
+      
+      [showotroBtn]="true"
+      [otroBtnText] = "'Actualizar Datos'"
+      (otroBtnAccion)="Actualizar()"
+
+      [showotroBtn2]="true"
+      [otroBtn2Text] = "'Notas'"
+      (otroBtn2Accion)="Notas()"    
+
     ></esp-opciones-busqueda>
+   
   </span>
+
 
 </div>
 <div class="div-mat-tab pt-1">
@@ -106,11 +115,8 @@
   </div>
   
   <div class="col-span-2">
-    <!-- OPERACIONES-->
-      <p class="border-l-4 border-[#057EC9] pl-2 text-sky-600 font-semibold bordColorEstablecido text-s-18p text-w-500"> Operaciones </p>
-      
-      
-      
+    <!-- OPERACIONES / EVALUACIONES-->
+    <app-tabs></app-tabs>
   </div>
 </div>
 

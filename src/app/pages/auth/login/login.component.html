@@ -81,6 +81,16 @@
             Mínimo 6 dígitos
           </mat-error>
         </mat-form-field>
+        
+        <div class="btn-login">
+          <button
+            type="submit"
+            mat-raised-button
+            [disabled]="loginForm.invalid || loading"
+          >
+            {{ loading ? "Validando..." : "Ingresar" }}
+          </button>
+        </div>
 
         <div class="content-textos">
           <button
@@ -90,15 +100,6 @@
             class="font-boton text-s-18" style="color: #0085FF"
           > 
             ¿Olvidaste tu contraseña?
-          </button>
-        </div>
-        <div class="btn-login">
-          <button
-            type="submit"
-            mat-raised-button
-            [disabled]="loginForm.invalid || loading"
-          >
-            {{ loading ? "Validando..." : "Ingresar" }}
           </button>
         </div>
       </form>

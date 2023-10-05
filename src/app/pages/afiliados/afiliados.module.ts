@@ -32,6 +32,10 @@ import { NewEval2AfiliadoComponent } from './components/new-eval2-afiliado/new-e
 import { NewEval3AfiliadoComponent } from './components/new-eval3-afiliado/new-eval3-afiliado.component';
 import { NewEval4AfiliadoComponent } from './components/new-eval4-afiliado/new-eval4-afiliado.component';
 import { ResultEvalAfiliadoComponent } from './components/result-eval-afiliado/result-eval-afiliado.component';
+import { AfilOperComponent } from './components/afil-oper/afil-oper.component';
+import { TabsComponent } from './components/tabs/tabs.component';
+import { AfilEvalComponent } from './components/afil-eval/afil-eval.component';
+
 
 
 @NgModule({
@@ -55,6 +59,9 @@ import { ResultEvalAfiliadoComponent } from './components/result-eval-afiliado/r
     NewEval3AfiliadoComponent,
     NewEval4AfiliadoComponent,
     ResultEvalAfiliadoComponent,
+    AfilOperComponent,
+    TabsComponent,
+    AfilEvalComponent,
   
   ],
   imports: [
@@ -70,6 +77,7 @@ import { ResultEvalAfiliadoComponent } from './components/result-eval-afiliado/r
     MatCardModule,
     RouterModule,
     SharedModule,
+   
    
   ]
 })

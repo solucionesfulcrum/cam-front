@@ -28,8 +28,9 @@ export class AfiliadosLayoutComponent {
   {
       let active = '/afiliados'
 
-      if ( path === '/afiliados')
-        active= '/afiliados/afiliados'
+      if ( path == '/afiliados')
+        active = '/afiliados/afiliados'
+        
 
       return active
   }

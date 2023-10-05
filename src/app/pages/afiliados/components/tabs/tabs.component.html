@@ -1,0 +1,39 @@
+<div class="tabs">
+    <div
+      *ngFor="let tab of tabs"
+      [class.active]="tab === selectedTab"
+      (click)="selectTab(tab)"
+      class="w-1/8 tab text-s-14p text-w-400"
+    >
+    {{ tab.title }}
+    </div>
+</div> 
+
+<esp-opciones-busqueda 
+    [showDateFilter]="true"
+    [setFilterDateOptionSelected]="'var(--color-CAM-mezclado)'" 
+    [setFilterDateTextColour]="'#057EC9'"
+    [filterDateAppearance]="2"
+    [setFilterDateSelectionBg]="'#008BD2'"
+    [setFilterDateButtonBg]="'#008BD2'"
+    [showotroBtn3]="true"
+    [otroBtn3Text] = "'Descarga'"
+    (otroBtn3Accion)="Descarga()"    
+            
+></esp-opciones-busqueda>
+
+<div class="tab-content">
+    <div *ngIf="selectedTab">
+      <ng-container [ngSwitch]="selectedTab.title">
+        <ng-container *ngSwitchCase="'Operaciones'">
+           <app-afil-oper ></app-afil-oper>
+        </ng-container>
+
+        <ng-container *ngSwitchCase="'Evaluaciones'">
+           <app-afil-eval></app-afil-eval>
+        </ng-container>
+        <!-- más casos según sea necesario para tus componentes -->
+      </ng-container>
+    </div> 
+</div>
+

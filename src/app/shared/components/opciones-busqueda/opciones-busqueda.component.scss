@@ -85,3 +85,17 @@ select{
   background-position: 10px;
   display: flex;
 }
+
+.bg_image_upd{
+  background-image: url('../../../../assets/img/iconUpdate.png') ;
+ 
+}
+
+.bg_image_descarga {
+  background-position:140px;
+  background-image: url('../../../../assets/img/arrow_bottom.png') ;
+  background-size: 10px;
+  margin-right: 45px;
+  padding-right: 0.5rem;
+  
+}

@@ -116,6 +116,11 @@ export class ResultEvalAfiliadoComponent implements OnInit {
     window.print()
   }
 
+  FinEval() {
+    this.router.navigate(['/afiliados/solicitudes'])
+    const activeTab= '/afiliados/solicitudes'
+  }
+
   EvalAfiliado(){
     
     this.router.navigate(['/afiliados/agregaEval'])

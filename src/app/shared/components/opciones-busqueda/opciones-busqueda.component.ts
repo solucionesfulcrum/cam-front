@@ -30,11 +30,18 @@ export class OpcionesBusquedaComponent{
   @Input()
   showSecondDisplayFilter = false;
 
+
   @Input()
   showButton = false;
 
   @Input()
   showotroBtn = false;
+
+  @Input()
+  showotroBtn2 = false;
+
+  @Input()
+  showotroBtn3 = false;
 
   //Filtro de Fecha----------------------------------------------------------------------------------------------------------------
   @Input()
@@ -97,6 +104,7 @@ export class OpcionesBusquedaComponent{
   @Output()
   secDisplayFilterSendValue = new EventEmitter<any>();
 
+ 
   //Botón ejecutable-------------------------------------------------------------------------------------------------------------
   @Input()
   buttonBg: string = '';
@@ -116,6 +124,28 @@ export class OpcionesBusquedaComponent{
 
   @Output()
   otroBtnAccion = new EventEmitter<any>();
+
+  @Input()
+  otroBtn2Bg: string = '';
+  
+  @Input()
+  otroBtn2Text: string = 'Actualizar';
+
+
+  @Output()
+  otroBtn2Accion = new EventEmitter<any>();
+
+
+
+  @Input()
+  otroBtn3Bg: string = '';
+  
+  @Input()
+  otroBtn3Text: string = 'Actualizar';
+
+
+  @Output()
+  otroBtn3Accion = new EventEmitter<any>();
 
 
   //Variables del componente-------------------------------------------------------------------------------------------------------------
@@ -139,6 +169,10 @@ export class OpcionesBusquedaComponent{
 
     if(this.otroBtnBg != undefined){
       document.documentElement.style.setProperty('--color-boton',this.otroBtnBg);
+    }
+
+    if(this.otroBtn2Bg != undefined){
+      document.documentElement.style.setProperty('--color-boton',this.otroBtn2Bg);
     }
     this.onFilter();
   }

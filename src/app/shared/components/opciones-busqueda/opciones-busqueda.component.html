@@ -56,9 +56,26 @@
           </div>
       </div>
 
+      <div *ngIf="showotroBtn3">
+        <div class="relative rounded-md pr-2 text-s-16p">
+          <button typeBtn="submit" class="btnNotasStructure botonApariencia bg_image_descarga text-s-16r text-w-300" (click)="otroBtn3Accion.emit()">
+            {{otroBtn3Text}}
+          </button>
+        </div>
+      </div>
+
+
+      <div *ngIf="showotroBtn2">
+        <div class="relative rounded-md pr-2 text-s-16p">
+          <button typeBtn="submit" class="btnNotasStructure botonApariencia " (click)="otroBtn2Accion.emit()">
+            {{otroBtn2Text}}
+          </button>
+        </div>
+      </div>
+
       <div *ngIf="showotroBtn">
         <div class="relative rounded-md pr-2 text-s-16p">
-          <button typeBtn="submit" class="btnNotasStructure botonApariencia" (click)="otroBtnAccion.emit()">
+          <button typeBtn="submit" class="btnNotasStructure botonApariencia bg_image_upd" (click)="otroBtnAccion.emit()">
             {{otroBtnText}}
           </button>
         </div>

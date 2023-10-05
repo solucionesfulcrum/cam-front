@@ -61,6 +61,7 @@ export class AfiliadosComponent implements OnInit  {
     this.breadcrumService.link2$.next({url:'' ,title:''});
     this.breadcrumService.link3$.next({url:'', title:''});
     breadcrumService.activeTab$.next('/afiliados');
+    
     this.loadUsers()
    }
 
@@ -74,6 +75,7 @@ export class AfiliadosComponent implements OnInit  {
       this.dataSource.paginator = this.paginator;
       this.dataSource.sort = this.sort;
     })
+    
   }
 
   filtrarFechas(): void {}
@@ -108,6 +110,10 @@ export class AfiliadosComponent implements OnInit  {
     for (const element of data) {
       element.isSelected = this.selectAll;
     }
+  }
+
+  Nuevo() {
+    this.router.navigate(['/afiliados/show/:id/activaciones'])
   }
  
 }

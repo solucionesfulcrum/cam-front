@@ -14,7 +14,8 @@ import { NewEval2AfiliadoComponent } from './components/new-eval2-afiliado/new-e
 import { NewEval3AfiliadoComponent } from './components/new-eval3-afiliado/new-eval3-afiliado.component';
 import { NewEval4AfiliadoComponent } from './components/new-eval4-afiliado/new-eval4-afiliado.component';
 import { ResultEvalAfiliadoComponent } from './components/result-eval-afiliado/result-eval-afiliado.component';
-
+import { AfilOperComponent } from './components/afil-oper/afil-oper.component';
+import { TabsComponent } from './components/tabs/tabs.component';
 
 const routes: Routes = [
   { 
@@ -79,6 +80,10 @@ const routes: Routes = [
     component: ShowAfilComponent,
   },
 
+  {
+    path: 'afiliados/show/:id/activaciones',
+    component: SubListActivacionesAfilComponent,
+  },
 
   { 
     path: 'analisis', 
@@ -120,6 +125,13 @@ const routes: Routes = [
     path: 'resultEval',
     component: ResultEvalAfiliadoComponent,
   },
+  {
+    path: 'afiliadOper',
+    component: AfilOperComponent,
+  },
+  { path: 'tabsAfil',
+    component: TabsComponent,
+  }
       /*children:[
       {path: '', component: AfiliadosComponent},
       {path: 'analisis', component: AnalisisComponent},

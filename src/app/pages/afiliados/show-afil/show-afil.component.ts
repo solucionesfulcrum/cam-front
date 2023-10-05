@@ -8,18 +8,6 @@ import { EvaluacionComponent } from '../evaluacion/evaluacion.component';
 import { Dialog } from '@angular/cdk/dialog';
 import { NotasAfilComponent } from '../components/notas-afil/notas-afil.component';
 
-// import { BreadcrumService } from 'src/app/shared/services/breadcrum.service';
-// import { MatPaginator } from '@angular/material/paginator';
-// import { MatTableDataSource } from '@angular/material/table';
-// import { CamsService } from 'src/app/core/_service/cams.service';
-// import { Cam } from 'src/app/core/_model/cam.model';
-// import { AuthService } from '../../auth/services/auth-service.service';
-// import { ModalActivarAfilComponent } from './modalActivar/modal-activar-afil.component';
-// import { MatDialog } from '@angular/material/dialog';
-// import { MatSnackBar } from '@angular/material/snack-bar';
-// import { UsuarioService } from 'src/app/core/_service/usuario.service';
-// import { MatCardModule } from '@angular/material/card';
-
 
 export interface direccionData {
   estadoEnvio?: number;
@@ -36,7 +24,18 @@ export interface direccionData {
   templateUrl: './show-afil.component.html',
   styleUrls: ['./show-afil.component.css']
 })
+
 export class ShowAfilComponent implements OnInit {
+  links2=[
+    {url:'/afiliados/show/:id/solicitudes', title:'Operaciones' },
+    {url:'/afiliados/show/:id/', title:'Evaluaciones'},
+   
+  ]
+
+  activeTab= '/afiliados/show/:id/solicitudes'  // Valor predeterminado para activar la pestaña de afiliados
+
+  
+
   show= false;
   dataFicha: any = [''];
   dataAsegurado: any = [''];
@@ -60,17 +59,22 @@ export class ShowAfilComponent implements OnInit {
     frmCorreo:[''],
     frmObservacion:['']
   });
-  //-----
+
 
   constructor(private router: Router,
     private activeRoute: ActivatedRoute,
+    private route: ActivatedRoute,
     private fb: FormBuilder,
     private dialog : Dialog,
-    private _afiliaddoService: AfiliadoService ) {
+    private _afiliaddoService: AfiliadoService,
+    ) {
+
     this.idFicha=this.activeRoute.snapshot.paramMap.get('id')!;
-  }
+    
+    }
 
   ngOnInit(): void {
+    
     this._afiliaddoService.getFicha(this.idFicha).subscribe((data : any)=>{
       const dataObj = Object(data);
       this.dataFicha = dataObj.data;
@@ -103,19 +107,6 @@ export class ShowAfilComponent implements OnInit {
         frmObservacion:[{value: dataObj.data.observacion, disabled:true}]
       });
 
-      if(dataObj.data.asegurado.tieneAcomp === 'SI'){
-        this.selectSi = true;
-        this.requiereApoyo = true;
-        this._afiliaddoService.getTipoParametros('PARENTESCO').subscribe((data)=>{
-          this.parentesco = data.data.find((x)=> x.idParametros == dataObj.data.asegurado.codParentAcomp)?.nombre!;
-        })
-        this._afiliaddoService.getTipoParametros('TIPO_DOCUMENTO_IDENTIDAD').subscribe((data)=>{
-          this.tipoDocAcomp = data.data.find((x)=> x.valor1 == dataObj.data.asegurado.tipDocIdentAcomp)?.nombre!;
-        })
-      }
-      else{
-        this.selectNo = true;
-      }
 
       console.log(data);
     });
@@ -124,18 +115,10 @@ export class ShowAfilComponent implements OnInit {
     window.print()
   }
 
-  ActualizDatos(){
+  EvalAfiliado(){
     
     this.router.navigate(['/afiliados/agregaEval'])
 
-    // const dialogRef = this.dialog.open(NewEvalAfiliadoComponent,{
-    //   minWidth:'800px',
-    //   maxWidth:'50%',
-    //   data:{}
-    // })
-    // dialogRef.closed.subscribe(out =>{
-    //   // console.log(out)
-    // })
   }
 
   Notas(){
@@ -144,109 +127,29 @@ export class ShowAfilComponent implements OnInit {
       maxWidth:'50%',        
       data:{}
     })
+
     dialogRef.closed.subscribe(out =>{
-      // console.log(out)
+       console.log(out)
     })
   }
 
+  Actualizar(){
 
+  }
 
+  Descarga() {
 
-  // user: any;
-  // subLinks = [{ url: '', title: '' }];
+  }
+  
+  // getActiveLink(path:string)
+  // {
+  //     let active = '/afiliados'
 
-  // subBreadcrum1: { url: string; title: string };
-  // subBreadcrum2: { url: string; title: string };
-  // subBreadcrum3: { url: string; title: string };
-  // subActiveTab = '/show';
+  //     if ( path == '/afiliados')
+  //       active = '/afiliados/afiliados'
+        
 
-  // form1 = this.fb.group({
-  //   fechaIni: [''],
-  //   fechaFin: [''],
-  // });
-
-  // //sid = this.route.snapshot.paramMap.get('sid')
-  // id = '';
-  // name = '';
-
-  // constructor(
-  //   private router: Router,
-  //   private fb: FormBuilder,
-  //   private route: ActivatedRoute,
-  //   private breadcrumService: BreadcrumService,
-  //   private authService: AuthService,
-  //   private dialog: MatDialog,
-  //   private usuariosService: UsuarioService,
-    
-  // ) {
-  //   this.id = this.route.snapshot.paramMap.get('id')!;
-  //   this.subLinks[0] = {
-  //     url: '/afiliados/show/' + this.id + '/operaciones',
-  //     title: 'Operaciones',
-  //   };
-
-  //   //for breadcrum
-  //   this.breadcrumService.link1$.next({ url: '/afiliados', title: 'AFILIADOS' });
-  //   //this.loadUserById(this.id); //carga datos reales del servidor
-  //   this.loadUserByIdFromSys(this.id); //carga datos reales del servidor
-  //   this.breadcrumService.link3$.next({ url: '', title: '' });
-  //   this.breadcrumService.activeTab$.next('/afiliados');
-
-  //   breadcrumService.subLink1$.subscribe((event) => {
-  //     this.subBreadcrum1 = event;
-  //   });
-
-  //   breadcrumService.subLink2$.subscribe((event) => {
-  //     this.subBreadcrum2 = event;
-  //   });
-
-  //   breadcrumService.subLink3$.subscribe((event) => {
-  //     this.subBreadcrum3 = event;
-  //   });
-
-  //   breadcrumService.subActiveTab$.subscribe((event) => {
-  //     this.subActiveTab = event;
-  //   });
+  //     return active
   // }
-
-  // ngOnInit(): void {}
-
-  // loadUserById(id: string) {
-  //   const tmp = this.authService
-  //     .getUserInfoSessionFromSSO(1, 20)
-  //     .subscribe((rta: any) => {
-  //       this.user = rta;
-  //       console.log('User sesion... ', rta);
-  //       this.breadcrumService.link2$.next({
-  //         url: '/afiliados/show/' + this.id,
-  //         title: rta.nombres,
-  //       });
-  //     });
-  // }
-
-  // loadUserByIdFromSys(id: string) {
-  //   const tmp = this.usuariosService
-  //     .getUsuarioFromSys(this.id)
-  //     .subscribe((rta: any) => {
-  //       this.user = rta;
-  //       console.log('User sesion from sys... ', rta);
-  //       this.breadcrumService.link2$.next({
-  //         url: '/afiliados/show/' + this.id,
-  //         title: rta.nombres,
-  //       });
-  //     });
-  // }
-
-  // loadModalActivarUsuario() {
-  //   const dialogRef = this.dialog.open(ModalActivarAfilComponent, {
-  //     width: '1050px',
-  //     height: 'auto',
-  //     data: { user: this.user, guiid: this.id },
-  //   });
-  //   dialogRef.afterClosed().subscribe((rta: any) => {
-  //     console.log('resul post modal from parent: ', rta);
-  //   });
-  // }
-
 }
 

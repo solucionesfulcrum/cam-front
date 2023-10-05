@@ -18,6 +18,8 @@ import { NewEval2AfiliadoComponent } from './pages/afiliados/components/new-eval
 import { NewEval3AfiliadoComponent } from './pages/afiliados/components/new-eval3-afiliado/new-eval3-afiliado.component';
 import { NewEval4AfiliadoComponent } from './pages/afiliados/components/new-eval4-afiliado/new-eval4-afiliado.component';
 import { ResultEvalAfiliadoComponent } from './pages/afiliados/components/result-eval-afiliado/result-eval-afiliado.component';
+import { AfilOperComponent } from './pages/afiliados/components/afil-oper/afil-oper.component';
+import { TabsComponent } from './pages/afiliados/components/tabs/tabs.component';
 
 
 const routes: Routes = [
@@ -129,6 +131,16 @@ const routes: Routes = [
     component: ResultEvalAfiliadoComponent,
     
   },
+  {
+    path: 'afiliadOper',
+    component: AfilOperComponent,
+    
+  },
+  {
+    path: 'tabsAfil',
+    component: TabsComponent,
+  },
+  
 ];
 
 @NgModule({

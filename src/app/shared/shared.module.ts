@@ -14,6 +14,7 @@ import { OpcionRegresarComponent } from './components/opcion-regresar/opcion-reg
 import { PreguntasComponent } from './components/preguntas/preguntas.component';
 import { Pregunt1opcComponent } from './components/pregunt1opc/pregunt1opc.component';
 
+
 const modules:any[] = [
   CommonModule,
   RouterModule,
@@ -31,6 +32,7 @@ const modules:any[] = [
    OpcionRegresarComponent,
    PreguntasComponent,
    Pregunt1opcComponent,
+
 ]
 
 @NgModule({
@@ -38,7 +40,6 @@ const modules:any[] = [
   imports: [
     ...modules
   ],exports:[...modules], declarations: [
-    
   ]
 })
 export class SharedModule { }
