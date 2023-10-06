@@ -26,48 +26,48 @@
 <div class="d-flex bg-white mr-6 ml-6"> 
   <p class="field-full-width text-s-26p pl-6 pt-2"><b>Ficha de Solicitud</b></p>
   <p class="field-full-width text-end pt-2 pr-6 text-s-16p text-secondary">N° de Historia 
-  <br><span class="text-s-20p text-primary2" style="color: #057EC9 !important" >{{dataFicha.numHistoria}}00000000001</span>  <!--{{this.user.numHistoria}}     o   {{dataFicha.numHistoria}}-->
+  <br><span class="text-s-20p text-primary2" style="color: #057EC9 !important" >{{dataFicha.numHistoria}}146202300046</span>  <!--{{this.user.numHistoria}}     o   {{dataFicha.numHistoria}}-->
 </p>
 </div>
 
 <div class="px-4 py-1 bg-white ml-6 mr-6 mb-3 grid grid-cols-3 gap-8" [formGroup]="formContacto">
   <div class="text-gray-600">
       <div class="grid text-center relative justify-center border-gradient-2">
-          <p class=" py-1 px-3 my-2 mx-1 anios absolute right-0 text-white text-xl bg-primary3 ">{{edadPersona}} Años</p>
+          <p class=" py-1 px-3 my-2 mx-1 anios absolute right-0 text-white text-xl bg-primary3 ">8{{edadPersona}} Años</p>
           <img class="my-2 imagen" >
-          <p class="pt-1 bordColorEstablecido font-bold text-2xl m-1 text-color-primary2 text-sky-600 " style="line-height: 10px;">{{dataAsegurado.nombres | titlecase}}</p>
-          <p class="font-semibold text-lg m-0">{{dataAsegurado.apePaterno | titlecase}} {{dataAsegurado.apeMaterno | titlecase}}</p>
-          <p class="font-thin">DNI {{dataAsegurado.numDoc}}</p>
+          <p class="pt-1 bordColorEstablecido font-bold text-2xl m-1 text-color-primary2 text-sky-600 " style="line-height: 10px;">ZOILA OLGA DE LOS MILAGROS{{dataAsegurado.nombres | titlecase}}</p>
+          <p class="font-semibold text-lg m-0">ROMERO ALBINO{{dataAsegurado.apePaterno | titlecase}} {{dataAsegurado.apeMaterno | titlecase}}</p>
+          <p class="font-thin">DNI 40673000 {{dataAsegurado.numDoc}}</p>
       </div>
       <div class="border-t-2 overflow-y mt-0 font-thin scrollbarra" >
           <p class="py-1 border-l-4 border-[#057EC9] pl-2 text-sky-600 font-semibold text-s-18p text-w-500 my-2 mt-2">Datos Personales</p>
           <div class="info-container">
             <p class="flex w-1/2 flex-col text-s-16r py-1 bg-slate-100 text-w-500 m-1"> Fecha Nacimiento </p> 
-            <p class="flex w-1/2 flex-col additional-text my-1"> {{dataAsegurado.fecNacimiento | titlecase}} </p>
+            <p class="flex w-1/2 flex-col additional-text my-1"> 15/01/1943 {{dataAsegurado.fecNacimiento | titlecase}} </p>
           </div>
 
           <div class="info-container">
             <p class="flex w-1/2 flex-col text-s-16r py-1 bg-slate-100 text-w-500 m-1"> Sexo </p> 
-            <p class="flex w-1/2 flex-col additional-text my-1 text-s-16r text-w-300"> {{dataAsegurado.descSexo | titlecase}} </p>
+            <p class="flex w-1/2 flex-col additional-text my-1 text-s-16r text-w-300"> F {{dataAsegurado.descSexo | titlecase}} </p>
           </div>          
 
           <div class="info-container">
             <p class="flex w-1/2 flex-col text-s-16r py-1 bg-slate-100 text-w-500 m-1"> Estado Civil </p> 
-            <p class="flex w-1/2 flex-col additional-text my-1 text-s-16r text-w-300"> {{dataAsegurado.descEstCivil | titlecase}} </p>
+            <p class="flex w-1/2 flex-col additional-text my-1 text-s-16r text-w-300"> CASADO {{dataAsegurado.descEstCivil | titlecase}} </p>
           </div>          
  
           <p class="flex w-2/2 flex-col text-s-16r py-1 bg-slate-100 text-w-500 m-1">Lugar de Nacimiento</p>
-          <p class="flex w-2/2 flex-col additional-text mx-1 my-0 text-s-16r text-w-300"> {{dataAsegurado.departNacimiento | titlecase}} - {{dataAsegurado.provinNacimiento | titlecase}} - {{dataAsegurado.distriNacimiento | titlecase}}</p>
+          <p class="flex w-2/2 flex-col additional-text mx-1 my-0 text-s-16r text-w-300"> LIMA {{dataAsegurado.departNacimiento | titlecase}} - LIMA {{dataAsegurado.provinNacimiento | titlecase}} - EL AGUSTINO {{dataAsegurado.distriNacimiento | titlecase}}</p>
 
           <p class="py-1 border-l-4 border-[#057EC9] pl-2 text-sky-600 font-bold text-s-18p text-w-500 my-2">Datos del Seguro</p>
           <p class="py-1 my-0 bg-slate-100 text-s-16r text-w-500">Tipo de Asegurado</p>
-          <p class="py-0 my-0 h-6 text-s-16r text-w-300">{{dataAsegurado.desTitular | titlecase}} </p>
+          <p class="py-0 my-0 h-6 text-s-16r text-w-300"> TITULAR {{dataAsegurado.desTitular | titlecase}} </p>
           <p class="py-1 my-0 bg-slate-100 text-s-16r text-w-500">Nombre del Seguro</p>
-          <p class="py-0 my-0 h-6 text-s-16r text-w-300">{{dataAsegurado.nomProdSeguro | titlecase}} </p>
+          <p class="py-0 my-0 h-6 text-s-16r text-w-300"> SEGURO REGULAR {{dataAsegurado.nomProdSeguro | titlecase}} </p>
           <p class="py-1 my-0 bg-slate-100 text-s-16r text-w-500">IPRESS de Adscripcion</p>
-          <p class="py-0 my-0 h-6 text-s-16r text-w-300">{{dataAsegurado.nomIpressAdscrip | titlecase}} </p>
+          <p class="py-0 my-0 h-6 text-s-16r text-w-300">IPRESS HOSPITAL ALMENARA{{dataAsegurado.nomIpressAdscrip | titlecase}} </p>
           <p class="py-1 my-0 bg-slate-100 text-s-16r text-w-500">Red Asistencial</p>
-          <p class="py-0 my-0 h-6 text-s-16r text-w-300">{{dataAsegurado.nomRedAsisten | titlecase}} </p>   
+          <p class="py-0 my-0 h-6 text-s-16r text-w-300">ALMENARA{{dataAsegurado.nomRedAsisten | titlecase}} </p>   
       </div>
   </div>
   
@@ -82,7 +82,7 @@
 
                   <div class="flex flex-col justify-center text-center w-1/12" >
                       <esp-icon class="text-2xl" icon="faLocationDot" style="color: #057EC9;"></esp-icon>
-                      <span style="color: #057EC9;">{{item.nombreDireccion}}</span> 
+                      <span style="color: #057EC9;"> {{item.nombreDireccion}}</span> 
                       <span>  </span> 
                   </div>
                   <div class="flex w-11/12 pl-4" > 
@@ -94,10 +94,10 @@
                               <span class="text-s-14r text-w-semibold">Departamento </span>
                           </div>
                           <div class="flex w-5/6 flex-col text-s-14r">
-                              <span class="text-s-16r" style="color: #057EC9">{{item.direccion | titlecase}} </span>
-                              <span>{{item.distrito | titlecase}}  </span>
-                              <span>{{item.provincia | titlecase}} </span>
-                              <span>{{item.departamento | titlecase}} </span>
+                              <span class="text-s-16r" style="color: #057EC9">AV. GUARDIA PERUANA 1588 {{item.direccion | titlecase}} </span>
+                              <span>{{item.distrito | titlecase}} EL AGUSTINO </span>
+                              <span>{{item.provincia | titlecase}} LIMA </span>
+                              <span>{{item.departamento | titlecase}} LIMA </span>
                           </div>  
                           <div class="flex w-1/6 flex-col icono-derecha">
                             <img class="h-6 icono-derecha" src="assets/dotcircle.svg"> 
@@ -116,7 +116,7 @@
                       <span class="font-thin align-middle TituloTextColor text-s-16r">Teléfono</span>
                   </div>
                   <div class="w-5/6">
-                      <input type="text" formControlName="frmTelefono" placeholder="Numero de telefono" class="text-menucolor text-s-16r block w-full placeholder-gray-300 border-white focusCampo">
+                      <input type="text" formControlName="frmTelefono" placeholder="5423652" class="text-menucolor text-s-16r block w-full placeholder-gray-800 border-white focusCampo">
                   </div>
               </div>
               <div class="flex space-x-2 mb-0">
@@ -124,7 +124,7 @@
                       <span class="font-thin TituloTextColor text-s-16r">Celular</span>
                   </div>
                   <div class="w-5/6">
-                      <input type="text" formControlName="frmCelular" id="small-input" placeholder="Numero de celular" class="block w-full text-gray-900 placeholder-gray-300 border border-white focusCampo">
+                      <input type="text" formControlName="frmCelular" id="small-input" placeholder="995825125" class="block w-full text-gray-900 placeholder-gray-800 border border-white focusCampo">
                   </div>
               </div>
               <div class="flex space-x-2 mb-2">
@@ -132,7 +132,7 @@
                       <span class="font-thin TituloTextColor text-s-16r">Correo</span>
                   </div>
                   <div class="w-5/6">
-                  <input type="text" formControlName="frmCorreo" id="small-input" placeholder="Direccion de correo Electronico" class="block w-full text-gray-900 placeholder-gray-300 border border-white focusCampo">
+                  <input type="text" formControlName="frmCorreo" id="small-input" placeholder="zoila@gmail.com" class="block w-full text-gray-900 placeholder-gray-800 border border-white focusCampo">
                   </div>
               </div>
           </div>
@@ -141,8 +141,8 @@
           <p class="border-l-4 border-[#057EC9] pl-2 bordColorEstablecido font-semibold text-sky-600 text-xl my-3 text-s-18p text-w-500">Solicitud</p>
           <!--<textarea id="message" formControlName="frmObservacion"  class="my-2 block p-2.5 w-full text-gray-600 border border-gray-300 focusCampo placeholder-gray-300 text-s-16r" placeholder="Descripción" >
            </textarea>-->
-           <div  contenteditable="true" id="message" class="text-s-16r text-menucolor">
-            <p>Yo.  [Nombre del afiliado]   identificado con   [Tipo de documento]   N°  [Numero de documento]   Domiciliado en  [Dirección]  de  [distrito-provincia-región].  
+           <div  contenteditable="true" id="message" class="text-s-16r text-menucolor" >
+            <!-- <p>Yo.  [Nombre del afiliado]   identificado con   [Tipo de documento]   N°  [Numero de documento]   Domiciliado en  [Dirección]  de  [distrito-provincia-región].  
               Solicito ser parte del programa de ADULTO MAYOR.</p> 
             <br>
             <p>[mensaje]  </p>
@@ -151,7 +151,16 @@
             <p></p>  
             <p>Gracias. </p>
             <p></p>
+            <p></p> -->
+
+            <p>Yo. ZOILA OLGA DE LOS MILAGROS ROMERO ALBINO identificado con DNI N° 40673000 Domiciliado en AV. GUARDIA PERUANA 1588 de EL AGUSTINO - LIMA - LIMA.  Solicito ser parte del programa de ADULTO MAYOR. </p>
+            <p></p>  
+            <p>Deseando formar parte del destacado programa para adultos mayores solicito se me inscriba en el CAM mas cercano a mi domicilio y así poder contar con los beneficios de dicho programa. </p>
+            <p></p>  
+            <p>Es por ello que envío mis datos de contacto.</p>
             <p></p>
+            <p>Gracias.</p>
+
         </div>
   </div>
 </div>

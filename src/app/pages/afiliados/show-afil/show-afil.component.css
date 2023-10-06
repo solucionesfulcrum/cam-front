@@ -1,1 +1,5 @@
-@import '../show-sol/show-sol.component.css'
+@import '../show-sol/show-sol.component.css';
+
+.verde-texto {
+    color: green;
+}

@@ -94,13 +94,13 @@
           <p class="py-0 my-0 h-6 text-s-16r text-w-300">Usuario que lo evaluó - {{dataAsegurado.usuarioEvaluo | titlecase}} </p>
           <div class="info-container">
             <p class="flex w-1/2 flex-col text-s-16r py-1 bg-slate-100 text-s-16r text-w-500"> Desde </p> 
-            <p class="flex w-1/2 flex-col additional-text my-1 text-s-16r text-w-300"> {{dataAsegurado.fechaAfilCAM | titlecase}} </p>
-          </div>             
-          <div class="info-container">
-            <p class="flex w-1/2 flex-col text-s-16r py-1 bg-slate-100 text-s-16r text-w-500"> Su estado es </p> 
-            <p class="flex w-1/2 flex-col additional-text my-1 text-s-16r text-w-700"> {{dataAsegurado.estadoCAM   | titlecase}} </p>
+            <p class="flex w-1/2 flex-col additional-text my-1 text-s-16r text-w-300 mb-3"> {{dataAsegurado.fechaAfilCAM | titlecase}} </p>
           </div>             
 
+          <div class="info-container">
+            <p class="flex w-1/2 flex-col text-s-16r py-1 bg-slate-100 text-s-16r text-w-500"> Su estado es </p> 
+            <p class="flex w-1/2 flex-col additional-text my-1 text-s-16r text-w-700 mb-3" [ngStyle]="{'color': getColorForEstadoCAM()}"> {{dataAsegurado.estadoCAM   | titlecase}} </p>
+          </div>             
 
           <p class="py-1 border-l-4 border-[#057EC9] pl-2 text-sky-600 font-bold text-s-18p text-w-500 my-2">Datos Del Seguro</p>
           <p class="py-1 my-0 bg-slate-100 text-s-16r text-w-500">Tipo de Asegurado</p>

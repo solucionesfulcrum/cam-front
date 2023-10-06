@@ -29,12 +29,14 @@ export class ShowAfilComponent implements OnInit {
   links2=[
     {url:'/afiliados/show/:id/solicitudes', title:'Operaciones' },
     {url:'/afiliados/show/:id/', title:'Evaluaciones'},
-   
   ]
 
   activeTab= '/afiliados/show/:id/solicitudes'  // Valor predeterminado para activar la pestaña de afiliados
 
-  
+  dataEstado = {
+    estadoCAM: '' // Puedes inicializar esta variable con el valor que desees, por ejemplo, 'No Apto' para probar
+  };
+
 
   show= false;
   dataFicha: any = [''];
@@ -141,15 +143,17 @@ export class ShowAfilComponent implements OnInit {
 
   }
   
-  // getActiveLink(path:string)
-  // {
-  //     let active = '/afiliados'
+  getColorForEstadoCAM() {
+    switch (this.dataEstado.estadoCAM) {
+      case 'Activo':
+        return '#0CCE6B';
+      case 'No Apto':
+        return '#DC2626';
+      default:
+        return 'black';
+    }
+  }  
 
-  //     if ( path == '/afiliados')
-  //       active = '/afiliados/afiliados'
-        
 
-  //     return active
-  // }
 }
 
