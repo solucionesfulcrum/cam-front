@@ -1,12 +1,12 @@
 
 <div [formGroup]="form" class="flex justify-between my-3 space-x-2 w-full">
     <div class="flex space-x-3">
-      <div *ngIf="showDateFilter" class="relative rounded-md !h-9 shadow-sm" [cdkMenuTriggerFor]="prueba.menu">
+      <div *ngIf="showDateFilter" class="relative rounded-md !h-9" [cdkMenuTriggerFor]="prueba.menu">
         <input  type="text" name="searchdate" id="searchDate" readonly formControlName="frmSearchDate"
-        class="inputTextoDialog focusCampo !h-9 pr-7" placeholder="Buscar por fecha">
-        <div class="pointer-events-none right-0 absolute inset-y-0 flex items-center pr-3">
-        <span datepicker class="text-gray-500 sm:text-sm">
-            <esp-icon icon="faCalendarAlt"></esp-icon>
+        class="inputTextoDialog focusCampo !h-9 pr-6 text-s-14p text-sm ml-0" placeholder="Buscar por fecha">
+        <div class="pointer-events-none right-0 absolute inset-y-0 flex items-center pr-2 text-s-14r text-gray-400 text-sm ">
+        <span datepicker class="text-s-14r text-gray-400 text-sm ">
+            <esp-icon class="text-s-16p text-gray-400" icon="faCalendarAlt"></esp-icon>
         </span>
         </div>
         <esp-filtro-fecha

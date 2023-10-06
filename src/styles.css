@@ -124,6 +124,11 @@ body {
   background: #f3fcff;
 }
 
+
+.bg-ligth5 {
+  background: #F5F7FA;
+}
+
 .matform-btn {
   margin-top: 0.45rem !important;
   font-size: 16px;
@@ -1293,11 +1298,12 @@ body {
 
 
 .border-sky-light{
-  border: 0.75px dotted #02a9c7;
+  border: 0.75px solid #02a9c7;
+  
 }
 
 .border-gray{
-  border: 0.75px dotted #494949;
+  border: 0.75px solid #acabab;
 }
 
 .border-red{
@@ -1481,6 +1487,8 @@ body {
     --tw-ring-color: rgb(147 197 253 / var(--tw-ring-opacity));
 }
 
+.bg-
+
 .bg-danger-700{
   background-color: #b91c1c;
 }
@@ -1589,4 +1597,39 @@ min-h50{
 .opacydad {
   background-color: rgba(255, 255, 255, 0.7);
   opacity: 0.5;
+}
+
+.rowGroup {
+  border-style:dotted;
+  border-bottom-color: linear-gradient(100%, #c2c1c1 100%);
+  border-top-color: linear-gradient(100%, #a8a7a7 100%);
+  border-top-width: 1px;
+  border-bottom-width: 1px;
+  height: 56px;
+  padding-top: 16px;
+
+}
+
+.lh-14 {
+  line-height: 14px;
+}
+ 
+.lh-16 {
+  line-height: 16px;
+}
+
+.lh-18 {
+  line-height: 18px;
+}
+
+.lh-20 {
+  line-height: 20px;
+}
+
+.lh-22 {
+  line-height: 22px;
+}
+
+.lh-24 {
+  line-height: 24px;
 }

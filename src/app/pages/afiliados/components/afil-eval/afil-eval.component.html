@@ -1,43 +1,16 @@
 <div class="table-responsive">
-    <table mat-table [dataSource]="dataSourceEv">
-      <ng-container matColumnDef="fechaEvaluac"> 
-        <!-- <th mat-header-cell *matHeaderCellDef >Fecha</th> -->
-        <td mat-cell *matCellDef="let element" class="bg-white-100 text-s-14r w-1/2">
-          {{ element.fechaEvaluac}}
-        </td>
-      
-        <br>                                                                            
-      <ng-container matColumnDef="horaEvaluac">
-        <!-- <th mat-header-cell *matHeaderCellDef >Hora</th> -->
-        <td mat-cell *matCellDef="let element" class="bg-white text-s-14r w-20">
-          {{ element.horaEvaluac }}
-        </td>
-      </ng-container>
 
-      <ng-container matColumnDef="descripEvaluac">
-        <!-- <th mat-header-cell *matHeaderCellDef >Descripcion</th> -->
-        <td mat-cell *matCellDef="let element" class="bg-white text-s-14r w-80">
-          {{ element.descripEvaluac }}
-        </td>
-      </ng-container>
-    </ng-container>
-      
-    <!-- <tr
-    mat-header-row
-    *matHeaderRowDef="displayedColumns" [ngClass]="{'headerRow':true}"
-    ></tr> -->
+  <div class="text-s-14r text-w-300" *ngFor="let actividad of datosFormato, index as i">
 
-    <tr
-      mat-row
-      *matRowDef="let row; columns: displayedColumns; index as i"         
-    ></tr> <!-- [ngClass]="getClassRow(i)" -->
-
-    </table>
-
-    <!-- <mat-paginator
-      #paginator1
-      [pageSizeOptions]="[25, 50, 100]"
-      showFirstLastButtons
-    ></mat-paginator> -->
+    <div class="bg-ligth5 rowGroup text-menucolor text-s-16p text-w-300 lh-24">
+      {{ formatDateEv(actividad.date) }}         <!-- {{actividad.date}} -->     
+    </div>
+    
+    <div class="flex rowGroup" *ngFor="let acciones of actividad.actividades, index as i">
+      <div class="w-40 text-s-16p text-w-300 lh-20 ">{{acciones.hora}} </div>
+      <div class="w-100 text-s-16r text-w-300 lh-16 "> {{acciones.tarea}} </div>
+    </div>
     
   </div>
+    
+</div>

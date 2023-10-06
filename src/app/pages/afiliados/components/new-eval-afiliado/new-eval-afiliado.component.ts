@@ -24,22 +24,6 @@ export class NewEvalAfiliadoComponent implements OnInit {
   edadPersona: number = 0;
   selectSi = false;
   selectNo = false;
-  // requiereApoyo: boolean = false;
-  // parentesco: string = '';
-  // tipoDocAcomp: string = '';
-
-  /*direcciones: direccionData[] = [{estadoEnvio:1, nombreDireccion: 'Datos RENIEC', direccion: '', piso: '', distrito: '', provincia: '', departamento: ''},
-  {estadoEnvio:1, nombreDireccion: 'Casa', direccion: '', piso: '', distrito: '', provincia: '', departamento: ''}]; */
-
-  
-
-  // formContacto = this.fb.nonNullable.group({
-  //   frmTelefono:[''],
-  //   frmCelular:[''],
-  //   frmCorreo:[''],
-  //   frmObservacion:['']
-  // });
-  //-----
 
   constructor (private router: Router, 
     private activeRoute: ActivatedRoute,

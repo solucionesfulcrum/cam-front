@@ -34,8 +34,8 @@ export class BtnComponent implements OnInit {
     },
     primary: {
       'bg-sky-600': true,
-      'hover:bg-blue-800': true,
-      'focus:ring-blue-300': true,
+      'hover:bg-sky-700': true,
+      'focus:ring-sky-100': true,
       'text-white': true,
     },
     danger: {
