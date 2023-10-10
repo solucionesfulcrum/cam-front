@@ -103,6 +103,7 @@ export class SolicitudesComponent implements OnInit {
       this.dataSource = new MatTableDataSource(rta.list);
       this.dataSource.paginator = this.paginator;
       this.dataSource.sort = this.sort;
+      console.log(rta.list);
     })
   }
 

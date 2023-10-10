@@ -8,6 +8,7 @@ import { NewEvalAfiliadoComponent } from '../components/new-eval-afiliado/new-ev
 import { Dialog } from '@angular/cdk/dialog';
 import { NotasAfilComponent } from '../components/notas-afil/notas-afil.component';
 
+
 export interface direccionData {
   estadoEnvio?: number;
   nombreDireccion: string;
@@ -33,11 +34,12 @@ export class ShowSolComponent implements OnInit {
   idFicha: string;
 
   edadPersona: number = 0;
-  selectSi = false;
-  selectNo = false;
-  requiereApoyo: boolean = false;
-  parentesco: string = '';
-  tipoDocAcomp: string = '';
+  
+  // selectSi = false;
+  // selectNo = false;
+  // requiereApoyo: boolean = false;
+  // parentesco: string = '';
+  // tipoDocAcomp: string = '';
 
   /*direcciones: direccionData[] = [{estadoEnvio:1, nombreDireccion: 'Datos RENIEC', direccion: '', piso: '', distrito: '', provincia: '', departamento: ''},
   {estadoEnvio:1, nombreDireccion: 'Casa', direccion: '', piso: '', distrito: '', provincia: '', departamento: ''}]; */
@@ -64,7 +66,8 @@ export class ShowSolComponent implements OnInit {
     this._afiliaddoService.getFicha(this.idFicha).subscribe((data : any)=>{
       const dataObj = Object(data);
       this.dataFicha = dataObj.data;
-      this.dataAsegurado = dataObj.data.asegurado
+      this.dataAsegurado = dataObj.data.asegurado;
+
       //Obtener datos de direccion reniec
       var dateParts = this.dataAsegurado.fecNacimiento.split("-");
       var dateObject = new Date(+dateParts[0], +dateParts[1] - 1, +dateParts[1]); 
@@ -93,21 +96,21 @@ export class ShowSolComponent implements OnInit {
         frmObservacion:[{value: dataObj.data.observacion, disabled:true}]
       });
 
-      if(dataObj.data.asegurado.tieneAcomp === 'SI'){
-        this.selectSi = true;
-        this.requiereApoyo = true;
-        this._afiliaddoService.getTipoParametros('PARENTESCO').subscribe((data)=>{
-          this.parentesco = data.data.find((x)=> x.idParametros == dataObj.data.asegurado.codParentAcomp)?.nombre!;
-        })
-        this._afiliaddoService.getTipoParametros('TIPO_DOCUMENTO_IDENTIDAD').subscribe((data)=>{
-          this.tipoDocAcomp = data.data.find((x)=> x.valor1 == dataObj.data.asegurado.tipDocIdentAcomp)?.nombre!;
-        })
-      }
-      else{
-        this.selectNo = true;
-      }
+      // if(dataObj.data.asegurado.tieneAcomp === 'SI'){
+      //   this.selectSi = true;
+      //   this.requiereApoyo = true;
+      //   this._afiliaddoService.getTipoParametros('PARENTESCO').subscribe((data)=>{
+      //     this.parentesco = data.data.find((x)=> x.idParametros == dataObj.data.asegurado.codParentAcomp)?.nombre!;
+      //   })
+      //   this._afiliaddoService.getTipoParametros('TIPO_DOCUMENTO_IDENTIDAD').subscribe((data)=>{
+      //     this.tipoDocAcomp = data.data.find((x)=> x.valor1 == dataObj.data.asegurado.tipDocIdentAcomp)?.nombre!;
+      //   })
+      // }
+      // else{
+      //   this.selectNo = true;
+      // }
 
-      console.log(data);
+      // console.log(data);
     });
   }
   Imprimir(){
