@@ -36,6 +36,7 @@ import { AfilOperComponent } from './components/afil-oper/afil-oper.component';
 import { TabsComponent } from './components/tabs/tabs.component';
 import { AfilEvalComponent } from './components/afil-eval/afil-eval.component';
 import { CustomDatePipe } from '@shared/custom-date.pipe';
+import { CdkTableModule } from '@angular/cdk/table';
 
 
 
@@ -72,6 +73,7 @@ import { CustomDatePipe } from '@shared/custom-date.pipe';
     MatTableModule,
     MatTabsModule,
     MatPaginatorModule,
+    CdkTableModule,
     MatCheckboxModule,
     MenuOpcionesComponent,
     OpcionRegresarComponent,

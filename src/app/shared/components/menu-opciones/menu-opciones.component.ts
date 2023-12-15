@@ -1,7 +1,9 @@
 import { CommonModule } from '@angular/common';
 import { Component, Input, OnInit } from '@angular/core';
 import { MatTabsModule } from '@angular/material/tabs';
-import { ActivatedRoute, Router, RouterModule } from '@angular/router';
+import { ActivatedRoute, NavigationEnd, Router, RouterModule } from '@angular/router';
+import { FormatoTab } from './formato-tab.model';
+import { filter } from 'rxjs';
 
 @Component({
   selector: 'esp-menu-opciones',
@@ -16,10 +18,15 @@ export class MenuOpcionesComponent implements OnInit{
   titulo: string='';
 
   @Input()
-  links=[{url:'', title: ''}];
+  showBottomLine: boolean = true;
+
+  @Input()
+  links: FormatoTab[] = [];
 
   @Input()
   setColorTab!: string;
+
+  tituloReflejado: FormatoTab = Object();
 
   activeTab!: string;
   
@@ -30,7 +37,9 @@ export class MenuOpcionesComponent implements OnInit{
   ngOnInit(): void {
     this.activeTab = this.links[0].url;
     this.activeTab = this.getActiveLink(this.router.url);
-
+    this.router.events.pipe(filter(e => e instanceof NavigationEnd)).subscribe((data: any)=>{
+      this.activeTab = this.getActiveLink(data.urlAfterRedirects);
+    })
     if(this.setColorTab != undefined){
       document.documentElement.style.setProperty('--color-tabs',this.setColorTab);
     }
@@ -38,13 +47,19 @@ export class MenuOpcionesComponent implements OnInit{
   getActiveLink(path:string)
   {
     let active = this.links[0].url;
+    let link = this.links[0];
 
     if (this.links.length > 1) {
       for (let i = 1; i < this.links.length; i++) {
         if ( path === this.links[i].url){
-          active = this.links[i].url
+          active = this.links[i].url;
+          link = this.links[i];
         }
       }
+    }
+    
+    if (link.tituloOpcional) {
+      this.tituloReflejado = link;
     }
     
     return active

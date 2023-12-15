@@ -1,9 +1,9 @@
-<div class="titulo"><span>{{titulo}}</span></div>
-<nav mat-tab-nav-bar class="border-b" [tabPanel]="tabPanel" >
+<div *ngIf="titulo" class="mb-3 titulo"><span>{{tituloReflejado.tituloOpcional ? tituloReflejado.tituloOpcional : titulo}}</span></div>
+<nav mat-tab-nav-bar class="border-b" [tabPanel]="tabPanel" [ngStyle]="{'border-bottom-style': (showBottomLine ? 'solid' : 'none')}">
   <a class="tabsSubTemas"
     mat-tab-link
     *ngFor="let link of links"
-    (click)="activeTab = link.url"
+    (click)="activeTab = link.url; tituloReflejado = link"
     routerLink="{{ link.url }}"
     [active]="activeTab == link.url"
   >

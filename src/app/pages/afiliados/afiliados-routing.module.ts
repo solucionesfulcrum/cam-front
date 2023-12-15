@@ -18,31 +18,31 @@ import { AfilOperComponent } from './components/afil-oper/afil-oper.component';
 import { TabsComponent } from './components/tabs/tabs.component';
 
 const routes: Routes = [
-  { 
-    path: '', 
-    component: AfiliadosComponent,
-    pathMatch: 'full',
-  },
+  // { 
+  //   path: '', 
+  //   component: AfiliadosComponent,
+  //   pathMatch: 'full',
+  // },
 
-  {
-    path: 'show/:id',
-    component: ShowAfilComponent,
-    children: [
-      {
-        path: '',
-        redirectTo: 'activaciones',
-        pathMatch: 'full',
-      },
-      {
-        path: 'activaciones',
-        component: SubListActivacionesAfilComponent,
-      },
-      {
-        path: '**',
-        redirectTo: 'activaciones',
-      },
-    ],
-  },
+  // {
+  //   path: 'show/:id',
+  //   component: ShowAfilComponent,
+  //   children: [
+  //     {
+  //       path: '',
+  //       redirectTo: 'activaciones',
+  //       pathMatch: 'full',
+  //     },
+  //     {
+  //       path: 'activaciones',
+  //       component: SubListActivacionesAfilComponent,
+  //     },
+  //     {
+  //       path: '**',
+  //       redirectTo: 'activaciones',
+  //     },
+  //   ],
+  // },
   { 
     path: 'afiliados', 
     component: AfiliadosComponent,
@@ -71,10 +71,6 @@ const routes: Routes = [
       },
     ],
   },
-  { 
-    path: 'afiliados', 
-    component: AfiliadosComponent,
-  },
   {
     path: 'afiliados/show/:id',
     component: ShowAfilComponent,
@@ -90,15 +86,15 @@ const routes: Routes = [
     component: AnalisisComponent,
   },
   { 
-    path: 'solicitudes', 
+    path: '', 
     component: SolicitudesComponent,
   },
   {
-    path: 'solicitudes/show/:id',
+    path: 'show/:id',
     component: ShowSolComponent,
   },
   {
-    path: 'solicitudes/editS/:id',
+    path: 'editS/:id',
     component: EditSolComponent,
   },
   { 

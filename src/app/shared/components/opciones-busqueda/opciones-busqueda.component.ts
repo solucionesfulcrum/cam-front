@@ -75,6 +75,9 @@ export class OpcionesBusquedaComponent{
   @Input()
   searchInputPlaceHolder: string = 'Buscar';
 
+  @Input()
+  searchInputAdjustWidth: boolean = false;
+
   @Output()
   searchInputValue = new EventEmitter<any>();
 
@@ -213,5 +216,11 @@ export class OpcionesBusquedaComponent{
         console.log(key);
       }
     )
+  }
+  changeFirstFilter(value: any){
+    this.firstDisplayFilterSendValue.emit(value);
+  }
+  changeSecondFilter(value: any){
+    this.secDisplayFilterSendValue.emit(value);
   }
 }
