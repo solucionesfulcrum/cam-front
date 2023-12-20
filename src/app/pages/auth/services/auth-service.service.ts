@@ -129,6 +129,20 @@ export class AuthService {
     }
   }
 
+  isValidToken(): boolean{
+    const localUsuario = localStorage.getItem('usuario');
+    if (localUsuario) {
+      const usuario = JSON.parse(localUsuario as string);
+      const isExpired = helperJWT.isTokenExpired(usuario.token);
+      if (isExpired) {
+        return false;
+      } else {
+        return true;
+      }
+    }
+    return false;
+  }
+
   private _authBasic() {
     const params = new HttpParams().set(
       'g',
@@ -150,6 +164,7 @@ export class AuthService {
     const res = !!localStorage.getItem('usuario');
     return res;
   }
+
 
   // SERVICIOS USUARIOS-APP SSO
   getUsuariosAppFromSSO(pageNum:number, pageSize:number) {

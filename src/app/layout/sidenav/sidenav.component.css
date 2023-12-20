@@ -13,8 +13,6 @@ mat-menu a {
 }
 mat-nav-list a:hover {
   background: #e2e8f0;
-  border-left: 4px solid #0284c7;
-  color: #374151;
 }
 
 mat-nav-list a:active {
@@ -39,10 +37,11 @@ button {
 .div-sidenav-img {
   display: flex;
   justify-content: center;
+  align-items: center;
+  height: 100px;
 }
 .div-sidenav-img img {
-  width: 100%;
-  max-width: 175px;
+  height: 60px;
 }
 .div-desc-mod {
   justify-content: center;
@@ -50,13 +49,26 @@ button {
   font-weight: 500;
 }
 
+mat-nav-list a{
+  border-left: 3px solid transparent;
+}
+
+mat-nav-list img{
+  filter: brightness(136) saturate(3%) hue-rotate(0deg) brightness(96%) contrast(57%);
+}
+
 .list-item-activo {
-  font-weight: 550;
+  font-weight: 500;
   font-size: 17px;
   /*background: #e7fcff;*/
   /*background: #cbd5e1;*/
-  background:linear-gradient(90deg, #e3fbff, #f0fcfe) !important ;
-  color: #374151;
-  border-left: 4px solid #0c4a6e;
-  border-right-color: #150557;
+  background: #F0FCFE;
+}
+
+.list-item-activo, mat-nav-list a:hover {
+  border-left-color: var(--color-CAM) !important;
+  color: var(--color-CAM) !important;
+  img{
+    filter: none !important;
+  }
 }

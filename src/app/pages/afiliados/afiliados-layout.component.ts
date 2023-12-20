@@ -9,8 +9,8 @@ import { ActivatedRoute, Router } from '@angular/router';
 export class AfiliadosLayoutComponent {
 
   links3=[
-    {url:'/afiliados', title:'Solicitudes'},
-    {url:'/afiliados/evaluacion', title:'Evaluación'},
+    {url:'/app/afiliados', title:'Solicitudes'},
+    {url:'/app/afiliados/evaluacion', title:'Evaluación'},
     
     // {url:'/afiliados/analisis', title:'Análisis'},
     // {url:'/afiliados/solicitudes', title:'Solicitudes'},

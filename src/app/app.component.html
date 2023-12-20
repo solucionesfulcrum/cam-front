@@ -1,18 +1,1 @@
-<div class="loader-container" *ngIf="loadBarra | async">
-   <!-- <mat-progress-bar mode="determinate" value="this.loaderService.percent">
-  </mat-progress-bar>
- 
-  <div class="bg-secondary">
-  {{this.loaderService.percent}}
-  </div>
-  -->
-</div>
-<mat-drawer-container>
-  <mat-drawer #drawer mode="side" [(opened)]="opened" class="bg-side">
-    <app-sidenav></app-sidenav>
-  </mat-drawer>
-  <mat-drawer-content>
-    <app-toolbar (toggleSidenav)="drawer.toggle()"></app-toolbar>
-    <router-outlet></router-outlet>
-  </mat-drawer-content>
-</mat-drawer-container>
+<router-outlet></router-outlet>

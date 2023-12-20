@@ -2,9 +2,9 @@
     --color-tabs: #FFFFFF;
 }
 .titulo{
-    color:#3E4348;
+    color:var(--color-CAM-black-alt);
     font-weight: 500;
-    font-size: 28px;
+    font-size: 26px;
     line-height: 2.25rem;
     margin-bottom: 0.75rem;
     // font-family: "Nunito", sans-serif;
@@ -16,7 +16,7 @@
 
 .mat-tab-label-active{
     opacity: 1;
-    color:var(--color-tabs) !important;
+    color:  var(--color-tabs) !important;
 }
 
 ::ng-deep.tabsSubTemas.mat-tab-link{

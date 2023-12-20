@@ -32,6 +32,9 @@ import {MatSelectModule} from '@angular/material/select';
 import dayjs from 'dayjs';
 import { MatCheckboxModule } from '@angular/material/checkbox';
 import { MatTooltipModule } from '@angular/material/tooltip';
+import { SharedModule } from '@shared/shared.module';
+import { LayoutComponent } from './layout/layout/layout.component';
+import { LayoutModule } from './layout/layout.module';
 
 @NgModule({
   declarations: [
@@ -40,8 +43,6 @@ import { MatTooltipModule } from '@angular/material/tooltip';
     AsistenciaTalleresLayoutComponent,
     HomeComponent,
     DialogConfirmacionComponent,
-    SidenavComponent,
-    ToolbarComponent,
     SelectComponent,
   ],
   imports: [
@@ -66,6 +67,8 @@ import { MatTooltipModule } from '@angular/material/tooltip';
     FontAwesomeModule,
     MatCheckboxModule,
     MatTooltipModule,
+    LayoutModule,
+    SharedModule
   ],
   exports: [],
   providers: [

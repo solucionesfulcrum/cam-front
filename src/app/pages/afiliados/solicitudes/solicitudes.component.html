@@ -1,4 +1,4 @@
-<div class="mx-6">
+<div>
     <esp-opciones-busqueda 
       [showDateFilter]="true"
       [setFilterDateOptionSelected]="'var(--color-CAM-mezclado)'" 
@@ -8,13 +8,14 @@
       [setFilterDateSelectionBg]="'#008BD2'"
       [setFilterDateButtonBg]="'#008BD2'"
       [showSearch]="true"
+      (searchInputValue)="formBuscar.get('frmSearch')?.setValue($event.toUpperCase()); onLoadData()"
       [searchInputPlaceHolder]="'Busqueda de texto'"
       
     ></esp-opciones-busqueda> <!-- (buttonAccion)="goToNewRol()"   -->
 </div>
     
-<div class="mx-6">
-    <table cdk-table class="w-full text-sm text-left text-gray-500 tablaDatos" [dataSource]="dataPrueba" >
+<div>
+    <table cdk-table class="w-full text-sm text-left text-gray-500 tablaDatos" [dataSource]="dataSource" >
       <tr cdk-header-row class="text-xs text-gray-700 bg-gray-50" *cdkHeaderRowDef="columns"></tr>
       <tr cdk-row class="bg-white border-b" *cdkRowDef="let row; columns: columns"></tr>
       <ng-container cdkColumnDef="marcar">
@@ -24,12 +25,12 @@
 
       <ng-container cdkColumnDef="nombres">
         <th cdk-header-cell class="py-[1.25rem] px-6" *cdkHeaderCellDef>Nombres</th>
-        <td cdk-cell class="py-[1rem] px-6 text-[#057EC9]" *cdkCellDef="let row"><span class="text-Name">{{ row.nombre }}</span></td>
+        <td cdk-cell class="py-[1rem] px-6 text-[#057EC9]" *cdkCellDef="let row, index as i"><span class="text-Name cursor-pointer" [routerLink]="['show/' + i]">{{ row.nombres }}</span></td>
       </ng-container>
 
       <ng-container cdkColumnDef="tipoDoc">
         <th cdk-header-cell class="py-[1.25rem] px-6" *cdkHeaderCellDef>TIPO</th>
-        <td cdk-cell class="py-[1rem] px-6 font-semibold" *cdkCellDef="let row">{{ row.tipoDoc }}</td>
+        <td cdk-cell class="py-[1rem] px-6 font-semibold" *cdkCellDef="let row">{{ row.tipoDoc == 1 ? 'DNI' : 'CE'}}</td>
       </ng-container>
 
       <ng-container cdkColumnDef="numDoc">
@@ -39,12 +40,12 @@
 
       <ng-container cdkColumnDef="edad">
         <th cdk-header-cell class="py-[1.25rem] px-6" *cdkHeaderCellDef>Edad</th>
-        <td cdk-cell class="py-[1rem] px-6" *cdkCellDef="let row">{{row.edad }} Años</td>
+        <td cdk-cell class="py-[1rem] px-6" *cdkCellDef="let row">{{getEdad(row.fecNac)}} Años</td>
       </ng-container>
 
       <ng-container cdkColumnDef="estadoCivil">
         <th cdk-header-cell class="py-[1.25rem] px-6" *cdkHeaderCellDef>E. CIVIL</th>
-        <td cdk-cell class="py-[1rem] px-6" *cdkCellDef="let row">{{row.estadoCivil }}</td>
+        <td cdk-cell class="py-[1rem] px-6" *cdkCellDef="let row">{{row.estCivil == '01' ? 'Soltero/a' : 'Casado/a' }}</td>
       </ng-container>
 
       <ng-container cdkColumnDef="ipress">
@@ -54,7 +55,7 @@
 
       <ng-container cdkColumnDef="fecha">
         <th cdk-header-cell class="py-[1.25rem] px-6" *cdkHeaderCellDef>Fecha</th>
-        <td cdk-cell class="py-[1rem] px-6" *cdkCellDef="let row">{{row.fecha }}</td>
+        <td cdk-cell class="py-[1rem] px-6" *cdkCellDef="let row" [ngClass]="row.dias <= 3 ? 'text-[#0CCE6B]' : (row.dias < 10 ? 'text-[#F59E0B]' : 'text-[#DC2626]')">{{row.dias == 0 ? 'Hoy' : (row.dias == 1 ? 'Ayer' : 'Hace ' + row.dias + ' días')}}</td>
       </ng-container>
     </table>
     <mat-paginator #paginator class="demo-paginator paginatorDatos" 

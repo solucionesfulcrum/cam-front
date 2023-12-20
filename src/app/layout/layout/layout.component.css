@@ -1,0 +1,11 @@
+mat-drawer {
+  width: 250px;
+  box-shadow: 0px 4px 4px rgb(0 0 0 / 25%);
+}
+app-sidenav{
+  position: sticky;
+  top: 0px;
+}
+mat-drawer-content {
+  background:#F3FCFE;
+}

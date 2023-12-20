@@ -13,6 +13,7 @@ import { IconComponent } from './components/icon/icon.component';
 import { OpcionRegresarComponent } from './components/opcion-regresar/opcion-regresar.component';
 import { PreguntasComponent } from './components/preguntas/preguntas.component';
 import { Pregunt1opcComponent } from './components/pregunt1opc/pregunt1opc.component';
+import { OpcionesBotonesComponent } from './components/opciones-botones/opciones-botones.component';
 
 
 const modules:any[] = [
@@ -32,6 +33,7 @@ const modules:any[] = [
    OpcionRegresarComponent,
    PreguntasComponent,
    Pregunt1opcComponent,
+   OpcionesBotonesComponent
 
 ]
 

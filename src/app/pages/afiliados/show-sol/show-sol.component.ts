@@ -7,6 +7,7 @@ import { EvaluacionComponent } from '../evaluacion/evaluacion.component';
 import { NewEvalAfiliadoComponent } from '../components/new-eval-afiliado/new-eval-afiliado.component';
 import { Dialog } from '@angular/cdk/dialog';
 import { NotasAfilComponent } from '../components/notas-afil/notas-afil.component';
+import { FormatoBoton } from '@shared/components/opciones-botones/formato-boton.model';
 
 
 export interface direccionData {
@@ -17,6 +18,8 @@ export interface direccionData {
   distrito: string;
   provincia: string;
   departamento: string;
+  activo: number;
+  nomParametro: string;
 }
 
 @Component({
@@ -28,6 +31,11 @@ export interface direccionData {
 
 
 export class ShowSolComponent implements OnInit {
+  opcionesBotones: FormatoBoton[] = [
+    {texto: 'Notas', esImagen: true, rutaIcono: 'assets/svg/iconFileEdit.svg'},
+    {texto: 'Evaluar Afiliado', colorBtn:'mezclado', loading: false},
+  ];
+
   show= false;
   dataFicha: any = [''];
   dataAsegurado: any = [''];
@@ -44,7 +52,7 @@ export class ShowSolComponent implements OnInit {
   /*direcciones: direccionData[] = [{estadoEnvio:1, nombreDireccion: 'Datos RENIEC', direccion: '', piso: '', distrito: '', provincia: '', departamento: ''},
   {estadoEnvio:1, nombreDireccion: 'Casa', direccion: '', piso: '', distrito: '', provincia: '', departamento: ''}]; */
 
-  direcciones: direccionData[] = [{estadoEnvio:1, nombreDireccion: 'Casa', direccion: '', piso: '', distrito: '', provincia: '', departamento: ''}];
+  direcciones: direccionData[] = [{estadoEnvio:1, nombreDireccion: 'Casa', direccion: '', piso: '', distrito: '', provincia: '', departamento: '', activo: 1, nomParametro: 'RENIEC'}];
 
   formContacto = this.fb.nonNullable.group({
     frmTelefono:[''],
@@ -119,7 +127,7 @@ export class ShowSolComponent implements OnInit {
 
   EvalAfiliado(){
     
-    this.router.navigate(['/afiliados/agregaEval'])
+    this.router.navigate(['/app/afiliados/agregaEval'])
 
     // const dialogRef = this.dialog.open(NewEvalAfiliadoComponent,{
     //   minWidth:'800px',

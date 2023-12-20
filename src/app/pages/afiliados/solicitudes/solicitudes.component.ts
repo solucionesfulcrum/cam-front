@@ -10,6 +10,8 @@ import { Parametro } from 'src/app/shared/components/opciones-busqueda/parametro
 import { Dialog } from '@angular/cdk/dialog';
 import { AfiliadoService } from '@shared/services/afiliado.service';
 import { fichasResponse } from '@models/ficha-solicitud.model';
+import { AfiliacionesSolicitudesService } from '@shared/services/afiliaciones/afiliaciones-solicitudes.service';
+import { RequestListaSolicitudesAfiliados } from '@models/afiliados/ficha-solicitud.model';
 
 @Component({
   selector: 'app-solicitudes',
@@ -32,6 +34,7 @@ export class SolicitudesComponent implements OnInit {
   });
   // Esta data debe ser reemplazada por lo que se obtiene del servicio -----------------------------------------------------------------------------------------------------------------------------------------------------------------------------
   dataPrueba: any[] = [];
+  dataSource: any[] = [];
   pageIndex = 0;
   pageNum = 1;
   pageSize = 10;
@@ -89,12 +92,13 @@ export class SolicitudesComponent implements OnInit {
   // breadcrum2:{url:string, title:string } 
   // breadcrum3:{url:string, title:string } 
 
-  dataSource: MatTableDataSource<any>;
-  @ViewChild(MatPaginator) paginator: MatPaginator;
-  @ViewChild(MatSort) sort: MatSort;
+  // dataSource: MatTableDataSource<any>;
+  // @ViewChild(MatPaginator) paginator: MatPaginator;
+  // @ViewChild(MatSort) sort: MatSort;
 
   constructor(
     private fb: FormBuilder, 
+    private afiliacionesService: AfiliacionesSolicitudesService,
     private router: Router, 
     private route: ActivatedRoute,
     private breadcrumService: BreadcrumService,
@@ -115,6 +119,11 @@ export class SolicitudesComponent implements OnInit {
   }
 
   onLoadData(){
+    this.afiliacionesService.getListaSolicitudes(this.getPayload()).subscribe((data)=>{
+      this.dataSource = data;
+      this.total = this.dataSource.length;
+      console.log(data)
+    })
     var fecInicio: any;
     var fecFin: any;
 
@@ -130,20 +139,20 @@ export class SolicitudesComponent implements OnInit {
     }
 
     // Aca debe ponerse el servicio a llamar para controlar la lista de la página, en caso de controlar la paginación mediante el servicio------------------------------------------------------------------------------------------------------------
-    this.dataPrueba = [
-      {nombre: 'ROXANA ESTRADA ARIAS', tipoDoc: 'DNI', numDoc: '23835688', edad: 75, estadoCivil: 'VIUDA', ipress: 'EUNICE ELIZABETH', fecha: 'Hoy'},
-      {nombre: 'FRIDA AIDA PAREDES RUIZ', tipoDoc: 'DNI', numDoc: '23937194', edad: 82, estadoCivil: 'VIUDA', ipress: 'EUNICE ELIZABETH', fecha: 'Hoy'},
-      {nombre: 'JUAN ALBERTO DORADO RIVERA', tipoDoc: 'DNI', numDoc: '23825002', edad: 81, estadoCivil: 'CASADO', ipress: 'EUNICE ELIZABETH', fecha: 'Hoy'},
-      {nombre: 'MARISABEL CASOS BONETT', tipoDoc: 'DNI', numDoc: '23835688', edad: 75, estadoCivil: 'SOLTERA', ipress: 'EUNICE ELIZABETH', fecha: 'Hoy'},
-      {nombre: 'ANA PURIFICACION ZUÑIGA DE GALVEZ', tipoDoc: 'DNI', numDoc: '23835688', edad: 75, estadoCivil: 'SOLTERA', ipress: 'EUNICE ELIZABETH', fecha: 'Ayer'},
-      {nombre: 'ANA PURIFICACION ZUÑIGA DE GALVEZ', tipoDoc: 'DNI', numDoc: '23835688', edad: 77, estadoCivil: 'SOLTERA', ipress: 'EUNICE ELIZABETH', fecha: 'Hace 3 dias'},
-      {nombre: 'ANA PURIFICACION ZUÑIGA DE GALVEZ', tipoDoc: 'DNI', numDoc: '23835688', edad: 73, estadoCivil: 'CASADA', ipress: 'EUNICE ELIZABETH', fecha: 'Hace 4 dias'},
-      {nombre: 'FRIDA AIDA PAREDES RUIZ', tipoDoc: 'DNI', numDoc: '23811054', edad: 81, estadoCivil: 'VIUDA', ipress: 'EUNICE ELIZABETH', fecha: 'Hace 4 dias'},
-      {nombre: 'ANA PURIFICACION ZUÑIGA DE GALVEZ', tipoDoc: 'CE', numDoc: '23855637', edad: 76, estadoCivil: 'CASADA', ipress: 'EUNICE ELIZABETH', fecha: 'Hace 10 días'}
-    ];
-    this.pageNum = 1;
-    this.pageSize = 10;
-    this.total = this.dataPrueba.length;
+    // this.dataPrueba = [
+    //   {nombre: 'ROXANA ESTRADA ARIAS', tipoDoc: 'DNI', numDoc: '23835688', edad: 75, estadoCivil: 'VIUDA', ipress: 'EUNICE ELIZABETH', fecha: 'Hoy'},
+    //   {nombre: 'FRIDA AIDA PAREDES RUIZ', tipoDoc: 'DNI', numDoc: '23937194', edad: 82, estadoCivil: 'VIUDA', ipress: 'EUNICE ELIZABETH', fecha: 'Hoy'},
+    //   {nombre: 'JUAN ALBERTO DORADO RIVERA', tipoDoc: 'DNI', numDoc: '23825002', edad: 81, estadoCivil: 'CASADO', ipress: 'EUNICE ELIZABETH', fecha: 'Hoy'},
+    //   {nombre: 'MARISABEL CASOS BONETT', tipoDoc: 'DNI', numDoc: '23835688', edad: 75, estadoCivil: 'SOLTERA', ipress: 'EUNICE ELIZABETH', fecha: 'Hoy'},
+    //   {nombre: 'ANA PURIFICACION ZUÑIGA DE GALVEZ', tipoDoc: 'DNI', numDoc: '23835688', edad: 75, estadoCivil: 'SOLTERA', ipress: 'EUNICE ELIZABETH', fecha: 'Ayer'},
+    //   {nombre: 'ANA PURIFICACION ZUÑIGA DE GALVEZ', tipoDoc: 'DNI', numDoc: '23835688', edad: 77, estadoCivil: 'SOLTERA', ipress: 'EUNICE ELIZABETH', fecha: 'Hace 3 dias'},
+    //   {nombre: 'ANA PURIFICACION ZUÑIGA DE GALVEZ', tipoDoc: 'DNI', numDoc: '23835688', edad: 73, estadoCivil: 'CASADA', ipress: 'EUNICE ELIZABETH', fecha: 'Hace 4 dias'},
+    //   {nombre: 'FRIDA AIDA PAREDES RUIZ', tipoDoc: 'DNI', numDoc: '23811054', edad: 81, estadoCivil: 'VIUDA', ipress: 'EUNICE ELIZABETH', fecha: 'Hace 4 dias'},
+    //   {nombre: 'ANA PURIFICACION ZUÑIGA DE GALVEZ', tipoDoc: 'CE', numDoc: '23855637', edad: 76, estadoCivil: 'CASADA', ipress: 'EUNICE ELIZABETH', fecha: 'Hace 10 días'}
+    // ];
+    // this.pageNum = 1;
+    // this.pageSize = 10;
+    // this.total = this.dataPrueba.length;
 
     // this.horarioService.getBandejaHorarios({
     //   texto: this.formBuscar.value.frmSearch,
@@ -218,24 +227,47 @@ export class SolicitudesComponent implements OnInit {
   
   getDataFecha(value: any){
     this.formBuscar.get('frmSearchDate')?.setValue(value);
-    var init = value.split(' - ')[0];
-    var fin = value.split(' - ')[1];
-    // Dependiendo del formato requerido en el servicio, ordenar aca ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
-    this.filtroFecInit = init.split('/')[2]+'-'+init.split('/')[1]+'-'+init.split('/')[0];
-    this.filtroFecFin = fin.split('/')[2]+'-'+fin.split('/')[1]+'-'+fin.split('/')[0];
-    // -----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
-    console.log(this.filtroFecInit, this.filtroFecFin)
     this.onLoadData();
   }
 
   handlePageEvent(event: PageEvent) {
     // console.log(this.pageSizeOptions);
+    console.log(event)
     this.pageSize = event.pageSize;
     this.pageIndex = event.pageIndex;
     this.pageNum = event.pageIndex + 1;
     this.onLoadData();
   }
 
+  getPayload(): RequestListaSolicitudesAfiliados{
+    var fecInicio: any;
+    var fecFin: any;
+
+    if (this.formBuscar.value.frmSearchDate == '') {
+      fecInicio = `${new Date().getDate()}/${new Date().getMonth()+1}/${new Date().getFullYear()-1}`;
+      fecFin = `${new Date().getDate()}/${new Date().getMonth()+1}/${new Date().getFullYear()}`;
+    }
+    else{
+      fecInicio = this.formBuscar.value.frmSearchDate.split(' - ')[0];
+      fecFin = this.formBuscar.value.frmSearchDate.split(' - ')[1];
+    }
+
+    return {
+      tipoSolicitud: 'SOLICITUD_AFILIACION',
+      unidadOperativa: 3,
+      fechaInicio: fecInicio,
+      fechaFin: fecFin,
+      buscar: this.formBuscar.controls['frmSearch'].value
+    }
+  }
+
+  getEdad(fecha: string): number{
+    let fecNac = new Date(parseInt(fecha.split('/')[2]), parseInt(fecha.split('/')[1]) - 1, parseInt(fecha.split('/')[0]));
+    var timeDiff = Math.abs(Date.now() - fecNac.getTime());
+    let edadPersona = Math.floor(timeDiff / (1000 * 3600 * 24) / 365.25);
+
+    return edadPersona
+  }
   /*
   AsignarFiltro(filtro: string){
     this.form.get('frmSearchDate')?.setValue(filtro);

@@ -17,12 +17,13 @@ export class AuthGuard implements CanActivate {
 
   canActivate(): boolean{
 
-    if(this.authService.isLogin())
+    if(this.authService.isValidToken()){
       return true
-
+    }
+    else{
+      return false
+    }
     //this.router.navigateByUrl(`${environment.api}/auth`)
-    this.router.navigate(['/'])
-    return false
   }
 
   

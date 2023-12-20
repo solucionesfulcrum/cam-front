@@ -25,7 +25,7 @@ import { NewCiramComponent } from './new-ciram/new-ciram.component';
 import { NewServicioComponent } from './new-servicio/new-servicio.component';
 import { EditServicioComponent } from './edit-servicio/edit-servicio.component';
 import { ShowServicioComponent } from './show-servicio/show-servicio.component';
-import { AuthGuard } from 'src/app/shared/services/auth.guard';
+import { AuthGuard } from 'src/app/guards/auth.guard';
 import { ShowRedComponent } from './show-red/show-red.component';
 import { SubListCamsRedComponent } from './show-red/sub-list-cams-red/sub-list-cams-red.component';
 import { SubViewCamsRedComponent } from './show-red/sub-view-cams-red/sub-view-cams-red.component';

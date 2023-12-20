@@ -1,0 +1,17 @@
+::ng-deep.botonOpciones{
+    button{
+        display: flex;
+        flex-direction: row;
+        padding: 0.625rem !important;
+    }
+}
+
+.contenedorOpcionesBotones{
+    margin-top: 0.75rem;
+    margin-bottom: 0.75rem;
+    width: 100%;
+    display: flex;
+    place-content: space-between;
+    flex-wrap: wrap;
+    gap: 1rem;
+}

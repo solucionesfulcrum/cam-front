@@ -1,18 +1,18 @@
-<mat-toolbar style="background-color: white !important" *ngIf="isLogged">
+<mat-toolbar class="shadow-md" style="background-color: white !important; height: 55px;" *ngIf="isLogged">
   <ng-container *ngIf="isLogged">
     <button mat-icon-button (click)="onToggleSidenav()" class="icon-menu">
       <mat-icon>menu</mat-icon> 
     </button>
   </ng-container>
-  <p class="text-s-20p mt-3" style="font-weight: 700 !important; color: #057EC9">SISTEMA CAM</p>
+  <!-- <p class="text-s-20p mt-3" style="font-weight: 700 !important; color: #057EC9">SISTEMA CAM</p> -->
   <!-- <a routerLink='/' class="logo-link-home">
         <img src="assets/img/logo-essalud-2022.png" class="logo-2022">
     </a> -->
   <span class="spacer"></span>
   <div class="right-spacer"></div>
-  <p><img style="margin-right: 0px; margin-top: 16px" src="assets/img/logoToolbar.png"> </p>
+  <p><img src="assets/img/logoToolbar.png"> </p>
   <button mat-button [matMenuTriggerFor]="beforeMenu" class="btn-user" 
-          style="text-align: left; margin-top: 16px; margin-bottom: 0px; line-height: 18.94px; font-size: 14px;font-weight: 500px"> Admin 
+          style="text-align: left; line-height: 18.94px; font-size: 14px;font-weight: 500px"> Admin 
           <img style="margin-top: -6px; margin-bottom: 0px; margin-left: 150px; padding-top: 0px;" src="assets/img/Vector.png">
           <p class="text-s-14p gradient-text">Unidad Operativa  </p>  
     <!-- <mat-icon>account_circle</mat-icon> Admin -->

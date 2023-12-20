@@ -17,3 +17,8 @@
     font-size: 15px;
     font-weight: 400;
 }
+::ng-deep.mat-toolbar{
+    p{
+        margin: 0 !important;
+    }
+}

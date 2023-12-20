@@ -2,11 +2,9 @@ mat-drawer {
   width: 250px;
   box-shadow: 0px 4px 4px rgb(0 0 0 / 25%);
 }
-
-mat-drawer-content {
-  background:#F3FCFE;
-  /*background:linear-gradient(90deg,#057EC9, #28C2FF);
-  background: #0284c7;*/
+app-sidenav{
+  position: sticky;
+  top: 0px;
 }
 
 mat-drawer-container {
@@ -23,5 +21,10 @@ mat-drawer-container {
   right: 0px;
 }
 ::ng-deep .mat-badge-medium.mat-badge-above .mat-badge-content {
+  top: 0px;
+}
+app-toolbar{
+  z-index: 2;
+  position: sticky;
   top: 0px;
 }
