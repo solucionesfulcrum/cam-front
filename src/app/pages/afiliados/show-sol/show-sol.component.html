@@ -1,180 +1,165 @@
 
-<esp-opciones-botones [rutaRegreso]="'../..'" [listOpciones]="opcionesBotones" (firstFunction)="Notas()" (secondFunction)="EvalAfiliado()"></esp-opciones-botones>
-<!-- <div class="info-container">
+<esp-opciones-botones [rutaRegreso]="'../../..'" [listOpciones]="opcionesBotones" (firstFunction)="Notas()" (secondFunction)="EvalAfiliado()"></esp-opciones-botones>
 
-  <span class="flex w-1/4 flex-col">
-    <app-opcion-regresar
-    [link]="'/afiliados'">
-    </app-opcion-regresar>
-  </span>
-
-  <span class="flex w-3/4 flex-col additional-text">
-    <esp-opciones-busqueda class=""
-    [showButton]="true"
-    [buttonText] = "'Evaluar Afiliado'"
-    (buttonAccion)="EvalAfiliado()"
-    [showotroBtn2]="true"
-    [otroBtn2Text] = "'Notas'"
-    (otroBtn2Accion)="Notas()"
-    ></esp-opciones-busqueda>
-  </span>
-
+<div class="px-4 py-3 bg-white w-full mt-3 grid botonApariencia" *ngIf="!dataSolicitud">
+  <div class="text-gray-600 w-full text-center">
+      <span class="py-1 font-bold text-2xl">
+          <fa-icon class="mr-2" [icon]="faSpinner" [pulse]="true"></fa-icon>
+          Obteniendo datos...
+      </span>
+  </div>
 </div>
-<div class="div-mat-tab pt-1">
-    <div class="d-flex pb-0">  
-    </div>
-  </div> -->
- 
-<div class="flex flex-row justify-between bg-white"> 
-  <p class="text-s-26p pl-6 pt-2 text-[var(--color-CAM-black-alt)]"><b>Ficha de Solicitud</b></p>
-  <p class="text-end pt-2 pr-6 text-s-16p text-secondary">N° de Historia 
-  <br><span class="text-s-20p text-primary2" style="color: #057EC9 !important" >{{dataFicha.numHistoria}}00000000001</span>  <!--{{this.user.numHistoria}}     o   {{dataFicha.numHistoria}}-->
-</p>
-</div>
-
-<div class="bg-white flex flex-row gap-[1.25rem] text-[#37474F] pr-[10px] pb-[20px]" [formGroup]="formContacto">
-  <div class="w-[360px] shrink-0 border-gradient-2">
-      <div class="grid text-center relative justify-center">
-          <p class=" py-1 px-3 my-2 mx-1 anios absolute right-0 text-white text-xl bg-cam">{{edadPersona}} Años</p>
-          <img class="my-2 imagen" >
-          <div class="flex flex-col gap-1 py-2 !leading-5">
-            <span class="bordColorEstablecido font-bold text-[1.5rem] text-[var(--color-CAM)] text-sky-600">{{'Juan Alberto' | titlecase}}</span>
-            <!-- <p class="pt-1 bordColorEstablecido font-bold text-2xl m-1 text-color-primary2 text-sky-600 " style="line-height: 10px;">{{dataAsegurado.nombres | titlecase}}</p> Cambiar luego de obtener los servicios-->
-            <span class="font-medium text-[1.125rem]">{{'DORADO' | titlecase}} {{'RIVERA' | titlecase}}</span>
-            <!-- <p class="font-medium text-lg m-0">{{dataAsegurado.apePaterno | titlecase}} {{dataAsegurado.apeMaterno | titlecase}}</p> Cambiar luego de obtener los servicios-->
-            <span class="font-thin">DNI {{'335858891'}}</span>
-            <!-- <p class="font-thin">DNI {{dataAsegurado.numDoc}}</p> Cambiar luego de obtener los servicios-->
-          </div>
-      </div>
-      <div class="overflow-y mt-0 font-thin scrollbarra border-gradient" >
-          <p class="py-1 border-l-4 border-[#057EC9] pl-2 text-sky-600 font-medium text-s-18p text-w-500 my-2 mt-2">Datos Personales</p>
-          <div class="info-container">
-            <p class="flex w-1/2 flex-col text-s-16r py-1 bg-slate-100 text-w-500 my-1 mx-0"> Fecha Nacimiento </p> 
-            <p class="flex w-1/2 flex-col additional-text my-1"> {{'1967-04-14' | date: 'dd/MM/yyyy'}} </p>
-            <!-- <p class="flex w-1/2 flex-col additional-text my-1"> {{dataAsegurado.fecNacimiento | titlecase}} </p> Cambiar luego de obtener los servicios-->
-          </div>
-
-          <div class="info-container">
-            <p class="flex w-1/2 flex-col text-s-16r py-1 bg-slate-100 text-w-500 my-1 mx-0"> Sexo </p> 
-            <p class="flex w-1/2 flex-col additional-text my-1 text-s-16r text-w-300"> {{'Masculino'[0] | titlecase}} </p>
-            <!-- <p class="flex w-1/2 flex-col additional-text my-1 text-s-16r text-w-300"> {{dataAsegurado.descSexo | titlecase}} </p> Cambiar luego de obtener los servicios-->
-          </div>          
-
-          <div class="info-container">
-            <p class="flex w-1/2 flex-col text-s-16r py-1 bg-slate-100 text-w-500 my-1 mx-0"> Estado Civil </p> 
-            <p class="flex w-1/2 flex-col additional-text my-1 text-s-16r text-w-300"> {{'Casado' | titlecase}} </p>
-            <!-- <p class="flex w-1/2 flex-col additional-text my-1 text-s-16r text-w-300"> {{dataAsegurado.descEstCivil | titlecase}} </p> Cambiar luego de obtener los servicios-->
-          </div>          
- 
-          <p class="flex w-2/2 flex-col text-s-16r py-1 bg-slate-100 text-w-500 my-1 mx-0">Lugar de Nacimiento</p>
-          <p class="flex w-2/2 flex-col additional-text mx-1 my-0 text-s-16r text-w-300"> {{'Ayacucho' | titlecase}} - {{'Ayacucho' | titlecase}} - {{'Ayacucho' | titlecase}}</p>
-          <!-- <p class="flex w-2/2 flex-col additional-text mx-1 my-0 text-s-16r text-w-300"> {{dataAsegurado.departNacimiento | titlecase}} - {{dataAsegurado.provinNacimiento | titlecase}} - {{dataAsegurado.distriNacimiento | titlecase}}</p> Cambiar luego de obtener los servicios-->
-
-          <p class="py-1 border-l-4 border-[#057EC9] pl-2 text-sky-600 font-medium text-s-18p text-w-500 my-2">Datos del Seguro</p>
-          <div class="flex flex-col gap-[0.25rem]">
-            <div class="flex flex-col gap-[0.5rem]">
-              <p class="py-1 my-0 bg-slate-100 text-s-16r text-w-500">Tipo de Asegurado</p>
-              <span class="text-s-16r">{{'Titular' | titlecase}}</span>
-              <!-- <p class="text-s-16r">{{dataAsegurado.desTitular | titlecase}} </p> Cambiar luego de obtener los servicios-->
-            </div>
-            <div class="flex flex-col gap-[0.5rem]">
-              <p class="py-1 my-0 bg-slate-100 text-s-16r text-w-500">Nombre del Seguro</p>
-              <span class="text-s-16r">{{'seguro regular' | titlecase}} </span>
-              <!-- <span class="text-s-16r">{{dataAsegurado.nomProdSeguro | titlecase}} </span> Cambiar luego de obtener los servicios-->
-            </div>
-            <div class="flex flex-col gap-[0.5rem]">
-              <p class="py-1 my-0 bg-slate-100 text-s-16r text-w-500">IPRESS de Adscripcion</p>
-              <span class="text-s-16r">{{'pm huancapi' | uppercase}} </span>
-              <!-- <span class="text-s-16r">{{dataAsegurado.nomIpressAdscrip | titlecase}} </span> Cambiar luego de obtener los servicios-->
-            </div>
-            <div class="flex flex-col gap-[0.5rem]">
-              <p class="py-1 my-0 bg-slate-100 text-s-16r text-w-500">Red Asistencial</p>
-              <span class="text-s-16r">{{'red asistencial ayacucho' | uppercase}} </span>
-              <!-- <span class="text-s-16r">{{dataAsegurado.nomRedAsisten | titlecase}} </span> Cambiar luego de obtener los servicios-->
-            </div>
-          </div>
-      </div>
+<div *ngIf="dataSolicitud" class="bg-white botonApariencia">
+  <div class="flex flex-row justify-between"> 
+    <p class="text-s-26p pl-6 pt-2 text-[var(--color-CAM-black-alt)]"><b>Ficha de Solicitud</b></p>
+    <p class="text-end pt-2 pr-6 text-s-16p text-secondary">N° de Historia 
+      <br><span class="text-s-20p text-primary2" style="color: #057EC9 !important" >{{dataFicha.numHistoria}}00000000001</span>  <!--{{this.user.numHistoria}}     o   {{dataFicha.numHistoria}}-->
+    </p>
   </div>
   
-  <div class="grow pt-[10px]">
-    <!-- DATOS DE DIRECCION -->
-      <p class="border-l-4 border-[#057EC9] pl-2 text-sky-600 font-medium bordColorEstablecido text-s-18p text-w-500"> Datos de Dirección</p>
-      
-      <ul class="grupoDirecciones">
-        <li class="elementoSeleccionable" *ngFor="let item of direcciones, index as i">
-            <input type="radio" [id]="'direccion'+i" name="direccion" [disabled]="false" class="peer right-0 mt-2 mr-2 focusCampo">
-            <label [for]="'direccion'+i" class="flex cuadroRadioButton">                           
-                <div class="flex flex-col justify-center text-center w-full max-w-[70px]">
-                    <esp-icon class="text-3xl" icon="faLocationDot"></esp-icon>
-                    <span>{{item.nombreDireccion === 'RENIEC' ? 'Datos ' + item.nombreDireccion : item.nombreDireccion | titlecase}}</span>
-                </div>
-                <div class="flex  pl-4"> 
-                    <div class="w-full flex flex-col">
-                        <div class="w-full flex space-x-2">
-                            <span class="text-gray-600 font-medium w-[120px]">Dirección</span>
-                            <span>{{item.direccion | titlecase}}</span>
-                        </div>
-                        <div class="w-full flex space-x-2">
-                            <span class="text-gray-600 font-medium w-[120px]">Distrito</span>
-                            <span>{{item.distrito | titlecase}}</span>
-                        </div>
-                        <div class="w-full flex space-x-2">
-                            <span class="text-gray-600 font-medium w-[120px]">Provincia</span>
-                            <span>{{item.provincia | titlecase}}</span>
-                        </div>
-                        <div class="w-full flex space-x-2">
-                            <span class="text-gray-600 font-medium w-[120px]">Departamento</span>
-                            <span>{{item.departamento | titlecase}}</span>
-                        </div>
-                    </div>
-                </div>
-            </label>
-        </li>
-      </ul>
-      <!-- DATOS DE CONTACTO -->
-      <p class="border-l-4 border-[#057EC9] pl-2 bordColorEstablecido font-medium text-sky-600 text-xl my-3 text-s-18p text-w-500"> Datos de Contacto</p>
-      <div class="flex flex-col gap-[10px]">
-        <div class="flex flex-row gap-[10px]">
-            <div class="w-1/6 bg-slate-100 justify-end pr-2 flex items-center">
-                <span class="font-thin align-middle">Teléfono</span>
-            </div>
-            <div class="w-5/6">
-                <input type="text" formControlName="frmTelefono" placeholder="Numero de telefono" class="block w-full p-2 text-gray-900 placeholder-gray-300 border border-gray-300 focusCampo">
+  <div class="flex flex-row gap-[1.25rem] text-[#37474F] pr-[10px] pb-[20px]" [formGroup]="formContacto">
+    <div class="w-[360px] shrink-0 border-gradient-2">
+        <div class="grid text-center relative justify-center">
+            <p class=" py-1 px-3 my-2 mx-1 anios absolute right-0 text-white text-xl bg-cam">{{edadPersona}} Años</p>
+            <img class="my-2 imagen" src='data:image/jpeg;base64,{{dataSolicitud.fotoBase64}}'>
+            <div class="flex flex-col gap-1 py-2 !leading-5">
+              <!-- <span class="bordColorEstablecido font-bold text-[1.5rem] text-[var(--color-CAM)] text-sky-600">{{'Juan Alberto' | titlecase}}</span> -->
+              <p class="pt-1 bordColorEstablecido font-bold text-2xl m-1 text-color-primary2 text-sky-600 " style="line-height: 10px;">{{dataSolicitud.nombres | titlecase}}</p>
+              <!-- <span class="font-medium text-[1.125rem]">{{'DORADO' | titlecase}} {{'RIVERA' | titlecase}}</span> -->
+              <p class="font-medium text-lg m-0">{{dataSolicitud.apellidos | titlecase}}</p>
+              <!-- <span class="font-thin">DNI {{'335858891'}}</span> -->
+              <p class="font-thin">{{tipoDoc == '1' ? 'DNI' : 'CE'}} {{numDoc}}</p>
             </div>
         </div>
-        <div class="flex flex-row gap-[10px]">
-            <div class="w-1/6 bg-slate-100 justify-end pr-2 flex items-center">
-                <span class="font-thin">Celular</span>
+        <div class="overflow-y mt-0 font-thin scrollbarra border-gradient" >
+            <p class="py-1 border-l-4 border-[#057EC9] pl-2 text-sky-600 font-medium text-s-18p text-w-500 my-2 mt-2">Datos Personales</p>
+            <div class="info-container">
+              <p class="flex w-1/2 flex-col text-s-16r py-1 bg-slate-100 text-w-500 my-1 mx-0"> Fecha Nacimiento </p> 
+              <!-- <p class="flex w-1/2 flex-col additional-text my-1"> {{'1967-04-14' | date: 'dd/MM/yyyy'}} </p> -->
+              <p class="flex w-1/2 flex-col additional-text my-1"> {{dataSolicitud.fecNac}} </p>
             </div>
-            <div class="w-5/6">
-                <input type="text" formControlName="frmCelular" id="small-input" placeholder="Numero de celular" class="block w-full p-2 text-gray-900 placeholder-gray-300 border border-gray-300 focusCampo">
+  
+            <div class="info-container">
+              <p class="flex w-1/2 flex-col text-s-16r py-1 bg-slate-100 text-w-500 my-1 mx-0"> Sexo </p> 
+              <!-- <p class="flex w-1/2 flex-col additional-text my-1 text-s-16r text-w-300"> {{'Masculino'[0] | titlecase}} </p> -->
+              <p class="flex w-1/2 flex-col additional-text my-1 text-s-16r text-w-300"> {{dataSolicitud.sexo | titlecase}} </p>
+            </div>          
+  
+            <div class="info-container">
+              <p class="flex w-1/2 flex-col text-s-16r py-1 bg-slate-100 text-w-500 my-1 mx-0"> Estado Civil </p> 
+              <!-- <p class="flex w-1/2 flex-col additional-text my-1 text-s-16r text-w-300"> {{'Casado' | titlecase}} </p> -->
+              <p class="flex w-1/2 flex-col additional-text my-1 text-s-16r text-w-300"> {{dataSolicitud.estCivil | titlecase}} </p>
+            </div>          
+   
+            <p class="flex w-2/2 flex-col text-s-16r py-1 bg-slate-100 text-w-500 my-1 mx-0">Lugar de Nacimiento</p>
+            <!-- <p class="flex w-2/2 flex-col additional-text mx-1 my-0 text-s-16r text-w-300"> {{'Ayacucho' | titlecase}} - {{'Ayacucho' | titlecase}} - {{'Ayacucho' | titlecase}}</p> -->
+            <p class="flex w-2/2 flex-col additional-text mx-1 my-0 text-s-16r text-w-300"> {{dataAsegurado.lugarNac | titlecase}}</p>
+  
+            <p class="py-1 border-l-4 border-[#057EC9] pl-2 text-sky-600 font-medium text-s-18p text-w-500 my-2">Datos del Seguro</p>
+            <div class="flex flex-col gap-[0.25rem]">
+              <div class="flex flex-col gap-[0.5rem]">
+                <p class="py-1 my-0 bg-slate-100 text-s-16r text-w-500">Tipo de Asegurado</p>
+                <!-- <span class="text-s-16r">{{'Titular' | titlecase}}</span> -->
+                <p class="text-s-16r">{{dataSolicitud.tipoAsegurado | titlecase}} </p>
+              </div>
+              <div class="flex flex-col gap-[0.5rem]">
+                <p class="py-1 my-0 bg-slate-100 text-s-16r text-w-500">Nombre del Seguro</p>
+                <!-- <span class="text-s-16r">{{'seguro regular' | titlecase}} </span> -->
+                <span class="text-s-16r">{{dataSolicitud.nombreSeguro | titlecase}} </span>
+              </div>
+              <div class="flex flex-col gap-[0.5rem]">
+                <p class="py-1 my-0 bg-slate-100 text-s-16r text-w-500">IPRESS de Adscripcion</p>
+                <!-- <span class="text-s-16r">{{'pm huancapi' | uppercase}} </span> -->
+                <span class="text-s-16r">{{dataSolicitud.centroAdscripcion}} </span>
+              </div>
+              <div class="flex flex-col gap-[0.5rem]">
+                <p class="py-1 my-0 bg-slate-100 text-s-16r text-w-500">Red Asistencial</p>
+                <!-- <span class="text-s-16r">{{'red asistencial ayacucho' | uppercase}} </span> -->
+                <span class="text-s-16r">{{dataSolicitud.redAdscripcion}} </span>
+              </div>
             </div>
         </div>
-        <div class="flex flex-row gap-[10px]">
-            <div class="w-1/6 bg-slate-100 justify-end pr-2 flex items-center">
-                <span class="font-thin">Correo</span>
-            </div>
-            <div class="w-5/6">
-                <input type="text" formControlName="frmCorreo" id="small-input" placeholder="Direccion de correo Electronico" class="block w-full p-2 text-gray-900 placeholder-gray-300 border border-gray-300 focusCampo">
-            </div>
+    </div>
+    
+    <div class="grow pt-[10px]">
+      <!-- DATOS DE DIRECCION -->
+        <p class="border-l-4 border-[#057EC9] pl-2 text-sky-600 font-medium bordColorEstablecido text-s-18p text-w-500"> Datos de Dirección</p>
+        
+        <ul class="grupoDirecciones">
+          <li class="elementoSeleccionable" *ngFor="let item of direcciones, index as i">
+              <input type="radio" [id]="'direccion'+i" name="direccion" [disabled]="false" class="peer right-0 mt-2 mr-2 focusCampo">
+              <label [for]="'direccion'+i" class="flex cuadroRadioButton">                           
+                  <div class="flex flex-col justify-center text-center w-full max-w-[70px]">
+                      <esp-icon class="text-3xl" icon="faLocationDot"></esp-icon>
+                      <span>{{item.nombreDireccion === 'RENIEC' ? 'Datos ' + item.nombreDireccion : item.nombreDireccion | titlecase}}</span>
+                  </div>
+                  <div class="flex  pl-4"> 
+                      <div class="w-full flex flex-col">
+                          <div class="w-full flex space-x-2">
+                              <span class="text-gray-600 font-medium w-[120px]">Dirección</span>
+                              <span>{{item.direccion | titlecase}}</span>
+                          </div>
+                          <div class="w-full flex space-x-2">
+                              <span class="text-gray-600 font-medium w-[120px]">Distrito</span>
+                              <span>{{item.distrito | titlecase}}</span>
+                          </div>
+                          <div class="w-full flex space-x-2">
+                              <span class="text-gray-600 font-medium w-[120px]">Provincia</span>
+                              <span>{{item.provincia | titlecase}}</span>
+                          </div>
+                          <div class="w-full flex space-x-2">
+                              <span class="text-gray-600 font-medium w-[120px]">Departamento</span>
+                              <span>{{item.departamento | titlecase}}</span>
+                          </div>
+                      </div>
+                  </div>
+              </label>
+          </li>
+        </ul>
+        <!-- DATOS DE CONTACTO -->
+        <p class="border-l-4 border-[#057EC9] pl-2 bordColorEstablecido font-medium text-sky-600 text-xl my-3 text-s-18p text-w-500"> Datos de Contacto</p>
+        <div class="flex flex-col gap-[10px]">
+          <div class="flex flex-row gap-[10px]">
+              <div class="w-1/6 bg-slate-100 justify-end pr-2 flex items-center">
+                  <span class="font-thin align-middle">Teléfono</span>
+              </div>
+              <div class="w-5/6">
+                  <input type="text" formControlName="frmTelefono" readonly placeholder="Numero de telefono" class="block w-full p-2 text-gray-900 placeholder-gray-300 border border-gray-300 focusCampo">
+              </div>
+          </div>
+          <div class="flex flex-row gap-[10px]">
+              <div class="w-1/6 bg-slate-100 justify-end pr-2 flex items-center">
+                  <span class="font-thin">Celular</span>
+              </div>
+              <div class="w-5/6">
+                  <input type="text" formControlName="frmCelular" readonly id="small-input" placeholder="Numero de celular" class="block w-full p-2 text-gray-900 placeholder-gray-300 border border-gray-300 focusCampo">
+              </div>
+          </div>
+          <div class="flex flex-row gap-[10px]">
+              <div class="w-1/6 bg-slate-100 justify-end pr-2 flex items-center">
+                  <span class="font-thin">Correo</span>
+              </div>
+              <div class="w-5/6">
+                  <input type="text" formControlName="frmCorreo" readonly id="small-input" placeholder="Direccion de correo Electronico" class="block w-full p-2 text-gray-900 placeholder-gray-300 border border-gray-300 focusCampo">
+              </div>
+          </div>
         </div>
-      </div>
-          <!-- SOLICITUD -->
-        <p class="border-l-4 border-[#057EC9] pl-2 bordColorEstablecido font-medium text-sky-600 text-xl my-3 text-s-18p text-w-500">Solicitud</p>
-        <!--<textarea id="message" formControlName="frmObservacion"  class="my-2 block p-2.5 w-full text-gray-600 border border-gray-300 focusCampo placeholder-gray-300 text-s-16r" placeholder="Descripción" >
-          </textarea>-->
-          <div  contenteditable="true" id="message" class="text-s-16r text-menucolor">
-          <p>Yo.  [Nombre del afiliado]   identificado con   [Tipo de documento]   N°  [Numero de documento]   Domiciliado en  [Dirección]  de  [distrito-provincia-región].  
-            Solicito ser parte del programa de ADULTO MAYOR.</p> 
-          <br>
-          <p>[mensaje]  </p>
-          <br>
-          <p>Es por ello que envío mis datos de contacto. </p>
-          <p></p>  
-          <p>Gracias. </p>
-          <p></p>
-          <p></p>
-      </div>
+            <!-- SOLICITUD -->
+          <p class="border-l-4 border-[#057EC9] pl-2 bordColorEstablecido font-medium text-sky-600 text-xl my-3 text-s-18p text-w-500">Solicitud</p>
+          <!--<textarea id="message" formControlName="frmObservacion"  class="my-2 block p-2.5 w-full text-gray-600 border border-gray-300 focusCampo placeholder-gray-300 text-s-16r" placeholder="Descripción" >
+            </textarea>-->
+            <div  contenteditable="true" id="message" class="text-s-16r text-menucolor">
+            <p>Yo.  [Nombre del afiliado]   identificado con   [Tipo de documento]   N°  [Numero de documento]   Domiciliado en  [Dirección]  de  [distrito-provincia-región].  
+              Solicito ser parte del programa de ADULTO MAYOR.</p> 
+            <br>
+            <p>[mensaje]  </p>
+            <br>
+            <p>Es por ello que envío mis datos de contacto. </p>
+            <p></p>  
+            <p>Gracias. </p>
+            <p></p>
+            <p></p>
+        </div>
+    </div>
   </div>
 </div>
-

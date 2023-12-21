@@ -16,4 +16,9 @@ export class AfiliacionesSolicitudesService {
     const url = `${URL_BASE}/lista-solicitudes`;
     return this._httpClient.post<any>(url, model);
   }
+
+  getDataSolicitud(tipoDoc: string, numDoc: string){
+    const url = `${URL_BASE}/ficha-solicitud?tipDoc=${tipoDoc}&numDoc=${numDoc}`;
+    return this._httpClient.get<any>(url);
+  }
 }

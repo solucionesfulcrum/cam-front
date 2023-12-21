@@ -8,6 +8,8 @@ import { NewEvalAfiliadoComponent } from '../components/new-eval-afiliado/new-ev
 import { Dialog } from '@angular/cdk/dialog';
 import { NotasAfilComponent } from '../components/notas-afil/notas-afil.component';
 import { FormatoBoton } from '@shared/components/opciones-botones/formato-boton.model';
+import { AfiliacionesSolicitudesService } from '@shared/services/afiliaciones/afiliaciones-solicitudes.service';
+import { faSpinner } from '@fortawesome/free-solid-svg-icons';
 
 
 export interface direccionData {
@@ -36,10 +38,15 @@ export class ShowSolComponent implements OnInit {
     {texto: 'Evaluar Afiliado', colorBtn:'mezclado', loading: false},
   ];
 
+  faSpinner = faSpinner;
+  dataSolicitud: any;
+  ready: boolean = false;
+
   show= false;
   dataFicha: any = [''];
   dataAsegurado: any = [''];
-  idFicha: string;
+  tipoDoc: string;
+  numDoc: string;
 
   edadPersona: number = 0;
   
@@ -66,60 +73,26 @@ export class ShowSolComponent implements OnInit {
     private activeRoute: ActivatedRoute,
     private fb: FormBuilder,
     private dialog : Dialog,
-    private _afiliaddoService: AfiliadoService ) {
-    this.idFicha=this.activeRoute.snapshot.paramMap.get('id')!;
+    private _afiliaddoService: AfiliacionesSolicitudesService ) {
+      this.tipoDoc = this.activeRoute.snapshot.paramMap.get('tipoDoc')!;
+      this.numDoc = this.activeRoute.snapshot.paramMap.get('numDoc')!;
   }
 
   ngOnInit(): void {
-    this._afiliaddoService.getFicha(this.idFicha).subscribe((data : any)=>{
-      const dataObj = Object(data);
-      this.dataFicha = dataObj.data;
-      this.dataAsegurado = dataObj.data.asegurado;
+    this._afiliaddoService.getDataSolicitud(this.tipoDoc, this.numDoc).subscribe((data)=>{
+      console.log(data);
+      this.dataSolicitud = data;
+      this.formContacto.controls.frmCorreo.setValue(data.correo);
+      this.formContacto.controls.frmCelular.setValue(data.celular);
+      this.formContacto.controls.frmTelefono.setValue(data.telefono);
 
-      //Obtener datos de direccion reniec
-      var dateParts = this.dataAsegurado.fecNacimiento.split("-");
-      var dateObject = new Date(+dateParts[0], +dateParts[1] - 1, +dateParts[1]); 
+      var dateParts = data.fecNac.split("/");
+      var dateObject = new Date(+dateParts[2], +dateParts[1] - 1, +dateParts[0]); 
       var timeDiff = Math.abs(Date.now() - dateObject.getTime());
       this.edadPersona = Math.floor(timeDiff / (1000 * 3600 * 24) / 365.25);
-/*      this.direcciones[0].direccion = dataObj.data.asegurado.direccionActual;
-      this.direcciones[0].distrito = dataObj.data.asegurado.distriActual;
-      this.direcciones[0].provincia = dataObj.data.asegurado.provinActual;
-      this.direcciones[0].departamento = dataObj.data.asegurado.departActual;
-      //Obtener datos de direccion casa
-      this.direcciones[1].direccion = dataObj.data.asegurado.direccDomicilio;
-      this.direcciones[1].distrito = dataObj.data.asegurado.distriDomicilio;
-      this.direcciones[1].provincia = dataObj.data.asegurado.provinDomicilio;
-      this.direcciones[1].departamento = dataObj.data.asegurado.departDomicilio;
-*/
-      //Obtener datos de direccion casa
-      this.direcciones[0].direccion = dataObj.data.asegurado.direccDomicilio;
-      this.direcciones[0].distrito = dataObj.data.asegurado.distriDomicilio;
-      this.direcciones[0].provincia = dataObj.data.asegurado.provinDomicilio;
-      this.direcciones[0].departamento = dataObj.data.asegurado.departDomicilio;
-
-      this.formContacto = this.fb.nonNullable.group({
-        frmTelefono:[{value: dataObj.data.asegurado.telefRefer, disabled:true}],
-        frmCelular:[{value: dataObj.data.asegurado.telefWhatsapp, disabled:true}],
-        frmCorreo:[{value: dataObj.data.asegurado.correoRefer, disabled:true}],
-        frmObservacion:[{value: dataObj.data.observacion, disabled:true}]
-      });
-
-      // if(dataObj.data.asegurado.tieneAcomp === 'SI'){
-      //   this.selectSi = true;
-      //   this.requiereApoyo = true;
-      //   this._afiliaddoService.getTipoParametros('PARENTESCO').subscribe((data)=>{
-      //     this.parentesco = data.data.find((x)=> x.idParametros == dataObj.data.asegurado.codParentAcomp)?.nombre!;
-      //   })
-      //   this._afiliaddoService.getTipoParametros('TIPO_DOCUMENTO_IDENTIDAD').subscribe((data)=>{
-      //     this.tipoDocAcomp = data.data.find((x)=> x.valor1 == dataObj.data.asegurado.tipDocIdentAcomp)?.nombre!;
-      //   })
-      // }
-      // else{
-      //   this.selectNo = true;
-      // }
-
-      // console.log(data);
-    });
+      
+      this.ready = true;
+    })
   }
   Imprimir(){
     window.print()

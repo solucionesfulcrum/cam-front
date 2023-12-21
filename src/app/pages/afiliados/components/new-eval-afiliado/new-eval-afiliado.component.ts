@@ -94,7 +94,7 @@ export class NewEvalAfiliadoComponent implements OnInit {
 
   onNext(){
      
-    this.router.navigate(['/afiliados/agregaEval2'])
+    this.router.navigate(['/app/afiliados/agregaEval2'])
   }
 }
 

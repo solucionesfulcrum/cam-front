@@ -90,7 +90,7 @@ const routes: Routes = [
     component: SolicitudesComponent,
   },
   {
-    path: 'show/:id',
+    path: 'show/:tipoDoc/:numDoc',
     component: ShowSolComponent,
   },
   {
