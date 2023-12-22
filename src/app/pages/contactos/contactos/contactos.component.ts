@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { FormatoTab } from '@shared/components/menu-opciones/formato-tab.model';
 
 @Component({
   selector: 'app-contactos',
@@ -6,6 +7,11 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./contactos.component.css']
 })
 export class ContactosComponent implements OnInit {
+
+  links: FormatoTab[] = [
+    {url: `/app/contactos`, title:'Afiliados'},
+    {url: `/app/contactos/talleristas`, title:'Talleristas'}
+  ];
 
   constructor() { }
 

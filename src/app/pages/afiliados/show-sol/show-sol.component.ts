@@ -8,21 +8,10 @@ import { NewEvalAfiliadoComponent } from '../components/new-eval-afiliado/new-ev
 import { Dialog } from '@angular/cdk/dialog';
 import { NotasAfilComponent } from '../components/notas-afil/notas-afil.component';
 import { FormatoBoton } from '@shared/components/opciones-botones/formato-boton.model';
-import { AfiliacionesSolicitudesService } from '@shared/services/afiliaciones/afiliaciones-solicitudes.service';
+import { AfiliacionesSolicitudesService } from 'src/app/data/services/afiliaciones/afiliaciones-solicitudes.service';
 import { faSpinner } from '@fortawesome/free-solid-svg-icons';
-
-
-export interface direccionData {
-  estadoEnvio?: number;
-  nombreDireccion: string;
-  direccion: string;
-  piso: string;
-  distrito: string;
-  provincia: string;
-  departamento: string;
-  activo: number;
-  nomParametro: string;
-}
+import { ToastrService } from 'ngx-toastr';
+import { direccionFichaFront } from '@models/afiliados/ficha-solicitud.model';
 
 @Component({
   selector: 'app-show-sol',
@@ -55,11 +44,12 @@ export class ShowSolComponent implements OnInit {
   // requiereApoyo: boolean = false;
   // parentesco: string = '';
   // tipoDocAcomp: string = '';
-
+    
+  
   /*direcciones: direccionData[] = [{estadoEnvio:1, nombreDireccion: 'Datos RENIEC', direccion: '', piso: '', distrito: '', provincia: '', departamento: ''},
   {estadoEnvio:1, nombreDireccion: 'Casa', direccion: '', piso: '', distrito: '', provincia: '', departamento: ''}]; */
 
-  direcciones: direccionData[] = [{estadoEnvio:1, nombreDireccion: 'Casa', direccion: '', piso: '', distrito: '', provincia: '', departamento: '', activo: 1, nomParametro: 'RENIEC'}];
+  direcciones: direccionFichaFront[] = [];
 
   formContacto = this.fb.nonNullable.group({
     frmTelefono:[''],
@@ -72,6 +62,7 @@ export class ShowSolComponent implements OnInit {
   constructor(private router: Router,
     private activeRoute: ActivatedRoute,
     private fb: FormBuilder,
+    private notificationService      : ToastrService,
     private dialog : Dialog,
     private _afiliaddoService: AfiliacionesSolicitudesService ) {
       this.tipoDoc = this.activeRoute.snapshot.paramMap.get('tipoDoc')!;
@@ -80,18 +71,25 @@ export class ShowSolComponent implements OnInit {
 
   ngOnInit(): void {
     this._afiliaddoService.getDataSolicitud(this.tipoDoc, this.numDoc).subscribe((data)=>{
-      console.log(data);
-      this.dataSolicitud = data;
-      this.formContacto.controls.frmCorreo.setValue(data.correo);
-      this.formContacto.controls.frmCelular.setValue(data.celular);
-      this.formContacto.controls.frmTelefono.setValue(data.telefono);
+      if (data.message) {
+        this.notificationService.warning(data.message)
+      }
+      else{
+        console.log(data);
+        this.dataSolicitud = data;
+        this.formContacto.controls.frmCorreo.setValue(data.correo);
+        this.formContacto.controls.frmCelular.setValue(data.celular);
+        this.formContacto.controls.frmTelefono.setValue(data.telefono);
+  
+        var dateParts = data.fecNac.split("/");
+        var dateObject = new Date(+dateParts[2], +dateParts[1] - 1, +dateParts[0]); 
+        var timeDiff = Math.abs(Date.now() - dateObject.getTime());
+        this.edadPersona = Math.floor(timeDiff / (1000 * 3600 * 24) / 365.25);
+        
+        this.direcciones.push({paramTipoId: 1, nomParametro: 'Casa', direccion: data.direccion, codDep: data.ubigeo.match(/.{1,2}/g)[0], codProv: data.ubigeo.match(/.{1,2}/g)[1], codDist: data.ubigeo.match(/.{1,2}/g)[2], nomDep: data.departamento, nomProv: data.provincia, nomDist: data.distrito, activo: 1,})
 
-      var dateParts = data.fecNac.split("/");
-      var dateObject = new Date(+dateParts[2], +dateParts[1] - 1, +dateParts[0]); 
-      var timeDiff = Math.abs(Date.now() - dateObject.getTime());
-      this.edadPersona = Math.floor(timeDiff / (1000 * 3600 * 24) / 365.25);
-      
-      this.ready = true;
+        this.ready = true;
+      }
     })
   }
   Imprimir(){

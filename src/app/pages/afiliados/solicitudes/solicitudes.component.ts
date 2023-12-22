@@ -10,7 +10,7 @@ import { Parametro } from 'src/app/shared/components/opciones-busqueda/parametro
 import { Dialog } from '@angular/cdk/dialog';
 import { AfiliadoService } from '@shared/services/afiliado.service';
 import { fichasResponse } from '@models/ficha-solicitud.model';
-import { AfiliacionesSolicitudesService } from '@shared/services/afiliaciones/afiliaciones-solicitudes.service';
+import { AfiliacionesSolicitudesService } from 'src/app/data/services/afiliaciones/afiliaciones-solicitudes.service';
 import { RequestListaSolicitudesAfiliados } from '@models/afiliados/ficha-solicitud.model';
 
 @Component({
@@ -124,106 +124,7 @@ export class SolicitudesComponent implements OnInit {
       this.total = this.dataSource.length;
       console.log(data)
     })
-    var fecInicio: any;
-    var fecFin: any;
-
-    if (this.formBuscar.value.frmSearchDate == '') {
-      fecInicio = new Date();
-      fecInicio.setMonth(fecInicio.getMonth()-24);
-      fecInicio = fecInicio.toJSON().split('T')[0];
-      fecFin = new Date().toJSON().split('T')[0];
-    }
-    else{
-      fecInicio = this.filtroFecInit;
-      fecFin = this.filtroFecFin;
-    }
-
-    // Aca debe ponerse el servicio a llamar para controlar la lista de la página, en caso de controlar la paginación mediante el servicio------------------------------------------------------------------------------------------------------------
-    // this.dataPrueba = [
-    //   {nombre: 'ROXANA ESTRADA ARIAS', tipoDoc: 'DNI', numDoc: '23835688', edad: 75, estadoCivil: 'VIUDA', ipress: 'EUNICE ELIZABETH', fecha: 'Hoy'},
-    //   {nombre: 'FRIDA AIDA PAREDES RUIZ', tipoDoc: 'DNI', numDoc: '23937194', edad: 82, estadoCivil: 'VIUDA', ipress: 'EUNICE ELIZABETH', fecha: 'Hoy'},
-    //   {nombre: 'JUAN ALBERTO DORADO RIVERA', tipoDoc: 'DNI', numDoc: '23825002', edad: 81, estadoCivil: 'CASADO', ipress: 'EUNICE ELIZABETH', fecha: 'Hoy'},
-    //   {nombre: 'MARISABEL CASOS BONETT', tipoDoc: 'DNI', numDoc: '23835688', edad: 75, estadoCivil: 'SOLTERA', ipress: 'EUNICE ELIZABETH', fecha: 'Hoy'},
-    //   {nombre: 'ANA PURIFICACION ZUÑIGA DE GALVEZ', tipoDoc: 'DNI', numDoc: '23835688', edad: 75, estadoCivil: 'SOLTERA', ipress: 'EUNICE ELIZABETH', fecha: 'Ayer'},
-    //   {nombre: 'ANA PURIFICACION ZUÑIGA DE GALVEZ', tipoDoc: 'DNI', numDoc: '23835688', edad: 77, estadoCivil: 'SOLTERA', ipress: 'EUNICE ELIZABETH', fecha: 'Hace 3 dias'},
-    //   {nombre: 'ANA PURIFICACION ZUÑIGA DE GALVEZ', tipoDoc: 'DNI', numDoc: '23835688', edad: 73, estadoCivil: 'CASADA', ipress: 'EUNICE ELIZABETH', fecha: 'Hace 4 dias'},
-    //   {nombre: 'FRIDA AIDA PAREDES RUIZ', tipoDoc: 'DNI', numDoc: '23811054', edad: 81, estadoCivil: 'VIUDA', ipress: 'EUNICE ELIZABETH', fecha: 'Hace 4 dias'},
-    //   {nombre: 'ANA PURIFICACION ZUÑIGA DE GALVEZ', tipoDoc: 'CE', numDoc: '23855637', edad: 76, estadoCivil: 'CASADA', ipress: 'EUNICE ELIZABETH', fecha: 'Hace 10 días'}
-    // ];
-    // this.pageNum = 1;
-    // this.pageSize = 10;
-    // this.total = this.dataPrueba.length;
-
-    // this.horarioService.getBandejaHorarios({
-    //   texto: this.formBuscar.value.frmSearch,
-    //   fecInicio: fecInicio,
-    //   fecFin: fecFin,
-    //   estado: this.formBuscar.value.frmSearchEstado,
-    //   unidOperativaId: this.idUnidadOperativaUser,
-    //   pageNum: this.pageNum,
-    //   pageSize: this.pageSize
-    // }).subscribe((data)=>{
-    //   if (data.code == 0) {
-    //     console.log(data)
-    //     const dataObj = Object(data.data);
-    //     // console.log(data)
-    //     this.dataSource = dataObj.list;
-
-    //     this.pageNum = dataObj.pageNum;
-    //     this.pageSize = dataObj.pageSize;
-    //     this.total = dataObj.total;
-    //   }
-    //   else{
-    //   }
-    // })
-    // -----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
   }
-
-
-// // // //   loadUsers(){
-// // // //     return this.authService.getUsuariosFromSSO(1,20)
-// // // //     .subscribe((rta:any) =>{
-// // // //       this.dataSource = new MatTableDataSource(rta.list);
-// // // //       this.dataSource.paginator = this.paginator;
-// // // //       this.dataSource.sort = this.sort;
-// // // //       console.log(rta.list);
-// // // //     })
-// // // //   }
-
-// // // //   filtrarFechas(): void {}
-
-// // // //   filtrarTabla(event: any): void {}
-
-// // // //   setLink2(nameLink: string, codigo:string){
-// // // //       this.breadcrumService.link2$.next({url:'/afiliados/showS'+codigo, title:nameLink});
-// // // //       this.router.navigate(['/afiliados/showS/', codigo]);
-// // // //   }
-
-// // // //   getClassRow(i:number) :string {
-// // // //     let row =""
-// // // //     if ( i%2!=0)
-// // // //      row ="rowColor" 
-// // // //     return row
-// // // //   }
-
-// // // //  applyFilter(event: Event) {
-// // // //     const filterValue = (event.target as HTMLInputElement).value;
-// // // //     this.dataSource.filter = filterValue.trim().toLowerCase();
-
-// // // //     if (this.dataSource.paginator) {
-// // // //       this.dataSource.paginator.firstPage();
-// // // //     }
-// // // //   }
-
-// // // //   // Se agrega esta funcion para opcion de seleccion TODOS
-// // // //   selectAll = false;   //dataSource: MatTableDataSource<any>; 
-// // // //   toggleSelectAll() {
-// // // //     const data = this.dataSource.data;
-// // // //     for (const element of data) {
-// // // //       element.isSelected = this.selectAll;
-// // // //     }
-// // // //   }
-
   
   getDataFecha(value: any){
     this.formBuscar.get('frmSearchDate')?.setValue(value);

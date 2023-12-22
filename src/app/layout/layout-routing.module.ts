@@ -11,6 +11,7 @@ import { AseguradosLayoutComponent } from '../pages/asegurados/asegurados-layout
 import { EventosLayoutComponent } from '../pages/eventos/eventos-layout.component';
 import { ReportesLayoutComponent } from '../pages/reportes/reportes-layout.component';
 import { TalleresLayoutComponent } from '../pages/talleres/talleres-layout.component';
+import { ContactosComponent } from '../pages/contactos/contactos/contactos.component';
 
 const routes: Routes = [
   {
@@ -22,6 +23,20 @@ const routes: Routes = [
         title: 'CAM - INICIO',
         component: HomeComponent 
       },
+      {
+        path: 'contactos',
+        title: 'CAM - CONTACTOS',
+        canActivate: [AuthGuard],
+        loadChildren: () =>  import('../pages/contactos/contactos.module').then((m) => m.ContactosModule),
+      },
+      {
+        path: 'afiliados',
+        title: 'CAM - AFILIADOS',
+        canActivate: [AuthGuard],
+        component: AfiliadosLayoutComponent,
+        loadChildren: () =>  import('../pages/afiliados/afiliados.module').then((m) => m.AfiliadosModule),
+      },
+
     
       {
         path: 'planificacion',
@@ -64,13 +79,6 @@ const routes: Routes = [
         canActivate: [AuthGuard],
         component:EventosLayoutComponent,
         loadChildren: () =>  import('../pages/eventos/eventos.module').then(  (m) => m.EventosModule),
-      },
-      {
-        component:AfiliadosLayoutComponent,
-        path: 'afiliados',
-        title: 'CAM - AFILIADOS',
-        canActivate: [AuthGuard],
-        loadChildren: () =>  import('../pages/afiliados/afiliados.module').then(  (m) => m.AfiliadosModule),
       },
       {
         path: 'reportes',
