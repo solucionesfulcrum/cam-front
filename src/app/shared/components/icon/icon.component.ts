@@ -2,6 +2,8 @@ import { CommonModule } from '@angular/common';
 import { Component, Input } from '@angular/core';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import * as fonts from '@fortawesome/free-solid-svg-icons';
+
+
 @Component({
   selector: 'esp-icon',
   templateUrl: './icon.component.html',
@@ -1843,7 +1845,7 @@ export class IconComponent {
   faWarning : fonts.faWarning,
   faDatabase : fonts.faDatabase,
   faShare : fonts.faShare,
-  faArrowTurnRight : fonts.faArrowTurnRight,
+  faArrowTurnRight : fonts.faArrowsTurnRight,
   faMailForward : fonts.faMailForward,
   faBottleDroplet : fonts.faBottleDroplet,
   faMaskFace : fonts.faMaskFace,
