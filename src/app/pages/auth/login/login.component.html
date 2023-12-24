@@ -19,8 +19,8 @@
     </div>
   </div>
   <div class="col-md-5 col-10 d-flex h-100 align-content-center justify-content-center">
-    <div class="bg-white col-md-4 col-lg-4 col-xl-4 col-xxl-3  col-10 border-1-light radius-8 px-5 py-2 vertical-center">
-      <div class="d-flex align-items-center justify-content-center py-5">
+    <div class="bg-white col-md-4 col-lg-4 col-xl-4 col-xxl-3  col-10 border-1-light radius-8 px-md-5 px-4 py-2 vertical-center">
+      <div class="d-flex align-items-center justify-content-center md-py-5 py-4">
         <img class="img-logoCAM" src="assets/img/cam-logo.png" />
       </div>
       
@@ -32,16 +32,16 @@
         </div>
     
         <div class=" text-s-18 text-black mb-2">
-          Bienvenido al módulo CAM
+          Bienvenido de nuevo! 
         </div>
         <div class=" text-s-14 text-w-fine mb-4" style="color: #37474f">
-          Llene los datos del usuario
+          Ingrese con su Nº de documento y contraseña. 
         </div>
 
         <form [formGroup]="loginForm" (ngSubmit)="onLogin()" class="p-0 m-0">
         <div class="form-div-datos">
           <mat-form-field class="full-width-input">
-            <mat-label class="text-s-20 text-secondary">Usuario</mat-label>
+            <mat-label class="text-s-20 text-secondary">Nº Documento</mat-label>
             <input formControlName="username" matInput required />
             <mat-icon matSuffix>account_circle</mat-icon>
             <mat-error *ngIf="loginForm.controls.username.hasError('minlength')">
@@ -70,17 +70,17 @@
 
         <div class="content-textos">
           <!-- (click)="irOlvidoPassword()" -->
-          <button mat-button color="primary" class="font-boton text-s-18"
+          <button mat-button color="primary" class="font-boton  fw-light"
             style="color: #0085ff">
             ¿Olvidaste tu contraseña?
           </button>
         </div>
     
       <div>
-        <button mat-button color="primary" (click)="irRegistroUsuario()" class="text-s-18 mb-4" style="color: #0085ff">
-          <label class="text-s-18 text-secondary2">Aún no tienes usuario?
-          </label>
-          Registrate
+        <button mat-button color="primary" (click)="irRegistroUsuario()" class="fs-6 mb-4 fw-light" style="color: #0085ff">
+          <label class="text-secondary fw-light ">Aún no tienes usuario?
+          </label> <span class="fw-bolder"> Registrate</span>
+          
         </button>
       </div>
     </div>
