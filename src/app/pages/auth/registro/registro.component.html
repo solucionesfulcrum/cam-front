@@ -1,223 +1,136 @@
-<div class="login-form d-flex bg-primary3 h-full">
-  <!-- <div>
-        <img src="assets/img/cam_login.png" alt="">
-    </div> -->
-    
-    <div class="bg-primary2 d-flex
-    w-50 d-block align-content-center position-relative responsiv1" >
-    <div class="center justify-content-start">
-      <div class="content-Essl" style="margin: 8px">
-        <img class="img-logoEssl " src="assets/img/logo-essalud-white.svg" />
-      </div>
-      <div class="content-imagen2 mt-4 pt-2" style="margin: 8px">
-        <img class="img-hand" src="assets/img/hand.png" />
-      </div>
-      <div class="content-imagen2 mt-4 pt-2 text-center" style="margin: 8px">
-      <!--<span class="text-w-bold text-white text-s-3r">CAM</span>-->
-      <p class="content-imagen2 text-w-bold text-white text-s-40">CAM</p>
-      </div>
-      <div class="mt-4 text-center" style="margin: 8px">
-      <span class="content-imagen2 text-w-semibold text-white text-s-25" style="margin: 8px">Centro del Adulto Mayor</span>
-      </div>
-    </div>
-    </div>
+<div class="bg-primary3 d-flex h-100v">
 
-  <div class="bg-primary3 d-flex align-content-center" style="width: 880px !important">
-  <mat-card class="login-form__div_reg mt-8 mr-16 w-750 contRegistro" >
-    <div class="content-imagen">
-      <!-- <img class="img-logo" src="assets/img/logo-essalud.png" /> -->
-      <img class="img-logoCAM" src="assets/img/cam_logo_for_login.svg" />
+  <div class="col-md-5 d-none d-md-flex flex-column align-items-center justify-content-center h-100">
+    <img class="img-logoEssl my-4" src="assets/img/logo-essalud-white.svg" />
+    <img class="img-hand " src="assets/img/hand.png" />
+    <p class="text-w-bold pt-4  text-white text-s-40 text-center">SCAM</p>
+    <div class="text-center">
+      <span class="text-w-semibold text-white text-s-20">Sistema de Centro del Adulto Mayor</span>
     </div>
+  </div>
 
-    <div class="d-flex content-textos">
-      <span
-        class="text-s-20 text-w-normal text-black ml-8 pt-1 pb-1 justify-content-start align-content-flex-start"
-        style="border-bottom: 3px solid #057EC9"
-        >Registro de Usuario <br> </span
-      > 
-    </div>
-
-    <div class="d-flex content-textos">
-      <span
-        class="text-s-20 text-w-normal text-black pt-4" style="margin-left: 38px"
-        >Información del Usuario<br>
-      </span>
-    </div>
-
-    <div class="d-flex content-textos">
-      <span
-        class=" text-s-14 text-secondary" style="margin-left: 38px; text-align: left;"
-        > <br>Vamos a preparar todo para que pueda verificar su cuenta de usuario
-      </span>     
-  
-    </div>
-   
-    <div class="d-flex content-textos-small">
-      
-    </div>
-
-    <form [formGroup]="registroForm" (ngSubmit)="registrarUsuario()">
-      <div class="login-form__div_reg">
-        <div class="form-div-datos ">
-          <mat-form-field class="formRegistro full-width-input">
-            <mat-label class="text-s-16r text-w-fine">Tipo de Documento</mat-label>
-            <mat-select formControlName="tipoDocumentoCtrl">
-              <mat-option value="1"
-                >DNI - Documento Nacional de Identidad</mat-option
-              >
-              <mat-option value="2">CE - Carnét de Extranjería</mat-option>
-            </mat-select>
-          </mat-form-field>
-          <mat-form-field class="formRegistro full-width-input">
-            <mat-label class="formRegistro text-s-16r text-w-fine">Número de documento</mat-label>
-            <input matInput formControlName="nroDocumentoCtrl" />
-          </mat-form-field>
+  <div class="col-md-7 col-sm-12 d-md-flex flex-column align-items-center justify-content-center">
+    <mat-card class="col-md-8 m-0 p-0">
+      <div class="d-flex px-4 pb-2 pt-4 justify-content-between">
+        <div class="flex-column ">
+          <p class="text-s-20 mb-3 pb-1 d-inline-block" style="border-bottom: 3px solid #057ec9; color: #057ec9;">Registro de Usuario </p>
+          <p class="text-s-20 pl-2 ">Información del Usuario </p>
+          <p class="text-s-14 pl-2 ">Ingrese su cuenta de usuario</p>
         </div>
-        <div class="form-div-datos">
-          <mat-form-field class="formRegistro full-width-input">
-            <mat-label class="text-s-16r text-w-fine">Código de Planilla</mat-label>
-            <input matInput formControlName="codigoPlanCtrl" />
-          </mat-form-field>
-          <mat-form-field class="formRegistro full-width-input" >
-            <mat-label class="text-s-16r text-w-fine">Correo Electrónico</mat-label>
-            <input matInput formControlName="correoCtrl" />
-          </mat-form-field>
+        <div class="m-0">
+          <img class="img-logoCAM" src="assets/img/cam-logo.png" />
         </div>
-        <div class="form-div-datos">
-          <mat-form-field class="formRegistro full-width-input">
-            <mat-label class="text-s-16r text-w-fine">Nombres y Apellidos</mat-label>
-            <input matInput formControlName="nombresCtrl" />
-          </mat-form-field>
-        </div>
-      
 
-      <div class="form-div-datos">
-        <mat-form-field class="formRegistro full-width-input">
-          <mat-label class="text-s-16r text-w-fine">Contraseña</mat-label>
-          <input
-            matInput
-            type="password"
-            formControlName="passwordCtrl"
-            [type]="hide ? 'password' : 'text'"
-          />
-          <button
-            type="button"
-            mat-icon-button
-            matSuffix
-            (click)="hide = !hide"
-          >
-            <mat-icon> {{ hide ? "visibility_off" : "visibility" }} </mat-icon>
-          </button>
-        </mat-form-field>
-        <mat-form-field class="formRegistro full-width-input" >
-          <mat-label class="text-s-16r text-w-fine">Confirma Contraseña</mat-label>
-          <input
-            matInput
-            type="password"
-            formControlName="confirmPasswordCtrl"
-            [type]="hide2 ? 'password' : 'text'"
-          />
-          <button
-            type="button"
-            mat-icon-button
-            matSuffix
-            (click)="hide2 = !hide2"
-          >
-            <mat-icon> {{ hide2 ? "visibility_off" : "visibility" }} </mat-icon>
-          </button>
-        </mat-form-field>
       </div>
 
-      <div class="form-div-datos">
+      <form [formGroup]="registroForm" class="m-0 px-4" (ngSubmit)="registrarUsuario()">
+        <div class="p-0 m-0">
+          <div class="form-div-datos">
+            <mat-form-field class="formRegistro full-width-input">
+              <mat-label class="text-s-16r text-w-fine">Tipo de Documento</mat-label>
+              <mat-select formControlName="tipoDocumentoCtrl">
+                <mat-option value="1">DNI - Documento Nacional de Identidad</mat-option>
+                <mat-option value="2">CE - Carnét de Extranjería</mat-option>
+              </mat-select>
+            </mat-form-field>
+            <mat-form-field class="formRegistro full-width-input">
+              <mat-label class="formRegistro text-s-16r text-w-fine">Número de documento</mat-label>
+              <input matInput formControlName="nroDocumentoCtrl" />
+            </mat-form-field>
+          </div>
+          <div class="form-div-datos">
+            <mat-form-field class="formRegistro full-width-input">
+              <mat-label class="text-s-16r text-w-fine">Código de Planilla</mat-label>
+              <input matInput formControlName="codigoPlanCtrl" />
+            </mat-form-field>
+            <mat-form-field class="formRegistro full-width-input">
+              <mat-label class="text-s-16r text-w-fine">Correo Electrónico</mat-label>
+              <input matInput formControlName="correoCtrl" />
+            </mat-form-field>
+          </div>
+          <div class="form-div-datos">
+            <mat-form-field class="formRegistro full-width-input">
+              <mat-label class="text-s-16r text-w-fine">Nombres y Apellidos</mat-label>
+              <input matInput formControlName="nombresCtrl" />
+            </mat-form-field>
+          </div>
 
+          <div class="form-div-datos">
+            <mat-form-field class="formRegistro full-width-input">
+              <mat-label class="text-s-16r text-w-fine">Contraseña</mat-label>
+              <input matInput type="password" formControlName="passwordCtrl" [type]="hide ? 'password' : 'text'" />
+              <button type="button" mat-icon-button matSuffix (click)="hide = !hide">
+                <mat-icon>
+                  {{ hide ? "visibility_off" : "visibility" }}
+                </mat-icon>
+              </button>
+            </mat-form-field>
+            <mat-form-field class="formRegistro full-width-input">
+              <mat-label class="text-s-16r text-w-fine">Confirma Contraseña</mat-label>
+              <input matInput type="password" formControlName="confirmPasswordCtrl"
+                [type]="hide2 ? 'password' : 'text'" />
+              <button type="button" mat-icon-button matSuffix (click)="hide2 = !hide2">
+                <mat-icon>
+                  {{ hide2 ? "visibility_off" : "visibility" }}
+                </mat-icon>
+              </button>
+            </mat-form-field>
+          </div>
+
+          <div class="form-div-datos">
             <mat-form-field class="formRegistro anchor80">
-            <mat-label class="text-s-16r text-w-fine">Unidad Operativa</mat-label>
-            <input
-              name="cam"
-              formControlName="cam"
-              matInput
-              placeholder="Ejm Rebagliati"
-              [(ngModel)]="unidadOperativa"
-              [matAutocomplete]="auto"
-            />
-            <button
-              *ngIf="unidadOperativa"
-              matSuffix
-              mat-icon-button
-              aria-label="Clear"
-              (click)="clearSelection()"
-            >
-              <mat-icon>close</mat-icon>
+              <mat-label class="text-s-16r text-w-fine">Unidad Operativa</mat-label>
+              <input name="cam" formControlName="cam" matInput placeholder="Ejm Rebagliati"
+                [(ngModel)]="unidadOperativa" [matAutocomplete]="auto" />
+              <button *ngIf="unidadOperativa" matSuffix mat-icon-button aria-label="Clear" (click)="clearSelection()">
+                <mat-icon>close</mat-icon>
+              </button>
+              <mat-autocomplete [panelWidth]="600" #auto="matAutocomplete" (optionSelected)="onSelected()"
+                [displayWith]="displayWith">
+                <mat-option *ngIf="isCargando" class="is-loading">Cargando...</mat-option>
+                <ng-container *ngIf="!isCargando" class="w-100">
+                  <mat-option *ngFor="let uo of filterUnidadOperativas" [value]="uo">
+                    <span><b>{{ uo.nombre }} </b></span>
+                  </mat-option>
+                </ng-container>
+              </mat-autocomplete>
+
+              <mat-hint *ngIf="unidadOperativa">
+                <span class="font-w-semibold" *ngIf="unidadOperativa.nivel === 1">
+                  Tipo: RED
+                </span>
+
+                <span class="font-w-semibold" *ngIf="unidadOperativa.nivel === 2">
+                  Tipo: CAM
+                </span>
+
+                <span class="font-w-semibold" *ngIf="unidadOperativa.nivel === 3">
+                  Tipo: CIRAM
+                </span>
+              </mat-hint>
+            </mat-form-field>
+          </div>
+
+          
+          <mat-checkbox formControlName="accept" color="primary" class="py-3 custom-checkbox text-s-18" checked="true" (change)="onCheckBox($event)">Acepto terminos y
+            condiciones
+          </mat-checkbox>
+         
+
+          <div class="btn-login text-s-18 text-w-bold mb-3">
+            <button type="submit" mat-raised-button class="btn-mat-primary w-100"
+              [disabled]="registroForm.invalid || loading">
+              {{ loading ? "Validando..." : "Registrarme" }}
             </button>
-            <mat-autocomplete
-              [panelWidth]="600"
-              #auto="matAutocomplete"
-              (optionSelected)="onSelected()"
-              [displayWith]="displayWith"
-            >
-              <mat-option *ngIf="isCargando" class="is-loading"
-                >Cargando...</mat-option
-              >
-              <ng-container *ngIf="!isCargando" class="w-100">
-                <mat-option
-                  *ngFor="let uo of filterUnidadOperativas"
-                  [value]="uo"
-                >
-                  <span
-                    ><b>{{ uo.nombre }} </b></span>
-                </mat-option>
-              </ng-container>
-            </mat-autocomplete>
+          </div>
+          <div class="text-center py-3">
+            <span class="text-s-20 text-secondary2">Ya tienes una cuenta?
+            </span>
+            <span class="text-s-20 text-primary4 cursor font-w-semibold" (click)="volverLogin()">Inicia Sesión</span>
+          </div>
+        </div>
+      </form>
+    </mat-card>
+  </div>
 
-            <mat-hint *ngIf="unidadOperativa">
-              <span class="font-w-semibold" *ngIf="unidadOperativa.nivel === 1" >
-                Tipo: RED 
-              </span>
-
-              <span class="font-w-semibold" *ngIf="unidadOperativa.nivel === 2" >
-                Tipo: CAM 
-              </span>
-
-              <span class="font-w-semibold" *ngIf="unidadOperativa.nivel === 3" >
-                Tipo: CIRAM 
-              </span>
-            </mat-hint >
-
-          </mat-form-field>
-
-
-      </div>
-
-      <div class="d-flex content-textos-small">
-      
-    </div>
-
-      <div class="form-div-datos" style="text-align: left">
-        <mat-checkbox
-          formControlName="accept"
-          checked="true"
-          (change)="onCheckBox($event)"
-        >Acepto terminos y condiciones
-        </mat-checkbox>
-      </div>
-
-      <div class="btn-login text-s-18 text-w-bold pb-3" style="margin:0% !important">
-        <button
-          type="submit"
-          mat-raised-button
-          class="btn-mat-primary"
-          [disabled]="registroForm.invalid || loading"
-        >
-          {{ loading ? "Validando..." : "Registrarme" }}
-        </button>
-      </div>
-      <div class="btn-login">
-          <span class="text-s-18 text-secondary2">Ya tienes una cuenta? </span>
-          <span class="text-s-18 text-primary4 cursor" (click)="volverLogin()">Inicia Sesión</span>
-      </div>
-    </div>
-    </form>
-    
-  </mat-card>
-</div>
 </div>

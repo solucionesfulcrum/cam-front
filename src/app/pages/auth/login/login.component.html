@@ -1,121 +1,87 @@
 <!-- <div>
         <img src="assets/img/cam_login.png" alt="">
     </div> -->
-<div class="bg-primary3 d-flex h-100v"> 
-  <div class="bg-primary2
-  w-50 d-block align-content-center position-relative responsi">
-  <div class="center">
-    <div class="content-Essl">
-      <img class="img-logoEssl " src="assets/img/logo-essalud-white.svg" />
-    </div>
-    <div class="content-imagen2">
-      <img class="img-hand" src="assets/img/hand.png" />
-    </div>
-    <div class="content-imagen2 mt-4 text-center">
-    <!--<span class="text-w-bold text-white text-s-3r">CAM</span>-->
-    <p class="content-imagen2 text-w-bold text-white text-s-40">CAM</p>
-    </div>
-    <div class="mt-1 text-center">
-    <span class="content-imagen2 text-w-semibold text-white text-s-25">Centro del Adulto Mayor</span>
-    </div>
-  </div>
-  </div>
-  <div class="bg-primary3 w-100 d-flex h-100 justify-content-center" >
-    <div
-      class="bg-white
-      border-1-light
-      radius-8
-      p-3
-      vertical-center
-      "
-      style="margin-right: 38px"
-    >
-      <div class="content-imagen">
-        <img class="img-logoCAM"  src="assets/img/cam_logo_for_login.svg"  />
+<div class="bg-primary3 d-flex h-100v">
+  <div class="col-md-7 d-none d-md-block align-content-center position-relative responsi">
+    <div class="center">
+      <div class="content-Essl">
+        <img class="img-logoEssl" src="assets/img/logo-essalud-white.svg" />
       </div>
-      <form [formGroup]="loginForm" (ngSubmit)="onLogin()" class="">
-        <div class="d-flex content-textos">
+      <div class="content-imagen2">
+        <img class="img-hand" src="assets/img/hand.png" />
+      </div>
+      <div class="content-imagen2 mt-4 text-center">
+        <p class="content-imagen2 text-w-bold text-white text-s-40">SCAM</p>
+      </div> 
+      <div class="mt-1 text-center">
+        <span class="content-imagen2 text-w-semibold text-white text-s-40">Sistema de Centro del Adulto Mayor</span>
+      </div>
+    </div>
+  </div>
+  <div class="col-md-5 col-sm-12 d-flex h-100 justify-content-center">
+    <div class="bg-white col-md-4 col-10 border-1-light radius-8 px-5 py-2 vertical-center">
+      <div class="d-flex align-items-center justify-content-center py-5">
+        <img class="img-logoCAM" src="assets/img/cam-logo.png" />
+      </div>
+      
+        <div class="d-flex ">
           <span
-            class="text-s-20 text-w-normal text-black ml-13 pt-2 pb-2 justify-content-start align-content-flex-start"
-            style="border-bottom: 2px solid #057EC9;"
-            >Inicia Sesión </span
-          > 
+            class="text-s-20 text-w-normal text-black ml-13 pt-2 pb-1 mb-2 justify-content-start align-content-flex-start"
+            style="border-bottom: 2px solid #057ec9">Inicia Sesión
+          </span>
         </div>
-        <div class="separator"> </div>
-        <div class="content-textos-small text-s-18 text-black" >
-          Bienvenido al módulo CAM 
+    
+        <div class=" text-s-18 text-black mb-2">
+          Bienvenido al módulo CAM
         </div>
-        <div class="content-textos text-s-14 text-w-fine" style="color:#37474F">
+        <div class=" text-s-14 text-w-fine mb-4" style="color: #37474f">
           Llene los datos del usuario
         </div>
+
+        <form [formGroup]="loginForm" (ngSubmit)="onLogin()" class="p-0 m-0">
         <div class="form-div-datos">
           <mat-form-field class="full-width-input">
-            <mat-label class="text-s-20 text-secondary" >DNI</mat-label>
+            <mat-label class="text-s-20 text-secondary">Usuario</mat-label>
             <input formControlName="username" matInput required />
             <mat-icon matSuffix>account_circle</mat-icon>
-            <mat-error
-              *ngIf="loginForm.controls.username.hasError('minlength')"
-            >
+            <mat-error *ngIf="loginForm.controls.username.hasError('minlength')">
               Mínimo 8 dígitos
             </mat-error>
           </mat-form-field>
         </div>
-        <mat-form-field class="full-width-input separator" style="display:block" style="margin-bottom: 0%">
+        <mat-form-field class="full-width-input" style="display: block" style="margin-bottom: 0%">
           <mat-label class="text-s-20 text-secondary">Contraseña</mat-label>
-          <input
-            class="shadow-none"
-            type="password"
-            formControlName="password"
-            matInput
-            required
-            [type]="hide ? 'password' : 'text'"
-          />
-          <button
-            type="button"
-            mat-icon-button
-            matSuffix
-            (click)="hide = !hide"
-          >
+          <input class="shadow-none" type="password" formControlName="password" matInput required
+            [type]="hide ? 'password' : 'text'" />
+          <button type="button" mat-icon-button matSuffix (click)="hide = !hide">
             <mat-icon> {{ hide ? "visibility_off" : "visibility" }} </mat-icon>
           </button>
           <mat-error *ngIf="loginForm.controls.password.hasError('minlength')">
             Mínimo 6 dígitos
           </mat-error>
         </mat-form-field>
-        
+
         <div class="btn-login">
-          <button
-            type="submit"
-            mat-raised-button
-            [disabled]="loginForm.invalid || loading"
-          >
+          <button type="submit" class="bg-primary3 rounded" [disabled]="loginForm.invalid || loading">
             {{ loading ? "Validando..." : "Ingresar" }}
           </button>
         </div>
+      </form>
 
         <div class="content-textos">
-          <button
-            mat-button
-            color="primary"
-            (click)="irOlvidoPassword()"
-            class="font-boton text-s-18" style="color: #0085FF"
-          > 
+          <!-- (click)="irOlvidoPassword()" -->
+          <button mat-button color="primary" class="font-boton text-s-18"
+            style="color: #0085ff">
             ¿Olvidaste tu contraseña?
           </button>
         </div>
-      </form>
+    
       <div>
-        
-        <button
-          mat-button
-          color="primary"
-          (click)="irRegistroUsuario()"
-          class="text-s-18" style="color: #0085FF"
-        >
-        <label class="text-s-18 text-secondary2">Aún no tienes usuario? </label>
+        <button mat-button color="primary" (click)="irRegistroUsuario()" class="text-s-18 mb-4" style="color: #0085ff">
+          <label class="text-s-18 text-secondary2">Aún no tienes usuario?
+          </label>
           Registrate
         </button>
-
       </div>
     </div>
   </div>
