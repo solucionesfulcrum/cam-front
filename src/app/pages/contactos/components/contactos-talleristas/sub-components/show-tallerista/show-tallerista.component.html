@@ -1,0 +1,77 @@
+
+
+<div class="px-4 py-3 bg-white w-full mt-3 grid botonApariencia" *ngIf="!dataTallerista">
+    <div class="text-gray-600 w-full text-center">
+        <span class="py-1 font-bold text-2xl">
+            <fa-icon class="mr-2" [icon]="faSpinner" [pulse]="true"></fa-icon>
+            Obteniendo datos...
+        </span>
+    </div>
+</div>
+
+<div *ngIf="dataTallerista">
+    <esp-opciones-botones [rutaRegreso]="'../../..'" [listOpciones]="opcionesBotones"></esp-opciones-botones>
+    
+    <div class="containerInfoProfesional">
+        <div class="containerInfoIzq">
+            <div class="w-full relative h-32 bg-red-500 bg-image">
+                <div class="avatar rounded-full absolute w-20 h-20 border-4
+                  border-white left-5 bottom-1/2"></div>
+            </div>
+            <div class="flex flex-col pl-4 pr-2 pb-6 gap-[10px]">
+                <span class="font-semibold text-xl">Juan Alberto Dorado Rivera</span>
+                <!-- <h1 class="font-semibold text-xl mb-3">{{infoProfesional.pefilProfesional.nombre}}</h1> -->
+                <div class="flex justify-center">
+                  <span class="px-4 py-1 rounded-full rolPersona font-light text-sm">Admisionista</span>
+                  <!-- <span class="px-4 py-1 rounded-full rolPersona font-light text-sm">{{infoProfesional.pefilProfesional.rol | titlecase}}</span> -->
+                </div>
+                <ul class="max-h-[46vh] overflow-auto flex flex-col gap-[12px]">
+                  <li><span class="font-bold">DNI: </span>23855637</li>
+                  <li><span class="font-bold">Celular: </span>949252426</li>
+                  <li><span class="font-bold">Correo: </span>frida@gmail.com</li>
+                  <li><span class="font-bold">Correo Institucional: </span>-</li>
+                  <li><span class="font-bold">Fecha nacimiento: </span>14/04/1967</li>
+                  <li><span class="font-bold">Edad: </span>35 Años</li>
+                  <li><span class="font-bold">Sexo: </span>M</li>
+                  <li><span class="font-bold">Direccion: </span>Jr. Manco capac 128</li>
+                  <li><span class="font-bold">Código de planilla: </span>-</li>
+                  <li><span class="font-bold">Distrito: </span>Lima</li>
+                  <li><span class="font-bold">Provincia: </span>Lima</li>
+                  <li><span class="font-bold">Región: </span>Lima</li>
+                  <li><span class="font-bold">Nivel Educativo: </span>Superior Universitario</li>
+                  <li><span class="font-bold">Profesión: </span>Trabajador Social</li>
+                  <li><span class="font-bold">RNE: </span>-</li>
+                  <li><span class="font-bold">CMP: </span>-</li>
+                  <li><span class="font-bold">Unidad Operativa: </span>CERPS LIMA</li>
+                  <li><span class="font-bold">Fecha Registro: </span>01/02/2023</li>
+                  <li><span class="font-bold">Estado: </span> <span class="text-green-500">Activo</span></li>
+                  <!-- <li><span class="font-bold">{{infoProfesional.pefilProfesional.tipoDoc === 'DOCUMENTO NACIONAL DE IDENTIDAD' ? 'DNI': infoProfesional.pefilProfesional.tipoDoc | titlecase}}: </span>{{infoProfesional.pefilProfesional.numDoc}}</li>
+                  <li><span class="font-bold">Celular: </span>{{infoProfesional.pefilProfesional.celular ? infoProfesional.pefilProfesional.celular : '-'}}</li>
+                  <li class="overflow-hidden text-ellipsis"><span class="font-bold">Correo: </span>{{infoProfesional.pefilProfesional.correoPersonal}}</li>
+                  <li class="overflow-hidden text-ellipsis"><span class="font-bold">Correo Institucional: </span>{{infoProfesional.pefilProfesional.correoInstitucional ? infoProfesional.pefilProfesional.correoInstitucional : '-'}}</li>
+                  <li><span class="font-bold">Fecha nacimiento: </span>{{infoProfesional.pefilProfesional.fechaNacimiento ? (infoProfesional.pefilProfesional.fechaNacimiento | date:'dd/MM/yyyy') : '-'}}</li>
+                  <li><span class="font-bold">Edad: </span>{{infoProfesional.pefilProfesional.edad ? infoProfesional.pefilProfesional.edad : '-'}} Años</li>
+                  <li><span class="font-bold">Sexo: </span>{{infoProfesional.pefilProfesional.sexo ? infoProfesional.pefilProfesional.sexo : '-'}}</li>
+                  <li class="overflow-hidden text-ellipsis"><span class="font-bold">Direccion: </span>{{infoProfesional.pefilProfesional.direccion ? (infoProfesional.pefilProfesional.direccion | titlecase) : '-'}}</li>
+                  <li><span class="font-bold">Código de planilla: </span>{{infoProfesional.pefilProfesional.codPlanilla}}</li>
+                  <li><span class="font-bold">Distrito: </span>{{ ubiDist ? (ubiDist| titlecase) : '-'}}</li>
+                  <li><span class="font-bold">Provincia: </span>{{ ubiProv ? (ubiProv| titlecase) : '-'}}</li>
+                  <li><span class="font-bold">Región: </span>{{ ubiDepa ? (ubiDepa| titlecase) : '-'}}</li>
+                  <li><span class="font-bold">Nivel Educativo: </span>{{infoProfesional.pefilProfesional.nivelEducativo ? (infoProfesional.pefilProfesional.nivelEducativo| titlecase) : '-'}}</li>
+                  <li><span class="font-bold">Profesión: </span>{{infoProfesional.pefilProfesional.profesion ? (infoProfesional.pefilProfesional.profesion| titlecase) : '-'}}</li>
+                  <li><span class="font-bold">RNE: </span>{{infoProfesional.pefilProfesional.rne ? (infoProfesional.pefilProfesional.rne| titlecase) : '-'}}</li>
+                  <li><span class="font-bold">CMP: </span>{{infoProfesional.pefilProfesional.cmp ? (infoProfesional.pefilProfesional.cmp| titlecase) : '-'}}</li>
+                  <li><span class="font-bold">Unidad Operativa: </span>{{infoProfesional.pefilProfesional.unidadOperativa ? infoProfesional.pefilProfesional.unidadOperativa : '-'}}</li>
+                  <li><span class="font-bold">Fecha Registro: </span>{{infoProfesional.pefilProfesional.fechaRegistro ? (infoProfesional.pefilProfesional.fechaRegistro | date:'dd/MM/yyyy') : '-'}}</li>
+                  <li><span class="font-bold">Estado: </span> <span [ngClass]="infoProfesional.pefilProfesional.estado === 'ACTIVADO' ? 'text-green-500' : 'text-blue-500'" class="text-green-500">{{infoProfesional.pefilProfesional.estado | titlecase}}</span></li> -->
+                </ul>
+            </div>
+        </div>
+        <div class="containerInfoDerecha">
+            <esp-menu-opciones [links]="rutasTallerista" [setColorTab]="'var(--color-CAM)'" [showBottomLine]="false">
+            </esp-menu-opciones>
+            <router-outlet></router-outlet>
+        </div>
+    </div>
+
+</div>

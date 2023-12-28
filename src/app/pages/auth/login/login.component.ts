@@ -49,7 +49,7 @@ export class LoginComponent implements OnInit {
 
 
         this.utilSvc.openSidenav(true);
-        this.router.navigate(['/app/home']);
+        this.router.navigate(['/app']);
       },
       error: (error) => {
         console.log(error);

@@ -1,0 +1,19 @@
+
+.grid{
+    height: 80vh;
+    .brand{
+      display: inherit;
+    }
+  }
+  
+  @media screen and (max-width: 1023px) {
+    .grid{
+      height: 100vh;
+      .brand{
+        display: none;
+      }
+    }
+  }
+  .autorizacion{
+      height: 100% !important;
+  }

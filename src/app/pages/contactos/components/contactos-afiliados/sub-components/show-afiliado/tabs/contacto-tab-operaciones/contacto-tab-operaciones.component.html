@@ -1,0 +1,23 @@
+<esp-opciones-busqueda 
+[showDateFilter]="true"
+[setFilterDateOptionSelected]="'var(--color-CAM-mezclado)'" 
+[setFilterDateTextColour]="'var(--color-CAM)'"
+[filterDateAppearance]="2"
+[setFilterDateSelectionBg]="'var(--color-CAM-Claro)'"
+[setFilterDateButtonBg]="'var(--color-CAM-Claro)'"
+[showFirstDisplayFilter]="true"
+></esp-opciones-busqueda>
+
+<div>
+    <div *ngFor="let dia of listaOperaciones, index as i">
+        <div class="encabezadoDia">
+            <span>{{(dia.fecha | date: 'EEEE') | titlecase}}, {{dia.fecha | date: 'dd \'de\''}} {{(dia.fecha | date:'MMMM') | titlecase}} del {{dia.fecha | date:'yyyy'}}</span>
+        </div>
+        <div *ngFor="let fecha of dia.operaciones, index as j" class="operacionCuadro">
+            <div class="horaAtencion">
+                <span> {{(fecha.fecha | date: 'hh:mm aa') | lowercase}} </span>
+            </div>
+            <span class="descripcion"> {{fecha.descripcion}} </span>
+        </div>
+    </div>
+</div>

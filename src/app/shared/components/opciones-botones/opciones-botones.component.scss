@@ -2,7 +2,9 @@
     button{
         display: flex;
         flex-direction: row;
-        padding: 0.625rem !important;
+        height: 40px;
+        align-items: center;
+        padding: 6px 10px !important;
     }
 }
 

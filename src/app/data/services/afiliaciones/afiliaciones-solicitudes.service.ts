@@ -26,4 +26,9 @@ export class AfiliacionesSolicitudesService {
     const url = `${URL_BASE}/ficha-solicitud?tipDoc=${tipoDoc}&numDoc=${numDoc}`;
     return this._httpClient.get<any>(url);
   }
+
+  getDataAfiliado(tipoDoc: string, numDoc: string){
+    const url = `${URL_BASE}/ficha-afiliado?tipDoc=${tipoDoc}&numDoc=${numDoc}`;
+    return this._httpClient.get<any>(url);
+  }
 }

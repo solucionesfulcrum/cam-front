@@ -1,1 +1,61 @@
-<p>contactos-talleristas works!</p>
+<div>
+    <esp-opciones-busqueda 
+      [showSearch]="true"
+      (searchInputValue)="formBuscar.get('frmSearch')?.setValue($event.toUpperCase()); onLoadData()"
+      [searchInputPlaceHolder]="'Buscar tallerista'"
+      [showFirstDisplayFilter]="true"
+      [firstDisplayFilterPlaceholder]="{'indicador': false, 'placeholder': 'Acciones'}"
+      [showSecondDisplayFilter]="true"
+      [secDisplayFilterPlaceholder]="{'indicador': true, 'placeholder': 'Todos los estados'}"
+    ></esp-opciones-busqueda>
+</div>
+    
+<div>
+    <table cdk-table class="w-full text-sm text-left text-gray-500 tablaDatos" [dataSource]="dataSource" >
+      <tr cdk-header-row class="text-xs text-gray-700 bg-gray-50" *cdkHeaderRowDef="columns"></tr>
+      <tr cdk-row class="bg-white border-b" *cdkRowDef="let row; columns: columns"></tr>
+      <ng-container cdkColumnDef="marcar">
+        <th cdk-header-cell class="py-[1.25rem] px-6" *cdkHeaderCellDef> <input type="checkbox" value="false"/> </th>
+        <td cdk-cell class="py-[1rem] px-6" *cdkCellDef="let row"> <input type="checkbox" value="false"/> </td>
+      </ng-container>
+
+      <ng-container cdkColumnDef="nombres">
+        <th cdk-header-cell class="py-[1.25rem] px-6" *cdkHeaderCellDef>Nombres</th>
+        <td cdk-cell class="py-[1rem] px-6" *cdkCellDef="let row, index as i"><span class="text-Name cursor-pointer" [routerLink]="['show/' + row.tipoDoc + '/' + row.numDoc]">{{ row.nombre }}</span></td>
+      </ng-container>
+
+      <ng-container cdkColumnDef="tipoDoc">
+        <th cdk-header-cell class="py-[1.25rem] px-6" *cdkHeaderCellDef>Doc.</th>
+        <td cdk-cell class="py-[1rem] px-6 font-medium" *cdkCellDef="let row">{{ row.tipoDoc == 1 ? 'DNI' : 'CE'}}</td>
+      </ng-container>
+
+      <ng-container cdkColumnDef="numDoc">
+        <th cdk-header-cell class="py-[1.25rem] px-6" *cdkHeaderCellDef>N° de Documento</th>
+        <td cdk-cell class="py-[1rem] px-6 font-medium" *cdkCellDef="let row">{{row.numDoc }}</td>
+      </ng-container>
+
+      <ng-container cdkColumnDef="telefono">
+        <th cdk-header-cell class="py-[1.25rem] px-6" *cdkHeaderCellDef>Teléfono</th>
+        <td cdk-cell class="py-[1rem] px-6" *cdkCellDef="let row">{{row.telefono}}</td>
+      </ng-container>
+
+      <ng-container cdkColumnDef="correo">
+        <th cdk-header-cell class="py-[1.25rem] px-6" *cdkHeaderCellDef>E-mail</th>
+        <td cdk-cell class="py-[1rem] px-6 font-medium" *cdkCellDef="let row">{{row.correo }}</td>
+      </ng-container>
+
+      <ng-container cdkColumnDef="perfil">
+        <th cdk-header-cell class="py-[1.25rem] px-6" *cdkHeaderCellDef>Perfil Profesional</th>
+        <td cdk-cell class="py-[1rem] px-6 font-medium" *cdkCellDef="let row">{{row.perfil }}</td>
+      </ng-container>
+    </table>
+    <mat-paginator #paginator class="demo-paginator paginatorDatos" 
+    (page)="handlePageEvent($event)"
+    [length]="total"
+    [pageSize]="pageSize"
+    showFirstLastButtons="true"
+    [pageSizeOptions]="pageSizeOptions.length > 0 ? pageSizeOptions : []"
+    [pageIndex]="pageIndex"
+    aria-label="Select page">
+    </mat-paginator>
+</div>      
