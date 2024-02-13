@@ -13,8 +13,9 @@
     <mat-card class="col-md-8 m-0 p-0">
       <div class="d-flex px-4 pb-2 pt-4 justify-content-between">
         <div class="flex-column">
-          <p class="text-s-20 mb-3 pb-1 d-inline-block" style="border-bottom: 3px solid #057ec9; color: #057ec9;">Registro de Usuario </p>
-       
+          <p class="text-s-20 mb-3 pb-1 d-inline-block" style="border-bottom: 3px solid #057ec9; color: #057ec9;">
+            Registro de Usuario </p>
+
         </div>
         <div class="m-0 col-md-4 col-5  ">
           <img class="w-auto" src="assets/img/cam-logo.png" />
@@ -82,13 +83,24 @@
 
           <div class="form-div-datos">
             <mat-form-field class="formRegistro anchor80">
-              <mat-label class="text-s-16r text-w-fine">Unidad Operativa</mat-label>
+              <!--<mat-label class="text-s-16r text-w-fine">Unidad Operativa</mat-label>
               <input name="cam" formControlName="cam" matInput placeholder="Ejm Rebagliati"
                 [(ngModel)]="unidadOperativa" [matAutocomplete]="auto" />
               <button *ngIf="unidadOperativa" matSuffix mat-icon-button aria-label="Clear" (click)="clearSelection()">
                 <mat-icon>close</mat-icon>
-              </button>
-              <mat-autocomplete [panelWidth]="600" #auto="matAutocomplete" (optionSelected)="onSelected()"
+              </button>-->
+              <mat-label class="text-s-16r text-w-fine">Unidad Operativa</mat-label>
+              <mat-select formControlName="unidadOperativaCtrl">
+                <mat-option *ngFor="let uo of unidadOperativa" [value]="uo.idUnidadOperativa">
+                  <span>{{ uo.nombre }}</span>
+                </mat-option>
+                <!--<mat-autocomplete>
+                  <mat-option *ngFor="let uo of unidadOperativa" [value]="uo">
+                    <span><b>{{ uo.nombre }} </b></span>
+                  </mat-option>
+                </mat-autocomplete>-->
+              </mat-select>
+              <!--<mat-autocomplete [panelWidth]="600" #auto="matAutocomplete" (optionSelected)="onSelected()"
                 [displayWith]="displayWith">
                 <mat-option *ngIf="isCargando" class="is-loading">Cargando...</mat-option>
                 <ng-container *ngIf="!isCargando" class="w-100">
@@ -96,9 +108,9 @@
                     <span><b>{{ uo.nombre }} </b></span>
                   </mat-option>
                 </ng-container>
-              </mat-autocomplete>
+              </mat-autocomplete>-->
 
-              <mat-hint *ngIf="unidadOperativa">
+              <!--<mat-hint *ngIf="unidadOperativa">
                 <span class="font-w-semibold" *ngIf="unidadOperativa.nivel === 1">
                   Tipo: RED
                 </span>
@@ -110,19 +122,19 @@
                 <span class="font-w-semibold" *ngIf="unidadOperativa.nivel === 3">
                   Tipo: CIRAM
                 </span>
-              </mat-hint>
+              </mat-hint>-->
             </mat-form-field>
           </div>
 
-          
-          <mat-checkbox formControlName="accept" color="primary" class="py-3 custom-checkbox fw-light text-s-18" checked="true" (change)="onCheckBox($event)">Acepto terminos y
+
+          <mat-checkbox formControlName="accept" color="primary" class="py-3 custom-checkbox fw-light text-s-18"
+            checked="true" (change)="onCheckBox($event)">Acepto terminos y
             condiciones
           </mat-checkbox>
-         
+
 
           <div class="btn-login text-s-18 text-w-bold mb-3">
-            <button type="submit" mat-raised-button class="btn-mat-primary w-100 bg-primary3"
-              [disabled]="registroForm.invalid || loading">
+            <button type="submit" mat-raised-button class="btn-mat-primary w-100 bg-primary3">
               {{ loading ? "Validando..." : "Registrarme" }}
             </button>
           </div>

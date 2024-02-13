@@ -1,10 +1,11 @@
 
 export interface RegistroUsuarioForSistema {
-    idSSO: string;
-    tipoUnidad: string;
-    unidadOperativa: string;
+    categoria: string;
+    correo: string;
     tipoDoc: string;
     numDoc: string;
-    correo: string;
-    activo:string;
+    nombres: string;
+    codPlanilla: string;
+    unidadOperativaId: string;
+    guiidSso: string;
 }

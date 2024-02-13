@@ -15,15 +15,19 @@ import { MatSidenavModule } from '@angular/material/sidenav';
 import { MatListModule } from '@angular/material/list';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { MatTooltipModule } from '@angular/material/tooltip';
+import { ToolbarAdminComponent } from './toolbar-admin/toolbar-admin.component';
+import { LayoutHomeComponent } from './layout-home/layout-home.component';
 
 
 @NgModule({
   declarations: [
     LayoutComponent,
     SidenavComponent,
-    ToolbarComponent
+    ToolbarComponent,
+    LayoutHomeComponent,
   ],
   imports: [
+    ToolbarAdminComponent,
     CommonModule,
     LayoutRoutingModule,
     MaterialModule,

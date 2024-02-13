@@ -1,5 +1,5 @@
 import { NgModule } from '@angular/core';
-import { RouterModule, Routes } from '@angular/router';
+import { Route, RouterModule, Routes } from '@angular/router';
 import { LayoutComponent } from './layout/layout.component';
 import { AuthGuard } from '../guards/auth.guard';
 import { HomeComponent } from '../pages/home/home.component';
@@ -12,86 +12,127 @@ import { EventosLayoutComponent } from '../pages/eventos/eventos-layout.componen
 import { ReportesLayoutComponent } from '../pages/reportes/reportes-layout.component';
 import { TalleresLayoutComponent } from '../pages/talleres/talleres-layout.component';
 import { ContactosComponent } from '../pages/contactos/contactos/contactos.component';
+import { ToolbarAdminComponent } from './toolbar-admin/toolbar-admin.component';
+import { LayoutHomeComponent } from './layout-home/layout-home.component'
+
 
 const routes: Routes = [
   {
     path: '',
     component: LayoutComponent,
-    children:[
-      { path: 'home',
+    children: [
+      /*{
+        path: '',
+        canActivate: [AuthGuard],
+        title: 'CAM - UO',
+        loadChildren: () => import('./layout-home/layout-home.component').then((m) => m.LayoutHomeComponent),
+      },*/
+      {
+        path: 'home',
         canActivate: [AuthGuard],
         title: 'CAM - INICIO',
-        component: HomeComponent 
+        component: HomeComponent
+      },
+      {
+        path: 'dashboard',
+        title: 'CAM - DASHBOAR',
+        canActivate: [AuthGuard],
+        loadChildren: () => import('../pages/dashboard/dashboard.module').then((m) => m.DashboardModule),
       },
       {
         path: 'contactos',
         title: 'CAM - CONTACTOS',
         canActivate: [AuthGuard],
-        loadChildren: () =>  import('../pages/contactos/contactos.module').then((m) => m.ContactosModule),
+        loadChildren: () => import('../pages/contactos/contactos.module').then((m) => m.ContactosModule),
       },
       {
         path: 'afiliados',
         title: 'CAM - AFILIADOS',
         canActivate: [AuthGuard],
         component: AfiliadosLayoutComponent,
-        loadChildren: () =>  import('../pages/afiliados/afiliados.module').then((m) => m.AfiliadosModule),
+        loadChildren: () => import('../pages/afiliados/afiliados.module').then((m) => m.AfiliadosModule),
       },
 
-    
+
       {
         path: 'planificacion',
         title: 'CAM - PLANIFICACION',
         canActivate: [AuthGuard],
-        component:PlanificacionLayoutComponent,
-        loadChildren: () =>  import('../pages/planificacion/planificacion.module').then(  (m) => m.PlanificacionModule  ),
+        component: PlanificacionLayoutComponent,
+        loadChildren: () => import('../pages/planificacion/planificacion.module').then((m) => m.PlanificacionModule),
       },
       {
         path: 'usuarios',
         title: 'CAM - USUARIOS',
         canActivate: [AuthGuard],
-        component:UsersLayoutComponent,
-        loadChildren: () =>  import('../pages/users/users.module').then(  (m) => m.UsersModule),
+        component: UsersLayoutComponent,
+        loadChildren: () => import('../pages/users/users.module').then((m) => m.UsersModule),
       },
       {
         path: 'cams',
         title: 'CAM - CAMS',
         canActivate: [AuthGuard],
-        component:CamsLayoutComponent,
-        loadChildren: () =>  import('../pages/cams/cams.module').then(  (m) => m.CamsModule),
+        component: CamsLayoutComponent,
+        loadChildren: () => import('../pages/cams/cams.module').then((m) => m.CamsModule),
       },
       {
         path: 'asegurados',
         title: 'CAM - ASEGURADOS',
         canActivate: [AuthGuard],
-        component:AseguradosLayoutComponent,
-        loadChildren: () =>  import('../pages/asegurados/asegurados.module').then(  (m) => m.AseguradosModule),
+        component: AseguradosLayoutComponent,
+        loadChildren: () => import('../pages/asegurados/asegurados.module').then((m) => m.AseguradosModule),
       },
       {
         path: 'talleres',
         title: 'CAM - TALLERES',
         canActivate: [AuthGuard],
-        component:TalleresLayoutComponent,
-        loadChildren: () =>  import('../pages/talleres/talleres.module').then(  (m) => m.TalleresModule),
+        component: TalleresLayoutComponent,
+        loadChildren: () => import('../pages/talleres/talleres.module').then((m) => m.TalleresModule),
       },
       {
         path: 'eventos',
         title: 'CAM - EVENTOS',
         canActivate: [AuthGuard],
-        component:EventosLayoutComponent,
-        loadChildren: () =>  import('../pages/eventos/eventos.module').then(  (m) => m.EventosModule),
+        component: EventosLayoutComponent,
+        loadChildren: () => import('../pages/eventos/eventos.module').then((m) => m.EventosModule),
       },
       {
         path: 'reportes',
-        component:ReportesLayoutComponent,
+        component: ReportesLayoutComponent,
         title: 'CAM - REPORTES',
         canActivate: [AuthGuard],
-        loadChildren: () =>  import('../pages/reportes/reportes.module').then(  (m) => m.ReportesModule),
+        loadChildren: () => import('../pages/reportes/reportes.module').then((m) => m.ReportesModule),
       },
     ]
   },
 
 ];
-
+export const pagesAdminRoutes: Route[] = [
+  {
+    path: '',
+    canActivate: [AuthGuard],
+    component: ToolbarAdminComponent,
+    children: [
+      /*{
+        path: AppRoute.USUARIOS,
+        canActivate:[AuthGuard, AdminUserGuard],
+        title:'Lista de usuarios',
+        loadChildren: () =>
+          import('./users/users.module').then((m) => m.UsersModule),
+      },
+      *//*{
+        path: '',
+        title: 'Elija la Unidad Operativa',
+        component: AdministracionUsuarioComponent
+      },
+      /*{
+        path: AppRoute.EDIT_USER,
+        title: 'Editar Usuario',
+        component: EditActiveUserComponent,
+      }*/
+    ]
+  },
+];
 @NgModule({
   imports: [RouterModule.forChild(routes)],
   exports: [RouterModule]

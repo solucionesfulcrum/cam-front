@@ -8,7 +8,8 @@ export interface DataUsuario {
     email: string;
     tipoDoc?:string;
     numDoc?:string;
-
+    nombres: string;
+    codPlanilla:string;
     idSSO: string;
     tipoUnidad: string;
     unidadOperativa: string;

@@ -1,0 +1,44 @@
+.infoGeneral{
+    width: 100%;
+    display: flex;
+    gap: 10px;
+
+    /* background-color: #ffffff; */
+}
+mat-icon{
+    padding-top: 2px;
+}
+.icono{
+    background-color: #008bd2;
+    border: 1px solid #ddd; 
+    border-radius: 5px;
+    padding: 5px; 
+    color: white;
+}
+.datosAnaliticos{
+    /* width: 25%;  */
+    /* Puedes ajustar el ancho según tus necesidades */
+    /* border: 1px solid #ccc; */
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    font-weight: 500;
+    border-radius: 5px;
+    background-color: #ffffff;
+    width: 25%;
+    padding: 1%;
+    /* background-color: #ffffff; */
+}
+
+.datosAnaliticos > div{
+    
+    /* border: 1px solid #ccc; */
+    /* width: 25%; /* Puedes ajustar el ancho según tus necesidades */
+    /* padding: 1%; */ 
+
+}
+
+#chart {
+  max-width: 100%;
+  margin: 35px auto;
+}

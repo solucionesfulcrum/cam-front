@@ -8,7 +8,7 @@ export interface RegistroUsuario {
     nombres?: string | null;
     codigoPlanilla?: string | null;
     accept:boolean | null;
-    cam? : Cam
+    unidadOperativa? : string | null;
 }
 
 export interface ResponseRegistro {
@@ -20,4 +20,5 @@ export interface ResponseRegistro {
 export interface CompletoRegistro {
     guiid: string;
     codigo: string;
+    numDoc: string;
 }

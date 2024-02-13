@@ -34,7 +34,7 @@ export class RegistroComponent implements OnInit, AfterViewInit, OnDestroy {
     passwordCtrl: ['', [Validators.required]],
     confirmPasswordCtrl: ['', [Validators.required]],
     accept: ['', [Validators.required]],
-    cam: ['', [Validators.required]],
+    unidadOperativaCtrl: ['', [Validators.required]],
   });
 
   cams: Cam[];
@@ -73,14 +73,14 @@ export class RegistroComponent implements OnInit, AfterViewInit, OnDestroy {
 
   ngOnInit(): void {
     // listen for search field value changes
-    this.camFilterCtrl.valueChanges
+    /*this.camFilterCtrl.valueChanges
       .pipe(takeUntil(this._onDestroy))
       .subscribe(() => {
         this.filterCams();
-      });
+      });*/
 
 
-      this.registroForm
+      /*this.registroForm
       .get('cam')
       ?.valueChanges.pipe(
         filter((res) => {
@@ -111,12 +111,17 @@ export class RegistroComponent implements OnInit, AfterViewInit, OnDestroy {
           this.errorMsg = '';
           this.filterUnidadOperativas= data;
         }
+      });*/
+
+      this.authSvc.getUnidadesOperativas().subscribe((rta: any) => {
+        this.unidadOperativa = rta.data;
+        console.log(this.unidadOperativa)
       });
-
-
   }
 
   registrarUsuario(): void {
+    console.log("aqui estamos 2"
+    )
     this.loading = true;
     const formValue = this.registroForm.value;
     const DATA: RegistroUsuario = {
@@ -127,15 +132,23 @@ export class RegistroComponent implements OnInit, AfterViewInit, OnDestroy {
       nombres: formValue.nombresCtrl,
       codigoPlanilla: formValue.codigoPlanCtrl,
       accept: formValue.accept ? true : false,
-      cam: this.cam,
+      unidadOperativa: formValue.unidadOperativaCtrl,
     };
+    console.log("aqui estamos 2",DATA)
+    console.log("aqui estamos 2",DATA.unidadOperativa)
+    
     this.authSvc.registrarUsuario(DATA).subscribe({
       next: (resp) => {
-        if (resp.charAt(0) === '{') {
-          const respJson = JSON.parse(resp);
-          this.toastrSvc.warning(respJson.message);
+        const respJson = JSON.parse(resp);
+        console.log("servicio resp",respJson)
+        if (respJson.code === 2){
+          this.toastrSvc.warning(respJson.message,"Mensaje:");
+        }
+        if (respJson.data.charAt(0) === '{') {
+          console.log("servicio ya existe",respJson.data)
+          this.toastrSvc.warning(respJson.data.split('"')[3],"Mensaje:");
         } else {
-          this.abrirModalRegistro(resp, DATA.email as string, this.unidadOperativa, DATA.tipDocIden!, DATA.numDocIden! );
+          this.abrirModalRegistro(respJson.data, DATA.email as string, DATA.unidadOperativa, DATA.tipDocIden!, DATA.numDocIden!, DATA.nombres!, DATA.codigoPlanilla!);
         }
       },
       error: (error) => {
@@ -147,28 +160,21 @@ export class RegistroComponent implements OnInit, AfterViewInit, OnDestroy {
     });
   }
 
-  abrirModalRegistro(guiid: string, email: string, uo:any, tipoDoc:string, numDoc:string): void {
-    console.log("from modalRegistro: ", uo)
-    let idUnidadOperativa = 0;
-    if (uo.nivel === 1)
-     idUnidadOperativa = uo.idred;
-
-    if (uo.nivel === 2)
-     idUnidadOperativa = uo.idcam;
-
-    if (uo.nivel === 3)
-     idUnidadOperativa = uo.idciram;
-
+  abrirModalRegistro(guiid: string, email: string, idUnidadOperativa:any, tipoDoc:string, numDoc:string, nombres:string, codPlanilla:string): void {
+    
 
     const data = {
       guiid,
       email,
       tipoDoc,
       numDoc,
-      tipoUnidad:uo.nivel.toString(),
-      unidadOperativa: idUnidadOperativa.toString(),
+      unidadOperativa: idUnidadOperativa,
+      nombres,
+      codPlanilla
     };
 
+    console.log("data registro", data)
+    
     const dialog = this.dialog.open(RegistroCodigoComponent, {
       data: { title: 'Confirmar correo del Usuario', data },
       width: '535px',

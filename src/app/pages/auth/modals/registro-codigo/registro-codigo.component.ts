@@ -34,32 +34,36 @@ export class RegistroCodigoComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    console.log(this.data);
+    console.log("la data extraida",this.data.data);
   }
 
   registrarUsuario(): void {
     const formValue = this.form.value;
 
     const DATA: CompletoRegistro = {
-      codigo: formValue.codigoCtrl as string,
       guiid: this.data.data.guiid,
+      numDoc: this.data.data.numDoc!,
+      codigo: formValue.codigoCtrl as string,
     };
 
     const dataSend: any = {
-      idSSO: this.data.data.guiid,
-      activo: '1',
-      numDoc: this.data.data.numDoc!,
-      tipoDoc: this.data.data.tipoDoc!,
+      categoria: "CAM",
       correo: this.data.data.email,
-      tipoUnidad: this.data.data.tipoUnidad,
-      unidadOperativa: this.data.data.unidadOperativa,
+      tipoDoc: this.data.data.tipoDoc!,
+      numDoc: this.data.data.numDoc!,
+      nombres: this.data.data.nombres,
+      codPlanilla: this.data.data.codPlanilla,
+      unidadOperativaId: this.data.data.unidadOperativa,
+      guiidSso: this.data.data.guiid
     };
-
+    console.log("datasend",dataSend)
     this.authSvc.completarRegistro(DATA).subscribe({
       next: (resp) => {
-        if (typeof resp === 'boolean' && resp === true) {
+        console.log("exito validar correo",resp)
+        if (typeof resp.data === 'boolean' && resp.data === true) {
           this.authSvc.createUserForSistema(dataSend).subscribe({
             next: (resp) => {
+              console.log("registrar usuario", resp)
               this.toastrSvc.warning(
                 'Registro de usuario para el sistema realizado correctamente',
               );
@@ -74,9 +78,10 @@ export class RegistroCodigoComponent implements OnInit {
           this.router.navigate(['/']);
         }
         if (typeof resp === 'object') {
-          this.toastrSvc.warning(resp.message);
+          //this.toastrSvc.warning(resp.message);
           this.dialogRef.close();
         }
+
       },
       error: (error) => {
         console.log(error);

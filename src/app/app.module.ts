@@ -35,6 +35,7 @@ import { MatTooltipModule } from '@angular/material/tooltip';
 import { SharedModule } from '@shared/shared.module';
 import { LayoutComponent } from './layout/layout/layout.component';
 import { LayoutModule } from './layout/layout.module';
+import { SelectUnidOperativaComponent } from './pages/administracion-usuario/select-unid-operativa/select-unid-operativa.component';
 
 @NgModule({
   declarations: [
@@ -44,6 +45,7 @@ import { LayoutModule } from './layout/layout.module';
     HomeComponent,
     DialogConfirmacionComponent,
     SelectComponent,
+    SelectUnidOperativaComponent,
   ],
   imports: [
     ToastrModule.forRoot({

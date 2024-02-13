@@ -1,0 +1,11 @@
+<mat-drawer-container class="w-full h-screen">
+   <mat-drawer #drawer mode="side" [(opened)]="opened">
+    <app-sidenav></app-sidenav>
+   </mat-drawer>
+   <mat-drawer-content>
+     <app-toolbar (toggleSidenav)="drawer.toggle()"></app-toolbar>
+     <div [ngClass]="this.logeado ? 'px-[25px] py-[1rem]' : 'h-full'">
+       <router-outlet></router-outlet>
+     </div>
+   </mat-drawer-content>
+ </mat-drawer-container>

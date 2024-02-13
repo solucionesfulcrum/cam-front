@@ -2,7 +2,7 @@ import { HomeComponent } from './pages/home/home.component';
 import { ProgramacionTalleresComponent } from './pages/programacion-talleres/programacion-talleres.component';
 import { AsistenciaTalleresLayoutComponent } from './pages/asistencia-talleres/asistencia-talleres-layout.component';
 import { NgModule } from '@angular/core';
-import { RouterModule, Routes, Router, RouterLink } from '@angular/router';
+import { RouterModule, Routes, Router, RouterLink, Route } from '@angular/router';
 import { CamsLayoutComponent } from './pages/cams/cams-layout.component';
 import { AfiliadosLayoutComponent } from './pages/afiliados/afiliados-layout.component';
 import { AseguradosLayoutComponent } from './pages/asegurados/asegurados-layout.component';
@@ -21,6 +21,8 @@ import { ResultEvalAfiliadoComponent } from './pages/afiliados/components/result
 import { AfilOperComponent } from './pages/afiliados/components/afil-oper/afil-oper.component';
 import { TabsComponent } from './pages/afiliados/components/tabs/tabs.component';
 import { RedirectGuard } from './guards/redirect.guard';
+import { ToolbarAdminComponent } from './layout/toolbar-admin/toolbar-admin.component';
+import { SelectUnidOperativaComponent } from './pages/administracion-usuario/select-unid-operativa/select-unid-operativa.component';
 
 
 const routes: Routes = [
@@ -82,6 +84,33 @@ const routes: Routes = [
     component: TabsComponent,
   },
   
+];
+
+export const pagesAdminRoutes: Route[] = [
+  {
+    path: '',
+    canActivate:[AuthGuard],
+    component: ToolbarAdminComponent,
+    children:[
+      /*{
+        path: AppRoute.USUARIOS,
+        canActivate:[AuthGuard, AdminUserGuard],
+        title:'Lista de usuarios',
+        loadChildren: () =>
+          import('./users/users.module').then((m) => m.UsersModule),
+      },*/
+      {
+        path: '',
+        title: 'Elija la Unidad Operativa',
+        component: SelectUnidOperativaComponent
+      },
+      /*{
+        path: AppRoute.EDIT_USER,
+        title: 'Editar Usuario',
+        component: EditActiveUserComponent,
+      }*/
+    ]
+  },
 ];
 
 @NgModule({
