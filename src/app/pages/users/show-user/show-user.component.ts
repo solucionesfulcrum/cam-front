@@ -94,8 +94,8 @@ export class ShowUserComponent implements OnInit {
     const tmp = this.usuariosService
       .getUsuarioFromSys(this.id)
       .subscribe((rta: any) => {
-        this.user = rta;
-        console.log('User sesion from sys... ', rta);
+        this.user = rta.data;
+        console.log('User sesion from sys... ', rta.data);
         this.breadcrumService.link2$.next({
           url: '/usuarios/show/' + this.id,
           title: rta.nombres,

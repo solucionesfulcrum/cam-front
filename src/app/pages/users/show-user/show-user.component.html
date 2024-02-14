@@ -1,6 +1,6 @@
 
 <div class="my-3 w-full flex place-content-between">
-  <div class="flex cursor-pointer text-base text-[#37474F]" routerLink="/usuarios">
+  <div class="flex cursor-pointer text-base text-[#37474F]" routerLink="usuarios">
       <img class="h-6 self-center" src="assets/circle-arrow-left2.svg"> <span class="self-center ml-2">Regresar</span>
   </div>
   <div class="flex space-x-3">
@@ -59,8 +59,9 @@
               Correo
           </div>
           <div class="w-70 text-s-16r">
-            <span *ngIf="this.user?.email">
-            {{ this.user.email }}
+            <!--<span *ngIf="this.user?.email">-->
+            <span>
+            {{ user.correo }}
             </span>
           </div>
         </div>

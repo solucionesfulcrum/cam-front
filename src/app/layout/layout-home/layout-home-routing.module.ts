@@ -13,7 +13,7 @@ const routes: Routes = [
     component: LayoutHomeComponent,
     children: [
       {
-        path: 'users',
+        path: 'usuarios',
         canActivate: [AuthGuard],
         title: 'Lista de usuarios',
         loadChildren: () =>

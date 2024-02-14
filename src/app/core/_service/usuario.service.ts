@@ -8,7 +8,7 @@ import { environment } from 'src/environments/environment';
   providedIn: 'root'
 })
 export class UsuarioService extends CRUDService<Usuario>{
-
+  
   constructor(protected override _http: HttpClient) {
     super(
       _http,
@@ -25,7 +25,11 @@ export class UsuarioService extends CRUDService<Usuario>{
    }
 
    getUsuarioFromSys(id:string ){
-      return this._http.get<any>(`${environment.HOST}/usuario/idsso/${id}`);
+      return this._http.get<any>(`${environment.HOST}/usuario/${id}`);
    }
+
+   getUnidadOperativaActiva(id:string ){
+    return this._http.get<any>(`${environment.HOST}/unidad-operativa/activas/usuario/${id}`);
+ }
 
 }
