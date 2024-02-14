@@ -18,7 +18,6 @@ import { MatTooltipModule } from '@angular/material/tooltip';
 import { ToolbarAdminComponent } from './toolbar-admin/toolbar-admin.component';
 import { LayoutHomeComponent } from './layout-home/layout-home.component';
 
-
 @NgModule({
   declarations: [
     LayoutComponent,

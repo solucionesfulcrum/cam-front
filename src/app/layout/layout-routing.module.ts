@@ -1,6 +1,7 @@
 import { NgModule } from '@angular/core';
 import { Route, RouterModule, Routes } from '@angular/router';
 import { LayoutComponent } from './layout/layout.component';
+import { LayoutHomeComponent } from './layout-home/layout-home.component'
 import { AuthGuard } from '../guards/auth.guard';
 import { HomeComponent } from '../pages/home/home.component';
 import { UsersLayoutComponent } from '../pages/users/users-layout.component';
@@ -13,7 +14,6 @@ import { ReportesLayoutComponent } from '../pages/reportes/reportes-layout.compo
 import { TalleresLayoutComponent } from '../pages/talleres/talleres-layout.component';
 import { ContactosComponent } from '../pages/contactos/contactos/contactos.component';
 import { ToolbarAdminComponent } from './toolbar-admin/toolbar-admin.component';
-import { LayoutHomeComponent } from './layout-home/layout-home.component'
 
 
 const routes: Routes = [
@@ -21,18 +21,13 @@ const routes: Routes = [
     path: '',
     component: LayoutComponent,
     children: [
-      /*{
-        path: '',
-        canActivate: [AuthGuard],
-        title: 'CAM - UO',
-        loadChildren: () => import('./layout-home/layout-home.component').then((m) => m.LayoutHomeComponent),
-      },*/
+      /*
       {
         path: 'home',
         canActivate: [AuthGuard],
         title: 'CAM - INICIO',
         component: HomeComponent
-      },
+      },*/
       {
         path: 'dashboard',
         title: 'CAM - DASHBOAR',
@@ -60,14 +55,14 @@ const routes: Routes = [
         canActivate: [AuthGuard],
         component: PlanificacionLayoutComponent,
         loadChildren: () => import('../pages/planificacion/planificacion.module').then((m) => m.PlanificacionModule),
-      },
+      }/*,
       {
         path: 'usuarios',
         title: 'CAM - USUARIOS',
         canActivate: [AuthGuard],
         component: UsersLayoutComponent,
         loadChildren: () => import('../pages/users/users.module').then((m) => m.UsersModule),
-      },
+      }*/,
       {
         path: 'cams',
         title: 'CAM - CAMS',
@@ -111,7 +106,7 @@ export const pagesAdminRoutes: Route[] = [
   {
     path: '',
     canActivate: [AuthGuard],
-    component: ToolbarAdminComponent,
+    component: LayoutHomeComponent,
     children: [
       /*{
         path: AppRoute.USUARIOS,
@@ -120,10 +115,10 @@ export const pagesAdminRoutes: Route[] = [
         loadChildren: () =>
           import('./users/users.module').then((m) => m.UsersModule),
       },
-      *//*{
+      {
         path: '',
         title: 'Elija la Unidad Operativa',
-        component: AdministracionUsuarioComponent
+        component: LayoutHomeComponent
       },
       /*{
         path: AppRoute.EDIT_USER,

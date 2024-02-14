@@ -73,6 +73,17 @@ export class AuthService {
       .pipe(catchError(this.handleError));
   }
 
+  confirmarEmail(guiid: any): Observable<any> {
+    const params = this._authBasic();
+    return this.http
+      .post<any>(`${environment.HOST}/usuario/confirmar/email`, {
+        guiidSso: guiid
+      }, {
+        params,
+      })
+      .pipe(catchError(this.handleError));
+  }
+
   createUserForSistema(data: RegistroUsuarioForSistema): Observable<any> {
     console.log("data de resgistro formulario", data)
     return this.http
@@ -138,7 +149,7 @@ export class AuthService {
       .post(`${environment.HOST}/auth/usuario/info`, dataOp,
       )
       .pipe(catchError(this.handleError));
-      
+
   }
 
   preCambiarPassword(data: any) {
@@ -169,6 +180,10 @@ export class AuthService {
 
   guardarLocalStorageForSistema(data: any): void {
     localStorage.setItem('dataCam', data);
+  }
+
+  guardarLocalStorageForLogin(data: any): void {
+    localStorage.setItem('dataLog', data);
   }
 
   private checkToken(): void {
@@ -481,10 +496,16 @@ export class AuthService {
     }
     return this.http
       .post<any>(`${environment.HOST}/usuario/listar`,
-        data,
+        {
+          "texto": "",
+          "fecInicio": "2021-10-11",
+          "fecFin": "2023-10-11",
+          "estado": "",
+          "pageNum": 1,
+          "pageSize": 100
+        },
         {
           params,
-          headers: { Authorization: `Bearer ${token}` }
         },
       )
       .pipe(catchError(this.handleError));

@@ -68,12 +68,14 @@ export class UsersComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    this.loadUsers()
   }
 
   loadUsers(){
     return this.authService.getUsuariosFromSSO(1,20)
     .subscribe((rta:any) =>{
-      this.dataSource = new MatTableDataSource(rta.list);
+      console.log("respuesta Usuarios",rta.data.list)
+      this.dataSource = new MatTableDataSource(rta.data.list);
       this.dataSource.paginator = this.paginator;
       this.dataSource.sort = this.sort;
     })

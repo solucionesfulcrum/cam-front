@@ -22,7 +22,6 @@ import { AfilOperComponent } from './pages/afiliados/components/afil-oper/afil-o
 import { TabsComponent } from './pages/afiliados/components/tabs/tabs.component';
 import { RedirectGuard } from './guards/redirect.guard';
 import { ToolbarAdminComponent } from './layout/toolbar-admin/toolbar-admin.component';
-import { SelectUnidOperativaComponent } from './pages/administracion-usuario/select-unid-operativa/select-unid-operativa.component';
 
 
 const routes: Routes = [
@@ -36,9 +35,14 @@ const routes: Routes = [
     path: 'app',
     canActivate: [AuthGuard],
     loadChildren: () =>
-      import('./layout/layout.module').then((m) => m.LayoutModule)
+      import('./layout/layout/layout.module').then((m) => m.LayoutModule)
   },
-
+  {
+    path: 'app/admin',
+    canActivate: [AuthGuard],
+    loadChildren: () =>
+      import('./layout/layout-home/layout-home.module').then((m) => m.LayoutHomeModule)
+  },
   {
     path: '**',
     pathMatch: 'full',
@@ -86,7 +90,7 @@ const routes: Routes = [
   
 ];
 
-export const pagesAdminRoutes: Route[] = [
+/*export const pagesAdminRoutes: Route[] = [
   {
     path: '',
     canActivate:[AuthGuard],
@@ -98,20 +102,20 @@ export const pagesAdminRoutes: Route[] = [
         title:'Lista de usuarios',
         loadChildren: () =>
           import('./users/users.module').then((m) => m.UsersModule),
-      },*/
+      },
       {
         path: '',
         title: 'Elija la Unidad Operativa',
         component: SelectUnidOperativaComponent
-      },
+      },*/
       /*{
         path: AppRoute.EDIT_USER,
         title: 'Editar Usuario',
         component: EditActiveUserComponent,
       }*/
-    ]
+    /*]
   },
-];
+];*/
 
 @NgModule({
   imports: [RouterModule.forRoot(routes)],

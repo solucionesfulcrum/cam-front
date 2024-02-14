@@ -5,6 +5,7 @@ import { LoginComponent } from './login/login.component';
 import { OlvidoPasswordComponent } from './olvido-password/olvido-password.component';
 import { RegistroComponent } from './registro/registro.component';
 
+
 const routes: Routes = [
   { path: '', component: LoginComponent },
   { path: 'registro', component: RegistroComponent },

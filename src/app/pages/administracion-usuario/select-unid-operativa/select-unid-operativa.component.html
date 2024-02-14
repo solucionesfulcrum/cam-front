@@ -8,22 +8,9 @@
             <div class="px-3 py-2 flex flex-row bg-white justify-between w-[676px] items-center">
                 <div class="py-2 flex flex-row gap-2.5 items-center">
                     <img src="assets/svg/icon-select-CERP.svg"/>
-                    <span>UNIDAD OPERATIVA PRUEBA</span>
-                    <!--<span>{{unidOperativa.descripcionCompleta}}</span>-->
+                    <span>{{unidadesOperativas.unidOperativa}}</span>
                 </div>
-                <button class="bg-[#F4F5F7] px-2.5 h-[30px]" (click)="AsignarUnidadOperativa()">Seleccionar</button>
-                <!--<button class="bg-[#F4F5F7] px-2.5 h-[30px]" (click)="AsignarUnidadOperativa(unidOperativa.idUnidOperativa)">Seleccionar</button>-->
-            </div>
-        </div>
-
-        <div class="flex flex-col gap-2.5 bg-[#F4F5F7] py-4 px-3">
-            <div class="px-3 py-2 flex flex-row bg-white justify-between w-[676px] items-center">
-                <div class="py-2 flex flex-row gap-2.5 items-center">
-                    <img src="assets/svg/icon-select-CERP.svg"/>
-                    <span>UNIDAD OPERATIVA PRUEBA 2</span>
-                    <!--<span>{{unidOperativa.descripcionCompleta}}</span>-->
-                </div>
-                <button class="bg-[#F4F5F7] px-2.5 h-[30px]">Seleccionar</button>
+                <button class="bg-[#F4F5F7] px-2.5 h-[30px]" (click)="AsignarUnidadOperativa(unidadesOperativas.idUnidOperativa)">Seleccionar</button>
                 <!--<button class="bg-[#F4F5F7] px-2.5 h-[30px]" (click)="AsignarUnidadOperativa(unidOperativa.idUnidOperativa)">Seleccionar</button>-->
             </div>
         </div>

@@ -70,6 +70,15 @@ export class RegistroCodigoComponent implements OnInit {
             },
           });
 
+          this.authSvc.confirmarEmail(dataSend.guiidSso).subscribe({
+            next: (resp:any) => {
+              console.log("correo confirmado .... ", resp);
+            },
+            error: (resp) => {
+              console.log("error de confirmacion de correo .... ", resp);
+            },
+          });
+
           this.toastrSvc.success(
             'Registro realizado - SSO',
             'Para ingresar comunique a su administrador de usuarios'

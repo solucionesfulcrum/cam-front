@@ -1,3 +1,4 @@
+import { Injectable } from '@angular/core';
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { BehaviorSubject, catchError, map, Observable, throwError } from 'rxjs';
@@ -8,13 +9,10 @@ import { JwtHelperService } from '@auth0/angular-jwt';
 
 const helperJWT = new JwtHelperService();
 
-@NgModule({
-  declarations: [],
-  imports: [
-    CommonModule
-  ]
+@Injectable({
+  providedIn: 'root'
 })
-export class ServicesModule { 
+export class AdmServiceService {
   private logueado = new BehaviorSubject<boolean>(false);
   constructor(private http: HttpClient, private router: Router) {
     this.checkToken();
@@ -39,9 +37,9 @@ export class ServicesModule {
     this.router.navigate(['/']);
   }
 
-  getUnidadesOperativas(): Observable<any> {
+  getUnidadesOperativas(data:any): Observable<any> {
     return this.http
-      .get<any>(`${environment.HOST}/unidad-operativa/listar/CAM?texto=`)
+      .get<any>(`${environment.HOST}/unidad-operativa/activas/usuario/`+data)
       .pipe(catchError(this.handleError));
   }
   
@@ -52,5 +50,4 @@ export class ServicesModule {
     }
     return throwError(() => errorMensaje);
   }
-
 }
