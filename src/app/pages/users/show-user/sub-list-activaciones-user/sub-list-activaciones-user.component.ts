@@ -79,6 +79,7 @@ export class SubListActivacionesUserComponent implements OnInit {
       breadcrumService.subActiveTab$.next('/usuarios/show/' + this.id + '/activaciones');
 
     });
+    localStorage.setItem('userId',this.id)
   }
 
   ngOnInit(): void {

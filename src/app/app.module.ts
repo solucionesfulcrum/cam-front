@@ -35,6 +35,7 @@ import { MatTooltipModule } from '@angular/material/tooltip';
 import { SharedModule } from '@shared/shared.module';
 import { LayoutComponent } from './layout/layout/layout.component';
 import { LayoutModule } from './layout/layout.module';
+import { DatePipe } from '@angular/common';
 
 @NgModule({
   declarations: [
@@ -72,6 +73,7 @@ import { LayoutModule } from './layout/layout.module';
   ],
   exports: [],
   providers: [
+    DatePipe,
     {
       provide: MAT_FORM_FIELD_DEFAULT_OPTIONS,
       useValue: { appearance: 'outline' },

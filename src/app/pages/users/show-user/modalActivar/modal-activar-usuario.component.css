@@ -53,3 +53,9 @@
   --tw-ring-color: #057EC9;
   border-color: #057EC9 !important;
 }
+
+.hoverCalendar:hover{
+  border-color: rgb(20 184 166);
+  border-width: 2px;
+  cursor: pointer;
+}
