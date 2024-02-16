@@ -89,6 +89,14 @@ export class ShowUserComponent implements OnInit {
         });
       });
   }
+  cancelarShow(){
+    console.log('Cancelar... ');
+    this.router.navigate(['/app/admin/usuarios']);
+  }
+
+  regresarShow(){
+    this.router.navigate(['/app/admin/usuarios']);
+  }
 
   loadUserByIdFromSys(id: string) {
     const tmp = this.usuariosService

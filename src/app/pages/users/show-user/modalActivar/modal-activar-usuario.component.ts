@@ -14,7 +14,7 @@ import { UsuarioService } from '../../../../core/_service/usuario.service'
 import { map, startWith } from 'rxjs';
 import { ActivateUser } from '../../../../models/usuario/user/user.module'
 import { DatePipe } from '@angular/common';
-import { ActivatedRoute,Params ,Router } from '@angular/router';
+import { ActivatedRoute, Params, Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
 
 @Component({
@@ -24,6 +24,7 @@ import { ToastrService } from 'ngx-toastr';
 })
 export class ModalActivarUsuarioComponent implements OnInit {
   public formDatosAdicionales = this.formBuilder.nonNullable.group({
+    frmLuo: ['', [Validators.required]],
     frmRol: ['', [Validators.required]],
     frmMotivo: [null, [Validators.required]],
   });
@@ -36,7 +37,7 @@ export class ModalActivarUsuarioComponent implements OnInit {
   listRoles: RolData[] = [];
   listUnidadOperativa: any[] = [];
   unidOperaSeleccionadaTmp!: any;
-  id : number;
+  id: number;
   idUserSession: any;
   minDate = new Date();
   showMsg = false;
@@ -66,16 +67,16 @@ export class ModalActivarUsuarioComponent implements OnInit {
     private router: Router,
     private toastrService: ToastrService
   ) {
-   
+
   }
 
   ngOnInit(): void {
     this.id = Number(localStorage.getItem("userId"))
-    console.log("idddddddddd",this.id)
-    if(localStorage.getItem('dataLog') != 'null'){
+    console.log("idddddddddd", this.id)
+    if (localStorage.getItem('dataLog') != 'null') {
       this.idUserSession = (JSON.parse(localStorage.getItem('dataLog')!)).idUserApp;
     }
-    else{
+    else {
       this.idUserSession = '1';
     }
     this.formVigencia.controls.frmInicioVigencia.valueChanges.subscribe((data) => {
@@ -95,7 +96,12 @@ export class ModalActivarUsuarioComponent implements OnInit {
   cargaServiciosParametros() {
     this.usuarioService.getListRolesActivos().subscribe((data) => {
       this.listRoles = data.data;
+      console.log("lista de roles",this.listRoles)
     })
+  }
+
+  cargaServiciosUnidadesOperativas() {
+    this.usuarioService.getUnidadesOperativas().subscribe((data) => { this.listUnidadOperativa = data.data })
   }
 
   actualizarDate(input: any, opt: number) {
@@ -110,7 +116,7 @@ export class ModalActivarUsuarioComponent implements OnInit {
     // console.log(input)
   }
 
-  getActivacion(): ActivateUser{
+  getActivacion(): ActivateUser {
     let fechaInicio: string, fechaFin: string;
     fechaInicio = this.formVigencia.value.frmInicioVigencia!;
     fechaFin = this.formVigencia.value.frmFinVigencia!;
@@ -118,9 +124,9 @@ export class ModalActivarUsuarioComponent implements OnInit {
     return {
       usuarioId: this.id,
       rolId: parseInt(this.formDatosAdicionales.value.frmRol!),
-      fechInicio: this.datePipe.transform(fechaInicio!.split('/')[2]+'/'+fechaInicio!.split('/')[1]+'/'+fechaInicio!.split('/')[0], 'yyyy-MM-dd')!,
-      fechFin: this.datePipe.transform(fechaFin!.split('/')[2]+'/'+fechaFin!.split('/')[1]+'/'+fechaFin!.split('/')[0], 'yyyy-MM-dd')!,
-      unidOperativaId: 1,
+      fechInicio: this.datePipe.transform(fechaInicio!.split('/')[2] + '/' + fechaInicio!.split('/')[1] + '/' + fechaInicio!.split('/')[0], 'yyyy-MM-dd')!,
+      fechFin: this.datePipe.transform(fechaFin!.split('/')[2] + '/' + fechaFin!.split('/')[1] + '/' + fechaFin!.split('/')[0], 'yyyy-MM-dd')!,
+      unidOperativaId: parseInt(this.formDatosAdicionales.value.frmLuo!),
       //unidOperativaId: this.frmCtrlUnidadOperativa.value.idUnidOperativa,
       usuarioRegId: this.idUserSession
     }
@@ -207,30 +213,30 @@ export class ModalActivarUsuarioComponent implements OnInit {
   saveActivacion() {
     console.log("Guardar Activación")
     console.log(this.getActivacion())
-    
+
     //if(this.validForm()){
-      this.status = 'loading';
-      this.usuarioService.activateUser(this.getActivacion()).subscribe((data)=>{
-        console.log(data)
-        this.dialogRef.close();
-        this.toastrService.success("Mensaje: Unidad Operativa Activada");
-        //this.cargaServiciosParametros();
-        /*if(data){
-          if(typeof data === 'object'){
-              this.status = 'failed';
-            this._notification.warning(data.message);
-            // console.log(data.message)
-          }
-          else{
-            this.userService.activateUserSigps(this.getActivacionSIGPS()).subscribe((data)=>{
-              this._notification.success('Se ha activado correctamente');
-              this.status = 'success';
-              // console.log(data)
-              this._dialogRef.close();
-            })
-          }
-        }*/
-      })
+    this.status = 'loading';
+    this.usuarioService.activateUser(this.getActivacion()).subscribe((data) => {
+      console.log(data)
+      this.dialogRef.close();
+      this.toastrService.success("Mensaje: Unidad Operativa Activada");
+      //this.cargaServiciosParametros();
+      /*if(data){
+        if(typeof data === 'object'){
+            this.status = 'failed';
+          this._notification.warning(data.message);
+          // console.log(data.message)
+        }
+        else{
+          this.userService.activateUserSigps(this.getActivacionSIGPS()).subscribe((data)=>{
+            this._notification.success('Se ha activado correctamente');
+            this.status = 'success';
+            // console.log(data)
+            this._dialogRef.close();
+          })
+        }
+      }*/
+    })
     //}
     /*else{
       this.formDatosAdicionales.markAllAsTouched();

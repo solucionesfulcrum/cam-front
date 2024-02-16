@@ -1,13 +1,13 @@
 
 <div class="my-3 w-full flex place-content-between">
   <div class="flex cursor-pointer text-base text-[#37474F]" routerLink="usuarios">
-      <img class="h-6 self-center" src="assets/circle-arrow-left2.svg"> <span class="self-center ml-2">Regresar</span>
+      <img class="h-6 self-center" src="assets/circle-arrow-left2.svg"> <span class="self-center ml-2" (click)="regresarShow()">Regresar</span>
   </div>
   <div class="flex space-x-3">
-    <button typeBtn="submit" class="btnStructure botonApariencia btnOtrasOpciones" routerLink="/usuarios">
+    <button typeBtn="submit" class="btnStructure botonApariencia btnOtrasOpciones" (click)="cancelarShow()">
       Cancelar
     </button>
-    <button typeBtn="submit" class="btnStructure botonApariencia btnOtrasOpciones" routerLink="/usuarios/edit/{{ id }}">
+    <button typeBtn="submit" class="btnStructure botonApariencia btnOtrasOpciones">
       <div class="flex"><img class="h-5 self-center" src="assets/editor.svg"><span class="ml-1"> Editar</span></div>
     </button>
     <button typeBtn="submit" class="btnStructure botonApariencia btnAccion" (click)="loadModalActivarUsuario()">

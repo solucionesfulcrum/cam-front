@@ -5,7 +5,7 @@
   </div>
   <div class="px-4 py-3 bg-white">
     <!--<span class="font-semibold">{{userData.nombres}}</span> <span> | DNI {{userData.dni}}</span> <span> | <span class="font-semibold">{{userData.unidadOperativaTipo}}</span> - {{userData.unidadOperativa | titlecase}}</span>-->
-    <span class="font-semibold">JUAN PEREZ</span> <span> | DNI 12345678</span>
+    <!--<span class="font-semibold">JUAN PEREZ</span> <span> | DNI 12345678</span>-->
       <p class="mt-4 mb-2">Asignar fecha de inicio y fin del servicio</p>
       <div class="grid grid-cols-2 gap-3 mt-4 mb-2" [formGroup]="formVigencia">
         <div class="relative mt-2 rounded-md shadow-sm">
@@ -71,6 +71,20 @@
         </div>
       </div>
       <div class="relative mt-2 rounded-md shadow-sm">
+        <select formControlName="frmLuo"
+          class="space-x-5 bg-slate-50 border border-gray-300 text-gray-900 text-sm rounded-lg focusCampo block w-full">
+          <!-- <option [selected]="true" disabled>Tipo de documento</option> -->
+          <option value="" disabled selected>Unidad Operativa</option>
+          <option *ngFor="let luo of listUnidadOperativa" [value]='luo.idUnidadOperativa'>{{luo.nombre | titlecase}}</option>
+        </select>
+        <div *ngIf="formDatosAdicionales.controls.frmRol.touched && formDatosAdicionales.controls.frmRol.invalid">
+          <p *ngIf="formDatosAdicionales.controls.frmRol.hasError('required')"
+            class="font-medium text-red-500 text-xs mt-1 ml-1">
+            Seleccione una unidad operativa
+          </p>
+        </div>
+      </div>-
+      <!--<div class="relative mt-2 rounded-md shadow-sm">
         <div class="pointer-events-none absolute inset-y-0 right-0 flex !h-9 items-center pr-3">
           <span class="text-gray-500 sm:text-sm">
             <esp-icon icon="faSearch"></esp-icon>
@@ -90,7 +104,7 @@
             Seleccione una unidad operativa
           </p>
         </div>
-      </div>
+      </div>-->
       <div class="relative rounded-md col-span-2 shadow-sm">
         <p class="mb-2"> Observación</p>
         <textarea id="observacion" formControlName="frmMotivo"
