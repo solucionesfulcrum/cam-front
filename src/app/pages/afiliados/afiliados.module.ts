@@ -14,7 +14,6 @@ import { SharedModule } from 'src/app/shared/shared.module';
 import { SolicitudesComponent } from './solicitudes/solicitudes.component';
 import { EvaluacionComponent } from './evaluacion/evaluacion.component';
 import { MenuOpcionesComponent } from '@shared/components/menu-opciones/menu-opciones.component';
-import { OpcionRegresarComponent } from '@shared/components/opcion-regresar/opcion-regresar.component';
 import { MatCheckboxModule } from '@angular/material/checkbox';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { ShowAfilComponent } from './show-afil/show-afil.component';
@@ -37,6 +36,7 @@ import { TabsComponent } from './components/tabs/tabs.component';
 import { AfilEvalComponent } from './components/afil-eval/afil-eval.component';
 import { CustomDatePipe } from '@shared/custom-date.pipe';
 import { CdkTableModule } from '@angular/cdk/table';
+import { Dialog, DialogModule } from '@angular/cdk/dialog';
 
 
 
@@ -76,13 +76,11 @@ import { CdkTableModule } from '@angular/cdk/table';
     CdkTableModule,
     MatCheckboxModule,
     MenuOpcionesComponent,
-    OpcionRegresarComponent,
     MatTooltipModule,
     MatCardModule,
     RouterModule,
+    DialogModule,
     SharedModule,
-   
-   
   ]
 })
 export class AfiliadosModule { }

@@ -1,6 +1,6 @@
 export interface FormatoBoton{
     texto: string,
-    colorBtn?: 'success' | 'primary' | 'danger' | 'light' | 'cancel' | 'sky' | "white" | "mezclado" | "bordeado" | "none",
+    colorBtn?: 'success' | 'primary' | 'danger' | 'light' | 'cancel' | 'sky' | "white" | "mezclado" | "transparente" | "bordeado" | "none",
     esImagen?: boolean,
     rutaIcono?: string,
     deshabilitado?: boolean,

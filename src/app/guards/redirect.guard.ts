@@ -1,30 +1,25 @@
 import { Injectable } from '@angular/core';
-import { ActivatedRouteSnapshot, CanActivate, Router, RouterStateSnapshot, UrlTree } from '@angular/router';
-import { Observable } from 'rxjs';
-import { AuthService } from '../pages/auth/services/auth-service.service';
+import {  CanActivate, Router} from '@angular/router';
+import { TokenService } from '@services/token.service';
 
 @Injectable({
   providedIn: 'root'
 })
 export class RedirectGuard implements CanActivate {
 
-  constructor(
-    private authService:AuthService,
-    private router:Router
-  ){
+  constructor( private tokenService:TokenService, private router: Router){
 
   }
 
-  canActivate(): boolean{
-
-    if(!this.authService.isValidToken()){
-      return true
+  canActivate(){
+    //const token = this.tokenService.getToken()
+    //const isValidToken = this.tokenService.isValidToken()
+    const isValidToken = this.tokenService.isValidRefreshToken()
+    if (isValidToken)
+    {
+      this.router.navigate(['/app'])
     }
-    else{
-      this.router.navigate(['/app/home'])
-      return false
-    }
+    return true;
   }
-
   
 }

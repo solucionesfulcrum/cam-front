@@ -1,0 +1,21 @@
+export class AppRoute {
+  static readonly APP = 'app';
+  static readonly ADMIN = 'admin';
+  static readonly USUARIOS = 'users';
+  static readonly EDIT_USER = 'edit-user';
+  //---------------------------------------------------------------------------------------------------------- RUTAS HORARIOS
+  static readonly HORARIOS = 'schedule';
+  static readonly CREAR_HORARIO = `create-${this.HORARIOS}`;
+  static readonly EDIT_HORARIO = `edit-${this.HORARIOS}`;
+  static readonly HORARIOS_BUSCAR = 'search';
+  static readonly HORARIOS_CONFIGURAR = 'config';
+
+  //---------------------------------------------------------------------------------------------------------- RUTAS ATENCIONES
+  static readonly ATENCIONES = 'attention';
+  // static readonly ATENCIONES_APERTURA = 'apertura';
+  static readonly ATENCIONES_PENDIENTES = 'pending';
+  static readonly ATENCIONES_ATENDIDOS = 'attended';
+  static readonly ATENCIONES_NO_ATENDIDOS = 'not-attended';
+  static readonly ATENCIONES_HISTORIAL = 'historial';
+
+}

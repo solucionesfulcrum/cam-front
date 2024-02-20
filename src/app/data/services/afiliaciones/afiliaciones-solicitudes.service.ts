@@ -3,7 +3,7 @@ import { Injectable } from '@angular/core';
 import { RequestListaSAfiliadosContacto, RequestListaSolicitudesAfiliados } from '@models/afiliados/ficha-solicitud.model';
 import { environment } from 'src/environments/environment';
 
-const URL_BASE = `${environment.HOST}/afiliado`;
+const URL_BASE = `${environment.API}/afiliado`;
 
 @Injectable({
   providedIn: 'root'

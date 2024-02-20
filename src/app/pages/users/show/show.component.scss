@@ -1,0 +1,66 @@
+.bg-image{
+  background: url("./../../../../assets/images/background.jpg");
+  background-position: center;
+  background-size: cover;
+}
+.avatar{
+  bottom: -2.5rem;
+  background: url("./../../../../assets/images/avatar-user.png");
+  background-position: center;
+  background-size: cover;
+}
+.content-detail{
+  min-height: 80vh;
+}
+
+.botonApariencia{
+  color: #3e4348;
+  border-radius: 5px;
+  box-shadow: 1px 1px 4px 0px #00000066;
+}
+.botonMezclado {
+  ::ng-deep.bg-success-700{
+  background: var(--color-CAM-Mezclado) !important;
+}
+border-radius: 5px;
+box-shadow: 1px 1px 4px 0px #00000066;
+}
+
+.filasPseudoTabla{
+  text-align: center;
+  span{
+    align-self: center;
+    font-weight: 600;
+  }
+}
+
+.dataPseudoTabla{
+  font-size: 14px;
+  padding-bottom: 0.5rem;
+  --tw-border-opacity: 1;
+  border-color: rgb(209 213 219 / var(--tw-border-opacity));
+  border-bottom-width: 1px;
+  gap: 0.25rem;
+  grid-template-columns: repeat(6, minmax(0, 1fr));
+  display: grid;
+  margin-top: 1rem;
+  span{
+    justify-self: center;
+    text-align: center;
+  }
+}
+::-webkit-scrollbar {
+    width: 10px;
+}
+ 
+::-webkit-scrollbar-track {
+    background: #f1f1f1;
+}
+::-webkit-scrollbar-thumb {
+    background: #888;
+    border-radius: 5px;
+}
+ 
+::-webkit-scrollbar-thumb:hover {
+    background: #555;
+}

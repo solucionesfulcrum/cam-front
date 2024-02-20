@@ -1,0 +1,65 @@
+.contenedorCartillas{
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.cuadroAtención:hover{
+    background: rgb(247 247 247);
+}
+
+.cuadroAtención{
+    --width-secciones: calc(100%/3);
+    background-color: white;
+    color: #344563;
+    .sombreadoAtendido{
+        color: var(--color-CAM);
+    }
+
+    height: 90px;
+    padding: 0px 16px 0px 16px;
+    border-radius: 5px;
+    display: flex;
+    flex-shrink: 0;
+    justify-content: space-between;
+    border-left-width: 4px;
+    border-left-style: solid;
+    box-shadow: 0px 4px 4px 0px #0000000D;
+    .borderSeparador{
+        border-left: 1px solid #DBDADE;
+        padding-left: 8px;
+    }
+    .firstSectionCuadro{
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        width: var(--width-secciones);
+        .actividadCuadroInfo{
+            display: flex;
+            flex-direction: column;
+            gap: 6px;
+        }
+    }
+    .secondSectionCuadro{
+        display: flex;
+        align-items: center;
+        padding: 0 8px;
+        width: var(--width-secciones);
+        .envolventeSegundo{
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+        .iconEnvolvente{
+            width: 20px;
+            align-self: center;
+            text-align: -webkit-center;
+        }
+    }
+    .thirdSectionCuadro{
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        width: var(--width-secciones);
+    }
+}

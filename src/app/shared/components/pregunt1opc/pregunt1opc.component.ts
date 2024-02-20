@@ -9,7 +9,7 @@ import { Component, Input, OnInit } from '@angular/core';
 })
 export class Pregunt1opcComponent implements OnInit {
 
-  @Input() textEval: string;
+  @Input() textEval!: string;
 
   constructor() { }
 

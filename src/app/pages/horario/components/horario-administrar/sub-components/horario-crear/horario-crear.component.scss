@@ -1,0 +1,25 @@
+.cardBackground{
+    padding: 1rem;
+    background-color: white;
+    border-radius: 5px;
+    box-shadow: 1px 1px 4px 0px rgba(0, 0, 0, 0.4);
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    .contenedorAnioMes{
+        padding: 12px 0;
+        display: flex;
+        flex-direction: row;
+        gap: 10px;
+        .selectorsAnioMes{
+            width: 100%;
+            display: flex;
+            flex-direction: row;
+            gap: 10px;
+            div{
+                flex-grow: 1;
+                flex-shrink: 0;
+            }
+        }
+    }
+}

@@ -1,0 +1,226 @@
+/* You can add global styles to this file, and also import other style files */
+/*
+@import "~bootstrap/dist/css/bootstrap.css";
+@import './assets/styles/my-theme.scss';
+*/
+$colorPrimary: var(--color-CAM);
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+@import '@angular/cdk/overlay-prebuilt.css';
+// @import 'ngx-toastr/toastr';
+
+:root{
+  --color-CAM : #057EC9;
+  --color-CAM-Transparente : rgb(51, 153, 153, 0.3);
+  --color-CAM-Claro : #008BD2;
+  --color-fondo-claro: #F0F9F9;
+  --color-CAM-Mezclado: linear-gradient(52.75deg, #057EC9 34.02%, #0160AE 80.1%);
+  --color-black-alt: #344563;
+}
+
+.borderSigps{
+  background: var(--color-CAM-Mezclado);
+  background-size: 100% 2px;
+  background-position: bottom 0 left 0,bottom 5px left 0;
+  background-repeat: no-repeat;
+}
+
+.header {
+  text-align: center;
+  margin-bottom: 50px;
+}
+
+.required {
+  color: #f82929;
+}
+
+.step[target]:after{
+  z-index: 1;
+}
+
+.focusCampo:focus{
+    --tw-ring-color: var(--color-CAM);
+    border-color: var(--color-CAM-Claro);
+}
+
+.cuadroRadioButton{
+  color: rgb(107 114 128);
+  width: 100%;
+  padding: 0.75rem;
+  background-color: white;
+  border-width: 1px;
+  border-color: rgb(229 231 235);
+  cursor: pointer;
+}
+.cuadroRadioButton:hover{
+  background-color: #f3f4f6;
+  color: #4b5563;
+}
+
+.bordColorEstablecido, li.elementoSeleccionable .peer:checked ~ label , li.elementoSeleccionable input.peer{
+  color: var(--color-CAM);
+  border-color: var(--color-CAM);
+}
+ul.grupoOpciones, ul.grupoDirecciones{
+  li.elementoSeleccionable{
+    position: relative;
+    input{
+      position: absolute;
+      margin-left: 0.75rem;
+    }
+    label{
+      display: inline-flex;
+      align-items: center;
+      height: 100%;
+    }
+  }
+}
+
+ul.grupoOpciones{
+  li.elementoSeleccionable{
+    display: flex;
+    align-items: center;
+  }
+}
+
+ul.grupoDirecciones{
+  gap: 0.75rem;
+  width: 100%;
+  display: grid;
+  margin-bottom: 0.75rem;
+  margin-top: 1.25rem;
+}
+
+.inputTextoDialog{	
+  display: block;
+  width: 100%;
+  border-radius: 0.375rem;
+  border-width: 0px;
+  padding-top: 0.375rem;
+  padding-bottom: 0.375rem;
+  color: rgb(17 24 39);
+  box-shadow: var(--tw-ring-inset) 0 0 0 calc(1px + var(--tw-ring-offset-width)) var(--tw-ring-color);
+  --tw-ring-inset: inset;
+  --tw-ring-color: #d1d5db;
+  height: 2.5rem;
+  font-size: 0.875rem;
+  line-height: 1.25rem;
+}
+.inputTextoDialog::placeholder{
+  color:#9ca3af;
+}
+.inputTextoDialog::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+.inputTextoDialog:focus{
+  box-shadow: var(--tw-ring-inset) 0 0 0 calc(2px + var(--tw-ring-offset-width)) var(--tw-ring-color);
+}
+.list-item-activo {
+  border-left-color: var(--color-CAM) !important;
+  img{
+    filter: none !important;
+  }
+  color: var(--color-CAM) !important;
+  esp-icon{
+    color: var(--color-CAM) !important;
+  }
+}
+.list-item-activo, .nav-list-item li a:hover,.fondoSigps{
+  background: var(--color-fondo-claro);
+  border-left-color: var(--color-fondo-claro);
+}
+.nav-list-item{
+  li{
+    a{	
+      border-left: 3px solid transparent;
+      font-size: 16px;
+      line-height: 28px;
+      font-weight: 400;
+      padding: 0.75rem 13.25px 0.75rem 13.25px;
+      display: block;
+      color: #3E4348;
+      esp-icon{
+        color:#D4D4D4;
+      }
+    }
+  }
+}
+.text-Name{
+    font-weight: 600;
+    background: linear-gradient(90deg, #339999 19.97%, #057EC9 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+
+html, body { height: 100%; }
+body { 
+  margin: 0; 
+  font-family: 'Poppins';
+  .mdc-tab{
+    min-width: 70px;
+    font-family: 'Poppins' !important;
+    letter-spacing: 0;
+  }
+  .mat-mdc-tab-link.mdc-tab, .mat-mdc-tab.mdc-tab{
+    height: 35px !important;
+  }
+  // font-family: Roboto, "Helvetica Neue", sans-serif; 
+}
+
+.tablaDatos, .paginatorDatos, .tablaDatos thead{
+  border: #e5e7eb !important;
+  border-width: thin !important;
+  border-style: solid !important;
+}
+
+.tablaDatos th{
+  color: rgb(55 65 81 / var(--tw-text-opacity));
+  font-weight: 700;
+  background: #F6F6F6 !important;
+  font-size: 0.875rem;
+}
+
+.paginatorDatos{
+  border-top: 0 !important;
+}
+
+.botonApariencia{
+  color: #3e4348;
+  border-radius: 5px;
+  box-shadow: 1px 1px 4px 0px #00000066;
+}
+
+.bg-sigps{
+  background: var(--color-CAM-Mezclado);
+}
+
+.selected-item{
+  visibility: hidden;
+  position: absolute;
+  top: 0;
+  font-family: Roboto, "Helvetica Neue", sans-serif;
+  left: 0;
+}
+
+@media print{
+  @page {
+    size: auto;
+    margin: 0mm;
+  }
+  body, mat-drawer{
+    visibility: hidden !important;
+  }
+  mat-drawer-content{
+    margin-left: 0 !important;
+  }
+  .selected-item{
+    visibility: visible !important;
+    .bg-ficha-adm{
+      background: #EAEAEA;
+      print-color-adjust: exact; 
+    }
+  }
+}

@@ -2,11 +2,11 @@ import { Component, OnInit, ViewChild, NgModule } from '@angular/core';
 import { FormBuilder } from '@angular/forms';
 import { ActivatedRoute, Router, RouterLink, RouterModule } from '@angular/router';
 import { Output, EventEmitter } from '@angular/core';
-import { AfiliadoService } from '@shared/services/afiliado.service';
 import { AfiliadosComponent } from '../afiliados/afiliados.component';
 import { EvaluacionComponent } from '../evaluacion/evaluacion.component';
 import { Dialog } from '@angular/cdk/dialog';
 import { NotasAfilComponent } from '../components/notas-afil/notas-afil.component';
+import { AfiliadoService } from 'src/app/data/services/afiliaciones/afiliado.service';
 
 
 export interface direccionData {

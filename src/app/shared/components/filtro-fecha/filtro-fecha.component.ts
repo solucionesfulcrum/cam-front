@@ -1,7 +1,7 @@
 import { CdkMenuModule } from '@angular/cdk/menu';
 import { CommonModule } from '@angular/common';
 import { Component, EventEmitter, Input, Output, TemplateRef, ViewChild } from '@angular/core';
-import { FormsModule } from '@angular/forms';
+import { FormControlName, FormGroupDirective, FormGroupName, FormsModule } from '@angular/forms';
 import { NgxDaterangepickerMd } from 'ngx-daterangepicker-material';
 
 @Component({

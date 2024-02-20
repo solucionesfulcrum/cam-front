@@ -38,7 +38,6 @@ export class MenuOpcionesComponent implements OnInit{
     this.activeTab = this.links[0].url;
     this.activeTab = this.getActiveLink(this.router.url);
     this.router.events.pipe(filter(e => e instanceof NavigationEnd)).subscribe((data: any)=>{
-      console.log(data)
       this.activeTab = this.getActiveLink(data.urlAfterRedirects);
     })
     if(this.setColorTab != undefined){
@@ -52,7 +51,6 @@ export class MenuOpcionesComponent implements OnInit{
 
     if (this.links.length > 1) {
       for (let i = 1; i < this.links.length; i++) {
-        console.log(path, this.links[i].url )
         if (path.includes(this.links[i].url)){
           active = this.links[i].url;
           link = this.links[i];

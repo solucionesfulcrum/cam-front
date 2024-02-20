@@ -1,0 +1,66 @@
+<div>
+    <span class="text-[28px] text-[#344563]">Crear Horario</span>
+</div>
+<esp-opciones-botones  [listOpciones]="opcionesBotones" (firstFunction)="funcionesExtra(0)" (secondFunction)="funcionesExtra(1)"></esp-opciones-botones>
+<div class="flex flex-col gap-2.5">
+    <div class="cardBackground">
+        <span class="text-xl text-[var(--color-CAM)] font-semibold">Mes y Año del Horario</span>
+        <div class="contenedorAnioMes">
+            <div class="selectorsAnioMes" [formGroup]="frmHorario">
+                <div class="flex flex-col">
+                    <span>Mes *</span>
+                    <select formControlName="frmMes" class="bg-slate-50 !pr-3 border border-gray-300 text-gray-900 text-sm rounded-lg focusCampo block w-full h-[40px]">
+                        <option value="" disabled selected>Seleccione un Mes</option>
+                        <ng-container *ngFor="let opcion of listMeses, index as i">
+                            <option [value]="opcion.mesId">{{opcion.nombre}}</option>
+                        </ng-container>
+                    </select>
+                </div>
+                <div class="flex flex-col">
+                    <span>Año *</span>
+                    <select formControlName="frmAnio" class="bg-slate-50 !pr-3 border border-gray-300 text-gray-900 text-sm rounded-lg focusCampo block w-full h-[40px]">
+                        <option value="" disabled selected>Seleccione un Año</option>
+                        <ng-container *ngFor="let opcion of anios, index as i">
+                            <option [value]="opcion">{{opcion}}</option>
+                        </ng-container>
+                    </select>
+                </div>
+            </div>
+            <div class="selectorsAnioMes">
+                
+            </div>
+        </div>
+    </div>
+    <div class="cardBackground">
+        <span class="text-xl text-[var(--color-CAM)] font-semibold">Seleccionar Profesionales</span>
+        <div class="contenedorAnioMes !p-0">
+            <div class="selectorsAnioMes items-end">
+                <div class="flex flex-col">
+                    <span>De Unidad de Rehabilitación *</span>
+                    <select [formControl]="ctrlUnidRehab" class="bg-slate-50 !pr-3 border border-gray-300 text-gray-900 text-sm rounded-lg focusCampo block w-full h-[40px]">
+                        <ng-container *ngFor="let unidRehab of listUnidadesRehabilitacion, index as i">
+                            <option [value]="unidRehab.procesoId">{{unidRehab.nombre}}</option>
+                        </ng-container>
+                    </select>
+                </div>
+                <app-btn typeBtn="submit" class="botonApariencia h-10 flex" color="white" (click)="aniadirTodos()">
+                    <esp-icon icon="faAdd"></esp-icon> Seleccionar todos
+                </app-btn>
+            </div>
+            <div class="selectorsAnioMes">
+            </div>
+        </div>
+        <div class="flex flex-col gap-1">
+            <span>Búsqueda avanzada</span>
+            <input [formControl]="ctrlProfesionalSeleccionado" type="text" [matAutocomplete]="profesional" class="inputTextoDialog focusCampo" placeholder="Buscar profesional" (keydown.enter)="showEnter()">
+            <mat-autocomplete #profesional="matAutocomplete" [displayWith]="displayFnProfesional" (optionSelected)="onSelectionChangeProfesional($event)">
+                <mat-option *ngFor="let option of filteredOptionsProfesional | async" [value]="option">
+                    {{option.nombres | titlecase}}
+                </mat-option>
+            </mat-autocomplete>
+        </div>
+        <div>
+            <esp-tabla-adaptable [dataColumnas]="dataColumnas" [dataIngresante]="dataProfesionalEnviado" (sendData)="ctrlDataObtenida.setValue($event)"></esp-tabla-adaptable>
+        </div>
+    </div>
+</div>

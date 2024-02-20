@@ -1,0 +1,72 @@
+.identificadorTabla{
+    width: 24px;
+    flex-shrink: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.contenedorHeaderTabla{
+    padding: 10px 8px;
+    display: flex;
+    flex-direction: row;
+    gap: 6px;
+    background-color: #F4F5F7;
+    font-size: 1rem;
+    line-height: 1.5rem;
+    .headerText{
+        width: 100%;
+    }
+}
+
+.tablaMutada{
+    color: #37474F;
+    border-color: #CFCFCF;
+    border-width: 0.0125rem;
+    display: flex;
+    flex-direction: column;
+}
+
+::-webkit-scrollbar {
+    display: none;
+}
+
+.contenidoTablaMutada{
+    padding: 8px;
+    max-height: 27vh;
+    overflow: auto;
+    .filasTablaMutada{
+        display: flex;
+        flex-direction: column;
+        gap: 6px;
+        font-size: 1rem;
+        line-height: 1.5rem;
+    }
+    .filaEstaSi{
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        gap: 6px;
+        .atributosFila{
+            width: 100%;
+        }
+        .atributoTexto{
+            background-color: #F5F8FA;
+            padding: 8px 8px;
+        }
+        .eliminarFilaIcon{
+            cursor: pointer;
+            width: 34px;
+            height: 2.5rem;
+            border-radius: 5px;
+            border-width: 1px;
+            border-color: red;
+            flex-shrink: 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .eliminarFilaIcon:hover {
+            background: #dddddd;
+        }
+    }
+}

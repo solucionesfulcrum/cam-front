@@ -1,0 +1,85 @@
+<h1 class="text-center font-semibold pt-4 pb-8 text-gray">
+          <span>
+            SISTEMA INTEGRAL DE GESTION PARA PRESTACIONES SOCIALES - SIGPS 
+          </span> 
+          </h1>
+<form [formGroup]="form" novalidate class="space-y-4" (ngSubmit)="recovery()">
+  <div>
+    <div class="relative">
+      <input
+        formControlName="newPassword"
+        placeholder="Contraseña"
+        [type]="showPassword ? 'text' : 'password'"
+        class="w-full rounded bg-white border-gray-400 border-1 px-4 py-3 font-light focus:border-blue-200 focus:border-1"
+      />
+      <button
+        type="button"
+        class="p-2 absolute right-2"
+        (click)="showPassword = !showPassword"
+      >
+        <fa-icon [icon]="showPassword ? faEye : faEyeSlash"></fa-icon>
+      </button>
+    </div>
+    <div
+      *ngIf="form.controls.newPassword.touched && form.controls.newPassword.invalid"
+    >
+      <p
+        *ngIf="form.controls.newPassword.hasError('required')"
+        class="font-medium text-red-500 text-xs mt-1 ml-1"
+      >
+      La contraseña es obligatoria
+      </p>
+      <p
+        *ngIf="form.controls.newPassword.hasError('minlength')"
+        class="font-medium text-red-500 text-xs mt-1 ml-1"
+      >
+        La contraseña deberia tener min 8 caracteres 
+      </p>
+    </div>
+  </div>
+  <div>
+    <div class="relative">
+      <input
+        formControlName="confirmPassword"
+        placeholder="Confirmar contraseña"
+        type="password"
+        class="w-full rounded bg-white border-gray-400 border-1 px-4 py-3 font-light focus:border-blue-200 focus:border-1"
+      />
+    </div>
+    <div
+      *ngIf="
+        form.controls.confirmPassword.touched &&
+        form.controls.confirmPassword.invalid
+      "
+    >
+      <p
+        *ngIf="form.controls.confirmPassword.hasError('required')"
+        class="font-medium text-red-500 text-xs mt-1 ml-1"
+      >
+      La confirmación de la contraseña es obligatoria 
+      </p>
+      <p
+        *ngIf="form.controls.confirmPassword.hasError('minlength')"
+        class="font-medium text-red-500 text-xs mt-1 ml-1"
+      >
+       La confirmaciónde la contraseña deberia tener min 8 caracteres 
+      </p>
+    </div>
+  </div>
+  <div *ngIf="form.controls.confirmPassword.touched">
+    <p
+      *ngIf="form.hasError('mismatch')"
+      class="font-medium text-red-500 text-xs mt-1 ml-1"
+    >
+     Las contraseñas no coinciden 
+    </p>
+  </div>
+  <div>
+    <app-btn
+      typeBtn="submit"
+      color="success"
+      [loading]="status === 'loading'"
+      >ACTUALIZAR CONTRASEÑA</app-btn
+    >
+  </div>
+</form>

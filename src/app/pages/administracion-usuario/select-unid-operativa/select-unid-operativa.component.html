@@ -5,16 +5,32 @@
             <span>Seleccionar una Unidad Operativa</span>
         </div>
         <div class="flex flex-col gap-2.5 bg-[#F4F5F7] py-4 px-3">
-            <div class="px-3 py-2 flex flex-row bg-white justify-between w-[676px] items-center">
-                <div class="py-2 flex flex-row gap-2.5 items-center">
-                    <img src="assets/svg/icon-select-CERP.svg"/>
-                    <span>{{unidadesOperativas.unidOperativa}}</span>
+            <ng-container *ngIf="listUnidOperativa == undefined">
+                <div class="text-gray-600 w-full text-center">
+                    <p class="py-1 font-bold text-2xl">
+                        <fa-icon class="mr-2" [icon]="faSpinner" [pulse]="true"></fa-icon>
+                        Obteniendo datos...
+                    </p>
                 </div>
-                <button class="bg-[#F4F5F7] px-2.5 h-[30px]" (click)="AsignarUnidadOperativa(unidadesOperativas.idUnidOperativa)">Seleccionar</button>
-                <!--<button class="bg-[#F4F5F7] px-2.5 h-[30px]" (click)="AsignarUnidadOperativa(unidOperativa.idUnidOperativa)">Seleccionar</button>-->
-            </div>
+            </ng-container>
+            <ng-container *ngIf="listUnidOperativa != undefined">
+                <ng-container *ngIf="listUnidOperativa.length > 0">
+                    <div class="px-3 py-2 flex flex-row bg-white justify-between w-[676px] items-center" *ngFor="let unidOp of listUnidOperativa, index as i">
+                        <div class="py-2 flex flex-row gap-2.5 items-center">
+                            <img src="assets/svg/icon-select-CERP.svg"/>
+                            <span>{{unidOp.unidOperativa}}</span>
+                        </div>
+                        <button class="bg-[#F4F5F7] px-2.5 h-[30px]" (click)="AsignarUnidadOperativa(unidOp)">Seleccionar</button>
+                    </div>
+                </ng-container>
+                <ng-container *ngIf="listUnidOperativa.length == 0">
+                    <div class="text-gray-600 w-full text-center">
+                        <p class="py-1 font-bold">
+                            No está asignado a una Unidad Operativa
+                        </p>
+                    </div>
+                </ng-container>
+            </ng-container>
         </div>
     </div>
 </div>
-
-

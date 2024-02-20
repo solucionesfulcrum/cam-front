@@ -1,0 +1,23 @@
+.botonMezclado {
+    ::ng-deep.bg-success-700{
+    background: var(--color-CAM-Mezclado) !important;
+  }
+  border-radius: 5px;
+  box-shadow: 1px 1px 4px 0px #00000066;
+}
+
+.boxMsgSatisf{
+    margin-top: 16px;   
+    width: 100%; 
+    text-align: center;
+    .boxSpanMsg{
+        padding: 12px 0;
+        color: #0CCE6B;
+        border-bottom: 0.5px solid #3e434859;
+    }
+    .btnSgte{
+        margin: 12px 0;
+        display: flex;
+        justify-content: center;
+    }
+}

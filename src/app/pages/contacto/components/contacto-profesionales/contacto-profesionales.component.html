@@ -1,0 +1,63 @@
+<esp-opciones-busqueda class="w-full"
+[showSearch]="true"
+[searchInputPlaceHolder]="'Buscar'"
+(searchInputValue)="searchInput = $event; onLoad()"
+[showFirstDisplayFilter]="true"
+[firstDisplayFilterPlaceholder]="{'indicador': false, 'placeholder': 'Acciones'}"
+(firstDisplayFilterSendValue)="accionElegida = $event; onLoad()"
+[showSecondDisplayFilter]="true"
+[secDisplayFilterPlaceholder]="{'indicador': true, 'placeholder': 'Todos los estados'}"
+(secDisplayFilterSendValue)="estadoProfesionalElegido = $event; onLoad()"
+></esp-opciones-busqueda>
+
+<table cdk-table class="w-full text-sm text-left text-gray-500 tablaDatos" [dataSource]="dataSource" >
+    <tr cdk-header-row class="text-xs text-gray-700 bg-gray-50" *cdkHeaderRowDef="columns"></tr>
+    <tr cdk-row class="bg-white border-b" *cdkRowDef="let row; columns: columns"></tr>
+    <ng-container cdkColumnDef="id">
+      <th cdk-header-cell class="py-5 px-6" *cdkHeaderCellDef> <input type="checkbox" value="false"/> </th>
+      <td cdk-cell class="py-4 px-6" *cdkCellDef="let row"> <input type="checkbox" value="false"/> </td>
+    </ng-container>
+  
+    <ng-container cdkColumnDef="nombreProfesional">
+      <th cdk-header-cell class="py-5 px-6" *cdkHeaderCellDef>Nombre del Profesional</th>
+      <td cdk-cell class="py-4 px-6" *cdkCellDef="let row">
+        <a class="text-Name" [routerLink]="[row.usuarioId]">{{ row.profesional | titlecase }}</a>
+      </td>
+    </ng-container>
+  
+    <ng-container cdkColumnDef="tipoDoc">
+      <th cdk-header-cell class="py-5 px-6" *cdkHeaderCellDef>Doc.</th>
+      <td cdk-cell class="py-4 px-6" *cdkCellDef="let row">{{ row.tipoDoc === 'DOCUMENTO NACIONAL DE IDENTIDAD' ? 'DNI' : row.tipoDoc | titlecase }}</td>
+    </ng-container>
+  
+    <ng-container cdkColumnDef="numDoc">
+      <th cdk-header-cell class="py-5 px-6" *cdkHeaderCellDef>N° de Documento</th>
+      <td cdk-cell class="py-4 px-6" *cdkCellDef="let row">{{row.numDoc }}</td>
+    </ng-container>
+  
+    <ng-container cdkColumnDef="telefono">
+      <th cdk-header-cell class="py-5 px-6" *cdkHeaderCellDef>Teléfono</th>
+      <td cdk-cell class="py-4 px-6 fechaRoboto" *cdkCellDef="let row">{{ row.telefono }}</td>
+    </ng-container>
+  
+    <ng-container cdkColumnDef="correo">
+      <th cdk-header-cell class="py-5 px-6" *cdkHeaderCellDef>E-mail</th>
+      <td cdk-cell class="py-4 px-6 fechaRoboto" *cdkCellDef="let row">{{ row.email }}</td>
+    </ng-container>
+  
+    <ng-container cdkColumnDef="perfil">
+      <th cdk-header-cell class="py-5 px-6" *cdkHeaderCellDef>Perfil Profesional</th>
+      <td cdk-cell class="py-4 px-6 text-sky-400" *cdkCellDef="let row">{{row.perfilProfesional === 'FALTA' ? 'No Asignado' : row.perfilProfesional | titlecase}}</td>
+    </ng-container>
+      <!-- <tr mat-header-row class="text-xs text-gray-700 uppercase bg-gray-50" *matHeaderRowDef="columns"></tr>
+      <tr mat-row class="bg-white border-b" *matRowDef="let row; columns: columns;"></tr> -->
+</table>
+<mat-paginator #paginator class="demo-paginator paginatorDatos" 
+  (page)="handlePageEvent($event)"
+  [length]="total"
+  [pageSize]="pageSize"
+  showFirstLastButtons="true"
+  [pageSizeOptions]="pageSizeOptions.length > 0 ? pageSizeOptions : []"
+  [pageIndex]="pageIndex"
+  aria-label="Select page">
+</mat-paginator>

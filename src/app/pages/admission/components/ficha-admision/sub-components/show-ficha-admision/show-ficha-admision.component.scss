@@ -1,0 +1,37 @@
+.botonMezclado {
+    ::ng-deep.bg-success-700{
+    background: var(--color-CAM-Mezclado) !important;
+  }
+  border-radius: 5px;
+  box-shadow: 1px 1px 4px 0px #00000066;
+}
+
+h2{
+    font-size: revert;
+    align-self: center;
+    font-weight: 600;
+    color: #3E4348;
+}
+
+.labelHistoria{
+    font-size: 14px;
+    font-weight: 300;      
+    color: #64748B;
+}
+
+.nHistoria{
+    font-size: 18px;
+    font-weight: 300;
+    line-height: 20px;
+    color: #339999;  
+}
+
+.imagen{
+    width: 120px;
+    height: 150px;
+    justify-self: center;
+}
+
+.anios{
+    background: var(--color-CAM-Mezclado);
+}

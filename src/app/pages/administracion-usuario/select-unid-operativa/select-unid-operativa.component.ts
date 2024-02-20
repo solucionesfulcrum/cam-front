@@ -1,39 +1,49 @@
-import { Component, OnInit } from '@angular/core';
-import { Router } from '@angular/router';
-import { AdmServiceService } from '../services/adm-service.service'
 import { CommonModule } from '@angular/common';
+import { Component } from '@angular/core';
+import { Router, RouterModule } from '@angular/router';
+import { faSpinner } from '@fortawesome/free-solid-svg-icons';
+import { DatosGeneralesService } from '@services/datos-generales.service';
+import { NotificationService } from '@services/notification.service';
+import { SharedModule } from '@shared/shared.module';
 
 @Component({
-  selector: 'app-select-unid-operativa',
+  selector: 'esp-select-unid-operativa',
   templateUrl: './select-unid-operativa.component.html',
-  styleUrls: ['./select-unid-operativa.component.css']
+  styleUrls: ['./select-unid-operativa.component.scss'],
+  standalone: true,
+  imports: [CommonModule, RouterModule, SharedModule]
 })
-export class SelectUnidOperativaComponent implements OnInit {
-  unidadesOperativas = Object();
-  constructor(
-    private router: Router,
-    private serv: AdmServiceService,
-  ) {
+export class SelectUnidOperativaComponent {
+
+  faSpinner = faSpinner;
+  userInfo = Object();
+  listUnidOperativa: any;
+
+  constructor(private router                          : Router,
+              private datosGeneralesService           : DatosGeneralesService,
+              private notificationService             : NotificationService) { }
+
+  ngOnInit(){
+    console.log(this.listUnidOperativa)
+    if(localStorage.getItem('sigpsUser') != 'null'){
+      this.userInfo = JSON.parse(localStorage.getItem('sigpsUser')!);
+      console.log(this.userInfo)
+      this.datosGeneralesService.getUnidadesOperativasAsignadas(this.userInfo.idUsuario).subscribe((data)=>{
+        if (data.code == 0) {
+          this.listUnidOperativa = data.data;
+          console.log(data)
+        }
+        else{
+          this.notificationService.warning(data.message);
+        }
+      })
+    }
 
   }
 
-
-  ngOnInit(): void {
-    const idUser = JSON.parse(localStorage.getItem("dataLog")!)
-    this.serv.getUnidadesOperativas(idUser.idUserApp).subscribe({
-      next: (resp: any) => {
-        this.unidadesOperativas = resp.data[0]
-        console.log("cresultado de uo .... ", this.unidadesOperativas);
-      },
-      error: (resp) => {
-        console.log("error resultado de uo .... ", resp);
-      },
-    });
-  }
-
-  AsignarUnidadOperativa(data:any): void {
-    console.log("asignar unidad operativa",data)
-    localStorage.setItem('unidadOperativaId', data);
+  AsignarUnidadOperativa(unidOperativ: any){
+    console.log(unidOperativ)
+    localStorage.setItem('UnidElegida', JSON.stringify(unidOperativ));
     this.router.navigate(['/app']);
   }
 }

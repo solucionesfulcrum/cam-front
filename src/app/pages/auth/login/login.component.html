@@ -1,88 +1,50 @@
-<!-- <div>
-        <img src="assets/img/cam_login.png" alt="">
-    </div> -->
-<div class="bg-primary3 d-flex align-content-center  justify-content-center h-100v">
-  <div class="col-md-7 d-none d-md-block align-content-center position-relative responsi">
-    <div class="center">
-      <div class="content-Essl">
-        <img class="img-logoEssl" src="assets/img/logo-essalud-white.svg" />
-      </div>
-      <div class="content-imagen2">
-        <img class="img-hand" src="assets/img/hand.png" />
-      </div>
-      <div class="content-imagen2 mt-4 text-center">
-        <p class="content-imagen2 text-w-bold text-white text-s-40">SCAM</p>
-      </div> 
-      <div class="mt-1 text-center">
-        <span class="content-imagen2 text-w-semibold text-white text-s-40">Sistema de Centro del Adulto Mayor</span>
-      </div>
+<div class="relative w-full sm:w-7/12 md:w-7/12 m-auto">
+  <div class="bg-white rounded shadow-none sm:shadow-lg py-4 px-4 md:px-10">
+    <app-header></app-header>
+    <div class="mb-4">
+      <app-login-form></app-login-form>
     </div>
-  </div>
-  <div class="col-md-5 col-10 d-flex h-100 align-content-center justify-content-center">
-    <div class="bg-white col-md-4 col-lg-4 col-xl-4 col-xxl-3  col-10 border-1-light radius-8 px-md-5 px-4 py-2 vertical-center">
-      <div class="d-flex align-items-center justify-content-center md-py-5 py-4">
-        <img class="img-logoCAM" src="assets/img/cam-logo.png" />
-      </div>
-      
-        <div class="d-flex ">
-          <span
-            class="text-s-20 text-w-normal text-black ml-13 pt-2 pb-1 mb-2 justify-content-start align-content-flex-start"
-            style="border-bottom: 2px solid #057ec9">Inicia Sesión
-          </span>
-        </div>
-    
-        <div class=" text-s-18 text-black mb-2">
-          Bienvenido de nuevo! 
-        </div>
-        <div class=" text-s-14 text-w-fine mb-4" style="color: #37474f">
-          Ingrese con su Nº de documento y contraseña. 
-        </div>
-
-        <form [formGroup]="loginForm" (ngSubmit)="onLogin()" class="p-0 m-0">
-        <div class="form-div-datos">
-          <mat-form-field class="full-width-input">
-            <mat-label class="text-s-20 text-secondary">Nº Documento</mat-label>
-            <input formControlName="username" matInput required />
-            <mat-icon matSuffix>account_circle</mat-icon>
-            <mat-error *ngIf="loginForm.controls.username.hasError('minlength')">
-              Mínimo 8 dígitos
-            </mat-error>
-          </mat-form-field>
-        </div>
-        <mat-form-field class="full-width-input" style="display: block" style="margin-bottom: 0%">
-          <mat-label class="text-s-20 text-secondary">Contraseña</mat-label>
-          <input class="shadow-none" type="password" formControlName="password" matInput required
-            [type]="hide ? 'password' : 'text'" />
-          <button type="button" mat-icon-button matSuffix (click)="hide = !hide">
-            <mat-icon> {{ hide ? "visibility_off" : "visibility" }} </mat-icon>
-          </button>
-          <mat-error *ngIf="loginForm.controls.password.hasError('minlength')">
-            Mínimo 6 dígitos
-          </mat-error>
-        </mat-form-field>
-
-        <div class="btn-login">
-          <button type="submit" class="bg-primary3 rounded" [disabled]="loginForm.invalid || loading">
-            {{ loading ? "Validando..." : "Ingresar" }}
-          </button>
-        </div>
-      </form>
-
-        <div class="content-textos">
-          <!-- (click)="irOlvidoPassword()" -->
-          <button mat-button color="primary" class="font-boton  fw-light"
-            style="color: #0085ff">
-            ¿Olvidaste tu contraseña?
-          </button>
-        </div>
-    
-      <div>
-        <button mat-button color="primary" (click)="irRegistroUsuario()" class="fs-6 mb-4 fw-light" style="color: #0085ff">
-          <label class="text-secondary fw-light ">Aún no tienes usuario?
-          </label> <span class="fw-bolder"> Registrate</span>
-          
-        </button>
-      </div>
+    <div class="flex justify-center items-center space-x-0 space-y-0 md:space-x-2 md:space-y-0 flex-col md:flex-row">
+      <span class="text-center font-semibold text-gray-500">
+        ¿Aun no tienes Usuario?
+        <a routerLink="/register" class="text-success-700 font-bold">
+          Registrate</a
+        ></span
+      >
     </div>
+    <!-- <app-footer></app-footer> -->
   </div>
 </div>
+<!-- <div class="w-screen h-screen bg-white bg-gradient relative md:py-14 md:px-20">
+  <div class="grid sm:grid-cols-1 lg:grid-cols-2 gap-2">
+    <div class="brand relative m-auto">
+      <div class="flex flex-col items-center gap-10 text-center">
+        <div>
+          <img src="assets/images/logo/logo-essalud-white.svg" alt="">
+          <img class="w-2/6 m-auto" src="assets/images/bx_handicap.svg" alt="">
+        </div>
+        <h1 class="text-white text-5xl font-bold">CERPS</h1>
+        <h2 class="text-white text-4xl font-bold">Centros de Rehabilitación <br> Profesional y Social</h2>
+      </div>
+    </div>
+    <div class="relative w-full sm:w-7/12 md:w-7/12 lg:w-6/12 m-auto">
+      <div class="bg-white rounded shadow-none sm:shadow-lg py-4 px-4 md:px-10">
+        <app-header></app-header>
+        <div class="mb-4">
+          <app-login-form></app-login-form>
+        </div>
+        <div
+          class="flex justify-center items-center space-x-0 space-y-0 md:space-x-2 md:space-y-0 flex-col md:flex-row"
+        >
+          <span class="text-center">
+            ¿Aun no tienes Usuario?
+            <a routerLink="/register" class="text-blue-400 font-bold">
+              Registrate</a
+            ></span
+          >
+        </div>
+        <app-footer></app-footer>
+      </div>
+    </div>
+  </div>
+</div> -->

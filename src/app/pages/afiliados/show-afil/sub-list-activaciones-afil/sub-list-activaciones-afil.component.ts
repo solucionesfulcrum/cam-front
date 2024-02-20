@@ -3,7 +3,6 @@ import { FormBuilder } from '@angular/forms';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatTableDataSource } from '@angular/material/table';
 import { ActivatedRoute, Router } from '@angular/router';
-import { BreadcrumService } from 'src/app/shared/services/breadcrum.service';
 
 
 const CAMS= [
@@ -46,7 +45,7 @@ export class SubListActivacionesAfilComponent implements OnInit {
       'opcion',
     ];
   
-    @ViewChild('paginatorProfesional') paginatorProfesional: MatPaginator;
+    @ViewChild('paginatorProfesional') paginatorProfesional!: MatPaginator;
     dataSource= new MatTableDataSource<any>(CAMS);
   
     id ='' 
@@ -56,15 +55,9 @@ export class SubListActivacionesAfilComponent implements OnInit {
       private fb: FormBuilder, 
       private router: Router, 
       private route: ActivatedRoute,
-      private breadcrumService: BreadcrumService
       ) {
         this.route.parent?.paramMap.subscribe(params => {
-        this.id = params.get('id')!;
-        breadcrumService.subLink1$.next({ url: './activaciones', title:'ACTIVACIONES'});
-        breadcrumService.subLink2$.next({ url: '', title:'' });
-        breadcrumService.subLink3$.next({ url: '', title:'' });
-        breadcrumService.subActiveTab$.next('/afiliados/show/'+this.id+'/activaciones');
-  
+        this.id = params.get('id')!;  
       });
     }
   

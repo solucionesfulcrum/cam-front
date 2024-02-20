@@ -1,71 +1,69 @@
-<div class="h-full flex flex-col justify-between">
+<div class="w-full relative h-full flex flex-col justify-between">
   <div>
-    <!-- superadmin, admin, registrador, usuarioadmin -->
     <div class="div-sidenav-img mt-[12px]">
-      <img src="assets/img/cam-logo.png"/>
+      <img src="assets/images/logo/cam-logo.png"/>
     </div>
-    <mat-nav-list class="pt-0">
-      <a mat-list-item routerLink="/app/dashboard" routerLinkActive="list-item-activo" class="flex flex-row gap-1">
-        <div class="w-5 text-center">
-          <img src="assets/svg/nav-icon-dashboard.svg"/> 
-        </div>
-        <span class="text-s-16p"> Dashboard</span>
-      </a>
-
-      <!--<a mat-list-item routerLink="/app/contract" routerLinkActive="list-item-activo" class="flex flex-row gap-1">
-        <div class="w-5 text-center">
-          <img src="assets/svg/nav-icon-contratos.svg"/> 
-        </div>
-        <span class="text-s-16p"> Contratos</span>
-      </a> -->
-
-      <a mat-list-item routerLink="/app/contactos" routerLinkActive="list-item-activo" class="flex flex-row gap-1">
-        <div class="w-5 text-center">
-          <img src="assets/svg/nav-icon-contacto.svg"/> 
-        </div>
-        <span class="text-s-16p"> Contactos</span>
-      </a>
-
-      <a mat-list-item routerLink="/app/afiliados" routerLinkActive="list-item-activo" class="flex flex-row gap-1">
-        <div class="w-5 text-center">
-          <img src="assets/svg/nav-icon-afiliacion.svg"/> 
-        </div>
-        <span class="text-s-16p"> Afiliaciones</span>
-      </a>
-
-      <!-- <a mat-list-item routerLink="/app/programacion" routerLinkActive="list-item-activo" class="flex flex-row gap-1">
-        <div class="w-5 text-center">
-          <img src="assets/svg/nav-icon-programacion.svg"/> 
-        </div>
-        <span class="text-s-16p"> Programación</span>
-      </a>
-
-      <a mat-list-item routerLink="/app/control" routerLinkActive="list-item-activo" class="flex flex-row gap-1">
-        <div class="w-5 text-center">
-          <img src="assets/svg/nav-icon-control.svg"/> 
-        </div>
-        <span class="text-s-16p"> Control</span>
-      </a>
-
-      <a mat-list-item routerLink="/app/reportes" routerLinkActive="list-item-activo" class="flex flex-row gap-1">
-        <div class="w-5 text-center">
-          <img src="assets/svg/nav-icon-reporte.svg"/> 
-        </div>
-        <span class="text-s-16p"> Reportes</span>
-      </a> -->
-    </mat-nav-list>
+    <ul class="nav-list-item w-full flex flex-col font-medium text-gray-700 menuNav">
+      <!-- <li class="elementoSeleccionable">
+        <input type="radio" id="admisionOpt" name="router" value="admisionOpt" class="hover:bg-primary-50 peer hidden absolute mt-4 ml-3 focusCampo " routerLink="/app/admission">
+        <label for="admisionOpt" class="inline-flex items-center cuadroRadioButton">
+            <div class="flex justify-center w-full text-primary-700">
+                <div class="w-full text-center">Admision</div>
+            </div>
+        </label>
+      </li> -->
+      <li>
+        <a routerLink="/app/dashboard" routerLinkActive="list-item-activo" (select)="true">
+          <img src="assets/svg/nav-icon-dashboard.svg"/>
+          <span>Dashboard</span>
+        </a>
+      </li>
+      <!-- <li>
+        <a routerLink="/app/contract" routerLinkActive="list-item-activo">
+          <img class="" src="assets/svg/nav-icon-contratos.svg"/>
+          <span>Contratos</span>
+        </a>
+      </li> -->
+      <li>
+        <a routerLink="/app/contactos" routerLinkActive="list-item-activo">
+          <img class="" src="assets/svg/nav-icon-contacto.svg"/>
+          <span>Contactos</span>
+        </a>
+      </li>
+      <li>
+        <a routerLink='/app/afiliados' routerLinkActive="list-item-activo">
+          <img class="" src="assets/svg/nav-icon-afiliacion.svg"/>
+          <span>Afiliaciones</span>
+        </a>
+      </li>
+      <!-- <li>
+        <a routerLink="/app/programacion" routerLinkActive="list-item-activo">
+          <img class="" src="assets/svg/nav-icon-programacion.svg"/>
+          <span>Programación</span>
+        </a>
+      </li>
+      <li>
+        <a routerLink='/app/control' routerLinkActive="list-item-activo">
+          <img class="" src="assets/svg/nav-icon-control.svg"/>
+          <span>Control</span>
+        </a>
+      </li>
+      <li>
+        <a routerLink="/app/reportes" routerLinkActive="list-item-activo">
+          <img class="" src="assets/svg/nav-icon-reporte.svg"/>
+          <span>Reportes</span>
+        </a>
+      </li> -->
+    </ul>
   </div>
-
-  <div class="h-[55px] p-[8px] flex justify-between mb-4">
+  <div *ngIf="showUnidOpe" class="h-[55px] p-[8px] flex justify-between mb-4">
     <div class="flex gap-2">
-      <div class=" bg-cam w-[40px] h-full rounded-[5px] flex justify-center items-center text-white font-bold text-[18px]">
-        <span>UP</span>        
-        <!-- <span>{{unidOpeUserSession[0]}}</span> -->
+      <div class=" bg-gradient-to-r from-[#339999] to-[#057EC9] w-[40px] h-full rounded-[5px] flex justify-center items-center text-white font-bold text-[20px]">
+        <span>{{unidOpeUserSession[0]}}</span>
       </div>
       <div class="flex flex-col text-[14px]">
         <span>Unidad Operativa</span>
-        <span class="text-Name max-w-[168px] whitespace-nowrap text-ellipsis overflow-hidden">VILLA MARIA DEL TRIUNFO</span>
-        <!-- <span class="text-Name !font-light max-w-[168px] whitespace-nowrap text-ellipsis overflow-hidden">{{unidOpeUserSession}}</span> -->
+        <span class="text-Name !font-light max-w-[168px] whitespace-nowrap text-ellipsis overflow-hidden">{{unidOpeUserSession}}</span>
       </div>
     </div>
     <div class="flex items-center opacity-60">

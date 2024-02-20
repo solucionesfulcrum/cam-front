@@ -1,0 +1,72 @@
+.Lista-Opciones-Marcar{
+    display: flex;
+    flex-direction: column;
+    gap: 0.625rem;
+    li{
+        position: relative;
+        display: flex;
+        align-items: center;
+        input{
+            width: 18px;
+            height: 18px;
+            border-radius: 9999px;
+            position: absolute;
+            right: 1rem;
+        }
+        label{
+            cursor: pointer;
+            padding: 0.5rem 0.825rem;
+            border-width: 2px;
+            border-color: rgb(229 231 235);
+            width: 100%;
+            color: rgb(107 114 128);
+            background-color: white;
+            display: inline-flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+        .peer:checked ~ label, input.peer{
+            color: var(--color-CAM);
+            border-color: var(--color-CAM);
+        }
+    }
+}
+
+.subtituloMarcado{
+    height: 15px;
+    display: flex;
+    align-items: center;
+    border-left-width: 4px;
+    padding-left: 0.75rem;
+    margin: 10px 0;
+    color: var(--color-CAM);
+    border-color: var(--color-CAM);
+    font-weight: 600;
+    font-size: 1.125rem;
+}
+
+.filasPseudoTabla{
+  text-align: center;
+  span{
+    align-self: center;
+    font-weight: 600;
+  }
+}
+.dataPseudoTabla{
+  font-size: 14px;
+  padding: 0.5rem 0;
+  --tw-border-opacity: 1;
+  border-color: rgb(209 213 219 / var(--tw-border-opacity));
+  border-bottom-width: 1px;
+  gap: 0.25rem;
+  grid-template-columns: repeat(6, minmax(0, 1fr));
+  display: grid;
+  align-items: center;
+  span{
+    justify-self: center;
+    text-align: center;
+  }
+}
+.peer:checked ~ .peer-checked\:bg-sigps{
+  background: var(--color-CAM-Mezclado);
+}

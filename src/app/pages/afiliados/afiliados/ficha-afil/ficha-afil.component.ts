@@ -1,8 +1,7 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { FormBuilder } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
-import { BreadcrumService } from 'src/app/shared/services/breadcrum.service';
-import { AuthService } from '../../../auth/services/auth-service.service';
+import { AuthService } from '@services/auth.service';
 
 @Component({
   selector: 'app-ficha-afil',
@@ -22,22 +21,12 @@ export class FichaAfilComponent implements OnInit {
     'tieneVigencia',
   ]; */
 
-  breadcrum1:{url:string, title:string }   
-  breadcrum2:{url:string, title:string } 
-  breadcrum3:{url:string, title:string } 
-
-
   constructor(
     private fb: FormBuilder, 
     private router: Router, 
     private route: ActivatedRoute,
-    private breadcrumService: BreadcrumService,
     private authService: AuthService,
     ) {
-    breadcrumService.link1$.next({ url: '/afiliados/solicitudes', title:'SOLICITUDES' });
-    this.breadcrumService.link2$.next({url:'' ,title:''});
-    this.breadcrumService.link3$.next({url:'', title:''});
-    breadcrumService.activeTab$.next('/afiliados/solicitudes');
     this.loadUsers()
    }
 
@@ -45,7 +34,7 @@ export class FichaAfilComponent implements OnInit {
   }
 
   loadUsers(){
-    return this.authService.getUsuariosFromSSO(1,20)
+    // return this.authService.getUsuariosFromSSO(1,20)
     /*.subscribe((rta:any) =>{
       this.dataSource = new MatTableDataSource(rta.list);
       this.dataSource.paginator = this.paginator;

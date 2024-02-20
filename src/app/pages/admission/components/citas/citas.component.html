@@ -1,0 +1,71 @@
+<div class="w-full h-full">
+    <esp-opciones-busqueda class="w-full"
+    [showSearch]="true"
+    [searchInputPlaceHolder]="'Buscar postulante'"
+    (searchInputValue)="searchInput = $event; onLoad()"
+    [showFirstDisplayFilter]="true"
+    [firstDisplayFilterPlaceholder]="{'indicador': true, 'placeholder': 'Todos los estados'}"
+    [firstDisplayFilterData]="tipoProcesoEstado"
+    (firstDisplayFilterSendValue)="procesoEstadoSelected = $event; onLoad()"
+    [showSecondDisplayFilter]="true"
+    [secDisplayFilterPlaceholder]="{'indicador': true, 'placeholder': 'Todos los procesos'}"
+    [secDisplayFilterData]="tipoProceso"
+    (secDisplayFilterSendValue)="tipoProcesoSelected = $event; onLoad()"
+    ></esp-opciones-busqueda>
+</div>
+<table cdk-table class="w-full text-sm text-left text-gray-500 tablaDatos" [dataSource]="dataSource" >
+    <tr cdk-header-row class="text-xs text-gray-700 bg-gray-50" *cdkHeaderRowDef="columns"></tr>
+    <tr cdk-row class="bg-white border-b" *cdkRowDef="let row; columns: columns"></tr>
+    <ng-container cdkColumnDef="numHistClinica">
+      <th cdk-header-cell class="py-5 px-6" *cdkHeaderCellDef>N° Historia</th>
+      <td cdk-cell class="py-4 px-6 text-[var(--color-CAM)]" *cdkCellDef="let row">
+        <a [routerLink]="[row.fichaAdmisionId]">{{row.nroHistoria}}</a>
+      </td>
+    </ng-container>
+  
+    <ng-container cdkColumnDef="nombre">
+      <th cdk-header-cell class="py-5 px-6" *cdkHeaderCellDef>Nombre del Asegurado</th>
+      <td cdk-cell class="py-4 px-6 text-Name" *cdkCellDef="let row">
+        {{ row.asegurado | titlecase }}
+      </td>
+    </ng-container>
+    
+    <ng-container cdkColumnDef="tipoDoc">
+      <th cdk-header-cell class="py-5 px-6" *cdkHeaderCellDef>Doc</th>
+      <td cdk-cell class="py-4 px-6" *cdkCellDef="let row">{{ row.tipoDoc }}</td>
+    </ng-container>
+  
+    <ng-container cdkColumnDef="numDoc">
+      <th cdk-header-cell class="py-5 px-6" *cdkHeaderCellDef>N° de Documento</th>
+      <td cdk-cell class="py-4 px-6" *cdkCellDef="let row">{{row.nroDoc}}</td>
+    </ng-container>
+  
+    <ng-container cdkColumnDef="proceso">
+      <th cdk-header-cell class="py-5 px-6" *cdkHeaderCellDef>Proceso Actual</th>
+      <td cdk-cell class="py-4 px-6" *cdkCellDef="let row">{{ row.proceso }}</td>
+    </ng-container>
+  
+    <ng-container cdkColumnDef="actividades">
+      <th cdk-header-cell class="py-5 px-6" *cdkHeaderCellDef># Actividades</th>
+      <td cdk-cell class="py-4 px-6 text-center" *cdkCellDef="let row">{{row.countActividades}}</td>
+    </ng-container>
+  
+    <ng-container cdkColumnDef="citadas">
+      <th cdk-header-cell class="py-5 px-6" *cdkHeaderCellDef>Citadas</th>
+      <td cdk-cell class="py-4 px-6 text-center" *cdkCellDef="let row">{{row.countCitados}} de {{row.countActividades}}</td>
+    </ng-container>
+  
+    <ng-container cdkColumnDef="status">
+      <th cdk-header-cell class="py-5 px-6 text-center" *cdkHeaderCellDef>Estado</th>
+      <td cdk-cell class="py-4 px-6 text-center" [ngClass]="row.estado === 'CITADO' ? 'text-[#28C2FF]' : 'text-[#F59E0B]'" *cdkCellDef="let row">{{row.estado | titlecase}}</td>
+    </ng-container>
+  </table>
+  <mat-paginator #paginator class="demo-paginator paginatorDatos" 
+    (page)="handlePageEvent($event)"
+    [length]="total"
+    [pageSize]="pageSize"
+    showFirstLastButtons="true"
+    [pageSizeOptions]="pageSizeOptions.length > 0 ? pageSizeOptions : []"
+    [pageIndex]="pageIndex"
+    aria-label="Select page">
+  </mat-paginator>

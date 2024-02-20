@@ -1,12 +1,12 @@
 import { Component, OnInit, ViewChild, NgModule } from '@angular/core';
 import { FormBuilder } from '@angular/forms';
 import { ActivatedRoute, Router, RouterModule } from '@angular/router';
-import { AfiliadoService } from '@shared/services/afiliado.service';
 import { AfiliadosComponent } from '../../afiliados/afiliados.component';
 import { EvaluacionComponent } from '../../evaluacion/evaluacion.component';
 import { CommonModule } from '@angular/common';
 import { Dialog } from '@angular/cdk/dialog';
 import { NotasAfilComponent } from '../notas-afil/notas-afil.component';
+import { AfiliadoService } from 'src/app/data/services/afiliaciones/afiliado.service';
 
 @Component({
   selector: 'app-new-eval2-afiliado',

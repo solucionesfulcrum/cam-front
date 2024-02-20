@@ -1,0 +1,115 @@
+<div class="px-4 py-3 bg-primary-700 flex justify-between text-white font-semibold">
+  <span>ACTIVAR USUARIO</span>
+  <button (click)="onClose()">
+    <esp-icon icon="faClose"></esp-icon>
+  </button>
+</div>
+<div class="px-4 py-3 bg-white">
+  <span class="font-semibold">{{userData.nombres}}</span> <span> | DNI {{userData.dni}}</span> <span> | <span class="font-semibold">{{userData.unidadOperativaTipo}}</span> - {{userData.unidadOperativa | titlecase}}</span>
+  <!-- <p class="font-semibold">Unidad Operativa: <span class="font-normal">{{userData.unidadOperativaTipo}} - {{userData.unidadOperativa | titlecase}}</span> </p> -->
+  <p class="mt-4 mb-2">Asignar fecha de inicio y fin del servicio</p>
+  <div class="grid grid-cols-2 gap-3 mt-4 mb-2" [formGroup]="formVigencia">
+    <div class="relative mt-2 rounded-md shadow-sm">
+      <mat-form-field style="position: absolute; visibility:hidden;">
+        <input #input matInput [matDatepicker]="picker">
+        <mat-datepicker #picker (closed)="actualizarDate(input.value, 1)"></mat-datepicker>
+      </mat-form-field>
+      <input type="text" name="search" formControlName="frmInicioVigencia" readonly (click)="picker.open()"
+        class="inputTextoDialog focusCampo !h-9 pr-7"
+        placeholder="Fecha de Inicio">
+        <div class="absolute inset-y-0 right-0 flex items-center pr-3 z-10 !h-9" (click)="picker.open()">
+          <span class="text-gray-500 sm:text-sm">
+            <esp-icon icon="faCalendar" class="hoverCalendar"></esp-icon>
+          </span>
+        </div>
+        <div *ngIf="formVigencia.controls.frmInicioVigencia.touched && showMsg">
+            <p *ngIf="formVigencia.controls.frmInicioVigencia.value == null" class="font-medium text-red-500 text-xs mt-1 ml-1">
+                Seleccione una fecha de inicio
+            </p>
+        </div>
+    </div>
+    <div class="relative mt-2 rounded-md shadow-sm">
+      <mat-form-field style="position: absolute; visibility:hidden;">
+        <input #inputFecFin matInput [matDatepicker]="pickerFecFin" [min]="minDate">
+        <mat-datepicker #pickerFecFin (closed)="actualizarDate(inputFecFin.value, 2)"></mat-datepicker>
+      </mat-form-field>
+      <input type="text" name="search" formControlName="frmFinVigencia" readonly (click)="pickerFecFin.open()"
+        class="inputTextoDialog focusCampo !h-9 pr-7"
+        placeholder="Fecha de Fin">
+        <div class="absolute inset-y-0 right-0 flex items-center pr-3 !h-9" (click)="pickerFecFin.open()">
+          <span class="text-gray-500 sm:text-sm">
+            <esp-icon icon="faCalendar" class="hoverCalendar"></esp-icon>
+          </span>
+        </div>
+        <div *ngIf="formVigencia.controls.frmFinVigencia.touched && showMsg">
+            <p *ngIf="formVigencia.controls.frmFinVigencia.value == null" class="font-medium text-red-500 text-xs mt-1 ml-1">
+                Seleccione una fecha de fin
+            </p>
+        </div>
+    </div>
+  </div>
+  <p class="mt-4 mb-2">Asignar un rol y unidad operativa a laborar</p>
+  <div class="grid grid-cols-2 gap-3 mt-4 mb-2" [formGroup]="formDatosAdicionales">
+    <div class="relative mt-2 rounded-md shadow-sm">
+      <select formControlName="frmRol"
+        class="space-x-5 bg-slate-50 border border-gray-300 text-gray-900 text-sm rounded-lg focusCampo block w-full">
+        <!-- <option [selected]="true" disabled>Tipo de documento</option> -->
+        <option value="" disabled selected>Roles</option>
+        <option *ngFor="let rol of listRoles" [value]='rol.idRol'>{{rol.nombre | titlecase}}</option>
+      </select>
+      <div *ngIf="formDatosAdicionales.controls.frmRol.touched && formDatosAdicionales.controls.frmRol.invalid">
+          <p *ngIf="formDatosAdicionales.controls.frmRol.hasError('required')" class="font-medium text-red-500 text-xs mt-1 ml-1">
+              Seleccione un rol a asignar
+          </p>
+      </div>
+    </div>
+    <div class="relative mt-2 rounded-md shadow-sm">
+      <select formControlName="frmUnidadOpe"
+        class="space-x-5 bg-slate-50 border border-gray-300 text-gray-900 text-sm rounded-lg focusCampo block w-full">
+        <!-- <option [selected]="true" disabled>Tipo de documento</option> -->
+        <option value="" disabled selected>UnidadOperativa</option>
+        <option *ngFor="let option of listUnidadOperativa" [value]='option.idUnidadOperativa'>{{option.nombre | titlecase}}</option>
+      </select>
+      <div *ngIf="formDatosAdicionales.controls.frmRol.touched && formDatosAdicionales.controls.frmRol.invalid">
+          <p *ngIf="formDatosAdicionales.controls.frmRol.hasError('required')" class="font-medium text-red-500 text-xs mt-1 ml-1">
+            Seleccione una unidad operativa
+          </p>
+      </div>
+    </div>
+    <!--<div class="relative mt-2 rounded-md shadow-sm">
+      <div class="pointer-events-none absolute inset-y-0 right-0 flex !h-9 items-center pr-3">
+        <span class="text-gray-500 sm:text-sm">
+          <esp-icon icon="faSearch"></esp-icon>
+        </span>
+      </div>
+      <input type="text" name="search" [formControl]="frmCtrlUnidadOperativa" [matAutocomplete]="uniOper"
+        class="inputTextoDialog focusCampo !h-9 pr-7"
+        placeholder="Unidad Operativa">
+      <mat-autocomplete #uniOper="matAutocomplete" [displayWith]="displayFnUnidadOperativa" (optionSelected)="onSelectionChangeUnidadOperativa($event)">
+          <mat-option *ngFor="let option of listUnidadOperativa" [value]="option.idUnidadOperativa">
+              {{option.nombre}}
+          </mat-option>
+      </mat-autocomplete>
+      <div *ngIf="frmCtrlUnidadOperativa.touched && frmCtrlUnidadOperativa.invalid">
+          <p *ngIf="frmCtrlUnidadOperativa.hasError('required')" class="font-medium text-red-500 text-xs mt-1 ml-1">
+              Seleccione una unidad operativa
+          </p>
+      </div>
+    </div>-->
+    <div class="relative rounded-md col-span-2 shadow-sm">
+      <p class="mb-2"> Observación</p>
+      <textarea id="observacion" formControlName="frmMotivo" class="my-2 block p-2.5 w-full text-gray-900 border border-gray-300 focusCampo placeholder-gray-300 resize-none"></textarea>
+      <div *ngIf="formDatosAdicionales.controls.frmMotivo.touched && formDatosAdicionales.controls.frmMotivo.invalid">
+          <p *ngIf="formDatosAdicionales.controls.frmMotivo.hasError('required')" class="font-medium text-red-500 text-xs mt-1 ml-1">
+              Describa el motivo de la activación
+          </p>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="flex justify-center bg-white py-3">
+  <div class="flex gap-1">
+    <app-btn (click)="onClose()" color="none" [style]="{'bg-white':true,'hover:bg-gray-100':true,'text-black':true,'shadow-sm':true}">Cancelar</app-btn>
+    <app-btn (click)="saveActivacion()" [loading]="status === 'loading'">Guardar</app-btn>
+  </div>
+</div>

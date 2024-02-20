@@ -26,3 +26,21 @@ export interface direccionFichaFront{
     nomDist: string,
     activo: number
 }
+
+export interface dataRequest{
+    codOpcion: string,
+    tipoDoc: string,
+    numDoc: string
+}
+
+export interface listaFichaSolicitudRequest {
+    idUnidOpe: string;
+    apellidos: string;
+    nombres: string;
+    tipoDocIdent: string;
+    numDocIdent: string;
+    fecInicio: string;
+    fecFin: string;
+    pageNum: string;
+    pageSize: string;
+}

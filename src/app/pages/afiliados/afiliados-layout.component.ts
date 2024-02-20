@@ -4,7 +4,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 @Component({
   selector: 'app-afiliados-layout',
   templateUrl: './afiliados-layout.component.html',
-  styleUrls: ['./afiliados-layout.component.css']
+  styleUrls: ['./afiliados-layout.component.scss']
 })
 export class AfiliadosLayoutComponent {
 

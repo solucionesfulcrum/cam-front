@@ -3,14 +3,14 @@ import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { RouterModule } from '@angular/router';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { FormatoBoton } from './formato-boton.model';
-import { BtnComponent } from '../btn/btn.component';
+import { ButtonComponent } from '../btn/button.component';
 
 @Component({
   selector: 'esp-opciones-botones',
   templateUrl: './opciones-botones.component.html',
   styleUrls: ['./opciones-botones.component.scss'],
   standalone: true,
-  imports: [CommonModule, RouterModule, FontAwesomeModule, BtnComponent],
+  imports: [CommonModule, RouterModule, FontAwesomeModule, ButtonComponent],
 })
 export class OpcionesBotonesComponent {
   @Input()

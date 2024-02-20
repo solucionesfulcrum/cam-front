@@ -61,7 +61,7 @@ export class AfilOperComponent implements OnInit {
         'descripOperac',      
       ];
     
-      @ViewChild('paginatorProfesional') paginatorProfesional: MatPaginator;
+      @ViewChild('paginatorProfesional') paginatorProfesional!: MatPaginator;
       
       dataSourceOp = new MatTableDataSource<any>(dsOper);
             

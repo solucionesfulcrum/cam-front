@@ -16,8 +16,29 @@ import { NewEval4AfiliadoComponent } from './components/new-eval4-afiliado/new-e
 import { ResultEvalAfiliadoComponent } from './components/result-eval-afiliado/result-eval-afiliado.component';
 import { AfilOperComponent } from './components/afil-oper/afil-oper.component';
 import { TabsComponent } from './components/tabs/tabs.component';
+import { AfiliadosLayoutComponent } from './afiliados-layout.component';
 
 const routes: Routes = [
+  {
+    path: '',
+    component: AfiliadosLayoutComponent,
+    children:[
+      {
+        path: '',
+        component: SolicitudesComponent,
+        title: 'Afiliaciones - Solicitudes'
+      },
+      {
+        path: 'evaluacion',
+        component: EvaluacionComponent,
+        title: 'Afiliaciones - Evaluación'
+      },
+      {
+        path: 'show/:tipoDoc/:numDoc',
+        component: ShowSolComponent,
+      },
+    ]
+  }
   // { 
   //   path: '', 
   //   component: AfiliadosComponent,
@@ -43,91 +64,87 @@ const routes: Routes = [
   //     },
   //   ],
   // },
-  { 
-    path: 'afiliados', 
-    component: AfiliadosComponent,
-  },
-  {
-    path: 'afiliados/show/:id',
-    component: ShowAfilComponent,
-  },
+  // { 
+  //   path: '', 
+  //   component: AfiliadosComponent,
+  // },
+  // {
+  //   path: 'show/:id',
+  //   component: ShowAfilComponent,
+  // },
 
-  {
-    path: 'showS/:id',
-    component: ShowSolComponent,
-    children: [
-      {
-        path: '',
-        redirectTo: 'activaciones',
-        pathMatch: 'full',
-      },
-      {
-        path: 'activaciones',
-        component: SubListActivacionesSolComponent,
-      },
-      {
-        path: '**',
-        redirectTo: 'activaciones',
-      },
-    ],
-  },
-  {
-    path: 'afiliados/show/:id',
-    component: ShowAfilComponent,
-  },
+  // {
+  //   path: 'showS/:id',
+  //   component: ShowSolComponent,
+  //   children: [
+  //     {
+  //       path: '',
+  //       redirectTo: 'activaciones',
+  //       pathMatch: 'full',
+  //     },
+  //     {
+  //       path: 'activaciones',
+  //       component: SubListActivacionesSolComponent,
+  //     },
+  //     {
+  //       path: '**',
+  //       redirectTo: 'activaciones',
+  //     },
+  //   ],
+  // },
 
-  {
-    path: 'afiliados/show/:id/activaciones',
-    component: SubListActivacionesAfilComponent,
-  },
+  // {
+  //   path: 'show/:id/activaciones',
+  //   component: SubListActivacionesAfilComponent,
+  // },
 
-  { 
-    path: 'analisis', 
-    component: AnalisisComponent,
-  },
-  { 
-    path: '', 
-    component: SolicitudesComponent,
-  },
-  {
-    path: 'show/:tipoDoc/:numDoc',
-    component: ShowSolComponent,
-  },
-  {
-    path: 'editS/:id',
-    component: EditSolComponent,
-  },
-  { 
-    path: 'evaluacion', 
-    component: EvaluacionComponent,
-  },
-  {
-    path: 'agregaEval',
-    component: NewEvalAfiliadoComponent,
-  },
-  {
-    path: 'agregaEval2',
-    component: NewEval2AfiliadoComponent,
-  },
-  {
-    path: 'agregaEval3',
-    component: NewEval3AfiliadoComponent,
-  },
-  {
-    path: 'agregaEval4',
-    component: NewEval4AfiliadoComponent,
-  },
-  {
-    path: 'resultEval',
-    component: ResultEvalAfiliadoComponent,
-  },
-  {
-    path: 'afiliadOper',
-    component: AfilOperComponent,
-  },
-  { path: 'tabsAfil',
-    component: TabsComponent,
-  }
+  // { 
+  //   path: 'analisis', 
+  //   component: AnalisisComponent,
+  // },
+  // { 
+  //   path: '', 
+  //   component: SolicitudesComponent,
+  // },
+  // {
+  //   path: 'show/:tipoDoc/:numDoc',
+  //   component: ShowSolComponent,
+  // },
+  // {
+  //   path: 'editS/:id',
+  //   component: EditSolComponent,
+  // },
+  // { 
+  //   path: 'evaluacion', 
+  //   component: EvaluacionComponent,
+  // },
+  // {
+  //   path: 'agregaEval',
+  //   component: NewEvalAfiliadoComponent,
+  // },
+  // {
+  //   path: 'agregaEval2',
+  //   component: NewEval2AfiliadoComponent,
+  // },
+  // {
+  //   path: 'agregaEval3',
+  //   component: NewEval3AfiliadoComponent,
+  // },
+  // {
+  //   path: 'agregaEval4',
+  //   component: NewEval4AfiliadoComponent,
+  // },
+  // {
+  //   path: 'resultEval',
+  //   component: ResultEvalAfiliadoComponent,
+  // },
+  // {
+  //   path: 'afiliadOper',
+  //   component: AfilOperComponent,
+  // },
+  // { path: 'tabsAfil',
+  //   component: TabsComponent,
+  // }
       /*children:[
       {path: '', component: AfiliadosComponent},
       {path: 'analisis', component: AnalisisComponent},

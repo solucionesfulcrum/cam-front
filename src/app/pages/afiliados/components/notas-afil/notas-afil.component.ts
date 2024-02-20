@@ -2,11 +2,10 @@ import { Component } from '@angular/core';
 import { Dialog, DialogRef } from '@angular/cdk/dialog';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
-import { dataRequest } from '@models/ficha-solicitud.model';
 import { Parametro } from '@models/parametros-busqueda.model';
-import { AfiliadoService } from '@shared/services/afiliado.service';
-import { BreadcrumService } from '@shared/services/breadcrum.service';
 import { Title } from '@angular/platform-browser';
+import { dataRequest } from '@models/afiliados/ficha-solicitud.model';
+import { AfiliadoService } from 'src/app/data/services/afiliaciones/afiliado.service';
 
 @Component({
   selector: 'app-notas-afil',
@@ -37,7 +36,6 @@ export class NotasAfilComponent {
   constructor(private fb:FormBuilder,
     private _afiliadoService: AfiliadoService,
     private router: Router,
-    private breadcrumService: BreadcrumService,
     private _dialogRef:DialogRef<NotasAfilComponent>,
     private dialog : Dialog) { 
 

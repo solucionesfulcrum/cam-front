@@ -2,10 +2,9 @@ import { Component} from '@angular/core';
 
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { Router, RouterModule, Route, RouterLink, ActivatedRoute } from '@angular/router';
-import { dataRequest } from '@models/ficha-solicitud.model';
+import { dataRequest } from '@models/afiliados/ficha-solicitud.model';
 import { Parametro } from '@models/parametros-busqueda.model';
-import { AfiliadoService } from '@shared/services/afiliado.service';
-import { BreadcrumService } from '@shared/services/breadcrum.service';
+import { AfiliadoService } from 'src/app/data/services/afiliaciones/afiliado.service';
 
 @Component({
   selector: 'app-evaluacion',
@@ -35,8 +34,7 @@ export class EvaluacionComponent {
   constructor(private fb:FormBuilder,
      private _afiliadoService: AfiliadoService,
      private router: Router, 
-     private route: ActivatedRoute,     
-     private breadcrumService: BreadcrumService) { }
+     private route: ActivatedRoute,) { }
 
   ngOnInit(): void {
      this._afiliadoService.getTipoParametros('TIPO_DOCUMENTO_IDENTIDAD').subscribe((data) =>{

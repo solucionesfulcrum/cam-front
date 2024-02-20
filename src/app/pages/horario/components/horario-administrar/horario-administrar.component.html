@@ -1,0 +1,57 @@
+<div>
+  <esp-opciones-busqueda class="w-full"
+  [showDateFilter]="true"
+  [setFilterDateOptionSelected]="'var(--color-CAM-Mezclado)'"
+  [setFilterDateTextColour]="'#339999'"
+  [filterDateAppearance]="2"
+  (sendDateFilterWithCeros)="getDataFecha($event)"
+  [showSearch]="true"
+  (searchInputValue)="form.get('frmSearch')?.setValue($event); onLoadData()"
+  [showFirstDisplayFilter]="true"
+  [firstDisplayFilterPlaceholder]="{'indicador': true, 'placeholder': 'Todos los estados'}"
+  [firstDisplayFilterData]="estadosHorarios"
+  (firstDisplayFilterSendValue)="firstDisplayValue($event)"
+  [showButton]="true"
+  [buttonBg]="'var(--color-CAM-Mezclado)'"
+  [buttonText]="'Crear Horario'"
+  (buttonAccion)="goToCrearHorario()"
+  ></esp-opciones-busqueda>
+</div>
+
+<table cdk-table class="w-full text-sm text-left text-gray-500 tablaDatos" [dataSource]="dataSource" >
+    <tr cdk-header-row class="text-xs text-gray-700 bg-gray-50" *cdkHeaderRowDef="columns"></tr>
+    <tr cdk-row class="bg-white border-b" *cdkRowDef="let row; columns: columns"></tr>
+    <ng-container cdkColumnDef="marcar">
+      <th cdk-header-cell class="py-5 px-6" *cdkHeaderCellDef> <input type="checkbox" value="false"/> </th>
+      <td cdk-cell class="py-4 px-6" *cdkCellDef="let row"> <input type="checkbox" value="false"/> </td>
+    </ng-container>
+  
+    <ng-container cdkColumnDef="mesAnio">
+      <th cdk-header-cell class="py-5 px-6" *cdkHeaderCellDef>Mes y Año</th>
+      <td cdk-cell class="py-4 px-6" *cdkCellDef="let row"><span class="text-Name cursor-pointer" [routerLink]="'edit-schedule/'+[row.horarioId]">{{ row.mes }} - {{ row.anio }}</span></td>
+    </ng-container>
+  
+    <ng-container cdkColumnDef="fechaCreacion">
+      <th cdk-header-cell class="py-5 px-6" *cdkHeaderCellDef>Creado</th>
+      <td cdk-cell class="py-4 px-6" *cdkCellDef="let row">{{ row.fechaCreacion | date: 'dd/MM/yyyy' }}</td>
+    </ng-container>
+  
+    <ng-container cdkColumnDef="usuarioCreador">
+      <th cdk-header-cell class="py-5 px-6" *cdkHeaderCellDef>Usuario</th>
+      <td cdk-cell class="py-4 px-6" *cdkCellDef="let row">{{row.usuario }}</td>
+    </ng-container>
+  
+    <ng-container cdkColumnDef="estado">
+      <th cdk-header-cell class="py-5 px-6" *cdkHeaderCellDef>Estado</th>
+      <td cdk-cell class="py-4 px-6 fechaRoboto" *cdkCellDef="let row" [ngClass]="row.estado === 'Activo' ? 'text-[#0CCE6B]' : 'text-[#DC2626]' ">{{ row.estado }}</td>
+    </ng-container>
+</table>
+<mat-paginator #paginator class="demo-paginator paginatorDatos" 
+  (page)="handlePageEvent($event)"
+  [length]="total"
+  [pageSize]="pageSize"
+  showFirstLastButtons="true"
+  [pageSizeOptions]="pageSizeOptions.length > 0 ? pageSizeOptions : []"
+  [pageIndex]="pageIndex"
+  aria-label="Select page">
+</mat-paginator>

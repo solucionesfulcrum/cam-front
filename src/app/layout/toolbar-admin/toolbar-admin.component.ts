@@ -1,35 +1,56 @@
-import { Component, OnInit } from '@angular/core';
 import { CdkMenuModule } from '@angular/cdk/menu';
 import { OverlayModule } from '@angular/cdk/overlay';
 import { CommonModule } from '@angular/common';
+import { Component } from '@angular/core';
 import { MatSidenavModule } from '@angular/material/sidenav';
 import { Router, RouterModule } from '@angular/router';
 import { JwtHelperService } from '@auth0/angular-jwt';
-import { AuthService } from '../../pages/auth/services/auth-service.service';
-///import { TokenService } from '@services/token.service';
+import { AuthService } from '@services/auth.service';
+import { TokenService } from '@services/token.service';
 import { SharedModule } from '@shared/shared.module';
+const helperJWT = new JwtHelperService();
 
 @Component({
-  selector: 'app-toolbar-admin',
+  selector: 'esp-toolbar-admin',
   templateUrl: './toolbar-admin.component.html',
-  styleUrls: ['./toolbar-admin.component.css'],
+  styleUrls: ['./toolbar-admin.component.scss'],
   standalone: true,
   imports: [CommonModule, RouterModule, SharedModule, OverlayModule, CdkMenuModule, MatSidenavModule],
 })
-export class ToolbarAdminComponent implements OnInit {
-  userInfo = Object();
-  constructor(
-    //private tokenService: TokenService,
-    private authService:AuthService,
-    private router:Router) { }
+export class ToolbarAdminComponent {
 
-  ngOnInit(): void {
-    this.userInfo = JSON.parse(localStorage.getItem('dataCam')!);
-    console.log("tool",this.userInfo)
+  userInfo = Object();
+  userRol: string = '';
+
+  constructor(private tokenService: TokenService,
+              private authService:AuthService,
+              private router:Router) { }
+
+  ngOnInit(){
+    // console.log(helperJWT.decodeToken(this.tokenService.getToken()!))
+    if(localStorage.getItem('sigpsUser') != 'null'){
+      this.userInfo = JSON.parse(localStorage.getItem('sigpsUser')!);
+      // console.log(this.userInfo)
+      // let idUnid: string;
+      if ((JSON.parse(localStorage.getItem('sigpsUser')!)).nombreRol) {
+        this.userRol = (JSON.parse(localStorage.getItem('sigpsUser')!)).nombreRol;
+      }
+      else{
+        this.userRol = 'Sin Rol Asignado';
+      }
+      // idUnid = (JSON.parse(localStorage.getItem('sigpsUser')!)).idUnidOperativa;
+      // this.datosService.getUnidadesOperativas('').subscribe((data) =>{
+      //   this.unidOpeUserSession = data.data.find((x: any)=> {return x.idUnidOperativa == idUnid!}).descripcionCompleta;
+      //   this.showUnidOpe = true;
+      // });
+    }
+    else{
+      this.userRol = 'Sin Rol Asignado';
+    }
   }
+  
   logout(){
-    console.log("salir")
     this.authService.logout()
-    this.router.navigate(['/']);
+    this.router.navigate(['/login'])
   }
 }

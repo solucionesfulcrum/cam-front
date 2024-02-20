@@ -4,12 +4,8 @@ import { MatPaginator, PageEvent } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
 import { ActivatedRoute, Router } from '@angular/router';
-import { BreadcrumService } from 'src/app/shared/services/breadcrum.service';
-import { AuthService } from '../../auth/services/auth-service.service';
 import { Parametro } from 'src/app/shared/components/opciones-busqueda/parametros-busqueda.model';
 import { Dialog } from '@angular/cdk/dialog';
-import { AfiliadoService } from '@shared/services/afiliado.service';
-import { fichasResponse } from '@models/ficha-solicitud.model';
 import { AfiliacionesSolicitudesService } from 'src/app/data/services/afiliaciones/afiliaciones-solicitudes.service';
 import { RequestListaSolicitudesAfiliados } from '@models/afiliados/ficha-solicitud.model';
 
@@ -19,7 +15,7 @@ import { RequestListaSolicitudesAfiliados } from '@models/afiliados/ficha-solici
   styleUrls: ['./solicitudes.component.css']
 })
 export class SolicitudesComponent implements OnInit {
-  optEstados: Parametro[] = [
+  optEstados: any[] = [
     {nombre:'Disponibles', valor1:'01'},
     {nombre:'Suspendidos', valor1:'02'},
     {nombre:'No Disponibles', valor1:'03'}
@@ -101,11 +97,6 @@ export class SolicitudesComponent implements OnInit {
     private afiliacionesService: AfiliacionesSolicitudesService,
     private router: Router, 
     private route: ActivatedRoute,
-    private breadcrumService: BreadcrumService,
-    private authService: AuthService,
-    private dialog : Dialog,
-    private afiliadoService: AfiliadoService
-
   ) {
     // breadcrumService.link1$.next({ url: '/afiliados/solicitudes', title:'SOLICITUDES' });
     // this.breadcrumService.link2$.next({url:'' ,title:''});
@@ -119,11 +110,15 @@ export class SolicitudesComponent implements OnInit {
   }
 
   onLoadData(){
-    this.afiliacionesService.getListaSolicitudes(this.getPayload()).subscribe((data)=>{
-      this.dataSource = data;
-      this.total = this.dataSource.length;
-      console.log(data)
-    })
+    this.dataSource = [
+      {nombres: 'ROXANA ESTRADA ARIAS', tipoDoc: 1, numDoc: '23835688', fecNac: '16/03/1968', estCivil: 'SOLTERA', ipress: 'EUNICE ELIZABETH', dias: 3}
+    ]
+    this.total = 1;
+    // this.afiliacionesService.getListaSolicitudes(this.getPayload()).subscribe((data)=>{
+    //   this.dataSource = data;
+    //   this.total = this.dataSource.length;
+    //   console.log(data)
+    // })
   }
   
   getDataFecha(value: any){

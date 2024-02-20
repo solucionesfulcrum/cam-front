@@ -1,0 +1,32 @@
+
+export interface ResponseLogin{
+    code: number;
+    message: string | null;
+    data: {
+        auth: {
+            id: string; 
+            accessToken: string; 
+            refreshToken: string; 
+        },
+        data: {
+            tipoDoc : '1' | '2' | '3',
+            numDoc: string;
+            nombres:string; 
+            email: string;
+            roles: []
+        },
+        info: {
+            codOriCentro : string ,
+            codRed: string,
+            codCentro: string,
+            tipo: number 
+        },
+        oficina: null
+    }
+}
+
+export interface ResponseLoginSSO{
+    id: string;
+    accessToken: string;
+    refreshToken: string;
+}

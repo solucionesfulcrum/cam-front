@@ -50,7 +50,7 @@ export class AfilEvalComponent implements OnInit {
       'descripEvaluac',      
     ];
   
-    @ViewChild('paginatorProfesional') paginatorProfesional: MatPaginator;
+    @ViewChild('paginatorProfesional') paginatorProfesional!: MatPaginator;
     
     dataSourceEv = new MatTableDataSource<any>(dsEval);
           

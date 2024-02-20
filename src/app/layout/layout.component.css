@@ -1,0 +1,12 @@
+app-sidenav{
+    position: sticky;
+    top: 0px;
+}
+app-toolbar{
+    z-index: 2;
+    position: sticky;
+    top: 0px;
+}
+#sidenav{
+    width: 250px;
+}

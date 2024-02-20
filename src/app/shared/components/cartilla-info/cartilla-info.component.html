@@ -1,0 +1,74 @@
+<div class="contenedorCartillas">
+    <div class="cuadroAtención" *ngFor="let cartilla of cartillas, index as i"
+        [ngClass]="cartilla.estadoCartilla === 'NO ATENDIDA' ? 'border-l-[#64748B]' : (cartilla.estadoCartilla === 'PENDIENTE' || cartilla.estadoCartilla === 'CREADO' ? 'border-l-[#F59E0B]' : (cartilla.estadoCartilla === 'ATENDIDO' ? 'border-l-[var(--color-CAM)]' : 'border-l-[#0CCE6B]'))">
+        <!-- -------------------------------------------------------------------------------------------------------------------------------------------------- -->
+        <div class="firstSectionCuadro">
+            <span class="w-[11px]">{{i+1}}</span>
+            <div class="actividadCuadroInfo">
+                <span class="text-[var(--color-CAM)]" [routerLink]="redireccionNombre != null? [redireccionNombre + cartilla.idActividad] : null" [ngClass]="redireccionNombre != null ? 'cursor-pointer' : null">{{cartilla.actividadNombre | titlecase}}</span>
+                <li class="pl-2" [ngClass]="cartilla.estadoCartilla === 'NO ATENDIDA' ? 'text-[#64748B]' : (cartilla.estadoCartilla === 'PENDIENTE' || cartilla.estadoCartilla === 'CREADO' ? 'text-[#F59E0B]' : (cartilla.estadoCartilla === 'ATENDIDO' ? 'text-Name sombreadoAtendido' : 'text-[#0CCE6B]'))">
+                    <span class="ml-[-10px]">{{cartilla.estadoCartilla | titlecase}}</span>
+                </li>
+            </div>
+        </div>
+        <!-- -------------------------------------------------------------------------------------------------------------------------------------------------- -->
+        <div class="secondSectionCuadro">
+            <div class="envolventeSegundo borderSeparador">
+                <div class="flex gap-[10px]">
+                    <div class="iconEnvolvente">
+                        <img class="h-5 self-center" src="assets/svg/calendarMergeColors.svg">
+                    </div>
+                    <span class="font-bold"
+                    [ngClass]="cartilla.estadoCartilla === 'ATENDIDO' || cartilla.estadoCartilla === 'PROGRAMADO' || cartilla.estadoCartilla === 'CREADO' || forzarDesombreado ? null : 'opacity-50'">
+                        {{cartilla.estadoCartilla === 'CREADO' ? ((cartilla.fechaCreacion | date: 'dd MMMM y') | titlecase) : (cartilla.fechaProgramadaInicio ? ((cartilla.fechaProgramadaInicio | date: 'dd MMMM y') | titlecase) : 'Sin fecha')}}
+                    </span>
+                </div>
+                <div class="flex gap-[10px]" *ngIf="cartilla.estadoCartilla !== 'ATENDIDO'">
+                    <div class="iconEnvolvente">
+                        <img class="h-4 self-center" src="assets/svg/timeIcon.svg">
+                    </div>
+                    <span
+                    [ngClass]="cartilla.estadoCartilla === 'PROGRAMADO' || cartilla.estadoCartilla === 'CREADO' || forzarDesombreado  ? null : 'opacity-50'">
+                        {{ cartilla.estadoCartilla === 'CREADO' ? (cartilla.fechaCreacion | date: 'hh:mm aa') : (cartilla.fechaProgramadaInicio ? (cartilla.fechaProgramadaInicio | date: 'hh:mm') + ' - ' + (cartilla.fechaProgramadaFin | date: 'hh:mm aa') : '-')}}
+                    </span>
+                </div>
+                <div class="flex flex-row gap-2.5" *ngIf="cartilla.estadoCartilla === 'ATENDIDO'">
+                    <div class="flex flex-row gap-2.5">
+                        <div class="iconEnvolvente">
+                            <img class="h-4 self-center" src="assets/svg/icon-cita-time-schedule.svg">
+                        </div>
+                        <span>{{cartilla.fechaProgramadaInicio | date: 'hh:mm'}} - {{cartilla.fechaProgramadaFin | date: 'hh:mm aa'}}</span>
+                    </div>
+                    <div class="flex flex-row gap-2.5">
+                        <div class="iconEnvolvente">
+                            <img class="h-4 self-center" src="assets/svg/icon-cita-time-spent.svg">
+                        </div>
+                        <span>{{cartilla.duracionAtencion}}</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- -------------------------------------------------------------------------------------------------------------------------------------------------- -->
+        <div class="thirdSectionCuadro">
+            <div class="flex flex-row gap-2 borderSeparador">
+                <div class="flex justify-center items-center shrink-0">
+                    <img *ngIf="!cartilla.ingresaImagen" class="self-center" src="assets/svg/medicIcon.svg">
+                    <img *ngIf="cartilla.ingresaImagen" class="self-center w-[62px] h-[62px] rounded-full" [src]="'data:image/png;base64,'+cartilla.imagenBase64">
+                </div>
+                <div class="flex flex-col gap-1.5" [ngClass]="cartilla.ingresaImagen ? 'justify-between' : null">
+                    <span class="font-semibold"
+                    [ngClass]="cartilla.estadoCartilla === 'ATENDIDO' || cartilla.estadoCartilla === 'PROGRAMADO' || forzarDesombreado  ? null : 'opacity-50'">{{cartilla.nombrePersona ? (cartilla.nombrePersona | titlecase) : 'Sin medico asignado'}}</span>
+                    <div class="flex flex-row gap-x-2">
+                        <img class="self-center" src="assets/svg/phoneVibrate.svg">
+                        <span
+                        [ngClass]="cartilla.estadoCartilla === 'ATENDIDO' || cartilla.estadoCartilla === 'PROGRAMADO' || forzarDesombreado  ? null : 'opacity-50'">{{cartilla.numeroPersona ? cartilla.numeroPersona : '-'}}</span>
+                    </div>
+                </div>
+            </div>
+            <div class="w-5 h-5 flex justify-center">
+                <img class="h-4 self-center cursor-pointer" src="assets/svg/dotsOptions.svg" (click)="esFuncion ? funcionBoton.emit(cartilla) : null ">
+            </div>
+        </div>
+        <!-- -------------------------------------------------------------------------------------------------------------------------------------------------- -->
+    </div>
+</div>

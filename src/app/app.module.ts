@@ -1,86 +1,42 @@
-import {
-  MatFormFieldModule,
-  MAT_FORM_FIELD_DEFAULT_OPTIONS,
-} from '@angular/material/form-field';
-import { MaterialModule } from './material/material.module';
-import { NgModule } from '@angular/core';
-import { BrowserModule } from '@angular/platform-browser';
-import { ReactiveFormsModule, FormsModule } from '@angular/forms';
-import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
+import { CUSTOM_ELEMENTS_SCHEMA, NgModule } from '@angular/core';
+import { CommonModule, registerLocaleData } from '@angular/common';
+import LocaleEsPe from '@angular/common/locales/es-PE.js';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
+import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http';
+import { TokenInterceptor } from '@interceptors/token.interceptor';
+import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { ProgramacionTalleresComponent } from './pages/programacion-talleres/programacion-talleres.component';
-import { AsistenciaTalleresLayoutComponent } from './pages/asistencia-talleres/asistencia-talleres-layout.component';
-import { HomeComponent } from './pages/home/home.component';
-import { DialogConfirmacionComponent } from './shared/dialog-confirmacion/dialog-confirmacion.component';
-import { MAT_DATE_LOCALE } from '@angular/material/core';
-import { ToastrModule } from 'ngx-toastr';
-import { SidenavComponent } from './layout/sidenav/sidenav.component';
-import { ToolbarComponent } from './layout/toolbar/toolbar.component';
-import { MatSidenavModule } from '@angular/material/sidenav';
-import { MatToolbarModule } from '@angular/material/toolbar';
-import { MatListModule } from '@angular/material/list';
-import { MatMenuModule } from '@angular/material/menu';
-import { MatProgressBarModule } from '@angular/material/progress-bar';
-import { InterceptorService } from './shared/loader/interceptor.service';
-import { SelectComponent } from './shared/components/select/select.component';
-import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
-import { NgxMatSelectSearchModule } from 'ngx-mat-select-search';
-import {MatSelectModule} from '@angular/material/select';
-import dayjs from 'dayjs';
-import { MatCheckboxModule } from '@angular/material/checkbox';
-import { MatTooltipModule } from '@angular/material/tooltip';
+import { RouterModule } from '@angular/router';
+import { MAT_FORM_FIELD_DEFAULT_OPTIONS } from '@angular/material/form-field';
 import { SharedModule } from '@shared/shared.module';
-import { LayoutComponent } from './layout/layout/layout.component';
-import { LayoutModule } from './layout/layout.module';
-import { DatePipe } from '@angular/common';
 
-@NgModule({
-  declarations: [
-    AppComponent,
-    ProgramacionTalleresComponent,
-    AsistenciaTalleresLayoutComponent,
-    HomeComponent,
-    DialogConfirmacionComponent,
-    SelectComponent,
-  ],
-  imports: [
-    ToastrModule.forRoot({
-      timeOut: 3000,
-      preventDuplicates: true,
-      closeButton: true,
-    }),
-    BrowserModule,
-    BrowserAnimationsModule,
-    MaterialModule,
-    MatFormFieldModule,
-    ReactiveFormsModule,
-    FormsModule,
-    HttpClientModule,
-    MatSidenavModule,
-    MatToolbarModule,
-    MatListModule,
-    MatMenuModule,
-    AppRoutingModule,
-    MatProgressBarModule,
-    FontAwesomeModule,
-    MatCheckboxModule,
-    MatTooltipModule,
-    LayoutModule,
-    SharedModule
-  ],
-  exports: [],
-  providers: [
-    DatePipe,
-    {
-      provide: MAT_FORM_FIELD_DEFAULT_OPTIONS,
-      useValue: { appearance: 'outline' },
-    },
-    { provide: MAT_DATE_LOCALE, useValue: 'es-PE' },
-    { provide: HTTP_INTERCEPTORS, useClass: InterceptorService, multi: true },
-  ],
-  bootstrap: [AppComponent],
-})
-export class AppModule {}
+// registerLocaleData(LocaleEsPe);
+
+// @NgModule({
+//   declarations: [AppComponent],
+//   imports: [
+//     CommonModule,
+//     AppRoutingModule,
+//     BrowserModule,
+//     BrowserAnimationsModule,
+//     HttpClientModule,
+//     RouterModule,
+//     SharedModule
+//   ],
+//   bootstrap: [AppComponent],
+//   providers: [
+//     {
+//       provide: HTTP_INTERCEPTORS,
+//       useClass: TokenInterceptor,
+//       multi: true,
+//     },
+//     {
+//       provide: MAT_FORM_FIELD_DEFAULT_OPTIONS,
+//       useValue: { appearance: 'outline' },
+//     },
+//   ],
+//   schemas: [CUSTOM_ELEMENTS_SCHEMA],
+// })
+export class AppModule { }

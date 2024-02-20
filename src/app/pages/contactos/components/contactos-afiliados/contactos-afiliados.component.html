@@ -55,7 +55,7 @@
 
       <ng-container cdkColumnDef="fecha">
         <th cdk-header-cell class="py-[1.25rem] px-6" *cdkHeaderCellDef>Estado</th>
-        <td cdk-cell class="py-[1rem] px-6 flex justify-center" *cdkCellDef="let row"><img [src]="row.estado == 1 ? 'assets/svg/icon-user-active.svg' : ''"></td>
+        <td cdk-cell class="py-[1rem] px-6 flex justify-center" *cdkCellDef="let row"><img [src]="row.estado == 1 ? 'assets/svg/userAct.svg' : ''"></td>
       </ng-container>
     </table>
     <mat-paginator #paginator class="demo-paginator paginatorDatos" 

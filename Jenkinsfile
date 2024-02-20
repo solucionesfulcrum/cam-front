@@ -15,8 +15,13 @@ pipeline {
     }
 
     environment {
-        GROUP_ID = '66185fd6-1e37-4b9c-846b-b871177080b6'
-        APPLICATION_ID = 'ea422392-0daa-4327-b1f3-57d6a9355c85'
+        GROUP_ID = 'f0ab2856-f06b-4dcb-8cb0-9f3cdbfdd073'
+        APPLICATION_ID = '0e548ca9-fcda-407e-9438-258d6e5684ab'
+
+        DOCKERFILE_BUILD_ARG = 'DIST_PATH=dist'
+        DOCKER_IMAGE_NAME = 'essalud/apps-qa'
+        DOCKER_IMAGE_TAG = 'sigps-web-v1'
+        DOCKER_CONTAINER_NAME = 'sigps-web'
     }
 
     options {

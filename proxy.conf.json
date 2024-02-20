@@ -1,0 +1,12 @@
+{
+  "/sso-main/api/*":{
+    "target":"https://appsqa.essalud.gob.pe",
+    "secure":false,
+    "logLevel":"debug"
+  },
+  "/sigps-service/api/*":{
+    "target":"https://appsqa.essalud.gob.pe",
+    "secure":false,
+    "logLevel":"debug"
+  }
+}

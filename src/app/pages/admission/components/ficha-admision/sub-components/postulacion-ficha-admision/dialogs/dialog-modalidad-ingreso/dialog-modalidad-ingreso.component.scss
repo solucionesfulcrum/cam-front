@@ -1,0 +1,6 @@
+.botonMezclado {
+    ::ng-deep.bg-success-700{
+    background: var(--color-CAM-Mezclado) !important;
+  }
+  border-radius: 5px;
+}

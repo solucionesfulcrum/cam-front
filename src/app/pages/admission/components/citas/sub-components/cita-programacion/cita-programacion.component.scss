@@ -1,0 +1,95 @@
+.infoCuadro{
+    background-color: white;
+    padding: 0.75rem 1rem;
+    display: flex;
+    flex-direction: column;
+    border-radius: 5px;
+    box-shadow: 1px 1px 4px 0px rgba(0, 0, 0, 0.4);
+    gap: 16px;
+}
+.peer{
+    box-shadow: none
+}
+select{
+    background-color: white;
+}
+.flotante{	
+    pointer-events: none;
+    font-size: 12px;
+    top: -9px;
+    left: 8px;
+    background: white;
+    padding: 0 5px;
+    z-index: 1;
+}
+.botonElegirHorario{
+    cursor: pointer;
+    font-size: 14px;
+    padding: 4px 16px;
+    border: 1px solid #a4a4a9;
+    --borderRadius: 8px;
+}
+.botonElegirHorario:nth-of-type(1){
+    border-top-left-radius: var(--borderRadius);
+    border-bottom-left-radius: var(--borderRadius);
+}
+.botonElegirHorario:nth-of-type(3){
+    border-top-right-radius: var(--borderRadius);
+    border-bottom-right-radius: var(--borderRadius);
+}
+
+.pseudoTablaHorarios{
+    
+    --border-color: #E0E0E0;
+    --width-header: 13.67673179396092%;
+    --width-fechas: 4.26287744227353%;
+    // display: flex;
+    // flex-direction: row;
+    .horasTable{
+        display: flex;
+        flex-direction: column;
+    }
+    .contenedorHorarios{
+        display: flex;
+        flex-direction: column;
+        .filaHorariosDia{
+            display: flex;
+            flex-direction: row;
+            .hora{
+                flex-grow: 1;
+                position: relative;
+            }
+            .cuadroHorarioDia{
+                padding: 0 0.25rem;
+                display: flex;
+                gap: 0.125rem;
+                align-items: center;
+                width: var(--width-header);
+                height: 72px;
+                flex-shrink: 0;
+                border-right-width: 1px;
+                border-top-width: 1px;
+                border-color: var(--border-color);
+                border-style: solid;
+                flex-wrap: wrap;
+            }
+        }
+    }
+    .headTable{
+        display: flex;
+        flex-direction: row;
+        justify-content: flex-end;
+        .headerFecha{
+            width: var(--width-header);
+            text-align: center;
+            height: 24px;
+            border-right-width: 1px;
+            border-color: var(--border-color);
+            border-style: solid;
+        }
+        .fechasRow{
+            width: var(--width-fechas);
+            height: 72px;
+        }
+    }
+}

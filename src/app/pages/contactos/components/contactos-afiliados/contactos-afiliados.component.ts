@@ -33,11 +33,15 @@ export class ContactosAfiliadosComponent implements OnInit {
   }
 
   onLoadData(){
-    this.afiliacionesService.getListaAfiliados(this.getPayload()).subscribe((data)=>{
-      this.dataSource = data;
-      this.total = this.dataSource.length;
-      console.log(data)
-    })
+    this.dataSource = [
+      {nombres: 'ROXANA ESTRADA ARIAS', tipoDoc: 1, numDoc: '23835688', fecNac: '16/03/1968', estCivil: 'SOLTERA', ipress: 'EUNICE ELIZABETH', estado: 1}
+    ]
+    this.total = this.dataSource.length;
+    // this.afiliacionesService.getListaAfiliados(this.getPayload()).subscribe((data)=>{
+    //   this.dataSource = data;
+    //   this.total = this.dataSource.length;
+    //   console.log(data)
+    // })
   }
   
   getDataFecha(value: any){

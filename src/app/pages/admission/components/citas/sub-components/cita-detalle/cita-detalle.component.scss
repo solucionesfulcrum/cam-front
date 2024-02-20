@@ -1,0 +1,45 @@
+.infoCitas ::ng-deep.mat-mdc-tab:not(.mat-mdc-tab-disabled) .mdc-tab-indicator__content--underline{
+    border-color: var(--color-CAM);
+}
+
+.infoCitas ::ng-deep.mat-mdc-tab:not(.mat-mdc-tab-disabled).mdc-tab--active .mdc-tab__text-label{
+    color:var(--color-CAM);
+}
+
+.infoCitas ::ng-deep.tabsSubTemas.mdc-tab{
+    font-size: 16px;
+    padding-right: 2px;
+    padding-left: 2px;
+    margin-right: 6px;
+}
+
+.infoCitas{
+    display: flex;
+    flex-direction: column;
+}
+
+.infoFicha{
+    flex-direction: row;
+    .fichaFirst{
+        display: flex;
+        flex-direction: row;
+        justify-content: space-evenly;
+        gap: 0.5rem;
+    }
+    .fichaSecond{
+        border-left: 1px solid #DBDADE;
+        border-right: 1px solid #DBDADE;
+    }
+}
+
+.infoFicha, .infoCitas{
+    background-color: white;
+    padding: 0.75rem 1rem;
+    display: flex;
+    border-radius: 5px;
+    box-shadow: 1px 1px 4px 0px rgba(0, 0, 0, 0.4);
+}
+
+.cuadroAtención:hover{
+    background: rgb(247 245 245);
+}

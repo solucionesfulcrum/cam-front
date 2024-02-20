@@ -1,0 +1,45 @@
+.bg-card{
+    background-color: white;
+    box-shadow: 1px 1px 4px 0px #00000066;
+    border-radius: 5px;
+    height: 100%;  
+}
+
+::ng-deep.estilizadoCard{
+    mat-calendar, .mdc-button .mdc-button__label{
+        font-weight: 600;
+    }
+    ::-webkit-scrollbar {
+        display: none;
+    }
+    tbody{
+        tr{
+            td:last-child.mat-calendar-body-label{
+                display: none;
+            }
+        }
+    }
+    .mat-calendar-body-label{
+        color: white;
+    }
+    th{
+        color: var(--color-CAM);
+        font-weight: 800;
+    }
+    .mat-calendar-body-cell:not(.mat-calendar-body-disabled):hover > .mat-calendar-body-cell-content:not(.mat-calendar-body-selected):not(.mat-calendar-body-comparison-identical){
+        background-color: var(--color-CAM-Transparente);
+    }
+    .mat-calendar-body-selected{
+        background-color: var(--color-CAM);
+    }
+    .aparienciaHorario{
+        display: flex;
+        flex-direction: row;
+        gap: 10px;
+        font-size: 0.75rem;
+        line-height: 1rem;
+        border-top-color: #344563;
+        border-top-width: 0.1rem;
+        border-top-style: solid;
+    }
+}
