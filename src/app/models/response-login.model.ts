@@ -26,7 +26,12 @@ export interface ResponseLogin{
 }
 
 export interface ResponseLoginSSO{
-    id: string;
-    accessToken: string;
-    refreshToken: string;
+    code: number,
+    message: string,
+    data: {
+        id: string;
+        accessToken: string;
+        refreshToken: string;
+        idUserApp: number
+    },
 }

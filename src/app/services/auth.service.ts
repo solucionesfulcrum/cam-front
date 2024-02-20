@@ -103,9 +103,9 @@ export class AuthService {
       )
       .pipe(
         map(  (rta: ResponseLoginSSO) => {
-          this.decodedToken = helperJWT.decodeToken(rta.accessToken);
-          this.tokenService.saveToken(rta.accessToken);
-          this.tokenService.saveRefreshToken(rta.refreshToken);
+          this.decodedToken = helperJWT.decodeToken(rta.data.accessToken);
+          this.tokenService.saveToken(rta.data.accessToken);
+          this.tokenService.saveRefreshToken(rta.data.refreshToken);
           this.userSSO$.next(true);
           console.log('this.userSSO$: ', this.userSSO$);
           this.getProfile();

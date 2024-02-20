@@ -43,12 +43,7 @@ export class LoginFormComponent {
       const { username, password } = this.form.getRawValue();
       this.authService.login(username, password).subscribe({
         next: async (rta) => {
-          console.log("login rpta",rta)
-          this.userService.getUserSessionActive(rta.id).subscribe((data)=>{
-            console.log("login data rpta",data)
-            if (data.code != 0) {
-              this._notification.warning(data.message)
-            }
+          this.userService.getUserSessionActive(rta.data.id).subscribe((data)=>{
             if (data.data) {
               localStorage.setItem('sigpsUser', JSON.stringify(data.data));
               this.status = 'success';
@@ -67,9 +62,9 @@ export class LoginFormComponent {
           })
         },
         error: (rta) => {
-          this._notification.error(rta.message)
+          //this._notification.error(rta.message)
           this.status = 'failed';
-          this.msgSSO ='Problemas con la autenficación'
+          this.msgSSO ='Verficar usuario o contraseña'
           if ( rta?.statusText === 'Bad credentials')
             this.msgSSO = 'Credenciales incorrectas'
         },
