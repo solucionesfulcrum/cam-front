@@ -64,7 +64,7 @@ export class LoginFormComponent {
         error: (rta) => {
           //this._notification.error(rta.message)
           this.status = 'failed';
-          this.msgSSO ='Verficar usuario o contraseña'
+          this.msgSSO ='Credenciales inválidas.'
           if ( rta?.statusText === 'Bad credentials')
             this.msgSSO = 'Credenciales incorrectas'
         },
