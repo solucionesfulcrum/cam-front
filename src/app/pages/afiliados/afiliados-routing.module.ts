@@ -17,6 +17,7 @@ import { ResultEvalAfiliadoComponent } from './components/result-eval-afiliado/r
 import { AfilOperComponent } from './components/afil-oper/afil-oper.component';
 import { TabsComponent } from './components/tabs/tabs.component';
 import { AfiliadosLayoutComponent } from './afiliados-layout.component';
+import { EvaluacionLayoutComponent } from './components/evaluacion-layout/evaluacion-layout.component';
 
 const routes: Routes = [
   {
@@ -30,13 +31,22 @@ const routes: Routes = [
       },
       {
         path: 'evaluacion',
-        component: EvaluacionComponent,
-        title: 'Afiliaciones - Evaluación'
+        children: [
+          {
+            path: '',
+            component: EvaluacionComponent,
+            title: 'Afiliaciones - Evaluación'
+          },
+          {
+            path: 'agregaEval',
+            component: EvaluacionLayoutComponent,
+          },
+        ]
       },
       {
         path: 'show/:tipoDoc/:numDoc',
         component: ShowSolComponent,
-      },
+      }
     ]
   }
   // { 

@@ -14,6 +14,7 @@ import { AfiliadoService } from 'src/app/data/services/afiliaciones/afiliado.ser
 export class EvaluacionComponent {
   
   opciones: Parametro[] = [];
+  dataUnidadElegida: any = Object();
 
   modeloRequest: any;
 
@@ -27,8 +28,7 @@ export class EvaluacionComponent {
 
   public formNewFicha = this.fb.nonNullable.group({
      frmSelectDoc:new FormControl(""),
-     frmDoc:['', [Validators.required, Validators.minLength(8)]],
-     frmBirthday:['']
+     frmDoc:['', [Validators.required, Validators.minLength(8)]]
   });
 
   constructor(private fb:FormBuilder,
@@ -37,9 +37,10 @@ export class EvaluacionComponent {
      private route: ActivatedRoute,) { }
 
   ngOnInit(): void {
-     this._afiliadoService.getTipoParametros('TIPO_DOCUMENTO_IDENTIDAD').subscribe((data) =>{
-       this.opciones = data.data;
-     });
+    this.dataUnidadElegida = JSON.parse(localStorage.getItem('UnidElegida')!);
+    //  this._afiliadoService.getTipoParametros('TIPO_DOCUMENTO_IDENTIDAD').subscribe((data) =>{
+    //    this.opciones = data.data;
+    //  });
   }
 
   onClose(){

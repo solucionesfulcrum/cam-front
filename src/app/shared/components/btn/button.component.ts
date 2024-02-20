@@ -33,7 +33,7 @@ export class ButtonComponent {
     },
     primary: {
       'bg-primary-700': true,
-      'hover:bg-primary-800': true,
+      'hover:bg-[#057EC9]': true,
       'focus:ring-primary-300': true,
       'text-white': true,
     },

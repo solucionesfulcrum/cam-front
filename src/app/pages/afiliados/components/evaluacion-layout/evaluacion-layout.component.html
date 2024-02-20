@@ -1,0 +1,31 @@
+<div class="flex flex-col">
+    <esp-opciones-botones  [listOpciones]="opcionesBotones"></esp-opciones-botones>
+    <div class="bg-white botonApariencia flex flex-row text-[var(--color-black-alt)]">
+        <div class="w-[280px] shrink-0 flex flex-col border-r border-r-[#dceef7]">
+            <div class="flex flex-col">
+                <div class="flex flex-col gap-1 py-2 items-center relative leading-5">
+                    <p class="py-1 px-3 bg-sigps absolute right-0 text-white text-xl bg-black">{{'31'}} Años</p>
+                    <img src="assets/images/avatar-user.png" class="w-[75px] rounded-full border-2 border-[var(--color-CAM)]">
+                    <p class="font-bold text-2xl text-sky-600" >{{'Juan Alberto' | titlecase}}</p>
+                    <p class="font-semibold text-lg m-0">{{'Dorado' | titlecase}} {{'Rivera' | titlecase}}</p>
+                    <p class="font-thin">DNI {{'335858891'}}</p>
+                </div>
+                <div class="flex flex-col py-3 gap-3">
+                    <div></div>
+                </div>
+            </div>
+        </div>
+        <div class="flex flex-col gap-[14px] px-4 grow shrink-0">
+            <div class="flex flex-row justify-between py-1.5">
+                <div class="flex flex-col">
+                    <span class="text-lg font-semibold">Evaluación Gerontológica</span>
+                    <span class="text-[#64748B] text-sm">De Las Personas Adultas Mayores</span>
+                </div>
+                <div class="flex flex-col items-end">
+                    <span class="text-[#64748B] text-sm">N° de Historia</span>
+                    <span class="text-[var(--color-CAM)] text-lg">146202300046</span>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

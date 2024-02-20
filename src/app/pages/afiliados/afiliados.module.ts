@@ -37,6 +37,7 @@ import { AfilEvalComponent } from './components/afil-eval/afil-eval.component';
 import { CustomDatePipe } from '@shared/custom-date.pipe';
 import { CdkTableModule } from '@angular/cdk/table';
 import { Dialog, DialogModule } from '@angular/cdk/dialog';
+import { EvaluacionLayoutComponent } from './components/evaluacion-layout/evaluacion-layout.component';
 
 
 
@@ -65,6 +66,7 @@ import { Dialog, DialogModule } from '@angular/cdk/dialog';
     TabsComponent,
     AfilEvalComponent,
     CustomDatePipe,
+    EvaluacionLayoutComponent,
   
   ],
   imports: [
