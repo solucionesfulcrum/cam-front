@@ -72,7 +72,7 @@ export class AuthService {
     const params = this._authBasic();
     return this.http
       .post<iUser>(
-        `${environment.SSO_API}/usuario/getUserInfo`,
+        `${environment.API}/auth/usuario/info`,
         {
           "guiid": this.decodedToken?.sub
         },

@@ -24,6 +24,7 @@ export class ToolbarComponent {
   userRol: string = '';
   user$ = this._userService.currentUser$;
   isOpen= false
+  userSesion : string = '';
 
   constructor(
     private authService:AuthService,
@@ -31,16 +32,24 @@ export class ToolbarComponent {
     private _userService:UserService){
     this.user$.subscribe(user=>{
       if (!user) {
-        console.log(user);
-        console.log(authService.getProfile())
+        console.log("user",user);
+        console.log("authService",authService.getProfile())
         
       }
+
+      console.log("user2", user)
     })
-    this.authService.getProfile().subscribe((data)=>{
-    })
+    /*this.authService.getProfile().subscribe((data)=>{
+      console.log("data usuario",data)
+    })*/
   }
 
   ngOnInit(){
+    if(localStorage.getItem("sigpsUser") != null ){
+      this.userSesion = JSON.parse(localStorage.getItem("sigpsUser")!).nombres
+    }else{
+      this.userSesion = 'Datos no conocidos'
+    }
     if(localStorage.getItem('UnidElegida') != 'null'){
       // let idUnid: string;
       if ((JSON.parse(localStorage.getItem('UnidElegida')!)).rol) {
