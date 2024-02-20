@@ -38,6 +38,10 @@ import { CustomDatePipe } from '@shared/custom-date.pipe';
 import { CdkTableModule } from '@angular/cdk/table';
 import { Dialog, DialogModule } from '@angular/cdk/dialog';
 import { EvaluacionLayoutComponent } from './components/evaluacion-layout/evaluacion-layout.component';
+import { EvaluacionAPfeifferComponent } from './components/evaluacion-layout/evaluaciones/evaluacion-a-pfeiffer/evaluacion-a-pfeiffer.component';
+import { EvaluacionBKatzComponent } from './components/evaluacion-layout/evaluaciones/evaluacion-b-katz/evaluacion-b-katz.component';
+import { EvaluacionCGijonComponent } from './components/evaluacion-layout/evaluaciones/evaluacion-c-gijon/evaluacion-c-gijon.component';
+import { EvaluacionDYesavageComponent } from './components/evaluacion-layout/evaluaciones/evaluacion-d-yesavage/evaluacion-d-yesavage.component';
 
 
 
@@ -67,6 +71,10 @@ import { EvaluacionLayoutComponent } from './components/evaluacion-layout/evalua
     AfilEvalComponent,
     CustomDatePipe,
     EvaluacionLayoutComponent,
+    EvaluacionAPfeifferComponent,
+    EvaluacionBKatzComponent,
+    EvaluacionCGijonComponent,
+    EvaluacionDYesavageComponent,
   
   ],
   imports: [

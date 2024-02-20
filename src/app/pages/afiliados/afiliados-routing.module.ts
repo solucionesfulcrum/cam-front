@@ -18,6 +18,10 @@ import { AfilOperComponent } from './components/afil-oper/afil-oper.component';
 import { TabsComponent } from './components/tabs/tabs.component';
 import { AfiliadosLayoutComponent } from './afiliados-layout.component';
 import { EvaluacionLayoutComponent } from './components/evaluacion-layout/evaluacion-layout.component';
+import { EvaluacionAPfeifferComponent } from './components/evaluacion-layout/evaluaciones/evaluacion-a-pfeiffer/evaluacion-a-pfeiffer.component';
+import { EvaluacionBKatzComponent } from './components/evaluacion-layout/evaluaciones/evaluacion-b-katz/evaluacion-b-katz.component';
+import { EvaluacionCGijonComponent } from './components/evaluacion-layout/evaluaciones/evaluacion-c-gijon/evaluacion-c-gijon.component';
+import { EvaluacionDYesavageComponent } from './components/evaluacion-layout/evaluaciones/evaluacion-d-yesavage/evaluacion-d-yesavage.component';
 
 const routes: Routes = [
   {
@@ -31,7 +35,7 @@ const routes: Routes = [
       },
       {
         path: 'evaluacion',
-        children: [
+        children:[
           {
             path: '',
             component: EvaluacionComponent,
@@ -40,6 +44,28 @@ const routes: Routes = [
           {
             path: 'agregaEval',
             component: EvaluacionLayoutComponent,
+            children:[
+              {
+                path: '',
+                component: EvaluacionAPfeifferComponent,
+                title: 'Test Pfeiffer'
+              },
+              {
+                path: 'eva-katz',
+                component: EvaluacionBKatzComponent,
+                title: 'Test de Katz'
+              },
+              {
+                path: 'eva-gijon',
+                component: EvaluacionCGijonComponent,
+                title: 'Escala de Gijón'
+              },
+              {
+                path: 'eva-yesavage',
+                component: EvaluacionDYesavageComponent,
+                title: 'Test Yesavage'
+              }
+            ]
           },
         ]
       },

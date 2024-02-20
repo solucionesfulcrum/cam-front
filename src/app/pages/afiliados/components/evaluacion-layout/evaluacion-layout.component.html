@@ -10,8 +10,43 @@
                     <p class="font-semibold text-lg m-0">{{'Dorado' | titlecase}} {{'Rivera' | titlecase}}</p>
                     <p class="font-thin">DNI {{'335858891'}}</p>
                 </div>
-                <div class="flex flex-col py-3 gap-3">
-                    <div></div>
+                <div class="flex flex-col py-3 gap-3 border-t border-t-[#dceef7]">
+                    <div class="flex flex-row gap-3 items-center justify-center h-[42px] pl-2.5 pr-1">
+                        <div class="bg-[var(--color-CAM)] text-white text-xl w-10 h-10 flex items-center justify-center font-semibold rounded shrink-0">
+                            <span>A</span>
+                        </div>
+                        <div class="flex flex-col text-sm grow">
+                            <span class="text-[var(--color-CAM)]">Test Pfeiffer</span>
+                            <span>Evaluación Cognitiva</span>
+                        </div>
+                    </div>
+                    <div class="flex flex-row gap-3 items-center justify-center h-[42px] pl-2.5 pr-1">
+                        <div class="bg-[var(--color-CAM)] text-white text-xl w-10 h-10 flex items-center justify-center font-semibold rounded shrink-0">
+                            <span>B</span>
+                        </div>
+                        <div class="flex flex-col text-sm grow">
+                            <span class="text-[var(--color-CAM)]">Test de Katz</span>
+                            <span>Evaluación funcional</span>
+                        </div>
+                    </div>
+                    <div class="flex flex-row gap-3 items-center justify-center h-[42px] pl-2.5 pr-1">
+                        <div class="bg-[var(--color-CAM)] text-white text-xl w-10 h-10 flex items-center justify-center font-semibold rounded shrink-0">
+                            <span>C</span>
+                        </div>
+                        <div class="flex flex-col text-sm grow">
+                            <span class="text-[var(--color-CAM)]">Escala de Gijón</span>
+                            <span>Evaluación socio familiar</span>
+                        </div>
+                    </div>
+                    <div class="flex flex-row gap-3 items-center justify-center h-[42px] pl-2.5 pr-1">
+                        <div class="bg-[var(--color-CAM)] text-white text-xl w-10 h-10 flex items-center justify-center font-semibold rounded shrink-0">
+                            <span>D</span>
+                        </div>
+                        <div class="flex flex-col text-sm grow">
+                            <span class="text-[var(--color-CAM)]">Test Yesavage</span>
+                            <span>Escala de depresión geriátrica</span>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
@@ -26,6 +61,38 @@
                     <span class="text-[var(--color-CAM)] text-lg">146202300046</span>
                 </div>
             </div>
+            <ul class="grupoDirecciones">
+              <li class="elementoSeleccionable radioBgDiferente">
+                  <input type="radio" [id]="'direccion'+1" name="direccion" class="peer right-0 mt-2 mr-2 focusCampo">
+                  <label [for]="'direccion'+1" class="flex cuadroRadioButton">                           
+                      <div class="flex flex-col justify-center text-center w-full max-w-[70px]">
+                          <esp-icon class="text-3xl" icon="faLocationDot"></esp-icon>
+                          <span>Datos</span>
+                      </div>
+                      <div class="flex  pl-4"> 
+                          <div class="w-full flex flex-col">
+                              <div class="w-full flex space-x-2">
+                                  <span class="text-gray-600 font-medium w-[120px]">Dirección</span>
+                                  <span>{{'item.direccion' | titlecase}}</span>
+                              </div>
+                              <div class="w-full flex space-x-2">
+                                  <span class="text-gray-600 font-medium w-[120px]">Distrito</span>
+                                  <span>{{'item.nomDist' | titlecase}}</span>
+                              </div>
+                              <div class="w-full flex space-x-2">
+                                  <span class="text-gray-600 font-medium w-[120px]">Provincia</span>
+                                  <span>{{'item.nomProv' | titlecase}}</span>
+                              </div>
+                              <div class="w-full flex space-x-2">
+                                  <span class="text-gray-600 font-medium w-[120px]">Departamento</span>
+                                  <span>{{'item.nomDep' | titlecase}}</span>
+                              </div>
+                          </div>
+                      </div>
+                  </label>
+              </li>
+            </ul>
+            <router-outlet></router-outlet>
         </div>
     </div>
 </div>
