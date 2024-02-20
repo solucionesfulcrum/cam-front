@@ -22,7 +22,7 @@ import { UserService } from '@shared/stores/user.service';
 export class ToolbarComponent {
   @Output() toggleSidenav = new EventEmitter();
   userRol: string = '';
-  user$ = this._userService.currentUser$;
+  //user$ = this._userService.currentUser$;
   isOpen= false
   userSesion : string = '';
 
@@ -30,7 +30,7 @@ export class ToolbarComponent {
     private authService:AuthService,
     private router:Router,
     private _userService:UserService){
-    this.user$.subscribe(user=>{
+    /*this.user$.subscribe(user=>{
       if (!user) {
         console.log("user",user);
         console.log("authService",authService.getProfile())
@@ -47,6 +47,7 @@ export class ToolbarComponent {
   ngOnInit(){
     if(localStorage.getItem("sigpsUser") != null ){
       this.userSesion = JSON.parse(localStorage.getItem("sigpsUser")!).nombres
+      console.log()
     }else{
       this.userSesion = 'Datos no conocidos'
     }
