@@ -12,6 +12,7 @@ import { RolService } from '@services/rol.service';
 import { UsersService } from '@services/users.service';
 import { SharedModule } from '@shared/shared.module';
 import { map, startWith } from 'rxjs';
+import { ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'esp-active-user-modal',
@@ -25,7 +26,7 @@ export class ActiveUserModalComponent {
   status: RequestStatus = 'init';
   // frmCtrlRol = new FormControl();
   // rolSeleccionadoTmp!: RolData;
-
+  idUser: any;
   listUnidadOperativa: any[] = [];
   frmCtrlUnidadOperativa = new FormControl();
   unidOperaSeleccionadaTmp!: any;
@@ -52,7 +53,8 @@ export class ActiveUserModalComponent {
     private _notification: NotificationService,
     private datosService: DatosGeneralesService,
     private userService: UsersService,
-    private fb: FormBuilder,) {
+    private fb: FormBuilder,
+    private route: ActivatedRoute) {
 
   }
   ngOnInit(): void {
@@ -142,7 +144,7 @@ export class ActiveUserModalComponent {
     fechaFin = this.formVigencia.value.frmFinVigencia!;
 
     return {
-      usuarioId: 72,
+      usuarioId: Number(localStorage.getItem("userId")),
       rolId: parseInt(this.formDatosAdicionales.value.frmRol!),
       fechInicio: this.datePipe.transform(fechaInicio!.split('/')[2] + '/' + fechaInicio!.split('/')[1] + '/' + fechaInicio!.split('/')[0], 'yyyy-MM-dd')!,
       fechFin: this.datePipe.transform(fechaFin!.split('/')[2] + '/' + fechaFin!.split('/')[1] + '/' + fechaFin!.split('/')[0], 'yyyy-MM-dd')!,

@@ -29,6 +29,7 @@ export class ShowComponent {
   onLoadData(){
     this.route.params.subscribe(params => {
       this.idUser = params['id']; // (+) converts string 'id' to a number
+      localStorage.setItem("userId",String(this.idUser))
         this._usersService.getActivacionesUser(this.idUser).subscribe((data)=>{
           console.log("unidades operativas activas",data);
           /*data.data.forEach((element: any) => {
