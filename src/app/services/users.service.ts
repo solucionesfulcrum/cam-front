@@ -60,6 +60,11 @@ export class UsersService {
     return this.http.get<any>(url);
   }
 
+  getInformacionActivaciones(idUser: number){
+    const url = `${this.api_URL}/usuario/listar/activaciones/${idUser}`;
+    return this.http.get<any>(url);
+  }
+
   getActivacionActiva(idUsuario: number){
     let idUnidadOperativaUser = (JSON.parse(localStorage.getItem('UnidElegida')!)).idUnidOperativa;
     const url = `${this.api_URL}/profesional/ultima-activacion?usuarioId=${idUsuario}&unidadOperativaId=${idUnidadOperativaUser}`;

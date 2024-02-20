@@ -70,8 +70,8 @@
         <span class="text-[#008BD2]">{{activacion.responsable}}</span>
         <span>{{activacion.fechInicio | date:'dd/MM/yyyy'}}</span>
         <span>{{activacion.fechFin | date:'dd/MM/yyyy'}}</span>
-        <span>{{activacion.unidOperativa}}</span>
-        <span>{{activacion.rol}}</span>
+        <span>{{activacion.unidadOperativa}}</span>
+        <span>{{activacion.nombreRol}}</span>
         <span [ngClass]="activacion.estado === 'ACTIVO' ? 'text-green-500':'text-red-500'">{{activacion.estado}}</span>
       </div>
     </div>

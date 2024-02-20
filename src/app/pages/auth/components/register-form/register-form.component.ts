@@ -36,8 +36,8 @@ export class RegisterFormComponent {
 
   listParamDoc: Parametro[] = [];
   listUnidadOperativa: any[] = [];
-  isFinish:boolean = false
-  isPreRegister:boolean = false
+  isFinish: boolean = false
+  isPreRegister: boolean = false
   msgError!: string;
 
 
@@ -68,7 +68,7 @@ export class RegisterFormComponent {
   faEyeSlash = faEyeSlash;
   faMagnifyingGlass = faMagnifyingGlass;
   faSquareCheck = faSquareCheck;
-  faTriangleExclamation= faTriangleExclamation;
+  faTriangleExclamation = faTriangleExclamation;
   faCheck = faCheck;
   showPassword = false;
   showConfirmPassword = false;
@@ -82,23 +82,24 @@ export class RegisterFormComponent {
     private formBuilder: FormBuilder,
     private authService: AuthService,
     private datosService: DatosGeneralesService,
-    private dialog : Dialog,
-  ) {}
+    private dialog: Dialog,
+  ) { }
 
-  ngOnInit(){
+  ngOnInit() {
     // this.toastr.success('hola');
     this.getParametros();
   }
 
-  getParametros(){
-    /*this.datosService.getTipoParametros('TIPO_DOCUMENTO_IDENTIDAD').subscribe((data) =>{
+  getParametros() {
+    this.datosService.getTipoParametros('TIPO_DOCUMENTO_IDENTIDAD').subscribe((data) => {
       this.listParamDoc = data.data;
-    });*/
-    this.listParamDoc = [{idParametros:1,tipo:"algun",activo:true,descripcion:'DNI',fechaModificacion:"",fechaRegistro:"",idPradre:1,nombre:"Documento Nacional de Indentidad",valor1:"1",valor2:"01"},
+    });
+    /*this.listParamDoc = [{idParametros:1,tipo:"algun",activo:true,descripcion:'DNI',fechaModificacion:"",fechaRegistro:"",idPradre:1,nombre:"Documento Nacional de Indentidad",valor1:"1",valor2:"01"},
     {idParametros:1,tipo:"algun",activo:true,descripcion:'DNI',fechaModificacion:"",fechaRegistro:"",idPradre:1,nombre:"Carnet de Extrangeria",valor1:"2",valor2:"01"}];
-    this.datosService.getUnidadesOperativas('').subscribe((data) =>{
+    */
+    this.datosService.getUnidadesOperativas('').subscribe((data) => {
       this.listUnidadOperativa = data.data;
-      console.log("lista de unidaddes operativas",this.listUnidadOperativa)
+      console.log("lista de unidaddes operativas", this.listUnidadOperativa)
     });
   }
 
@@ -120,22 +121,22 @@ export class RegisterFormComponent {
             } catch (error) {
               resError = false;
             }
-            if(resError){
+            if (resError) {
               this.msgError = result.message;
               this.msgError = this.msgError[0].toUpperCase() + this.msgError.substr(1).toLowerCase();
               this.status = 'failed';
               console.log('Error detected: ', result);
             }
-            else{
+            else {
               console.log('next for register: ', rta);
               this.status = 'success';
               this.emailCode = email;
               this.nameUserRegister = names;
               this.genWithCode = rta.data;
-              this.isPreRegister= true
-              this.authService.registerSIGPS(this.getModelRequestRegisterSigps(this.genWithCode)).subscribe((data)=>{
+              this.isPreRegister = true
+              this.authService.registerSIGPS(this.getModelRequestRegisterSigps(this.genWithCode)).subscribe((data) => {
                 if (data.code == 0) {
-                  console.log("status: ", this.status,", email:",this.emailCode,", nameUserRegister:",this.nameUserRegister,", genWithCode:", this.genWithCode,", isPreRegister:",this.isPreRegister);
+                  console.log("status: ", this.status, ", email:", this.emailCode, ", nameUserRegister:", this.nameUserRegister, ", genWithCode:", this.genWithCode, ", isPreRegister:", this.isPreRegister);
                   this.showDialogEmailCode();
                 }
                 console.log(data);
@@ -144,7 +145,7 @@ export class RegisterFormComponent {
           },
           error: (rta) => {
             console.log('error for register: ', rta);
-            this.isPreRegister= false
+            this.isPreRegister = false
             this.status = 'failed';
           },
         });
@@ -153,8 +154,8 @@ export class RegisterFormComponent {
     }
   }
 
-  getModelRequestRegisterSigps(guiidSso: string): RequestRegisterSIGPS{
-    return{
+  getModelRequestRegisterSigps(guiidSso: string): RequestRegisterSIGPS {
+    return {
       correo: this.form.value.email!,
       categoria: 'CAM',
       tipoDoc: this.form.value.tipoDoc!,
@@ -166,17 +167,17 @@ export class RegisterFormComponent {
     }
   }
 
-  showDialogEmailCode(){
-    const dialogRef = this.dialog.open(DialogCodigoActivacionComponent,{
-      minWidth:'520px',
-      maxWidth:'40%',
+  showDialogEmailCode() {
+    const dialogRef = this.dialog.open(DialogCodigoActivacionComponent, {
+      minWidth: '520px',
+      maxWidth: '40%',
       disableClose: true,
-      data:{
+      data: {
         numDoc: this.form.value.doc,
         genWithCode: this.genWithCode
       }
     })
-    dialogRef.closed.subscribe(out =>{
+    dialogRef.closed.subscribe(out => {
       // console.log(out)
     })
   }
@@ -212,8 +213,8 @@ export class RegisterFormComponent {
       this.form.markAsTouched;
     }
   }*/
-  sendRegister(){
-    
+  sendRegister() {
+
   }
 }
 
