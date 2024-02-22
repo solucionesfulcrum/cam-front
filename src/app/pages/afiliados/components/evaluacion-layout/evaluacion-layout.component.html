@@ -4,7 +4,7 @@
         <div class="w-[280px] shrink-0 flex flex-col border-r border-r-[#dceef7]">
             <div class="flex flex-col">
                 <div class="flex flex-col gap-1 py-2 items-center relative leading-5">
-                    <p class="py-1 px-3 bg-sigps absolute right-0 text-white text-xl bg-black">{{'31'}} Años</p>
+                    <p class="py-1 px-3 bg-sigps absolute right-0 text-white text-lg bg-black">{{'31'}} Años</p>
                     <img src="assets/images/avatar-user.png" class="w-[75px] rounded-full border-2 border-[var(--color-CAM)]">
                     <p class="font-bold text-2xl text-sky-600" >{{'Juan Alberto' | titlecase}}</p>
                     <p class="font-semibold text-lg m-0">{{'Dorado' | titlecase}} {{'Rivera' | titlecase}}</p>
@@ -50,7 +50,7 @@
                 </div>
             </div>
         </div>
-        <div class="flex flex-col gap-[14px] px-4 grow shrink-0">
+        <div class="flex flex-col gap-[7px] px-4 grow shrink-0 pb-4">
             <div class="flex flex-row justify-between py-1.5">
                 <div class="flex flex-col">
                     <span class="text-lg font-semibold">Evaluación Gerontológica</span>
@@ -61,37 +61,6 @@
                     <span class="text-[var(--color-CAM)] text-lg">146202300046</span>
                 </div>
             </div>
-            <ul class="grupoDirecciones">
-              <li class="elementoSeleccionable radioBgDiferente">
-                  <input type="radio" [id]="'direccion'+1" name="direccion" class="peer right-0 mt-2 mr-2 focusCampo">
-                  <label [for]="'direccion'+1" class="flex cuadroRadioButton">                           
-                      <div class="flex flex-col justify-center text-center w-full max-w-[70px]">
-                          <esp-icon class="text-3xl" icon="faLocationDot"></esp-icon>
-                          <span>Datos</span>
-                      </div>
-                      <div class="flex  pl-4"> 
-                          <div class="w-full flex flex-col">
-                              <div class="w-full flex space-x-2">
-                                  <span class="text-gray-600 font-medium w-[120px]">Dirección</span>
-                                  <span>{{'item.direccion' | titlecase}}</span>
-                              </div>
-                              <div class="w-full flex space-x-2">
-                                  <span class="text-gray-600 font-medium w-[120px]">Distrito</span>
-                                  <span>{{'item.nomDist' | titlecase}}</span>
-                              </div>
-                              <div class="w-full flex space-x-2">
-                                  <span class="text-gray-600 font-medium w-[120px]">Provincia</span>
-                                  <span>{{'item.nomProv' | titlecase}}</span>
-                              </div>
-                              <div class="w-full flex space-x-2">
-                                  <span class="text-gray-600 font-medium w-[120px]">Departamento</span>
-                                  <span>{{'item.nomDep' | titlecase}}</span>
-                              </div>
-                          </div>
-                      </div>
-                  </label>
-              </li>
-            </ul>
             <router-outlet></router-outlet>
         </div>
     </div>

@@ -42,6 +42,7 @@ import { EvaluacionAPfeifferComponent } from './components/evaluacion-layout/eva
 import { EvaluacionBKatzComponent } from './components/evaluacion-layout/evaluaciones/evaluacion-b-katz/evaluacion-b-katz.component';
 import { EvaluacionCGijonComponent } from './components/evaluacion-layout/evaluaciones/evaluacion-c-gijon/evaluacion-c-gijon.component';
 import { EvaluacionDYesavageComponent } from './components/evaluacion-layout/evaluaciones/evaluacion-d-yesavage/evaluacion-d-yesavage.component';
+import { MaterialModule } from 'src/app/material/material.module';
 
 
 
@@ -89,6 +90,7 @@ import { EvaluacionDYesavageComponent } from './components/evaluacion-layout/eva
     MatTooltipModule,
     MatCardModule,
     RouterModule,
+    MaterialModule,
     DialogModule,
     SharedModule,
   ]
