@@ -58,7 +58,7 @@ export class DatosGeneralesService {
   }
 
   getUnidadesOperativas(texto : string){
-    const url = `${URL_BASE}/unidad-operativa/listar/CAM?texto=${texto}`;
+    const url = `${URL_BASE}/unidad-operativa/listar/cam?codigo-red=${texto}`;
     return this._httpClient.get<any>(url);
   }
 
