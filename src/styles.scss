@@ -44,26 +44,34 @@ $colorPrimary: var(--color-CAM);
     border-color: var(--color-CAM-Claro);
 }
 
-.cuadroRadioButton{
+.cuadroRadioButton, .selectRadioBoolean{
   color: rgb(107 114 128);
   width: 100%;
   padding: 0.75rem;
   background-color: white;
   border-width: 1px;
-  border-color: rgb(229 231 235);
   cursor: pointer;
 }
-.cuadroRadioButton:hover{
+
+.selectRadioBoolean{
+  border-color: #64748B;
+}
+
+.cuadroRadioButton{
+  border-color: rgb(229 231 235);
+}
+
+.cuadroRadioButton:hover, .selectRadioBoolean:hover{
   background-color: #f3f4f6;
   color: #4b5563;
 }
 
-.bordColorEstablecido, li.elementoSeleccionable .peer:checked ~ label , li.elementoSeleccionable input.peer{
+.bordColorEstablecido, li.elementoSeleccionable .peer:checked ~ label , li.elementoSeleccionable input.peer, li.seleccionableDerecha .peer:checked ~ label , li.seleccionableDerecha input.peer, li.radioBgDiferente .peer:checked ~ label , li.radioBgDiferente input.peer{
   color: var(--color-CAM);
   border-color: var(--color-CAM);
 }
 
-li.elementoSeleccionable input.peer:checked{
+li.elementoSeleccionable input.peer:checked, li.seleccionableDerecha input.peer:checked, li.radioBgDiferente input.peer:checked{
   background-image: url("data:image/svg+xml,%3csvg viewBox='0 0 16 16' fill='white' xmlns='http://www.w3.org/2000/svg'%3e%3ccircle cx='8' cy='8' r='3'/%3e%3c/svg%3e"), var(--color-CAM-Mezclado);
   background-size: 1em 1em;
   border-color: var(--color-CAM);
@@ -75,11 +83,10 @@ li.radioBgDiferente input.peer:not(:checked){
 }
 
 ul.grupoOpciones, ul.grupoDirecciones{
-  li.elementoSeleccionable{
+  li.elementoSeleccionable, li.seleccionableDerecha{
     position: relative;
     input{
       position: absolute;
-      margin-left: 0.75rem;
     }
     label{
       display: inline-flex;
@@ -87,10 +94,23 @@ ul.grupoOpciones, ul.grupoDirecciones{
       height: 100%;
     }
   }
+
+  li.elementoSeleccionable{
+    input{
+      margin-left: 0.75rem;
+    }
+  }
+
+  li.seleccionableDerecha{
+    input{
+      margin-right: 0.75rem;
+      right: 0;
+    }
+  }
 }
 
 ul.grupoOpciones{
-  li.elementoSeleccionable{
+  li.elementoSeleccionable, li.seleccionableDerecha{
     display: flex;
     align-items: center;
   }
@@ -162,9 +182,17 @@ ul.grupoDirecciones{
 }
 .text-Name{
     font-weight: 600;
-    background: linear-gradient(90deg, #339999 19.97%, #057EC9 100%);
+    background: var(--color-CAM-Mezclado);
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
+}
+
+.subTitulo{  
+  color: var(--color-CAM);
+  border-color: var(--color-CAM);
+  font-weight: 600;
+  padding-left: 0.5rem;
+  border-left-width: 4px;
 }
 
 html, body { height: 100%; }

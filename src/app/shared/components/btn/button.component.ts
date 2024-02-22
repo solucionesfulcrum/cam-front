@@ -76,7 +76,7 @@ export class ButtonComponent {
       'text-Name': true,
       'border-[var(--color-CAM)]': true,
       'border-[0.0125rem]': true,
-      'hover:bg-gray-500': true,
+      'hover:bg-gray-300': true,
       'focus:ring-gray-500': true,
     },
     bordeado: {
@@ -84,7 +84,7 @@ export class ButtonComponent {
       'text-[var(--color-CAM-black-alt)]': true,
       'border-[var(--color-CAM)]': true,
       'border-[0.0125rem]': true,
-      'hover:bg-gray-500': true,
+      'hover:bg-gray-300': true,
       'focus:ring-gray-500': true,
     },
     transparenteCancel: {

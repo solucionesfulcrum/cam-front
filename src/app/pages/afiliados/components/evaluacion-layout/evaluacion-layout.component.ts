@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { FormArray, FormBuilder, FormControl } from '@angular/forms';
 import { FormatoBoton } from '@shared/components/opciones-botones/formato-boton.model';
 
 @Component({
@@ -12,5 +13,7 @@ export class EvaluacionLayoutComponent {
     {texto: 'Cancelar', colorBtn:'bordeado'},
     {texto: 'Guardar Evaluación', colorBtn:'mezclado', loading: false},
   ];
+
+  constructor(){}
 
 }
