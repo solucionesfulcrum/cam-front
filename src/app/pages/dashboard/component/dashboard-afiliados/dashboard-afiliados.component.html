@@ -1,0 +1,64 @@
+<esp-opciones-busqueda 
+    [showDateFilter]="true"
+    [setFilterDateOptionSelected]="'var(--color-CAM-mezclado)'" 
+    [setFilterDateTextColour]="'#057EC9'"
+    [filterDateAppearance]="2"
+    (sendDateFilterWithCeros)="getDataFecha($event)"
+    [setFilterDateSelectionBg]="'#008BD2'"
+    [setFilterDateButtonBg]="'#008BD2'"
+></esp-opciones-busqueda> 
+
+
+<div class="infoGeneral ">
+    <div class="datosAnaliticos">
+        <div>
+            <div>Total de afiliados</div>
+            <div>4050</div>
+        </div>
+        <div class="icono">
+            <mat-icon matSuffix>person</mat-icon>
+        </div>
+    </div>
+    <div class="datosAnaliticos">
+        <div>
+            <div>Nuevos Afiliados</div>
+            <div>367</div>
+        </div>
+        <div class="icono">
+            <mat-icon matSuffix>person</mat-icon>
+        </div>
+    </div>
+    <div class="datosAnaliticos">
+        <div>
+            <div>Activos</div>
+            <div>3200</div>
+        </div>
+        <div class="icono">
+            <mat-icon matSuffix>person</mat-icon>
+        </div>
+    </div>
+    <div class="datosAnaliticos">
+        <div>
+            <div class="colorDivRojo">Bajas</div>
+            <div>11</div>
+        </div>
+        <div class="icono">
+            <mat-icon matSuffix>person</mat-icon>
+        </div>
+    </div>
+</div>
+
+<div id="chart">
+    <apx-chart
+    [series]="chartOptions.series"
+    [chart]="chartOptions.chart"
+    [xaxis]="chartOptions.xaxis"
+    [stroke]="chartOptions.stroke"
+    [dataLabels]="chartOptions.dataLabels"
+    [yaxis]="chartOptions.yaxis"
+    [labels]="chartOptions.labels"
+    [legend]="chartOptions.legend"
+    [title]="chartOptions.title"
+    [subtitle]="chartOptions.subtitle"
+    ></apx-chart>
+  </div>

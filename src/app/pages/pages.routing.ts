@@ -17,15 +17,15 @@ export const pagesRoutes: Route[] = [
     children: [
       {
         path: '',
-        redirectTo: 'board', //admission
+        redirectTo: 'dashboard', //admission
         pathMatch: 'full'
       },
       {
-        path: 'board',
+        path: 'dashboard',
         canActivate:[AuthGuard, CerpUserGuard],
         title:'Mi tablero',
         loadChildren: () =>
-          import('./board/board.routing').then((c) => c.boardsRoutes),
+          import('./dashboard/dashboard.module').then((c) => c.DashboardModule),
       },
       {
         path: 'home',
