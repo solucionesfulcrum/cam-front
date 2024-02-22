@@ -10,10 +10,12 @@
       [showSearch]="true"
       (searchInputValue)="formBuscar.get('frmSearch')?.setValue($event.toUpperCase()); onLoadData()"
       [searchInputPlaceHolder]="'Busqueda de texto'"
-      
-    ></esp-opciones-busqueda> <!-- (buttonAccion)="goToNewRol()"   -->
+      [showButton]="true"
+      [buttonText]="'Nuevo'"
+      (buttonAccion)="nuevoAsegurado()"
+      [buttonBg]="'#057EC9'"
+    ></esp-opciones-busqueda>
 </div>
-    
 <div>
     <table cdk-table class="w-full text-sm text-left text-gray-500 tablaDatos" [dataSource]="dataSource" >
       <tr cdk-header-row class="text-xs text-gray-700 bg-gray-50" *cdkHeaderRowDef="columns"></tr>

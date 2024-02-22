@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup } from '@angular/forms';
 import { PageEvent } from '@angular/material/paginator';
 import { RequestListaSAfiliadosContacto } from '@models/afiliados/ficha-solicitud.model';
+import { FormatoBoton } from '@shared/components/opciones-botones/formato-boton.model';
 import { AfiliacionesSolicitudesService } from 'src/app/data/services/afiliaciones/afiliaciones-solicitudes.service';
 
 @Component({
@@ -10,7 +11,9 @@ import { AfiliacionesSolicitudesService } from 'src/app/data/services/afiliacion
   styleUrls: ['./contactos-afiliados.component.css']
 })
 export class ContactosAfiliadosComponent implements OnInit {
-
+  opcionesBotones: FormatoBoton[] = [
+    {texto: '+ Nuevo', colorBtn:'mezclado'},
+  ];
   formBuscar: FormGroup = this.fb.group({
     frmSearch:new FormControl(""),
     frmSearchDate:new FormControl(""),
@@ -31,7 +34,9 @@ export class ContactosAfiliadosComponent implements OnInit {
   ngOnInit(): void {
     this.onLoadData()
   }
-
+  nuevoAsegurado(){
+    console.log("hola")
+  }
   onLoadData(){
     this.dataSource = [
       {nombres: 'ROXANA ESTRADA ARIAS', tipoDoc: 1, numDoc: '23835688', fecNac: '16/03/1968', estCivil: 'SOLTERA', ipress: 'EUNICE ELIZABETH', estado: 1}
