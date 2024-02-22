@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
-import { FormArray, FormBuilder, FormControl } from '@angular/forms';
+import { FormArray, FormBuilder, FormControl, FormGroup } from '@angular/forms';
 import { FormatoBoton } from '@shared/components/opciones-botones/formato-boton.model';
+import { AfiliacionesEvaluacionesService } from 'src/app/data/services/afiliaciones/afiliaciones-evaluaciones.service';
 
 @Component({
   selector: 'esp-evaluacion-layout',
@@ -14,6 +15,13 @@ export class EvaluacionLayoutComponent {
     {texto: 'Guardar Evaluación', colorBtn:'mezclado', loading: false},
   ];
 
-  constructor(){}
+  constructor(public evaluacionService:               AfiliacionesEvaluacionesService){}
 
+  ngOnInit(){
+    
+  }
+
+  checkIfAnswered(fg: FormGroup): boolean{
+    return Object.values(fg.value).every(value => {if (value == null) { return false } return true;});
+  }
 }

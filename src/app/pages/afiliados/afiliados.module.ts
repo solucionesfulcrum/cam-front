@@ -43,6 +43,8 @@ import { EvaluacionBKatzComponent } from './components/evaluacion-layout/evaluac
 import { EvaluacionCGijonComponent } from './components/evaluacion-layout/evaluaciones/evaluacion-c-gijon/evaluacion-c-gijon.component';
 import { EvaluacionDYesavageComponent } from './components/evaluacion-layout/evaluaciones/evaluacion-d-yesavage/evaluacion-d-yesavage.component';
 import { MaterialModule } from 'src/app/material/material.module';
+import { ContenedorEvaluacionComponent } from './components/evaluacion-layout/evaluaciones/contenedor-evaluacion/contenedor-evaluacion.component';
+import { EvaluacionResultadosComponent } from './components/evaluacion-layout/evaluaciones/evaluacion-resultados/evaluacion-resultados.component';
 
 
 
@@ -76,6 +78,8 @@ import { MaterialModule } from 'src/app/material/material.module';
     EvaluacionBKatzComponent,
     EvaluacionCGijonComponent,
     EvaluacionDYesavageComponent,
+    ContenedorEvaluacionComponent,
+    EvaluacionResultadosComponent,
   
   ],
   imports: [

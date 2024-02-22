@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { faArrowAltCircleRight } from '@fortawesome/free-solid-svg-icons';
+import { AfiliacionesEvaluacionesService } from 'src/app/data/services/afiliaciones/afiliaciones-evaluaciones.service';
 
 @Component({
   selector: 'esp-evaluacion-c-gijon',
@@ -33,7 +34,7 @@ export class EvaluacionCGijonComponent {
 
   respuestas: any[] = [];
 
-  constructor() { }
+  constructor(public evaluacionService           : AfiliacionesEvaluacionesService) { }
 
   ngOnInit(){
     // this.respuestas[4] = {respuesta: 'owo'};

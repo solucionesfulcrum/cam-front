@@ -22,6 +22,8 @@ import { EvaluacionAPfeifferComponent } from './components/evaluacion-layout/eva
 import { EvaluacionBKatzComponent } from './components/evaluacion-layout/evaluaciones/evaluacion-b-katz/evaluacion-b-katz.component';
 import { EvaluacionCGijonComponent } from './components/evaluacion-layout/evaluaciones/evaluacion-c-gijon/evaluacion-c-gijon.component';
 import { EvaluacionDYesavageComponent } from './components/evaluacion-layout/evaluaciones/evaluacion-d-yesavage/evaluacion-d-yesavage.component';
+import { ContenedorEvaluacionComponent } from './components/evaluacion-layout/evaluaciones/contenedor-evaluacion/contenedor-evaluacion.component';
+import { EvaluacionResultadosComponent } from './components/evaluacion-layout/evaluaciones/evaluacion-resultados/evaluacion-resultados.component';
 
 const routes: Routes = [
   {
@@ -43,30 +45,41 @@ const routes: Routes = [
           },
           {
             path: 'agregaEval',
-            component: EvaluacionLayoutComponent,
-            children:[
+            component: ContenedorEvaluacionComponent,
+            children: [
               {
                 path: '',
-                component: EvaluacionAPfeifferComponent,
-                title: 'Test Pfeiffer'
+                component: EvaluacionLayoutComponent,
+                children:[
+                  {
+                    path: '',
+                    component: EvaluacionAPfeifferComponent,
+                    title: 'Test Pfeiffer'
+                  },
+                  {
+                    path: 'eva-katz',
+                    component: EvaluacionBKatzComponent,
+                    title: 'Test de Katz'
+                  },
+                  {
+                    path: 'eva-gijon',
+                    component: EvaluacionCGijonComponent,
+                    title: 'Escala de Gijón'
+                  },
+                  {
+                    path: 'eva-yesavage',
+                    component: EvaluacionDYesavageComponent,
+                    title: 'Test Yesavage'
+                  }
+                ]
               },
               {
-                path: 'eva-katz',
-                component: EvaluacionBKatzComponent,
-                title: 'Test de Katz'
-              },
-              {
-                path: 'eva-gijon',
-                component: EvaluacionCGijonComponent,
-                title: 'Escala de Gijón'
-              },
-              {
-                path: 'eva-yesavage',
-                component: EvaluacionDYesavageComponent,
-                title: 'Test Yesavage'
+                path: 'resultados',
+                component: EvaluacionResultadosComponent,
+
               }
             ]
-          },
+          }
         ]
       },
       {

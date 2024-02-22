@@ -1,0 +1,30 @@
+.imagen{
+    width: 60px;
+    height: 75px;
+    justify-self: center;
+}
+
+.anios{
+    background: var(--color-CAM-Mezclado);
+}
+
+.info-container {
+  display: flex; /* Usar display flex para alinear los elementos horizontalmente */
+  align-items: center; /* Alinear verticalmente al centro */
+  margin-top: -2px;
+}
+
+.scrollbarra::-webkit-scrollbar {
+    width: 10px;
+}
+ 
+.scrollbarra::-webkit-scrollbar-track {
+    background: #D4D4D4;
+}
+.scrollbarra::-webkit-scrollbar-thumb {
+    background: var(--color-CAM-black-alt);
+}
+ 
+.scrollbarra::-webkit-scrollbar-thumb:hover {
+    background: #28364d;
+}

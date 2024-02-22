@@ -1,0 +1,225 @@
+
+<div class="px-4 py-3 bg-white w-full mt-3 grid botonApariencia" *ngIf="!dataSolicitud">
+    <div class="text-gray-600 w-full text-center">
+        <span class="py-1 font-bold text-2xl">
+            <fa-icon class="mr-2" [icon]="faSpinner" [pulse]="true"></fa-icon>
+            Obteniendo datos...
+        </span>
+    </div>
+</div>
+<div class="flex flex-col" *ngIf="dataSolicitud">
+    <esp-opciones-botones  [listOpciones]="opcionesBotones"></esp-opciones-botones>
+    
+<div *ngIf="dataSolicitud" class="bg-white botonApariencia">
+    <div class="flex flex-row justify-between py-1.5 px-2.5"> 
+      <p class="text-[26px] text-[var(--color-CAM-black-alt)]"><b>Ficha de Solicitud</b></p>
+      <p class="text-end text-sm text-[#64748B]">N° de Historia 
+        <br><span class="text-[20px] text-[var(--color-CAM)]" style="color: #057EC9 !important" >00000000001</span>  <!--{{this.user.numHistoria}}     o   {{dataFicha.numHistoria}}-->
+      </p>
+    </div>
+    
+    <div class="flex flex-row text-[#37474F] pr-[10px] pb-[20px]">
+    <!-- <div class="flex flex-row gap-[1.25rem] text-[#37474F] pr-[10px] pb-[20px]" [formGroup]="formContacto"> -->
+      <div class="w-[360px] shrink-0 pl-2.5">
+          <div class="grid text-center relative justify-center">
+              <p class=" py-1 px-3 my-2 mx-1 anios absolute right-0 text-white text-[18px] bg-cam">31 Años</p>
+              <!-- <p class=" py-1 px-3 my-2 mx-1 anios absolute right-0 text-white text-[18px] bg-cam">{{edadPersona}} Años</p> -->
+              <img class="my-2 imagen" src='data:image/jpeg;base64,{{dataSolicitud.fotoBase64}}'>
+              <div class="flex flex-col gap-1 py-2 !leading-5">
+                <span class="bordColorEstablecido font-bold text-[1.5rem] text-[var(--color-CAM)] text-sky-600">{{'Juan Alberto' | titlecase}}</span>
+                <!-- <p class="pt-1 bordColorEstablecido font-bold text-2xl m-1 text-color-primary2 text-sky-600 " style="line-height: 10px;">{{dataSolicitud.nombres | titlecase}}</p> -->
+                <span class="font-medium text-[1.125rem]">{{'DORADO' | titlecase}} {{'RIVERA' | titlecase}}</span>
+                <!-- <p class="font-medium text-lg m-0">{{dataSolicitud.apellidos | titlecase}}</p> -->
+                <span class="font-thin">DNI {{'335858891'}}</span>
+                <!-- <p class="font-thin">{{tipoDoc == '1' ? 'DNI' : 'CE'}} {{numDoc}}</p> -->
+              </div>
+          </div>
+          <div class="overflow-y mt-0 font-thin scrollbarra border-gradient max-h-[47vh] overflow-auto">
+              <p class="subTitulo my-2.5 text-[18px]">Datos Personales</p>
+              <div class="info-container">
+                <p class="flex w-1/2 flex-col py-1 bg-slate-100 my-1 mx-0 font-bold"> Fecha Nacimiento </p> 
+                <p class="flex w-1/2 flex-col ml-2.5 my-1"> {{'1967-04-14' | date: 'dd/MM/yyyy'}} </p>
+                <!-- <p class="flex w-1/2 flex-col ml-2.5 my-1"> {{dataSolicitud.fecNac}} </p> -->
+              </div>
+    
+              <div class="info-container">
+                <p class="flex w-1/2 flex-col py-1 bg-slate-100 my-1 mx-0 font-bold"> Sexo </p> 
+                <p class="flex w-1/2 flex-col ml-2.5 my-1 text-w-300"> {{'Masculino'[0] | titlecase}} </p>
+                <!-- <p class="flex w-1/2 flex-col ml-2.5 my-1 text-w-300"> {{dataSolicitud.sexo | titlecase}} </p> -->
+              </div>          
+    
+              <div class="info-container">
+                <p class="flex w-1/2 flex-col py-1 bg-slate-100 my-1 mx-0 font-bold"> Estado Civil </p> 
+                <p class="flex w-1/2 flex-col ml-2.5 my-1 text-w-300"> {{'Casado' | titlecase}} </p>
+                <!-- <p class="flex w-1/2 flex-col ml-2.5 my-1 text-w-300"> {{dataSolicitud.estCivil | titlecase}} </p> -->
+              </div>          
+     
+              <p class="flex w-2/2 flex-col py-1 bg-slate-100 my-1 mx-0 font-bold">Lugar de Nacimiento</p>
+              <p class="flex w-2/2 flex-col my-0 text-w-300"> {{'Ayacucho' | titlecase}} - {{'Ayacucho' | titlecase}} - {{'Ayacucho' | titlecase}}</p>
+              <!-- <p class="flex w-2/2 flex-col ml-2.5 mx-1 my-0 text-w-300"> {{dataSolicitud.lugarNac | titlecase}}</p> -->
+    
+              <p class="subTitulo my-2.5 text-[18px]">Datos del Seguro</p>
+              <div class="flex flex-col gap-[0.25rem]">
+                <div class="flex flex-col gap-[0.5rem]">
+                  <p class="py-1 my-0 bg-slate-100 font-bold">Tipo de Asegurado</p>
+                  <span>{{'Titular' | titlecase}}</span>
+                  <!-- <span>{{dataSolicitud.tipoAsegurado | titlecase}} </span> -->
+                </div>
+                <div class="flex flex-col gap-[0.5rem]">
+                  <p class="py-1 my-0 bg-slate-100 font-bold">Nombre del Seguro</p>
+                  <span>{{'seguro regular' | titlecase}} </span>
+                  <!-- <span>{{dataSolicitud.nombreSeguro | titlecase}} </span> -->
+                </div>
+                <div class="flex flex-col gap-[0.5rem]">
+                  <p class="py-1 my-0 bg-slate-100 font-bold">IPRESS de Adscripcion</p>
+                  <span>{{'pm huancapi' | uppercase}} </span>
+                  <!-- <span>{{dataSolicitud.centroAdscripcion}} </span> -->
+                </div>
+                <div class="flex flex-col gap-[0.5rem]">
+                  <p class="py-1 my-0 bg-slate-100 font-bold">Red Asistencial</p>
+                  <span>{{'red asistencial ayacucho' | uppercase}} </span>
+                  <!-- <span>{{dataSolicitud.redAdscripcion}} </span> -->
+                </div>
+              </div>
+          </div>
+      </div>
+      
+      <div class="grow flex flex-col gap-2 mx-2.5 text-[16px]">
+        <span class="my-2.5 subTitulo">RESULTADOS</span>
+        <div class="flex flex-col text-[var(--color-black-alt)] pl-2.5 pr-1 scrollbarra h-[60vh] overflow-auto">
+            <span class="font-bold my-2.5">1. TEST PFEIFFER</span>
+            <div class="flex flex-col pb-2.5">
+                <div class="flex flex-row gap-2.5">
+                    <div class="flex items-center justify-end w-[150px] h-[40px] bg-[#F5F8FA] py-1 px-1.5">
+                        <span>Si</span>
+                    </div>
+                    <div class="flex items-center px-2.5">
+                        <span>{{resultadosPfi.countSi}}</span>
+                    </div>
+                </div>
+                <div class="flex flex-row gap-2.5">
+                    <div class="flex items-center justify-end w-[150px] h-[40px] bg-[#F5F8FA] py-1 px-1.5">
+                        <span>No</span>
+                    </div>
+                    <div class="flex items-center px-2.5">
+                        <span>{{resultadosPfi.countMal}}</span>
+                    </div>
+                </div>
+                <div class="flex flex-row gap-2.5">
+                    <div class="flex items-center justify-end w-[150px] h-[40px] bg-[#F5F8FA] py-1 px-1.5">
+                        <span>Resultado</span>
+                    </div>
+                    <div class="flex items-center px-2.5">
+                        <span>{{resultadosPfi.resultado}}</span>
+                    </div>
+                </div>
+            </div>
+            <span class="font-bold my-2.5">2. TEST DE KATZ</span>
+            <div class="flex flex-col pb-2.5">
+                <div class="flex flex-row gap-2.5">
+                    <div class="flex items-center justify-end w-[150px] h-[40px] bg-[#F5F8FA] py-1 px-1.5">
+                        <span>Dependiente</span>
+                    </div>
+                    <div class="flex items-center px-2.5">
+                        <span>{{resultadosKatz.countSi}}</span>
+                    </div>
+                </div>
+                <div class="flex flex-row gap-2.5">
+                    <div class="flex items-center justify-end w-[150px] h-[40px] bg-[#F5F8FA] py-1 px-1.5">
+                        <span>Independiente</span>
+                    </div>
+                    <div class="flex items-center px-2.5">
+                        <span>{{resultadosKatz.countMal}}</span>
+                    </div>
+                </div>
+                <div class="flex flex-row gap-2.5">
+                    <div class="flex items-center justify-end w-[150px] h-[40px] bg-[#F5F8FA] py-1 px-1.5">
+                        <span>Resultado</span>
+                    </div>
+                    <div class="flex items-center px-2.5">
+                        <span>{{resultadosKatz.resultado}}</span>
+                    </div>
+                </div>
+            </div>
+            <span class="font-bold my-2.5">3. ESCALA DE GIJÓN</span>
+            <div class="flex flex-col pb-2.5">
+                <div class="flex flex-row gap-2.5">
+                    <div class="flex items-center justify-end w-[150px] h-[40px] bg-[#F5F8FA] py-1 px-1.5">
+                        <span>Puntuación</span>
+                    </div>
+                    <div class="flex items-center px-2.5">
+                        <span>6</span>
+                    </div>
+                </div>
+                <div class="flex flex-row gap-2.5">
+                    <div class="flex items-center justify-end w-[150px] h-[40px] bg-[#F5F8FA] py-1 px-1.5">
+                        <span>Resultado</span>
+                    </div>
+                    <div class="flex items-center px-2.5">
+                        <span>Situación social buena</span>
+                    </div>
+                </div>
+            </div>
+            <span class="font-bold my-2.5">4. TEST DE YESAVAGE</span>
+            <div class="flex flex-col pb-2.5">
+                <div class="flex flex-row gap-2.5">
+                    <div class="flex items-center justify-end w-[150px] h-[40px] bg-[#F5F8FA] py-1 px-1.5">
+                        <span>Si</span>
+                    </div>
+                    <div class="flex items-center px-2.5">
+                        <span>{{resultadosYes.countSi}}</span>
+                    </div>
+                </div>
+                <div class="flex flex-row gap-2.5">
+                    <div class="flex items-center justify-end w-[150px] h-[40px] bg-[#F5F8FA] py-1 px-1.5">
+                        <span>No</span>
+                    </div>
+                    <div class="flex items-center px-2.5">
+                        <span>{{resultadosYes.countMal}}</span>
+                    </div>
+                </div>
+                <div class="flex flex-row gap-2.5">
+                    <div class="flex items-center justify-end w-[150px] h-[40px] bg-[#F5F8FA] py-1 px-1.5">
+                        <span>Resultado</span>
+                    </div>
+                    <div class="flex items-center px-2.5">
+                        <span>{{resultadosYes.resultado}}</span>
+                    </div>
+                </div>
+            </div>
+            <span class="my-1.5 subTitulo">CONCLUSIÓN</span>
+            <div class="flex flex-col" [formGroup]="formResultados">
+                <div class="flex flex-row items-center gap-2.5 py-2 pl-2.5">
+                    <span>¿Es admitido?</span>
+                    <ul class="grupoOpciones flex flex-row gap-2.5">
+                        <li class="seleccionableDerecha radioBgDiferente">
+                            <input type="radio" id="adm_Si" formControlName="ctrlAdmitido" value="Si" class="peer focusCampo">
+                            <label for="adm_Si" class="selectRadioBoolean !py-1.5 !pl-1.5 !w-[65px] !border-0">
+                                <div class="flex flex-row items-center">
+                                    <span>Si</span>
+                                </div>
+                            </label>
+                        </li>
+                        <li class="seleccionableDerecha radioBgDiferente">
+                            <input type="radio" id="adm_No" formControlName="ctrlAdmitido" value="No" class="peer focusCampo">
+                            <label for="adm_No" class="selectRadioBoolean !py-1.5 !pl-1.5 !w-[65px] !border-0">
+                                <div class="flex flex-row items-center">
+                                    <span>No</span>
+                                </div>
+                            </label>
+                        </li>
+                    </ul>
+                </div>
+                <textarea id="message" rows="2" class="mt-2 text-gray-900 border-gray-300 focusCampo placeholder-gray-300" placeholder="Comentario"></textarea>
+                <div class="flex flex-row gap-2.5 py-1.5 justify-end">
+                    <app-btn class="botonApariencia" color="success" routerLink=".."> Anterior</app-btn>
+                    <app-btn class="botonApariencia" color="mezclado">
+                       Finalizar  <esp-icon icon="faArrowAltCircleRight"></esp-icon>
+                    </app-btn>
+                </div>
+            </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

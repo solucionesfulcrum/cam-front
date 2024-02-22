@@ -5,12 +5,12 @@
             <span class="text-[#64748B] text-[14px]">Evaluación socio familiar</span>
         </div>
     </div>
-    <div class="flex flex-col gap-2 overflow-auto max-h-[55vh]">
+    <div class="flex flex-col gap-2 overflow-auto max-h-[55vh]" [formGroup]="evaluacionService.formDataTestGij">
         <div class="flex flex-col gap-1.5 pl-3">
             <span class="text-[val(--color-black-alt)] font-bold">SITUACIÓN FAMILIAR</span>
             <ul class="grupoOpciones flex flex-col gap-1 w-full">
                 <li class="seleccionableDerecha radioBgDiferente" *ngFor="let pregunta of pregSitFam, index as i">
-                    <input type="radio" [id]="'pregFam_' + i" name="pregFam" class="peer focusCampo">
+                    <input type="radio" [id]="'pregFam_' + i" [formControlName]="'pregFam'" [value]="i" class="peer focusCampo">
                     <label [for]="'pregFam_' + i" class="selectRadioBoolean !py-1 !pl-1.5">
                         <div class="flex flex-row items-center w-full min-h-[35px] gap-2">
                             <div class="flex flex-row gap-2 text-[18px] grow">
@@ -26,7 +26,7 @@
             <span class="text-[val(--color-black-alt)] font-bold">RELACIONES Y CONTACTOS SOCIALES</span>
             <ul class="grupoOpciones flex flex-col gap-1 w-full">
                 <li class="seleccionableDerecha radioBgDiferente" *ngFor="let pregunta of pregRelCon, index as i">
-                    <input type="radio" [id]="'pregRel_' + i" name="pregRel" class="peer focusCampo">
+                    <input type="radio" [id]="'pregRel_' + i" [formControlName]="'pregRel'" [value]="i" class="peer focusCampo">
                     <label [for]="'pregRel_' + i" class="selectRadioBoolean !py-1 !pl-1.5">
                         <div class="flex flex-row items-center w-full min-h-[35px] gap-2">
                             <div class="flex flex-row gap-2 text-[18px] grow">
@@ -42,7 +42,7 @@
             <span class="text-[val(--color-black-alt)] font-bold">APOYOS RED SOCIAL</span>
             <ul class="grupoOpciones flex flex-col gap-1 w-full">
                 <li class="seleccionableDerecha radioBgDiferente" *ngFor="let pregunta of pregApoRed, index as i">
-                    <input type="radio" [id]="'pregApo_' + i" name="pregApo" class="peer focusCampo">
+                    <input type="radio" [id]="'pregApo_' + i" [formControlName]="'pregApo'" [value]="i" class="peer focusCampo">
                     <label [for]="'pregApo_' + i" class="selectRadioBoolean !py-1 !pl-1.5">
                         <div class="flex flex-row items-center w-full min-h-[35px] gap-2">
                             <div class="flex flex-row gap-2 text-[18px] grow">
