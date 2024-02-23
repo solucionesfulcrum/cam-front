@@ -29,7 +29,7 @@ export class ContactoProfesionalesComponent {
   }
 
   ngOnInit(){
-    console.log(JSON.parse(localStorage.getItem('sigpsUser')!))
+    console.log(JSON.parse(localStorage.getItem('camUser')!))
     this.onLoad();
   }
 

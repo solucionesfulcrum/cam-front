@@ -45,20 +45,20 @@ export class LoginFormComponent {
         next: async (rta) => {
           this.userService.getUserSessionActive(rta.data.id).subscribe((data)=>{
             if (data.data) {
-              localStorage.setItem('sigpsUser', JSON.stringify(data.data));
+              localStorage.setItem('camUser', JSON.stringify(data.data));
               this.status = 'success';
               this.router.navigate(['/app/admin']);
             }
             else{
               const decodeToken = helperJWT.decodeToken(this.tokenService.getToken()!);
               if (decodeToken.roles.includes('ADMIN')) {
-                localStorage.setItem('sigpsUser', JSON.stringify(data.data));
+                localStorage.setItem('camUser', JSON.stringify(data.data));
                 this.status = 'success';
                 this.router.navigate(['/app/admin']);
               }
             }
             // this.router.navigate(['/app']);
-            // console.log(JSON.parse(localStorage.getItem('sigpsUser')!));
+            // console.log(JSON.parse(localStorage.getItem('camUser')!));
           })
         },
         error: (rta) => {

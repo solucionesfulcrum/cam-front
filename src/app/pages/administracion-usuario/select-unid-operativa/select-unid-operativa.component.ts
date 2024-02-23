@@ -2,7 +2,7 @@ import { CommonModule } from '@angular/common';
 import { Component } from '@angular/core';
 import { Router, RouterModule } from '@angular/router';
 import { faSpinner } from '@fortawesome/free-solid-svg-icons';
-import { DatosGeneralesService } from '@services/datos-generales.service';
+import { DatosGeneralesService } from 'src/app/data/services/datos-generales.service';
 import { NotificationService } from '@services/notification.service';
 import { SharedModule } from '@shared/shared.module';
 
@@ -25,8 +25,8 @@ export class SelectUnidOperativaComponent {
 
   ngOnInit(){
     console.log(this.listUnidOperativa)
-    if(localStorage.getItem('sigpsUser') != 'null'){
-      this.userInfo = JSON.parse(localStorage.getItem('sigpsUser')!);
+    if(localStorage.getItem('camUser') != 'null'){
+      this.userInfo = JSON.parse(localStorage.getItem('camUser')!);
       console.log(this.userInfo)
       this.datosGeneralesService.getUnidadesOperativasAsignadas(this.userInfo.idUsuario).subscribe((data)=>{
         if (data.code == 0) {

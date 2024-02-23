@@ -12,7 +12,7 @@ import { faSpinner } from '@fortawesome/free-solid-svg-icons';
 import { Parametro } from '@models/parametros-busqueda.model';
 import { AcompanianteData, direccionFichaFront } from '@models/admision/ficha-datos-adicionales.model';
 import { map } from 'rxjs';
-import { DatosGeneralesService } from '@services/datos-generales.service';
+import { DatosGeneralesService } from 'src/app/data/services/datos-generales.service';
 import { ToastrService } from 'ngx-toastr';
 import { HttpClient } from '@angular/common/http';
 import { AdmisionCitasService } from '@services/admision/admision-citas.service';
@@ -29,7 +29,7 @@ export class PostulacionFichaAdmisionComponent implements OnInit {
   wait = false;
   msgFaltante = false ;
   idUnidadOperativaUser = (JSON.parse(localStorage.getItem('UnidElegida')!)).idUnidOperativa;
-  idUserSession = (JSON.parse(localStorage.getItem('sigpsUser')!)).idUsuario;
+  idUserSession = (JSON.parse(localStorage.getItem('camUser')!)).idUsuario;
   // <!---------------------------------------------------- Primer paso:  Datos del Asegurado                     --------------------------------------------------->
 
   numHistoria: string = '';

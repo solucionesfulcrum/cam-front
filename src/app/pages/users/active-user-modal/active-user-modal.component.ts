@@ -6,7 +6,7 @@ import { MatDatepickerModule } from '@angular/material/datepicker';
 import { RequestStatus } from '@models/request-status.model';
 import { RolData } from '@models/rol/rol-data.model';
 import { ActivateUserSSO, ActivateUserSigps } from '@models/usuario/user.model';
-import { DatosGeneralesService } from '@services/datos-generales.service';
+import { DatosGeneralesService } from 'src/app/data/services/datos-generales.service';
 import { NotificationService } from '@services/notification.service';
 import { RolService } from '@services/rol.service';
 import { UsersService } from '@services/users.service';
@@ -58,8 +58,8 @@ export class ActiveUserModalComponent {
 
   }
   ngOnInit(): void {
-    if (localStorage.getItem('sigpsUser') != 'null') {
-      this.idUserSession = (JSON.parse(localStorage.getItem('sigpsUser')!)).idUsuario;
+    if (localStorage.getItem('camUser') != 'null') {
+      this.idUserSession = (JSON.parse(localStorage.getItem('camUser')!)).idUsuario;
     }
     else {
       this.idUserSession = '1';

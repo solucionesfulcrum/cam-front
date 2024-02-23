@@ -45,8 +45,8 @@ export class ToolbarComponent {
   }
 
   ngOnInit(){
-    if(localStorage.getItem("sigpsUser") != null ){
-      this.userSesion = JSON.parse(localStorage.getItem("sigpsUser")!).nombres
+    if(localStorage.getItem("camUser") != null ){
+      this.userSesion = JSON.parse(localStorage.getItem("camUser")!).nombres
       console.log()
     }else{
       this.userSesion = 'Datos no conocidos'
@@ -59,7 +59,7 @@ export class ToolbarComponent {
       else{
         this.userRol = 'Sin Rol Asignado';
       }
-      // idUnid = (JSON.parse(localStorage.getItem('sigpsUser')!)).idUnidOperativa;
+      // idUnid = (JSON.parse(localStorage.getItem('camUser')!)).idUnidOperativa;
       // this.datosService.getUnidadesOperativas('').subscribe((data) =>{
       //   this.unidOpeUserSession = data.data.find((x: any)=> {return x.idUnidOperativa == idUnid!}).descripcionCompleta;
       //   this.showUnidOpe = true;

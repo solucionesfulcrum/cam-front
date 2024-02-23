@@ -15,8 +15,8 @@ export class AdminUserGuard implements CanActivate {
   canActivate(){
     const decodedToken = helperJWT.decodeToken(this.tokenService.getToken()!);
 
-    if (JSON.parse(localStorage.getItem('sigpsUser')!)) {
-      const userCategoria = (JSON.parse(localStorage.getItem('sigpsUser')!)).categoria;
+    if (JSON.parse(localStorage.getItem('camUser')!)) {
+      const userCategoria = (JSON.parse(localStorage.getItem('camUser')!)).categoria;
       if (userCategoria !== 'SSO') {
         this.router.navigate(['/app/board'])
         return false

@@ -4,7 +4,7 @@ import { FormBuilder, FormControl, Validators } from '@angular/forms';
 import { AdmisionFichaService } from '@services/admision/admision-ficha.service';
 import { Parametro } from '@models/parametros-busqueda.model';
 import { AcompanianteData } from '@models/admision/ficha-datos-adicionales.model';
-import { DatosGeneralesService } from '@services/datos-generales.service';
+import { DatosGeneralesService } from 'src/app/data/services/datos-generales.service';
 
 @Component({
   selector: 'esp-dialog-data-acompaniante',

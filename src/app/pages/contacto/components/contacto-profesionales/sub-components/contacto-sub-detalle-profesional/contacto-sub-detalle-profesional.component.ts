@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ContactoProfesionalesService } from '@services/contacto/contacto-profesionales.service';
-import { DatosGeneralesService } from '@services/datos-generales.service';
+import { DatosGeneralesService } from 'src/app/data/services/datos-generales.service';
 import { NotificationService } from '@services/notification.service';
 import { FormatoBoton } from '@shared/components/opciones-botones/formato-boton.model';
 

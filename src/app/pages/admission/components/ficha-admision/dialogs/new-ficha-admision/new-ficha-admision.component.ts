@@ -7,7 +7,7 @@ import { dataRequest } from '@models/admision/ficha-admision.model';
 import { Parametro } from '@models/parametros-busqueda.model';
 import { AdmisionFichaService } from '@services/admision/admision-ficha.service';
 import { BreadcrumService } from '@services/breadcrum.service';
-import { DatosGeneralesService } from '@services/datos-generales.service';
+import { DatosGeneralesService } from 'src/app/data/services/datos-generales.service';
 
 @Component({
   selector: 'esp-new-ficha-admision',

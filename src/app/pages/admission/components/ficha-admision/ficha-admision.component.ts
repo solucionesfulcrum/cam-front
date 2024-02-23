@@ -10,7 +10,7 @@ import { NewFichaAdmisionComponent } from './dialogs/new-ficha-admision/new-fich
 import { MatTableDataSource } from '@angular/material/table';
 import { MatSort } from '@angular/material/sort';
 import { Parametro } from '@models/parametros-busqueda.model';
-import { DatosGeneralesService } from '@services/datos-generales.service';
+import { DatosGeneralesService } from 'src/app/data/services/datos-generales.service';
 import { NotificationService } from '@services/notification.service';
 @Component({
   selector: 'esp-ficha-admision',

@@ -4,7 +4,7 @@ import { Component, Inject, LOCALE_ID } from '@angular/core';
 import { AbstractControl, FormArray, FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { RequestRegisterAtencion, StoreAsignacionProfesional } from '@models/horario/horario.model';
 import { AdmisionCitasService } from '@services/admision/admision-citas.service';
-import { DatosGeneralesService } from '@services/datos-generales.service';
+import { DatosGeneralesService } from 'src/app/data/services/datos-generales.service';
 import { HorarioAdministracionService } from '@services/horario/horario-administracion.service';
 import { NotificationService } from '@services/notification.service';
 import { Observable, map, startWith } from 'rxjs';

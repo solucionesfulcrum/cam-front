@@ -2,7 +2,7 @@ import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
 import { SharedModule } from '@shared/shared.module';
-import { DatosGeneralesService } from '@services/datos-generales.service';
+import { DatosGeneralesService } from 'src/app/data/services/datos-generales.service';
 import { AppRoute } from 'src/app/data/constants/app-route.constant';
 import { MaterialModule } from 'src/app/material/material.module';
 import { MatListModule } from '@angular/material/list';
@@ -25,13 +25,13 @@ export class SidenavComponent {
 
   ngOnInit(){
     console.log(JSON.parse(localStorage.getItem('UnidElegida')!));
-    // console.log((JSON.parse(localStorage.getItem('sigpsUser')!)))
+    // console.log((JSON.parse(localStorage.getItem('camUser')!)))
     if(localStorage.getItem('UnidElegida') != 'null'){
       // let idUnid: string;
-      // this.userCategoria = (JSON.parse(localStorage.getItem('sigpsUser')!)).categoria;
+      // this.userCategoria = (JSON.parse(localStorage.getItem('camUser')!)).categoria;
       this.unidOpeUserSession = (JSON.parse(localStorage.getItem('UnidElegida')!)).unidOperativa;
       this.showUnidOpe = true;
-      // idUnid = (JSON.parse(localStorage.getItem('sigpsUser')!)).idUnidOperativa;
+      // idUnid = (JSON.parse(localStorage.getItem('camUser')!)).idUnidOperativa;
       // this.datosService.getUnidadesOperativas('').subscribe((data) =>{
       //   this.unidOpeUserSession = data.data.find((x: any)=> {return x.idUnidOperativa == idUnid!}).descripcionCompleta;
       //   this.showUnidOpe = true;

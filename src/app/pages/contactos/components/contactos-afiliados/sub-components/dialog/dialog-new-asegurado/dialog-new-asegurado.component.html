@@ -4,7 +4,7 @@
 </div>
 <div class="px-4 py-3 bg-white rounded-b-lg">
     <b>Unidad Operativa - {{unidOpeUserSession.unidOperativa}}</b>
-    <div class="flex justify-between space-x-2 p-2.5 mb-4" [formGroup]="formNewFicha">
+    <div class="flex justify-between space-x-2 p-2.5" [formGroup]="formNewFicha">
         <div class="w-1/2">
             <div class="relative rounded-md shadow-sm">
               <select
@@ -44,7 +44,7 @@
       </div>
       <div class="w-1/2">
         <div class="w-fit">
-            <app-btn class="botonApariencia flex" color="mezclado" (click)="onSearch()">Buscar Asegurado
+            <app-btn class="botonApariencia flex" type="submit" color="mezclado" (click)="onSearch()">Buscar Asegurado
             </app-btn>
         </div>
       </div>
@@ -59,7 +59,7 @@
         </div>
         <div class="btnSgte">
           <!--<app-btn typeBtn="submit" color="success" class="botonMezclado" (click)="setLink2(createRequest().numDoc, createRequest().tipoDoc)">Generar Ficha de Admisión-->
-          <app-btn typeBtn="submit" color="success" class="botonMezclado" (click)="setLink2(createRequest().numDoc, createRequest().tipoDoc)">Generar Ficha de Admisión
+          <app-btn color="mezclado" (click)="setLink2(createRequest().numDoc, createRequest().tipoDoc)">Generar Ficha de Admisión
           </app-btn>
         </div>
       </div>

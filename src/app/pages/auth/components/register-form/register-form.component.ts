@@ -21,7 +21,7 @@ import { NgStepperModule } from 'angular-ng-stepper';
 import { InvalidTokenError } from 'jwt-decode';
 import { Dialog } from '@angular/cdk/dialog';
 import { DialogCodigoActivacionComponent } from '../dialog-codigo-activacion/dialog-codigo-activacion.component';
-import { DatosGeneralesService } from '@services/datos-generales.service';
+import { DatosGeneralesService } from 'src/app/data/services/datos-generales.service';
 import { Parametro } from '@models/parametros-busqueda.model';
 import { RequestRegisterSIGPS } from '@models/auth/register.model';
 import { NotificationService } from '@services/notification.service';

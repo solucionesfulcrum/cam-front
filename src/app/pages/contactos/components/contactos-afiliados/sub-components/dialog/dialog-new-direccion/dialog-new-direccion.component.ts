@@ -1,12 +1,11 @@
 import { DIALOG_DATA, DialogRef } from '@angular/cdk/dialog';
 import { Component, Inject } from '@angular/core';
 import { FormBuilder, FormControl, Validators } from '@angular/forms';
+import { ubicacionGeo } from '@models/admision/ficha-admision.model';
+import { direccionFichaFront } from '@models/afiliados/ficha-solicitud.model';
+import { Parametro } from '@shared/components/opciones-busqueda/parametros-busqueda.model';
 import { Observable, map, startWith } from 'rxjs';
 import { DatosGeneralesService } from 'src/app/data/services/datos-generales.service';
-import { ubicacionGeo } from '@models/admision/ficha-admision.model';
-import { Parametro } from '@models/parametros-busqueda.model';
-import { AdmisionFichaService } from '@services/admision/admision-ficha.service';
-import { direccionFichaFront } from '@models/admision/ficha-datos-adicionales.model';
 
 @Component({
   selector: 'esp-dialog-new-direccion',
@@ -99,8 +98,7 @@ export class DialogNewDireccionComponent {
     })
   }
   getTiposDireccion(){
-    this.datosService.getTipoParametros('TIPO_DIRECCION')
-    .pipe(map(msg => msg.data.sort((a1: Parametro, a2: Parametro) => parseInt(a1.valor1) - parseInt(a2.valor1))))
+    this.datosService.getTipoParametros('TIPO_DIRECCION').pipe(map(msg => msg.data.sort((a1: Parametro, a2: Parametro) => parseInt(a1.valor1) - parseInt(a2.valor1))))
     .subscribe((data)=>{
       this.listaDirecciones = data;
     })

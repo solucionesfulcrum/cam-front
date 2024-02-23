@@ -10,7 +10,7 @@ import { Observable, map, startWith } from 'rxjs';
 import { AppRoute } from 'src/app/data/constants/app-route.constant';
 import { ConfirmCreateHorarioComponent } from '../dialogs/confirm-create-horario/confirm-create-horario.component';
 import { RequestCreateHorario, RequestCreateHorarioAdminis, RequestHorarioDetalle } from '@models/horario/horario.model';
-import { DatosGeneralesService } from '@services/datos-generales.service';
+import { DatosGeneralesService } from 'src/app/data/services/datos-generales.service';
 import { ContactoProfesionalesService } from '@services/contacto/contacto-profesionales.service';
 import { Parametro } from '@shared/components/opciones-busqueda/parametros-busqueda.model';
 
@@ -27,7 +27,7 @@ export class HorarioCrearComponent {
   });
   
   idUnidadOperativaUser = (JSON.parse(localStorage.getItem('UnidElegida')!)).idUnidOperativa;
-  idUsuario = (JSON.parse(localStorage.getItem('sigpsUser')!)).idUsuario;
+  idUsuario = (JSON.parse(localStorage.getItem('camUser')!)).idUsuario;
 
   listaRegimenes: Parametro[] = [];
   opcionesRegimen: TablaOpciones[] = [/*{idOpcion: 1, nombre: 'Administrativo', value: 1}, {idOpcion: 2, nombre: 'Médico Rehabilitador', value: 2}, {idOpcion: 3, nombre: 'Psicólogo', value: 3}, {idOpcion: 4, nombre: 'Asistencial', value: 4}*/];

@@ -2,8 +2,9 @@ import { DIALOG_DATA, DialogRef } from '@angular/cdk/dialog';
 import { Component, Inject } from '@angular/core';
 import { FormBuilder, FormControl, Validators } from '@angular/forms';
 import { ipressData, modalidadIngData, regionData } from '@models/admision/ficha-datos-adicionales.model';
-import { DatosGeneralesService } from 'src/app/data/services/datos-generales.service';
 import { Observable, map, startWith } from 'rxjs';
+import { ContactosAfiliadosService } from 'src/app/data/services/contactos/contactos-afiliados.service';
+import { DatosGeneralesService } from 'src/app/data/services/datos-generales.service';
 
 @Component({
   selector: 'esp-dialog-modalidad-ingreso',
@@ -11,7 +12,6 @@ import { Observable, map, startWith } from 'rxjs';
   styleUrls: ['./dialog-modalidad-ingreso.component.scss']
 })
 export class DialogModalidadIngresoComponent {
-
   
   frmCtrlRegion = new FormControl();
   frmCtrlModalidad = new FormControl();
@@ -20,7 +20,9 @@ export class DialogModalidadIngresoComponent {
   modalidadSeleccionadaTmp!: modalidadIngData;
   filteredOptionsRegion!: regionData[];
   listIpress!: ipressData[];
-  filteredOptionsModalidad!: modalidadIngData[];
+  filteredOptionsModalidad: any[] = [];
+  filteredCam!: Observable<any[]>;
+  listCAM: any[] = [];
   allowSearchIpress = false;
 
   public formModIngreso = this.fb.nonNullable.group({
@@ -30,6 +32,7 @@ export class DialogModalidadIngresoComponent {
   constructor(@Inject(DIALOG_DATA) public data: any,
               private fb:FormBuilder,
               private datosGeneralesService: DatosGeneralesService,
+              private contactosService: ContactosAfiliadosService,
               private _dialogRef:DialogRef<DialogModalidadIngresoComponent>){
 
   }
@@ -37,31 +40,36 @@ export class DialogModalidadIngresoComponent {
   ngOnInit(): void {
     if(this.data.type == 1){
       this.frmCtrlRegion.valueChanges.pipe(startWith(''), map(value => typeof value === 'string' ? value : value.region)).subscribe((data)=>{
-        this.datosGeneralesService.searchRegion('ESSALUD', data).subscribe((datos)=>{
+        this.contactosService.searchRegion('ESSALUD', data).subscribe((datos)=>{
          this.filteredOptionsRegion = datos.data;
         })
       })
       this.frmCtrlModalidad.valueChanges.pipe(startWith(''), map(value => typeof value === 'string' ? value : value.establecimiento)).subscribe((data)=>{
         if(this.allowSearchIpress){
-          this.datosGeneralesService.searchDependencias('ESSALUD',data,this.regionSeleccionadaTmp.codigo).subscribe((datos)=>{
+          this.contactosService.searchDependencias('ESSALUD',data,this.regionSeleccionadaTmp.codigo).subscribe((datos)=>{
             this.listIpress = datos.data;
           })
         }
       })
     }
-    else if(this.data.type == 2 || this.data.type == 3){
-      let unidad = '';
-      if (this.data.type == 2) {
-        unidad = 'CERP';
-      }
-      else{
-        unidad = 'MBRP';
-      }
+    else if(this.data.type == 2){
+      let unidad = 'CERP';
       this.frmCtrlModalidad.valueChanges.pipe(startWith(''), map(value => typeof value === 'string' ? value : value.nombre)).subscribe((data)=>{
-        this.datosGeneralesService.searchUnidadOperativa(unidad, data).subscribe((datos)=>{
+        this.contactosService.searchUnidadOperativa(unidad, data).subscribe((datos)=>{
           this.filteredOptionsModalidad = datos.data;
         })
       })
+    }
+    else if( this.data.type == 3){
+      this.datosGeneralesService.getUnidadesOperativas('').subscribe((data)=>{
+        console.log(data)
+        this.listCAM = data.data;
+      });
+      this.filteredCam = this.frmCtrlModalidad.valueChanges.pipe(
+        startWith(''),
+        map(value => typeof value === 'string' ? value : value.nombreUbicacion),
+        map(nombreUbicacion => nombreUbicacion ? this._filterCAM(nombreUbicacion) : this.listCAM.slice()),
+      );
     }
   }
   //    Region    -----------------------------------------------------------------------------
@@ -92,11 +100,20 @@ export class DialogModalidadIngresoComponent {
   }
 
   onSelectionChangeModalidad(event: any) {
-    console.log(event.option.value)
     this.modalidadSeleccionadaTmp = event.option.value;
     this.formModIngreso.get('frmModalidad')?.setValue(this.modalidadSeleccionadaTmp.nombre);
   }
   
+  private _filterCAM(value: string): any[] {
+    
+    if (value != undefined) {
+      const filterValue = value.toLowerCase();
+      return this.listCAM.filter(option => option.nombre.toLowerCase().includes(filterValue));
+    }
+    return this.listCAM
+  }
+
+
   onClose(){
     this._dialogRef.close();
   }
@@ -111,6 +128,7 @@ export class DialogModalidadIngresoComponent {
       else{
         this.data.modalidadIngreso = this.modalidadSeleccionadaTmp;
       }
+      console.log(this.data)
       this._dialogRef.close(this.data);
     }
     else{

@@ -9,6 +9,7 @@ import { ContactoTabEvaluacionesComponent } from './components/contactos-afiliad
 import { ShowTalleristaComponent } from './components/contactos-talleristas/sub-components/show-tallerista/show-tallerista.component';
 import { ContactoTabParametrosComponent } from './components/contactos-talleristas/sub-components/show-tallerista/tabs/contacto-tab-parametros/contacto-tab-parametros.component';
 import { ContactoTabHorariosComponent } from './components/contactos-talleristas/sub-components/show-tallerista/tabs/contacto-tab-horarios/contacto-tab-horarios.component';
+import { RegisterAseguradoComponent } from './components/contactos-afiliados/sub-components/register-asegurado/register-asegurado.component';
 
 const routes: Routes = [
   {
@@ -61,8 +62,13 @@ const routes: Routes = [
             title: 'Evaluaciones Afiliado'
           }
         ]
-      },
+      }
     ]
+  },
+  {
+    path: 'register/:tipoDoc/:numDoc',
+    component: RegisterAseguradoComponent,
+    title: 'Registrar Asegurado'
   }
 ];
 

@@ -28,17 +28,17 @@ export class ToolbarAdminComponent {
 
   ngOnInit(){
     // console.log(helperJWT.decodeToken(this.tokenService.getToken()!))
-    if(localStorage.getItem('sigpsUser') != 'null'){
-      this.userInfo = JSON.parse(localStorage.getItem('sigpsUser')!);
+    if(localStorage.getItem('camUser') != 'null'){
+      this.userInfo = JSON.parse(localStorage.getItem('camUser')!);
       // console.log(this.userInfo)
       // let idUnid: string;
-      if ((JSON.parse(localStorage.getItem('sigpsUser')!)).nombreRol) {
-        this.userRol = (JSON.parse(localStorage.getItem('sigpsUser')!)).nombreRol;
+      if ((JSON.parse(localStorage.getItem('camUser')!)).nombreRol) {
+        this.userRol = (JSON.parse(localStorage.getItem('camUser')!)).nombreRol;
       }
       else{
         this.userRol = 'Sin Rol Asignado';
       }
-      // idUnid = (JSON.parse(localStorage.getItem('sigpsUser')!)).idUnidOperativa;
+      // idUnid = (JSON.parse(localStorage.getItem('camUser')!)).idUnidOperativa;
       // this.datosService.getUnidadesOperativas('').subscribe((data) =>{
       //   this.unidOpeUserSession = data.data.find((x: any)=> {return x.idUnidOperativa == idUnid!}).descripcionCompleta;
       //   this.showUnidOpe = true;

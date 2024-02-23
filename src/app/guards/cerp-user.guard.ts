@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { ActivatedRouteSnapshot, CanActivate, Router, RouterStateSnapshot, UrlTree } from '@angular/router';
 import { JwtHelperService } from '@auth0/angular-jwt';
-import { DatosGeneralesService } from '@services/datos-generales.service';
+import { DatosGeneralesService } from 'src/app/data/services/datos-generales.service';
 import { TokenService } from '@services/token.service';
 import { Observable } from 'rxjs';
 const helperJWT = new JwtHelperService();
@@ -23,8 +23,8 @@ export class CerpUserGuard implements CanActivate {
       return true;
     }
 
-    // if (JSON.parse(localStorage.getItem('sigpsUser')!)) {
-    //   const userCategoria = (JSON.parse(localStorage.getItem('sigpsUser')!)).categoria;
+    // if (JSON.parse(localStorage.getItem('camUser')!)) {
+    //   const userCategoria = (JSON.parse(localStorage.getItem('camUser')!)).categoria;
     //   if (userCategoria !== 'SIGPS') {
     //     this.router.navigate(['/app/admin'])
     //     return false

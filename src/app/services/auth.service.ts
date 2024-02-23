@@ -198,7 +198,7 @@ export class AuthService {
 
   logout() {
     this.tokenService.removeToken();
-    localStorage.removeItem('sigpsUser');
+    localStorage.removeItem('camUser');
     localStorage.removeItem('UnidElegida');
     this.tokenService.removeRefreshToken();
   }

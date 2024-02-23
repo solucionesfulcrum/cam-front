@@ -7,7 +7,7 @@ import { direccionFichaFront } from '@models/admision/ficha-datos-adicionales.mo
 import { Parametro } from '@models/parametros-busqueda.model';
 import { RequestStatus } from '@models/request-status.model';
 import { AdmisionFichaService } from '@services/admision/admision-ficha.service';
-import { DatosGeneralesService } from '@services/datos-generales.service';
+import { DatosGeneralesService } from 'src/app/data/services/datos-generales.service';
 import { FormatoBoton } from '@shared/components/opciones-botones/formato-boton.model';
 import { map } from 'rxjs';
 

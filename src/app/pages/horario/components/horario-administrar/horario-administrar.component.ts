@@ -2,7 +2,7 @@ import { Component, ViewChild } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup } from '@angular/forms';
 import { MatPaginator, PageEvent } from '@angular/material/paginator';
 import { Router } from '@angular/router';
-import { DatosGeneralesService } from '@services/datos-generales.service';
+import { DatosGeneralesService } from 'src/app/data/services/datos-generales.service';
 import { HorarioAdministracionService } from '@services/horario/horario-administracion.service';
 import { NotificationService } from '@services/notification.service';
 import { Parametro } from '@shared/components/opciones-busqueda/parametros-busqueda.model';

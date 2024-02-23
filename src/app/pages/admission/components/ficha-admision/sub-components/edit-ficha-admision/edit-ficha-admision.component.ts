@@ -6,7 +6,7 @@ import { DialogNewDireccionComponent } from '../postulacion-ficha-admision/dialo
 import { Dialog } from '@angular/cdk/dialog';
 import { DialogDataAcompanianteComponent } from '../postulacion-ficha-admision/dialogs/dialog-data-acompaniante/dialog-data-acompaniante.component';
 import { DialogModalidadIngresoComponent } from '../postulacion-ficha-admision/dialogs/dialog-modalidad-ingreso/dialog-modalidad-ingreso.component';
-import { DatosGeneralesService } from '@services/datos-generales.service';
+import { DatosGeneralesService } from 'src/app/data/services/datos-generales.service';
 import { Parametro } from '@models/parametros-busqueda.model';
 import { map } from 'rxjs';
 import { acompanianteFicha, contactoFicha, datosFicha, direccionFicha, modalidadIngreso, procedenciaFicha } from '@models/admision/ficha-admision.model';
@@ -42,7 +42,7 @@ export class EditFichaAdmisionComponent {
   selectNo = false;
 
   idUnidadOperativaUser = (JSON.parse(localStorage.getItem('UnidElegida')!)).idUnidOperativa;
-  idUserSession = (JSON.parse(localStorage.getItem('sigpsUser')!)).idUsuario;
+  idUserSession = (JSON.parse(localStorage.getItem('camUser')!)).idUsuario;
   faSpinner = faSpinner;
   wait = false;
   msgFaltante = false ;
@@ -109,8 +109,8 @@ export class EditFichaAdmisionComponent {
       this.idFicha = this.activeRoute.snapshot.paramMap.get('id')!;            
     }
   ngOnInit(): void {
-    // this.idUnidadOperativaUser = (JSON.parse(localStorage.getItem('sigpsUser')!)).idUnidOperativa;
-    // this.idUserSession = (JSON.parse(localStorage.getItem('sigpsUser')!)).idUsuario;
+    // this.idUnidadOperativaUser = (JSON.parse(localStorage.getItem('camUser')!)).idUnidOperativa;
+    // this.idUserSession = (JSON.parse(localStorage.getItem('camUser')!)).idUsuario;
     this.cargaServiciosParametros();
     this._admissionService.getFicha(this.idFicha).subscribe((data : any)=>{
       console.log(data)

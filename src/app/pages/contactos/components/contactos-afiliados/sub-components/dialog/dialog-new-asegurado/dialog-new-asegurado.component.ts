@@ -4,7 +4,7 @@ import { FormBuilder, FormControl, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { AcreditarFichaPostulante } from '@models/admision/datos-persona.model';
 import { Parametro } from '@models/parametros-busqueda.model';
-import { DatosGeneralesService } from '@services/datos-generales.service';
+import { DatosGeneralesService } from 'src/app/data/services/datos-generales.service';
 
 @Component({
   selector: 'esp-dialog-new-asegurado',
@@ -74,7 +74,7 @@ export class DialogNewAseguradoComponent {
     }
   }
   setLink2(codigo:string, tipo:string){
-    this.router.navigate(['/app/contactos/show/', tipo, codigo]);
+    this.router.navigate(['/app/contactos/register/', tipo, codigo]);
     this._dialogRef.close();
 }
 }
