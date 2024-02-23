@@ -142,8 +142,9 @@
               </div>
             </div> 
             <div class="flex items-center">
-              <input id="link-checkbox" type="checkbox" value="" class="w-5 h-5 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500">
+              <input formControlName="terminos" id="link-checkbox" type="checkbox" value="true" class="w-5 h-5 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500">
               <label for="link-checkbox" class="ml-2 text-sm font-medium"><h1 class="text-[#008BD2]"><span>Acepto terminos y condiciones</span></h1></label>
+              <span class="font-semibold text-red-500 text-sm" *ngIf="msgErrorTerminos != undefined">{{msgErrorTerminos}}</span>
             </div>
             <div class="text-center">
               <app-btn class="botonApariencia block " typeBtn="submit" color="primary" [loading]="status === 'loading'"><b>Registrarme</b></app-btn>
