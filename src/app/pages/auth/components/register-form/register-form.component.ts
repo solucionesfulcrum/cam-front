@@ -106,9 +106,7 @@ export class RegisterFormComponent {
   }
 
   register() {
-
     if (this.form.valid) {
-      console.log("click en check", this.form.value.terminos)
       if (this.form.value.terminos != true) {
         this.msgErrorTerminos = 'Debe Ud. Aceptar los terminos y condiciones'
       } else {
