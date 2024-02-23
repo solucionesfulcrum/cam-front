@@ -39,6 +39,7 @@ export class RegisterFormComponent {
   isFinish: boolean = false
   isPreRegister: boolean = false
   msgError!: string;
+  msgErrorTerminos!: string;
 
 
   formCodeEmail = this.formBuilder.nonNullable.group({
@@ -55,6 +56,7 @@ export class RegisterFormComponent {
       codigoPlanilla: [''],
       confirmPassword: ['', [Validators.required]],
       unidadOperativa: ['', [Validators.required]],
+      terminos: [false, [Validators.required]],
     },
     {
       validators: [
@@ -105,54 +107,60 @@ export class RegisterFormComponent {
 
   register() {
     if (this.form.valid) {
-      console.log(this.form.value)
-      this.status = 'loading';
-      const { tipoDoc, doc, names, email, password, codigoPlanilla } =
-        this.form.getRawValue();
-      //this.authService.register(name, email, password)
-      this.authService
-        .register(tipoDoc, doc, names, email, password, codigoPlanilla)
-        .subscribe({
-          next: (rta: any) => {
-            if (rta.code == 0) {
-              var resError = true;
-              try {
-                var result = JSON.parse(rta.data);
-              } catch (error) {
-                resError = false;
-              }
-              if (resError) {
-                this.msgError = result.message;
-                this.msgError = this.msgError[0].toUpperCase() + this.msgError.substr(1).toLowerCase();
+      if (this.form.value.terminos != true) {
+        this.msgErrorTerminos = 'Debe Ud. Aceptar los terminos y condiciones'
+      } else {
+        console.log(this.form.value)
+        this.msgErrorTerminos = ''
+        this.status = 'loading';
+        const { tipoDoc, doc, names, email, password, codigoPlanilla } =
+          this.form.getRawValue();
+        //this.authService.register(name, email, password)
+        this.authService
+          .register(tipoDoc, doc, names, email, password, codigoPlanilla)
+          .subscribe({
+            next: (rta: any) => {
+              if (rta.code == 0) {
+                var resError = true;
+                try {
+                  var result = JSON.parse(rta.data);
+                } catch (error) {
+                  resError = false;
+                }
+                if (resError) {
+                  this.msgError = result.message;
+                  this.msgError = this.msgError[0].toUpperCase() + this.msgError.substr(1).toLowerCase();
+                  this.status = 'failed';
+                  console.log('Error detected: ', result);
+                }
+                else {
+                  console.log('next for register: ', rta);
+                  this.status = 'success';
+                  this.emailCode = email;
+                  this.nameUserRegister = names;
+                  this.genWithCode = rta.data;
+                  this.isPreRegister = true
+                  this.authService.registerSIGPS(this.getModelRequestRegisterSigps(this.genWithCode)).subscribe((data) => {
+                    if (data.code == 0) {
+                      console.log("status: ", this.status, ", email:", this.emailCode, ", nameUserRegister:", this.nameUserRegister, ", genWithCode:", this.genWithCode, ", isPreRegister:", this.isPreRegister);
+                      this.showDialogEmailCode();
+                    }
+                    console.log(data);
+                  })
+                }
+              } else {
+                this.msgError = rta.message;
                 this.status = 'failed';
-                console.log('Error detected: ', result);
               }
-              else {
-                console.log('next for register: ', rta);
-                this.status = 'success';
-                this.emailCode = email;
-                this.nameUserRegister = names;
-                this.genWithCode = rta.data;
-                this.isPreRegister = true
-                this.authService.registerSIGPS(this.getModelRequestRegisterSigps(this.genWithCode)).subscribe((data) => {
-                  if (data.code == 0) {
-                    console.log("status: ", this.status, ", email:", this.emailCode, ", nameUserRegister:", this.nameUserRegister, ", genWithCode:", this.genWithCode, ", isPreRegister:", this.isPreRegister);
-                    this.showDialogEmailCode();
-                  }
-                  console.log(data);
-                })
-              }
-            } else {
-              this.msgError = rta.message;
+            },
+            error: (rta) => {
+              console.log('error for register: ', rta);
+              this.isPreRegister = false
               this.status = 'failed';
-            }
-          },
-          error: (rta) => {
-            console.log('error for register: ', rta);
-            this.isPreRegister = false
-            this.status = 'failed';
-          },
-        });
+            },
+          });
+      }
+
     } else {
       this.form.markAllAsTouched();
     }
