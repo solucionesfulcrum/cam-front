@@ -2,6 +2,7 @@ import { DialogRef } from '@angular/cdk/dialog';
 import { Component } from '@angular/core';
 import { FormBuilder, FormControl, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
+import { AcreditarFichaPostulante } from '@models/admision/datos-persona.model';
 import { Parametro } from '@models/parametros-busqueda.model';
 import { DatosGeneralesService } from '@services/datos-generales.service';
 
@@ -65,4 +66,15 @@ export class DialogNewAseguradoComponent {
       
     }
   }
+  createRequest(): AcreditarFichaPostulante{
+    return {
+      idUnidadOpe: this.unidOpeUserSession.idUnidOperativa,
+      tipoDoc: this.formNewFicha.value.frmSelectDoc!,
+      numDoc: this.formNewFicha.value.frmDoc!
+    }
+  }
+  setLink2(codigo:string, tipo:string){
+    this.router.navigate(['/app/contactos/show/', tipo, codigo]);
+    this._dialogRef.close();
+}
 }
