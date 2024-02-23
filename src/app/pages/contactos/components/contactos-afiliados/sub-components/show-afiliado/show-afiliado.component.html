@@ -1,15 +1,16 @@
 
 <esp-opciones-botones [rutaRegreso]="'../../..'" [listOpciones]="opcionesBotones" (firstFunction)="Notas()" (secondFunction)="EvalAfiliado()"></esp-opciones-botones>
 
-<div class="px-4 py-3 bg-white w-full mt-3 grid botonApariencia" *ngIf="!dataAfiliado">
+<!--<div class="px-4 py-3 bg-white w-full mt-3 grid botonApariencia" *ngIf="!dataAfiliado">
   <div class="text-gray-600 w-full text-center">
       <span class="py-1 font-bold text-2xl">
           <fa-icon class="mr-2" [icon]="faSpinner" [pulse]="true"></fa-icon>
           Obteniendo datos...
       </span>
   </div>
-</div>
-<div *ngIf="dataAfiliado" class="bg-white botonApariencia">
+</div>-->
+<!--<div *ngIf="dataAfiliado" class="bg-white botonApariencia">-->
+<div class="bg-white botonApariencia">
   <div class="flex flex-row justify-between"> 
     <p class="text-s-26p pl-6 pt-2 text-[var(--color-CAM-black-alt)] my-0 font-medium">Ficha de Afiliado</p>
     <p class="text-end pt-2 pr-6 text-s-16p text-secondary my-0">N° de Historia 
