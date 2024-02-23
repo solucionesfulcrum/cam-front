@@ -13,14 +13,15 @@ import { DatosGeneralesService } from '@services/datos-generales.service';
 export class DialogNewAseguradoComponent {
   
   opciones: Parametro[] = [];
-
+  
   public formNewFicha = this.fb.nonNullable.group({
     frmSelectDoc:new FormControl(""),
     frmDoc:['', [Validators.required, Validators.minLength(8)]],
   });
 
   unidOpeUserSession: any; 
-  
+  tipoMsg: any;
+  msgRespuesta: any;
   constructor(private fb                                  : FormBuilder,
               private router                              : Router,
               private datosService                        : DatosGeneralesService,
@@ -47,15 +48,21 @@ export class DialogNewAseguradoComponent {
   }
   onSearch(){
     if(this.formNewFicha.valid){
-      // this._AdmisionFichaService.validarAdmisionIngreso(this.createRequest())
-      // .subscribe((data) => {
-      //   console.log(this.createRequest())
-      //   if(data.code == 0){
-      //     this.tipoMsg = data.data.acreditado;
-      //     this.msgRespuesta = data.data.mensaje;
-      //     this.hayMsg = true;
-      //   }
-      // });
+      const tipoDoc="0"+this.formNewFicha.value.frmSelectDoc;
+      const numDoc=this.formNewFicha.value.frmDoc
+      const unidadOpera = this.unidOpeUserSession.idUnidOperativa
+      console.log("data de respuesta",this.unidOpeUserSession.idUnidOperativa)
+      this.datosService.validarAdmisionIngreso(tipoDoc,numDoc!,unidadOpera)
+      .subscribe((data) => {
+      console.log("data de respuesta",data.data.acreditado)
+      if(data.code == 0){
+      this.tipoMsg = data.data.acreditado;
+      this.msgRespuesta = data.data.mensaje;
+      //this.hayMsg = true;
+      }
+      });
+    }else{
+      
     }
   }
 }

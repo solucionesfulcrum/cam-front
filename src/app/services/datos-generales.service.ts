@@ -81,4 +81,9 @@ export class DatosGeneralesService {
     const url = `${URL_BASE}/actividad/listar/activos`;
     return this._httpClient.get<any>(url);
   }
+
+  validarAdmisionIngreso(tipoDoc:string,numDoc:string,idUnidadOpe:string){
+    const url = `${URL_BASE}/ficha-admision/acreditar/registro?tipoDoc=${tipoDoc}&numDoc=${numDoc}&idUnidadOpe=${idUnidadOpe}`;
+    return this._httpClient.get<any>(url);
+  }
 }
