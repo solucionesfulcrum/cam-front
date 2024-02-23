@@ -1,9 +1,11 @@
+import { Dialog } from '@angular/cdk/dialog';
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup } from '@angular/forms';
 import { PageEvent } from '@angular/material/paginator';
 import { RequestListaSAfiliadosContacto,listaConstactosRequest } from '@models/afiliados/ficha-solicitud.model';
 import { FormatoBoton } from '@shared/components/opciones-botones/formato-boton.model';
 import { AfiliacionesSolicitudesService } from 'src/app/data/services/afiliaciones/afiliaciones-solicitudes.service';
+import { DialogNewAseguradoComponent } from './sub-components/dialog/dialog-new-asegurado/dialog-new-asegurado.component';
 
 @Component({
   selector: 'app-contactos-afiliados',
@@ -27,16 +29,14 @@ export class ContactosAfiliadosComponent implements OnInit {
   total = 0;
   columns: string[] = ['marcar','nombres','tipoDoc','numDoc', 'edad', 'estadoCivil','ipress','fecha'];
 
-  constructor(
-    private fb: FormBuilder, 
-    private afiliacionesService: AfiliacionesSolicitudesService,) { }
+  constructor(private fb                      : FormBuilder, 
+              private dialog                  : Dialog,
+              private afiliacionesService     : AfiliacionesSolicitudesService,) { }
 
   ngOnInit(): void {
     this.onLoadData()
   }
-  nuevoAsegurado(){
-    console.log("hola")
-  }
+
   onLoadData(){
     /*this.dataSource = [
       {nombres: 'ROXANA ESTRADA ARIAS', tipoDoc: 1, numDoc: '23835688', fecNac: '16/03/1968', estCivil: 'SOLTERA', ipress: 'EUNICE ELIZABETH', estado: 1}
@@ -112,10 +112,22 @@ export class ContactosAfiliadosComponent implements OnInit {
   }
 
   getEdad(fecha: string): number{
-    let fecNac = new Date(parseInt(fecha.split('/')[2]), parseInt(fecha.split('/')[1]) - 1, parseInt(fecha.split('/')[0]));
+    /*let fecNac = new Date(parseInt(fecha.split('/')[2]), parseInt(fecha.split('/')[1]) - 1, parseInt(fecha.split('/')[0]));
     var timeDiff = Math.abs(Date.now() - fecNac.getTime());
     let edadPersona = Math.floor(timeDiff / (1000 * 3600 * 24) / 365.25);
 
-    return edadPersona
+    return edadPersona*/
+    return 30
+  }
+
+  nuevoAsegurado(){
+    const dialogRef = this.dialog.open(DialogNewAseguradoComponent,{
+      minWidth:'800px',
+      maxWidth:'50%',
+      data:{}
+    })
+    dialogRef.closed.subscribe(out =>{
+      // console.log(out)
+    })
   }
 }

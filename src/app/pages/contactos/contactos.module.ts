@@ -14,6 +14,7 @@ import { ContactoTabEvaluacionesComponent } from './components/contactos-afiliad
 import { ShowTalleristaComponent } from './components/contactos-talleristas/sub-components/show-tallerista/show-tallerista.component';
 import { ContactoTabParametrosComponent } from './components/contactos-talleristas/sub-components/show-tallerista/tabs/contacto-tab-parametros/contacto-tab-parametros.component';
 import { ContactoTabHorariosComponent } from './components/contactos-talleristas/sub-components/show-tallerista/tabs/contacto-tab-horarios/contacto-tab-horarios.component';
+import { DialogNewAseguradoComponent } from './components/contactos-afiliados/sub-components/dialog/dialog-new-asegurado/dialog-new-asegurado.component';
 
 
 @NgModule({
@@ -26,7 +27,8 @@ import { ContactoTabHorariosComponent } from './components/contactos-talleristas
     ContactoTabEvaluacionesComponent,
     ShowTalleristaComponent,
     ContactoTabParametrosComponent,
-    ContactoTabHorariosComponent
+    ContactoTabHorariosComponent,
+    DialogNewAseguradoComponent
   ],
   imports: [
     CommonModule,
