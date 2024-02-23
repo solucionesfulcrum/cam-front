@@ -1,3 +1,15 @@
+export interface listaConstactosRequest {
+    idUnidOpe: string;
+    apellidos: string;
+    nombres: string;
+    tipoDocIdent: string;
+    numDocIdent: string;
+    fecInicio: string;
+    fecFin: string;
+    pageNum: string;
+    pageSize: string;
+}
+
 export interface RequestListaSolicitudesAfiliados{
     tipoSolicitud: string,
     unidadOperativa: number,
@@ -44,3 +56,5 @@ export interface listaFichaSolicitudRequest {
     pageNum: string;
     pageSize: string;
 }
+
+

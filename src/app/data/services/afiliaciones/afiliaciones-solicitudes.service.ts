@@ -1,9 +1,10 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { RequestListaSAfiliadosContacto, RequestListaSolicitudesAfiliados } from '@models/afiliados/ficha-solicitud.model';
+import { RequestListaSAfiliadosContacto, RequestListaSolicitudesAfiliados,listaConstactosRequest } from '@models/afiliados/ficha-solicitud.model';
 import { environment } from 'src/environments/environment';
 
 const URL_BASE = `${environment.API}/afiliado`;
+const api_URL = environment.API
 
 @Injectable({
   providedIn: 'root'
@@ -19,6 +20,11 @@ export class AfiliacionesSolicitudesService {
 
   getListaAfiliados(model: RequestListaSAfiliadosContacto){
     const url = `${URL_BASE}/lista-afiliados`;
+    return this._httpClient.post<any>(url, model);
+  }
+
+  getListaContacto(model: listaConstactosRequest){
+    const url = `${api_URL}/ficha-admision/listar`;
     return this._httpClient.post<any>(url, model);
   }
 

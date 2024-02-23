@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup } from '@angular/forms';
 import { PageEvent } from '@angular/material/paginator';
-import { RequestListaSAfiliadosContacto } from '@models/afiliados/ficha-solicitud.model';
+import { RequestListaSAfiliadosContacto,listaConstactosRequest } from '@models/afiliados/ficha-solicitud.model';
 import { FormatoBoton } from '@shared/components/opciones-botones/formato-boton.model';
 import { AfiliacionesSolicitudesService } from 'src/app/data/services/afiliaciones/afiliaciones-solicitudes.service';
 
@@ -38,15 +38,15 @@ export class ContactosAfiliadosComponent implements OnInit {
     console.log("hola")
   }
   onLoadData(){
-    this.dataSource = [
+    /*this.dataSource = [
       {nombres: 'ROXANA ESTRADA ARIAS', tipoDoc: 1, numDoc: '23835688', fecNac: '16/03/1968', estCivil: 'SOLTERA', ipress: 'EUNICE ELIZABETH', estado: 1}
-    ]
+    ]*/
     this.total = this.dataSource.length;
-    // this.afiliacionesService.getListaAfiliados(this.getPayload()).subscribe((data)=>{
-    //   this.dataSource = data;
-    //   this.total = this.dataSource.length;
-    //   console.log(data)
-    // })
+    this.afiliacionesService.getListaContacto(this.getContactos()).subscribe((data)=>{
+    this.dataSource = data.data.list;
+    this.total = this.dataSource.length;
+    console.log("resultado data",data.data.list)
+    })
   }
   
   getDataFecha(value: any){
@@ -61,6 +61,33 @@ export class ContactosAfiliadosComponent implements OnInit {
     this.pageIndex = event.pageIndex;
     this.pageNum = event.pageIndex + 1;
     this.onLoadData();
+  }
+
+  getContactos(): listaConstactosRequest{
+    var fecInicio: any;
+    var fecFin: any;
+    var idUnidOpe = localStorage.getItem("UnidElegida");
+
+    if (this.formBuscar.value.frmSearchDate == '') {
+      fecInicio = `${new Date().getDate()}/${new Date().getMonth()+1}/${new Date().getFullYear()-1}`;
+      fecFin = `${new Date().getDate()}/${new Date().getMonth()+1}/${new Date().getFullYear()}`;
+    }
+    else{
+      fecInicio = this.formBuscar.value.frmSearchDate.split(' - ')[0];
+      fecFin = this.formBuscar.value.frmSearchDate.split(' - ')[1];
+    }
+
+    return {
+      idUnidOpe: "33",
+      apellidos: "",
+      nombres: "",
+      tipoDocIdent: "",
+      numDocIdent: "",
+      fecInicio: "2021-08-17",
+      fecFin: "2024-11-17",
+      pageNum: "1",
+      pageSize: "10",
+    }
   }
 
   getPayload(): RequestListaSAfiliadosContacto{

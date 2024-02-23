@@ -27,17 +27,17 @@
 
       <ng-container cdkColumnDef="nombres">
         <th cdk-header-cell class="py-[1.25rem] px-6" *cdkHeaderCellDef>Nombres</th>
-        <td cdk-cell class="py-[1rem] px-6 text-[#057EC9]" *cdkCellDef="let row, index as i"><span class="text-Name cursor-pointer" [routerLink]="['show/' + row.tipoDoc + '/' + row.numDoc]">{{ row.nombres | uppercase}}</span></td>
+        <td cdk-cell class="py-[1rem] px-6 text-[#057EC9]" *cdkCellDef="let row, index as i"><span class="text-Name cursor-pointer" [routerLink]="['show/' + row.tipoDoc + '/' + row.numDoc]">{{ row.nombres +" "+ row.apePaterno + " " + row.apeMaterno | uppercase}}</span></td>
       </ng-container>
 
       <ng-container cdkColumnDef="tipoDoc">
         <th cdk-header-cell class="py-[1.25rem] px-6" *cdkHeaderCellDef>TIPO</th>
-        <td cdk-cell class="py-[1rem] px-6 font-semibold" *cdkCellDef="let row">{{ row.tipoDoc == 1 ? 'DNI' : 'CE'}}</td>
+        <td cdk-cell class="py-[1rem] px-6 font-semibold" *cdkCellDef="let row">{{ row.tipDocIdent == "01" ? 'DNI' : 'CE'}}</td>
       </ng-container>
 
       <ng-container cdkColumnDef="numDoc">
         <th cdk-header-cell class="py-[1.25rem] px-6" *cdkHeaderCellDef>N° de Documento</th>
-        <td cdk-cell class="py-[1rem] px-6" *cdkCellDef="let row">{{row.numDoc }}</td>
+        <td cdk-cell class="py-[1rem] px-6" *cdkCellDef="let row">{{row.numDocIdent }}</td>
       </ng-container>
 
       <ng-container cdkColumnDef="edad">
