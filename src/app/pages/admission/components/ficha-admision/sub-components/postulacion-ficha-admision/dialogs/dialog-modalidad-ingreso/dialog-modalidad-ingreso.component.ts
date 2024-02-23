@@ -44,6 +44,7 @@ export class DialogModalidadIngresoComponent {
       this.frmCtrlModalidad.valueChanges.pipe(startWith(''), map(value => typeof value === 'string' ? value : value.establecimiento)).subscribe((data)=>{
         if(this.allowSearchIpress){
           this.datosGeneralesService.searchDependencias('ESSALUD',data,this.regionSeleccionadaTmp.codigo).subscribe((datos)=>{
+            console.log(datos)
             this.listIpress = datos.data;
           })
         }

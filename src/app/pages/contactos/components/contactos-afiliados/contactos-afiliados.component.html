@@ -32,7 +32,7 @@
 
       <ng-container cdkColumnDef="tipoDoc">
         <th cdk-header-cell class="py-[1.25rem] px-6" *cdkHeaderCellDef>TIPO</th>
-        <td cdk-cell class="py-[1rem] px-6 font-semibold" *cdkCellDef="let row">{{ row.tipDocIdent == "01" ? 'DNI' : 'CE'}}</td>
+        <td cdk-cell class="py-[1rem] px-6 font-semibold" *cdkCellDef="let row">{{ row.tipDocIdent == "01" || row.tipDocIdent == "1" ? 'DNI' : row.descTipDocIdent}}</td>
       </ng-container>
 
       <ng-container cdkColumnDef="numDoc">
@@ -42,22 +42,22 @@
 
       <ng-container cdkColumnDef="edad">
         <th cdk-header-cell class="py-[1.25rem] px-6" *cdkHeaderCellDef>Edad</th>
-        <td cdk-cell class="py-[1rem] px-6" *cdkCellDef="let row">{{getEdad(row.fecNac)}} Años</td>
+        <td cdk-cell class="py-[1rem] px-6" *cdkCellDef="let row">{{row.edad}} Años</td>
       </ng-container>
 
       <ng-container cdkColumnDef="estadoCivil">
         <th cdk-header-cell class="py-[1.25rem] px-6" *cdkHeaderCellDef>E. CIVIL</th>
-        <td cdk-cell class="py-[1rem] px-6 font-semibold" *cdkCellDef="let row">{{row.estCivil }}</td>
+        <td cdk-cell class="py-[1rem] px-6 font-semibold" *cdkCellDef="let row">{{row.estadoCivil }}</td>
       </ng-container>
 
       <ng-container cdkColumnDef="ipress">
         <th cdk-header-cell class="py-[1.25rem] px-6" *cdkHeaderCellDef>IPRESS</th>
-        <td cdk-cell class="py-[1rem] px-6" *cdkCellDef="let row">{{row.ipress }}</td>
+        <td cdk-cell class="py-[1rem] px-6" *cdkCellDef="let row">{{row.nomIpressAdscrip }}</td>
       </ng-container>
 
       <ng-container cdkColumnDef="fecha">
         <th cdk-header-cell class="py-[1.25rem] px-6" *cdkHeaderCellDef>Estado</th>
-        <td cdk-cell class="py-[1rem] px-6 flex justify-center" *cdkCellDef="let row"><img [src]="row.estado == 1 ? 'assets/svg/userAct.svg' : ''"></td>
+        <td cdk-cell class="py-[1rem] px-6 flex justify-center" *cdkCellDef="let row"><img [src]="row.estado == 'REGISTRADO' ? 'assets/svg/userAct.svg' : ''"></td>
       </ng-container>
     </table>
     <mat-paginator #paginator class="demo-paginator paginatorDatos" 
