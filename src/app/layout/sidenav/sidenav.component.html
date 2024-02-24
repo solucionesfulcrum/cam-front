@@ -66,8 +66,44 @@
         <span class="text-Name !font-light max-w-[168px] whitespace-nowrap text-ellipsis overflow-hidden">{{unidOpeUserSession}}</span>
       </div>
     </div>
-    <div class="flex items-center opacity-60">
+    <div class="flex items-center opacity-60" [cdkMenuTriggerFor]="optionsSidenav">
         <esp-icon icon="faChevronRight"></esp-icon>
     </div>
   </div>
+
+  <ng-template #optionsSidenav>
+      <div class="botonApariencia bg-white !text-[#344563] text-sm" cdkMenu>
+          <div class="flex flex-col" cdkMenuGroup>
+            <div class="flex flex-col gap-[7.5px] px-3 py-2.5 ">
+              <span class="font-bold">USUARIO</span>
+              <div class="flex flex-row gap-1.5 items-center">
+                <div class="flex items-center justify-center bg-sigps w-10 h-10 rounded">
+                  <span class="text-white font-bold text-lg">{{userInfo.nombres[0]}}</span>
+                </div>
+                <div class="flex flex-col min-w-[265px]">
+                  <span>{{userInfo.nombres}}</span>
+                  <span class="text-[12px] leading-[12px] opacity-50">{{userInfo.correo}}</span>
+                </div>
+              </div>
+            </div>
+            <div class="flex flex-col gap-[7.5px] px-3 py-2.5 border-[#D4D4D4] border-y">
+              <span class="font-bold">CENTRO</span>
+              <div class="flex flex-col bg-[#F5F8FA] w-full py-[7px] pl-2.5 pr-1">
+                <span>{{unidOpeUserSession}}</span>
+                <span class="text-[#64748B] text-[12px]">------------------------</span>
+              </div>
+            </div>
+            <div class="flex flex-col gap-2.5 px-3 py-2.5">
+              <div class="flex flex-row items-center gap-2.5 cursor-pointer" [routerLink]="'/app/admin'">
+                <img class="h-5 self-center" src="assets/svg/circle-arrow-left.svg">
+                <span>Volver a lista de Centros</span>
+              </div>
+              <div class="flex flex-row items-center gap-2.5 cursor-pointer" (click)="logout()">
+                <img src="assets/svg/icon-toolbar-logout.svg"/>
+                <span>Cerrar la sesión</span>
+              </div>
+            </div>
+          </div>
+      </div>
+  </ng-template>
 </div>
