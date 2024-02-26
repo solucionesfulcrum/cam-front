@@ -27,10 +27,8 @@ export class ToolbarAdminComponent {
               private router:Router) { }
 
   ngOnInit(){
-    // console.log(helperJWT.decodeToken(this.tokenService.getToken()!))
     if(localStorage.getItem('camUser') != 'null'){
       this.userInfo = JSON.parse(localStorage.getItem('camUser')!);
-      // console.log(this.userInfo)
       // let idUnid: string;
       if ((JSON.parse(localStorage.getItem('camUser')!)).nombreRol) {
         this.userRol = (JSON.parse(localStorage.getItem('camUser')!)).nombreRol;

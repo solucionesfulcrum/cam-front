@@ -84,8 +84,6 @@ export class ListComponent implements OnInit{
       pageNum: this.pageNum,
       pageSize: this.pageSize
     }).subscribe((data)=>{
-      console.log("lista de usuarios",data)
-      console.log("que viene por aqui",this.nombreFilter)
       this.dataCompleted = data.data.list;
       this.dataSource.init(data.data.list)
 

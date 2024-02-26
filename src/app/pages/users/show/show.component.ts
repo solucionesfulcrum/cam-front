@@ -31,7 +31,6 @@ export class ShowComponent {
       this.idUser = params['id']; // (+) converts string 'id' to a number
       localStorage.setItem("userId",String(this.idUser))
         this._usersService.getInformacionActivaciones(this.idUser).subscribe((data)=>{
-          console.log("unidades operativas activas",data);
           /*data.data.forEach((element: any) => {
             if (element.estado === 'ACTIVO') {
               this.rolAsignado = element.nombreRol;
@@ -40,7 +39,6 @@ export class ShowComponent {
         this.activaciones = data.data;
       })
       this._usersService.getUser(this.idUser).subscribe((data)=>{
-        console.log(data.data);
         this.user = data.data;
         
         if((Math.trunc((this.today.getTime() - (new Date(this.user.fechaRegistro)).getTime()) / (1000*60*60*24))) <= 7){
@@ -68,7 +66,6 @@ export class ShowComponent {
     })
     dialogRef.closed.subscribe(out =>{
       this.onLoadData();
-      // console.log(out)
     })
   }
 }

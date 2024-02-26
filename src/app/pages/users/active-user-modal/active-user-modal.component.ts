@@ -68,10 +68,9 @@ export class ActiveUserModalComponent {
       this.minDate = new Date(parseInt(dataStr.split('/')[2]), parseInt(dataStr.split('/')[1]) - 1, parseInt(dataStr.split('/')[0]))
     })
     this.frmCtrlUnidadOperativa.valueChanges.pipe(startWith(''), map(value => typeof value === 'string' ? value : value.nombre)).subscribe((data) => {
-      console.log("que sale?", data)
+
       this.datosService.getUnidadesOperativas(data).subscribe((datos) => {
         this.listUnidadOperativa = datos.data;
-        console.log("lista uo", this.listUnidadOperativa)
       })
     })
     this.frmCtrlUnidadOperativa.setValue('')
@@ -82,28 +81,24 @@ export class ActiveUserModalComponent {
     // this.formVigencia.controls.frmFinVigencia.disable()
     this.userData = this.data.user;
     this.frmCtrlUnidadOperativa.addValidators([Validators.required])
-    // console.log(this.data)
   }
 
   cargaServiciosParametros() {
     this.rolesService.getListRolesActivos().subscribe((data) => {
 
       this.listRoles = data.data;
-      console.log("lista de roles", this.listRoles)
     })
   }
 
   //Unidad Operativa --------------------------------------------------------------------------------------------------------------------------------------------------
 
   displayFnUnidadOperativa(selectedoption: any) {
-    console.log("unidad uo seleciocnada", selectedoption)
     return selectedoption ? selectedoption.nombre : undefined;
   }
 
   onSelectionChangeUnidadOperativa(event: any) {
 
     this.unidOperaSeleccionadaTmp = event.option.value.idUnidadOperativa;
-    console.log("uo seleciocnada", this.unidOperaSeleccionadaTmp)
   }
 
   //-------------------------------------------------------------------------------------------------------------------------------------------------------------------
@@ -121,7 +116,6 @@ export class ActiveUserModalComponent {
         this.formVigencia.controls.frmFinVigencia.setValue(input)
         break;
     }
-    // console.log(input)
   }
 
   getActivacionSSO(): ActivateUserSSO {
@@ -153,27 +147,12 @@ export class ActiveUserModalComponent {
   }
 
   saveActivacion() {
-    //console.log(this.getActivacionSSO())
-    console.log("data para la activacion", this.getActivacionSIGPS())
     if (this.validForm()) {
       this.status = 'loading';
-      /*this.userService.activateUserSSO(this.getActivacionSSO()).subscribe((data)=>{
-        // console.log(data)
-        if(data){
-          if(typeof data === 'object'){
-              this.status = 'failed';
-            this._notification.warning(data.message);
-            // console.log(data.message)
-          }
-          else{*/
       this.userService.activateUserSigps(this.getActivacionSIGPS()).subscribe((data) => {
         this._notification.success('Se ha activado correctamente');
         this.status = 'success';
-        console.log(data)
         this._dialogRef.close();
-        //})
-        //}
-        //}
       })
     }
     else {

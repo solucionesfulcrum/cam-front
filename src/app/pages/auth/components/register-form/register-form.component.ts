@@ -95,10 +95,9 @@ export class RegisterFormComponent {
     this.getParametros();
 
     this.frmCtrlUnidadOperativa.valueChanges.pipe(startWith(''), map(value => typeof value === 'string' ? value : value.nombre)).subscribe((data) => {
-      console.log("que sale?", data)
+     
       this.datosService.getUnidadesOperativas(data).subscribe((datos) => {
         this.listUnidadOperativa = datos.data;
-        console.log("lista uo", this.listUnidadOperativa)
       })
     })
     this.frmCtrlUnidadOperativa.setValue('')
@@ -107,14 +106,12 @@ export class RegisterFormComponent {
   //Unidad Operativa --------------------------------------------------------------------------------------------------------------------------------------------------
 
   displayFnUnidadOperativa(selectedoption: any) {
-    console.log("unidad uo seleciocnada", selectedoption)
     return selectedoption ? selectedoption.nombre : undefined;
   }
 
   onSelectionChangeUnidadOperativa(event: any) {
 
     this.unidOperaSeleccionadaTmp = event.option.value.idUnidadOperativa;
-    console.log("uo seleciocnada", this.unidOperaSeleccionadaTmp)
   }
 
   getParametros() {
@@ -137,7 +134,6 @@ export class RegisterFormComponent {
       if (this.form.value.terminos != true) {
         this.msgErrorTerminos = 'Debe Ud. Aceptar los terminos y condiciones'
       } else {
-        console.log(this.form.value)
 
         this.status = 'loading';
         const { tipoDoc, doc, names, email, password, codigoPlanilla } =
@@ -158,10 +154,8 @@ export class RegisterFormComponent {
                   this.msgError = result.message;
                   this.msgError = this.msgError[0].toUpperCase() + this.msgError.substr(1).toLowerCase();
                   this.status = 'failed';
-                  console.log('Error detected: ', result);
                 }
                 else {
-                  console.log('next for register: ', rta);
                   this.status = 'success';
                   this.emailCode = email;
                   this.nameUserRegister = names;
@@ -169,10 +163,8 @@ export class RegisterFormComponent {
                   this.isPreRegister = true
                   this.authService.registerSIGPS(this.getModelRequestRegisterSigps(this.genWithCode)).subscribe((data) => {
                     if (data.code == 0) {
-                      console.log("status: ", this.status, ", email:", this.emailCode, ", nameUserRegister:", this.nameUserRegister, ", genWithCode:", this.genWithCode, ", isPreRegister:", this.isPreRegister);
                       this.showDialogEmailCode();
                     }
-                    console.log(data);
                   })
                 }
               } else {
@@ -181,7 +173,6 @@ export class RegisterFormComponent {
               }
             },
             error: (rta) => {
-              console.log('error for register: ', rta);
               this.isPreRegister = false
               this.status = 'failed';
             },
