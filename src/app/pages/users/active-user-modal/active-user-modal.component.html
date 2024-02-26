@@ -82,16 +82,16 @@
           <esp-icon icon="faSearch"></esp-icon>
         </span>
       </div>
-      <input type="text" name="search" formControlName="frmCtrlUnidadOperativa" [matAutocomplete]="uniOper"
+      <input type="text" name="search" [formControl]="frmCtrlUnidadOperativa" [matAutocomplete]="uniOper"
         class="inputTextoDialog focusCampo !h-9 pr-7"
         placeholder="Unidad Operativa">
       <mat-autocomplete #uniOper="matAutocomplete" [displayWith]="displayFnUnidadOperativa" (optionSelected)="onSelectionChangeUnidadOperativa($event)">
           <mat-option *ngFor="let option of listUnidadOperativa" [value]="option">
-              {{option.nombre}}
+              CAM - {{option.nombre}}
           </mat-option>
       </mat-autocomplete>
-      <div *ngIf="formDatosAdicionales.controls.frmCtrlUnidadOperativa.touched && formDatosAdicionales.controls.frmCtrlUnidadOperativa.invalid">
-          <p *ngIf="formDatosAdicionales.controls.frmCtrlUnidadOperativa.hasError('required')" class="font-medium text-red-500 text-xs mt-1 ml-1">
+      <div *ngIf="frmCtrlUnidadOperativa.touched && frmCtrlUnidadOperativa.invalid">
+          <p *ngIf="frmCtrlUnidadOperativa.hasError('required')" class="font-medium text-red-500 text-xs mt-1 ml-1">
               Seleccione una unidad operativa
           </p>
       </div>

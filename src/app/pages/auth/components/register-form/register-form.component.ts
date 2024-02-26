@@ -108,7 +108,7 @@ export class RegisterFormComponent {
 
    displayFnUnidadOperativa(selectedoption: any) {
     console.log("unidad uo seleciocnada", selectedoption)
-    return selectedoption ? selectedoption.nombre : undefined;
+    return selectedoption ? selectedoption.nombre: undefined;
   }
 
   onSelectionChangeUnidadOperativa(event: any) {
@@ -131,7 +131,7 @@ export class RegisterFormComponent {
   }
 
   register() {
-    if (this.form.valid) {
+    if (this.form.valid && this.frmCtrlUnidadOperativa.valid) {
       if (this.form.value.terminos != true) {
         this.msgErrorTerminos = 'Debe Ud. Aceptar los terminos y condiciones'
       } else {

@@ -43,7 +43,6 @@ export class ActiveUserModalComponent {
   public formDatosAdicionales = this.fb.nonNullable.group({
     frmRol: ['', [Validators.required]],
     frmMotivo: [null, [Validators.required]],
-    frmCtrlUnidadOperativa: ['', [Validators.required]],
   });
 
   constructor(private _dialogRef: DialogRef<ActiveUserModalComponent>,
@@ -155,7 +154,7 @@ export class ActiveUserModalComponent {
 
   saveActivacion() {
     //console.log(this.getActivacionSSO())
-    console.log(this.getActivacionSIGPS())
+    console.log("data para la activacion", this.getActivacionSIGPS())
     if (this.validForm()) {
       this.status = 'loading';
       /*this.userService.activateUserSSO(this.getActivacionSSO()).subscribe((data)=>{
