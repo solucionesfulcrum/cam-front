@@ -24,14 +24,11 @@ export class SelectUnidOperativaComponent {
               private notificationService             : NotificationService) { }
 
   ngOnInit(){
-    console.log(this.listUnidOperativa)
     if(localStorage.getItem('camUser') != 'null'){
       this.userInfo = JSON.parse(localStorage.getItem('camUser')!);
-      console.log(this.userInfo)
       this.datosGeneralesService.getUnidadesOperativasAsignadas(this.userInfo.idUsuario).subscribe((data)=>{
         if (data.code == 0) {
           this.listUnidOperativa = data.data;
-          console.log(data)
         }
         else{
           this.notificationService.warning(data.message);
@@ -42,7 +39,6 @@ export class SelectUnidOperativaComponent {
   }
 
   AsignarUnidadOperativa(unidOperativ: any){
-    console.log(unidOperativ)
     localStorage.setItem('UnidElegida', JSON.stringify(unidOperativ));
     this.router.navigate(['/app']);
   }

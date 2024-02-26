@@ -107,7 +107,6 @@ export class AuthService {
           this.tokenService.saveToken(rta.data.accessToken);
           this.tokenService.saveRefreshToken(rta.data.refreshToken);
           this.userSSO$.next(true);
-          console.log('this.userSSO$: ', this.userSSO$);
           this.getProfile();
           return rta;
         }),
@@ -165,7 +164,6 @@ export class AuthService {
   */
 
   validateCode(code: string, genWithCode: string, numdoc: string) {
-    console.log("codigo user",code+" "+genWithCode+" "+numdoc)
     return this.http.post<{ code: number; message: string; data: string }>(
       `${this.auth_api}/register`,
       {

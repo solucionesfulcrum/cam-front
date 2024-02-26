@@ -29,7 +29,6 @@ export class DialogCodigoActivacionComponent {
 
   }
   ngOnInit(){
-    console.log("data de componente registrar", this.data)
   }
   onClose(){
     this._dialogRef.close();
@@ -41,7 +40,6 @@ export class DialogCodigoActivacionComponent {
       const { code } = this.formCodeEmail.getRawValue();
       this.authService.validateCode(code, this.data.genWithCode,this.data.numDoc).subscribe({
         next: (rta) => {
-          console.log("data de resgister", rta.data)
           var result = JSON.parse(rta.data);
           if (result = true) {
             this.authService.confirmEmailSIGPS(this.data.genWithCode).subscribe((data)=>{
@@ -55,7 +53,6 @@ export class DialogCodigoActivacionComponent {
                 this._notificacion.error(data.message);
                 this.status = 'failed';
               }
-              console.log(data)
             })
             this.status = 'success';
             this._dialogRef.close();
@@ -107,7 +104,6 @@ export class DialogCodigoActivacionComponent {
           }*/
         },
         error: (rta) => {
-          console.log('error for validate code: ', rta);
           this.status = 'failed';
         },
       });

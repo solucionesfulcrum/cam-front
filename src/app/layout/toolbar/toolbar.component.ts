@@ -47,7 +47,6 @@ export class ToolbarComponent {
   ngOnInit(){
     if(localStorage.getItem("camUser") != null ){
       this.userSesion = JSON.parse(localStorage.getItem("camUser")!).nombres
-      console.log()
     }else{
       this.userSesion = 'Datos no conocidos'
     }
