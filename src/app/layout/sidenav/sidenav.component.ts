@@ -8,6 +8,7 @@ import { MaterialModule } from 'src/app/material/material.module';
 import { MatListModule } from '@angular/material/list';
 import { CdkMenuModule } from '@angular/cdk/menu';
 import { AuthService } from '@services/auth.service';
+import { ConnectionPositionPair } from '@angular/cdk/overlay';
 
 @Component({
   selector: 'app-sidenav',
@@ -19,6 +20,13 @@ import { AuthService } from '@services/auth.service';
 export class SidenavComponent {
   rutas = AppRoute;
 
+  positions = [
+    new ConnectionPositionPair(
+      { originX: 'start', originY: 'bottom' },
+      { overlayX: 'start', overlayY: 'top' },
+    ),
+  ];
+  
   unidOpeUserSession!: string;
   userInfo: any = Object();
   userCategoria: string = '';
