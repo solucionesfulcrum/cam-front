@@ -56,7 +56,7 @@ export class RegisterFormComponent {
       names: ['', [Validators.required]],
       codigoPlanilla: [''],
       confirmPassword: ['', [Validators.required]],
-      frmCtrlUnidadOperativa: ['', [Validators.required]],
+      //frmCtrlUnidadOperativa: ['', [Validators.required]],
       terminos: [false, [Validators.required]],
     },
     {

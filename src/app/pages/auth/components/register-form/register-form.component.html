@@ -136,7 +136,7 @@
             </div>
             <div class="flex space-x-2">
               <div class="w-1/2">
-                <input type="text" name="search" formControlName="frmCtrlUnidadOperativa" [matAutocomplete]="uniOper"
+                <input type="text" name="search" [formControl]="frmCtrlUnidadOperativa" [matAutocomplete]="uniOper"
                   class="inputTextoDialog focusCampo !h-9 pr-7" placeholder="Unidad Operativa">
                 <mat-autocomplete #uniOper="matAutocomplete" [displayWith]="displayFnUnidadOperativa"
                   (optionSelected)="onSelectionChangeUnidadOperativa($event)">
@@ -144,8 +144,8 @@
                     {{option.nombre}}
                   </mat-option>
                 </mat-autocomplete>
-                <div *ngIf="form.controls.frmCtrlUnidadOperativa.touched && form.controls.frmCtrlUnidadOperativa.invalid">
-                  <p *ngIf="form.controls.frmCtrlUnidadOperativa.hasError('required')"
+                <div *ngIf="frmCtrlUnidadOperativa.touched && frmCtrlUnidadOperativa.invalid">
+                  <p *ngIf="frmCtrlUnidadOperativa.hasError('required')"
                     class="font-medium text-red-500 text-xs mt-1 ml-1">
                     Seleccione una unidad operativa
                   </p>
