@@ -1,6 +1,6 @@
 import { Component, VERSION, ViewChild } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
+import { FormBuilder, FormControl, ReactiveFormsModule, Validators } from '@angular/forms';
 import { Router, RouterModule } from '@angular/router';
 import {
   faCheck,
@@ -25,6 +25,7 @@ import { DatosGeneralesService } from 'src/app/data/services/datos-generales.ser
 import { Parametro } from '@models/parametros-busqueda.model';
 import { RequestRegisterSIGPS } from '@models/auth/register.model';
 import { NotificationService } from '@services/notification.service';
+import { map, startWith } from 'rxjs';
 
 @Component({
   selector: 'app-register-form',
@@ -55,7 +56,7 @@ export class RegisterFormComponent {
       names: ['', [Validators.required]],
       codigoPlanilla: [''],
       confirmPassword: ['', [Validators.required]],
-      unidadOperativa: ['', [Validators.required]],
+      frmCtrlUnidadOperativa: ['', [Validators.required]],
       terminos: [false, [Validators.required]],
     },
     {
@@ -65,6 +66,7 @@ export class RegisterFormComponent {
     }
   );
 
+  showMsg = false;
   status: RequestStatus = 'init';
   faEye = faEye;
   faEyeSlash = faEyeSlash;
@@ -78,7 +80,8 @@ export class RegisterFormComponent {
   emailCode!: string;
   nameUserRegister!: string;
   genWithCode!: string;
-
+  frmCtrlUnidadOperativa = new FormControl();
+  unidOperaSeleccionadaTmp!: any;
 
   constructor(
     private formBuilder: FormBuilder,
@@ -87,9 +90,31 @@ export class RegisterFormComponent {
     private dialog: Dialog,
   ) { }
 
-  ngOnInit() {
+  ngOnInit() : void {
     // this.toastr.success('hola');
     this.getParametros();
+
+    this.frmCtrlUnidadOperativa.valueChanges.pipe(startWith(''), map(value => typeof value === 'string' ? value : value.nombre)).subscribe((data) => {
+      console.log("que sale?", data)
+      this.datosService.getUnidadesOperativas(data).subscribe((datos) => {
+        this.listUnidadOperativa = datos.data;
+        console.log("lista uo", this.listUnidadOperativa)
+      })
+    })
+    this.frmCtrlUnidadOperativa.setValue('')
+    //this.frmCtrlUnidadOperativa.addValidators([Validators.required])
+  }
+   //Unidad Operativa --------------------------------------------------------------------------------------------------------------------------------------------------
+
+   displayFnUnidadOperativa(selectedoption: any) {
+    console.log("unidad uo seleciocnada", selectedoption)
+    return selectedoption ? selectedoption.nombre : undefined;
+  }
+
+  onSelectionChangeUnidadOperativa(event: any) {
+
+    this.unidOperaSeleccionadaTmp = event.option.value.idUnidadOperativa;
+    console.log("uo seleciocnada", this.unidOperaSeleccionadaTmp)
   }
 
   getParametros() {
@@ -99,10 +124,10 @@ export class RegisterFormComponent {
     /*this.listParamDoc = [{idParametros:1,tipo:"algun",activo:true,descripcion:'DNI',fechaModificacion:"",fechaRegistro:"",idPradre:1,nombre:"Documento Nacional de Indentidad",valor1:"1",valor2:"01"},
     {idParametros:1,tipo:"algun",activo:true,descripcion:'DNI',fechaModificacion:"",fechaRegistro:"",idPradre:1,nombre:"Carnet de Extrangeria",valor1:"2",valor2:"01"}];
     */
-    this.datosService.getUnidadesOperativas('').subscribe((data) => {
+    /*this.datosService.getUnidadesOperativas('').subscribe((data) => {
       this.listUnidadOperativa = data.data;
       console.log("lista de unidaddes operativas", this.listUnidadOperativa)
-    });
+    });*/
   }
 
   register() {
@@ -174,7 +199,7 @@ export class RegisterFormComponent {
       numDoc: this.form.value.doc!,
       nombres: this.form.value.names!,
       codPlanilla: this.form.value.codigoPlanilla!,
-      unidOperativaId: parseInt(this.form.value.unidadOperativa!),
+      unidOperativaId: this.unidOperaSeleccionadaTmp,
       guiidSso: guiidSso
     }
   }
@@ -227,6 +252,15 @@ export class RegisterFormComponent {
   }*/
   sendRegister() {
 
+  }
+
+  validForm(): boolean {
+    if (this.frmCtrlUnidadOperativa.valid)
+      return true;
+    else {
+      this.showMsg = true;
+      return false;
+    }
   }
 }
 

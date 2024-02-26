@@ -24,6 +24,7 @@ import { CdkStepperModule } from '@angular/cdk/stepper';
 import { DialogCodigoActivacionComponent } from './components/dialog-codigo-activacion/dialog-codigo-activacion.component';
 import { DialogModule } from '@angular/cdk/dialog';
 import { ToastrModule, ToastrService } from 'ngx-toastr';
+import { MatAutocompleteModule } from '@angular/material/autocomplete';
 
 
 @NgModule({
@@ -53,7 +54,8 @@ import { ToastrModule, ToastrService } from 'ngx-toastr';
     SharedModule,
     DialogModule,
     CdkStepperModule,
-    NgStepperModule
+    NgStepperModule,
+    MatAutocompleteModule
   ],
   providers: [
     {provide: ToastrService, useClass: ToastrService}

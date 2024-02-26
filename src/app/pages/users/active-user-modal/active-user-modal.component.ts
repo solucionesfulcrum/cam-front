@@ -43,7 +43,7 @@ export class ActiveUserModalComponent {
   public formDatosAdicionales = this.fb.nonNullable.group({
     frmRol: ['', [Validators.required]],
     frmMotivo: [null, [Validators.required]],
-    frmUnidadOpe: ['', [Validators.required]],
+    frmCtrlUnidadOperativa: ['', [Validators.required]],
   });
 
   constructor(private _dialogRef: DialogRef<ActiveUserModalComponent>,
@@ -88,9 +88,9 @@ export class ActiveUserModalComponent {
 
   cargaServiciosParametros() {
     this.rolesService.getListRolesActivos().subscribe((data) => {
-      
+
       this.listRoles = data.data;
-      console.log("lista de roles",this.listRoles)
+      console.log("lista de roles", this.listRoles)
     })
   }
 
@@ -103,7 +103,7 @@ export class ActiveUserModalComponent {
 
   onSelectionChangeUnidadOperativa(event: any) {
 
-    this.unidOperaSeleccionadaTmp = event.option.value;
+    this.unidOperaSeleccionadaTmp = event.option.value.idUnidadOperativa;
     console.log("uo seleciocnada", this.unidOperaSeleccionadaTmp)
   }
 
@@ -148,7 +148,7 @@ export class ActiveUserModalComponent {
       rolId: parseInt(this.formDatosAdicionales.value.frmRol!),
       fechInicio: this.datePipe.transform(fechaInicio!.split('/')[2] + '/' + fechaInicio!.split('/')[1] + '/' + fechaInicio!.split('/')[0], 'yyyy-MM-dd')!,
       fechFin: this.datePipe.transform(fechaFin!.split('/')[2] + '/' + fechaFin!.split('/')[1] + '/' + fechaFin!.split('/')[0], 'yyyy-MM-dd')!,
-      unidOperativaId: parseInt(this.formDatosAdicionales.value.frmUnidadOpe!),
+      unidOperativaId: this.unidOperaSeleccionadaTmp,
       usuarioRegId: this.idUserSession
     }
   }
