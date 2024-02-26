@@ -197,7 +197,7 @@ export class RegisterFormComponent {
       categoria: 'CAM',
       tipoDoc: this.form.value.tipoDoc!,
       numDoc: this.form.value.doc!,
-      nombres: this.form.value.names!,
+      nombres: this.form.value.names!.toUpperCase(),
       codPlanilla: this.form.value.codigoPlanilla!,
       unidOperativaId: this.unidOperaSeleccionadaTmp,
       guiidSso: guiidSso

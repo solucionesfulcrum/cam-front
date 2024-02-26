@@ -2,7 +2,7 @@
   <esp-opciones-busqueda class="w-full"
   [showDateFilter]="true"
   [setFilterDateOptionSelected]="'var(--color-CAM-Mezclado)'"
-  [setFilterDateTextColour]="'#339999'"
+  [setFilterDateTextColour]="'#008BD2'"
   [filterDateAppearance]="2"
   (sendDateFilterWithCeros)="AsignarFiltro($event)"
   [showSearch]="true"
@@ -46,7 +46,7 @@
   <ng-container cdkColumnDef="fullName">
     <th cdk-header-cell class="py-5 px-6" *cdkHeaderCellDef>Nombres</th>
     <td cdk-cell class="py-4 px-6 font-semibold" *cdkCellDef="let row">
-      <a class="text-success-500 hover:text-success-700" [routerLink]="[row.usuarioId]">{{ row.nombres | uppercase}}</a>
+      <a class="text-success-500 hover:text-success-700" [routerLink]="[row.usuarioId]">{{ row.nombres }}</a>
     </td>
   </ng-container>
 

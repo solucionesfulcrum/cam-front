@@ -35,7 +35,7 @@ export class ListComponent implements OnInit{
   pageSize = 10;
   pageSizeOptions:number[] = [5,10,20];
   total = 0;
-  
+  nombreFilter = '';
   opcionesEstado: Parametro[] = [{ idParametros: 1, tipo: "", idPradre: 1, nombre: "CREADO", valor1: "CREADO", valor2: "", descripcion: "", fechaRegistro: "", fechaModificacion: "", activo: true },
   { idParametros: 2, tipo: "", idPradre: 1, nombre: "CONFIRMADO", valor1: "CONFIRMADO", valor2: "", descripcion: "", fechaRegistro: "", fechaModificacion: "", activo: true },
   { idParametros: 3, tipo: "", idPradre: 1, nombre: "ACTIVADO", valor1: "ACTIVADO", valor2: "", descripcion: "", fechaRegistro: "", fechaModificacion: "", activo: true },
@@ -75,9 +75,9 @@ export class ListComponent implements OnInit{
       fecInicio = this.filtroFecInit;
       fecFin = this.filtroFecFin;
     }
-
+    this.nombreFilter = String(this.form.value.frmSearch).toUpperCase()
     this.usersService.listUsersSigps({
-      texto: this.form.value.frmSearch,
+      texto:  this.nombreFilter,
       fecInicio: fecInicio,
       fecFin: fecFin,
       estado: this.form.value.frmSearchEstado,
@@ -85,6 +85,7 @@ export class ListComponent implements OnInit{
       pageSize: this.pageSize
     }).subscribe((data)=>{
       console.log("lista de usuarios",data)
+      console.log("que viene por aqui",this.nombreFilter)
       this.dataCompleted = data.data.list;
       this.dataSource.init(data.data.list)
 
