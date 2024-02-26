@@ -141,7 +141,7 @@
                 <mat-autocomplete #uniOper="matAutocomplete" [displayWith]="displayFnUnidadOperativa"
                   (optionSelected)="onSelectionChangeUnidadOperativa($event)">
                   <mat-option *ngFor="let option of listUnidadOperativa" [value]="option">
-                    {{option.nombre}}
+                    CAM - {{option.nombre}}
                   </mat-option>
                 </mat-autocomplete>
                 <div *ngIf="frmCtrlUnidadOperativa.touched && frmCtrlUnidadOperativa.invalid">
