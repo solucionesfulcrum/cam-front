@@ -134,6 +134,8 @@
                 </div>
               </div>
             </div>
+            <span class="font-semibold text-red-500 text-sm ml-2"
+              *ngIf="msgErrorPassWord != undefined">{{msgErrorPassWord}}</span>
             <div class="flex space-x-2">
               <div class="w-1/2">
                 <input type="text" name="search" [formControl]="frmCtrlUnidadOperativa" [matAutocomplete]="uniOper"
@@ -160,7 +162,7 @@
               <label for="link-checkbox" class="ml-2 text-sm font-medium">
                 <h1 class="text-[#008BD2]"><span>Acepto terminos y condiciones</span></h1>
               </label>
-              <span class="font-semibold text-red-500 text-sm"
+              <span class="font-semibold text-red-500 text-sm ml-2"
                 *ngIf="msgErrorTerminos != undefined">{{msgErrorTerminos}}</span>
             </div>
             <div class="text-center">

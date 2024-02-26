@@ -41,7 +41,7 @@ export class RegisterFormComponent {
   isPreRegister: boolean = false
   msgError!: string;
   msgErrorTerminos!: string;
-
+  msgErrorPassWord!: string;
 
   formCodeEmail = this.formBuilder.nonNullable.group({
     code: ['', [Validators.required]],
@@ -90,7 +90,7 @@ export class RegisterFormComponent {
     private dialog: Dialog,
   ) { }
 
-  ngOnInit() : void {
+  ngOnInit(): void {
     // this.toastr.success('hola');
     this.getParametros();
 
@@ -104,11 +104,11 @@ export class RegisterFormComponent {
     this.frmCtrlUnidadOperativa.setValue('')
     //this.frmCtrlUnidadOperativa.addValidators([Validators.required])
   }
-   //Unidad Operativa --------------------------------------------------------------------------------------------------------------------------------------------------
+  //Unidad Operativa --------------------------------------------------------------------------------------------------------------------------------------------------
 
-   displayFnUnidadOperativa(selectedoption: any) {
+  displayFnUnidadOperativa(selectedoption: any) {
     console.log("unidad uo seleciocnada", selectedoption)
-    return selectedoption ? selectedoption.nombre: undefined;
+    return selectedoption ? selectedoption.nombre : undefined;
   }
 
   onSelectionChangeUnidadOperativa(event: any) {
@@ -131,12 +131,14 @@ export class RegisterFormComponent {
   }
 
   register() {
+    this.msgErrorTerminos = ''
+    this.msgErrorPassWord = ''
     if (this.form.valid && this.frmCtrlUnidadOperativa.valid) {
       if (this.form.value.terminos != true) {
         this.msgErrorTerminos = 'Debe Ud. Aceptar los terminos y condiciones'
       } else {
         console.log(this.form.value)
-        this.msgErrorTerminos = ''
+
         this.status = 'loading';
         const { tipoDoc, doc, names, email, password, codigoPlanilla } =
           this.form.getRawValue();
@@ -186,6 +188,8 @@ export class RegisterFormComponent {
           });
       }
 
+    } else if (this.form.value.password != this.form.value.confirmPassword) {
+      this.msgErrorPassWord = 'Las contraseñas son distintas'
     } else {
       this.form.markAllAsTouched();
     }
