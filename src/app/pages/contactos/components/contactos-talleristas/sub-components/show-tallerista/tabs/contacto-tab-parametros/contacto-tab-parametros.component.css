@@ -67,6 +67,6 @@
     text-align: center;
   }
 }
-.peer:checked ~ .peer-checked\:bg-sigps{
+.peer:checked ~ .peer-checked\:bg-cam{
   background: var(--color-CAM-mezclado);
 }

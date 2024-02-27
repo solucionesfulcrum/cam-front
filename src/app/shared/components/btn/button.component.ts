@@ -68,7 +68,7 @@ export class ButtonComponent {
       'text-white': true,
     },
     mezclado: {
-      'bg-sigps': true,
+      'bg-cam': true,
       'text-white': true,
     },
     transparente: {

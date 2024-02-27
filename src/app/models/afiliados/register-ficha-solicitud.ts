@@ -76,8 +76,8 @@ export interface modalidadIngreso {
     tipoModalidad: string,  // DERIVACION_IPRES, OTRA_UNID_OPE_CERPS,OTRA_UNID_OPE_MPRPS
     codIpres?: string,
     codCerps?: string,
-    codMbrps?: string,
+    codCam?: string,
     nomIpres?: string,
     nomCerps?: string,
-    nomMbrps?: string
+    nomCam?: string
 }

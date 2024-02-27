@@ -106,6 +106,17 @@ export class RegisterAseguradoComponent {
   ngOnInit(){
     this.getParametros();
     this.getDataFromServices();
+    this.frmCtrlDireccion.valueChanges.subscribe((data)=>{
+      if(data!>=0){
+        this.direccionesPersona.map(x=>{
+          x.activo = 0
+        });
+        this.direccionesPersona[data!].activo = 1;
+      }
+    })
+
+    this.frmCtrlDireccion.addValidators([Validators.required]);
+    this.frmCtrlModIngr.addValidators([Validators.required]);
   }
 
   getDataFromServices(){
@@ -324,7 +335,7 @@ export class RegisterAseguradoComponent {
     }
   }
   opcionCancelada(modalidad: string){
-    (document.getElementById(modalidad) as HTMLInputElement).checked = false;
+    // (document.getElementById(modalidad) as HTMLInputElement).checked = false;
     this.frmCtrlModIngr.setValue(null);
     this.datosProcedenciaExtra = false;
     this.selectProcedenciaDerivOtro = '';
@@ -349,8 +360,8 @@ export class RegisterAseguradoComponent {
     }
     else if(this.frmCtrlModIngr.value == 20){
       modalidadExtra.tipoModalidad = 'DERIVACION_CAM';
-      modalidadExtra.codMbrps = this.modalidadIngresoData.codigo;
-      modalidadExtra.nomMbrps = this.modalidadIngresoData.nombre;
+      modalidadExtra.codCam = this.modalidadIngresoData.codigo;
+      modalidadExtra.nomCam = this.modalidadIngresoData.nombre;
       procedencia.modalidadIngreso = modalidadExtra;
     }
     return procedencia;
