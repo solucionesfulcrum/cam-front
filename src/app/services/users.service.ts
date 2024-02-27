@@ -26,7 +26,7 @@ export class UsersService {
   constructor( private http: HttpClient, private tokenService:TokenService) { }
 
   getUserSessionActive(guiid: string){
-    const url = `${this.api_URL}/usuario/login/data/${guiid}/1`;
+    const url = `${this.api_URL}/usuario/login/data/${guiid}`;
     return this.http.get<any>(url);
   }
 
