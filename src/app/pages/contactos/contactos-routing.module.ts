@@ -48,7 +48,7 @@ const routes: Routes = [
         ]
       },
       {
-        path: 'show/:tipoDoc/:numDoc',
+        path: 'show/:idFicha',
         component: ShowAfiliadoComponent,
         children: [
           {

@@ -18,6 +18,11 @@ export class ContactosAfiliadosService {
     return this._httpClient.post<any>(url,model);
   }
 
+  obtenerFichaAsegurado(idFicha: string){
+    const url = `${environment.API}/ficha-admision/${idFicha}`;
+    return this._httpClient.get<any>(url);
+  }
+
   servicioObtenerCodCentro(model: dataRequest){
     const url = `${environment.API}/client/afiliado/getConsultaDatos`;
     return this._httpClient.post<any>(url,model);

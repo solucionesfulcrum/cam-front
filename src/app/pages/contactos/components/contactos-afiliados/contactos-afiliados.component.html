@@ -27,7 +27,7 @@
 
       <ng-container cdkColumnDef="nombres">
         <th cdk-header-cell class="py-[1.25rem] px-6" *cdkHeaderCellDef>Nombres</th>
-        <td cdk-cell class="py-[1rem] px-6 text-[#057EC9]" *cdkCellDef="let row, index as i"><span class="text-Name cursor-pointer" [routerLink]="['show/' + row.tipoDoc + '/' + row.numDoc]">{{ row.nombres +" "+ row.apePaterno + " " + row.apeMaterno | uppercase}}</span></td>
+        <td cdk-cell class="py-[1rem] px-6 text-[#057EC9]" *cdkCellDef="let row, index as i"><span class="text-Name cursor-pointer" [routerLink]="['show/' + row.id]">{{ row.nombres +" "+ row.apePaterno + " " + row.apeMaterno | uppercase}}</span></td>
       </ng-container>
 
       <ng-container cdkColumnDef="tipoDoc">
