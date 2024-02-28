@@ -83,7 +83,7 @@ const routes: Routes = [
         ]
       },
       {
-        path: 'show/:tipoDoc/:numDoc',
+        path: 'show/:idSolicitud',
         component: ShowSolComponent,
       }
     ]

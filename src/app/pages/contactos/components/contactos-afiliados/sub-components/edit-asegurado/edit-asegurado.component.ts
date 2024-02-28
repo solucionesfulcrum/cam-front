@@ -220,8 +220,8 @@ export class EditAseguradoComponent {
         case 21: 
           this.selectProcedenciaDerivOtro = 'IPRESS';
           this.datoProcedenciaDerivOtro = datosProcedencia.modalidadIngreso.nomIpres;
-          this.modalidadIngresoData.ubigeo = datosProcedencia.modalidadIngreso.codIpres;
-          this.modalidadIngresoData.establecimiento = datosProcedencia.modalidadIngreso.nomIpres;
+          this.modalidadIngresoData.cod_centro = datosProcedencia.modalidadIngreso.codIpres;
+          this.modalidadIngresoData.nom_centro = datosProcedencia.modalidadIngreso.nomIpres;
           break;
         case 22:
           this.selectProcedenciaDerivOtro = 'CERPS';
@@ -276,6 +276,7 @@ export class EditAseguradoComponent {
             this.selectProcedenciaDerivOtro = seleccion;
             this.datoProcedenciaDerivOtro = dataObj.nombre;
             this.modalidadIngresoData = dataObj.modalidadIngreso;
+            console.log(this.modalidadIngresoData)
           }
           else{
             this.opcionCancelada(modalidad);
@@ -333,8 +334,8 @@ export class EditAseguradoComponent {
     procedencia.idModIngresoParam = this.frmCtrlModIngr.value!;
     if(this.frmCtrlModIngr.value == 21){
       modalidadExtra.tipoModalidad = 'DERIVACION_IPRES';
-      modalidadExtra.codIpres = this.modalidadIngresoData.ubigeo;
-      modalidadExtra.nomIpres = this.modalidadIngresoData.establecimiento;
+      modalidadExtra.codIpres = this.modalidadIngresoData.cod_centro;
+      modalidadExtra.nomIpres = this.modalidadIngresoData.nom_centro;
       procedencia.modalidadIngreso = modalidadExtra;
     }
     else if(this.frmCtrlModIngr.value == 22){

@@ -11,7 +11,7 @@
             placeholder="Region">
             <mat-autocomplete #region="matAutocomplete" [displayWith]="displayFnRegion" (optionSelected)="onSelectionChangeRegion($event)">
                 <mat-option *ngFor="let option of filteredOptionsRegion" [value]="option">
-                    {{option.region | titlecase}}
+                    {{option.max_des_red | titlecase}}
                 </mat-option>
             </mat-autocomplete>
             <input type="text" [formControl]="frmCtrlModalidad" [matAutocomplete]="ipress"
@@ -19,7 +19,7 @@
             placeholder="IPRESS">
             <mat-autocomplete #ipress="matAutocomplete" [displayWith]="displayFnIpress" (optionSelected)="onSelectionChangeIpress($event)">
                 <mat-option *ngFor="let option of listIpress" [value]="option">
-                    {{option.establecimiento}}
+                    {{option.nom_centro}}
                 </mat-option>
             </mat-autocomplete>
         </div>

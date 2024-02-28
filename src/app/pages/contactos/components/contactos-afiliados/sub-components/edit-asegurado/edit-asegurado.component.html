@@ -21,17 +21,10 @@
         <div class="min-w-[360px] shrink-0 pl-2.5">
             <div class="text-gray-600">
                 <div class="grid text-center relative justify-center">
-                    <!-- <div class="w-full">
-                      <div class="avatar h-40  border-white left-5 bottom-1/2">
-                      </div>
-                    </div> -->
                     <p class=" py-1 px-3 bg-cam absolute right-0 text-white text-xl">{{edadPersona}} Años</p>
-                    <!-- <img id="imgTemp" src="assets/images/temp-patient-photo.png" class="my-1 imagen"> -->
                     <img src="data:image/JPEG;base64,{{dataFichaAfiliado.asegurado.foto}}" class="my-1 w-[120px] h-[150px] justify-self-center">
                     <p class="bordColorEstablecido font-bold text-2xl">{{dataFichaAfiliado.asegurado.apePaterno + ' ' + dataFichaAfiliado.asegurado.apeMaterno | titlecase}}</p>
                     <p class="font-semibold text-lg">{{dataFichaAfiliado.asegurado.nombres | titlecase}}</p>
-                    <!-- <p class="py-1 bordColorEstablecido font-bold text-2xl">{{dataPersona.persona.datosBasicos.nombres | titlecase}}</p>
-                    <p class="font-semibold text-lg">{{dataPersona.persona.datosBasicos.apellidoPaterno | titlecase}} {{dataPersona.persona.datosBasicos.apellidoMaterno | titlecase}}</p> -->
                     <p class="font-thin">{{parametroDocumento.idParametros == 6 ? 'DNI' : parametroDocumento.nombre | titlecase}} {{dataFichaAfiliado.asegurado.numDoc}}</p>
                 </div>
                 <div class="border-t-2 mt-3 font-thin">
@@ -213,9 +206,9 @@
                 <textarea id="message" rows="2" class="my-2 block p-2.5 w-full text-gray-900 border border-gray-300 focusCampo placeholder-gray-300" [formControl]="frmCtrlObservacion" placeholder="Descripción"></textarea>
                 <div class="flex justify-end flex-col my-5">
                     <div class="flex justify-end space-x-2 mb-2">
-                        <!-- <app-btn typeBtn="submit" color="primary" (click)="showForm()">
+                        <app-btn typeBtn="submit" color="primary" (click)="showForm()">
                             <esp-icon icon="faSave"></esp-icon> Mostrar Datos Consola
-                        </app-btn> -->
+                        </app-btn>
                         <app-btn typeBtn="submit" class="botonApariencia" color="white" [routerLink]="'/app/contactos/show/' + idFicha"> Cancelar</app-btn>
                         <app-btn typeBtn="submit" color="mezclado" (click)="sendRequestFichaAdmision()">
                             <esp-icon icon="faSave"></esp-icon> Guardar

@@ -86,4 +86,14 @@ export class DatosGeneralesService {
     const url = `${URL_BASE}/ficha-admision/acreditar/registro?tipoDoc=${tipoDoc}&numDoc=${numDoc}&idUnidadOpe=${idUnidadOpe}`;
     return this._httpClient.get<any>(url);
   }
+
+  getRedesEssi(){
+    const url = `${URL_BASE}/client/essi/redes/lista`;
+    return this._httpClient.get<any>(url);
+  }
+
+  getIpressEssi(codRed: string){
+    const url = `${URL_BASE}/client/essi/lista-ipress/${codRed}`;
+    return this._httpClient.get<any>(url);
+  }
 }

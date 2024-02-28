@@ -24,6 +24,11 @@ export class AfiliacionesSolicitudesService {
     return this._httpClient.post<any>(url, model);
   }
 
+  getDataSolicitud(idSolicitud: string){
+    const url = `${environment.API}/solicitud/${idSolicitud}`;
+    return this._httpClient.get<any>(url);
+  }
+
   getListaAfiliados(model: RequestListaSAfiliadosContacto){
     const url = `${URL_BASE}/lista-afiliados`;
     return this._httpClient.post<any>(url, model);
@@ -34,10 +39,10 @@ export class AfiliacionesSolicitudesService {
     return this._httpClient.post<any>(url, model);
   }
 
-  getDataSolicitud(tipoDoc: string, numDoc: string){
-    const url = `${URL_BASE}/ficha-solicitud?tipDoc=${tipoDoc}&numDoc=${numDoc}`;
-    return this._httpClient.get<any>(url);
-  }
+  // getDataSolicitud(tipoDoc: string, numDoc: string){
+  //   const url = `${URL_BASE}/ficha-solicitud?tipDoc=${tipoDoc}&numDoc=${numDoc}`;
+  //   return this._httpClient.get<any>(url);
+  // }
 
   getDataAfiliado(tipoDoc: string, numDoc: string){
     const url = `${URL_BASE}/ficha-afiliado?tipDoc=${tipoDoc}&numDoc=${numDoc}`;

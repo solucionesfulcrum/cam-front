@@ -45,16 +45,6 @@ export class ContactosAfiliadosService {
     return this._httpClient.get<any>(url);
   }
 
-  searchRegion(inst: string, text: string){ //Obtener lista de Regiones
-    const url = `https://appsqa.essalud.gob.pe/sigps-service/ubigeo/buscar/region?institucion=${inst}&texto=${text}`;
-    return this._httpClient.get<any>(url);
-  }
-
-  searchDependencias(inst: string, text: string, codReg: string){ //Obtener lista de IPRESS
-    const url = `https://appsqa.essalud.gob.pe/sigps-service/dependencia/buscar/ipress?texto=${text}&institucion=${inst}&codRegion=${codReg}`;
-    return this._httpClient.get<any>(url);
-  }
-
   searchUnidadOperativa(tipo: string, text: string){ //Obtener lista de CERPS
     const url = `https://appsqa.essalud.gob.pe/sigps-service/unidad-operativa/listarPorTipo/${tipo}?texto=${text}`;
     return this._httpClient.get<any>(url);

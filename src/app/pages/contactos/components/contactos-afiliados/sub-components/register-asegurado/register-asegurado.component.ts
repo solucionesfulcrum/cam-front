@@ -351,8 +351,8 @@ export class RegisterAseguradoComponent {
     procedencia.idModIngresoParam = this.frmCtrlModIngr.value!;
     if(this.frmCtrlModIngr.value == 21){
       modalidadExtra.tipoModalidad = 'DERIVACION_IPRES';
-      modalidadExtra.codIpres = this.modalidadIngresoData.ubigeo;
-      modalidadExtra.nomIpres = this.modalidadIngresoData.establecimiento;
+      modalidadExtra.codIpres = this.modalidadIngresoData.cod_centro;
+      modalidadExtra.nomIpres = this.modalidadIngresoData.nom_centro;
       procedencia.modalidadIngreso = modalidadExtra;
     }
     else if(this.frmCtrlModIngr.value == 22){
