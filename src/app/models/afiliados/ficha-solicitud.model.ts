@@ -11,11 +11,13 @@ export interface listaConstactosRequest {
 }
 
 export interface RequestListaSolicitudesAfiliados{
-    tipoSolicitud: string,
-    unidadOperativa: number,
-    fechaInicio: string,
-    fechaFin: string,
-    buscar: string
+    idUnidOpeCam: number,
+    texto: string,
+    fecInicio: string,
+    fecFin: string,
+    pageNum: string,
+    pageSize: string,
+    estado: number
 }
 
 export interface RequestListaSAfiliadosContacto{

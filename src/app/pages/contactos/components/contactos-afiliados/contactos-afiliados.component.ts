@@ -38,14 +38,11 @@ export class ContactosAfiliadosComponent implements OnInit {
   }
 
   onLoadData(){
-    /*this.dataSource = [
-      {nombres: 'ROXANA ESTRADA ARIAS', tipoDoc: 1, numDoc: '23835688', fecNac: '16/03/1968', estCivil: 'SOLTERA', ipress: 'EUNICE ELIZABETH', estado: 1}
-    ]*/
-    this.total = this.dataSource.length;
     this.afiliacionesService.getListaContacto(this.getContactos()).subscribe((data)=>{
-    this.dataSource = data.data.list;
-    this.total = this.dataSource.length;
-    console.log("resultado data",data.data)
+      this.dataSource = data.data.list;
+      this.pageNum = data.data.pageNum;
+      this.pageSize = data.data.pageSize;
+      this.total = data.data.total;
     })
   }
   
@@ -55,8 +52,6 @@ export class ContactosAfiliadosComponent implements OnInit {
   }
 
   handlePageEvent(event: PageEvent) {
-    // console.log(this.pageSizeOptions);
-    console.log(event)
     this.pageSize = event.pageSize;
     this.pageIndex = event.pageIndex;
     this.pageNum = event.pageIndex + 1;
@@ -69,22 +64,24 @@ export class ContactosAfiliadosComponent implements OnInit {
     var idUnidOpe = JSON.parse(localStorage.getItem("UnidElegida")!);
 
     if (this.formBuscar.value.frmSearchDate == '') {
-      fecInicio = `${new Date().getDate()}/${new Date().getMonth()+1}/${new Date().getFullYear()-1}`;
-      fecFin = `${new Date().getDate()}/${new Date().getMonth()+1}/${new Date().getFullYear()}`;
+      fecInicio = `${new Date().getFullYear()-1}-${new Date().getMonth()+1}-${new Date().getDate()}`;
+      fecFin = `${new Date().getFullYear()}-${new Date().getMonth()+1}-${new Date().getDate()}`;
     }
     else{
-      fecInicio = this.formBuscar.value.frmSearchDate.split(' - ')[0];
-      fecFin = this.formBuscar.value.frmSearchDate.split(' - ')[1];
+      var fechaSinFormatInit = this.formBuscar.value.frmSearchDate.split(' - ')[0];
+      var fechaSinFormatFin = this.formBuscar.value.frmSearchDate.split(' - ')[1];
+      fecInicio = `${fechaSinFormatInit.split('/')[2]}-${fechaSinFormatInit.split('/')[1]}-${fechaSinFormatInit.split('/')[0]}`;
+      fecFin = `${fechaSinFormatFin.split('/')[2]}-${fechaSinFormatFin.split('/')[1]}-${fechaSinFormatFin.split('/')[0]}`;
     }
-
+    
     return {
       idUnidOpe: idUnidOpe.idUnidOperativa,
       apellidos: "",
       nombres: "",
       tipoDocIdent: "",
       numDocIdent: "",
-      fecInicio: "2021-08-17",
-      fecFin: "2024-11-17",
+      fecInicio: fecInicio,
+      fecFin: fecFin,
       pageNum: this.pageNum.toString(),
       pageSize: this.pageSize.toString(),
     }

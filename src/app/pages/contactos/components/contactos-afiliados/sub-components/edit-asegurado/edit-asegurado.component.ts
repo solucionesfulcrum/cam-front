@@ -338,7 +338,7 @@ export class EditAseguradoComponent {
       procedencia.modalidadIngreso = modalidadExtra;
     }
     else if(this.frmCtrlModIngr.value == 22){
-      modalidadExtra.tipoModalidad = 'OTRA_UNID_OPE_CERPS';
+      modalidadExtra.tipoModalidad = 'DERIVACION_UO_CERPS';
       modalidadExtra.codCerps = this.modalidadIngresoData.idUnidOperativa;
       modalidadExtra.nomCerps = this.modalidadIngresoData.nombre;
       procedencia.modalidadIngreso = modalidadExtra;

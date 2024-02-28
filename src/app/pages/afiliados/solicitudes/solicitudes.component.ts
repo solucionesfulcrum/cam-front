@@ -8,6 +8,7 @@ import { Parametro } from 'src/app/shared/components/opciones-busqueda/parametro
 import { Dialog } from '@angular/cdk/dialog';
 import { AfiliacionesSolicitudesService } from 'src/app/data/services/afiliaciones/afiliaciones-solicitudes.service';
 import { RequestListaSolicitudesAfiliados } from '@models/afiliados/ficha-solicitud.model';
+import { NotificationService } from '@services/notification.service';
 
 @Component({
   selector: 'app-solicitudes',
@@ -73,36 +74,14 @@ export class SolicitudesComponent implements OnInit {
     fechaFin: [''],
   });
 
-  // displayedColumns: string[] = [
-  //   'selecc',
-  //   'usuario',
-  //   'tipodoc',
-  //   'nombres',
-  //   'edad',
-  //   'estcivil',
-  //   'ipress',
-  //   'tieneVigencia',
-  // ];
-
-  // breadcrum1:{url:string, title:string }   
-  // breadcrum2:{url:string, title:string } 
-  // breadcrum3:{url:string, title:string } 
-
-  // dataSource: MatTableDataSource<any>;
-  // @ViewChild(MatPaginator) paginator: MatPaginator;
-  // @ViewChild(MatSort) sort: MatSort;
 
   constructor(
     private fb: FormBuilder, 
     private afiliacionesService: AfiliacionesSolicitudesService,
+    private notificationService: NotificationService,
     private router: Router, 
     private route: ActivatedRoute,
   ) {
-    // breadcrumService.link1$.next({ url: '/afiliados/solicitudes', title:'SOLICITUDES' });
-    // this.breadcrumService.link2$.next({url:'' ,title:''});
-    // this.breadcrumService.link3$.next({url:'', title:''});
-    // breadcrumService.activeTab$.next('/afiliados/solicitudes');
-    // // // // this.loadUsers()
    }
 
   ngOnInit(): void {
@@ -110,15 +89,21 @@ export class SolicitudesComponent implements OnInit {
   }
 
   onLoadData(){
-    this.dataSource = [
-      {nombres: 'ROXANA ESTRADA ARIAS', tipoDoc: 1, numDoc: '23835688', fecNac: '16/03/1968', estCivil: 'SOLTERA', ipress: 'EUNICE ELIZABETH', dias: 3}
-    ]
-    this.total = 1;
-    // this.afiliacionesService.getListaSolicitudes(this.getPayload()).subscribe((data)=>{
-    //   this.dataSource = data;
-    //   this.total = this.dataSource.length;
-    //   console.log(data)
-    // })
+    // this.dataSource = [
+    //   {nombres: 'ROXANA ESTRADA ARIAS', tipoDoc: 1, numDoc: '23835688', fecNac: '16/03/1968', estCivil: 'SOLTERA', ipress: 'EUNICE ELIZABETH', dias: 3}
+    // ]
+    // this.total = 1;
+    console.log(this.getPayload())
+    this.afiliacionesService.getListaSolicitudes(this.getPayload()).subscribe((data)=>{
+      if (data.code == 0) {
+        console.log(data.data)
+        this.dataSource = data.data.list;
+        this.total = this.dataSource.length;
+      }
+      else{
+        this.notificationService.warning(data.message);
+      }
+    })
   }
   
   getDataFecha(value: any){
@@ -138,22 +123,27 @@ export class SolicitudesComponent implements OnInit {
   getPayload(): RequestListaSolicitudesAfiliados{
     var fecInicio: any;
     var fecFin: any;
+    var idUnidOpe = JSON.parse(localStorage.getItem("UnidElegida")!);
 
     if (this.formBuscar.value.frmSearchDate == '') {
-      fecInicio = `${new Date().getDate()}/${new Date().getMonth()+1}/${new Date().getFullYear()-1}`;
-      fecFin = `${new Date().getDate()}/${new Date().getMonth()+1}/${new Date().getFullYear()}`;
+      fecInicio = `${new Date().getFullYear()-1}-${new Date().getMonth()+1}-${new Date().getDate()}`;
+      fecFin = `${new Date().getFullYear()}-${new Date().getMonth()+1}-${new Date().getDate()}`;
     }
     else{
-      fecInicio = this.formBuscar.value.frmSearchDate.split(' - ')[0];
-      fecFin = this.formBuscar.value.frmSearchDate.split(' - ')[1];
+      var fechaSinFormatInit = this.formBuscar.value.frmSearchDate.split(' - ')[0];
+      var fechaSinFormatFin = this.formBuscar.value.frmSearchDate.split(' - ')[1];
+      fecInicio = `${fechaSinFormatInit.split('/')[2]}-${fechaSinFormatInit.split('/')[1]}-${fechaSinFormatInit.split('/')[0]}`;
+      fecFin = `${fechaSinFormatFin.split('/')[2]}-${fechaSinFormatFin.split('/')[1]}-${fechaSinFormatFin.split('/')[0]}`;
     }
 
     return {
-      tipoSolicitud: 'SOLICITUD_AFILIACION',
-      unidadOperativa: 3,
-      fechaInicio: fecInicio,
-      fechaFin: fecFin,
-      buscar: this.formBuscar.controls['frmSearch'].value
+      idUnidOpeCam: idUnidOpe.idUnidOperativa,
+      texto: this.formBuscar.controls['frmSearch'].value,
+      fecInicio: fecInicio,
+      fecFin: fecFin,
+      pageNum: this.pageNum.toString(),
+      pageSize: this.pageSize.toString(),
+      estado: 0
     }
   }
 

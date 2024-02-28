@@ -1,5 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
+import { RegisterSolicitud } from '@models/afiliaciones/register-afiliacion.model';
 import { RequestListaSAfiliadosContacto, RequestListaSolicitudesAfiliados,listaConstactosRequest } from '@models/afiliados/ficha-solicitud.model';
 import { environment } from 'src/environments/environment';
 
@@ -14,7 +15,12 @@ export class AfiliacionesSolicitudesService {
   constructor(private _httpClient: HttpClient) { }
 
   getListaSolicitudes(model: RequestListaSolicitudesAfiliados){
-    const url = `${URL_BASE}/lista-solicitudes`;
+    const url = `${environment.API}/solicitud/listar`;
+    return this._httpClient.post<any>(url, model);
+  }
+
+  registerSolicitudAsegurado(model: RegisterSolicitud){
+    const url = `${environment.API}/solicitud/registrar`;
     return this._httpClient.post<any>(url, model);
   }
 

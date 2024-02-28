@@ -68,8 +68,10 @@ export class ShowAfiliadoComponent implements OnInit {
         data.data.fichaAdmision.direccion.forEach((x: any) => {
           if(x.activo == 1) {
             this.direccionActual = x;
-            this.datosGeneralesServices.getDistritosReniec(x.codUbiDep + x.codUbiProv + '00').subscribe((datos)=>{
+            this.datosGeneralesServices.searchByUbigeo(x.codUbiDep + x.codUbiProv + x.codUbiDist).subscribe((datos)=>{
               if (datos.code == 0) {
+                this.direccionActual.localizacion = datos.data.region + ' - ' + datos.data.provincia + ' - ' + datos.data.distrito;
+                console.log(this.direccionActual)
               }
               else{
                 this.notificationService.warning(datos.message);

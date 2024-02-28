@@ -30,27 +30,27 @@
 
       <ng-container cdkColumnDef="tipoDoc">
         <th cdk-header-cell class="py-[1.25rem] px-6" *cdkHeaderCellDef>TIPO</th>
-        <td cdk-cell class="py-[1rem] px-6 font-semibold" *cdkCellDef="let row">{{ row.tipoDoc == 1 ? 'DNI' : 'CE'}}</td>
+        <td cdk-cell class="py-[1rem] px-6 font-semibold" *cdkCellDef="let row">{{ row.tipoDocumento }}</td>
       </ng-container>
 
       <ng-container cdkColumnDef="numDoc">
         <th cdk-header-cell class="py-[1.25rem] px-6" *cdkHeaderCellDef>N° de Documento</th>
-        <td cdk-cell class="py-[1rem] px-6" *cdkCellDef="let row">{{row.numDoc }}</td>
+        <td cdk-cell class="py-[1rem] px-6" *cdkCellDef="let row">{{row.numeroDocumento }}</td>
       </ng-container>
 
       <ng-container cdkColumnDef="edad">
         <th cdk-header-cell class="py-[1.25rem] px-6" *cdkHeaderCellDef>Edad</th>
-        <td cdk-cell class="py-[1rem] px-6" *cdkCellDef="let row">{{getEdad(row.fecNac)}} Años</td>
+        <td cdk-cell class="py-[1rem] px-6" *cdkCellDef="let row">{{ row.edad }} Años</td>
       </ng-container>
 
       <ng-container cdkColumnDef="estadoCivil">
         <th cdk-header-cell class="py-[1.25rem] px-6" *cdkHeaderCellDef>E. CIVIL</th>
-        <td cdk-cell class="py-[1rem] px-6" *cdkCellDef="let row">{{row.estCivil }}</td>
+        <td cdk-cell class="py-[1rem] px-6" *cdkCellDef="let row">{{ row.estadoCivil }}</td>
       </ng-container>
 
       <ng-container cdkColumnDef="ipress">
         <th cdk-header-cell class="py-[1.25rem] px-6" *cdkHeaderCellDef>IPRESS</th>
-        <td cdk-cell class="py-[1rem] px-6" *cdkCellDef="let row">{{row.ipress }}</td>
+        <td cdk-cell class="py-[1rem] px-6" *cdkCellDef="let row">{{ row.ipress }}</td>
       </ng-container>
 
       <ng-container cdkColumnDef="fecha">
@@ -67,120 +67,4 @@
     [pageIndex]="pageIndex"
     aria-label="Select page">
     </mat-paginator>
-    <!-- <div class="">
-        <table mat-table [dataSource] = "dataSource">
-            <ng-container matColumnDef="selecc">
-                    <th mat-header-cell *matHeaderCellDef>
-                        <mat-checkbox 
-                            [(ngModel)]="selectAll" 
-                            (change)="toggleSelectAll()"
-                            matTooltip="Seleccionar todo"
-                        ></mat-checkbox> 
-                    </th>
-                    <td mat-cell *matCellDef="let element">
-                        <mat-checkbox [(ngModel)]="element.isSelected"></mat-checkbox>
-                    </td>
-            </ng-container>
-                      
-            <ng-container matColumnDef="tipodoc">
-                    <th mat-header-cell *matHeaderCellDef class="text-s-14r" style="font-weight: 0.1px">TIPO</th>
-                    <td mat-cell *matCellDef="let element" class="text-uppercase">DNI 
-                      {{ element.tipodoc }}</td>
-            </ng-container>
-                      
-            <ng-container matColumnDef="nombres" class="">
-                  <th mat-header-cell *matHeaderCellDef class="text-s-14r" style="font-weight: 0.1px">N° de Documento</th>
-                  <td
-                    mat-cell
-                    *matCellDef="let element"
-                  >
-                      {{ element.usuario }}
-                  </td>
-            </ng-container>
-          
-            <ng-container matColumnDef="usuario">
-                  <th mat-header-cell *matHeaderCellDef class="text-s-14r " style="font-weight: 0.1px">Nombres</th>
-                  <td mat-cell *matCellDef="let element" class="justify-left text-uppercase" style="align-content: start">
-                    <a
-                    class="decorator-none text-primary3 text-w-semibold"
-                    (click)="setLink2(element.nombres, element.guiid)"
-                    routerLink="/afiliados/showS/{{ element.guiid }}"
-                    >
-                      {{ element.nombres }}
-                    </a>
-                  </td>
-            </ng-container>
-        
-            <ng-container matColumnDef="edad">
-                    <th mat-header-cell *matHeaderCellDef class="text-s-14r" style="font-weight: 0.1px">EDAD</th>
-                    <td mat-cell *matCellDef="let element" class="text-uppercase"> 80 AÑOS
-                      {{ element.edad }}
-                    </td>
-            </ng-container>
-        
-            <ng-container matColumnDef="estcivil">
-                    <th mat-header-cell *matHeaderCellDef class="text-s-14r" style="font-weight: 0.1px">E. CIVIL</th>
-                    <td mat-cell *matCellDef="let element"> CASADO
-                      {{ element.estcivil }}
-                    </td>
-            </ng-container>
-          
-            <ng-container matColumnDef="ipress">
-                  <th mat-header-cell *matHeaderCellDef class="text-s-14r text-uppercase" style="font-weight: 0.1px">IPRESS</th>
-                  <td mat-cell *matCellDef="let element">ALMENARA
-                    {{ element.ipress }}
-                  </td>
-            </ng-container>
-         
-            <ng-container matColumnDef="tieneVigencia">
-                  <th mat-header-cell *matHeaderCellDef class="text-s-14r" style="font-weight: 0.1px">Fecha</th>
-                  <td mat-cell *matCellDef="let element">
-                    
-                    <span 
-                        *ngIf="!element.tieneVigencia"
-                    >
-                      <p class="text-s-14p" style="letter-spacing: 0.1px; color: #DC2626;" src="assets/EstInac.svg" matTooltip="Inactivo">
-                        {{ '10/01/2023' | customDate }}
-                      </p>
-                    </span>
-          
-                    <span
-                        *ngIf="element.tieneVigencia"
-                    >
-                    <p class="text-s-14p" style="letter-spacing: 0.1px; color: #0CCE68;" src="assets/EstInac.svg" matTooltip="Inactivo">
-                      {{ '10/10/2023' | customDate }}
-                    </p>
-                    </span>
-          
-                    <span
-                        *ngIf="element.suspVigencia"  
-                    >
-                    <p class="text-s-14p" style="letter-spacing: 0.1px; color: #F59E08;" src="assets/EstInac.svg" matTooltip="Inactivo">
-                      {{ element.fechSolic | customDate }}
-                    </p>
-                    </span>
-        
-                  </td>
-            </ng-container>
-          
-            
-            <tr
-                  mat-header-row
-                  *matHeaderRowDef="displayedColumns"
-                  [ngClass]="{ headerRow: true }"
-            ></tr>
-                
-            <tr
-                  mat-row
-                  *matRowDef="let row; columns: displayedColumns; index as i"
-            ></tr>
-                
-        </table>
-
-        <mat-paginator
-                #paginator
-                [pageSizeOptions]="[25, 50, 100]"
-                showFirstLastButtons
-        ></mat-paginator>
-    </div> -->
 </div>      

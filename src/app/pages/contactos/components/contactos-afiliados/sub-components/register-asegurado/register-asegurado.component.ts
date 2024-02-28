@@ -12,6 +12,8 @@ import { DialogNewDireccionComponent } from '../dialog/dialog-new-direccion/dial
 import { DialogModalidadIngresoComponent } from '../dialog/dialog-modalidad-ingreso/dialog-modalidad-ingreso.component';
 import { map } from 'rxjs';
 import { contactoFicha, datosAseguradoFicha, datosFicha, direccionFicha, modalidadIngreso, procedenciaFicha, registerFichaRequest } from '@models/afiliados/register-ficha-solicitud';
+import { RegisterSolicitud } from '@models/afiliaciones/register-afiliacion.model';
+import { AfiliacionesSolicitudesService } from 'src/app/data/services/afiliaciones/afiliaciones-solicitudes.service';
 
 @Component({
   selector: 'esp-register-asegurado',
@@ -96,6 +98,7 @@ export class RegisterAseguradoComponent {
               private fb                                : FormBuilder,
               private router                            : Router,
               private activeRoute                       : ActivatedRoute,
+              private solicitudesService                : AfiliacionesSolicitudesService,
               private _contactoService                  : ContactosAfiliadosService,
               private _notificacionService              : NotificationService,
               private _datoGeneralesService             : DatosGeneralesService) {
@@ -353,7 +356,7 @@ export class RegisterAseguradoComponent {
       procedencia.modalidadIngreso = modalidadExtra;
     }
     else if(this.frmCtrlModIngr.value == 22){
-      modalidadExtra.tipoModalidad = 'OTRA_UNID_OPE_CERPS';
+      modalidadExtra.tipoModalidad = 'DERIVACION_UO_CERPS';
       modalidadExtra.codCerps = this.modalidadIngresoData.idUnidOperativa;
       modalidadExtra.nomCerps = this.modalidadIngresoData.nombre;
       procedencia.modalidadIngreso = modalidadExtra;
@@ -419,8 +422,15 @@ export class RegisterAseguradoComponent {
           console.log(this.getRequestFicha())
         }
         else{
-          this._notificacionService.success('Se ha registrado con éxito la ficha de admisión');
-          this.router.navigate(['/app/contactos']);
+          this.solicitudesService.registerSolicitudAsegurado(this.getPayloadRegisterSolicitud()).subscribe((datos)=>{
+            if (datos.code == 0) {
+              this._notificacionService.success('Se ha registrado con éxito la ficha de admisión');
+              this.router.navigate(['/app/contactos']);
+            }
+            else{
+              this._notificacionService.warning(datos.message);
+            }
+          })
         }
       })
     }
@@ -496,6 +506,37 @@ export class RegisterAseguradoComponent {
     return{
       asegurado: this.getDataAsegurado(),
       fichaAdmision: this.getDatosFicha()
+    }
+  }
+
+  getPayloadRegisterSolicitud(): RegisterSolicitud{
+    var dataDireccionElegida = Object();
+    this.getDataDirecciones().forEach((x)=>{
+      if (x.activo == 1) {
+        dataDireccionElegida = x;
+      }
+    })
+
+    return{
+      appOrigen: 'WEB_CAM',
+      nombres: this.infoReniec.txtNombres,
+      apePaterno: this.infoReniec.txtApepaterno,
+      apeMaterno: this.infoReniec.txtApematerno,
+      tipoDoc: this.parametroDocumento.valor1,
+      tipoDocDesc: this.parametroDocumento.nombre,
+      numDoc: this.numDoc,
+      celular: this.formDatosContacto.value.frmCelular!,
+      correo: this.formDatosContacto.value.frmCorreo!,
+      direccion: dataDireccionElegida.direccion,
+      ubigeoDireccion: `${dataDireccionElegida.codUbiDep}${dataDireccionElegida.codUbiProv}${dataDireccionElegida.codUbiDist}`,
+      idUnidOpeCam: this.idUnidadOperativaUser,
+      fecNacimiento: this.getDataAsegurado().fecNacimiento,
+      codEstCivil: this.infoReniec.codEstcivil,
+      descEstCivil: this.infoReniec.desEstadoCivil,
+      codIpress: this.dataRed.cod_CENTRO,
+      descIpress: this.dataRed.nom_CENTRO,
+      textSolicitud: 'Necesito información sobre mi última consulta',
+      usuarioRegId: this.idUserSession
     }
   }
 
