@@ -14,13 +14,18 @@
                 </div>
             </ng-container>
             <ng-container *ngIf="listUnidOperativa != undefined">
-                <ng-container *ngIf="listUnidOperativa.length > 0">
-                    <div class="px-3 py-2 flex flex-row bg-white justify-between w-[676px] items-center" *ngFor="let unidOp of listUnidOperativa, index as i">
+                <ng-container *ngIf="listUnidOperativa.length > 0  ">
+                    <div class="px-3 py-2 flex flex-row bg-white justify-between w-[676px] items-center"
+                        *ngFor="let unidOp of listUnidOperativa, index as i">
                         <div class="py-2 flex flex-row gap-2.5 items-center">
-                            <img src="assets/svg/icon-select-CERP.svg"/>
+                            <img src="assets/svg/icon-select-CERP.svg" />
                             <span>{{unidOp.unidOperativa}}</span>
                         </div>
-                        <button class="bg-[#F4F5F7] px-2.5 h-[30px]" (click)="AsignarUnidadOperativa(unidOp)">Seleccionar</button>
+                        <button *ngIf="unidOp.vigente==1" class="bg-[#F4F5F7] px-2.5 h-[30px]"
+                            (click)="AsignarUnidadOperativa(unidOp)">Seleccionar</button>
+                        <p *ngIf="unidOp.vigente==0" class="py-1 font-bold mr-6">
+                            Inactivo
+                        </p>
                     </div>
                 </ng-container>
                 <ng-container *ngIf="listUnidOperativa.length == 0">
