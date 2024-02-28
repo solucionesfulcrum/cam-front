@@ -10,6 +10,7 @@ import { ShowTalleristaComponent } from './components/contactos-talleristas/sub-
 import { ContactoTabParametrosComponent } from './components/contactos-talleristas/sub-components/show-tallerista/tabs/contacto-tab-parametros/contacto-tab-parametros.component';
 import { ContactoTabHorariosComponent } from './components/contactos-talleristas/sub-components/show-tallerista/tabs/contacto-tab-horarios/contacto-tab-horarios.component';
 import { RegisterAseguradoComponent } from './components/contactos-afiliados/sub-components/register-asegurado/register-asegurado.component';
+import { EditAseguradoComponent } from './components/contactos-afiliados/sub-components/edit-asegurado/edit-asegurado.component';
 
 const routes: Routes = [
   {
@@ -69,6 +70,11 @@ const routes: Routes = [
     path: 'register/:tipoDoc/:numDoc',
     component: RegisterAseguradoComponent,
     title: 'Registrar Asegurado'
+  },
+  {
+    path: 'edit-info-aseg/:idFicha',
+    component: EditAseguradoComponent,
+    title: 'Editar Información del asegurado'
   }
 ];
 

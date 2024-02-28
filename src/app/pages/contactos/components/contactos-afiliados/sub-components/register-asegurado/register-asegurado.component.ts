@@ -196,7 +196,7 @@ export class RegisterAseguradoComponent {
   administrarDirecciones(opcion: any, datos: any){
     let direccionObj: direccionFichaFront = Object();
     if(typeof opcion === 'string'){
-      this._contactoService.searchByUbigeo(datos.codUbgDom).subscribe((data)=>{
+      this._datoGeneralesService.searchByUbigeo(datos.codUbgDom).subscribe((data)=>{
         if (data.code == 0) {
           direccionObj.paramTipoId = this.listParamDirecciones.find((x) => x.nombre === opcion)!.idParametros;      
           direccionObj.nomParametro = opcion;
@@ -451,18 +451,6 @@ export class RegisterAseguradoComponent {
   
   getDataAsegurado(): datosAseguradoFicha{
     var dateParts = this.infoReniec.fecNacimiento.trim().split('/');
-    // var tempPhotoBase64: string = '';
-    // function getBase64Image(img: any) {
-    //   var canvas = document.createElement("canvas");
-    //   canvas.width = img.naturalWidth;
-    //   canvas.height = img.naturalHeight ;
-    //   var ctx = canvas.getContext("2d");
-    //   ctx!.drawImage(img, 0, 0);
-    //   var dataURL = canvas.toDataURL("image/png");
-    //   tempPhotoBase64 = dataURL.split(",")[1];
-    // }
-
-    // getBase64Image(document.getElementById("imgTemp"))
 
     return {
       tipDocIdent: this.parametroDocumento.valor1,
@@ -490,11 +478,11 @@ export class RegisterAseguradoComponent {
       nomRedAsisten: this.dataRed.des_RED,
       usuarioRegId: this.idUserSession,
       activo: 1,
-      // foto: tempPhotoBase64,
       foto: this.imagenAdmision,
       fecFallecimiento:  this.feFallecimiento
     };
   }
+  
   getDataContacto(): contactoFicha{
     return {
       telefono: this.formDatosContacto.value.frmTelefono!,

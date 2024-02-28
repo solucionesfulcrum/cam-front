@@ -84,51 +84,11 @@
                                 <span class="text-gray-600 font-semibold w-[120px]">Departamento</span>
                                 <span>{{item.nomDep | titlecase}}</span>
                             </div>
-                            <!-- <div class="flex flex-col">
-                                <span class="text-gray-600 font-semibold">Dirección</span>
-                                <span class="text-gray-600 font-semibold">Distrito</span>
-                                <span class="text-gray-600 font-semibold">Provincia</span>
-                                <span class="text-gray-600 font-semibold">Departamento</span>
-                            </div>
-                            <div class="flex flex-col">
-                                <span>{{item.direccion | titlecase}}</span>
-                                <span>{{item.nomDist | titlecase}}</span>
-                                <span>{{item.nomProv | titlecase}}</span>
-                                <span>{{item.nomDep | titlecase}}</span>
-                            </div> -->
                         </div>
                     </div>
                 </label>
             </li>
         </ul>
-        <!-- <ul class="grupoDirecciones">
-            <li class="elementoSeleccionable" *ngFor="let item of direcciones, index as i">
-                <img class="iconEditar" src="assets/svg/Edit.svg" *ngIf="i != 0" (click)="editDireccion(i)">
-                <input type="radio" [id]="'direccion'+i" name="direccion" [value]="'direccion'+i" class="peer right-0 mt-2 mr-2 focusCampo">
-                <label [for]="'direccion'+i" class="cuadroRadioButton">
-                    <div class="flex flex-col justify-center text-center w-1/12">
-                        <esp-icon class="text-3xl" icon="faLocationDot"></esp-icon>
-                        <span>{{item.nombreDireccion}}</span>
-                    </div>
-                    <div class="flex w-11/12 pl-4"> 
-                        <div class="w-full flex space-x-2">
-                            <div class="flex w-1/6 flex-col">
-                                <span class="text-gray-600 font-semibold">Dirección</span>
-                                <span class="text-gray-600 font-semibold">Distrito</span>
-                                <span class="text-gray-600 font-semibold">Provincia</span>
-                                <span class="text-gray-600 font-semibold">Departamento</span>
-                            </div>
-                            <div class="flex w-5/6 flex-col">
-                                <span>{{item.direccion | titlecase}}</span>
-                                <span>{{item.distrito | titlecase}}</span>
-                                <span>{{item.provincia | titlecase}}</span>
-                                <span>{{item.departamento | titlecase}}</span>
-                            </div>
-                        </div>
-                    </div>
-                </label>
-            </li>
-        </ul> -->
         <div class="flex flex-col justify-center text-center w-full bordColorEstablecido cursor-pointer border py-2 hover:bg-gray-100" (click)="showNewDireccion()">
             <img class="h-8 m-auto" src="assets/svg/MapPointAdd.svg" alt="">
             <span>Nueva dirección</span>
@@ -240,45 +200,6 @@
                 </div>
                 <img class="h-4 self-center" src="assets/svg/SelectOption.svg">
             </div>
-            <!-- <p class="border-l-4 pl-2 bordColorEstablecido font-semibold text-xl mt-5"> Datos del Acompañante</p>
-            <div *ngIf="frmCtrlAcompaniamiento.touched && frmCtrlAcompaniamiento.invalid">
-                <p *ngIf="frmCtrlAcompaniamiento.hasError('required')" class="font-medium text-red-500 text-xs mt-1 ml-1">
-                    Elija una opción de acompañamiento.
-                </p>
-            </div>
-            <div *ngIf="frmCtrlAcompaniamiento.touched && edadPersona < 18 && frmCtrlAcompaniamiento.value === 'NO'">
-                <p class="font-medium text-red-500 text-xs mt-1 ml-1">
-                    El asegurado es menor de edad, se requiere datos del acompañante.
-                </p>
-            </div>
-                <p class="mb-2 font-semibold mt-5">¿Requiere apoyo de otra persona? Si es Menor <b class="text-red-500">*</b></p>
-                <ul class="grupoOpciones grid w-full gap-3 md:grid-cols-2 mb-2">
-                    <li class="elementoSeleccionable">
-                        <input type="radio" id="siApoyo" value="SI" [formControl]="frmCtrlAcompaniamiento" class="peer focusCampo" (click)="showDataAcompaniante(1)">
-                        <label for="siApoyo" class="cuadroRadioButton">                           
-                            <div class="flex justify-center w-full">
-                                <div class="w-full text-center">Si</div>
-                            </div>
-                        </label>
-                    </li>
-                    <li class="elementoSeleccionable">
-                        <input type="radio" id="noApoyo" value="NO" [formControl]="frmCtrlAcompaniamiento" class="peer focusCampo" (click)="showDataAcompaniante(2)">
-                        <label for="noApoyo" class="cuadroRadioButton">
-                            <div class="flex justify-center w-full">
-                                <div class="w-full text-center">No</div>
-                            </div>
-                        </label>
-                    </li>
-                </ul>
-                <div class="mt-2 mb-4 border-b-2 border-bg-gray-300 flex justify-between" *ngIf="requiereApoyo">
-                    <div class="inline-flex items-center">
-                        <div class="bg-gray-100 py-1 px-2">
-                            <span class="font-semibold">{{formApoyo.value.frmSelectParentesco}}</span>
-                        </div>
-                        <span class="ml-2 text-sm">{{formApoyo.value.frmNombres}} {{formApoyo.value.frmApellidos}} ({{formApoyo.value.frmSelectDoc | titlecase}} {{formApoyo.value.frmDoc}}) - {{formApoyo.value.frmCelular}}</span>
-                    </div>
-                    <img class="h-4 self-center" src="assets/svg/SelectOption.svg">
-                </div> -->
             <p class="border-l-4 pl-2 bordColorEstablecido font-semibold text-xl my-5"> Observación</p>
             <textarea id="message" rows="2" class="my-2 block p-2.5 w-full text-gray-900 border border-gray-300 focusCampo placeholder-gray-300" [formControl]="frmCtrlObservacion" placeholder="Descripción"></textarea>
             <div class="flex justify-end flex-col my-5">

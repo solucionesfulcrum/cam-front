@@ -37,8 +37,8 @@ export class SidenavComponent {
               private router:Router){}
 
   ngOnInit(){
-    console.log(JSON.parse(localStorage.getItem('UnidElegida')!));
-    console.log((JSON.parse(localStorage.getItem('camUser')!)))
+    // console.log(JSON.parse(localStorage.getItem('UnidElegida')!));
+    // console.log((JSON.parse(localStorage.getItem('camUser')!)))
     if(localStorage.getItem('UnidElegida') != 'null'){
       // let idUnid: string;
       // this.userCategoria = (JSON.parse(localStorage.getItem('camUser')!)).categoria;

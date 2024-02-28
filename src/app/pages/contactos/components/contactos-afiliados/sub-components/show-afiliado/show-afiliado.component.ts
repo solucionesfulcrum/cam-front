@@ -21,17 +21,12 @@ export class ShowAfiliadoComponent implements OnInit {
   ];
 
   faSpinner = faSpinner;
-  dataAfiliado: any;
   edadPersona: number = 0;
-  dataFicha: any = [''];
 
   idFicha: string = '';
   dataFichaAfiliado: any = Object();
   direccionActual: any = Object();
   dataShow = false;
-
-  tipoDoc: string = '';
-  numDoc: string = '';
 
   links=[
     {url:`/app/contactos/show/${this.idFicha}`, title:'Operaciones'},
@@ -90,6 +85,10 @@ export class ShowAfiliadoComponent implements OnInit {
         this.notificationService.warning(data.message);
       }
     })
+  }
+
+  editDataAsegurado(){
+    this.router.navigate(['/app/contactos/edit-info-aseg/' + this.idFicha])
   }
 
   EvalAfiliado(){

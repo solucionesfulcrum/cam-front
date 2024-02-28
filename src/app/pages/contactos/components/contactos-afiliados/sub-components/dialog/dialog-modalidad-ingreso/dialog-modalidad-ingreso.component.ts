@@ -128,7 +128,6 @@ export class DialogModalidadIngresoComponent {
       else{
         this.data.modalidadIngreso = this.modalidadSeleccionadaTmp;
       }
-      console.log(this.data)
       this._dialogRef.close(this.data);
     }
     else{

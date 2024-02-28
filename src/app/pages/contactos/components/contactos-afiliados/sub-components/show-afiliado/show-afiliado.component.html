@@ -1,5 +1,5 @@
 
-<esp-opciones-botones [rutaRegreso]="'../..'" [listOpciones]="opcionesBotones" (firstFunction)="Notas()" (thirdFunction)="EvalAfiliado()"></esp-opciones-botones>
+<esp-opciones-botones [rutaRegreso]="'../..'" [listOpciones]="opcionesBotones" (firstFunction)="Notas()" (secondFunction)="editDataAsegurado()" (thirdFunction)="EvalAfiliado()"></esp-opciones-botones>
 
 <div class="px-4 py-3 bg-white w-full mt-3 grid botonApariencia" *ngIf="!dataShow">
   <div class="text-gray-600 w-full text-center">
@@ -12,7 +12,7 @@
 <div *ngIf="dataShow" class="bg-white botonApariencia">
 <!-- <div class="bg-white botonApariencia"> -->
     <div class="flex flex-row justify-between py-1.5 px-2.5"> 
-      <p class="text-[26px] text-[var(--color-CAM-black-alt)]"><b>Ficha de Solicitud</b></p>
+      <p class="text-[26px] text-[var(--color-CAM-black-alt)]"><b>Ficha de Afiliado</b></p>
       <p class="text-end text-sm text-[#64748B]">N° de Historia 
         <br><span class="text-[20px] text-[var(--color-CAM)]">{{dataFichaAfiliado.fichaAdmision.numHistoria}}</span>  <!--{{this.user.numHistoria}}     o   {{dataFicha.numHistoria}}-->
       </p>
@@ -25,8 +25,8 @@
           <p class=" py-1 px-3 my-2 mx-1 anios absolute right-0 text-white text-[18px] bg-cam">{{edadPersona}} Años</p>
           <img class="my-2 imagen" src='data:image/jpeg;base64,{{dataFichaAfiliado.asegurado.foto}}'>
           <div class="flex flex-col gap-1 py-2 !leading-5">
-            <span class="bordColorEstablecido font-bold text-[1.5rem] text-[var(--color-CAM)] text-sky-600">{{dataFichaAfiliado.asegurado.nombres| titlecase}}</span>
-            <span class="font-medium text-[1.125rem]">{{dataFichaAfiliado.asegurado.apePaterno + ' ' + dataFichaAfiliado.asegurado.apeMaterno | titlecase}}</span>
+            <span class="bordColorEstablecido font-bold text-[1.5rem] text-[var(--color-CAM)] text-sky-600">{{ dataFichaAfiliado.asegurado.apePaterno + ' ' + dataFichaAfiliado.asegurado.apeMaterno| titlecase}}</span>
+            <span class="font-medium text-[1.125rem]">{{ dataFichaAfiliado.asegurado.nombres | titlecase}}</span>
             <span class="font-thin text-[14px]">{{dataFichaAfiliado.asegurado.tipoDoc == '1' ? 'DNI' : 'CE'}} {{dataFichaAfiliado.asegurado.numDoc}}</span>
             <!-- <p class="font-thin">{{tipoDoc == '1' ? 'DNI' : 'CE'}} {{numDoc}}</p> -->
           </div>
@@ -57,7 +57,7 @@
           <p class="subTitulo my-2.5 text-[18px]">Datos De Contacto</p>
           <div class="flex flex-col gap-[0.25rem]">
             <div class="flex flex-col gap-[0.5rem]">
-              <p class="py-1 my-0 bg-slate-100 font-bold">Dirección Actual</p>
+              <p class="py-1 my-0 bg-slate-100 font-bold">Dirección</p>
               <span>{{direccionActual.direccion | titlecase}}</span>
               <!-- <span>{{dataSolicitud.tipoAsegurado | titlecase}} </span> -->
             </div>

@@ -45,7 +45,7 @@ export class ContactosAfiliadosComponent implements OnInit {
     this.afiliacionesService.getListaContacto(this.getContactos()).subscribe((data)=>{
     this.dataSource = data.data.list;
     this.total = this.dataSource.length;
-    console.log("resultado data",data.data.list)
+    console.log("resultado data",data.data)
     })
   }
   
@@ -66,7 +66,7 @@ export class ContactosAfiliadosComponent implements OnInit {
   getContactos(): listaConstactosRequest{
     var fecInicio: any;
     var fecFin: any;
-    var idUnidOpe = localStorage.getItem("UnidElegida");
+    var idUnidOpe = JSON.parse(localStorage.getItem("UnidElegida")!);
 
     if (this.formBuscar.value.frmSearchDate == '') {
       fecInicio = `${new Date().getDate()}/${new Date().getMonth()+1}/${new Date().getFullYear()-1}`;
@@ -78,15 +78,15 @@ export class ContactosAfiliadosComponent implements OnInit {
     }
 
     return {
-      idUnidOpe: "33",
+      idUnidOpe: idUnidOpe.idUnidOperativa,
       apellidos: "",
       nombres: "",
       tipoDocIdent: "",
       numDocIdent: "",
       fecInicio: "2021-08-17",
       fecFin: "2024-11-17",
-      pageNum: "1",
-      pageSize: "10",
+      pageNum: this.pageNum.toString(),
+      pageSize: this.pageSize.toString(),
     }
   }
 

@@ -19,6 +19,7 @@ import { RegisterAseguradoComponent } from './components/contactos-afiliados/sub
 import { DialogNewDireccionComponent } from './components/contactos-afiliados/sub-components/dialog/dialog-new-direccion/dialog-new-direccion.component';
 import { DialogModalidadIngresoComponent } from './components/contactos-afiliados/sub-components/dialog/dialog-modalidad-ingreso/dialog-modalidad-ingreso.component';
 import { MatAutocompleteModule } from '@angular/material/autocomplete';
+import { EditAseguradoComponent } from './components/contactos-afiliados/sub-components/edit-asegurado/edit-asegurado.component';
 
 
 @NgModule({
@@ -35,7 +36,8 @@ import { MatAutocompleteModule } from '@angular/material/autocomplete';
     DialogNewAseguradoComponent,
     RegisterAseguradoComponent,
     DialogNewDireccionComponent,
-    DialogModalidadIngresoComponent
+    DialogModalidadIngresoComponent,
+    EditAseguradoComponent
   ],
   imports: [
     CommonModule,

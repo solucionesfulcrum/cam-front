@@ -1,5 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
+import { RequestEditFicha } from '@models/afiliados/edit-ficha-solicitud';
 import { dataRequest } from '@models/afiliados/ficha-solicitud.model';
 import { registerFichaRequest } from '@models/afiliados/register-ficha-solicitud';
 import { environment } from 'src/environments/environment';
@@ -15,6 +16,11 @@ export class ContactosAfiliadosService {
 
   registerFichaAsegurado(model: registerFichaRequest){
     const url = `${environment.API}/ficha-admision/registrar`;
+    return this._httpClient.post<any>(url,model);
+  }
+
+  editFichaAsegurado(idFicha: string, model: RequestEditFicha){
+    const url = `${environment.API}/ficha-admision/actualizar/${idFicha}`;
     return this._httpClient.post<any>(url,model);
   }
 
@@ -51,11 +57,6 @@ export class ContactosAfiliadosService {
 
   searchUnidadOperativa(tipo: string, text: string){ //Obtener lista de CERPS
     const url = `https://appsqa.essalud.gob.pe/sigps-service/unidad-operativa/listarPorTipo/${tipo}?texto=${text}`;
-    return this._httpClient.get<any>(url);
-  }
-
-  searchByUbigeo(ubigeo: string){
-    const url = `https://appsqa.essalud.gob.pe/sigps-service/ubigeo/sas/${ubigeo}`;
     return this._httpClient.get<any>(url);
   }
 
