@@ -14,6 +14,8 @@
       [buttonText]="'Nuevo'"
       (buttonAccion)="nuevoAsegurado()"
       [buttonBg]="'#057EC9'"
+      [showFirstDisplayFilter]="true"
+      [firstDisplayFilterPlaceholder]="{'indicador': true, 'placeholder': 'Todos los estados'}"
     ></esp-opciones-busqueda>
 </div>
 <div>
@@ -57,7 +59,7 @@
 
       <ng-container cdkColumnDef="fecha">
         <th cdk-header-cell class="py-[1.25rem] px-6" *cdkHeaderCellDef>Estado</th>
-        <td cdk-cell class="py-[1rem] px-6 flex justify-center" *cdkCellDef="let row"><img [src]="row.estado == 'REGISTRADO' ? 'assets/svg/userAct.svg' : ''"></td>
+        <td cdk-cell class="py-[1rem] px-6 flex justify-center select-none" *cdkCellDef="let row"><img [src]="row.estado == 'REGISTRADO' ? 'assets/svg/userReg.svg' : ''" [matTooltip]= "row.estado | titlecase" matTooltipPosition="above"></td>
       </ng-container>
     </table>
     <mat-paginator #paginator class="demo-paginator paginatorDatos" 
