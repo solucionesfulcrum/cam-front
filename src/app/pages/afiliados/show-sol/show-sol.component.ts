@@ -13,6 +13,7 @@ import { ToastrService } from 'ngx-toastr';
 import { direccionFichaFront } from '@models/afiliados/ficha-solicitud.model';
 import { DatosGeneralesService } from 'src/app/data/services/datos-generales.service';
 import { Parametro } from '@models/parametros-busqueda.model';
+import { DialogNotasComponent } from './dialog-notas/dialog-notas.component';
 
 @Component({
   selector: 'app-show-sol',
@@ -138,21 +139,15 @@ export class ShowSolComponent implements OnInit {
     
     this.router.navigate(['/app/afiliados/evaluacion/agregaEval'])
 
-    // const dialogRef = this.dialog.open(NewEvalAfiliadoComponent,{
-    //   minWidth:'800px',
-    //   maxWidth:'50%',
-    //   data:{}
-    // })
-    // dialogRef.closed.subscribe(out =>{
-    //   // console.log(out)
-    // })
   }
 
   Notas(){
-    const dialogRef = this.dialog.open(NotasAfilComponent,{
+    const dialogRef = this.dialog.open(DialogNotasComponent,{
       minWidth:'800px',
       maxWidth:'50%',        
-      data:{}
+      data:{
+        idSolicitud: this.idSolicitud,
+      }
     })
     dialogRef.closed.subscribe(out =>{
       // console.log(out)

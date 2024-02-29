@@ -19,3 +19,9 @@ export interface RegisterSolicitud {
   textSolicitud: string,
   usuarioRegId: number
 }
+
+export interface RegisterNota{
+  idSolicitud: number,
+  nota: string,
+  idUsuarioReg: number
+}

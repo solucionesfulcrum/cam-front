@@ -6,6 +6,7 @@ import { RequestListaSAfiliadosContacto,listaConstactosRequest } from '@models/a
 import { FormatoBoton } from '@shared/components/opciones-botones/formato-boton.model';
 import { AfiliacionesSolicitudesService } from 'src/app/data/services/afiliaciones/afiliaciones-solicitudes.service';
 import { DialogNewAseguradoComponent } from './sub-components/dialog/dialog-new-asegurado/dialog-new-asegurado.component';
+import { NotificationService } from '@services/notification.service';
 
 @Component({
   selector: 'app-contactos-afiliados',
@@ -31,6 +32,7 @@ export class ContactosAfiliadosComponent implements OnInit {
 
   constructor(private fb                      : FormBuilder, 
               private dialog                  : Dialog,
+              private notificationService     : NotificationService,
               private afiliacionesService     : AfiliacionesSolicitudesService,) { }
 
   ngOnInit(): void {
@@ -39,10 +41,15 @@ export class ContactosAfiliadosComponent implements OnInit {
 
   onLoadData(){
     this.afiliacionesService.getListaContacto(this.getContactos()).subscribe((data)=>{
+      if (data.code == 0) {
       this.dataSource = data.data.list;
       this.pageNum = data.data.pageNum;
       this.pageSize = data.data.pageSize;
       this.total = data.data.total;
+      }
+      else{
+        this.notificationService.warning(data.message);
+      }
     })
   }
   

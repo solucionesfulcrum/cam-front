@@ -45,6 +45,7 @@ import { EvaluacionDYesavageComponent } from './components/evaluacion-layout/eva
 import { MaterialModule } from 'src/app/material/material.module';
 import { ContenedorEvaluacionComponent } from './components/evaluacion-layout/evaluaciones/contenedor-evaluacion/contenedor-evaluacion.component';
 import { EvaluacionResultadosComponent } from './components/evaluacion-layout/evaluaciones/evaluacion-resultados/evaluacion-resultados.component';
+import { DialogNotasComponent } from './show-sol/dialog-notas/dialog-notas.component';
 
 
 
@@ -80,6 +81,7 @@ import { EvaluacionResultadosComponent } from './components/evaluacion-layout/ev
     EvaluacionDYesavageComponent,
     ContenedorEvaluacionComponent,
     EvaluacionResultadosComponent,
+    DialogNotasComponent,
   
   ],
   imports: [

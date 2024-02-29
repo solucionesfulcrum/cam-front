@@ -159,7 +159,7 @@
             </textarea>-->
             <div id="message" class="text-s-16r text-menucolor">
             <p>Yo.  {{dataSolicitud.asegurado.nombres | titlecase}} {{dataSolicitud.asegurado.apePaterno + ' ' + dataSolicitud.asegurado.apeMaterno | titlecase}} identificado con {{parametroDocumento.idParametros == 6 ? 'DNI' : parametroDocumento.nombre | titlecase}} N° {{dataSolicitud.asegurado.numDoc}}</p> 
-            <p> Domiciliado en  {{dataSolicitud.solicitud.direccion | titlecase}}  de  {{direccionSolicitud.distrito | titlecase}} - {{direccionSolicitud.provincia | titlecase}} - {{direccionSolicitud.departamento | titlecase}}. Solicito ser parte del programa de ADULTO MAYOR.</p>
+            <p> Domiciliado en  {{dataSolicitud.solicitud.direccion | titlecase}}  de  {{direccionSolicitud.distrito | titlecase}} - {{direccionSolicitud.provincia | titlecase}} - {{direccionSolicitud.region | titlecase}}. Solicito ser parte del programa de ADULTO MAYOR.</p>
             <br>
             <p>{{dataSolicitud.solicitud.textSolicitud}}</p>
             <br>

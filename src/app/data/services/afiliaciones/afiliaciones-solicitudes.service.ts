@@ -1,6 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { RegisterSolicitud } from '@models/afiliaciones/register-afiliacion.model';
+import { RegisterNota, RegisterSolicitud } from '@models/afiliaciones/register-afiliacion.model';
 import { RequestListaSAfiliadosContacto, RequestListaSolicitudesAfiliados,listaConstactosRequest } from '@models/afiliados/ficha-solicitud.model';
 import { environment } from 'src/environments/environment';
 
@@ -26,6 +26,16 @@ export class AfiliacionesSolicitudesService {
 
   getDataSolicitud(idSolicitud: string){
     const url = `${environment.API}/solicitud/${idSolicitud}`;
+    return this._httpClient.get<any>(url);
+  }
+
+  registerNotaSolicitud(model: RegisterNota){
+    const url = `${environment.API}/solicitud-notas/registrar`;
+    return this._httpClient.post<any>(url, model);
+  }
+
+  listarNotaSolicitud(idSolicitud: string){
+    const url = `${environment.API}/solicitud-notas/listar/${idSolicitud}`;
     return this._httpClient.get<any>(url);
   }
 
