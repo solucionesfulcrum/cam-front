@@ -71,7 +71,7 @@ export class ContactosAfiliadosComponent implements OnInit {
     var idUnidOpe = JSON.parse(localStorage.getItem("UnidElegida")!);
 
     if (this.formBuscar.value.frmSearchDate == '') {
-      fecInicio = `${new Date().getFullYear()-1}-${new Date().getMonth()+1}-${new Date().getDate()}`;
+      fecInicio = `${new Date().getFullYear()}-1-1`;
       fecFin = `${new Date().getFullYear()}-${new Date().getMonth()+1}-${new Date().getDate()}`;
     }
     else{
