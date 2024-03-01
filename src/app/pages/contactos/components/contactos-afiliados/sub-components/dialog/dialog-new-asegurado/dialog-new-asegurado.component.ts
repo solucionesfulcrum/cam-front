@@ -49,7 +49,7 @@ export class DialogNewAseguradoComponent {
   }
   onSearch(){
     if(this.formNewFicha.valid){
-      const tipoDoc="0"+this.formNewFicha.value.frmSelectDoc;
+      const tipoDoc=this.formNewFicha.value.frmSelectDoc!;
       const numDoc=this.formNewFicha.value.frmDoc
       const unidadOpera = this.unidOpeUserSession.idUnidOperativa
       console.log("data de respuesta",this.unidOpeUserSession.idUnidOperativa)

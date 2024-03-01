@@ -1,5 +1,9 @@
+import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { FormArray, FormBuilder, FormControl, FormGroup } from '@angular/forms';
+import { environment } from '@environments/environment';
+
+const URL_BASE = `${environment.API}/evaluacion`;
 
 @Injectable({
   providedIn: 'root'
@@ -19,7 +23,8 @@ export class AfiliacionesEvaluacionesService {
   formDataTestYesa: any = this.fb.group({});
 
 
-  constructor(private fb                          : FormBuilder,) { 
+  constructor(private fb                          : FormBuilder,
+              private _httpClient                 : HttpClient) { 
     this.generateForms();
   }
 
@@ -45,5 +50,10 @@ export class AfiliacionesEvaluacionesService {
         this.formDataTestYesa = filaForm;        
         break;
     }
+  }
+
+  getEvaluacionPreguntas(){
+    const url = `${URL_BASE}/listar/cuestionarios`;
+    return this._httpClient.get<any>(url);
   }
 }

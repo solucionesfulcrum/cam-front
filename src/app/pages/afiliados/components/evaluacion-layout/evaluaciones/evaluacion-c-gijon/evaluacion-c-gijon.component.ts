@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { faArrowAltCircleRight } from '@fortawesome/free-solid-svg-icons';
+import { NotificationService } from '@services/notification.service';
 import { AfiliacionesEvaluacionesService } from 'src/app/data/services/afiliaciones/afiliaciones-evaluaciones.service';
 
 @Component({
@@ -10,6 +11,8 @@ import { AfiliacionesEvaluacionesService } from 'src/app/data/services/afiliacio
 export class EvaluacionCGijonComponent {
 
   faArrowAltCircleRight = faArrowAltCircleRight;
+
+  dataTestC: any = Object();
 
   pregSitFam: any[] = [
     {descripcion: 'Vive con pareja y/o familia sin conflicto.', respuesta: 0},
@@ -34,11 +37,22 @@ export class EvaluacionCGijonComponent {
 
   respuestas: any[] = [];
 
-  constructor(public evaluacionService           : AfiliacionesEvaluacionesService) { }
+  constructor(public evaluacionService           : AfiliacionesEvaluacionesService,
+              public notificationService         : NotificationService) { }
 
   ngOnInit(){
-    // this.respuestas[4] = {respuesta: 'owo'};
-    // console.log(this.respuestas)
+    this.evaluacionService.getEvaluacionPreguntas().subscribe((data)=>{
+      if (data.code == 0) {
+        this.dataTestC = data.data.grupales[0];
+        this.dataTestC.subCategoria = this.dataTestC.subCategoria.sort((a: any, b: any) => {return a.idCuestSubCategoria - b.idCuestSubCategoria})
+        console.log(this.dataTestC)
+        // this.dataTestA = data.data.individuales.find((x: any)=> {return x.idCuestCategoria == 1});
+        // this.preguntas = this.dataTestA.cuestionarios;
+      }
+      else{
+        this.notificationService.warning(data.message);
+      }
+    })
   }
 
 }

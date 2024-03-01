@@ -154,6 +154,12 @@ export class SolicitudesComponent implements OnInit {
 
     return edadPersona
   }
+
+  differenceInDays(date1: string): number {
+    const oneDay = 24 * 60 * 60 * 1000; // hours*minutes*seconds*milliseconds
+    const diffInTime = (new Date().getTime()) - (new Date(date1)).getTime();
+    return Math.round(diffInTime / oneDay);
+}
   /*
   AsignarFiltro(filtro: string){
     this.form.get('frmSearchDate')?.setValue(filtro);

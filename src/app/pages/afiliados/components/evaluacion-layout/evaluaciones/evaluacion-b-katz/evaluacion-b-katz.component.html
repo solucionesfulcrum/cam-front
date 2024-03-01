@@ -5,11 +5,11 @@
             <span class="text-[#64748B] text-[14px]">Actividades Básicas de la vida diaria</span>
         </div>
         <div class="flex flex-row gap-2 select-none">
-            <div class="flex items-center justify-center border border-[var(--color-CAM)] text-Name w-[45px] h-8 cursor-pointer" (click)="selectAll('Si')" matTooltip= "Marcar todas las preguntas como Si" matTooltipPosition="above">
-                <span>SI</span>
+            <div class="flex items-center justify-center border border-[var(--color-CAM)] text-Name w-[45px] h-8 cursor-pointer" (click)="selectAll(dataTestB.titulo1)" [matTooltip]= "'Marcar todas las preguntas como ' + (dataTestB.titulo1 | titlecase)" matTooltipPosition="above">
+                <span>{{dataTestB.titulo1}}</span>
             </div>
-            <div class="flex items-center justify-center border border-[#64748B] text-[#64748B] w-[45px] h-8 cursor-pointer" (click)="selectAll('No')" matTooltip= "Marcar todas las preguntas como No" matTooltipPosition="above">
-                <span>NO</span>
+            <div class="flex items-center justify-center border border-[#64748B] text-[#64748B] w-[45px] h-8 cursor-pointer" (click)="selectAll(dataTestB.titulo1)" [matTooltip]= "'Marcar todas las preguntas como ' + (dataTestB.titulo2 | titlecase)" matTooltipPosition="above">
+                <span>{{dataTestB.titulo2}}</span>
             </div>
         </div>
     </div>
@@ -17,17 +17,17 @@
         <div class="h-10 flex flex-row items-center" *ngFor="let pregunta of preguntas, index as i">
             <div class="flex flex-row gap-2 text-lg text-[var(--color-black-alt)] grow">
                 <span class="w-[20px] text-right">{{i+1}}.</span>
-                <span class="max-w-[45vw] leading-5">{{pregunta.descripcion}}</span>
+                <span class="max-w-[45vw] leading-5">{{pregunta.pregunta}}</span>
             </div>
             <div class="shrink-0">
                 <ul class="flex flex-row gap-2" [formGroup]="evaluacionService.formDataTestKatz">
                     <li class="relative w-[45px] radioBgDiferente flex items-center justify-center">
-                        <input type="radio" [id]="'pregKatz_'+ i + '_' + 1" [formControlName]="'pregKatz_' + i" value="Si" class="peer absolute focusCampo cursor-pointer">
+                        <input type="radio" [id]="'pregKatz_'+ i + '_' + 1" [formControlName]="'pregKatz_' + i" [value]="dataTestB.titulo1" class="peer absolute focusCampo cursor-pointer">
                         <label [for]="'pregKatz_'+ i + '_' + 1" class="flex selectRadioBoolean h-8">
                         </label>
                     </li>
                     <li class="relative w-[45px] radioBgDiferente flex items-center justify-center">
-                        <input type="radio" [id]="'pregKatz_'+ i + '_' + 2" [formControlName]="'pregKatz_' + i" value="No" class="peer absolute focusCampo cursor-pointer">
+                        <input type="radio" [id]="'pregKatz_'+ i + '_' + 2" [formControlName]="'pregKatz_' + i" [value]="dataTestB.titulo2" class="peer absolute focusCampo cursor-pointer">
                         <label [for]="'pregKatz_'+ i + '_' + 2" class="flex selectRadioBoolean h-8">
                         </label>
                     </li>

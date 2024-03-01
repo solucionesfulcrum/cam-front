@@ -57,7 +57,7 @@
 
       <ng-container cdkColumnDef="fecha">
         <th cdk-header-cell class="py-[1.25rem] px-6" *cdkHeaderCellDef>Fecha</th>
-        <td cdk-cell class="py-[1rem] px-6" *cdkCellDef="let row" [ngClass]="row.dias <= 3 ? 'text-[#0CCE6B]' : (row.dias < 10 ? 'text-[#F59E0B]' : 'text-[#DC2626]')">{{row.dias == 0 ? 'Hoy' : (row.dias == 1 ? 'Ayer' : 'Hace ' + row.dias + ' días')}}</td>
+        <td cdk-cell class="py-[1rem] px-6" *cdkCellDef="let row" [ngClass]="row.dias <= 3 ? 'text-[#0CCE6B]' : (differenceInDays(row.fecha) < 10 ? 'text-[#F59E0B]' : 'text-[#DC2626]')">{{differenceInDays(row.fecha) == 0 ? 'Hoy' : (differenceInDays(row.fecha) == 1 ? 'Ayer' : 'Hace ' + differenceInDays(row.fecha) + ' días')}}</td>
       </ng-container>
     </table>
     <mat-paginator #paginator class="demo-paginator paginatorDatos" 

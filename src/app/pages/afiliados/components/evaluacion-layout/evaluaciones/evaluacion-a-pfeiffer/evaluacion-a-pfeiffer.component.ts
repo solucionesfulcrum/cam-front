@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { FormControl } from '@angular/forms';
 import { faArrowAltCircleRight } from '@fortawesome/free-solid-svg-icons';
+import { NotificationService } from '@services/notification.service';
 import { AfiliacionesEvaluacionesService } from 'src/app/data/services/afiliaciones/afiliaciones-evaluaciones.service';
 
 @Component({
@@ -11,22 +12,22 @@ import { AfiliacionesEvaluacionesService } from 'src/app/data/services/afiliacio
 export class EvaluacionAPfeifferComponent {
 
   faArrowAltCircleRight = faArrowAltCircleRight;
-  preguntas: any[] = [
-    {descripcion: '¿Cuál es la fecha de hoy?', respuesta: 0},
-    {descripcion: '¿Qué día de la semana es hoy?', respuesta: 0},
-    {descripcion: '¿En qué lugar estamos?', respuesta: 0},
-    {descripcion: '¿Cuál es su número de teléfono? O ¿Cuál es su dirección completa?', respuesta: 0},
-    {descripcion: '¿Cuántos años tiene?', respuesta: 0},
-    {descripcion: '¿Dónde nació?', respuesta: 0},
-    {descripcion: '¿Cuál es el nombre del presidente del Perú?', respuesta: 0},
-    {descripcion: '¿Cuál es el nombre del presidente anterior?', respuesta: 0},
-    {descripcion: '¿Cuál es el nombre de soltera de su madre?', respuesta: 0},
-    {descripcion: 'Reste de 3 en tres desde 29.', respuesta: 0},
-  ];
+  dataTestA: any = Object();
+  preguntas: any[] = [];
 
-  constructor(public evaluacionService           : AfiliacionesEvaluacionesService) { }
+  constructor(public evaluacionService           : AfiliacionesEvaluacionesService,
+              public notificationService         : NotificationService) { }
 
   ngOnInit(){
+    this.evaluacionService.getEvaluacionPreguntas().subscribe((data)=>{
+      if (data.code == 0) {
+        this.dataTestA = data.data.individuales.find((x: any)=> {return x.idCuestCategoria == 1});
+        this.preguntas = this.dataTestA.cuestionarios;
+      }
+      else{
+        this.notificationService.warning(data.message);
+      }
+    })
   }
 
   selectAll(opt: string){

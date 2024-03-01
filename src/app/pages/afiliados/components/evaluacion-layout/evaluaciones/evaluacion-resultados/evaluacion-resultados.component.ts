@@ -34,19 +34,19 @@ export class EvaluacionResultadosComponent {
 
   ngOnInit(){
     this.calculateResults();
+    console.log(this.evaluacionService.formDataTestPfi.value)
   }
 
   calculateResults(){
-    this.resultadosPfi.countSi = Object.keys(this.evaluacionService.formDataTestPfi.value).filter(x => this.evaluacionService.formDataTestPfi.value[x] == 'Bien').length;
-    this.resultadosPfi.countMal = Object.keys(this.evaluacionService.formDataTestPfi.value).filter(x => this.evaluacionService.formDataTestPfi.value[x] == 'Mal').length;
+    this.resultadosPfi.countSi = Object.keys(this.evaluacionService.formDataTestPfi.value).filter(x => this.evaluacionService.formDataTestPfi.value[x] == 'BIEN').length;
+    this.resultadosPfi.countMal = Object.keys(this.evaluacionService.formDataTestPfi.value).filter(x => this.evaluacionService.formDataTestPfi.value[x] == 'MAL').length;
     this.resultadosPfi.resultado = 'Valoración Cognitiva normal';
-    this.resultadosKatz.countSi = Object.keys(this.evaluacionService.formDataTestKatz.value).filter(x => this.evaluacionService.formDataTestKatz.value[x] == 'Si').length;
-    this.resultadosKatz.countMal = Object.keys(this.evaluacionService.formDataTestKatz.value).filter(x => this.evaluacionService.formDataTestKatz.value[x] == 'No').length;
+    this.resultadosKatz.countSi = Object.keys(this.evaluacionService.formDataTestKatz.value).filter(x => this.evaluacionService.formDataTestKatz.value[x] == 'SI').length;
+    this.resultadosKatz.countMal = Object.keys(this.evaluacionService.formDataTestKatz.value).filter(x => this.evaluacionService.formDataTestKatz.value[x] == 'NO').length;
     this.resultadosKatz.resultado = 'Independiente';
-    this.resultadosYes.countSi = Object.keys(this.evaluacionService.formDataTestYesa.value).filter(x => this.evaluacionService.formDataTestYesa.value[x] == 'Si').length;
-    this.resultadosYes.countMal = Object.keys(this.evaluacionService.formDataTestYesa.value).filter(x => this.evaluacionService.formDataTestYesa.value[x] == 'No').length;
+    this.resultadosYes.countSi = Object.keys(this.evaluacionService.formDataTestYesa.value).filter(x => this.evaluacionService.formDataTestYesa.value[x] == 'SI').length;
+    this.resultadosYes.countMal = Object.keys(this.evaluacionService.formDataTestYesa.value).filter(x => this.evaluacionService.formDataTestYesa.value[x] == 'NO').length;
     this.resultadosYes.resultado = 'Normal';
-    Object.keys(this.evaluacionService.formDataTestPfi.value).filter(x => this.evaluacionService.formDataTestPfi.value[x] == 'Bien').length
   }
 
 }

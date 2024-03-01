@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { FormControl } from '@angular/forms';
 import { faArrowAltCircleRight } from '@fortawesome/free-solid-svg-icons';
+import { NotificationService } from '@services/notification.service';
 import { AfiliacionesEvaluacionesService } from 'src/app/data/services/afiliaciones/afiliaciones-evaluaciones.service';
 
 @Component({
@@ -11,18 +12,22 @@ import { AfiliacionesEvaluacionesService } from 'src/app/data/services/afiliacio
 export class EvaluacionBKatzComponent {
 
   faArrowAltCircleRight = faArrowAltCircleRight;
-  preguntas: any[] = [
-    {descripcion: '¿Puede Bañarse sin ayuda de otra persona?', respuesta: 0},
-    {descripcion: '¿Puede Vestirse sin ayuda de otra persona?', respuesta: 0},
-    {descripcion: '¿Puede hacer uso de servicios Higiénicos sin ayuda de otra persona?', respuesta: 0},
-    {descripcion: '¿Puedes levantarte de una silla o de la cama sin asistencia?', respuesta: 0},
-    {descripcion: '¿Alguna vez has experimentado la pérdida involuntaria de orina o heces?', respuesta: 0},
-    {descripcion: '¿Alguna vez has tenido fugas de orina al toser, estornudar, reír, hacer ejercicio o levantar algo pesado?', respuesta: 0},
-  ];
+  dataTestB: any = Object();
+  preguntas: any[] = [];
   
-  constructor(public evaluacionService           : AfiliacionesEvaluacionesService) { }
+  constructor(public evaluacionService           : AfiliacionesEvaluacionesService,
+              public notificationService         : NotificationService) { }
 
   ngOnInit(){
+    this.evaluacionService.getEvaluacionPreguntas().subscribe((data)=>{
+      if (data.code == 0) {
+        this.dataTestB = data.data.individuales.find((x: any)=> {return x.idCuestCategoria == 2});
+        this.preguntas = this.dataTestB.cuestionarios;
+      }
+      else{
+        this.notificationService.warning(data.message);
+      }
+    })
   }
 
   selectAll(opt: string){
