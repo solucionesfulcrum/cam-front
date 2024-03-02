@@ -16,21 +16,12 @@ import { EvaluacionComponent } from './evaluacion/evaluacion.component';
 import { MenuOpcionesComponent } from '@shared/components/menu-opciones/menu-opciones.component';
 import { MatCheckboxModule } from '@angular/material/checkbox';
 import { MatTooltipModule } from '@angular/material/tooltip';
-import { ShowAfilComponent } from './show-afil/show-afil.component';
 import { FichaAfilComponent } from './afiliados/ficha-afil/ficha-afil.component';
-import { ModalActivarAfilComponent } from './show-afil/modalActivar/modal-activar-afil.component';
 import { MatCardModule } from '@angular/material/card';
-import { SubListActivacionesAfilComponent } from './show-afil/sub-list-activaciones-afil/sub-list-activaciones-afil.component';
 import { ShowSolComponent } from './show-sol/show-sol.component';
 import { ModalActivarSolComponent } from './show-sol/modal-activar-sol/modal-activar-sol.component';
 import { SubListActivacionesSolComponent } from './show-sol/sub-list-activaciones-sol/sub-list-activaciones-sol.component';
 import { EditSolComponent } from './edit-sol/edit-sol.component';
-import { NewEvalAfiliadoComponent } from './components/new-eval-afiliado/new-eval-afiliado.component';
-import { NotasAfilComponent } from './components/notas-afil/notas-afil.component';
-import { NewEval2AfiliadoComponent } from './components/new-eval2-afiliado/new-eval2-afiliado.component';
-import { NewEval3AfiliadoComponent } from './components/new-eval3-afiliado/new-eval3-afiliado.component';
-import { NewEval4AfiliadoComponent } from './components/new-eval4-afiliado/new-eval4-afiliado.component';
-import { ResultEvalAfiliadoComponent } from './components/result-eval-afiliado/result-eval-afiliado.component';
 import { AfilOperComponent } from './components/afil-oper/afil-oper.component';
 import { TabsComponent } from './components/tabs/tabs.component';
 import { AfilEvalComponent } from './components/afil-eval/afil-eval.component';
@@ -56,20 +47,11 @@ import { DialogNotasComponent } from './show-sol/dialog-notas/dialog-notas.compo
     AnalisisComponent,
     SolicitudesComponent,
     EvaluacionComponent,
-    ShowAfilComponent,
     FichaAfilComponent,
-    ModalActivarAfilComponent,
-    SubListActivacionesAfilComponent,
     ShowSolComponent,
     ModalActivarSolComponent,
     SubListActivacionesSolComponent,
     EditSolComponent,
-    NewEvalAfiliadoComponent,
-    NotasAfilComponent,
-    NewEval2AfiliadoComponent,
-    NewEval3AfiliadoComponent,
-    NewEval4AfiliadoComponent,
-    ResultEvalAfiliadoComponent,
     AfilOperComponent,
     TabsComponent,
     AfilEvalComponent,

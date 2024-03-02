@@ -7,7 +7,7 @@
         <div class="grow">
             <input type="text" class="inputTextoDialog focusCampo" [formControl]="frmCtrlNota" placeholder="Agrega nueva nota - Max 200 Caracteres">
         </div>
-        <app-btn color="mezclado" class="botonApariencia shrink-0" (click)="onSave()">Agregar
+        <app-btn color="mezclado" class="botonApariencia shrink-0" (click)="onSave()" [loading]="status === 'loading'">Agregar
         </app-btn>
     </div>
     <div *ngIf="frmCtrlNota.touched && frmCtrlNota.invalid">

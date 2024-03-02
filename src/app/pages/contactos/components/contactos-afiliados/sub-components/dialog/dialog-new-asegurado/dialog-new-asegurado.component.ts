@@ -53,7 +53,7 @@ export class DialogNewAseguradoComponent {
       const numDoc=this.formNewFicha.value.frmDoc
       const unidadOpera = this.unidOpeUserSession.idUnidOperativa
       console.log("data de respuesta",this.unidOpeUserSession.idUnidOperativa)
-      this.datosService.validarAdmisionIngreso(tipoDoc,numDoc!,unidadOpera)
+      this.datosService.validarAdmisionIngreso(tipoDoc,numDoc!,unidadOpera, 1)
       .subscribe((data) => {
       console.log("data de respuesta",data.data.acreditado)
       if(data.code == 0){

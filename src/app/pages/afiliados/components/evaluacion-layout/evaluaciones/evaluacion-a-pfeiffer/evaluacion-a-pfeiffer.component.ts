@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { FormControl } from '@angular/forms';
+import { Router } from '@angular/router';
 import { faArrowAltCircleRight } from '@fortawesome/free-solid-svg-icons';
 import { NotificationService } from '@services/notification.service';
 import { AfiliacionesEvaluacionesService } from 'src/app/data/services/afiliaciones/afiliaciones-evaluaciones.service';
@@ -16,7 +17,8 @@ export class EvaluacionAPfeifferComponent {
   preguntas: any[] = [];
 
   constructor(public evaluacionService           : AfiliacionesEvaluacionesService,
-              public notificationService         : NotificationService) { }
+              public notificationService         : NotificationService,
+              public router                      : Router) { }
 
   ngOnInit(){
     this.evaluacionService.getEvaluacionPreguntas().subscribe((data)=>{
@@ -36,4 +38,12 @@ export class EvaluacionAPfeifferComponent {
     }
   }
 
+  validateFormNextPage(){
+    if (this.evaluacionService.formDataTestPfi.valid) {
+      this.router.navigate(['app/afiliados/evaluacion/agregaEval/eva-katz']);
+    }
+    else{
+      this.evaluacionService.formDataTestPfi.markAllAsTouched();
+    }
+  }
 }

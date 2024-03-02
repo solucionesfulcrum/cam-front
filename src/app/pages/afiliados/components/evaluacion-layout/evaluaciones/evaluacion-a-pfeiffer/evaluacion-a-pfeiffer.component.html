@@ -12,7 +12,7 @@
     </div>
     <div class="flex flex-col">
         <div class="h-10 flex flex-row items-center" *ngFor="let pregunta of preguntas, index as i">
-            <div class="flex flex-row gap-2 text-lg text-[var(--color-black-alt)] grow">
+            <div class="flex flex-row items-center gap-2 text-lg text-[var(--color-black-alt)] grow">
                 <span class="w-[20px] text-right">{{i+1}}.</span>
                 <span class="max-w-[45vw] leading-5">{{pregunta.pregunta}}</span>
             </div>
@@ -35,7 +35,7 @@
             <app-btn class="flex flex-row botonApariencia botonOpciones" color="white" routerLink="..">
                 Cancelar
             </app-btn>
-            <app-btn class="flex flex-row botonApariencia botonOpciones" color="mezclado" routerLink="eva-katz">
+            <app-btn class="flex flex-row botonApariencia botonOpciones" color="mezclado" (click)="validateFormNextPage()">
                 Siguiente
                 <fa-icon class="ml-2" [icon]="faArrowAltCircleRight"></fa-icon>
             </app-btn>

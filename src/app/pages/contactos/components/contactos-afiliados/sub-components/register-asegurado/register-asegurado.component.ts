@@ -14,6 +14,7 @@ import { map } from 'rxjs';
 import { contactoFicha, datosAseguradoFicha, datosFicha, direccionFicha, modalidadIngreso, procedenciaFicha, registerFichaRequest } from '@models/afiliados/register-ficha-solicitud';
 import { RegisterSolicitud } from '@models/afiliaciones/register-afiliacion.model';
 import { AfiliacionesSolicitudesService } from 'src/app/data/services/afiliaciones/afiliaciones-solicitudes.service';
+import { RequestStatus } from '@models/request-status.model';
 
 @Component({
   selector: 'esp-register-asegurado',
@@ -23,6 +24,7 @@ import { AfiliacionesSolicitudesService } from 'src/app/data/services/afiliacion
 export class RegisterAseguradoComponent {
 
   faSpinner = faSpinner;
+  status: RequestStatus = 'init';
   wait = false;
   msgFaltante = false;
   idUnidadOperativaUser = (JSON.parse(localStorage.getItem('UnidElegida')!)).idUnidOperativa;
@@ -107,19 +109,32 @@ export class RegisterAseguradoComponent {
               }
   
   ngOnInit(){
-    this.getParametros();
-    this.getDataFromServices();
-    this.frmCtrlDireccion.valueChanges.subscribe((data)=>{
-      if(data!>=0){
-        this.direccionesPersona.map(x=>{
-          x.activo = 0
-        });
-        this.direccionesPersona[data!].activo = 1;
+    this._datoGeneralesService.validarAdmisionIngreso(this.tipoDoc, this.numDoc, this.idUnidadOperativaUser, 1).subscribe((data)=>{
+      if (data.code == 0) {
+        if (data.data.acreditado) {
+          this.getParametros();
+          this.getDataFromServices();
+          this.frmCtrlDireccion.valueChanges.subscribe((data)=>{
+            if(data!>=0){
+              this.direccionesPersona.map(x=>{
+                x.activo = 0
+              });
+              this.direccionesPersona[data!].activo = 1;
+            }
+          })
+      
+          this.frmCtrlDireccion.addValidators([Validators.required]);
+          this.frmCtrlModIngr.addValidators([Validators.required]);
+        }
+        else{
+          this._notificacionService.warning(data.data.mensaje);
+          this.router.navigate(['/app/contactos']);
+        }
+      }
+      else{
+        this._notificacionService.warning(data.message);
       }
     })
-
-    this.frmCtrlDireccion.addValidators([Validators.required]);
-    this.frmCtrlModIngr.addValidators([Validators.required]);
   }
 
   getDataFromServices(){
@@ -182,6 +197,14 @@ export class RegisterAseguradoComponent {
     })
     this._datoGeneralesService.getTipoParametros('MOD_INGRESO_ADMISION').pipe(map(msg => msg.data.sort((a1: Parametro, a2: Parametro) => parseInt(a1.valor1) - parseInt(a2.valor1)))).subscribe((data)=>{
       this.listParamModIngr = data;
+    })
+    this._contactoService.getNumeroHistoria(this.idUnidadOperativaUser).subscribe((data)=>{
+      if (data.code == 0) {
+        this.numHistoria = data.data;
+      }
+      else{
+        this._notificacionService.warning(data.message);
+      }
     })
   }
 
@@ -415,20 +438,22 @@ export class RegisterAseguradoComponent {
 
   sendRequestFichaAdmision(){
     if(this.validarFicha()){
+      this.status = 'loading';
       this._contactoService.registerFichaAsegurado(this.getRequestFicha()).subscribe((data)=>{
-        console.log(data);
         if(data.code != 0){
           this._notificacionService.warning(data.message);
-          console.log(this.getRequestFicha())
+          this.status = 'failed';
         }
         else{
           this.solicitudesService.registerSolicitudAsegurado(this.getPayloadRegisterSolicitud()).subscribe((datos)=>{
             if (datos.code == 0) {
               this._notificacionService.success('Se ha registrado con éxito la ficha de admisión');
               this.router.navigate(['/app/contactos']);
+              this.status = 'success';
             }
             else{
               this._notificacionService.warning(datos.message);
+              this.status = 'failed';
             }
           })
         }

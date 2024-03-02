@@ -82,8 +82,8 @@ export class DatosGeneralesService {
     return this._httpClient.get<any>(url);
   }
 
-  validarAdmisionIngreso(tipoDoc:string,numDoc:string,idUnidadOpe:string){
-    const url = `${URL_BASE}/ficha-admision/acreditar/registro?tipoDoc=${tipoDoc}&numDoc=${numDoc}&idUnidadOpe=${idUnidadOpe}`;
+  validarAdmisionIngreso(tipoDoc:string,numDoc:string,idUnidadOpe:string, tipoConsulta: number){
+    const url = `${URL_BASE}/ficha-admision/acreditar/registro?tipoDoc=${tipoDoc}&numDoc=${numDoc}&idUnidadOpe=${idUnidadOpe}&tipoConsulta=${tipoConsulta}`;
     return this._httpClient.get<any>(url);
   }
 

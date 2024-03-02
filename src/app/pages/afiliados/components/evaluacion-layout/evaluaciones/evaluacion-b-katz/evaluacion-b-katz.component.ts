@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { FormControl } from '@angular/forms';
+import { Router } from '@angular/router';
 import { faArrowAltCircleRight } from '@fortawesome/free-solid-svg-icons';
 import { NotificationService } from '@services/notification.service';
 import { AfiliacionesEvaluacionesService } from 'src/app/data/services/afiliaciones/afiliaciones-evaluaciones.service';
@@ -16,9 +17,11 @@ export class EvaluacionBKatzComponent {
   preguntas: any[] = [];
   
   constructor(public evaluacionService           : AfiliacionesEvaluacionesService,
-              public notificationService         : NotificationService) { }
+              public notificationService         : NotificationService,
+              public router                      : Router) { }
 
   ngOnInit(){
+    
     this.evaluacionService.getEvaluacionPreguntas().subscribe((data)=>{
       if (data.code == 0) {
         this.dataTestB = data.data.individuales.find((x: any)=> {return x.idCuestCategoria == 2});
@@ -33,6 +36,15 @@ export class EvaluacionBKatzComponent {
   selectAll(opt: string){
     for (let i = 0; i < this.preguntas.length; i++) {
       (this.evaluacionService.formDataTestKatz.get('pregKatz_'+i) as FormControl).setValue(opt);
+    }
+  }
+
+  validateFormNextPage(){
+    if (this.evaluacionService.formDataTestKatz.valid) {
+      this.router.navigate(['app/afiliados/evaluacion/agregaEval/eva-gijon']);
+    }
+    else{
+      this.evaluacionService.formDataTestKatz.markAllAsTouched();
     }
   }
 

@@ -19,6 +19,7 @@ export class ShowAfiliadoComponent implements OnInit {
     {texto: 'Actualizar Datos', esImagen: true, rutaIcono: 'assets/svg/icon-edit-data.svg'},
     {texto: 'Evaluar Afiliado', colorBtn:'bordeado', loading: false},
   ];
+  idUnidadOperativaUser = (JSON.parse(localStorage.getItem('UnidElegida')!)).idUnidOperativa;
 
   faSpinner = faSpinner;
   edadPersona: number = 0;
@@ -94,28 +95,23 @@ export class ShowAfiliadoComponent implements OnInit {
   }
 
   EvalAfiliado(){
-    
-    this.router.navigate(['/app/afiliados/evaluacion/agregaEval'])
-
-    // const dialogRef = this.dialog.open(NewEvalAfiliadoComponent,{
-    //   minWidth:'800px',
-    //   maxWidth:'50%',
-    //   data:{}
-    // })
-    // dialogRef.closed.subscribe(out =>{
-    //   // console.log(out)
-    // })
+    this.datosGeneralesServices.validarAdmisionIngreso(this.dataFichaAfiliado.asegurado.tipoDoc, this.dataFichaAfiliado.asegurado.numDoc, this.idUnidadOperativaUser, 2).subscribe((data)=>{
+      if (data.code == 0) {
+        if (data.data.acreditado) {
+          localStorage.setItem('idFichaEvaluada', this.dataFichaAfiliado.fichaAdmision.idFichaAdmision);
+          this.router.navigate(['/app/afiliados/evaluacion/agregaEval'])
+        }
+        else{
+          this.notificationService.warning(data.data.mensaje);
+        }
+      }
+      else{
+        this.notificationService.warning(data.message);
+      }
+    });
   }
 
   Notas(){
-    // const dialogRef = this.dialog.open(NotasAfilComponent,{
-    //   minWidth:'800px',
-    //   maxWidth:'50%',        
-    //   data:{}
-    // })
-    // dialogRef.closed.subscribe(out =>{
-    //   // console.log(out)
-    // })
   }
 
 }

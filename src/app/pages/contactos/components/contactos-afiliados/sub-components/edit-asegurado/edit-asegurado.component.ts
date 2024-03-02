@@ -12,6 +12,7 @@ import { DatosGeneralesService } from 'src/app/data/services/datos-generales.ser
 import { DialogModalidadIngresoComponent } from '../dialog/dialog-modalidad-ingreso/dialog-modalidad-ingreso.component';
 import { DialogNewDireccionComponent } from '../dialog/dialog-new-direccion/dialog-new-direccion.component';
 import { EditAseguradoAfiliado, EditContactoAsegurado, EditDireccionesAsegurado, EditFichaAsegurado, EditModalidadAsegurado, EditProcedenciaAsegurado, RequestEditFicha } from '@models/afiliados/edit-ficha-solicitud';
+import { RequestStatus } from '@models/request-status.model';
 
 @Component({
   selector: 'esp-edit-asegurado',
@@ -21,6 +22,7 @@ import { EditAseguradoAfiliado, EditContactoAsegurado, EditDireccionesAsegurado,
 export class EditAseguradoComponent {
   dataShow = false;
   faSpinner = faSpinner;
+  status: RequestStatus = 'init';
   
   idFicha: string = '';
   msgFaltante = false;
@@ -446,13 +448,16 @@ export class EditAseguradoComponent {
 
   sendRequestFichaAdmision(){
     if(this.validarFicha()){
+      this.status = 'loading';
       this.aseguradoServices.editFichaAsegurado(this.idFicha, this.getRequestFicha()).subscribe((data)=>{
         if(data.code != 0){
           this.notificationService.warning(data.message);
+          this.status = 'failed';
         }
         else{
           this.notificationService.success('Se han realizado los cambios');
           this.router.navigate(['/app/contactos/show/' + this.idFicha]);
+          this.status = 'success';
         }
       })
     }

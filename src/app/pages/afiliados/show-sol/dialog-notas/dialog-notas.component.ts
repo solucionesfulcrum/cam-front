@@ -2,6 +2,7 @@ import { DIALOG_DATA, DialogRef } from '@angular/cdk/dialog';
 import { Component, Inject } from '@angular/core';
 import { FormBuilder, FormControl, Validators } from '@angular/forms';
 import { RegisterNota } from '@models/afiliaciones/register-afiliacion.model';
+import { RequestStatus } from '@models/request-status.model';
 import { NotificationService } from '@services/notification.service';
 import { AfiliacionesSolicitudesService } from 'src/app/data/services/afiliaciones/afiliaciones-solicitudes.service';
 
@@ -11,6 +12,7 @@ import { AfiliacionesSolicitudesService } from 'src/app/data/services/afiliacion
   styleUrls: ['./dialog-notas.component.scss']
 })
 export class DialogNotasComponent {
+  status: RequestStatus = 'init';
   frmCtrlNota = new FormControl();
   registrosNotas: any[] = [];
   idUserSession = (JSON.parse(localStorage.getItem('camUser')!)).idUsuario;
@@ -46,14 +48,17 @@ export class DialogNotasComponent {
 
   onSave(){
     if (this.frmCtrlNota.valid) {
+      this.status = 'loading';
       this.solicitudServicio.registerNotaSolicitud(this.getModel()).subscribe((data)=>{
         if (data.code == 0) {
-          this.frmCtrlNota.setValue(null)
+          this.frmCtrlNota.reset()
           this.notificationService.success('Se registró la nota en la solicitud');
           this.loadData();
+          this.status = 'success';
         }
         else{
           this.notificationService.warning(data.message);
+          this.status = 'failed';
         }
       })
     }

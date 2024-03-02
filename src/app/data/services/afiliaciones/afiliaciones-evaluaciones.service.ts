@@ -1,6 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { FormArray, FormBuilder, FormControl, FormGroup } from '@angular/forms';
+import { FormArray, FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { environment } from '@environments/environment';
 
 const URL_BASE = `${environment.API}/evaluacion`;
@@ -15,9 +15,9 @@ export class AfiliacionesEvaluacionesService {
   formDataTestKatz: any = this.fb.group({});
 
   formDataTestGij: any = this.fb.group({
-    pregFam: new FormControl(null),
-    pregRel: new FormControl(null),
-    pregApo: new FormControl(null)
+    pregFam: new FormControl(null, [Validators.required]),
+    pregRel: new FormControl(null, [Validators.required]),
+    pregApo: new FormControl(null, [Validators.required])
   });
 
   formDataTestYesa: any = this.fb.group({});
@@ -37,7 +37,7 @@ export class AfiliacionesEvaluacionesService {
   structureForms(id: number, prefijo: string, cantidad: number){
     let filaForm = this.fb.group({})
     for (let i = 0; i < cantidad; i++) {
-      filaForm.addControl(prefijo + i, new FormControl());
+      filaForm.addControl(prefijo + i, (this.fb.control(null, Validators.required)));
     }
     switch (id) {
       case 1:

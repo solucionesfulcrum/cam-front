@@ -14,6 +14,11 @@ export class ContactosAfiliadosService {
 
   constructor(private _httpClient: HttpClient) { }
 
+  getNumeroHistoria(idUnidad: string){
+    const url = `${environment.API}/ficha-admision/getNewNumHistoria/${idUnidad}`;
+    return this._httpClient.get<any>(url);
+  }
+
   registerFichaAsegurado(model: registerFichaRequest){
     const url = `${environment.API}/ficha-admision/registrar`;
     return this._httpClient.post<any>(url,model);

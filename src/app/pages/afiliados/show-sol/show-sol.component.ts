@@ -3,9 +3,7 @@ import { FormBuilder } from '@angular/forms';
 import { ActivatedRoute, Router, RouterLink, RouterModule } from '@angular/router';
 import { AfiliadosComponent } from '../afiliados/afiliados.component';
 import { EvaluacionComponent } from '../evaluacion/evaluacion.component';
-import { NewEvalAfiliadoComponent } from '../components/new-eval-afiliado/new-eval-afiliado.component';
 import { Dialog } from '@angular/cdk/dialog';
-import { NotasAfilComponent } from '../components/notas-afil/notas-afil.component';
 import { FormatoBoton } from '@shared/components/opciones-botones/formato-boton.model';
 import { AfiliacionesSolicitudesService } from 'src/app/data/services/afiliaciones/afiliaciones-solicitudes.service';
 import { faSpinner } from '@fortawesome/free-solid-svg-icons';
@@ -32,6 +30,7 @@ export class ShowSolComponent implements OnInit {
   faSpinner = faSpinner;
   idSolicitud: string = '';
   dataSolicitud: any;
+  idUnidadOperativaUser = (JSON.parse(localStorage.getItem('UnidElegida')!)).idUnidOperativa;
   listParamDocumento: Parametro[] = [];
   parametroDocumento!: Parametro;
   direccionSolicitud: any = Object();
@@ -136,8 +135,21 @@ export class ShowSolComponent implements OnInit {
   }
 
   EvalAfiliado(){
-    
-    this.router.navigate(['/app/afiliados/evaluacion/agregaEval'])
+    this.datosGeneralesServices.validarAdmisionIngreso(this.dataSolicitud.asegurado.tipoDoc, this.dataSolicitud.asegurado.numDoc, this.idUnidadOperativaUser, 2).subscribe((data)=>{
+      if (data.code == 0) {
+        if (data.data.acreditado) {
+          localStorage.setItem('idFichaEvaluada', this.dataSolicitud.fichaAdmision.idFichaAdmision);
+          this.router.navigate(['/app/afiliados/evaluacion/agregaEval'])
+        }
+        else{
+          this.notificationService.warning(data.data.mensaje);
+        }
+      }
+      else{
+        this.notificationService.warning(data.message);
+      }
+    });
+
 
   }
 

@@ -1,12 +1,10 @@
-
-.botonMezclado {
-    ::ng-deep.bg-primary2{
-    background: var(--color-CAM) !important;
-  }
-  border-radius: 5px;
-  box-shadow: 1px 1px 4px 0px #00000066;
+::ng-deep.w-fit{
+    app-btn{
+        button{
+            display: flex;
+        }
+    }
 }
-
 .boxMsgSatisf{
     margin-top: 16px;   
     width: 100%; 
