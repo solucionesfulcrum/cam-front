@@ -67,11 +67,6 @@ const routes: Routes = [
     ]
   },
   {
-    path: 'register/:tipoDoc/:numDoc',
-    component: RegisterAseguradoComponent,
-    title: 'Registrar Asegurado'
-  },
-  {
     path: 'edit-info-aseg/:idFicha',
     component: EditAseguradoComponent,
     title: 'Editar Información del asegurado'

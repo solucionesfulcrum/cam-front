@@ -74,7 +74,7 @@ export class DialogNewAseguradoComponent {
     }
   }
   setLink2(codigo:string, tipo:string){
-    this.router.navigate(['/app/contactos/register/', tipo, codigo]);
+    this.router.navigate(['/app/afiliados/register/', tipo, codigo]);
     this._dialogRef.close();
 }
 }

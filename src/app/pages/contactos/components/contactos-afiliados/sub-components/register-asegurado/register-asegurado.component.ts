@@ -128,7 +128,7 @@ export class RegisterAseguradoComponent {
         }
         else{
           this._notificacionService.warning(data.data.mensaje);
-          this.router.navigate(['/app/contactos']);
+          this.router.navigate(['/app/afiliados']);
         }
       }
       else{
@@ -448,7 +448,7 @@ export class RegisterAseguradoComponent {
           this.solicitudesService.registerSolicitudAsegurado(this.getPayloadRegisterSolicitud()).subscribe((datos)=>{
             if (datos.code == 0) {
               this._notificacionService.success('Se ha registrado con éxito la ficha de admisión');
-              this.router.navigate(['/app/contactos']);
+              this.router.navigate(['/app/afiliados']);
               this.status = 'success';
             }
             else{

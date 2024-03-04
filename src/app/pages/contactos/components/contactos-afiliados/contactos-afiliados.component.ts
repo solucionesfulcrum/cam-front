@@ -7,6 +7,8 @@ import { FormatoBoton } from '@shared/components/opciones-botones/formato-boton.
 import { AfiliacionesSolicitudesService } from 'src/app/data/services/afiliaciones/afiliaciones-solicitudes.service';
 import { DialogNewAseguradoComponent } from './sub-components/dialog/dialog-new-asegurado/dialog-new-asegurado.component';
 import { NotificationService } from '@services/notification.service';
+import { DatosGeneralesService } from 'src/app/data/services/datos-generales.service';
+import { Parametro } from '@models/parametros-busqueda.model';
 
 @Component({
   selector: 'app-contactos-afiliados',
@@ -14,14 +16,12 @@ import { NotificationService } from '@services/notification.service';
   styleUrls: ['./contactos-afiliados.component.css']
 })
 export class ContactosAfiliadosComponent implements OnInit {
-  opcionesBotones: FormatoBoton[] = [
-    {texto: '+ Nuevo', colorBtn:'mezclado'},
-  ];
   formBuscar: FormGroup = this.fb.group({
     frmSearch:new FormControl(""),
     frmSearchDate:new FormControl(""),
     frmSearchEstado:new FormControl(),
   });
+  opciones: Parametro[] = [];
   dataSource: any[] = [];
   pageIndex = 0;
   pageNum = 1;
@@ -33,10 +33,14 @@ export class ContactosAfiliadosComponent implements OnInit {
   constructor(private fb                      : FormBuilder, 
               private dialog                  : Dialog,
               private notificationService     : NotificationService,
+              private datosService            : DatosGeneralesService,
               private afiliacionesService     : AfiliacionesSolicitudesService,) { }
 
   ngOnInit(): void {
     this.onLoadData()
+    this.datosService.getTipoParametros('ESTADO_FICHA_ADMISION').subscribe((data)=>{
+      this.opciones = data.data;
+    });
   }
 
   onLoadData(){
@@ -80,17 +84,15 @@ export class ContactosAfiliadosComponent implements OnInit {
       fecInicio = `${fechaSinFormatInit.split('/')[2]}-${fechaSinFormatInit.split('/')[1]}-${fechaSinFormatInit.split('/')[0]}`;
       fecFin = `${fechaSinFormatFin.split('/')[2]}-${fechaSinFormatFin.split('/')[1]}-${fechaSinFormatFin.split('/')[0]}`;
     }
-    
+    console.log(this.formBuscar.get('frmSearchEstado')?.value)
     return {
       idUnidOpe: idUnidOpe.idUnidOperativa,
-      apellidos: "",
-      nombres: "",
-      tipoDocIdent: "",
-      numDocIdent: "",
+      texto: this.formBuscar.controls['frmSearch'].value,
       fecInicio: fecInicio,
       fecFin: fecFin,
       pageNum: this.pageNum.toString(),
       pageSize: this.pageSize.toString(),
+      estado: this.formBuscar.get('frmSearchEstado')?.value
     }
   }
 
@@ -115,23 +117,9 @@ export class ContactosAfiliadosComponent implements OnInit {
     }
   }
 
-  getEdad(fecha: string): number{
-    /*let fecNac = new Date(parseInt(fecha.split('/')[2]), parseInt(fecha.split('/')[1]) - 1, parseInt(fecha.split('/')[0]));
-    var timeDiff = Math.abs(Date.now() - fecNac.getTime());
-    let edadPersona = Math.floor(timeDiff / (1000 * 3600 * 24) / 365.25);
 
-    return edadPersona*/
-    return 30
-  }
-
-  nuevoAsegurado(){
-    const dialogRef = this.dialog.open(DialogNewAseguradoComponent,{
-      minWidth:'800px',
-      maxWidth:'50%',
-      data:{}
-    })
-    dialogRef.closed.subscribe(out =>{
-      // console.log(out)
-    })
+  firstDisplayValue(value: any){
+    this.formBuscar.get('frmSearchEstado')?.setValue(value);
+    this.onLoadData();
   }
 }

@@ -12,6 +12,10 @@
       [searchInputPlaceHolder]="'Busqueda de texto'"
       [showFirstDisplayFilter]="true"
       [firstDisplayFilterPlaceholder]="{'indicador': true, 'placeholder': 'Todos los estados'}"
+      [showButton]="true"
+      [buttonText]="'Nuevo'"
+      (buttonAccion)="nuevoAsegurado()"
+      [buttonBg]="'#057EC9'"
       
     ></esp-opciones-busqueda> <!-- (buttonAccion)="goToNewRol()"   -->
 </div>

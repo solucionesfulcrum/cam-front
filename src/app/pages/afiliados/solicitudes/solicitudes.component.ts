@@ -9,6 +9,7 @@ import { Dialog } from '@angular/cdk/dialog';
 import { AfiliacionesSolicitudesService } from 'src/app/data/services/afiliaciones/afiliaciones-solicitudes.service';
 import { RequestListaSolicitudesAfiliados } from '@models/afiliados/ficha-solicitud.model';
 import { NotificationService } from '@services/notification.service';
+import { DialogNewAseguradoComponent } from '../../contactos/components/contactos-afiliados/sub-components/dialog/dialog-new-asegurado/dialog-new-asegurado.component';
 
 @Component({
   selector: 'app-solicitudes',
@@ -78,6 +79,7 @@ export class SolicitudesComponent implements OnInit {
   constructor(
     private fb: FormBuilder, 
     private afiliacionesService: AfiliacionesSolicitudesService,
+    private dialog                  : Dialog,
     private notificationService: NotificationService,
     private router: Router, 
     private route: ActivatedRoute,
@@ -159,6 +161,17 @@ export class SolicitudesComponent implements OnInit {
     const oneDay = 24 * 60 * 60 * 1000; // hours*minutes*seconds*milliseconds
     const diffInTime = (new Date().getTime()) - (new Date(date1)).getTime();
     return Math.round(diffInTime / oneDay);
+}
+
+nuevoAsegurado(){
+  const dialogRef = this.dialog.open(DialogNewAseguradoComponent,{
+    minWidth:'800px',
+    maxWidth:'50%',
+    data:{}
+  })
+  dialogRef.closed.subscribe(out =>{
+    // console.log(out)
+  })
 }
   /*
   AsignarFiltro(filtro: string){

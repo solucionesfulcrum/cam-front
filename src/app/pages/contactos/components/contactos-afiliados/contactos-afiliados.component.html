@@ -10,12 +10,10 @@
       [showSearch]="true"
       (searchInputValue)="formBuscar.get('frmSearch')?.setValue($event.toUpperCase()); onLoadData()"
       [searchInputPlaceHolder]="'Busqueda de texto'"
-      [showButton]="true"
-      [buttonText]="'Nuevo'"
-      (buttonAccion)="nuevoAsegurado()"
-      [buttonBg]="'#057EC9'"
       [showFirstDisplayFilter]="true"
       [firstDisplayFilterPlaceholder]="{'indicador': true, 'placeholder': 'Todos los estados'}"
+      [firstDisplayFilterData]="opciones"
+      (firstDisplayFilterSendValue)="firstDisplayValue($event)"
     ></esp-opciones-busqueda>
 </div>
 <div>

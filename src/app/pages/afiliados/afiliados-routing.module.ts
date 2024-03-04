@@ -17,6 +17,7 @@ import { EvaluacionCGijonComponent } from './components/evaluacion-layout/evalua
 import { EvaluacionDYesavageComponent } from './components/evaluacion-layout/evaluaciones/evaluacion-d-yesavage/evaluacion-d-yesavage.component';
 import { ContenedorEvaluacionComponent } from './components/evaluacion-layout/evaluaciones/contenedor-evaluacion/contenedor-evaluacion.component';
 import { EvaluacionResultadosComponent } from './components/evaluacion-layout/evaluaciones/evaluacion-resultados/evaluacion-resultados.component';
+import { RegisterAseguradoComponent } from '../contactos/components/contactos-afiliados/sub-components/register-asegurado/register-asegurado.component';
 
 const routes: Routes = [
   {
@@ -78,7 +79,12 @@ const routes: Routes = [
       {
         path: 'show/:idSolicitud',
         component: ShowSolComponent,
-      }
+      },
+      {
+        path: 'register/:tipoDoc/:numDoc',
+        component: RegisterAseguradoComponent,
+        title: 'Registrar Asegurado'
+      },
     ]
   }
   // { 

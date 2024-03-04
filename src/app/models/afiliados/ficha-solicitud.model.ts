@@ -1,9 +1,7 @@
 export interface listaConstactosRequest {
     idUnidOpe: string;
-    apellidos: string;
-    nombres: string;
-    tipoDocIdent: string;
-    numDocIdent: string;
+    estado: number;
+    texto: string;
     fecInicio: string;
     fecFin: string;
     pageNum: string;
