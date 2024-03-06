@@ -135,8 +135,10 @@ export class ShowSolComponent implements OnInit {
   }
 
   EvalAfiliado(){
+    this.opcionesBotones[1].loading = true;
     this.datosGeneralesServices.validarAdmisionIngreso(this.dataSolicitud.asegurado.tipoDoc, this.dataSolicitud.asegurado.numDoc, this.idUnidadOperativaUser, 2).subscribe((data)=>{
       if (data.code == 0) {
+        this.opcionesBotones[1].loading = false;
         if (data.data.acreditado) {
           localStorage.setItem('idFichaEvaluada', this.dataSolicitud.fichaAdmision.idFichaAdmision);
           this.router.navigate(['/app/afiliados/evaluacion/agregaEval'])
@@ -146,6 +148,7 @@ export class ShowSolComponent implements OnInit {
         }
       }
       else{
+        this.opcionesBotones[1].loading = false;
         this.notificationService.warning(data.message);
       }
     });

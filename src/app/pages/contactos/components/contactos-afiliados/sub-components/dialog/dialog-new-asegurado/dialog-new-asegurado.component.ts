@@ -4,6 +4,8 @@ import { FormBuilder, FormControl, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { AcreditarFichaPostulante } from '@models/admision/datos-persona.model';
 import { Parametro } from '@models/parametros-busqueda.model';
+import { RequestStatus } from '@models/request-status.model';
+import { NotificationService } from '@services/notification.service';
 import { DatosGeneralesService } from 'src/app/data/services/datos-generales.service';
 
 @Component({
@@ -14,6 +16,7 @@ import { DatosGeneralesService } from 'src/app/data/services/datos-generales.ser
 export class DialogNewAseguradoComponent {
   
   opciones: Parametro[] = [];
+  status: RequestStatus = 'init';
   
   public formNewFicha = this.fb.nonNullable.group({
     frmSelectDoc:new FormControl(""),
@@ -26,6 +29,7 @@ export class DialogNewAseguradoComponent {
   constructor(private fb                                  : FormBuilder,
               private router                              : Router,
               private datosService                        : DatosGeneralesService,
+              private notificationService                 : NotificationService,
               private _dialogRef                          : DialogRef<DialogNewAseguradoComponent>) {
 
   }
@@ -49,18 +53,24 @@ export class DialogNewAseguradoComponent {
   }
   onSearch(){
     if(this.formNewFicha.valid){
+      this.status = 'loading';
       const tipoDoc=this.formNewFicha.value.frmSelectDoc!;
       const numDoc=this.formNewFicha.value.frmDoc
       const unidadOpera = this.unidOpeUserSession.idUnidOperativa
       console.log("data de respuesta",this.unidOpeUserSession.idUnidOperativa)
       this.datosService.validarAdmisionIngreso(tipoDoc,numDoc!,unidadOpera, 1)
       .subscribe((data) => {
-      console.log("data de respuesta",data.data.acreditado)
-      if(data.code == 0){
-      this.tipoMsg = data.data.acreditado;
-      this.msgRespuesta = data.data.mensaje;
-      //this.hayMsg = true;
-      }
+        console.log("data de respuesta",data.data.acreditado)
+        if(data.code == 0){
+          this.status = 'success';
+          this.tipoMsg = data.data.acreditado;
+          this.msgRespuesta = data.data.mensaje;
+          //this.hayMsg = true;
+        }
+        else{
+          this.status = 'failed';
+          this.notificationService.warning(data.message);
+        }
       });
     }else{
       

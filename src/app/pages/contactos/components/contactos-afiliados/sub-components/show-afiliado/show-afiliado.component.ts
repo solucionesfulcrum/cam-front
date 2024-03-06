@@ -13,7 +13,6 @@ import { DatosGeneralesService } from 'src/app/data/services/datos-generales.ser
   styleUrls: ['./show-afiliado.component.css']
 })
 export class ShowAfiliadoComponent implements OnInit {
-
   opcionesBotones: FormatoBoton[] = [
     {texto: 'Notas', esImagen: true, rutaIcono: 'assets/svg/iconFileEdit.svg'},
     {texto: 'Actualizar Datos', esImagen: true, rutaIcono: 'assets/svg/icon-edit-data.svg'},
@@ -23,7 +22,6 @@ export class ShowAfiliadoComponent implements OnInit {
 
   faSpinner = faSpinner;
   edadPersona: number = 0;
-
   idFicha: string = '';
   dataFichaAfiliado: any = Object();
   direccionActual: any = Object();
@@ -31,7 +29,7 @@ export class ShowAfiliadoComponent implements OnInit {
 
   links=[
     {url:`/app/contactos/show/${this.idFicha}`, title:'Operaciones'},
-    {url:`/app/contactos/show/${this.idFicha}/evaluaciones`, title:'Evaluaciones'}
+    // {url:`/app/contactos/show/${this.idFicha}/evaluaciones`, title:'Evaluaciones'}
   ]
 
   constructor(private router                        : Router,
@@ -42,7 +40,7 @@ export class ShowAfiliadoComponent implements OnInit {
               private afiliadoServices              : AfiliacionesSolicitudesService) { 
       this.idFicha = this.activeRoute.snapshot.paramMap.get('idFicha')!;
       this.links[0].url = `/app/contactos/show/${this.idFicha}`;
-      this.links[1].url = `/app/contactos/show/${this.idFicha}/evaluaciones`;
+      // this.links[1].url = `/app/contactos/show/${this.idFicha}/evaluaciones`;
   }
 
   ngOnInit(): void {
@@ -72,7 +70,6 @@ export class ShowAfiliadoComponent implements OnInit {
             this.datosGeneralesServices.searchByUbigeo(x.codUbiDep + x.codUbiProv + x.codUbiDist).subscribe((datos)=>{
               if (datos.code == 0) {
                 this.direccionActual.localizacion = datos.data.region + ' - ' + datos.data.provincia + ' - ' + datos.data.distrito;
-                console.log(this.direccionActual)
               }
               else{
                 this.notificationService.warning(datos.message);
@@ -80,7 +77,6 @@ export class ShowAfiliadoComponent implements OnInit {
             })
           }
         });
-        console.log(data.data);
 
         this.dataShow = true;
       }
@@ -95,8 +91,10 @@ export class ShowAfiliadoComponent implements OnInit {
   }
 
   EvalAfiliado(){
+    this.opcionesBotones[2].loading = true;
     this.datosGeneralesServices.validarAdmisionIngreso(this.dataFichaAfiliado.asegurado.tipoDoc, this.dataFichaAfiliado.asegurado.numDoc, this.idUnidadOperativaUser, 2).subscribe((data)=>{
       if (data.code == 0) {
+        this.opcionesBotones[2].loading = false;
         if (data.data.acreditado) {
           localStorage.setItem('idFichaEvaluada', this.dataFichaAfiliado.fichaAdmision.idFichaAdmision);
           this.router.navigate(['/app/afiliados/evaluacion/agregaEval'])
@@ -106,6 +104,7 @@ export class ShowAfiliadoComponent implements OnInit {
         }
       }
       else{
+        this.opcionesBotones[2].loading = false;
         this.notificationService.warning(data.message);
       }
     });

@@ -7,7 +7,7 @@
     </div>
     <div class="flex flex-col gap-2 overflow-auto max-h-[55vh]" [formGroup]="evaluacionService.formDataTestGij">
         <div class="flex flex-col gap-1.5 pl-3" *ngFor="let subcategoria of dataTestC.subCategoria">
-            <span class="text-[val(--color-black-alt)] font-bold">{{subcategoria.subcategoria}}</span>
+            <span class="font-bold" [ngClass]="(validated && evaluacionService.formDataTestGij.controls[subcategoria.idCuestSubCategoria == 1 ? 'pregFam' : (subcategoria.idCuestSubCategoria == 2 ? 'pregRel' : 'pregApo')].invalid) ? 'text-red-500' : 'text-[var(--color-black-alt)]'">{{subcategoria.subcategoria}}</span>
             <ul class="grupoOpciones flex flex-col gap-1 w-full">
                 <li class="seleccionableDerecha radioBgDiferente" *ngFor="let pregunta of subcategoria.cuestionarios, index as i">
                     <input type="radio" [id]="(subcategoria.idCuestSubCategoria == 1 ? 'pregFam_' : (subcategoria.idCuestSubCategoria == 2 ? 'pregRel_' : 'pregApo_')) + i" [formControlName]="subcategoria.idCuestSubCategoria == 1 ? 'pregFam' : (subcategoria.idCuestSubCategoria == 2 ? 'pregRel' : 'pregApo')" [value]="i" class="peer focusCampo">
@@ -22,54 +22,11 @@
                 </li>
             </ul>
         </div>
-        <!-- <div class="flex flex-col gap-1.5 pl-3">
-            <span class="text-[val(--color-black-alt)] font-bold">SITUACIÓN FAMILIAR</span>
-            <ul class="grupoOpciones flex flex-col gap-1 w-full">
-                <li class="seleccionableDerecha radioBgDiferente" *ngFor="let pregunta of pregSitFam, index as i">
-                    <input type="radio" [id]="'pregFam_' + i" [formControlName]="'pregFam'" [value]="i" class="peer focusCampo">
-                    <label [for]="'pregFam_' + i" class="selectRadioBoolean !py-1 !pl-1.5">
-                        <div class="flex flex-row items-center w-full min-h-[35px] gap-2">
-                            <div class="flex flex-row gap-2 text-[18px] grow">
-                                <span class="w-[20px] text-right">{{i+1}}</span>
-                                <span class="max-w-[45vw]">{{pregunta.descripcion}}</span>
-                            </div>
-                        </div>
-                    </label>
-                </li>
-            </ul>
+        <div *ngIf="evaluacionService.formDataTestGij.touched && evaluacionService.formDataTestGij.invalid && validated" class=" text-center">
+            <span class="font-medium text-red-500 text-xs my-1 ml-1">
+                Quedan preguntas sin responder.
+            </span>
         </div>
-        <div class="flex flex-col gap-1.5 pl-3">
-            <span class="text-[val(--color-black-alt)] font-bold">RELACIONES Y CONTACTOS SOCIALES</span>
-            <ul class="grupoOpciones flex flex-col gap-1 w-full">
-                <li class="seleccionableDerecha radioBgDiferente" *ngFor="let pregunta of pregRelCon, index as i">
-                    <input type="radio" [id]="'pregRel_' + i" [formControlName]="'pregRel'" [value]="i" class="peer focusCampo">
-                    <label [for]="'pregRel_' + i" class="selectRadioBoolean !py-1 !pl-1.5">
-                        <div class="flex flex-row items-center w-full min-h-[35px] gap-2">
-                            <div class="flex flex-row gap-2 text-[18px] grow">
-                                <span class="w-[20px] text-right">{{i+1}}</span>
-                                <span class="max-w-[45vw]">{{pregunta.descripcion}}</span>
-                            </div>
-                        </div>
-                    </label>
-                </li>
-            </ul>
-        </div>
-        <div class="flex flex-col gap-1.5 pl-3">
-            <span class="text-[val(--color-black-alt)] font-bold">APOYOS RED SOCIAL</span>
-            <ul class="grupoOpciones flex flex-col gap-1 w-full">
-                <li class="seleccionableDerecha radioBgDiferente" *ngFor="let pregunta of pregApoRed, index as i">
-                    <input type="radio" [id]="'pregApo_' + i" [formControlName]="'pregApo'" [value]="i" class="peer focusCampo">
-                    <label [for]="'pregApo_' + i" class="selectRadioBoolean !py-1 !pl-1.5">
-                        <div class="flex flex-row items-center w-full min-h-[35px] gap-2">
-                            <div class="flex flex-row gap-2 text-[18px] grow">
-                                <span class="w-[20px] text-right">{{i+1}}</span>
-                                <span class="max-w-[45vw]">{{pregunta.descripcion}}</span>
-                            </div>
-                        </div>
-                    </label>
-                </li>
-            </ul>
-        </div> -->
         <div class="py-1.5 flex justify-center gap-2.5">
             <app-btn class="flex flex-row botonApariencia botonOpciones" color="mezclado" routerLink="../eva-katz">
                 Anterior

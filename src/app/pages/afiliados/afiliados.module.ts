@@ -37,6 +37,7 @@ import { MaterialModule } from 'src/app/material/material.module';
 import { ContenedorEvaluacionComponent } from './components/evaluacion-layout/evaluaciones/contenedor-evaluacion/contenedor-evaluacion.component';
 import { EvaluacionResultadosComponent } from './components/evaluacion-layout/evaluaciones/evaluacion-resultados/evaluacion-resultados.component';
 import { DialogNotasComponent } from './show-sol/dialog-notas/dialog-notas.component';
+import { MatAutocompleteModule } from '@angular/material/autocomplete';
 
 
 
@@ -72,6 +73,7 @@ import { DialogNotasComponent } from './show-sol/dialog-notas/dialog-notas.compo
     MatTableModule,
     MatTabsModule,
     MatPaginatorModule,
+    MatAutocompleteModule,
     CdkTableModule,
     MatCheckboxModule,
     MenuOpcionesComponent,

@@ -14,6 +14,7 @@ export class EvaluacionCGijonComponent {
   faArrowAltCircleRight = faArrowAltCircleRight;
 
   dataTestC: any = Object();
+  validated = false;
 
   // pregSitFam: any[] = [
   //   {descripcion: 'Vive con pareja y/o familia sin conflicto.', respuesta: 0},
@@ -58,6 +59,7 @@ export class EvaluacionCGijonComponent {
   }
 
   validateFormNextPage(){
+    this.validated = true;
     if (this.evaluacionService.formDataTestGij.valid) {
       this.router.navigate(['app/afiliados/evaluacion/agregaEval/eva-yesavage']);
     }

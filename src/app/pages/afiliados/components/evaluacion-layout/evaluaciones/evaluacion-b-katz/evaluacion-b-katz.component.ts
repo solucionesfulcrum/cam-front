@@ -2,6 +2,8 @@ import { Component } from '@angular/core';
 import { FormControl } from '@angular/forms';
 import { Router } from '@angular/router';
 import { faArrowAltCircleRight } from '@fortawesome/free-solid-svg-icons';
+import { RegisterAnswersUnit, RequestRegisterAnswersEvaluacion } from '@models/afiliaciones/evaluaciones/evaluacion-evaluar.model';
+import { RequestStatus } from '@models/request-status.model';
 import { NotificationService } from '@services/notification.service';
 import { AfiliacionesEvaluacionesService } from 'src/app/data/services/afiliaciones/afiliaciones-evaluaciones.service';
 
@@ -15,6 +17,8 @@ export class EvaluacionBKatzComponent {
   faArrowAltCircleRight = faArrowAltCircleRight;
   dataTestB: any = Object();
   preguntas: any[] = [];
+  validated = false;
+  status: RequestStatus = 'init';
   
   constructor(public evaluacionService           : AfiliacionesEvaluacionesService,
               public notificationService         : NotificationService,
@@ -40,12 +44,51 @@ export class EvaluacionBKatzComponent {
   }
 
   validateFormNextPage(){
+    this.validated = true;
     if (this.evaluacionService.formDataTestKatz.valid) {
-      this.router.navigate(['app/afiliados/evaluacion/agregaEval/eva-gijon']);
+      this.status = 'loading';
+      this.evaluacionService.registerEvaluacionRespuesta(this.getAnswers()).subscribe((data)=>{
+        if (data.code == 0) {
+          this.router.navigate(['app/afiliados/evaluacion/agregaEval/eva-gijon']);
+          this.status = 'success';
+        }
+        else{
+          this.notificationService.warning(data.message);
+          this.status = 'failed';
+        }
+      })
     }
     else{
       this.evaluacionService.formDataTestKatz.markAllAsTouched();
     }
+  }
+
+  getAnswers(): RequestRegisterAnswersEvaluacion{
+    return {
+      cabecera: {
+        idFichaAdmision: JSON.parse(localStorage.getItem('idFichaEvaluada')!),
+        idUnidadOperativa: (JSON.parse(localStorage.getItem('UnidElegida')!)).idUnidOperativa,
+        pagina: 2
+      },
+      detalle: this.getUnitAnswers()
+    }
+  }
+
+  getUnitAnswers(): RegisterAnswersUnit[]{
+    let listAnsw: RegisterAnswersUnit[] = [];
+    Object.keys(this.evaluacionService.formDataTestKatz.controls).forEach((x: any, index)=>{
+      let respuesta: RegisterAnswersUnit = {
+        tipoCuestionario: 'INDIVIDUAL',
+        idCuestionario: this.preguntas[index].idCuestionario,
+        respuesta1: (this.evaluacionService.formDataTestKatz.get(x).value === 'SI' ? 1 : 0),
+        respuesta2: (this.evaluacionService.formDataTestKatz.get(x).value === 'NO' ? 1 : 0)
+      };
+      listAnsw.push(respuesta);
+      // console.log(this.evaluacionService.formDataTestKatz.get(x).value, index)
+      // console.log(this.preguntas[index])
+    })
+    
+    return listAnsw;
   }
 
 }

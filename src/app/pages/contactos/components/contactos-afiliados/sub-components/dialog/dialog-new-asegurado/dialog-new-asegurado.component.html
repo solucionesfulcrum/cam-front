@@ -44,7 +44,7 @@
       </div>
       <div class="w-1/2">
         <div class="w-fit">
-            <app-btn class="botonApariencia flex" type="submit" color="mezclado" (click)="onSearch()">Buscar Asegurado
+            <app-btn class="botonApariencia flex" type="submit" color="mezclado" (click)="onSearch()" [loading]="status === 'loading'">Buscar Asegurado
             </app-btn>
         </div>
       </div>

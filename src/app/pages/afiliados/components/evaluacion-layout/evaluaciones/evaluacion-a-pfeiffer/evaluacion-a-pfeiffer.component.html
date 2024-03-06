@@ -12,7 +12,7 @@
     </div>
     <div class="flex flex-col">
         <div class="h-10 flex flex-row items-center" *ngFor="let pregunta of preguntas, index as i">
-            <div class="flex flex-row items-center gap-2 text-lg text-[var(--color-black-alt)] grow">
+            <div class="flex flex-row items-center gap-2 text-lg  grow" [ngClass]="(validated && evaluacionService.formDataTestPfi.controls['pregPfi_' + i].invalid) ? 'text-red-500' : 'text-[var(--color-black-alt)]' ">
                 <span class="w-[20px] text-right">{{i+1}}.</span>
                 <span class="max-w-[45vw] leading-5">{{pregunta.pregunta}}</span>
             </div>
@@ -31,11 +31,16 @@
                   </ul>
             </div>
         </div>
+        <div *ngIf="evaluacionService.formDataTestPfi.touched && evaluacionService.formDataTestPfi.invalid && validated" class=" text-center">
+            <span class="font-medium text-red-500 text-xs my-1 ml-1">
+                Quedan preguntas sin responder.
+            </span>
+        </div>
         <div class="py-1.5 flex justify-center gap-2.5">
             <app-btn class="flex flex-row botonApariencia botonOpciones" color="white" routerLink="..">
                 Cancelar
             </app-btn>
-            <app-btn class="flex flex-row botonApariencia botonOpciones" color="mezclado" (click)="validateFormNextPage()">
+            <app-btn class="flex flex-row botonApariencia botonOpciones" color="mezclado" (click)="validateFormNextPage()" [loading]="status === 'loading'">
                 Siguiente
                 <fa-icon class="ml-2" [icon]="faArrowAltCircleRight"></fa-icon>
             </app-btn>

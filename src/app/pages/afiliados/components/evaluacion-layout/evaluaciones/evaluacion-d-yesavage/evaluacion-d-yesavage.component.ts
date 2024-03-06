@@ -15,6 +15,7 @@ export class EvaluacionDYesavageComponent {
   faArrowAltCircleRight = faArrowAltCircleRight;
   dataTestD: any = Object();
   preguntas: any[] = [];
+  validated = false;
 
   constructor(public evaluacionService           : AfiliacionesEvaluacionesService,
               public notificationService         : NotificationService,
@@ -39,6 +40,7 @@ export class EvaluacionDYesavageComponent {
   }
 
   validateFormNextPage(){
+    this.validated = true;
     if (this.evaluacionService.formDataTestPfi.valid && this.evaluacionService.formDataTestKatz.valid && this.evaluacionService.formDataTestGij.valid && this.evaluacionService.formDataTestYesa.valid) {
       this.router.navigate(['app/afiliados/evaluacion/agregaEval/resultados']);
     }

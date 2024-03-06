@@ -1,5 +1,4 @@
-
-<div class="px-4 py-3 bg-white w-full mt-3 grid botonApariencia" *ngIf="!dataSolicitud">
+<div class="px-4 py-3 bg-white w-full mt-3 grid botonApariencia" *ngIf="!ready">
     <div class="text-gray-600 w-full text-center">
         <span class="py-1 font-bold text-2xl">
             <fa-icon class="mr-2" [icon]="faSpinner" [pulse]="true"></fa-icon>
@@ -7,78 +6,74 @@
         </span>
     </div>
 </div>
-<div class="flex flex-col" *ngIf="dataSolicitud">
+<div class="flex flex-col" *ngIf="ready">
     <esp-opciones-botones  [listOpciones]="opcionesBotones"></esp-opciones-botones>
     
-<div *ngIf="dataSolicitud" class="bg-white botonApariencia">
+<div *ngIf="ready" class="bg-white botonApariencia">
     <div class="flex flex-row justify-between py-1.5 px-2.5"> 
       <p class="text-[26px] text-[var(--color-CAM-black-alt)]"><b>Ficha de Solicitud</b></p>
       <p class="text-end text-sm text-[#64748B]">N° de Historia 
-        <br><span class="text-[20px] text-[var(--color-CAM)]">00000000001</span>  <!--{{this.user.numHistoria}}     o   {{dataFicha.numHistoria}}-->
+        <br><span class="text-[20px] text-[var(--color-CAM)]">{{dataFicha.fichaAdmision.numHistoria}}</span>
       </p>
     </div>
     
     <div class="flex flex-row text-[#37474F] pr-[10px] pb-[20px]">
-    <!-- <div class="flex flex-row gap-[1.25rem] text-[#37474F] pr-[10px] pb-[20px]" [formGroup]="formContacto"> -->
       <div class="w-[360px] shrink-0 pl-2.5">
           <div class="grid text-center relative justify-center">
-              <p class=" py-1 px-3 my-2 mx-1 anios absolute right-0 text-white text-[18px] bg-cam">31 Años</p>
-              <!-- <p class=" py-1 px-3 my-2 mx-1 anios absolute right-0 text-white text-[18px] bg-cam">{{edadPersona}} Años</p> -->
-              <img class="my-2 imagen" src='data:image/jpeg;base64,{{dataSolicitud.fotoBase64}}'>
+              <!-- <p class=" py-1 px-3 my-2 mx-1 anios absolute right-0 text-white text-[18px] bg-cam">31 Años</p> -->
+              <p class=" py-1 px-3 my-2 mx-1 anios absolute right-0 text-white text-[18px] bg-cam">{{edadPersona}} Años</p>
+              <img class="my-2 imagen" src='data:image/jpeg;base64,{{dataFicha.asegurado.foto}}'>
               <div class="flex flex-col gap-1 py-2 !leading-5">
-                <span class="bordColorEstablecido font-bold text-[1.5rem] text-[var(--color-CAM)] text-sky-600">{{'Juan Alberto' | titlecase}}</span>
-                <!-- <p class="pt-1 bordColorEstablecido font-bold text-2xl m-1 text-color-primary2 text-sky-600 " style="line-height: 10px;">{{dataSolicitud.nombres | titlecase}}</p> -->
-                <span class="font-medium text-[1.125rem]">{{'DORADO' | titlecase}} {{'RIVERA' | titlecase}}</span>
-                <!-- <p class="font-medium text-lg m-0">{{dataSolicitud.apellidos | titlecase}}</p> -->
-                <span class="font-thin text-[14px]">DNI {{'335858891'}}</span>
-                <!-- <p class="font-thin">{{tipoDoc == '1' ? 'DNI' : 'CE'}} {{numDoc}}</p> -->
+                <span class="font-bold text-[1.5rem] text-[var(--color-CAM)] text-sky-600">{{dataFicha.asegurado.apePaterno + ' ' + dataFicha.asegurado.apeMaterno | titlecase}}</span>
+                <span class="font-medium text-[1.125rem]">{{dataFicha.asegurado.nombres | titlecase}}</span>
+                <span class="font-thin text-[14px]">{{dataFicha.asegurado.descTipoDoc}} {{dataFicha.asegurado.numDoc}}</span>
               </div>
           </div>
           <div class="overflow-y mt-0 font-thin scrollbarra border-gradient max-h-[47vh] overflow-auto">
               <p class="subTitulo my-2.5 text-[18px]">Datos Personales</p>
               <div class="info-container">
                 <p class="flex w-1/2 flex-col py-1 bg-slate-100 my-1 mx-0 font-bold"> Fecha Nacimiento </p> 
-                <p class="flex w-1/2 flex-col ml-2.5 my-1"> {{'1967-04-14' | date: 'dd/MM/yyyy'}} </p>
-                <!-- <p class="flex w-1/2 flex-col ml-2.5 my-1"> {{dataSolicitud.fecNac}} </p> -->
+                <p class="flex w-1/2 flex-col ml-2.5 my-1"> {{dataFicha.asegurado.fecNacimiento | date: 'dd/MM/yyyy'}} </p>
+                <!-- <p class="flex w-1/2 flex-col ml-2.5 my-1"> {{dataFicha.fecNac}} </p> -->
               </div>
     
               <div class="info-container">
                 <p class="flex w-1/2 flex-col py-1 bg-slate-100 my-1 mx-0 font-bold"> Sexo </p> 
-                <p class="flex w-1/2 flex-col ml-2.5 my-1 text-w-300"> {{'Masculino'[0] | titlecase}} </p>
-                <!-- <p class="flex w-1/2 flex-col ml-2.5 my-1 text-w-300"> {{dataSolicitud.sexo | titlecase}} </p> -->
+                <p class="flex w-1/2 flex-col ml-2.5 my-1 text-w-300"> {{dataFicha.asegurado.descSexo | titlecase}} </p>
+                <!-- <p class="flex w-1/2 flex-col ml-2.5 my-1 text-w-300"> {{dataFicha.sexo | titlecase}} </p> -->
               </div>          
     
               <div class="info-container">
                 <p class="flex w-1/2 flex-col py-1 bg-slate-100 my-1 mx-0 font-bold"> Estado Civil </p> 
-                <p class="flex w-1/2 flex-col ml-2.5 my-1 text-w-300"> {{'Casado' | titlecase}} </p>
-                <!-- <p class="flex w-1/2 flex-col ml-2.5 my-1 text-w-300"> {{dataSolicitud.estCivil | titlecase}} </p> -->
+                <p class="flex w-1/2 flex-col ml-2.5 my-1 text-w-300"> {{dataFicha.asegurado.descEstCivil | titlecase}} </p>
+                <!-- <p class="flex w-1/2 flex-col ml-2.5 my-1 text-w-300"> {{dataFicha.estCivil | titlecase}} </p> -->
               </div>          
      
               <p class="flex w-2/2 flex-col py-1 bg-slate-100 my-1 mx-0 font-bold">Lugar de Nacimiento</p>
-              <p class="flex w-2/2 flex-col my-0 text-w-300"> {{'Ayacucho' | titlecase}} - {{'Ayacucho' | titlecase}} - {{'Ayacucho' | titlecase}}</p>
-              <!-- <p class="flex w-2/2 flex-col ml-2.5 mx-1 my-0 text-w-300"> {{dataSolicitud.lugarNac | titlecase}}</p> -->
+              <p class="flex w-2/2 flex-col my-0 text-w-300"> {{dataFicha.asegurado.departNacimiento | titlecase}} - {{dataFicha.asegurado.provinNacimiento | titlecase}} - {{dataFicha.asegurado.distriNacimiento | titlecase}}</p>
+              <!-- <p class="flex w-2/2 flex-col ml-2.5 mx-1 my-0 text-w-300"> {{dataFicha.lugarNac | titlecase}}</p> -->
     
               <p class="subTitulo my-2.5 text-[18px]">Datos del Seguro</p>
               <div class="flex flex-col gap-[0.25rem]">
                 <div class="flex flex-col gap-[0.5rem]">
                   <p class="py-1 my-0 bg-slate-100 font-bold">Tipo de Asegurado</p>
-                  <span>{{'Titular' | titlecase}}</span>
-                  <!-- <span>{{dataSolicitud.tipoAsegurado | titlecase}} </span> -->
+                  <span>{{dataFicha.asegurado.descTipoAsegurado | titlecase}}</span>
+                  <!-- <span>{{dataFicha.tipoAsegurado | titlecase}} </span> -->
                 </div>
                 <div class="flex flex-col gap-[0.5rem]">
                   <p class="py-1 my-0 bg-slate-100 font-bold">Nombre del Seguro</p>
-                  <span>{{'seguro regular' | titlecase}} </span>
-                  <!-- <span>{{dataSolicitud.nombreSeguro | titlecase}} </span> -->
+                  <span>{{dataFicha.asegurado.descTipoSeguro | titlecase}} </span>
+                  <!-- <span>{{dataFicha.nombreSeguro | titlecase}} </span> -->
                 </div>
                 <div class="flex flex-col gap-[0.5rem]">
                   <p class="py-1 my-0 bg-slate-100 font-bold">IPRESS de Adscripcion</p>
-                  <span>{{'pm huancapi' | uppercase}} </span>
-                  <!-- <span>{{dataSolicitud.centroAdscripcion}} </span> -->
+                  <span>{{dataFicha.asegurado.nomIpressAdscrip | uppercase}} </span>
+                  <!-- <span>{{dataFicha.centroAdscripcion}} </span> -->
                 </div>
                 <div class="flex flex-col gap-[0.5rem]">
                   <p class="py-1 my-0 bg-slate-100 font-bold">Red Asistencial</p>
-                  <span>{{'red asistencial ayacucho' | uppercase}} </span>
-                  <!-- <span>{{dataSolicitud.redAdscripcion}} </span> -->
+                  <span>{{dataFicha.asegurado.nomRedAsisten | uppercase}} </span>
+                  <!-- <span>{{dataFicha.redAdscripcion}} </span> -->
                 </div>
               </div>
           </div>

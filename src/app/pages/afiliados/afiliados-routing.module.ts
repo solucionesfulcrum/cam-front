@@ -79,14 +79,14 @@ const routes: Routes = [
       {
         path: 'show/:idSolicitud',
         component: ShowSolComponent,
-      },
-      {
-        path: 'register/:tipoDoc/:numDoc',
-        component: RegisterAseguradoComponent,
-        title: 'Registrar Asegurado'
-      },
+      }
     ]
-  }
+  },
+  {
+    path: 'register/:tipoDoc/:numDoc',
+    component: RegisterAseguradoComponent,
+    title: 'Registrar Asegurado'
+  },
   // { 
   //   path: '', 
   //   component: AfiliadosComponent,

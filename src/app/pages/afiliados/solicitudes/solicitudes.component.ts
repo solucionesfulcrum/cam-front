@@ -100,7 +100,9 @@ export class SolicitudesComponent implements OnInit {
       if (data.code == 0) {
         console.log(data.data)
         this.dataSource = data.data.list;
-        this.total = this.dataSource.length;
+        this.pageNum = data.data.pageNum;
+        this.pageSize = data.data.pageSize;
+        this.total = data.data.total;
       }
       else{
         this.notificationService.warning(data.message);
@@ -160,7 +162,7 @@ export class SolicitudesComponent implements OnInit {
   differenceInDays(date1: string): number {
     const oneDay = 24 * 60 * 60 * 1000; // hours*minutes*seconds*milliseconds
     const diffInTime = (new Date().getTime()) - (new Date(date1)).getTime();
-    return Math.round(diffInTime / oneDay);
+    return Math.round(diffInTime / oneDay) - 1;
 }
 
 nuevoAsegurado(){

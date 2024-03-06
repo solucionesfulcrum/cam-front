@@ -35,7 +35,6 @@ export class EvaluacionLayoutComponent {
           var dateObject = new Date(data.data.asegurado.fecNacimiento); 
           var timeDiff = Math.abs(Date.now() - dateObject.getTime());
           this.edadPersona = Math.floor(timeDiff / (1000 * 3600 * 24) / 365.25);
-          console.log(this.dataFicha);
           this.ready = true;
         }
         else{
