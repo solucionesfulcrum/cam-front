@@ -98,9 +98,8 @@ export class DialogNewDireccionComponent {
     })
   }
   getTiposDireccion(){
-    this.datosService.getTipoParametros('TIPO_DIRECCION').pipe(map(msg => msg.data.sort((a1: Parametro, a2: Parametro) => parseInt(a1.valor1) - parseInt(a2.valor1))))
-    .subscribe((data)=>{
-      this.listaDirecciones = data;
+    this.datosService.getTipoParametros('TIPO_DIRECCION').subscribe((data)=>{
+      this.listaDirecciones = data.data;
     })
   }
   onClose(){

@@ -51,10 +51,10 @@
     <div *ngIf="showFirstDisplayFilter">
         <div class="relative rounded-md shadow-sm">
           <select id="docs" #firstSelect class="bg-slate-50 border border-gray-300 text-gray-600 text-sm rounded-lg focusCampo !h-10 block w-full" (change)='changeFirstFilter(firstSelect.value)'>
-            <option *ngIf="firstDisplayFilterPlaceholder.indicador == true" [value]="null" selected>{{firstDisplayFilterPlaceholder.placeholder}}</option> 
+            <option *ngIf="firstDisplayFilterPlaceholder.indicador == true" [value]="null">{{firstDisplayFilterPlaceholder.placeholder}}</option> 
             <option *ngIf="firstDisplayFilterPlaceholder.indicador == false" disabled selected>{{firstDisplayFilterPlaceholder.placeholder}}</option>
             
-            <option *ngFor="let option of firstDisplayFilterData" [value]='option.idParametros'>{{option.nombre | titlecase}}</option>
+            <option *ngFor="let option of firstDisplayFilterData" [value]='option.idParametros' [id]="'option_' + option.idParametros" [selected]="(firstDisplaySelectedValue && option.idParametros == 24) ? true : false">{{option.nombre | titlecase}}</option>
           </select>
         </div>
     </div>

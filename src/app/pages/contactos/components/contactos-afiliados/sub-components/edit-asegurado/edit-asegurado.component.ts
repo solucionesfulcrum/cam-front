@@ -45,7 +45,7 @@ export class EditAseguradoComponent {
   // <!---------------------------------------------------- Tercer paso:  Datos de Contacto                       --------------------------------------------------->
   
   formDatosContacto = this.fb.nonNullable.group({
-    frmTelefono: ['', [Validators.required,Validators.minLength(7)]],
+    frmTelefono: [''],
     frmCelular: ['', [Validators.required,Validators.minLength(9)]],
     frmWsp: [null, Validators.required],
     frmCorreo: ['', [Validators.required,Validators.email]]
@@ -405,6 +405,7 @@ export class EditAseguradoComponent {
 
   validarFicha(): boolean{
     let direccionesValid = false;
+    console.log(this.formDatosContacto.get('frmCelular')!.errors)
     if(this.frmCtrlDireccion.valid){
       direccionesValid = true;
     }

@@ -96,7 +96,7 @@
         
         <p class="border-l-4 pl-2 bordColorEstablecido font-semibold text-xl my-5"> Datos de Contacto</p>
         <div [formGroup]="formDatosContacto">
-            <div class="flex space-x-2 my-2">
+            <!-- <div class="flex space-x-2 my-2">
                 <div class="w-1/6 bg-slate-100 justify-end pr-2 flex items-center">
                     <span class="font-thin align-middle">Teléfono</span>
                 </div>
@@ -113,13 +113,13 @@
                         </p>
                     </div>
                 </div>
-            </div>
+            </div> -->
             <div class="flex space-x-2 mb-2">
                 <div class="w-1/6 bg-slate-100 justify-end pr-2 flex items-center">
                     <span class="font-thin">Celular</span>
                 </div>
                 <div class="w-5/6">
-                    <input type="text" maxlength="9" formControlName="frmCelular" placeholder="Numero de celular" class="block w-full p-2 text-gray-900 placeholder-gray-300 border border-gray-300 focusCampo">
+                    <input type="number" min="0" minlength="9" formControlName="frmCelular" placeholder="Numero de celular" class="block w-full p-2 text-gray-900 placeholder-gray-300 border border-gray-300 focusCampo">
                     <div *ngIf="formDatosContacto.controls.frmCelular.touched && formDatosContacto.controls.frmCelular.invalid">
                         <p *ngIf="formDatosContacto.controls.frmCelular.hasError('required')" class="font-medium text-red-500 text-xs mt-1 ml-1">
                             Ingrese un número de celular.

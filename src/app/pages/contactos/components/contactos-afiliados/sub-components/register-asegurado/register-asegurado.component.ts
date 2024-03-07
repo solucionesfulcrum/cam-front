@@ -56,7 +56,7 @@ export class RegisterAseguradoComponent {
   // <!---------------------------------------------------- Tercer paso:  Datos de Contacto                       --------------------------------------------------->
 
   formDatosContacto = this.fb.nonNullable.group({
-    frmTelefono: ['', [Validators.required,Validators.minLength(7)]],
+    frmTelefono: ['0'],
     frmCelular: ['', [Validators.required,Validators.minLength(9)]],
     frmWsp: [null, Validators.required],
     frmCorreo: ['', [Validators.required,Validators.email]]
@@ -197,14 +197,6 @@ export class RegisterAseguradoComponent {
     })
     this._datoGeneralesService.getTipoParametros('MOD_INGRESO_ADMISION').pipe(map(msg => msg.data.sort((a1: Parametro, a2: Parametro) => parseInt(a1.valor1) - parseInt(a2.valor1)))).subscribe((data)=>{
       this.listParamModIngr = data;
-    })
-    this._contactoService.getNumeroHistoria(this.idUnidadOperativaUser).subscribe((data)=>{
-      if (data.code == 0) {
-        this.numHistoria = data.data;
-      }
-      else{
-        this._notificacionService.warning(data.message);
-      }
     })
   }
 
@@ -439,23 +431,31 @@ export class RegisterAseguradoComponent {
   sendRequestFichaAdmision(){
     if(this.validarFicha()){
       this.status = 'loading';
-      this._contactoService.registerFichaAsegurado(this.getRequestFicha()).subscribe((data)=>{
-        if(data.code != 0){
-          this._notificacionService.warning(data.message);
-          this.status = 'failed';
-        }
-        else{
-          this.solicitudesService.registerSolicitudAsegurado(this.getPayloadRegisterSolicitud()).subscribe((datos)=>{
-            if (datos.code == 0) {
-              this._notificacionService.success('Se ha registrado con éxito la ficha de admisión');
-              this.router.navigate(['/app/afiliados']);
-              this.status = 'success';
-            }
-            else{
-              this._notificacionService.warning(datos.message);
+      this._contactoService.getNumeroHistoria(this.idUnidadOperativaUser).subscribe((dataNum)=>{
+        if (dataNum.code == 0) {
+          this.numHistoria = dataNum.data;
+          this._contactoService.registerFichaAsegurado(this.getRequestFicha()).subscribe((data)=>{
+            if(data.code != 0){
+              this._notificacionService.warning(data.message);
               this.status = 'failed';
             }
+            else{
+              this.solicitudesService.registerSolicitudAsegurado(this.getPayloadRegisterSolicitud()).subscribe((datos)=>{
+                if (datos.code == 0) {
+                  this._notificacionService.success('Se ha registrado con éxito la ficha de admisión');
+                  this.router.navigate(['/app/afiliados']);
+                  this.status = 'success';
+                }
+                else{
+                  this._notificacionService.warning(datos.message);
+                  this.status = 'failed';
+                }
+              })
+            }
           })
+        }
+        else{
+          this._notificacionService.warning(dataNum.message);
         }
       })
     }

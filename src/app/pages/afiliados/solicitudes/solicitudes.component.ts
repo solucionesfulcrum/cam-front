@@ -28,7 +28,7 @@ export class SolicitudesComponent implements OnInit {
   formBuscar: FormGroup = this.fb.group({
     frmSearch:new FormControl(""),
     frmSearchDate:new FormControl(""),
-    frmSearchEstado:new FormControl(),
+    frmSearchEstado:new FormControl(24),
   });
   // Esta data debe ser reemplazada por lo que se obtiene del servicio -----------------------------------------------------------------------------------------------------------------------------------------------------------------------------
   dataPrueba: any[] = [];
@@ -86,6 +86,7 @@ export class SolicitudesComponent implements OnInit {
       if (data.code == 0) {
         console.log(data.data)
         this.opciones = data.data;
+        console.log((document.getElementById('docs')));
       }
       else{
         this.notificationService.warning(data.message);
@@ -93,15 +94,16 @@ export class SolicitudesComponent implements OnInit {
     });
   }
 
+  ngAfterViewInit(): void{
+  }
+
   onLoadData(){
     // this.dataSource = [
     //   {nombres: 'ROXANA ESTRADA ARIAS', tipoDoc: 1, numDoc: '23835688', fecNac: '16/03/1968', estCivil: 'SOLTERA', ipress: 'EUNICE ELIZABETH', dias: 3}
     // ]
     // this.total = 1;
-    console.log(this.getPayload())
     this.afiliacionesService.getListaSolicitudes(this.getPayload()).subscribe((data)=>{
       if (data.code == 0) {
-        console.log(data.data)
         this.dataSource = data.data.list;
         this.pageNum = data.data.pageNum;
         this.pageSize = data.data.pageSize;
@@ -120,7 +122,6 @@ export class SolicitudesComponent implements OnInit {
 
   handlePageEvent(event: PageEvent) {
     // console.log(this.pageSizeOptions);
-    console.log(event)
     this.pageSize = event.pageSize;
     this.pageIndex = event.pageIndex;
     this.pageNum = event.pageIndex + 1;

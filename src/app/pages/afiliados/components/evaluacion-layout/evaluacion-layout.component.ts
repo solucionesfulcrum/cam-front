@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, ViewChild } from '@angular/core';
 import { FormArray, FormBuilder, FormControl, FormGroup } from '@angular/forms';
 import { faSpinner } from '@fortawesome/free-solid-svg-icons';
 import { NotificationService } from '@services/notification.service';
@@ -71,6 +71,8 @@ export class EvaluacionLayoutComponent {
   }
 
   evaluarAfiliado(){
+    console.log(this.evaluacionService.formDataTestPfi.valid)
+    this.evaluacionService.formDataTestPfi.markAllAsTouched();
     // this.compPfeiffer.validated = true;
 
     // if (this.evaluacionService.formDataTestPfi.valid) {

@@ -84,6 +84,9 @@ export class OpcionesBusquedaComponent{
   @Output()
   firstDisplayFilterSendValue = new EventEmitter<any>();
 
+  @Input()
+  firstDisplaySelectedValue: boolean = true;
+
   //Segundo Filtro Desplazable-------------------------------------------------------------------------------------------------------------
   @Input()
   secDisplayFilterPlaceholder: {
