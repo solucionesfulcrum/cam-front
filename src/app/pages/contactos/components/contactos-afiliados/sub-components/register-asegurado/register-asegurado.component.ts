@@ -145,7 +145,7 @@ export class RegisterAseguradoComponent {
           if (datos.codResultado == 0) {
             this.dataRed = datos.response.find((x: any)=> {return x.cod_CENTRO  === data.data.dataAfiliado[0].codCentro});
             this.feFallecimiento = data.data.dataPersona.fefallecid;
-            console.log(this.dataRed)
+            // console.log(this.dataRed)
           }
           else{
             this._notificacionService.warning(datos.msgResultado);
@@ -306,7 +306,7 @@ export class RegisterAseguradoComponent {
 
   
   showDatosProcedencia(opt: number, modalidad: string){
-    console.log(opt)
+    // console.log(opt)
     if (opt < 1) {
       this.datosProcedenciaExtra = false;
     }

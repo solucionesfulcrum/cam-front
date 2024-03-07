@@ -114,7 +114,7 @@ export class EvaluacionResultadosComponent {
       this.evaluacionService.getResultsEvaluacion(this.getModel()).subscribe((data)=>{
         if (data.code == 0) {
           this.datosResultados = data.data;
-          console.log(data.data)
+          // console.log(data.data)
         }
         else{
           this.notificationService.warning(data.message);

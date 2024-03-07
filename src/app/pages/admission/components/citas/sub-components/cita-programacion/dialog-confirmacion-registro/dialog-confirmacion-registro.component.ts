@@ -22,6 +22,6 @@ export class DialogConfirmacionRegistroComponent {
     this._dialogRef.close();
   }
   onSave(){
-    console.log(1)
+    // console.log(1)
   }
 }

@@ -43,7 +43,7 @@ export class HistorialVisualizacionComponent {
       };
       this.citasModificadas.push(cartilla);
     })
-    console.log(this.citasModificadas)
+    // console.log(this.citasModificadas)
   }
   
   funcionesExtra(opt: number){

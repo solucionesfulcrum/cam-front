@@ -62,7 +62,7 @@ export class ShowSolComponent implements OnInit {
   ngOnInit(): void {
     this._afiliaddoService.getDataSolicitud(this.idSolicitud).subscribe((data)=>{
       if (data.code == 0) {
-        console.log(data.data);
+        // console.log(data.data);
         this.dataSolicitud = data.data;
         if (this.dataSolicitud.solicitud.estado === 'EVALUADO') {
           this.opcionesBotones[1].deshabilitado = true;
@@ -129,7 +129,7 @@ export class ShowSolComponent implements OnInit {
     this.datosGeneralesServices.searchByUbigeo(this.dataSolicitud.solicitud.ubigeoDireccion).subscribe((data)=>{
       if (data.code == 0) {
         this.direccionSolicitud = data.data;
-        console.log(this.direccionSolicitud)
+        // console.log(this.direccionSolicitud)
       }
       else{
         this.notificationService.warning(data.message);

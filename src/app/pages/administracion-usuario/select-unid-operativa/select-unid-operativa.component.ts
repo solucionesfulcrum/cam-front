@@ -39,7 +39,7 @@ export class SelectUnidOperativaComponent {
   }
 
   AsignarUnidadOperativa(unidOperativ: any){
-    console.log(unidOperativ)
+    // console.log(unidOperativ)
     localStorage.setItem('UnidElegida', JSON.stringify(unidOperativ));
     this.router.navigate(['/app']);
   }

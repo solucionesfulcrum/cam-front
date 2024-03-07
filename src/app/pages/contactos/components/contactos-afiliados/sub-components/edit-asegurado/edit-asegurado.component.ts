@@ -75,7 +75,7 @@ export class EditAseguradoComponent {
 
   ngOnInit(): void {
     this.getDataFicha()
-    console.log(this.idUserSession)
+    // console.log(this.idUserSession)
     this.frmCtrlDireccion.addValidators([Validators.required]);
     this.frmCtrlModIngr.addValidators([Validators.required]);
   }
@@ -96,7 +96,7 @@ export class EditAseguradoComponent {
           this.setDatosProcedencia(data.data.fichaAdmision.datosProcedencia);
           this.frmCtrlObservacion.setValue(data.data.fichaAdmision.observacion);
 
-          console.log(data.data)
+          // console.log(data.data)
         }
         else{
           this.notificationService.warning('Esta ficha no esta asignada a su unidad operativa');
@@ -278,7 +278,7 @@ export class EditAseguradoComponent {
             this.selectProcedenciaDerivOtro = seleccion;
             this.datoProcedenciaDerivOtro = dataObj.nombre;
             this.modalidadIngresoData = dataObj.modalidadIngreso;
-            console.log(this.modalidadIngresoData)
+            // console.log(this.modalidadIngresoData)
           }
           else{
             this.opcionCancelada(modalidad);
@@ -405,7 +405,7 @@ export class EditAseguradoComponent {
 
   validarFicha(): boolean{
     let direccionesValid = false;
-    console.log(this.formDatosContacto.get('frmCelular')!.errors)
+    // console.log(this.formDatosContacto.get('frmCelular')!.errors)
     if(this.frmCtrlDireccion.valid){
       direccionesValid = true;
     }

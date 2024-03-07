@@ -51,7 +51,7 @@ export class CitaProgramacionComponent {
       else{
         this.profesionalesDisponibles.push(this.opcionesTurnos.find((x)=>{return x.idProfesional == profesionalElegido}));
       }
-      console.log(this.profesionalesDisponibles)
+      // console.log(this.profesionalesDisponibles)
     })
 
     this.ctrlActividad.valueChanges.subscribe((data)=>{

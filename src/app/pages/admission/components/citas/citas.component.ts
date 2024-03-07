@@ -58,7 +58,7 @@ export class CitasComponent{
     }).subscribe((data)=>{
       if (data.code == 0) {
         const dataObj = Object(data.data);
-        console.log(dataObj)
+        // console.log(dataObj)
         this.dataSource = dataObj.list;
         this.pageNum = dataObj.pageNum;
         this.pageSize = dataObj.pageSize;

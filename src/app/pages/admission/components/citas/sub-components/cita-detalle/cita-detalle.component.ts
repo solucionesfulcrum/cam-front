@@ -49,7 +49,7 @@ export class CitaDetalleComponent {
 
   ngOnInit(): void{
     this._admisionFichaService.getFicha(this.idHistoria).subscribe((data)=>{
-      console.log(data)
+      // console.log(data)
       if (data.code == 0) {
         this.datosFicha = data.data;
         var timeDiff = Math.abs(Date.now() - (new Date(this.datosFicha.asegurado.fecNacimiento)).getTime());

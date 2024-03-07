@@ -20,7 +20,7 @@ export class TabCitaActividadesComponent {
   constructor(private activeRoute                   : ActivatedRoute,
               private notificationService           : NotificationService,
               private _admisionCitasService         : AdmisionCitasService) {
-                console.log(this.activeRoute.snapshot.paramMap)
+                // console.log(this.activeRoute.snapshot.paramMap)
       this.idHistoria = this.activeRoute.snapshot.paramMap.get('idHist')!;
     }
 
@@ -28,7 +28,7 @@ export class TabCitaActividadesComponent {
     this._admisionCitasService.getCitasOfFicha(this.idHistoria).subscribe((data)=>{
       if (data.code == 0) {
         this.citasAsignadas = data.data;
-        console.log(data)
+        // console.log(data)
         this.citasAsignadas.forEach((x, index)=>{
           let modificado: FormatoCartilla = {idActividad: index, actividadNombre: x.actividad, estadoCartilla: x.estado, fechaCreacion: new Date(), ingresaImagen: false};
           this.citasModificadas.push(modificado)

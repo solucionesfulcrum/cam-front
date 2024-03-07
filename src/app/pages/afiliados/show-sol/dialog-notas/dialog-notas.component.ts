@@ -33,7 +33,6 @@ export class DialogNotasComponent {
   loadData(){
     this.solicitudServicio.listarNotaSolicitud(this.data.idSolicitud).subscribe((data)=>{
       if (data.code == 0) {
-        console.log(data.data)
         this.registrosNotas = data.data;
       }
       else{

@@ -68,7 +68,7 @@ export class EvaluacionComponent {
             this.status = 'success';
             localStorage.setItem('idFichaEvaluada', this.infoObtenida.idFichaAdmision);
             this.router.navigate(['app/afiliados/evaluacion/agregaEval']);
-            console.log(data.data)
+            // console.log(data.data)
           }
           else{
             this.status = 'failed';

@@ -103,7 +103,7 @@ export class DialogModalidadIngresoComponent {
 
   onSelectionChangeIpress(event: any) {
     this.ipressSeleccionadaTmp = event.option.value;
-    console.log(this.ipressSeleccionadaTmp.nom_centro)
+    // console.log(this.ipressSeleccionadaTmp.nom_centro)
     this.formModIngreso.get('frmModalidad')?.setValue(this.ipressSeleccionadaTmp.nom_centro);
   }
 
