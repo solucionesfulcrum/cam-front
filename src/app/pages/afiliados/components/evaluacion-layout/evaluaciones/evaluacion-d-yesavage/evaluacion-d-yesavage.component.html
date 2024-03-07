@@ -43,7 +43,7 @@
             <app-btn class="flex flex-row botonApariencia botonOpciones" color="mezclado" routerLink="../eva-gijon">
                 Anterior
             </app-btn>
-            <app-btn class="flex flex-row botonApariencia botonOpciones" color="mezclado" (click)="validateFormNextPage()">
+            <app-btn class="flex flex-row botonApariencia botonOpciones" color="mezclado" (click)="validateFormNextPage()" [loading]="status === 'loading'">
                 Siguiente
                 <fa-icon class="ml-2" [icon]="faArrowAltCircleRight"></fa-icon>
             </app-btn>

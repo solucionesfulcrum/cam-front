@@ -1,5 +1,6 @@
 export interface RequestEvaluacionRespuestas {
-  idFichaAdmision: number,
+  tipoEvaluacion: string,
+  idOrigen: number,
   idUnidadOperativa: number,
   pagina: number
 }
@@ -10,7 +11,8 @@ export interface RequestRegisterAnswersEvaluacion{
 }
 
 export interface RegisterAnswersHeader{
-  idFichaAdmision: number,
+  tipoEvaluacion: string,
+  idOrigen: number,
   idUnidadOperativa: number,
   pagina: number
 }
@@ -20,4 +22,19 @@ export interface RegisterAnswersUnit{
   idCuestionario: number,
   respuesta1: number,
   respuesta2: number
+}
+
+export interface RequestResultsEvaluacion{
+  tipoEvaluacion: string,
+  idOrigen: number,
+  idFichaAdmision: number,
+  idUnidadOperativa: number
+}
+
+export interface SendDataResultado{
+  tipoEvaluacion: string,
+  idOrigen: number,
+  idUnidadOperativa: number,
+  admitido: boolean,
+  comentario: string
 }

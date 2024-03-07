@@ -70,7 +70,6 @@ export class ContactoTabOperacionesComponent implements OnInit {
           };
         });
         this.dataShow = true;
-        console.log(this.listaOperaciones)
       }
       else{
         this.notificationService.warning(data.message);
@@ -96,7 +95,6 @@ export class ContactoTabOperacionesComponent implements OnInit {
       fecFin = `${fechaSinFormatFin.split('/')[2]}-${fechaSinFormatFin.split('/')[1]}-${fechaSinFormatFin.split('/')[0]}`;
     }
 
-    console.log(fecInicio, fecFin)
     return {
       idFichaAdmision: parseInt(this.idFicha),
       fecInicio: fecInicio,

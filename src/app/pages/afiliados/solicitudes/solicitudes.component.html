@@ -12,6 +12,8 @@
       [searchInputPlaceHolder]="'Busqueda de texto'"
       [showFirstDisplayFilter]="true"
       [firstDisplayFilterPlaceholder]="{'indicador': true, 'placeholder': 'Todos los estados'}"
+      [firstDisplayFilterData]="opciones"
+      (firstDisplayFilterSendValue)="firstDisplayValue($event)"
       [showButton]="true"
       [buttonText]="'Nuevo'"
       (buttonAccion)="nuevoAsegurado()"

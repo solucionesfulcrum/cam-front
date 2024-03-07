@@ -10,6 +10,7 @@ import { AfiliacionesSolicitudesService } from 'src/app/data/services/afiliacion
 import { RequestListaSolicitudesAfiliados } from '@models/afiliados/ficha-solicitud.model';
 import { NotificationService } from '@services/notification.service';
 import { DialogNewAseguradoComponent } from '../../contactos/components/contactos-afiliados/sub-components/dialog/dialog-new-asegurado/dialog-new-asegurado.component';
+import { DatosGeneralesService } from 'src/app/data/services/datos-generales.service';
 
 @Component({
   selector: 'app-solicitudes',
@@ -22,9 +23,8 @@ export class SolicitudesComponent implements OnInit {
     {nombre:'Suspendidos', valor1:'02'},
     {nombre:'No Disponibles', valor1:'03'}
   ];
+  opciones: Parametro[] = [];
 
-  filtroFecInit!: string;
-  filtroFecFin!: string;
   formBuscar: FormGroup = this.fb.group({
     frmSearch:new FormControl(""),
     frmSearchDate:new FormControl(""),
@@ -69,16 +69,10 @@ export class SolicitudesComponent implements OnInit {
 
 */ 
 
-
-  form= this.fb.group({
-    fechaIni: [''],
-    fechaFin: [''],
-  });
-
-
   constructor(
     private fb: FormBuilder, 
     private afiliacionesService: AfiliacionesSolicitudesService,
+    private datosService            : DatosGeneralesService,
     private dialog                  : Dialog,
     private notificationService: NotificationService,
     private router: Router, 
@@ -87,7 +81,16 @@ export class SolicitudesComponent implements OnInit {
    }
 
   ngOnInit(): void {
-    this.onLoadData()
+    this.onLoadData();
+    this.datosService.getTipoParametros('ESTADO_SOLICITUD').subscribe((data)=>{
+      if (data.code == 0) {
+        console.log(data.data)
+        this.opciones = data.data;
+      }
+      else{
+        this.notificationService.warning(data.message);
+      }
+    });
   }
 
   onLoadData(){
@@ -147,7 +150,7 @@ export class SolicitudesComponent implements OnInit {
       fecFin: fecFin,
       pageNum: this.pageNum.toString(),
       pageSize: this.pageSize.toString(),
-      estado: 0
+      idEstadoParam: this.formBuscar.get('frmSearchEstado')?.value
     }
   }
 
@@ -163,18 +166,23 @@ export class SolicitudesComponent implements OnInit {
     const oneDay = 24 * 60 * 60 * 1000; // hours*minutes*seconds*milliseconds
     const diffInTime = (new Date().getTime()) - (new Date(date1)).getTime();
     return Math.round(diffInTime / oneDay) - 1;
-}
+  }
 
-nuevoAsegurado(){
-  const dialogRef = this.dialog.open(DialogNewAseguradoComponent,{
-    minWidth:'800px',
-    maxWidth:'50%',
-    data:{}
-  })
-  dialogRef.closed.subscribe(out =>{
-    // console.log(out)
-  })
-}
+  nuevoAsegurado(){
+    const dialogRef = this.dialog.open(DialogNewAseguradoComponent,{
+      minWidth:'800px',
+      maxWidth:'50%',
+      data:{}
+    })
+    dialogRef.closed.subscribe(out =>{
+      // console.log(out)
+    })
+  }
+
+  firstDisplayValue(value: any){
+    this.formBuscar.get('frmSearchEstado')?.setValue(value);
+    this.onLoadData();
+  }
   /*
   AsignarFiltro(filtro: string){
     this.form.get('frmSearchDate')?.setValue(filtro);

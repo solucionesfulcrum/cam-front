@@ -15,7 +15,7 @@ export interface RequestListaSolicitudesAfiliados{
     fecFin: string,
     pageNum: string,
     pageSize: string,
-    estado: number
+    idEstadoParam: number
 }
 
 export interface RequestListaSAfiliadosContacto{

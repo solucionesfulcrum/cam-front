@@ -1,6 +1,8 @@
 import { Component } from '@angular/core';
 import { Router } from '@angular/router';
 import { faArrowAltCircleRight } from '@fortawesome/free-solid-svg-icons';
+import { RegisterAnswersUnit, RequestRegisterAnswersEvaluacion } from '@models/afiliaciones/evaluaciones/evaluacion-evaluar.model';
+import { RequestStatus } from '@models/request-status.model';
 import { NotificationService } from '@services/notification.service';
 import { AfiliacionesEvaluacionesService } from 'src/app/data/services/afiliaciones/afiliaciones-evaluaciones.service';
 
@@ -15,6 +17,7 @@ export class EvaluacionCGijonComponent {
 
   dataTestC: any = Object();
   validated = false;
+  status: RequestStatus = 'init';
 
   // pregSitFam: any[] = [
   //   {descripcion: 'Vive con pareja y/o familia sin conflicto.', respuesta: 0},
@@ -48,7 +51,7 @@ export class EvaluacionCGijonComponent {
       if (data.code == 0) {
         this.dataTestC = data.data.grupales[0];
         this.dataTestC.subCategoria = this.dataTestC.subCategoria.sort((a: any, b: any) => {return a.idCuestSubCategoria - b.idCuestSubCategoria})
-        console.log(this.dataTestC)
+        console.log(this.dataTestC.subCategoria)
         // this.dataTestA = data.data.individuales.find((x: any)=> {return x.idCuestCategoria == 1});
         // this.preguntas = this.dataTestA.cuestionarios;
       }
@@ -61,11 +64,70 @@ export class EvaluacionCGijonComponent {
   validateFormNextPage(){
     this.validated = true;
     if (this.evaluacionService.formDataTestGij.valid) {
-      this.router.navigate(['app/afiliados/evaluacion/agregaEval/eva-yesavage']);
+      this.status = 'loading';
+      this.evaluacionService.registerEvaluacionRespuesta(this.getAnswers()).subscribe((data)=>{
+        console.log(this.getAnswers())  
+        if (data.code == 0) {
+          this.router.navigate(['app/afiliados/evaluacion/agregaEval/eva-yesavage']);
+          this.status = 'success';
+        }
+        else{
+          this.notificationService.warning(data.message);
+          this.status = 'failed';
+        }
+      })
     }
     else{
       this.evaluacionService.formDataTestGij.markAllAsTouched();
     }
   }
+
+  getAnswers(): RequestRegisterAnswersEvaluacion{
+    return {
+      cabecera: {
+        tipoEvaluacion: JSON.parse(localStorage.getItem('datosEvaluacion')!).tipoEvaluacion,
+        idOrigen: JSON.parse(localStorage.getItem('datosEvaluacion')!).idOrigen,
+        idUnidadOperativa: (JSON.parse(localStorage.getItem('UnidElegida')!)).idUnidOperativa,
+        pagina: 3
+      },
+      detalle: this.getUnitAnswers()
+    }
+  }
+
+  getUnitAnswers(): RegisterAnswersUnit[]{
+    let listAnsw: RegisterAnswersUnit[] = [];
+    this.dataTestC.subCategoria.find((x: any)=> { return x.idCuestSubCategoria == 1}).cuestionarios.forEach((z: any)=>{
+      let respuesta: RegisterAnswersUnit = {
+        tipoCuestionario: 'GRUPAL',
+        idCuestionario: z.idCuestionario,
+        respuesta1: (z.idCuestionario == this.evaluacionService.formDataTestGij.controls.pregFam.value ? 1 : 0),
+        respuesta2: 0
+      };
+      listAnsw.push(respuesta);
+    })
+
+    this.dataTestC.subCategoria.find((x: any)=> { return x.idCuestSubCategoria == 2}).cuestionarios.forEach((z: any)=>{
+      let respuesta: RegisterAnswersUnit = {
+        tipoCuestionario: 'GRUPAL',
+        idCuestionario: z.idCuestionario,
+        respuesta1: (z.idCuestionario == this.evaluacionService.formDataTestGij.controls.pregRel.value ? 1 : 0),
+        respuesta2: 0
+      };
+      listAnsw.push(respuesta);
+    })
+
+    this.dataTestC.subCategoria.find((x: any)=> { return x.idCuestSubCategoria == 3}).cuestionarios.forEach((z: any)=>{
+      let respuesta: RegisterAnswersUnit = {
+        tipoCuestionario: 'GRUPAL',
+        idCuestionario: z.idCuestionario,
+        respuesta1: (z.idCuestionario == this.evaluacionService.formDataTestGij.controls.pregApo.value ? 1 : 0),
+        respuesta2: 0
+      };
+      listAnsw.push(respuesta);
+    })
+    
+    return listAnsw;
+  }
+
 
 }

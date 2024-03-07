@@ -81,7 +81,7 @@
       
       <div class="grow flex flex-col gap-2 mx-2.5 text-[16px]">
         <span class="my-2.5 subTitulo">RESULTADOS</span>
-        <div class="flex flex-col text-[var(--color-black-alt)] pl-2.5 pr-1 scrollbarra h-[60vh] overflow-auto">
+        <div class="flex flex-col text-[var(--color-black-alt)] pl-2.5 pr-1 scrollbarra h-[60vh] overflow-auto" *ngIf="datosResultados">
             <span class="font-bold my-2.5">1. TEST PFEIFFER</span>
             <div class="flex flex-col pb-2.5">
                 <div class="flex flex-row gap-2.5">
@@ -89,7 +89,7 @@
                         <span>Si</span>
                     </div>
                     <div class="flex items-center px-2.5">
-                        <span>{{resultadosPfi.countSi}}</span>
+                        <span>{{datosResultados.testPfeiffer.si}}</span>
                     </div>
                 </div>
                 <div class="flex flex-row gap-2.5">
@@ -97,7 +97,7 @@
                         <span>No</span>
                     </div>
                     <div class="flex items-center px-2.5">
-                        <span>{{resultadosPfi.countMal}}</span>
+                        <span>{{datosResultados.testPfeiffer.no}}</span>
                     </div>
                 </div>
                 <div class="flex flex-row gap-2.5">
@@ -105,7 +105,7 @@
                         <span>Resultado</span>
                     </div>
                     <div class="flex items-center px-2.5">
-                        <span>{{resultadosPfi.resultado}}</span>
+                        <span>{{datosResultados.testPfeiffer.resultado}}</span>
                     </div>
                 </div>
             </div>
@@ -116,7 +116,7 @@
                         <span>Dependiente</span>
                     </div>
                     <div class="flex items-center px-2.5">
-                        <span>{{resultadosKatz.countSi}}</span>
+                        <span>{{datosResultados.testCatz.dependiete}}</span>
                     </div>
                 </div>
                 <div class="flex flex-row gap-2.5">
@@ -124,7 +124,7 @@
                         <span>Independiente</span>
                     </div>
                     <div class="flex items-center px-2.5">
-                        <span>{{resultadosKatz.countMal}}</span>
+                        <span>{{datosResultados.testCatz.independiente}}</span>
                     </div>
                 </div>
                 <div class="flex flex-row gap-2.5">
@@ -132,7 +132,7 @@
                         <span>Resultado</span>
                     </div>
                     <div class="flex items-center px-2.5">
-                        <span>{{resultadosKatz.resultado}}</span>
+                        <span>{{datosResultados.testCatz.resultado}}</span>
                     </div>
                 </div>
             </div>
@@ -143,7 +143,7 @@
                         <span>Puntuación</span>
                     </div>
                     <div class="flex items-center px-2.5">
-                        <span>6</span>
+                        <span>{{datosResultados.testGijon.puntuacion}}</span>
                     </div>
                 </div>
                 <div class="flex flex-row gap-2.5">
@@ -151,7 +151,7 @@
                         <span>Resultado</span>
                     </div>
                     <div class="flex items-center px-2.5">
-                        <span>Situación social buena</span>
+                        <span>{{datosResultados.testGijon.resultado}}</span>
                     </div>
                 </div>
             </div>
@@ -162,7 +162,7 @@
                         <span>Si</span>
                     </div>
                     <div class="flex items-center px-2.5">
-                        <span>{{resultadosYes.countSi}}</span>
+                        <span>{{datosResultados.testYesavage.si}}</span>
                     </div>
                 </div>
                 <div class="flex flex-row gap-2.5">
@@ -170,7 +170,7 @@
                         <span>No</span>
                     </div>
                     <div class="flex items-center px-2.5">
-                        <span>{{resultadosYes.countMal}}</span>
+                        <span>{{datosResultados.testYesavage.no}}</span>
                     </div>
                 </div>
                 <div class="flex flex-row gap-2.5">
@@ -178,7 +178,7 @@
                         <span>Resultado</span>
                     </div>
                     <div class="flex items-center px-2.5">
-                        <span>{{resultadosYes.resultado}}</span>
+                        <span>{{datosResultados.testYesavage.resultado}}</span>
                     </div>
                 </div>
             </div>
@@ -205,10 +205,20 @@
                         </li>
                     </ul>
                 </div>
-                <textarea id="message" rows="2" class="mt-2 text-gray-900 border-gray-300 focusCampo placeholder-gray-300" placeholder="Comentario"></textarea>
+                <div *ngIf="formResultados.controls.ctrlAdmitido.touched && formResultados.controls.ctrlAdmitido.invalid">
+                    <p *ngIf="formResultados.controls.ctrlAdmitido.hasError('required')" class="font-medium text-red-500 text-xs ml-1">
+                        Seleccione si es admitido o no.
+                    </p>
+                </div>
+                <textarea id="message" rows="2" formControlName="ctrlComentario" class="mt-2 text-gray-900 border-gray-300 focusCampo placeholder-gray-300" placeholder="Comentario"></textarea>
+                <div *ngIf="formResultados.controls.ctrlComentario.touched && formResultados.controls.ctrlComentario.invalid">
+                    <p *ngIf="formResultados.controls.ctrlComentario.hasError('required')" class="font-medium text-red-500 text-xs ml-1">
+                        Debe ingresarse un comentario.
+                    </p>
+                </div>
                 <div class="flex flex-row gap-2.5 py-1.5 justify-end">
                     <app-btn class="botonApariencia" color="success" routerLink=".."> Anterior</app-btn>
-                    <app-btn class="botonApariencia" color="mezclado">
+                    <app-btn class="botonApariencia" color="mezclado" (click)="sedData()" [loading]="status === 'loading'">
                        Finalizar  <esp-icon icon="faArrowAltCircleRight"></esp-icon>
                     </app-btn>
                 </div>

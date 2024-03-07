@@ -24,7 +24,7 @@ import { DialogNotasComponent } from './dialog-notas/dialog-notas.component';
 export class ShowSolComponent implements OnInit {
   opcionesBotones: FormatoBoton[] = [
     {texto: 'Notas', esImagen: true, rutaIcono: 'assets/svg/iconFileEdit.svg'},
-    {texto: 'Evaluar Afiliado', colorBtn:'mezclado', loading: false},
+    {texto: 'Evaluar Solicitud', colorBtn:'mezclado', loading: false},
   ];
 
   faSpinner = faSpinner;
@@ -141,6 +141,7 @@ export class ShowSolComponent implements OnInit {
         this.opcionesBotones[1].loading = false;
         if (data.data.acreditado) {
           localStorage.setItem('idFichaEvaluada', this.dataSolicitud.fichaAdmision.idFichaAdmision);
+          localStorage.setItem('datosEvaluacion', JSON.stringify({tipoEvaluacion: 'SOLICITUD', idOrigen: parseInt(this.idSolicitud)}));
           this.router.navigate(['/app/afiliados/evaluacion/agregaEval'])
         }
         else{

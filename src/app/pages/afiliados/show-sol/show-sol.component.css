@@ -76,7 +76,7 @@ h2{
     background: #D4D4D4;
 }
 .scrollbarra::-webkit-scrollbar-thumb {
-    background: var(--color-CAM-black-alt);
+    background: var(--color-black-alt);
 }
  
 .scrollbarra::-webkit-scrollbar-thumb:hover {

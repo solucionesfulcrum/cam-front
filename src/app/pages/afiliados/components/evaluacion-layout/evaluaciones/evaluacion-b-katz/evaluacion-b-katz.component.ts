@@ -66,7 +66,8 @@ export class EvaluacionBKatzComponent {
   getAnswers(): RequestRegisterAnswersEvaluacion{
     return {
       cabecera: {
-        idFichaAdmision: JSON.parse(localStorage.getItem('idFichaEvaluada')!),
+        tipoEvaluacion: JSON.parse(localStorage.getItem('datosEvaluacion')!).tipoEvaluacion,
+        idOrigen: JSON.parse(localStorage.getItem('datosEvaluacion')!).idOrigen,
         idUnidadOperativa: (JSON.parse(localStorage.getItem('UnidElegida')!)).idUnidOperativa,
         pagina: 2
       },

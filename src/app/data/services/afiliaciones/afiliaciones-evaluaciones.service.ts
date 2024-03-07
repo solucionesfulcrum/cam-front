@@ -2,7 +2,7 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { FormArray, FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { environment } from '@environments/environment';
-import { RequestEvaluacionRespuestas, RequestRegisterAnswersEvaluacion } from '@models/afiliaciones/evaluaciones/evaluacion-evaluar.model';
+import { RequestEvaluacionRespuestas, RequestRegisterAnswersEvaluacion, RequestResultsEvaluacion, SendDataResultado } from '@models/afiliaciones/evaluaciones/evaluacion-evaluar.model';
 
 const URL_BASE = `${environment.API}/evaluacion`;
 
@@ -65,6 +65,16 @@ export class AfiliacionesEvaluacionesService {
 
   registerEvaluacionRespuesta(model: RequestRegisterAnswersEvaluacion){
     const url = `${URL_BASE}/registrar`;
+    return this._httpClient.post<any>(url, model);
+  }
+
+  getResultsEvaluacion(model: RequestResultsEvaluacion){
+    const url = `${URL_BASE}-resultado/obtener`;
+    return this._httpClient.post<any>(url, model);
+  }
+
+  registerResultsEvaluacion(model: SendDataResultado){
+    const url = `${URL_BASE}-resultado/registrar`;
     return this._httpClient.post<any>(url, model);
   }
 }

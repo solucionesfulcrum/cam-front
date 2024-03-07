@@ -1,6 +1,9 @@
 import { Component } from '@angular/core';
-import { FormBuilder, FormControl } from '@angular/forms';
+import { FormBuilder, FormControl, Validators } from '@angular/forms';
+import { Router } from '@angular/router';
 import { faSpinner } from '@fortawesome/free-solid-svg-icons';
+import { RequestResultsEvaluacion, SendDataResultado } from '@models/afiliaciones/evaluaciones/evaluacion-evaluar.model';
+import { RequestStatus } from '@models/request-status.model';
 import { NotificationService } from '@services/notification.service';
 import { FormatoBoton } from '@shared/components/opciones-botones/formato-boton.model';
 import { AfiliacionesEvaluacionesService } from 'src/app/data/services/afiliaciones/afiliaciones-evaluaciones.service';
@@ -16,8 +19,10 @@ export class EvaluacionResultadosComponent {
   dataSolicitud: any = true;
   dataFicha: any = Object();
   edadPersona: number = 0;
+  status: RequestStatus = 'init';
 
   ready = false;
+  datosResultados!: any;
 
   opcionesBotones: FormatoBoton[] = [
     {texto: 'Notas', esImagen: true, rutaIcono: 'assets/svg/iconFileEdit.svg'},
@@ -26,24 +31,63 @@ export class EvaluacionResultadosComponent {
   ];
   
   formResultados = this.fb.group({
-    ctrlAdmitido: new FormControl(null),
-    ctrlComentario: new FormControl(null)
+    ctrlAdmitido: new FormControl(null, [Validators.required]),
+    ctrlComentario: new FormControl(null, [Validators.required])
   });
-
-  resultadosPfi: any = Object();
-  resultadosKatz: any = Object();
-  resultadosGij: any = Object();
-  resultadosYes: any = Object();
 
   constructor(public fb                             : FormBuilder,
               public contactosAfiliadosService      : ContactosAfiliadosService,
               public notificationService            : NotificationService,
+              public router                         : Router,
               public evaluacionService              : AfiliacionesEvaluacionesService){}
 
   ngOnInit(){
     this.getData()
-    this.calculateResults();
-    console.log(this.evaluacionService.formDataTestPfi.value)
+  }
+
+  sedData(){
+    if (this.evaluacionService.formDataTestPfi.valid && this.evaluacionService.formDataTestKatz.valid && this.evaluacionService.formDataTestGij.valid && this.evaluacionService.formDataTestYesa.valid) {
+      if (this.formResultados.valid) {
+        this.status = 'loading';
+        this.evaluacionService.registerResultsEvaluacion(this.getModelSend()).subscribe((data)=>{
+          if (data.code == 0) {
+            if (JSON.parse(localStorage.getItem('datosEvaluacion')!).tipoEvaluacion == 'SOLICITUD') {
+              this.router.navigate(['app/afiliados']);
+              this.notificationService.success('Se ha registrado la evaluación sobre la ficha de solicitud');
+            }
+            else if (JSON.parse(localStorage.getItem('datosEvaluacion')!).tipoEvaluacion == 'FICHA_ADMISION'){
+              this.router.navigate(['app/contactos']);
+              this.notificationService.success('Se ha registrado la evaluación sobre la ficha de asegurado');
+            }
+            this.status = 'success';
+          }
+          else{
+            this.notificationService.warning(data.message);
+            this.status = 'failed';
+          }
+        })
+      }
+      else{
+        this.formResultados.markAllAsTouched();
+      }
+    }
+    else{
+      this.notificationService.warning('Quedan evaluaciones sin resolver, porfavor regrese a la vista anterior');
+      this.evaluacionService.formDataTestPfi.markAllAsTouched();
+      this.evaluacionService.formDataTestKatz.markAllAsTouched();
+      this.evaluacionService.formDataTestGij.markAllAsTouched();
+      this.evaluacionService.formDataTestYesa.markAllAsTouched();
+    }
+  }
+
+  getModelSend(): SendDataResultado{
+    return {
+      tipoEvaluacion: JSON.parse(localStorage.getItem('datosEvaluacion')!).tipoEvaluacion,
+      idOrigen: JSON.parse(localStorage.getItem('datosEvaluacion')!).idOrigen,
+      idUnidadOperativa: (JSON.parse(localStorage.getItem('UnidElegida')!)).idUnidOperativa,
+      admitido: this.formResultados.controls.ctrlAdmitido.value == 'Si' ? true : false,
+      comentario: this.formResultados.controls.ctrlComentario.value!
+    }
   }
 
   getData(){
@@ -54,8 +98,16 @@ export class EvaluacionResultadosComponent {
           var dateObject = new Date(data.data.asegurado.fecNacimiento); 
           var timeDiff = Math.abs(Date.now() - dateObject.getTime());
           this.edadPersona = Math.floor(timeDiff / (1000 * 3600 * 24) / 365.25);
-          console.log(this.dataFicha);
           this.ready = true;
+        }
+        else{
+          this.notificationService.warning(data.message);
+        }
+      })
+      this.evaluacionService.getResultsEvaluacion(this.getModel()).subscribe((data)=>{
+        if (data.code == 0) {
+          this.datosResultados = data.data;
+          console.log(data.data)
         }
         else{
           this.notificationService.warning(data.message);
@@ -63,16 +115,13 @@ export class EvaluacionResultadosComponent {
       })
     }
   }
-  calculateResults(){
-    this.resultadosPfi.countSi = Object.keys(this.evaluacionService.formDataTestPfi.value).filter(x => this.evaluacionService.formDataTestPfi.value[x] == 'BIEN').length;
-    this.resultadosPfi.countMal = Object.keys(this.evaluacionService.formDataTestPfi.value).filter(x => this.evaluacionService.formDataTestPfi.value[x] == 'MAL').length;
-    this.resultadosPfi.resultado = 'Valoración Cognitiva normal';
-    this.resultadosKatz.countSi = Object.keys(this.evaluacionService.formDataTestKatz.value).filter(x => this.evaluacionService.formDataTestKatz.value[x] == 'SI').length;
-    this.resultadosKatz.countMal = Object.keys(this.evaluacionService.formDataTestKatz.value).filter(x => this.evaluacionService.formDataTestKatz.value[x] == 'NO').length;
-    this.resultadosKatz.resultado = 'Independiente';
-    this.resultadosYes.countSi = Object.keys(this.evaluacionService.formDataTestYesa.value).filter(x => this.evaluacionService.formDataTestYesa.value[x] == 'SI').length;
-    this.resultadosYes.countMal = Object.keys(this.evaluacionService.formDataTestYesa.value).filter(x => this.evaluacionService.formDataTestYesa.value[x] == 'NO').length;
-    this.resultadosYes.resultado = 'Normal';
-  }
 
+  getModel(): RequestResultsEvaluacion{
+    return {
+      tipoEvaluacion: JSON.parse(localStorage.getItem('datosEvaluacion')!).tipoEvaluacion,
+      idOrigen: JSON.parse(localStorage.getItem('datosEvaluacion')!).idOrigen,
+      idUnidadOperativa: (JSON.parse(localStorage.getItem('UnidElegida')!)).idUnidOperativa,
+      idFichaAdmision: JSON.parse(localStorage.getItem('idFichaEvaluada')!)
+    }
+  }
 }

@@ -60,6 +60,10 @@ export class ShowAfiliadoComponent implements OnInit {
     this.aseguradoServices.obtenerFichaAsegurado(this.idFicha).subscribe((data)=>{
       if (data.code == 0) {
         this.dataFichaAfiliado = data.data;
+        if (this.dataFichaAfiliado.fichaAdmision.datosAfiliacion.estadoAfi !== 'ACTIVO') {
+          this.opcionesBotones[2].deshabilitado = true;
+          console.log(this.opcionesBotones)
+        }
         var dateObject = new Date(data.data.asegurado.fecNacimiento); 
         var timeDiff = Math.abs(Date.now() - dateObject.getTime());
         this.edadPersona = Math.floor(timeDiff / (1000 * 3600 * 24) / 365.25);
@@ -97,6 +101,7 @@ export class ShowAfiliadoComponent implements OnInit {
         this.opcionesBotones[2].loading = false;
         if (data.data.acreditado) {
           localStorage.setItem('idFichaEvaluada', this.dataFichaAfiliado.fichaAdmision.idFichaAdmision);
+          localStorage.setItem('datosEvaluacion', JSON.stringify({tipoEvaluacion: 'FICHA_ADMISION', idOrigen: parseInt(this.idFicha)}));
           this.router.navigate(['/app/afiliados/evaluacion/agregaEval'])
         }
         else{
