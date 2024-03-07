@@ -7,7 +7,7 @@
     </div>
 </div>
 <div class="flex flex-col" *ngIf="ready">
-    <esp-opciones-botones  [listOpciones]="opcionesBotones"></esp-opciones-botones>
+    <esp-opciones-botones  [listOpciones]="opcionesBotones" (firstFunction)="Notas()"></esp-opciones-botones>
     
 <div *ngIf="ready" class="bg-white botonApariencia">
     <div class="flex flex-row justify-between py-1.5 px-2.5"> 

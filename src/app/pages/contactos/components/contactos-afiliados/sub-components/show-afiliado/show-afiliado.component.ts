@@ -1,3 +1,4 @@
+import { Dialog } from '@angular/cdk/dialog';
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { faSpinner } from '@fortawesome/free-solid-svg-icons';
@@ -6,6 +7,7 @@ import { FormatoBoton } from '@shared/components/opciones-botones/formato-boton.
 import { AfiliacionesSolicitudesService } from 'src/app/data/services/afiliaciones/afiliaciones-solicitudes.service';
 import { ContactosAfiliadosService } from 'src/app/data/services/contactos/contactos-afiliados.service';
 import { DatosGeneralesService } from 'src/app/data/services/datos-generales.service';
+import { DialogNotasComponent } from 'src/app/pages/afiliados/show-sol/dialog-notas/dialog-notas.component';
 
 @Component({
   selector: 'app-show-afiliado',
@@ -36,6 +38,7 @@ export class ShowAfiliadoComponent implements OnInit {
               private activeRoute                   : ActivatedRoute,
               private aseguradoServices             : ContactosAfiliadosService,
               private datosGeneralesServices        : DatosGeneralesService,
+              private dialog                        : Dialog,
               private notificationService           : NotificationService,
               private afiliadoServices              : AfiliacionesSolicitudesService) { 
       this.idFicha = this.activeRoute.snapshot.paramMap.get('idFicha')!;
@@ -62,7 +65,6 @@ export class ShowAfiliadoComponent implements OnInit {
         this.dataFichaAfiliado = data.data;
         if (this.dataFichaAfiliado.fichaAdmision.datosAfiliacion.estadoAfi !== 'ACTIVO') {
           this.opcionesBotones[2].deshabilitado = true;
-          console.log(this.opcionesBotones)
         }
         var dateObject = new Date(data.data.asegurado.fecNacimiento); 
         var timeDiff = Math.abs(Date.now() - dateObject.getTime());
@@ -116,6 +118,16 @@ export class ShowAfiliadoComponent implements OnInit {
   }
 
   Notas(){
+    const dialogRef = this.dialog.open(DialogNotasComponent,{
+      minWidth:'800px',
+      maxWidth:'50%',        
+      data:{
+        idSolicitud: this.dataFichaAfiliado.fichaAdmision.idFichaAdmision,
+      }
+    })
+    dialogRef.closed.subscribe(out =>{
+      // console.log(out)
+    })
   }
 
 }

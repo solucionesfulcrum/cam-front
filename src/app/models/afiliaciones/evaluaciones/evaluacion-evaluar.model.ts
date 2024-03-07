@@ -27,7 +27,6 @@ export interface RegisterAnswersUnit{
 export interface RequestResultsEvaluacion{
   tipoEvaluacion: string,
   idOrigen: number,
-  idFichaAdmision: number,
   idUnidadOperativa: number
 }
 

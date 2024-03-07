@@ -69,7 +69,7 @@ export class DialogNotasComponent {
 
   getModel(): RegisterNota{
     return {
-      idSolicitud: this.data.idSolicitud,
+      idFichaAdmision: this.data.idSolicitud,
       nota: this.frmCtrlNota.value,
       idUsuarioReg: this.idUserSession
     }

@@ -1,3 +1,4 @@
+import { Dialog } from '@angular/cdk/dialog';
 import { Component } from '@angular/core';
 import { FormBuilder, FormControl, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
@@ -8,6 +9,7 @@ import { NotificationService } from '@services/notification.service';
 import { FormatoBoton } from '@shared/components/opciones-botones/formato-boton.model';
 import { AfiliacionesEvaluacionesService } from 'src/app/data/services/afiliaciones/afiliaciones-evaluaciones.service';
 import { ContactosAfiliadosService } from 'src/app/data/services/contactos/contactos-afiliados.service';
+import { DialogNotasComponent } from 'src/app/pages/afiliados/show-sol/dialog-notas/dialog-notas.component';
 
 @Component({
   selector: 'esp-evaluacion-resultados',
@@ -38,6 +40,7 @@ export class EvaluacionResultadosComponent {
   constructor(public fb                             : FormBuilder,
               public contactosAfiliadosService      : ContactosAfiliadosService,
               public notificationService            : NotificationService,
+              private dialog                        : Dialog,
               public router                         : Router,
               public evaluacionService              : AfiliacionesEvaluacionesService){}
 
@@ -120,8 +123,20 @@ export class EvaluacionResultadosComponent {
     return {
       tipoEvaluacion: JSON.parse(localStorage.getItem('datosEvaluacion')!).tipoEvaluacion,
       idOrigen: JSON.parse(localStorage.getItem('datosEvaluacion')!).idOrigen,
-      idUnidadOperativa: (JSON.parse(localStorage.getItem('UnidElegida')!)).idUnidOperativa,
-      idFichaAdmision: JSON.parse(localStorage.getItem('idFichaEvaluada')!)
+      idUnidadOperativa: (JSON.parse(localStorage.getItem('UnidElegida')!)).idUnidOperativa
     }
+  }
+
+  Notas(){
+    const dialogRef = this.dialog.open(DialogNotasComponent,{
+      minWidth:'800px',
+      maxWidth:'50%',        
+      data:{
+        idSolicitud: this.dataFicha.fichaAdmision.idFichaAdmision,
+      }
+    })
+    dialogRef.closed.subscribe(out =>{
+      // console.log(out)
+    })
   }
 }

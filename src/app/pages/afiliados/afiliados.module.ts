@@ -83,6 +83,9 @@ import { MatAutocompleteModule } from '@angular/material/autocomplete';
     MaterialModule,
     DialogModule,
     SharedModule,
+  ],
+  providers: [
+    EvaluacionAPfeifferComponent
   ]
 })
 export class AfiliadosModule { }

@@ -122,7 +122,7 @@
             </div>
             <div class="info-container">
               <p class="flex w-1/2 flex-col py-1 bg-slate-100 my-1 mx-0 font-bold"> Estado </p> 
-              <p class="flex w-1/2 flex-col ml-2.5 my-1 text-[#0CCE6B]"> {{dataFichaAfiliado.fichaAdmision.datosAfiliacion.estadoAfi}} </p>
+              <p class="flex w-1/2 flex-col ml-2.5 my-1" [ngClass]="dataFichaAfiliado.fichaAdmision.datosAfiliacion.estadoAfi == 'NO APTO' ? 'text-red-500' : 'text-[#0CCE6B]'"> {{dataFichaAfiliado.fichaAdmision.datosAfiliacion.estadoAfi}} </p>
               <!-- <p class="flex w-1/2 flex-col ml-2.5 my-1"> {{dataSolicitud.estCivil | titlecase}} </p> -->
             </div>
           </div>

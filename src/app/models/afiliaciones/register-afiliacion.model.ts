@@ -21,7 +21,7 @@ export interface RegisterSolicitud {
 }
 
 export interface RegisterNota{
-  idSolicitud: number,
+  idFichaAdmision: number,
   nota: string,
   idUsuarioReg: number
 }

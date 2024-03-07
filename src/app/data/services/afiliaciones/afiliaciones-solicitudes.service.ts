@@ -30,12 +30,12 @@ export class AfiliacionesSolicitudesService {
   }
 
   registerNotaSolicitud(model: RegisterNota){
-    const url = `${environment.API}/solicitud-notas/registrar`;
+    const url = `${environment.API}/notas/registrar`;
     return this._httpClient.post<any>(url, model);
   }
 
   listarNotaSolicitud(idSolicitud: string){
-    const url = `${environment.API}/solicitud-notas/listar/${idSolicitud}`;
+    const url = `${environment.API}/notas/listar/${idSolicitud}`;
     return this._httpClient.get<any>(url);
   }
 

@@ -64,6 +64,9 @@ export class ShowSolComponent implements OnInit {
       if (data.code == 0) {
         console.log(data.data);
         this.dataSolicitud = data.data;
+        if (this.dataSolicitud.solicitud.estado === 'EVALUADO') {
+          this.opcionesBotones[1].deshabilitado = true;
+        }
         var dateObject = new Date(data.data.asegurado.fecNacimiento); 
         var timeDiff = Math.abs(Date.now() - dateObject.getTime());
         this.edadPersona = Math.floor(timeDiff / (1000 * 3600 * 24) / 365.25);
@@ -162,7 +165,7 @@ export class ShowSolComponent implements OnInit {
       minWidth:'800px',
       maxWidth:'50%',        
       data:{
-        idSolicitud: this.idSolicitud,
+        idSolicitud: this.dataSolicitud.fichaAdmision.idFichaAdmision,
       }
     })
     dialogRef.closed.subscribe(out =>{
