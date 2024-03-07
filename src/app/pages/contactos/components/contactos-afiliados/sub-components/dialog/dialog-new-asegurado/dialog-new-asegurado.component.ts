@@ -65,6 +65,9 @@ export class DialogNewAseguradoComponent {
           this.status = 'success';
           this.tipoMsg = data.data.acreditado;
           this.msgRespuesta = data.data.mensaje;
+          if (this.tipoMsg == true) {
+            this.setLink2(this.createRequest().numDoc, this.createRequest().tipoDoc)
+          }
           //this.hayMsg = true;
         }
         else{

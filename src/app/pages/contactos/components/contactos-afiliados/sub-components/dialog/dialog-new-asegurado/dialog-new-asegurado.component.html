@@ -52,16 +52,15 @@
     <div *ngIf="tipoMsg==false" class="flex justify-center space-x-2">
       <span class="text-red-500 text-center">{{msgRespuesta | titlecase}}</span>
     </div>
-    <div *ngIf="tipoMsg==true" class="flex justify-center">
+    <!-- <div *ngIf="tipoMsg==true" class="flex justify-center">
       <div class="boxMsgSatisf">
         <div class="boxSpanMsg">
           <span class="text-green-500 text-center">{{msgRespuesta | titlecase}}</span>
         </div>
         <div class="btnSgte">
-          <!--<app-btn typeBtn="submit" color="success" class="botonMezclado" (click)="setLink2(createRequest().numDoc, createRequest().tipoDoc)">Generar Ficha de Admisión-->
           <app-btn color="mezclado" (click)="setLink2(createRequest().numDoc, createRequest().tipoDoc)">Generar Ficha de Admisión
           </app-btn>
         </div>
       </div>
-    </div>
+    </div> -->
 </div>

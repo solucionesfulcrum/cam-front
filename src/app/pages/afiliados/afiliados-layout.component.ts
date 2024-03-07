@@ -10,7 +10,7 @@ export class AfiliadosLayoutComponent {
 
   links3=[
     {url:'/app/afiliados', title:'Solicitudes', tituloOpcional: 'Bandeja'},
-    {url:'/app/afiliados/evaluacion', title:'Evaluación', tituloOpcional: 'Evaluaciones'},
+    // {url:'/app/afiliados/evaluacion', title:'Evaluación', tituloOpcional: 'Evaluaciones'},
     
     // {url:'/afiliados/analisis', title:'Análisis'},
     // {url:'/afiliados/solicitudes', title:'Solicitudes'},
