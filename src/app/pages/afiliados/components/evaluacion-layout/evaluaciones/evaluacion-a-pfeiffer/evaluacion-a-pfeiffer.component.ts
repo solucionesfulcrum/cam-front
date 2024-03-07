@@ -69,7 +69,8 @@ export class EvaluacionAPfeifferComponent {
         tipoEvaluacion: JSON.parse(localStorage.getItem('datosEvaluacion')!).tipoEvaluacion,
         idOrigen: JSON.parse(localStorage.getItem('datosEvaluacion')!).idOrigen,
         idUnidadOperativa: (JSON.parse(localStorage.getItem('UnidElegida')!)).idUnidOperativa,
-        pagina: 1
+        pagina: 1,
+        idUsuarioReg: (JSON.parse(localStorage.getItem('camUser')!)).idUsuario
       },
       detalle: this.getUnitAnswers()
     }

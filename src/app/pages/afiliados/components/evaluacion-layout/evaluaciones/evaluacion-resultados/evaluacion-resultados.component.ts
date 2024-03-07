@@ -92,7 +92,8 @@ export class EvaluacionResultadosComponent {
       idOrigen: JSON.parse(localStorage.getItem('datosEvaluacion')!).idOrigen,
       idUnidadOperativa: (JSON.parse(localStorage.getItem('UnidElegida')!)).idUnidOperativa,
       admitido: this.formResultados.controls.ctrlAdmitido.value == 'Si' ? true : false,
-      comentario: this.formResultados.controls.ctrlComentario.value!
+      comentario: this.formResultados.controls.ctrlComentario.value!,
+      idUsuarioReg: (JSON.parse(localStorage.getItem('camUser')!)).idUsuario
     }
   }
 

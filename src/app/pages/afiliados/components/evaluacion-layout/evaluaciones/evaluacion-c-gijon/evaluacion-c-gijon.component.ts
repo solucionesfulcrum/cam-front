@@ -88,7 +88,8 @@ export class EvaluacionCGijonComponent {
         tipoEvaluacion: JSON.parse(localStorage.getItem('datosEvaluacion')!).tipoEvaluacion,
         idOrigen: JSON.parse(localStorage.getItem('datosEvaluacion')!).idOrigen,
         idUnidadOperativa: (JSON.parse(localStorage.getItem('UnidElegida')!)).idUnidOperativa,
-        pagina: 3
+        pagina: 3,
+        idUsuarioReg: (JSON.parse(localStorage.getItem('camUser')!)).idUsuario
       },
       detalle: this.getUnitAnswers()
     }

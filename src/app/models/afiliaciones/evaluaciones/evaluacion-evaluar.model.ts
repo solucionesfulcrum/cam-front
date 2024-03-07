@@ -14,7 +14,8 @@ export interface RegisterAnswersHeader{
   tipoEvaluacion: string,
   idOrigen: number,
   idUnidadOperativa: number,
-  pagina: number
+  pagina: number,
+  idUsuarioReg: number
 }
 
 export interface RegisterAnswersUnit{
@@ -35,5 +36,6 @@ export interface SendDataResultado{
   idOrigen: number,
   idUnidadOperativa: number,
   admitido: boolean,
-  comentario: string
+  comentario: string,
+  idUsuarioReg: number
 }
