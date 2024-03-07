@@ -10,7 +10,12 @@ mat-icon{
 }
 .icono{
     background-color: #008bd2;
-    border: 1px solid #ddd; 
+    border: 1px solid #ddd;
+    width: 45px;
+    height: 45px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
     border-radius: 5px;
     padding: 5px; 
     color: white;
@@ -22,7 +27,7 @@ mat-icon{
     display: flex;
     align-items: center;
     justify-content: space-between;
-    font-weight: 500;
+    font-weight: 600;
     border-radius: 5px;
     background-color: #ffffff;
     width: 25%;
@@ -44,6 +49,5 @@ mat-icon{
 }
 
 .colorDivRojo{
-    color: red;
-    width: 300px; 
+    color: red; 
 }
