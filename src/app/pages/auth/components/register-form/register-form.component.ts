@@ -93,6 +93,9 @@ export class RegisterFormComponent {
   ngOnInit(): void {
     // this.toastr.success('hola');
     this.getParametros();
+    this.form.controls.doc.valueChanges.subscribe(val => {
+      this.form.controls.doc.setValue(val.trim(), { emitEvent: false })
+    })
 
     this.frmCtrlUnidadOperativa.valueChanges.pipe(startWith(''), map(value => typeof value === 'string' ? value : value.nombre)).subscribe((data) => {
      
@@ -101,7 +104,7 @@ export class RegisterFormComponent {
       })
     })
     this.frmCtrlUnidadOperativa.setValue('')
-    //this.frmCtrlUnidadOperativa.addValidators([Validators.required])
+    this.frmCtrlUnidadOperativa.addValidators([Validators.required])
   }
   //Unidad Operativa --------------------------------------------------------------------------------------------------------------------------------------------------
 
@@ -183,6 +186,7 @@ export class RegisterFormComponent {
       this.msgErrorPassWord = 'Las contraseñas son distintas'
     } else {
       this.form.markAllAsTouched();
+      this.frmCtrlUnidadOperativa.markAllAsTouched();
     }
   }
 
@@ -206,7 +210,8 @@ export class RegisterFormComponent {
       disableClose: true,
       data: {
         numDoc: this.form.value.doc,
-        genWithCode: this.genWithCode
+        genWithCode: this.genWithCode,
+        correo: this.form.value.email
       }
     })
     dialogRef.closed.subscribe(out => {

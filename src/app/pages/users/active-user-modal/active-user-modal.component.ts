@@ -36,8 +36,8 @@ export class ActiveUserModalComponent {
   userData = Object();
 
   public formVigencia = this.fb.nonNullable.group({
-    frmInicioVigencia: [null],
-    frmFinVigencia: [null],
+    frmInicioVigencia: [null, [Validators.required]],
+    frmFinVigencia: [null, [Validators.required]],
   });
 
   public formDatosAdicionales = this.fb.nonNullable.group({
@@ -108,6 +108,9 @@ export class ActiveUserModalComponent {
   }
 
   actualizarDate(input: any, opt: number) {
+    if (input == '') {
+      input = null;
+    }
     switch (opt) {
       case 1:
         this.formVigencia.controls.frmInicioVigencia.setValue(input)
@@ -148,6 +151,7 @@ export class ActiveUserModalComponent {
 
   saveActivacion() {
     if (this.validForm()) {
+      // console.log(this.getActivacionSIGPS())
       this.status = 'loading';
       this.userService.activateUserSigps(this.getActivacionSIGPS()).subscribe((data) => {
         this._notification.success('Se ha activado correctamente');
@@ -163,7 +167,7 @@ export class ActiveUserModalComponent {
   }
 
   validForm(): boolean {
-    if (this.formDatosAdicionales.valid && this.formVigencia.value.frmInicioVigencia != null && this.formVigencia.value.frmFinVigencia != null && this.frmCtrlUnidadOperativa.valid)
+    if (this.formDatosAdicionales.valid && this.formVigencia.valid && this.frmCtrlUnidadOperativa.valid)
       return true;
     else {
       this.showMsg = true;
