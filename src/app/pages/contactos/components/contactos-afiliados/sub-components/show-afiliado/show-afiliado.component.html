@@ -68,14 +68,13 @@
             </div>
             <div class="flex flex-col gap-[0.5rem]">
               <p class="py-1 my-0 bg-slate-100 font-bold">Correo</p>
-              <span>{{dataFichaAfiliado.fichaAdmision.datosContacto.correo}} </span>
+              <span>{{dataFichaAfiliado.fichaAdmision.datosContacto.correo | lowercase}} </span>
               <!-- <span>{{dataSolicitud.centroAdscripcion}} </span> -->
             </div>
-            <div class="info-container">
+            <!-- <div class="info-container">
               <p class="flex w-1/2 flex-col py-1 bg-slate-100 my-1 mx-0 font-bold"> Telefono </p> 
               <p class="flex w-1/2 flex-col ml-2.5 my-1"> {{dataFichaAfiliado.fichaAdmision.datosContacto.telefono}} </p>
-              <!-- <p class="flex w-1/2 flex-col ml-2.5 my-1"> {{dataSolicitud.estCivil | titlecase}} </p> -->
-            </div>
+            </div> -->
             <div class="info-container">
               <p class="flex w-1/2 flex-col py-1 bg-slate-100 my-1 mx-0 font-bold"> Celular </p> 
               <p class="flex w-1/2 flex-col ml-2.5 my-1"> {{dataFichaAfiliado.fichaAdmision.datosContacto.celular}} </p>
