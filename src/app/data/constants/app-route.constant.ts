@@ -3,6 +3,11 @@ export class AppRoute {
   static readonly ADMIN = 'admin';
   static readonly USUARIOS = 'users';
   static readonly EDIT_USER = 'edit-user';
+  //---------------------------------------------------------------------------------------------------------- RUTAS CONTRATOS
+  static readonly CONTRATOS = 'contratos';
+  static readonly CONTRATOS_ASIGNAR_SERVICIOS = 'asignar-servicios';
+  static readonly CONTRATOS_CONFIRMAR_SERVICIOS = 'confirm-servicios';
+
   //---------------------------------------------------------------------------------------------------------- RUTAS HORARIOS
   static readonly HORARIOS = 'schedule';
   static readonly CREAR_HORARIO = `create-${this.HORARIOS}`;

@@ -67,9 +67,14 @@ export class ShowSolComponent implements OnInit {
         if (this.dataSolicitud.solicitud.estado === 'EVALUADO') {
           this.opcionesBotones[1].deshabilitado = true;
         }
-        var dateObject = new Date(data.data.asegurado.fecNacimiento); 
-        var timeDiff = Math.abs(Date.now() - dateObject.getTime());
-        this.edadPersona = Math.floor(timeDiff / (1000 * 3600 * 24) / 365.25);
+        if (data.data.asegurado.fecNacimiento) {
+          var dateObject = new Date(data.data.asegurado.fecNacimiento); 
+          var timeDiff = Math.abs(Date.now() - dateObject.getTime());
+          this.edadPersona = Math.floor(timeDiff / (1000 * 3600 * 24) / 365.25);
+        }
+        else{
+          this.edadPersona = 0;
+        }
 
         this.getParametros();
 

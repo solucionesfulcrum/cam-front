@@ -84,9 +84,7 @@ export class SolicitudesComponent implements OnInit {
     this.onLoadData();
     this.datosService.getTipoParametros('ESTADO_SOLICITUD').subscribe((data)=>{
       if (data.code == 0) {
-        console.log(data.data)
         this.opciones = data.data;
-        console.log((document.getElementById('docs')));
       }
       else{
         this.notificationService.warning(data.message);
