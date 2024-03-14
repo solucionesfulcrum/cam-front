@@ -57,7 +57,7 @@ export class RegisterAseguradoComponent {
 
   formDatosContacto = this.fb.nonNullable.group({
     frmTelefono: ['0'],
-    frmCelular: ['', [Validators.required,Validators.minLength(9)]],
+    frmCelular: ['', [Validators.required,Validators.pattern(/^[0-9]{0,10}$/)]],
     frmWsp: [null, Validators.required],
     frmCorreo: ['', [Validators.required,Validators.email]]
   });

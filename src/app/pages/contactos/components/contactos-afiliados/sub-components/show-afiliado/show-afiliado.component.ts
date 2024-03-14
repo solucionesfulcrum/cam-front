@@ -18,7 +18,7 @@ export class ShowAfiliadoComponent implements OnInit {
   opcionesBotones: FormatoBoton[] = [
     {texto: 'Notas', esImagen: true, rutaIcono: 'assets/svg/iconFileEdit.svg'},
     {texto: 'Actualizar Datos', esImagen: true, rutaIcono: 'assets/svg/icon-edit-data.svg'},
-    {texto: 'Evaluar Afiliado', colorBtn:'bordeado', loading: false},
+    //{texto: 'Evaluar Afiliado', colorBtn:'bordeado', loading: false},
   ];
   idUnidadOperativaUser = (JSON.parse(localStorage.getItem('UnidElegida')!)).idUnidOperativa;
 
@@ -63,9 +63,9 @@ export class ShowAfiliadoComponent implements OnInit {
     this.aseguradoServices.obtenerFichaAsegurado(this.idFicha).subscribe((data)=>{
       if (data.code == 0) {
         this.dataFichaAfiliado = data.data;
-        if (this.dataFichaAfiliado.fichaAdmision.datosAfiliacion.estadoAfi !== 'ACTIVO') {
+        /*if (this.dataFichaAfiliado.fichaAdmision.datosAfiliacion.estadoAfi !== 'ACTIVO') {
           this.opcionesBotones[2].deshabilitado = true;
-        }
+        }*/
         var dateObject = new Date(data.data.asegurado.fecNacimiento); 
         var timeDiff = Math.abs(Date.now() - dateObject.getTime());
         this.edadPersona = Math.floor(timeDiff / (1000 * 3600 * 24) / 365.25);

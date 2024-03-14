@@ -1,9 +1,9 @@
 import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormBuilder, Validators } from '@angular/forms';
-import { FormsModule, ReactiveFormsModule} from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { ButtonComponent } from '@shared/components/btn/button.component';
-import { RouterModule, Router} from '@angular/router';
+import { RouterModule, Router } from '@angular/router';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { AuthService } from '@services/auth.service';
 import { RequestStatus } from '@models/request-status.model';
@@ -21,6 +21,7 @@ export class ForgotPasswordFormComponent {
 
   email: string = '';
   statusConfirm: RequestStatus = 'init';
+  validPass  = 0;
   showPassword = false;
   showConfirmPassword = false;
   faEye = faEye;
@@ -31,11 +32,11 @@ export class ForgotPasswordFormComponent {
     newPass: ['', [Validators.required]],
     confirmPass: ['', [Validators.required]]
   },
-  {
-    validators: [
-      CustomValidators.MatchValidator('password', 'confirmPassword'),
-    ],
-  });
+    {
+      validators: [
+        CustomValidators.MatchValidator('password', 'confirmPassword'),
+      ],
+    });
 
   form = this.formBuilder.nonNullable.group({
     numDoc: ['', [Validators.required]],
@@ -48,22 +49,22 @@ export class ForgotPasswordFormComponent {
     private router: Router,
     private _notificacion: NotificationService,
     private authService: AuthService
-  ) { 
+  ) {
 
   }
 
   sendLink() {
     if (this.form.valid) {
       this.status = 'loading';
-      this.authService.preRecoverPassword({usuario: this.form.value.numDoc!}).subscribe((data)=>{
-        if(data){
-          this.status='success';
+      this.authService.preRecoverPassword({ usuario: this.form.value.numDoc! }).subscribe((data) => {
+        if (data) {
+          this.status = 'success';
           this.email = data;
           this.emailSent = true;
         }
-        else{
+        else {
           this._notificacion.warning(`No se encontró ningún usuario con el documento ${this.form.value.numDoc}`)
-          this.status='failed';
+          this.status = 'failed';
           this.emailSent = false;
         }
         console.log(data);
@@ -84,30 +85,37 @@ export class ForgotPasswordFormComponent {
     }
   }
 
-  sendChange(){
-    if (this.formCambio.valid){
+  sendChange() {
+    this.validPass = 0;
+    if (this.formCambio.valid) {
       this.statusConfirm = 'loading';
-      this.authService.recoverPassword(this.getRecoverPass()).subscribe((data)=>{
-        console.log(data)
-        if(data == true){
-          this.statusConfirm = 'success';
-          this._notificacion.success('Se cambio la contraseña');
-          this.router.navigate(['login']);
-        }
-        else{
-          this.statusConfirm = 'failed';
-          this._notificacion.warning(data.message);
-        }
-      })
+      if (this.formCambio.value.newPass == this.formCambio.value.confirmPass) {
+        this.authService.recoverPassword(this.getRecoverPass()).subscribe((data) => {
+          console.log(data)
+          if (data == true) {
+            this.statusConfirm = 'success';
+            this._notificacion.success('Se cambio la contraseña');
+            this.router.navigate(['login']);
+          }
+          else {
+            this.statusConfirm = 'failed';
+            this._notificacion.warning(data.message);
+          }
+        })
+      } else {
+        this.validPass = 1;
+        this.statusConfirm = 'init';
+      }
+
     }
-    else{
+    else {
       this.formCambio.markAllAsTouched();
     }
   }
 
-  getRecoverPass(): RecoverPassword{
+  getRecoverPass(): RecoverPassword {
     return {
-      usuario:this.form.value.numDoc!,
+      usuario: this.form.value.numDoc!,
       codigo: this.formCambio.value.codigo!,
       password: this.formCambio.value.newPass!
     }

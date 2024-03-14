@@ -119,15 +119,15 @@
                     <span class="font-thin">Celular</span>
                 </div>
                 <div class="w-5/6">
-                    <input type="number" min="0" minlength="9" formControlName="frmCelular" placeholder="Numero de celular" class="block w-full p-2 text-gray-900 placeholder-gray-300 border border-gray-300 focusCampo">
+                    <input type="text" pattern="[0-9]*" min="0" maxlength="10" formControlName="frmCelular" placeholder="Numero de celular" class="block w-full p-2 text-gray-900 placeholder-gray-300 border border-gray-300 focusCampo">
                     <div *ngIf="formDatosContacto.controls.frmCelular.touched && formDatosContacto.controls.frmCelular.invalid">
                         <p *ngIf="formDatosContacto.controls.frmCelular.hasError('required')" class="font-medium text-red-500 text-xs mt-1 ml-1">
                             Ingrese un número de celular.
                         </p>
                     </div>
                     <div *ngIf="formDatosContacto.controls.frmCelular.touched && formDatosContacto.controls.frmCelular.invalid">
-                        <p *ngIf="formDatosContacto.controls.frmCelular.hasError('minlength')" class="font-medium text-red-500 text-xs mt-1 ml-1">
-                            El número de celular debe tener como mínimo 9 dígitos.
+                        <p *ngIf="formDatosContacto.controls.frmCelular.hasError('pattern')" class="font-medium text-red-500 text-xs mt-1 ml-1">
+                            El número de celular debe tener solo números.
                         </p>
                     </div>
                 </div>
