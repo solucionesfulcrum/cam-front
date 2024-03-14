@@ -1,9 +1,10 @@
 export interface FormatoColumna{
     header?: string,
-    tipo?: 'texto' | 'select' | 'inputText' | 'inputNumber' | 'typeAndSelect',
+    tipo?: 'texto' | 'select' | 'inputText' | 'inputNumber' | 'typeAndSelect' | 'inputFecha',
     opciones?: TablaOpciones[],
     nomAttribute: string,
-    oculto?: boolean
+    oculto?: boolean,
+    resaltado?: boolean
 }
 
 export interface TablaOpciones{

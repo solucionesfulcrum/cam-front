@@ -1,4 +1,9 @@
+import { Dialog } from '@angular/cdk/dialog';
 import { Component } from '@angular/core';
+import { FormBuilder } from '@angular/forms';
+import { ActivatedRoute, Router } from '@angular/router';
+import { NotificationService } from '@services/notification.service';
+import { DialogNewContratoComponent } from '../dialog/dialog-new-contrato/dialog-new-contrato.component';
 
 @Component({
   selector: 'esp-contratos-listado',
@@ -36,4 +41,22 @@ export class ContratosListadoComponent {
   ];
 
   camElegido: any;
+
+  constructor(private fb                      : FormBuilder, 
+              private dialog                  : Dialog,
+              private notificationService     : NotificationService,
+              private router                  : Router, 
+              private route                   : ActivatedRoute) { }
+
+
+  nuevoContrato(){
+    const dialogRef = this.dialog.open(DialogNewContratoComponent,{
+      minWidth:'800px',
+      maxWidth:'50%',
+      data:{}
+    })
+    dialogRef.closed.subscribe(out =>{
+      // console.log(out)
+    })
+  }
 }

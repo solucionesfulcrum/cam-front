@@ -3,15 +3,18 @@ import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { AbstractControl, FormArray, FormBuilder, FormControl, FormGroup, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
 import { FormatoColumna } from './formato-columna.model';
+import { MaterialModule } from 'src/app/material/material.module';
 
 @Component({
   selector: 'esp-tabla-adaptable',
   templateUrl: './tabla-adaptable.component.html',
   styleUrls: ['./tabla-adaptable.component.scss'],
   standalone: true,
-  imports:[CommonModule, RouterModule, FormsModule, ReactiveFormsModule],
+  imports:[CommonModule, RouterModule, FormsModule, ReactiveFormsModule, MaterialModule],
 })
 export class TablaAdaptableComponent {
+  @Input()
+  identificadorVisible: boolean = true;
 
   @Input()
   dataColumnas: FormatoColumna[] = []; //------------------------------------------------------------------------ Información de las columnas que, a su vez, contienen los atributos de las filas, estos atributos peuden estar ocultos si se requiere
@@ -60,4 +63,20 @@ export class TablaAdaptableComponent {
     this.getDatos.removeAt(elementIndex);
   }
   
+  actualizarDate(index: number, nomAttribute: string, value: any) {
+    console.log(index, nomAttribute)
+    console.log(this.formData.controls["data"].at(index).value)
+    this.formData.controls["data"].at(index).get(nomAttribute)?.setValue(value)
+    // if (input == '') {
+    //   input = null;
+    // }
+    // switch (opt) {
+    //   case 1:
+    //     this.formVigencia.controls.frmInicioVigencia.setValue(input)
+    //     break;
+    //   case 2:
+    //     this.formVigencia.controls.frmFinVigencia.setValue(input)
+    //     break;
+    // }
+  }
 }

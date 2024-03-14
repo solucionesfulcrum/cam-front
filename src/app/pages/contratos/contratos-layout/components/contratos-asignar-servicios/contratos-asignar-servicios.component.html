@@ -1,1 +1,67 @@
-<p>contratos-asignar-servicios works!</p>
+<esp-opciones-botones [listOpciones]="opcionesBotones"></esp-opciones-botones>
+<div class="flex flex-col gap-2.5">
+    <div class="bg-white botonApariencia p-3 flex flex-row text-[#37474F]">
+        <div class="flex flex-col gap-2.5 h-full border-r border-[#D4D4D4] w-full">
+            <span class="text-[22px] text-[var(--color-CAM)] font-semibold leading-[20px]">Tallerista</span>
+            <div class="flex flex-row gap-2.5">
+                <img src="assets/svg/icon-contrato-person.svg">
+                <div class="flex flex-col gap-2">
+                    <span class="text-[18px] font-semibold">{{'Jose Elmer monsefu Ramos' | uppercase}}</span>
+                    <span><b>DNI:</b> 23835688</span>
+                </div>
+            </div>
+        </div>
+        <div class="pl-3 flex flex-col gap-2.5 border-r border-[#D4D4D4] w-full">
+            <span class="text-[22px] text-[var(--color-CAM)] font-semibold leading-[20px]">Contrato</span>
+            <div class="flex flex-col gap-2 leading-5 text-[18px]">
+                <span><b>Orden de  Compra :</b> 4504287354</span>
+                <span><b>Desde :</b> 10/07/2024 al 25/11/2024</span>
+            </div>
+        </div>
+        <div class="pl-3 flex items-center justify-center shrink-0">
+            <app-btn class="botonApariencia flex" color="bordeado">
+                <esp-icon icon="faAdd"></esp-icon> Mas Unidades
+            </app-btn>
+        </div>
+
+    </div>
+    <div class="bg-white botonApariencia px-[22px] py-2.5 flex flex-col gap-3">
+        <div class="pt-2 flex flex-col gap-3">
+            <div class="flex flex-row gap-2">
+                <div class="flex flex-col gap-2 w-full">
+                    <span>Unidad Operativa <span class="text-red-500">*</span></span>
+                    <div class="relative rounded-md shadow-sm">
+                        <input type="text" name="unidOperativ" id="search" class="inputTextoDialog focusCampo !h-10 pr-7" placeholder="Buscar Unidad Operativa">
+                        <div class="pointer-events-none right-0 absolute inset-y-0 flex items-center pr-3 opacity-50">
+                            <span class="text-gray-500 sm:text-sm">
+                                <esp-icon icon="faSearch"></esp-icon>
+                            </span>
+                        </div>
+                    </div>
+                </div>
+                <div class="flex flex-col gap-2 shrink-0">
+                    <span>Fecha de Registro</span>
+                    <div class="relative">
+                      <mat-form-field style="position: absolute; visibility:hidden;">
+                        <input #input matInput [matDatepicker]="picker">
+                        <mat-datepicker #picker></mat-datepicker>
+                      </mat-form-field>
+                      <input type="text" name="search" readonly (click)="picker.open()" class="inputTextoDialog focusCampo !h-10 pr-7">
+                        <div class="absolute inset-y-0 right-0 flex items-center pr-3 z-10 !h-9" (click)="picker.open()">
+                          <span class="text-gray-500 sm:text-sm">
+                            <img src="assets/svg/icon-calendar-simple.svg">
+                          </span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="flex flex-col gap-2.5 items-start">
+                <esp-tabla-adaptable class="w-full" [identificadorVisible]="false" [dataColumnas]="dataColumnas" [dataIngresante]="dataServiciosEnviado" (sendData)="ctrlDataObtenida.setValue($event)"></esp-tabla-adaptable>
+                <app-btn class="botonApariencia flex" color="transparente" (click)="aniadirFila()">
+                    <esp-icon icon="faAdd"></esp-icon> Agregar Servicio
+                </app-btn>
+            </div>
+        </div>
+
+    </div>
+</div>
