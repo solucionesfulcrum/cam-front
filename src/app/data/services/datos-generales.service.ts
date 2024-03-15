@@ -33,7 +33,7 @@ export class DatosGeneralesService {
   }
 
   getRedesAsistenciales(){
-    const url = `${environment.API_ESSI}/centroasistencial/lista`;
+    const url = `${URL_BASE}/client/essi/centroasistencial/lista`;
     return this._httpClient.get<any>(url);
   }
 

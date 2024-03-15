@@ -48,13 +48,6 @@ export const pagesRoutes: Route[] = [
       //     import('./users/users.module').then((m) => m.UsersModule),
       // },
       {
-        path: 'admission',
-        canActivate:[AuthGuard, CerpUserGuard],
-        title:'Admisión',
-        loadChildren: () =>
-          import('./admission/admission.module').then((m) => m.AdmissionModule),
-      },
-      {
         path: AppRoute.CONTRATOS,
         title: 'CAM - CONTRATOS',
         canActivate: [AuthGuard],

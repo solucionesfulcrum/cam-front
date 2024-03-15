@@ -40,15 +40,15 @@ export class UsersService {
     return this.http.post<any>(url,model);
   }
 
-  activateUserSSO(model: ActivateUserSSO){
-    const params = this._authBasic();
-    console.log(checkToken())
-    const url = `${environment.SSO_API}/vigencia/registrar`;
-    return this.http.post<any>(url,model,{
-      params,
-      context:checkToken()
-    });
-  }
+  // activateUserSSO(model: ActivateUserSSO){
+  //   const params = this._authBasic();
+  //   console.log(checkToken())
+  //   const url = `${environment.SSO_API}/vigencia/registrar`;
+  //   return this.http.post<any>(url,model,{
+  //     params,
+  //     context:checkToken()
+  //   });
+  // }
 
   getUser(idUser: string){
     const url = `${this.api_URL}/usuario/${idUser}`;
@@ -72,27 +72,27 @@ export class UsersService {
   }
 
   //-------------------------------------------------------------------------------------------------------------
-  getUsers(body:any){
-    //const token = this.tokenService.getToken()
-    const params = this._authBasic();
-    return this.http.post<List<iUserTable>>(`${environment.SSO_API}/usuario/listar`,body,{
-      params,
-      context:checkToken()
-    })
-  }
-  getUserInfo(guiid:string):Observable<User>{
-    //const token = this.tokenService.getToken()
-    const params = this._authBasic();
-    return this.http.post<any>(`${environment.SSO_API}/usuario/getUserInfo`,{
-      guiid
-    },{
-      params,
-      context:checkToken()
-    }).pipe(
-      map(res=>{
-        return new User(res);
-      })
-    );
-  }
+  // getUsers(body:any){
+  //   //const token = this.tokenService.getToken()
+  //   const params = this._authBasic();
+  //   return this.http.post<List<iUserTable>>(`${environment.SSO_API}/usuario/listar`,body,{
+  //     params,
+  //     context:checkToken()
+  //   })
+  // }
+  // getUserInfo(guiid:string):Observable<User>{
+  //   //const token = this.tokenService.getToken()
+  //   const params = this._authBasic();
+  //   return this.http.post<any>(`${environment.SSO_API}/usuario/getUserInfo`,{
+  //     guiid
+  //   },{
+  //     params,
+  //     context:checkToken()
+  //   }).pipe(
+  //     map(res=>{
+  //       return new User(res);
+  //     })
+  //   );
+  // }
 
 }

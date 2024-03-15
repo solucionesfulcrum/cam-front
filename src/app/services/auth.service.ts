@@ -133,15 +133,15 @@ export class AuthService {
     });
   }
 
-  preRecoverPassword(model: PreRecoverPassword){
-    const url = `${environment.SSO_API}/auth/pre-recover-password`;
-    return this.http.post(url, model,{responseType: 'text'});
-  }
+  // preRecoverPassword(model: PreRecoverPassword){
+  //   const url = `${environment.SSO_API}/auth/pre-recover-password`;
+  //   return this.http.post(url, model,{responseType: 'text'});
+  // }
 
-  recoverPassword(model: RecoverPassword){
-    const url = `${environment.SSO_API}/auth/recover-password`;
-    return this.http.post<any>(url, model);
-  }
+  // recoverPassword(model: RecoverPassword){
+  //   const url = `${environment.SSO_API}/auth/recover-password`;
+  //   return this.http.post<any>(url, model);
+  // }
 
   registerSIGPS(model: RequestRegisterSIGPS) {
     const url = `${environment.API}/usuario/registrar`;
