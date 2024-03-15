@@ -73,14 +73,15 @@ export class DashboardAfiliadosComponent implements OnInit {
         type: "area",
         height: 350,
         zoom: {
-          enabled: false
+          enabled: true
         }
       },
       dataLabels: {
         enabled: false
       },
       stroke: {
-        curve: "straight"
+        /*curve: "straight"*/
+        curve: "smooth"
       },
 
       title: {
@@ -93,10 +94,25 @@ export class DashboardAfiliadosComponent implements OnInit {
       },
       //labels: series.monthDataSeries2.dates,
       xaxis: {
-        type: "datetime"
+        type: "datetime",
+        /*labels: {
+          formatter: function(value: number, timestamp: number) {
+            // Use any date library or native JS to format the timestamp as you wish
+            // For example, using the native JS Date object to get 'DD' format
+            return new Date(timestamp).getDate(); // This will return only the day part of the date
+          }
+        }*/
       },
       yaxis: {
-        opposite: false
+        opposite: false,
+        tickAmount: 4,
+        forceNiceScale: false,
+        min: 0,
+        labels: {
+          formatter: function (val: number) {
+            return val.toFixed(0); // This will convert the float to a string with no decimal places
+          }
+        }
       },
       legend: {
         horizontalAlign: "left"
@@ -116,8 +132,8 @@ export class DashboardAfiliadosComponent implements OnInit {
     //console.log(data)
     //}
     //)
-    
-    this.authService.listarDashboard({ fecInicio: '2024-03-01', fecFin: '2024-03-31',idUnidadOperativa: this.idUnidadOperativaUser }).subscribe((data) => {
+
+    this.authService.listarDashboard({ fecInicio: '2024-03-01', fecFin: '2024-03-31', idUnidadOperativa: this.idUnidadOperativaUser }).subscribe((data) => {
       console.log("algo saldra", data)
       console.log("algo saldra type", typeof data.data.fecha)
       for (let i = 0; i < data.data.contAsegurados.length; i++) {
