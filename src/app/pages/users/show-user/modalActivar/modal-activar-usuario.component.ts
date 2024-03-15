@@ -220,6 +220,7 @@ export class ModalActivarUsuarioComponent implements OnInit {
       console.log(data)
       this.dialogRef.close();
       this.toastrService.success("Mensaje: Unidad Operativa Activada");
+      
       //this.cargaServiciosParametros();
       /*if(data){
         if(typeof data === 'object'){
