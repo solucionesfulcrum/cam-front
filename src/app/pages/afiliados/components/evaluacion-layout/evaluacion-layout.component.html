@@ -7,7 +7,7 @@
   </div>
 </div>
 <div class="flex flex-col" *ngIf="ready">
-    <esp-opciones-botones  [listOpciones]="opcionesBotones" (firstFunction)="Notas()" (thirdFunction)="evaluarAfiliado()"></esp-opciones-botones>
+    <esp-opciones-botones [rutaRegreso]="'../..'" [listOpciones]="opcionesBotones" (firstFunction)="Notas()" (thirdFunction)="evaluarAfiliado()"></esp-opciones-botones>
     <div class="bg-white botonApariencia flex flex-row text-[var(--color-black-alt)]">
         <div class="w-[280px] shrink-0 flex flex-col border-r border-r-[#dceef7]">
             <div class="flex flex-col">
