@@ -1,4 +1,4 @@
-<esp-opciones-botones [listOpciones]="opcionesBotones"></esp-opciones-botones>
+<esp-opciones-botones [listOpciones]="opcionesBotones" (thirdFunction)="goToConfirm()"></esp-opciones-botones>
 <div class="flex flex-col gap-2.5">
     <div class="bg-white botonApariencia p-3 flex flex-row text-[#37474F]">
         <div class="flex flex-col gap-2.5 h-full border-r border-[#D4D4D4] w-full">
@@ -19,14 +19,18 @@
             </div>
         </div>
         <div class="pl-3 flex items-center justify-center shrink-0">
-            <app-btn class="botonApariencia flex" color="bordeado">
+            <app-btn class="botonApariencia flex" color="bordeado" (click)="addTablaUnid()">
                 <esp-icon icon="faAdd"></esp-icon> Mas Unidades
             </app-btn>
         </div>
 
     </div>
     <div class="bg-white botonApariencia px-[22px] py-2.5 flex flex-col gap-3">
-        <div class="pt-2 flex flex-col gap-3">
+        <div class="pt-2 flex flex-col gap-3" *ngFor="let controles of dataTables.controls, index as ix">
+            <div class="py-3 flex flex-row justify-between items-center" *ngIf="ix > 0">
+                <span class="font-semibold">Asignar servicios a mas de una unidad operativa.</span>
+                <app-btn class="botonApariencia flex" color="transparenteCancel" (click)="deleteTablaUnid(ix)">Eliminar</app-btn>
+            </div>
             <div class="flex flex-row gap-2">
                 <div class="flex flex-col gap-2 w-full">
                     <span>Unidad Operativa <span class="text-red-500">*</span></span>
@@ -56,8 +60,8 @@
                 </div>
             </div>
             <div class="flex flex-col gap-2.5 items-start">
-                <esp-tabla-adaptable class="w-full" [identificadorVisible]="false" [dataColumnas]="dataColumnas" [dataIngresante]="dataServiciosEnviado" (sendData)="ctrlDataObtenida.setValue($event)"></esp-tabla-adaptable>
-                <app-btn class="botonApariencia flex" color="transparente" (click)="aniadirFila()">
+                <esp-tabla-adaptable class="w-full" [identificadorVisible]="false" [dataColumnas]="dataColumnas" [dataIngresante]="getTablaAndAttribute(ix, 'dataServiciosEnviado')" (sendData)="getTablaAndAttribute(ix, 'ctrlDataObt').setValue($event)"></esp-tabla-adaptable>
+                <app-btn class="botonApariencia flex" color="transparente" (click)="addServiceToTablaUnid(ix)">
                     <esp-icon icon="faAdd"></esp-icon> Agregar Servicio
                 </app-btn>
             </div>

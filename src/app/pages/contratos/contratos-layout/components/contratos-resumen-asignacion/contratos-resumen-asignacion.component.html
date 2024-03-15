@@ -1,1 +1,93 @@
-<p>contratos-resumen-asignacion works!</p>
+<esp-opciones-botones [rutaRegreso]="'../' +  rutas.CONTRATOS_ASIGNAR_SERVICIOS" [listOpciones]="opcionesBotones"></esp-opciones-botones>
+<div class="flex flex-col gap-2.5">
+    <div class="bg-white botonApariencia p-3 flex flex-row text-[#37474F] leading-5">
+        <div class="flex flex-col gap-2.5 border-r border-[#D4D4D4] w-full">
+            <span class="text-[22px] text-[var(--color-CAM)] font-semibold">Tallerista</span>
+            <div class="flex flex-col gap-2">
+                <span class="font-semibold text-[18px]">{{'Jose Elmer monsefu Ramos' | uppercase}}</span>
+                <span><b>DNI: </b>23835688</span>
+                <span><b>Registrado: </b>Miercoles 5 de Julio del 2024 a las 11:21 am</span>
+            </div>
+        </div>
+        <div class="flex flex-col gap-2.5 pl-3 w-full">
+            <span class="text-[22px] text-[var(--color-CAM)] font-semibold">Contrato</span>
+            <div class="flex flex-col gap-2">
+                <span class="font-semibold text-[18px]">Orden de  Compra : 4504287354</span>
+                <span><b>Desde: </b>10/07/2024 al 25/11/2024</span>
+                <span><b>Estado: </b><b class="text-green-500">Activo</b><b class="text-[#64748B]"> - Confirmado</b></span>
+            </div>
+        </div>
+    </div>
+    <div class="bg-white botonApariencia p-2.5 flex flex-col gap-2.5">
+        <div class="flex flex-col gap-2.5">
+            <div class="bg-[#F4F5F7] text-[var(--color-black-alt)] px-1 py-[7.5px] border-b border-[#D4D4D4]">
+                <span class="leading-[25px] text-[18px]">CAM CUSCO</span>
+            </div>
+            <div>
+                <div class="grid grid-cols-12 gap-1 border-b-2 border-gray-300 pb-2 text-[14px] filasPseudoTabla">
+                    <span>N°</span>
+                    <span>Tipo</span>
+                    <span class="col-span-4">Nombre</span>
+                    <span class="col-span-2">Fecha Inicio</span>
+                    <span class="col-span-2">Fecha Fin</span>
+                    <span class="col-span-2">Modalidad</span>
+                </div>
+                <!-- <div *ngIf="!camElegido" class="w-full h-3/4 flex items-center">
+                  <div class="m-auto w-fit text-center">
+                    <img class="m-auto" src="assets/svg/empty-data.svg" alt="">
+                    <h3 class="text-gray-500 mt-2 font-light">No existen registros aun.</h3>
+                  </div>
+                </div> -->
+                <div>
+                    <div class="dataPseudoTabla">
+                      <span>1</span>
+                      <span>Taller</span>
+                      <span class="col-span-4 text-[var(--color-CAM)]">Taller de empoderamiento ciudadano</span>
+                      <span class="col-span-2">{{'2024-05-09' | date:'dd/MM/yyyy'}}</span>
+                      <span class="col-span-2">{{'2024-07-09' | date:'dd/MM/yyyy'}}</span>
+                      <span class="col-span-2">Presencial</span>
+                    </div>
+                    <div class="dataPseudoTabla">
+                      <span>2</span>
+                      <span>Taller</span>
+                      <span class="col-span-4 text-[var(--color-CAM)]">Taller intergeneracional familia y comunidad</span>
+                      <span class="col-span-2">{{'2024-05-09' | date:'dd/MM/yyyy'}}</span>
+                      <span class="col-span-2">{{'2024-07-09' | date:'dd/MM/yyyy'}}</span>
+                      <span class="col-span-2">Presencial</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="flex flex-col gap-2.5">
+            <div class="bg-[#F4F5F7] text-[var(--color-black-alt)] px-1 py-[7.5px] border-b border-[#D4D4D4]">
+                <span class="leading-[25px] text-[18px]">CIRAN Cusco II</span>
+            </div>
+            <div>
+                <div class="grid grid-cols-12 gap-1 border-b-2 border-gray-300 pb-2 text-[14px] filasPseudoTabla">
+                    <span>N°</span>
+                    <span>Tipo</span>
+                    <span class="col-span-4">Nombre</span>
+                    <span class="col-span-2">Fecha Inicio</span>
+                    <span class="col-span-2">Fecha Fin</span>
+                    <span class="col-span-2">Modalidad</span>
+                </div>
+                <!-- <div *ngIf="!camElegido" class="w-full h-3/4 flex items-center">
+                  <div class="m-auto w-fit text-center">
+                    <img class="m-auto" src="assets/svg/empty-data.svg" alt="">
+                    <h3 class="text-gray-500 mt-2 font-light">No existen registros aun.</h3>
+                  </div>
+                </div> -->
+                <div>
+                    <div class="dataPseudoTabla">
+                      <span>1</span>
+                      <span>Taller</span>
+                      <span class="col-span-4 text-[var(--color-CAM)]">Taller de empoderamiento ciudadano</span>
+                      <span class="col-span-2">{{'2024-05-09' | date:'dd/MM/yyyy'}}</span>
+                      <span class="col-span-2">{{'2024-07-09' | date:'dd/MM/yyyy'}}</span>
+                      <span class="col-span-2">Presencial</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
