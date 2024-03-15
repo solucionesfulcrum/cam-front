@@ -1,75 +1,110 @@
-<div class="h-full flex flex-col justify-between">
+<div class="w-full relative h-full flex flex-col justify-between">
   <div>
-    <!-- superadmin, admin, registrador, usuarioadmin -->
     <div class="div-sidenav-img mt-[12px]">
-      <img src="assets/img/cam-logo.png"/>
+      <img src="assets/images/logo/cam-logo.png"/>
     </div>
-    <mat-nav-list class="pt-0">
-      <a mat-list-item routerLink="/app/dashboard" routerLinkActive="list-item-activo" class="flex flex-row gap-1">
-        <div class="w-5 text-center">
-          <img src="assets/svg/nav-icon-dashboard.svg"/> 
-        </div>
-        <span class="text-s-16p"> Dashboard</span>
-      </a>
-
-      <!--<a mat-list-item routerLink="/app/contract" routerLinkActive="list-item-activo" class="flex flex-row gap-1">
-        <div class="w-5 text-center">
-          <img src="assets/svg/nav-icon-contratos.svg"/> 
-        </div>
-        <span class="text-s-16p"> Contratos</span>
-      </a> -->
-
-      <a mat-list-item routerLink="/app/contactos" routerLinkActive="list-item-activo" class="flex flex-row gap-1">
-        <div class="w-5 text-center">
-          <img src="assets/svg/nav-icon-contacto.svg"/> 
-        </div>
-        <span class="text-s-16p"> Contactos</span>
-      </a>
-
-      <a mat-list-item routerLink="/app/afiliados" routerLinkActive="list-item-activo" class="flex flex-row gap-1">
-        <div class="w-5 text-center">
-          <img src="assets/svg/nav-icon-afiliacion.svg"/> 
-        </div>
-        <span class="text-s-16p"> Afiliaciones</span>
-      </a>
-
-      <!-- <a mat-list-item routerLink="/app/programacion" routerLinkActive="list-item-activo" class="flex flex-row gap-1">
-        <div class="w-5 text-center">
-          <img src="assets/svg/nav-icon-programacion.svg"/> 
-        </div>
-        <span class="text-s-16p"> Programación</span>
-      </a>
-
-      <a mat-list-item routerLink="/app/control" routerLinkActive="list-item-activo" class="flex flex-row gap-1">
-        <div class="w-5 text-center">
-          <img src="assets/svg/nav-icon-control.svg"/> 
-        </div>
-        <span class="text-s-16p"> Control</span>
-      </a>
-
-      <a mat-list-item routerLink="/app/reportes" routerLinkActive="list-item-activo" class="flex flex-row gap-1">
-        <div class="w-5 text-center">
-          <img src="assets/svg/nav-icon-reporte.svg"/> 
-        </div>
-        <span class="text-s-16p"> Reportes</span>
-      </a> -->
-    </mat-nav-list>
+    <ul class="nav-list-item w-full flex flex-col font-medium text-gray-700 menuNav">
+      <!-- <li class="elementoSeleccionable">
+        <input type="radio" id="admisionOpt" name="router" value="admisionOpt" class="hover:bg-primary-50 peer hidden absolute mt-4 ml-3 focusCampo " routerLink="/app/admission">
+        <label for="admisionOpt" class="inline-flex items-center cuadroRadioButton">
+            <div class="flex justify-center w-full text-primary-700">
+                <div class="w-full text-center">Admision</div>
+            </div>
+        </label>
+      </li> -->
+      <li>
+        <a routerLink="/app/dashboard" routerLinkActive="list-item-activo" (select)="true">
+          <img src="assets/svg/nav-icon-dashboard.svg"/>
+          <span>Dashboard</span>
+        </a>
+      </li>
+      <!-- <li>
+        <a routerLink="/app/contratos" routerLinkActive="list-item-activo">
+          <img class="" src="assets/svg/nav-icon-contratos.svg"/>
+          <span>Contratos</span>
+        </a>
+      </li> -->
+      <li>
+        <a routerLink="/app/contactos" routerLinkActive="list-item-activo">
+          <img class="" src="assets/svg/nav-icon-contacto.svg"/>
+          <span>Contactos</span>
+        </a>
+      </li>
+      <li>
+        <a routerLink='/app/afiliados' routerLinkActive="list-item-activo">
+          <img class="" src="assets/svg/nav-icon-afiliacion.svg"/>
+          <span>Afiliaciones</span>
+        </a>
+      </li>
+      <!-- <li>
+        <a routerLink="/app/programacion" routerLinkActive="list-item-activo">
+          <img class="" src="assets/svg/nav-icon-programacion.svg"/>
+          <span>Programación</span>
+        </a>
+      </li>
+      <li>
+        <a routerLink='/app/control' routerLinkActive="list-item-activo">
+          <img class="" src="assets/svg/nav-icon-control.svg"/>
+          <span>Control</span>
+        </a>
+      </li>
+      <li>
+        <a routerLink="/app/reportes" routerLinkActive="list-item-activo">
+          <img class="" src="assets/svg/nav-icon-reporte.svg"/>
+          <span>Reportes</span>
+        </a>
+      </li> -->
+    </ul>
   </div>
-
-  <div class="h-[55px] p-[8px] flex justify-between mb-4">
+  <div *ngIf="showUnidOpe" class="h-[55px] p-[8px] flex justify-between mb-4 select-none hover:bg-[#F0FCFE]" [cdkMenuTriggerFor]="optionsSidenav">
     <div class="flex gap-2">
-      <div class=" bg-cam w-[40px] h-full rounded-[5px] flex justify-center items-center text-white font-bold text-[18px]">
-        <span>UP</span>        
-        <!-- <span>{{unidOpeUserSession[0]}}</span> -->
+      <div class=" bg-cam w-[40px] h-full rounded-[5px] flex justify-center items-center text-white font-bold text-[20px]">
+        <span>{{unidOpeUserSession[0]}}</span>
       </div>
       <div class="flex flex-col text-[14px]">
         <span>Unidad Operativa</span>
-        <span class="text-Name max-w-[168px] whitespace-nowrap text-ellipsis overflow-hidden">VILLA MARIA DEL TRIUNFO</span>
-        <!-- <span class="text-Name !font-light max-w-[168px] whitespace-nowrap text-ellipsis overflow-hidden">{{unidOpeUserSession}}</span> -->
+        <span class="text-Name !font-light max-w-[168px] whitespace-nowrap text-ellipsis overflow-hidden">{{unidOpeUserSession}}</span>
       </div>
     </div>
     <div class="flex items-center opacity-60">
         <esp-icon icon="faChevronRight"></esp-icon>
     </div>
   </div>
+
+  <ng-template #optionsSidenav>
+      <div class="botonApariencia bg-white !text-[#344563] text-sm ml-[250px] mb-[-70px]" cdkMenu>
+          <div class="flex flex-col" cdkMenuGroup>
+            <div class="flex flex-col gap-[7.5px] px-3 py-2.5 ">
+              <span class="font-bold">USUARIO</span>
+              <div class="flex flex-row gap-1.5 items-center">
+                <div class="flex items-center justify-center bg-cam w-10 h-10 rounded">
+                  <span class="text-white font-bold text-lg">{{userInfo.nombres[0]}}</span>
+                </div>
+                <div class="flex flex-col min-w-[265px]">
+                  <span>{{userInfo.nombres}}</span>
+                  <span class="text-[12px] leading-[12px] opacity-50">{{userInfo.correo}}</span>
+                </div>
+                <img class="h-5 self-center cursor-pointer" src="assets/svg/icon-edit-list.svg" [routerLink]="'/app/admin/edit-user'">
+              </div>
+            </div>
+            <div class="flex flex-col gap-[7.5px] px-3 py-2.5 border-[#D4D4D4] border-y">
+              <span class="font-bold">CENTRO</span>
+              <div class="flex flex-col bg-[#F5F8FA] w-full py-[7px] pl-2.5 pr-1">
+                <span>{{unidOpeUserSession}}</span>
+                <span class="text-[#64748B] text-[12px]">------------------------</span>
+              </div>
+            </div>
+            <div class="flex flex-col gap-2.5 px-3 py-2.5">
+              <div class="flex flex-row items-center gap-2.5 cursor-pointer" [routerLink]="'/app/admin'">
+                <img class="h-5 self-center" src="assets/svg/circle-arrow-left.svg">
+                <span>Volver a lista de Centros</span>
+              </div>
+              <div class="flex flex-row items-center gap-2.5 cursor-pointer" (click)="logout()">
+                <img src="assets/svg/icon-toolbar-logout.svg"/>
+                <span>Cerrar la sesión</span>
+              </div>
+            </div>
+          </div>
+      </div>
+  </ng-template>
 </div>

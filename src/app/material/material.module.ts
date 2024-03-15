@@ -46,9 +46,6 @@ import {MatCheckboxModule} from '@angular/material/checkbox';
     MatTabsModule,
     MatCheckboxModule ,
     MatCardModule,
-
-
-
   ],
   providers: [
     { provide: MAT_DATE_LOCALE, useValue: 'es-ES' },

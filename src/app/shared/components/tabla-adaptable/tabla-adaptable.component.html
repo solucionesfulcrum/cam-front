@@ -1,0 +1,64 @@
+<div class="tablaMutada">
+    <div class="contenedorHeaderTabla">
+        <div class="identificadorTabla" *ngIf="identificadorVisible"></div>
+        <ng-container *ngFor="let header of dataColumnas, index as i">
+            <div class="headerText" *ngIf="!header.oculto" [ngClass]="header.resaltado ? '!w-[300%]' : null">
+                <span>{{header.header}}</span>
+            </div>
+        </ng-container>
+        <div class="w-[34px] shrink-0">
+        </div>
+    </div>
+    <div class="contenidoTablaMutada">
+        <div *ngIf="formData.controls.data.value.length == 0" class="flex justify-center items-center">
+            <span>Sin registros por mostrar</span>
+        </div>
+        <div *ngIf="formData.controls.data.value.length != 0" class="filasTablaMutada" [formGroup]="formData">
+            <ng-container formArrayName="data">
+                <ng-container *ngFor="let dataForm of getDatos.controls, index as i">
+                    <div class="filaEstaSi" [formGroup]="getFormGroup(dataForm)">
+                        <div class="identificadorTabla" *ngIf="identificadorVisible">{{i+1}}.</div>
+                        <ng-container *ngFor="let atributo of dataColumnas">
+                            <div class="atributosFila" *ngIf="!atributo.oculto" [ngClass]="atributo.resaltado ? '!w-[300%]' : null">
+                                    <div *ngIf="atributo.tipo == 'texto'" class="atributoTexto">
+                                        <span>{{getValueAttribute(atributo,dataForm.value)}}</span>
+                                    </div>
+                                    <div *ngIf="atributo.tipo == 'inputNumber'">
+                                        <input type="number" min="0" [formControlName]="atributo.nomAttribute" class="inputTextoDialog focusCampo !h-10">
+                                    </div>
+                                    <div *ngIf="atributo.tipo == 'inputText'">
+                                        <input type="text" [formControlName]="atributo.nomAttribute" class="inputTextoDialog focusCampo !h-10">
+                                    </div>
+                                    <div *ngIf="atributo.tipo == 'inputFecha'">
+                                        <div class="relative">
+                                          <mat-form-field style="position: absolute; visibility:hidden;">
+                                            <input #inputFec matInput [matDatepicker]="picker">
+                                            <mat-datepicker #picker  (closed)="actualizarDate(i, atributo.nomAttribute, inputFec.value)"></mat-datepicker>
+                                          </mat-form-field>
+                                          <input type="text" name="search" readonly (click)="picker.open()" [formControlName]="atributo.nomAttribute" class="inputTextoDialog focusCampo !h-10 pr-7">
+                                            <div class="absolute inset-y-0 right-0 flex items-center pr-3 z-10 !h-9" (click)="picker.open()">
+                                              <span class="text-gray-500 sm:text-sm">
+                                                <img src="assets/svg/icon-calendar-simple.svg">
+                                              </span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div *ngIf="atributo.tipo == 'select'">
+                                        <select [formControlName]="atributo.nomAttribute" class="!pr-7 border border-gray-300 text-gray-900 text-sm rounded-lg focusCampo block w-full h-[40px]">
+                                            <option [value]="null" selected disabled>Seleccione una opción</option>
+                                            <ng-container *ngFor="let opcion of atributo.opciones, index as i">
+                                                <option [value]="opcion.value">{{opcion.nombre}}</option>
+                                            </ng-container>
+                                        </select>
+                                    </div>
+                            </div>
+                        </ng-container>
+                        <div class="eliminarFilaIcon" (click)="deleteElement(i)">
+                            <img class="h-5 self-center" src="assets/svg/icon-table-delete-row.svg">
+                        </div>
+                    </div>
+                </ng-container>
+            </ng-container>
+        </div>
+    </div>
+</div>

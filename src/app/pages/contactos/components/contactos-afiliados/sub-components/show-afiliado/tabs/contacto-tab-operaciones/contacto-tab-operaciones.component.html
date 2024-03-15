@@ -1,23 +1,41 @@
 <esp-opciones-busqueda 
 [showDateFilter]="true"
-[setFilterDateOptionSelected]="'var(--color-CAM-mezclado)'" 
+[setFilterDateOptionSelected]="'var(--color-CAM-Mezclado)'" 
 [setFilterDateTextColour]="'var(--color-CAM)'"
 [filterDateAppearance]="2"
 [setFilterDateSelectionBg]="'var(--color-CAM-Claro)'"
 [setFilterDateButtonBg]="'var(--color-CAM-Claro)'"
+(sendDateFilterWithCeros)="getDataFecha($event)"
 [showFirstDisplayFilter]="true"
 ></esp-opciones-busqueda>
 
 <div>
-    <div *ngFor="let dia of listaOperaciones, index as i">
-        <div class="encabezadoDia">
-            <span>{{(dia.fecha | date: 'EEEE') | titlecase}}, {{dia.fecha | date: 'dd \'de\''}} {{(dia.fecha | date:'MMMM') | titlecase}} del {{dia.fecha | date:'yyyy'}}</span>
+    <div class="px-4 py-3 w-full mt-3 grid" *ngIf="!dataShow">
+        <div class="text-gray-600 w-full text-center">
+            <span class="py-1 font-bold text-2xl">
+                <fa-icon class="mr-2" [icon]="faSpinner" [pulse]="true"></fa-icon>
+                Obteniendo datos...
+            </span>
         </div>
-        <div *ngFor="let fecha of dia.operaciones, index as j" class="operacionCuadro">
-            <div class="horaAtencion">
-                <span> {{(fecha.fecha | date: 'hh:mm aa') | lowercase}} </span>
+    </div>
+    <div *ngIf="dataShow">
+        <div *ngIf="listaOperaciones.length > 0">
+            <div *ngFor="let dia of listaOperaciones, index as i">
+                <div class="encabezadoDia">
+                    <span>{{(dia.fecha | date: 'EEEE') | titlecase}}, {{dia.fecha | date: 'dd \'de\''}} {{(dia.fecha | date:'MMMM') | titlecase}} del {{dia.fecha | date:'yyyy'}}</span>
+                </div>
+                <div *ngFor="let fecha of dia.operaciones, index as j" class="operacionCuadro">
+                    <div class="horaAtencion">
+                        <span> {{(fecha.fecha | date: 'hh:mm aa') | lowercase}} </span>
+                    </div>
+                    <span class="descripcion"> {{fecha.descripcion}} </span>
+                </div>
             </div>
-            <span class="descripcion"> {{fecha.descripcion}} </span>
+        </div>
+        <div class="px-4 py-3 w-full mt-3 grid" *ngIf="listaOperaciones.length == 0">
+            <div class="text-gray-600 w-full text-center">
+                <span class="py-1 font-bold text-2xl"> No se obtuvo resultados para este periodo </span>
+            </div>
         </div>
     </div>
 </div>

@@ -14,29 +14,30 @@ import { SharedModule } from 'src/app/shared/shared.module';
 import { SolicitudesComponent } from './solicitudes/solicitudes.component';
 import { EvaluacionComponent } from './evaluacion/evaluacion.component';
 import { MenuOpcionesComponent } from '@shared/components/menu-opciones/menu-opciones.component';
-import { OpcionRegresarComponent } from '@shared/components/opcion-regresar/opcion-regresar.component';
 import { MatCheckboxModule } from '@angular/material/checkbox';
 import { MatTooltipModule } from '@angular/material/tooltip';
-import { ShowAfilComponent } from './show-afil/show-afil.component';
 import { FichaAfilComponent } from './afiliados/ficha-afil/ficha-afil.component';
-import { ModalActivarAfilComponent } from './show-afil/modalActivar/modal-activar-afil.component';
 import { MatCardModule } from '@angular/material/card';
-import { SubListActivacionesAfilComponent } from './show-afil/sub-list-activaciones-afil/sub-list-activaciones-afil.component';
 import { ShowSolComponent } from './show-sol/show-sol.component';
 import { ModalActivarSolComponent } from './show-sol/modal-activar-sol/modal-activar-sol.component';
 import { SubListActivacionesSolComponent } from './show-sol/sub-list-activaciones-sol/sub-list-activaciones-sol.component';
 import { EditSolComponent } from './edit-sol/edit-sol.component';
-import { NewEvalAfiliadoComponent } from './components/new-eval-afiliado/new-eval-afiliado.component';
-import { NotasAfilComponent } from './components/notas-afil/notas-afil.component';
-import { NewEval2AfiliadoComponent } from './components/new-eval2-afiliado/new-eval2-afiliado.component';
-import { NewEval3AfiliadoComponent } from './components/new-eval3-afiliado/new-eval3-afiliado.component';
-import { NewEval4AfiliadoComponent } from './components/new-eval4-afiliado/new-eval4-afiliado.component';
-import { ResultEvalAfiliadoComponent } from './components/result-eval-afiliado/result-eval-afiliado.component';
 import { AfilOperComponent } from './components/afil-oper/afil-oper.component';
 import { TabsComponent } from './components/tabs/tabs.component';
 import { AfilEvalComponent } from './components/afil-eval/afil-eval.component';
 import { CustomDatePipe } from '@shared/custom-date.pipe';
 import { CdkTableModule } from '@angular/cdk/table';
+import { Dialog, DialogModule } from '@angular/cdk/dialog';
+import { EvaluacionLayoutComponent } from './components/evaluacion-layout/evaluacion-layout.component';
+import { EvaluacionAPfeifferComponent } from './components/evaluacion-layout/evaluaciones/evaluacion-a-pfeiffer/evaluacion-a-pfeiffer.component';
+import { EvaluacionBKatzComponent } from './components/evaluacion-layout/evaluaciones/evaluacion-b-katz/evaluacion-b-katz.component';
+import { EvaluacionCGijonComponent } from './components/evaluacion-layout/evaluaciones/evaluacion-c-gijon/evaluacion-c-gijon.component';
+import { EvaluacionDYesavageComponent } from './components/evaluacion-layout/evaluaciones/evaluacion-d-yesavage/evaluacion-d-yesavage.component';
+import { MaterialModule } from 'src/app/material/material.module';
+import { ContenedorEvaluacionComponent } from './components/evaluacion-layout/evaluaciones/contenedor-evaluacion/contenedor-evaluacion.component';
+import { EvaluacionResultadosComponent } from './components/evaluacion-layout/evaluaciones/evaluacion-resultados/evaluacion-resultados.component';
+import { DialogNotasComponent } from './show-sol/dialog-notas/dialog-notas.component';
+import { MatAutocompleteModule } from '@angular/material/autocomplete';
 
 
 
@@ -47,24 +48,23 @@ import { CdkTableModule } from '@angular/cdk/table';
     AnalisisComponent,
     SolicitudesComponent,
     EvaluacionComponent,
-    ShowAfilComponent,
     FichaAfilComponent,
-    ModalActivarAfilComponent,
-    SubListActivacionesAfilComponent,
     ShowSolComponent,
     ModalActivarSolComponent,
     SubListActivacionesSolComponent,
     EditSolComponent,
-    NewEvalAfiliadoComponent,
-    NotasAfilComponent,
-    NewEval2AfiliadoComponent,
-    NewEval3AfiliadoComponent,
-    NewEval4AfiliadoComponent,
-    ResultEvalAfiliadoComponent,
     AfilOperComponent,
     TabsComponent,
     AfilEvalComponent,
     CustomDatePipe,
+    EvaluacionLayoutComponent,
+    EvaluacionAPfeifferComponent,
+    EvaluacionBKatzComponent,
+    EvaluacionCGijonComponent,
+    EvaluacionDYesavageComponent,
+    ContenedorEvaluacionComponent,
+    EvaluacionResultadosComponent,
+    DialogNotasComponent,
   
   ],
   imports: [
@@ -73,16 +73,19 @@ import { CdkTableModule } from '@angular/cdk/table';
     MatTableModule,
     MatTabsModule,
     MatPaginatorModule,
+    MatAutocompleteModule,
     CdkTableModule,
     MatCheckboxModule,
     MenuOpcionesComponent,
-    OpcionRegresarComponent,
     MatTooltipModule,
     MatCardModule,
     RouterModule,
+    MaterialModule,
+    DialogModule,
     SharedModule,
-   
-   
+  ],
+  providers: [
+    EvaluacionAPfeifferComponent
   ]
 })
 export class AfiliadosModule { }

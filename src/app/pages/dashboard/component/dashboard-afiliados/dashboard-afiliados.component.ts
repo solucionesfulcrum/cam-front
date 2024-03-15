@@ -33,10 +33,10 @@ export type ChartOptions = {
 @Component({
   selector: 'app-dashboard-afiliados',
   templateUrl: './dashboard-afiliados.component.html',
-  styleUrls: ['./dashboard-afiliados.component.css']
+  styleUrls: ['./dashboard-afiliados.component.scss']
 })
 export class DashboardAfiliadosComponent implements OnInit {
-  @ViewChild("chart") chart: ChartComponent;
+  @ViewChild("chart") chart!: ChartComponent;
   public chartOptions!: Partial<ChartOptions> | any;
 
 

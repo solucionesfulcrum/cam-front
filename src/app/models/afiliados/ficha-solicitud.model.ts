@@ -1,9 +1,21 @@
+export interface listaConstactosRequest {
+    idUnidOpe: string;
+    estado: number;
+    texto: string;
+    fecInicio: string;
+    fecFin: string;
+    pageNum: string;
+    pageSize: string;
+}
+
 export interface RequestListaSolicitudesAfiliados{
-    tipoSolicitud: string,
-    unidadOperativa: number,
-    fechaInicio: string,
-    fechaFin: string,
-    buscar: string
+    idUnidOpeCam: number,
+    texto: string,
+    fecInicio: string,
+    fecFin: string,
+    pageNum: string,
+    pageSize: string,
+    idEstadoParam: number
 }
 
 export interface RequestListaSAfiliadosContacto{
@@ -26,3 +38,23 @@ export interface direccionFichaFront{
     nomDist: string,
     activo: number
 }
+
+export interface dataRequest{
+    codOpcion: string,
+    tipoDoc: string,
+    numDoc: string
+}
+
+export interface listaFichaSolicitudRequest {
+    idUnidOpe: string;
+    apellidos: string;
+    nombres: string;
+    tipoDocIdent: string;
+    numDocIdent: string;
+    fecInicio: string;
+    fecFin: string;
+    pageNum: string;
+    pageSize: string;
+}
+
+

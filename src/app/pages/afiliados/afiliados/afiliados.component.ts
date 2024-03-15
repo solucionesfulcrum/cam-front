@@ -4,9 +4,7 @@ import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
 import { ActivatedRoute, Router } from '@angular/router';
-import { BreadcrumService } from 'src/app/shared/services/breadcrum.service';
-import { AuthService } from '../../auth/services/auth-service.service';
-import { Parametro } from 'src/app/shared/components/opciones-busqueda/parametros-busqueda.model';
+import { AuthService } from '@services/auth.service';
 
 
 @Component({
@@ -16,7 +14,7 @@ import { Parametro } from 'src/app/shared/components/opciones-busqueda/parametro
 })
 export class AfiliadosComponent implements OnInit  {
 
-  optEstados: Parametro[] = [
+  optEstados: any[] = [
     {nombre:'Disponibles', valor1:'01'},
     {nombre:'Suspendidos', valor1:'02'},
     {nombre:'No Disponibles', valor1:'03'}
@@ -38,29 +36,20 @@ export class AfiliadosComponent implements OnInit  {
     'tieneVigencia',
   ];
 
-  breadcrum1:{url:string, title:string }   
-  breadcrum2:{url:string, title:string } 
-  breadcrum3:{url:string, title:string } 
-
-  dataSource: MatTableDataSource<any>;
-  @ViewChild(MatPaginator) paginator: MatPaginator;
-  @ViewChild(MatSort) sort: MatSort;
+  dataSource!: MatTableDataSource<any>;
+  @ViewChild(MatPaginator) paginator!: MatPaginator;
+  @ViewChild(MatSort) sort!: MatSort;
 
 
   constructor(
     private fb: FormBuilder, 
     private router: Router, 
     private route: ActivatedRoute,
-    private breadcrumService: BreadcrumService,
     private authService: AuthService,
    
   
 
   ) {
-    breadcrumService.link1$.next({ url: '/afiliados', title:'AFILIADOS' });
-    this.breadcrumService.link2$.next({url:'' ,title:''});
-    this.breadcrumService.link3$.next({url:'', title:''});
-    breadcrumService.activeTab$.next('/afiliados');
     
     this.loadUsers()
    }
@@ -69,12 +58,12 @@ export class AfiliadosComponent implements OnInit  {
   }
 
   loadUsers(){
-    return this.authService.getUsuariosFromSSO(1,20)
-    .subscribe((rta:any) =>{
-      this.dataSource = new MatTableDataSource(rta.list);
-      this.dataSource.paginator = this.paginator;
-      this.dataSource.sort = this.sort;
-    })
+    // return this.authService.getUsuariosFromSSO(1,20)
+    // .subscribe((rta:any) =>{
+    //   this.dataSource = new MatTableDataSource(rta.list);
+    //   this.dataSource.paginator = this.paginator;
+    //   this.dataSource.sort = this.sort;
+    // })
     
   }
 
@@ -83,7 +72,6 @@ export class AfiliadosComponent implements OnInit  {
   filtrarTabla(event: any): void {}
 
   setLink2(nameLink: string, codigo:string){
-      this.breadcrumService.link2$.next({url:'/afiliados/show/'+codigo, title:nameLink});
       this.router.navigate(['/afiliados/show/', codigo]);
   }
 

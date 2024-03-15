@@ -1,0 +1,21 @@
+.iconEditar{
+    cursor: pointer;
+    margin-bottom: 0.5rem;
+    height: 1.25rem;
+    margin-right: 0.625rem;
+    position: absolute;
+    right: 0;
+    bottom: 0;
+}
+.iconEditar:hover{
+    border-color: var(--color-CAM);
+    border-width: 2px;
+    height: 1.45rem;
+    background-color: #f3f4f6;
+}
+
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}

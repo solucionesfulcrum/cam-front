@@ -1,0 +1,118 @@
+<div class="px-4 py-3 bg-primary-700 flex justify-between text-white rounded-t-lg">
+    <span><b>Nueva consulta de Asegurado</b></span>
+    <button (click)="onClose()"><esp-icon icon="faClose"></esp-icon></button>
+</div>
+<div class="px-4 py-3 bg-white rounded-b-lg">
+    <div class="flex justify-between space-x-2 p-2.5" [formGroup]="formNewContrato">
+        <div class="w-1/2">
+            <div class="relative rounded-md shadow-sm">
+              <select
+                id="searchDoc"
+                formControlName="frmSelectDoc"
+                class="space-x-5 bg-slate-50 border border-gray-300 text-gray-900 text-sm rounded-lg focusCampo block w-full h-[42px]"
+              >
+                <option value="" disabled selected>Seleccione su tipo de documento</option>
+                <option *ngFor="let documento of opciones" [value]='documento.valor1'>{{documento.nombre | titlecase}}</option>
+                <!-- <option value="1">Registrado</option> -->
+              </select>
+            </div>
+        </div>  
+        <div class="w-1/2 flex flex-row gap-2">
+            <div class="relative rounded-md shadow-sm w-full">
+              <input
+                formControlName="frmDoc"
+                placeholder="Documento"
+                type="text"
+                name="doc"
+                class="w-full text-sm rounded bg-white border-gray-400 border-1 px-4 py-2 font-light focusCampo h-[42px]"
+              />
+            </div>
+            <div class="w-[34px] h-10 flex items-center justify-center border border-gray-400 rounded cursor-pointer hover:bg-slate-200 shrink-0" (click)="talleristaEncontrado = !talleristaEncontrado" [ngClass]="!talleristaEncontrado ? null : 'border-red-600 text-red-600'">
+              <img *ngIf="!talleristaEncontrado" src="assets/svg/icon-contrato-confirm.svg">
+              <esp-icon *ngIf="talleristaEncontrado" icon="faTrashCan"></esp-icon>
+            </div>
+        </div>  
+    </div>
+    <div class="pt-2 pb-4 flex flex-col gap-2.5 text-[var(--color-black-alt)]">
+        <div class="my-2 mx-2.5 flex flex-row text-[14px] border-b border-[#D4D4D4] font-semibold" *ngIf="talleristaEncontrado">
+            <div class="px-1.5 py-[5px] bg-[#F5F8FA]">
+                <span>{{tipoDocSelected.nombre}}</span>
+            </div>
+            <div class="px-1.5 py-[5px] text-[var(--color-CAM)]">
+                <span>Juan Alberto Luján Carrión - 47787231</span>
+            </div>
+        </div>
+        <span class="px-2.5 pt-2.5 font-semibold">Sobre la Orden de Compra</span>
+        <div class="flex justify-between space-x-2 px-2.5">
+            <div class="w-1/2 flex flex-row gap-2.5" [formGroup]="formVigencia">
+                <div class="relative">
+                  <mat-form-field style="position: absolute; visibility:hidden;">
+                    <input #input matInput [matDatepicker]="picker">
+                    <mat-datepicker #picker (closed)="actualizarDate(input.value, 1)"></mat-datepicker>
+                  </mat-form-field>
+                  <input type="text" name="search" formControlName="frmInicioVigencia" readonly (click)="picker.open()"
+                    class="inputTextoDialog focusCampo !h-10 pr-7"
+                    placeholder="Fecha de Inicio">
+                    <div class="absolute inset-y-0 right-0 flex items-center pr-3 z-10 !h-9" (click)="picker.open()">
+                      <span class="text-gray-500 sm:text-sm">
+                        <esp-icon icon="faCalendar" class="hoverCalendar"></esp-icon>
+                      </span>
+                    </div>
+                    <div *ngIf="formVigencia.controls.frmInicioVigencia.touched">
+                        <p *ngIf="formVigencia.controls.frmInicioVigencia.value == null" class="font-medium text-red-500 text-xs mt-1 ml-1">
+                            Fecha Inicio requerida
+                        </p>
+                    </div>
+                </div>
+                <div class="relative">
+                  <mat-form-field style="position: absolute; visibility:hidden;">
+                    <input #inputFecFin matInput [matDatepicker]="pickerFecFin" [min]="minDate">
+                    <mat-datepicker #pickerFecFin (closed)="actualizarDate(inputFecFin.value, 2)"></mat-datepicker>
+                  </mat-form-field>
+                  <input type="text" name="search" formControlName="frmFinVigencia" readonly (click)="pickerFecFin.open()"
+                    class="inputTextoDialog focusCampo !h-10 pr-7"
+                    placeholder="Fecha de Fin">
+                    <div class="absolute inset-y-0 right-0 flex items-center pr-3 !h-9" (click)="pickerFecFin.open()">
+                      <span class="text-gray-500 sm:text-sm">
+                        <esp-icon icon="faCalendar" class="hoverCalendar"></esp-icon>
+                      </span>
+                    </div>
+                    <div *ngIf="formVigencia.controls.frmFinVigencia.touched">
+                        <p *ngIf="formVigencia.controls.frmFinVigencia.value == null" class="font-medium text-red-500 text-xs mt-1 ml-1">
+                            Fecha Fin requerida
+                        </p>
+                    </div>
+                </div>
+            </div>
+            <div class="w-1/2 flex flex-row gap-2.5">
+                <input type="text" name="order" class="inputTextoDialog focusCampo !h-10 pr-7" placeholder="N° Orden">
+                <input type="text" name="quantity" class="inputTextoDialog focusCampo !h-10 pr-7" placeholder="Monto Total">                
+            </div>
+        </div>
+    </div>
+    <div class="flex flex-row gap-2 justify-center pt-6 pb-3 px-4 border-t border-[#F4F5F5]">
+      <div class="w-1/2 text-wright">
+        <div class="w-fit">
+            <app-btn class="botonApariencia flex" color="white" (click)="onClose()">Cancelar
+            </app-btn>
+        </div>
+      </div>
+      <div class="w-1/2">
+        <div class="w-fit">
+            <app-btn class="botonApariencia flex" type="submit" color="mezclado" (click)="onSearch()" [loading]="status === 'loading'" [disabled]="!talleristaEncontrado">Generar
+            </app-btn>
+        </div>
+      </div>
+    </div>
+    <!-- <div *ngIf="tipoMsg==true" class="flex justify-center">
+      <div class="boxMsgSatisf">
+        <div class="boxSpanMsg">
+          <span class="text-green-500 text-center">{{msgRespuesta | titlecase}}</span>
+        </div>
+        <div class="btnSgte">
+          <app-btn color="mezclado" (click)="setLink2(createRequest().numDoc, createRequest().tipoDoc)">Generar Ficha de Admisión
+          </app-btn>
+        </div>
+      </div>
+    </div> -->
+</div>

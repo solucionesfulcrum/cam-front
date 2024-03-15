@@ -1,12 +1,12 @@
 .bg-image{
-    background-image: url(~src/assets/img/background.jpg);
+    background-image: url(~src/assets/images/background.jpg);
     background-position: center;
     background-size: cover;
     margin-bottom: 2.75rem;
 }
 .avatar{
     bottom: -2.5rem;
-    background-image: url(~src/assets/img/avatar-user.png);
+    background-image: url(~src/assets/images/avatar-user.png);
     background-position: center;
     background-size: cover;
 }

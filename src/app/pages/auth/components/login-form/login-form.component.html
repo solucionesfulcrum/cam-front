@@ -1,0 +1,98 @@
+<main class="">
+  <div class="px-9">
+    <h1 class="font-semibold pt-2 text-gray mb-3">
+      <span class="border-b-2 border-success-700 pb-2"> Inicia Sesión </span>
+    </h1>
+    <h2 class="font-semibold pt-2 text-gray-700">
+      <span> Bienvenido al nuevo! </span>
+    </h2>
+    <h1 class="font-semibold pt-2 text-gray-400 text-sm">
+      <span> Ingrese con su N° de documento y contraseña</span>
+    </h1>
+  </div>
+
+  <form
+    [formGroup]="form"
+    novalidate
+    class="space-y-5 px-9 mt-5"
+    (ngSubmit)="doLogin()"
+  >
+    <div class="">
+      <div class="relative">
+        <input
+          #nameInput
+          formControlName="username"
+          placeholder="N° Documento"
+          type="email"
+          class="w-full rounded bg-white border-gray-400 border-1 px-4 py-3 font-light focus:border-blue-200 focus:border-1"
+        />
+        <div
+          type="button"
+          class="inset-y-0 mr-4 right-0 absolute pointer-events-none flex items-center"
+        >
+          <esp-icon icon="faUser"></esp-icon>
+        </div>
+      </div>
+      <div
+        *ngIf="form.controls.username.touched && form.controls.username.invalid"
+      >
+        <p
+          *ngIf="form.controls.username.hasError('required')"
+          class="font-medium text-red-500 text-xs mt-1 ml-1"
+        >
+          Username es obligatorio
+        </p>
+        <p
+          *ngIf="form.controls.username.hasError('username')"
+          class="font-medium text-red-500 text-xs mt-1 ml-1"
+        >
+          Username inválido
+        </p>
+      </div>
+    </div>
+    <div>
+      <div class="relative">
+        <input
+          formControlName="password"
+          placeholder="Contraseña"
+          [type]="showPassword ? 'text' : 'password'"
+          class="w-full rounded bg-white border-gray-400 border-1 px-4 py-3 font-light focus:border-blue-200 focus:border-1"
+        />
+        <button
+          type="button"
+          class="inset-y-0 mr-4 right-0 absolute"
+          (click)="showPassword = !showPassword"
+        >
+          <esp-icon [icon]="showPassword ? 'faEye' : 'faEyeSlash'"></esp-icon>
+        </button>
+      </div>
+      <div
+        *ngIf="form.controls.password.touched && form.controls.password.invalid"
+      >
+        <p
+          *ngIf="form.controls.password.hasError('required')"
+          class="font-medium text-red-500 text-xs mt-1 ml-1"
+        >
+          Contraseña es requerida
+        </p>
+        <p
+          *ngIf="form.controls.password.hasError('minlength')"
+          class="font-medium text-red-500 text-xs mt-1 ml-1"
+        >
+          Contraseña min 8 caracteres
+        </p>
+      </div>
+    </div>
+    <div *ngIf="status === 'failed'">
+      <p class="font-medium text-red-500 text-xs mt-1 ml-1">
+        {{ msgSSO }}
+      </p>
+    </div>
+    <div>
+      <!--<div class="flex justify-center items-center space-x-0 space-y-0 md:space-x-2 md:space-y-0 flex-col md:flex-row text-center">
+        <a routerLink="/forgot-password" class="text-blue-400 font-semibold mb-4">¿Olvidaste tu contraseña?</a>
+      </div>-->
+      <app-btn typeBtn="submit" class="flex botonApariencia" color="primary" [loading]="status === 'loading'">Ingresar</app-btn>
+    </div>
+  </form>
+</main>

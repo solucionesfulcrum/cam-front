@@ -4,7 +4,7 @@
 
 .btnNuevaFicha{
     ::ng-deep.bg-success-700{
-        background: var(--color-CAM);
+        background: var(--color-boton);
     }
 }
 .inputTextoDialog{	
@@ -32,70 +32,24 @@
 }
 .focusCampo:focus{
   outline: 0;
-  --tw-ring-color: #057EC9;
-  border-color: #057EC9 !important;
-}
-select{
-  appearance: none;
-  background-color: white;
-  background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 20 20'%3e%3cpath stroke='%236b7280' stroke-linecap='round' stroke-linejoin='round' stroke-width='1.5' d='M6 8l4 4 4-4'/%3e%3c/svg%3e");
-  background-position: right 0.5rem center;
-  background-repeat: no-repeat;
-  background-size: 1.5em 1.5em;
-  padding-right: 2.5rem;
-  padding-top: 0.5rem;
-  padding-bottom: 0.5rem;
-  padding-left: 0.75rem;
+  --tw-ring-color: var(--color-CAM);
+  border-color: var(--color-CAM-Claro) !important;
 }
 .btnStructure{
   width: 100%;
-  border-radius: 4px;      //0.25rem
-  padding-left: 0.5rem;   //1.25rem
-  padding-right: 0.5rem;  //1.25rem
+  border-radius: 0.25rem;
+  padding-left: 1.25rem;
+  padding-right: 1.25rem;
   padding-top: 0.5rem;
   padding-bottom: 0.5rem;
-  font-size: 16px;     //0.875rem
-  line-height: 20px;   //1.25rem
-  font-weight: 400px;  //500
+  font-size: 0.875rem;
+  line-height: 1.25rem;
+  font-weight: 500;
   --tw-text-opacity: 1;
   color: rgb(255 255 255 / var(--tw-text-opacity));
-  background: var(--color-CAM);   //var(--color-boton);
+  background: var(--color-boton);
 }
-
 .botonApariencia{
+  border-radius: 5px;
   box-shadow: 1px 1px 4px 0px #00000066;
-}
-
-.btnNotasStructure{
-  width: 100%;
-  border-radius: 4px;      //0.25rem
-  padding-left: 2.25rem;   //1.25rem
-  padding-right: 0.5rem;  //1.25rem
-  padding-top: 0.5rem;
-  padding-bottom: 0.5rem;
-  font-size: 16px;     //0.875rem
-  line-height: 20px;   //1.25rem
-  font-weight: 400px;  //500
-  --tw-text-opacity: 1;
-  color: #3E4348;
-  background: var(--color-CAM-blanco);   //var(--color-boton);
-  background-image: url('../../../../assets/editor.svg'); /* Ruta a tu imagen SVG */
-  background-size: 20px 20px; /* Tamaño deseado del icono */
-  background-repeat: no-repeat;
-  background-position: 10px;
-  display: flex;
-}
-
-.bg_image_upd{
-  background-image: url('../../../../assets/img/iconUpdate.png') ;
- 
-}
-
-.bg_image_descarga {
-  background-position:140px;
-  background-image: url('../../../../assets/img/arrow_bottom.png') ;
-  background-size: 10px;
-  margin-right: 45px;
-  padding-right: 0.5rem;
-  
 }

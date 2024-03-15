@@ -1,7 +1,14 @@
 export const environment = {
   production: false,
-  HOST: "https://appsqa.essalud.gob.pe/cam-service",
-  apiSSO: 'https://appsqa.essalud.gob.pe/sagw/sso-main/api',
-  apiForRed: 'https://appsqa.essalud.gob.pe/lectura-acompana-serv',
-  apiForUbigeo: 'https://appsqa.essalud.gob.pe/lectura-acompana-serv'
+  API: 'https://appsqa.essalud.gob.pe/cam-service',
+  API_SEGURO: 'https://appsqa.essalud.gob.pe/sagw/sigps/viva-apidatosmaestros',
+  API_ESSI: 'https://appsqa.essalud.gob.pe/sagw/servicios-essi/apimaestra',
+  SSO_API: 'https://appsqa.essalud.gob.pe/sagw/sso-main/api',
+  environmentName: 'Dev-Local',
+
+
 };
+
+  //api_URL: 'http://localhost:3000',
+  //API_URL: 'https://fake-trello-api.herokuapp.com', 
+  //AUTH_API_URL: 'https://appsqa.essalud.gob.pe/sso-main/api/auth',

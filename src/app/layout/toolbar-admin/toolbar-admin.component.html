@@ -3,53 +3,57 @@
         <nav class="supports-backdrop-blur:bg-white/95 backdrop-blur bg-white border-gray-200 px-6 py-1 shadow-lg min-h-[55px] flex flex-row justify-between items-center">
             <div class="flex flex-row gap-[18px]">
                 <img class="cursor-pointer" src="assets/svg/icon-menu-options-toolbar.svg" [cdkMenuTriggerFor]="toolbarOptions"/>
-               <div class="flex flex-row gap-2.5 items-center text-xl">
-                    <img class="w-6 h-6" src="assets/img/logoToolbar.png"/>
+                <div class="flex flex-row gap-2.5 items-center text-xl">
+                    <img class="w-6 h-6" src="assets/images/logo/logoToolbar.png"/>
                     <span class="text-[#0160AE] font-bold">SCAM</span>
                     <span>Administración</span>
                 </div>
             </div>
             <div class="flex flex-row gap-7">
                 <img class="cursor-pointer" src="assets/svg/icon-doubt-sign-toolbar.svg"/>
-                <img class="cursor-pointer w-8 rounded-full" src="assets/img/iconUser.png" alt="user photo" [cdkMenuTriggerFor]="accountOptions"/>
+                <img class="cursor-pointer w-8 rounded-full" src="assets/images/iconUser.png" alt="user photo" [cdkMenuTriggerFor]="accountOptions"/>
             </div>
         </nav>
         
         <ng-template #toolbarOptions>
             <div class="example-menu" cdkMenu>
-               <div class="flex flex-col divide-y gap-2.5" cdkMenuGroup>
-                   <div class="px-2.5 flex flex-col gap-2.5">
-                        <button class="elementoOpcion" cdkMenuItem routerLink="/app/admin/usuarios"> 
-                        <!--<button class="elementoOpcion" cdkMenuItem routerLink="/app/admin/users" *ngIf="userInfo.categoria != 'SIGPS'">   -->
+                <div class="flex flex-col divide-y gap-2.5" cdkMenuGroup>
+                    <div class="px-2.5 flex flex-col gap-2.5">
+                        <button class="elementoOpcion" cdkMenuItem routerLink="/app/admin/users" *ngIf="userRol != 'CAM'">
                             <img src="assets/svg/icon-toolbar-users.svg"/>
                             <span>Usuarios</span>
                         </button>
-                         <button class="elementoOpcion" cdkMenuItem routerLink="/app/admin/uo">
+                        <!-- <button class="elementoOpcion" cdkMenuItem *ngIf="userRol != 'CAM'">
                             <img src="assets/svg/icon-toolbar-unid-operativ.svg"/>
                             <span>Unidades Operativas</span>
                         </button>
-                        <!--<button class="elementoOpcion" cdkMenuItem *ngIf="userInfo.categoria != 'SIGPS'">
+                        <button class="elementoOpcion" cdkMenuItem *ngIf="userRol != 'CAM'">
                             <img src="assets/svg/icon-toolbar-services.svg"/>
                             <span>Cartera de Servicios</span>
-                        </button>
-                        <div class="elementoOpcion" routerLink="/app/admin/users">
+                        </button> -->
+                        <!-- <div class="elementoOpcion" routerLink="/app/admin/users">
                             <img src="assets/svg/icon-toolbar-users.svg"/>
                             <span>Usuarios</span>
-                        </div>-->
+                        </div>
+                        <div class="elementoOpcion">
+                            <img src="assets/svg/icon-toolbar-unid-operativ.svg"/>
+                            <span>Unidades Operativas</span>
+                        </div>
                         <div class="elementoOpcion">
                             <img src="assets/svg/icon-toolbar-services.svg"/>
                             <span>Cartera de Servicios</span>
-                        </div>
-                        <!--</div>
-                        <div class="px-2.5 py-1" *ngIf="userInfo.categoria != 'SIGPS'">
-                        <button class="elementoOpcion" cdkMenuItem>
-                            <img src="assets/svg/icon-toolbar-wheel.svg"/>
-                            <span>Administración</span>-->
-                        <div class="elementoOpcion">
+                        </div> -->
+                    </div>
+                    <div class="px-2.5 py-1">
+                        <button class="elementoOpcion" cdkMenuItem routerLink="/app/admin">
                             <img src="assets/svg/icon-toolbar-wheel.svg"/>
                             <span>Administración</span>
-                        </div>
-                    </div> 
+                        </button>
+                        <!-- <div class="elementoOpcion">
+                            <img src="assets/svg/icon-toolbar-wheel.svg"/>
+                            <span>Administración</span>
+                        </div> -->
+                    </div>
                 </div>
             </div>
         </ng-template>
@@ -58,12 +62,10 @@
             <div class="example-menu !p-2.5" cdkMenu>
                 <div class="flex flex-col gap-3" cdkMenuGroup>
                     <div class="p-2.5 flex flex-row bg-[#F4F5F7]">
-                        <img class="w-20 h-20 rounded-full" src="assets/img/avatar.png"/>
+                        <img class="w-20 h-20 rounded-full" src="assets/images/iconUser.png"/>
                         <div class="p-2.5 flex flex-col gap-2.5">
-                            <!--<span class="text-lg overflow-hidden text-ellipsis">{{userInfo.nombres | titlecase}}</span>-->
                             <span class="text-lg overflow-hidden text-ellipsis">{{userInfo.nombres | titlecase}}</span>
-                            <!--<span>{{userInfo.correo}}</span>-->
-                            <span>{{userInfo.email}}</span>
+                            <span>{{userInfo.correo}}</span>
                         </div>
                     </div>
                     <div class="elementoOpcion px-2.5" routerLink="/app/admin/edit-user">
@@ -82,3 +84,4 @@
             <router-outlet></router-outlet>
         </div>
     </mat-drawer-content>
+</mat-drawer-container>

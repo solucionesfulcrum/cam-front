@@ -1,51 +1,80 @@
 import {
-  Component,
-  EventEmitter,
-  OnDestroy,
-  OnInit,
-  Output,
+  Component, EventEmitter, Output,
 } from '@angular/core';
-import { Router } from '@angular/router';
-import { Subject, takeUntil } from 'rxjs';
-import { AuthService } from 'src/app/pages/auth/services/auth-service.service';
-import { UtilsService } from 'src/app/shared/services/util.service';
+import { CommonModule } from '@angular/common';
+import { Router, RouterModule } from '@angular/router';
+import {OverlayModule} from '@angular/cdk/overlay';
+import { AuthService } from '@services/auth.service';
+import { SharedModule } from '@shared/shared.module';
+import { UserService } from '@shared/stores/user.service';
 
 @Component({
   selector: 'app-toolbar',
+  standalone: true,
+  imports: [
+    OverlayModule,
+    SharedModule
+  ],
   templateUrl: './toolbar.component.html',
-  styleUrls: ['./toolbar.component.css'],
+  styleUrls: ['./toolbar.component.scss'],
 })
-export class ToolbarComponent implements OnInit, OnDestroy {
-  isLogged = false;
+
+export class ToolbarComponent {
   @Output() toggleSidenav = new EventEmitter();
-  private destroy$ = new Subject<void>();
+  userRol: string = '';
+  //user$ = this._userService.currentUser$;
+  isOpen= false
+  userSesion : string = '';
 
   constructor(
-    private router: Router,
-    private authSvc: AuthService,
-    private utilSvc: UtilsService
-  ) {}
+    private authService:AuthService,
+    private router:Router,
+    private _userService:UserService){
+    /*this.user$.subscribe(user=>{
+      if (!user) {
+        console.log("user",user);
+        console.log("authService",authService.getProfile())
+        
+      }
 
-  ngOnInit(): void {
-    this.authSvc.isLogged
-      .pipe(takeUntil(this.destroy$))
-      .subscribe((logueado) => {
-        this.isLogged = logueado;
-      });
+      console.log("user2", user)
+    })
+    /*this.authService.getProfile().subscribe((data)=>{
+      console.log("data usuario",data)
+    })*/
   }
 
-  onLogout(): void {
-    // this.router.navigate(['/']);
-    this.utilSvc.openSidenav(false);
-    this.authSvc.logout();
+  ngOnInit(){
+    if(localStorage.getItem("camUser") != null ){
+      this.userSesion = JSON.parse(localStorage.getItem("camUser")!).nombres
+    }else{
+      this.userSesion = 'Datos no conocidos'
+    }
+    if(localStorage.getItem('UnidElegida') != 'null'){
+      // let idUnid: string;
+      if ((JSON.parse(localStorage.getItem('UnidElegida')!)).rol) {
+        this.userRol = (JSON.parse(localStorage.getItem('UnidElegida')!)).rol;
+      }
+      else{
+        this.userRol = 'Sin Rol Asignado';
+      }
+      // idUnid = (JSON.parse(localStorage.getItem('camUser')!)).idUnidOperativa;
+      // this.datosService.getUnidadesOperativas('').subscribe((data) =>{
+      //   this.unidOpeUserSession = data.data.find((x: any)=> {return x.idUnidOperativa == idUnid!}).descripcionCompleta;
+      //   this.showUnidOpe = true;
+      // });
+    }
+    else{
+      this.userRol = 'Sin Rol Asignado';
+    }
+  }
+
+  logout(){
+    this.authService.logout()
+    this.router.navigate(['/login'])
   }
 
   onToggleSidenav(): void {
     this.toggleSidenav.emit();
-  }
-
-  ngOnDestroy(): void {
-    this.destroy$.next();
-    this.destroy$.complete();
   }
 }

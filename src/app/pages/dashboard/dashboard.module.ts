@@ -3,13 +3,12 @@ import { CommonModule } from '@angular/common';
 
 import { DashboardRoutingModule } from './dashboard-routing.module';
 import { DashboardComponent } from './dashboard/dashboard.component';
-import { DashboardAfiliadosComponent } from './component/dashboard-afiliados/dashboard-afiliados.component';
+import { SharedModule } from '@shared/shared.module';
+import { DashboardAfiliadosComponent } from './component/dashboard-afiliados/dashboard-afiliados.component'
 import { CdkTableModule } from '@angular/cdk/table';
 import { MaterialModule } from 'src/app/material/material.module';
-import { SharedModule } from '@shared/shared.module';
-import { NgApexchartsModule } from "ng-apexcharts";
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-
+import { NgApexchartsModule } from 'ng-apexcharts';
 
 @NgModule({
   declarations: [

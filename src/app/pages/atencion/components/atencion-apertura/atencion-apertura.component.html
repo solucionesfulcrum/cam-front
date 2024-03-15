@@ -1,0 +1,82 @@
+<div class="pt-5 flex flex-col gap-3 text-[#344563]">
+    <div class="bg-card py-4 pl-1 pr-4 flex flex-row justify-between items-center">
+        <div class="flex flex-row gap-4 px-1 items-center">
+            <img class="w-[50px] h-[50px] rounded-full" src="assets/images/avatar.png"/>
+            <div class="flex flex-col gap-2 py-2">
+                <div class="flex flex-col gap-2">
+                    <span class="text-[18px] leading-[23px] text-Name"><span class="font-thin">Bienvenido de nuevo,</span> {{usuario!.nombres}}!</span>
+                    <span class="text-[14px] leading-[10px] opacity-50">Citas del dia:</span>
+                </div>
+                <div class="flex flex-row items-center gap-2.5">
+                    <img class="filtroParaColor" src="assets/svg/icon-apertura.svg">
+                    <span class="text-[14px] leading-[10px]">{{(today | date: 'EEEE dd \'de\' MMMM \'de\' yyyy') | titlecase}}</span>
+                </div>
+            </div>
+        </div>
+        
+        <div class="relative rounded-md shadow-sm botonApariencia">
+            <app-btn [color]="_atencionService.estadoBandeja ? 'transparenteCancel' : 'mezclado'" (click)="_atencionService.estadoBandeja = !_atencionService.estadoBandeja">
+                <div class="flex flex-col">
+                    <div class="flex flex-row gap-2">
+                        <img [ngClass]="_atencionService.estadoBandeja ? null : 'brightness-0 invert' " src="assets/svg/icon-apertura.svg">
+                        <span>{{_atencionService.estadoBandeja ? 'Cerrar' : 'Apertura'}}</span>
+                    </div>
+                    <span class="text-[10px] leading-[10px] font-thin">{{_atencionService.estadoBandeja ? 'Click para cerrar atenciones' : 'Click para aperturar atenciones'}}</span>
+                </div>
+            </app-btn>
+        </div>
+    </div>
+    <div class="flex flex-row gap-2.5">
+        <div class="flex flex-col gap-2 w-full">
+            <span>Resumen de Citas</span>
+            <div class="py-3 px-6 bg-card flex flex-col gap-2.5">
+                <div class="flex flex-row justify-between items-center">
+                    <span>Estado</span>
+                    <span class="font-semibold" [ngClass]="_atencionService.estadoBandeja ? 'text-green-500' : 'text-red-500' ">{{_atencionService.estadoBandeja ? 'Bandeja Abierta' : 'Bandeja Cerrada'}}</span>
+                </div>
+                <div class="flex flex-row justify-between items-center">
+                    <span>Nº Citas</span>
+                    <span>10</span>
+                </div>
+                <div class="flex flex-row justify-between items-center">
+                    <span>Pacientes por atender</span>
+                    <span>10</span>
+                </div>
+                <div class="flex flex-row justify-between items-center">
+                    <span>Pacientes atendidos</span>
+                    <span>0</span>
+                </div>
+                <div class="flex flex-row justify-between items-center">
+                    <span>Pacientes no atendidos</span>
+                    <span>0</span>
+                </div>
+            </div>
+        </div>
+        <div class="flex flex-col gap-2 w-full">
+            <span>Modalidad</span>
+            <div class="py-3 px-6 bg-card flex flex-col gap-2.5">
+                <div class="flex flex-row justify-between items-center">
+                    <span>Presencial</span>
+                    <span>10</span>
+                </div>
+                <div class="flex flex-row justify-between items-center">
+                    <span>Virtual</span>
+                    <span>0</span>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="py-4 flex items-center justify-center" *ngIf="_atencionService.estadoBandeja">
+        <div class="relative rounded-md shadow-sm botonApariencia">
+            <app-btn color="mezclado" [routerLink]="['/app/attention/' + rutas.ATENCIONES_PENDIENTES]">
+                <div class="flex flex-col items-start">
+                    <div class="flex flex-row gap-2 text-[16px]">
+                        <span>Atender Citas</span>
+                        <img class="invert" src="assets/svg/icon-go-to-next.svg">
+                    </div>
+                    <span class="text-[10px] leading-[10px] font-thin">Click para atender citas</span>
+                </div>
+            </app-btn>
+        </div>
+    </div>
+</div>

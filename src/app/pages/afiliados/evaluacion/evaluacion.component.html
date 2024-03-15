@@ -1,76 +1,48 @@
-<div class="info-container w-800px mx-60 bg-gray-700">
-<div class="block centrar my-40" >
-<div class="content d-flex px-4 py-3 bg-primary2 text-white w-800px ">
-    <span class="text-s-20r w-800px flex centrar" >Evaluar Afiliado</span>
-    <!--<button (click)="onClose()"><esp-icon icon="faClose"></esp-icon></button>-->
-</div>
-<div class="content px-4 py-4 bg-white w-800px rounded-md border-b-2 shadow-sm ">
-    <b class="pb-3 pt-3 d-flex text-s-16r">Unidad Operativa - CAM LIMA</b>
-    <div class="content flex justify-between space-x-8">
-        <div class="container w-1/2 h-40px mt-2 p-0 mt-0 " >
-            <div class="relative rounded-md shadow-sm " >
-              <select
-                id="searchDoc"
-                formControlName="frmSelectDoc"
-                placeholder="Seleccione su tipo de Documento"
-                class="flex w-full space-x-5 bg-slate-50 border border-gray-300 text-gray-900 text-sm rounded-lg focusCampo block  dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                style="height: 38px !important"
-              >
-                <option class="text-s-16p" value="" disabled selected>Seleccione su tipo de documento</option>
-                <option *ngFor="let documento of opciones" [value]='documento.valor1'>{{documento.nombre | titlecase}}</option> 
-                <!--<option value="1">Registrado</option> -->
-              </select>
-            </div>
-        </div>  
-        <div class="w-1/2">
-            <div class="relative mt-2 rounded-md shadow-sm">
-              <input
-                formControlName="frmDoc"
-                placeholder="N° de Documento"
-                type="text"
-                name="doc"
-                class="h-90px w-full text-sm rounded bg-white border-gray-300 border-1 px-4 py-2 font-light focusCampo text-s-16p"
-                                            
-              />
-            </div>
+<div class="flex items-center justify-center pt-[15vh]">
+  <div class="w-[60vw] max-w-[800px] rounded-md overflow-hidden botonApariencia">
+    <div class="bg-[var(--color-CAM)] text-[18px] text-white font-semibold px-4 py-2 text-center">
+      <span>Evaluar Afiliado</span>
+    </div>
+    <div class="bg-white text-[#37474F]">
+      <div class="flex flex-col gap-4 py-4 px-2.5" [formGroup]="formNewFicha">
+        <span class="font-semibold">Unidad Operativa - {{dataUnidadElegida.unidOperativa}}</span>
+        <div class="flex flex-row gap-[30px]">
+          <div class="w-1/2">
+            <select formControlName="frmSelectDoc"
+            class="bg-slate-50 border border-gray-300 text-gray-900 text-sm rounded-lg focusCampo block w-full">
+                <option value="" [selected]="true" disabled>Seleccione su tipo de Documento</option>
+                <option *ngFor="let documento of opciones" [value]='documento.valor1'>{{documento.nombre | titlecase}}</option>
+            </select>
+          </div>
+          <div class="w-1/2">
+            <input type="text" formControlName="frmDoc" class="inputTextoDialog focusCampo" placeholder="N° de documento">
             <div *ngIf="formNewFicha.controls.frmDoc.touched && formNewFicha.controls.frmDoc.invalid">
               <p *ngIf="formNewFicha.controls.frmDoc.hasError('required')" class="font-medium text-red-500 text-xs mt-1 ml-1">
                 El documento es obligatorio
               </p>
-            </div> 
-        
-        </div>  
-    </div>
-    <div class="flex justify-center space-x-2 text-menucolor">
-      <div class="w-1/6 mt-10 ">
-          <div class="relative mt-2 rounded-md shadow-sm botonApariencia ">
-              <app-btn typeBtn="submit" color="white" (click)="onClose()" >Cancelar
-              </app-btn> 
+            </div>
           </div>
-      </div> 
-      <div class="w-1/4 mt-10">
-          <div class="relative mt-2 rounded-md shadow-sm botonApariencia ">
-            <app-btn typeBtn="submit" (click)="onSearch()" style="background-color: 057EC9">Buscar Asegurado
-              </app-btn> 
-          </div>
-      </div>
-    </div>
-
-    <div *ngIf="hayError" class="flex justify-center space-x-2">
-      <span class="text-red-500">{{msgError}}</span>
-    </div>
-    <div *ngIf="seEncontro" class="flex justify-center">
-      <div class="boxMsgSatisf">
-        <div class="boxSpanMsg">
-          <span>{{msgEncontro | titlecase}}</span>
-        </div>
-        <div class="btnSgte">
-          <app-btn typeBtn="submit" color="success" class="botonMezclado" (click)="setLink2(createRequest().numDoc, createRequest().tipoDoc)">Generar Ficha de Admisión
-          </app-btn> 
         </div>
       </div>
+      <div class="flex flex-row gap-4 justify-center py-6 px-4 border-t border-[#F4F5F5]">
+        <div class="w-1/2 text-wright">
+          <div class="w-fit">
+            <app-btn class="flex flex-row botonApariencia" color="white">
+                <div class="flex gap-[5px]">Cancelar</div>
+            </app-btn>
+          </div>
+        </div>
+        <div class="w-1/2">
+          <div class="w-fit">
+            <app-btn class="flex flex-row botonApariencia" color="primary" (click)="onSearch()" [loading]="status === 'loading'">
+                <div class="flex gap-[5px]">Buscar Asegurado</div>
+            </app-btn>
+          </div>
+        </div>
+      </div>
+      <div class="mb-3 flex justify-center text-red-500 text-center mx-2" *ngIf="!infoObtenida.acreditado">
+        <span>{{infoObtenida.mensaje}}</span>
+      </div>
     </div>
-
-</div>
-</div>
+  </div>
 </div>

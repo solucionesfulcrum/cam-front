@@ -14,6 +14,12 @@ import { ContactoTabEvaluacionesComponent } from './components/contactos-afiliad
 import { ShowTalleristaComponent } from './components/contactos-talleristas/sub-components/show-tallerista/show-tallerista.component';
 import { ContactoTabParametrosComponent } from './components/contactos-talleristas/sub-components/show-tallerista/tabs/contacto-tab-parametros/contacto-tab-parametros.component';
 import { ContactoTabHorariosComponent } from './components/contactos-talleristas/sub-components/show-tallerista/tabs/contacto-tab-horarios/contacto-tab-horarios.component';
+import { DialogNewAseguradoComponent } from './components/contactos-afiliados/sub-components/dialog/dialog-new-asegurado/dialog-new-asegurado.component';
+import { RegisterAseguradoComponent } from './components/contactos-afiliados/sub-components/register-asegurado/register-asegurado.component';
+import { DialogNewDireccionComponent } from './components/contactos-afiliados/sub-components/dialog/dialog-new-direccion/dialog-new-direccion.component';
+import { DialogModalidadIngresoComponent } from './components/contactos-afiliados/sub-components/dialog/dialog-modalidad-ingreso/dialog-modalidad-ingreso.component';
+import { MatAutocompleteModule } from '@angular/material/autocomplete';
+import { EditAseguradoComponent } from './components/contactos-afiliados/sub-components/edit-asegurado/edit-asegurado.component';
 
 
 @NgModule({
@@ -26,12 +32,18 @@ import { ContactoTabHorariosComponent } from './components/contactos-talleristas
     ContactoTabEvaluacionesComponent,
     ShowTalleristaComponent,
     ContactoTabParametrosComponent,
-    ContactoTabHorariosComponent
+    ContactoTabHorariosComponent,
+    DialogNewAseguradoComponent,
+    RegisterAseguradoComponent,
+    DialogNewDireccionComponent,
+    DialogModalidadIngresoComponent,
+    EditAseguradoComponent
   ],
   imports: [
     CommonModule,
     ContactosRoutingModule,
     CdkTableModule,
+    MatAutocompleteModule,
     MaterialModule,
     SharedModule
   ]

@@ -1,0 +1,95 @@
+<div class="flex flex-col gap-[12px]">
+    <div class="my-2 w-full flex place-content-between">
+        <div class="flex cursor-pointer" [routerLink]="['../..']">
+            <img class="h-6 self-center" src="assets/svg/circle-arrow-left.svg"> <span class="self-center ml-2">Regresar</span>
+        </div>
+        <div class="flex space-x-3">
+            <app-btn typeBtn="submit" class="botonApariencia" color="white" [routerLink]="['../..']">
+                <div class="flex">Cerrar</div>
+            </app-btn>
+        </div>
+    </div>
+    <div class="infoCuadro text-[#64748B]">
+        <div class="flex flex-row justify-between w-full">
+            <div class="flex flex-row gap-2 items-end">
+                <div class="mt-3 shadow-sm relative">
+                    <span class="absolute flotante">Actividad</span>
+                    <select [formControl]="ctrlActividad"
+                        class="bg-slate-50 border border-gray-300 text-gray-900 text-sm rounded-lg focusCampo block w-full h-[40px]">
+                        <option value="" disabled selected> Seleccione una actividad</option>
+                        <ng-container *ngFor="let opcion of opcionesActividades, index as i">
+                            <option [value]="opcion.id">{{opcion.nombreActividad}}</option>
+                        </ng-container>
+                    </select>
+                </div>
+                <div *ngIf="optElegida" class="bg-[#F5F8FA] w-[50px] h-[40px] flex flex-col text-sm items-center">
+                    <span>{{optElegida.tiempo}}</span>
+                    <span>{{optElegida.tipoTiempo}}</span>
+                </div>
+            </div>
+            <div class="flex flex-row gap-2 items-end">
+                <div class="mt-3 shadow-sm relative">
+                    <span class="absolute flotante">Turnos disponibles</span>
+                    <select [formControl]="ctrlProfesional" [ngClass]="ctrlActividad.value == null ? '!w-40 pointer-events-none' : null"
+                        class="bg-slate-50 border border-gray-300 text-gray-900 text-sm rounded-lg focusCampo block w-full h-[40px]">
+                        <ng-container *ngFor="let opcion of opcionesTurnos">
+                            <option [value]="opcion.idProfesional">{{opcion.nombreProfesional}}</option>
+                        </ng-container>
+                    </select>
+                </div>
+                <img class="rounded hover:bg-slate-200 cursor-pointer" src="assets/svg/searchButton.svg">
+            </div>
+        </div>
+        <div class="flex flex-row justify-between w-full">
+            <div class="flex flex-row">
+                <div class="botonElegirHorario" (click)="ctrlHorarios.setValue('Diario')" [ngStyle]="{'background': (ctrlHorarios.value === 'Diario' ? 'var(--color-CAM-Mezclado)' : null), 'color': (ctrlHorarios.value === 'Diario' ? 'white' : '#64748B')}">
+                    <span>Diario</span>
+                </div>
+                <div class="botonElegirHorario" (click)="ctrlHorarios.setValue('Semana')" [ngStyle]="{'background': (ctrlHorarios.value === 'Semana' ? 'var(--color-CAM-Mezclado)' : null), 'color': (ctrlHorarios.value === 'Semana' ? 'white' : '#64748B')}">
+                    <span>Semana</span>
+                </div>
+                <div class="botonElegirHorario" (click)="ctrlHorarios.setValue('Mensual')" [ngStyle]="{'background': (ctrlHorarios.value === 'Mensual' ? 'var(--color-CAM-Mezclado)' : null), 'color': (ctrlHorarios.value === 'Mensual' ? 'white' : '#64748B')}">
+                    <span>Mensual</span>
+                </div>
+            </div>
+            <div class="flex flex-row items-center gap-2 text-sm">
+                <img class="p-2 hover:bg-[#dfdfdf] hover:rounded-full cursor-pointer" src="assets/svg/icon-arrow-head.svg" (click)="changeDates(0)">
+                <span class="text-[0.80rem]">{{fechasSemana[0] | date:'dd'}} de {{(fechasSemana[0] | date:'LLL.') | titlecase}} - {{fechasSemana[fechasSemana.length-1] | date:'dd'}} de {{(fechasSemana[fechasSemana.length-1] | date:'LLL.') | titlecase}} de {{fechasSemana[fechasSemana.length-1] | date:'yyyy'}}</span>
+                <img class="rotate-180 p-2 hover:bg-[#dfdfdf] hover:rounded-full cursor-pointer" src="assets/svg/icon-arrow-head.svg" (click)="changeDates(1)">
+            </div>
+        </div>
+        <div class="pseudoTablaHorarios">
+            <div class="headTable">
+                <div class="headerFecha" *ngFor="let fechas of fechasSemana, index as i" [ngClass]="{'bg-[#FAFAFA]': fechas.getDay() == 0 || fechas.getDay() == 6}">
+                    <span class="text-[14px]">{{(fechas | date:'EEE.') | titlecase}} <b>{{fechas | date:'dd/MM'}}</b></span>
+                </div>
+            </div>
+            
+            <div class="contenedorHorarios">
+                <div class="filaHorariosDia" *ngFor="let horario of horarios, index as i">
+                    <div class="hora text-sm">
+                        <span>{{horario}}</span>
+                    </div>
+                    <div class="cuadroHorarioDia" *ngFor="let espacios of fechasSemana" [ngClass]="{'bg-[#FAFAFA]': espacios.getDay() == 0 || espacios.getDay() == 6, 'border-b': i == (horarios.length - 1), 'bg-[var(--color-fondo-claro)]': espacios.toLocaleDateString() == fechaActual.toLocaleDateString()}">
+                    <!-- <div class="cuadroHorarioDia" *ngFor="let espacios of fechasSemana" [ngClass]="espacios.getDay() == 0 || espacios.getDay() == 6 ? 'bg-[#FAFAFA]' : null"> -->
+                        <ng-container *ngIf="!(espacios.getDay() == 0 || espacios.getDay() == 6)">
+                            <!-- <img *ngFor="let _ of [].constructor(cantidadCitasCuadro)" class="cursor-pointer" [src]="true ? 'assets/svg/icon-cita-cuadro.svg': 'assets/svg/icon-cita-cuadro-tomada.svg'" (click)="openGenerateCita(horario, espacios)"> -->
+                            <img *ngFor="let profesional of profesionalesDisponibles" class="cursor-pointer" [src]="getCitaAsignado(espacios, horario, profesional.idProfesional) == 0 ? 'assets/svg/icon-cita-cuadro.svg': 'assets/svg/icon-cita-cuadro-tomada.svg'" (click)="openGenerateCita(horario, espacios, profesional)" [matTooltip]="profesional.nombreProfesional">
+                        </ng-container>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- <div class="relative h-10 w-72 min-w-[200px]">
+            <select class="peer h-full w-full rounded-[7px] border border-blue-gray-200 border-t-transparent bg-transparent px-3 py-2.5 font-sans text-sm font-normal text-blue-gray-700 outline outline-0 transition-all placeholder-shown:border placeholder-shown:border-blue-gray-200 placeholder-shown:border-t-blue-gray-200 empty:!bg-red-500 focus:border-2 focus:border-pink-500 focus:border-t-transparent focus:outline-0 disabled:border-0 disabled:bg-blue-gray-50">
+              <option value="brazil">Brazil</option>
+              <option value="bucharest">Bucharest</option>
+              <option value="london">London</option>
+              <option value="washington">Washington</option>
+            </select>
+            <label class="before:content[' '] after:content[' '] pointer-events-none absolute left-0 -top-1.5 flex h-full w-full select-none text-[11px] font-normal leading-tight text-blue-gray-400 transition-all before:pointer-events-none before:mt-[6.5px] before:mr-1 before:box-border before:block before:h-1.5 before:w-2.5 before:rounded-tl-md before:border-t before:border-l before:border-blue-gray-200 before:transition-all after:pointer-events-none after:mt-[6.5px] after:ml-1 after:box-border after:block after:h-1.5 after:w-2.5 after:flex-grow after:rounded-tr-md after:border-t after:border-r after:border-blue-gray-200 after:transition-all peer-placeholder-shown:text-sm peer-placeholder-shown:leading-[3.75] peer-placeholder-shown:text-blue-gray-500 peer-placeholder-shown:before:border-transparent peer-placeholder-shown:after:border-transparent peer-focus:text-[11px] peer-focus:leading-tight peer-focus:text-pink-500 peer-focus:before:border-t-2 peer-focus:before:border-l-2 peer-focus:before:border-pink-500 peer-focus:after:border-t-2 peer-focus:after:border-r-2 peer-focus:after:border-pink-500 peer-disabled:text-transparent peer-disabled:before:border-transparent peer-disabled:after:border-transparent peer-disabled:peer-placeholder-shown:text-blue-gray-500">
+              Select a City
+            </label>
+        </div> -->
+    </div>
+</div>

@@ -1,0 +1,24 @@
+<div class="px-4 py-3 bg-[var(--color-CAM)] flex justify-between text-white rounded-t-lg">
+    <span><b>Notas</b></span>
+    <button (click)="onClose()"><esp-icon icon="faClose"></esp-icon></button>
+</div>
+<div class="px-[22px] pt-[22px] bg-white flex flex-col gap-2.5 rounded-b-lg">
+    <div class="flex flex-row gap-[30px] items-center">
+        <div class="grow">
+            <input type="text" class="inputTextoDialog focusCampo" [formControl]="frmCtrlNota" placeholder="Agrega nueva nota - Max 200 Caracteres">
+        </div>
+        <app-btn color="mezclado" class="botonApariencia shrink-0" (click)="onSave()" [loading]="status === 'loading'">Agregar
+        </app-btn>
+    </div>
+    <div *ngIf="frmCtrlNota.touched && frmCtrlNota.invalid">
+        <p *ngIf="frmCtrlNota.hasError('required')" class="font-medium text-red-500 text-xs mt-1 ml-1">
+        Debe ingresarse un texto para la nota
+        </p>
+    </div>
+    <div class="flex flex-col gap-3 py-2 max-h-[45vh] overflow-auto scrollbarra">
+        <div class="flex flex-col gap-2.5 py-2" *ngFor="let nota of registrosNotas, index as i">
+            <span class="font-bold">El {{nota.fechaReg | date:'dd/MM/yyyy'}}. {{nota.usuario | titlecase}} Escribió. </span>
+            <p class="py-2 pl-4 text-justify">{{nota.nota }}</p>
+        </div>
+    </div>
+</div>

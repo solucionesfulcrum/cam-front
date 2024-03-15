@@ -4,14 +4,13 @@ import { MatPaginator, PageEvent } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
 import { ActivatedRoute, Router } from '@angular/router';
-import { BreadcrumService } from 'src/app/shared/services/breadcrum.service';
-import { AuthService } from '../../auth/services/auth-service.service';
 import { Parametro } from 'src/app/shared/components/opciones-busqueda/parametros-busqueda.model';
 import { Dialog } from '@angular/cdk/dialog';
-import { AfiliadoService } from '@shared/services/afiliado.service';
-import { fichasResponse } from '@models/ficha-solicitud.model';
 import { AfiliacionesSolicitudesService } from 'src/app/data/services/afiliaciones/afiliaciones-solicitudes.service';
 import { RequestListaSolicitudesAfiliados } from '@models/afiliados/ficha-solicitud.model';
+import { NotificationService } from '@services/notification.service';
+import { DialogNewAseguradoComponent } from '../../contactos/components/contactos-afiliados/sub-components/dialog/dialog-new-asegurado/dialog-new-asegurado.component';
+import { DatosGeneralesService } from 'src/app/data/services/datos-generales.service';
 
 @Component({
   selector: 'app-solicitudes',
@@ -19,18 +18,17 @@ import { RequestListaSolicitudesAfiliados } from '@models/afiliados/ficha-solici
   styleUrls: ['./solicitudes.component.css']
 })
 export class SolicitudesComponent implements OnInit {
-  optEstados: Parametro[] = [
+  optEstados: any[] = [
     {nombre:'Disponibles', valor1:'01'},
     {nombre:'Suspendidos', valor1:'02'},
     {nombre:'No Disponibles', valor1:'03'}
   ];
+  opciones: Parametro[] = [];
 
-  filtroFecInit!: string;
-  filtroFecFin!: string;
   formBuscar: FormGroup = this.fb.group({
     frmSearch:new FormControl(""),
     frmSearchDate:new FormControl(""),
-    frmSearchEstado:new FormControl(),
+    frmSearchEstado:new FormControl(24),
   });
   // Esta data debe ser reemplazada por lo que se obtiene del servicio -----------------------------------------------------------------------------------------------------------------------------------------------------------------------------
   dataPrueba: any[] = [];
@@ -71,58 +69,47 @@ export class SolicitudesComponent implements OnInit {
 
 */ 
 
-
-  form= this.fb.group({
-    fechaIni: [''],
-    fechaFin: [''],
-  });
-
-  // displayedColumns: string[] = [
-  //   'selecc',
-  //   'usuario',
-  //   'tipodoc',
-  //   'nombres',
-  //   'edad',
-  //   'estcivil',
-  //   'ipress',
-  //   'tieneVigencia',
-  // ];
-
-  // breadcrum1:{url:string, title:string }   
-  // breadcrum2:{url:string, title:string } 
-  // breadcrum3:{url:string, title:string } 
-
-  // dataSource: MatTableDataSource<any>;
-  // @ViewChild(MatPaginator) paginator: MatPaginator;
-  // @ViewChild(MatSort) sort: MatSort;
-
   constructor(
     private fb: FormBuilder, 
     private afiliacionesService: AfiliacionesSolicitudesService,
+    private datosService            : DatosGeneralesService,
+    private dialog                  : Dialog,
+    private notificationService: NotificationService,
     private router: Router, 
     private route: ActivatedRoute,
-    private breadcrumService: BreadcrumService,
-    private authService: AuthService,
-    private dialog : Dialog,
-    private afiliadoService: AfiliadoService
-
   ) {
-    // breadcrumService.link1$.next({ url: '/afiliados/solicitudes', title:'SOLICITUDES' });
-    // this.breadcrumService.link2$.next({url:'' ,title:''});
-    // this.breadcrumService.link3$.next({url:'', title:''});
-    // breadcrumService.activeTab$.next('/afiliados/solicitudes');
-    // // // // this.loadUsers()
    }
 
   ngOnInit(): void {
-    this.onLoadData()
+    this.onLoadData();
+    this.datosService.getTipoParametros('ESTADO_SOLICITUD').subscribe((data)=>{
+      if (data.code == 0) {
+        this.opciones = data.data;
+      }
+      else{
+        this.notificationService.warning(data.message);
+      }
+    });
+  }
+
+  ngAfterViewInit(): void{
   }
 
   onLoadData(){
+    // this.dataSource = [
+    //   {nombres: 'ROXANA ESTRADA ARIAS', tipoDoc: 1, numDoc: '23835688', fecNac: '16/03/1968', estCivil: 'SOLTERA', ipress: 'EUNICE ELIZABETH', dias: 3}
+    // ]
+    // this.total = 1;
     this.afiliacionesService.getListaSolicitudes(this.getPayload()).subscribe((data)=>{
-      this.dataSource = data;
-      this.total = this.dataSource.length;
-      console.log(data)
+      if (data.code == 0) {
+        this.dataSource = data.data.list;
+        this.pageNum = data.data.pageNum;
+        this.pageSize = data.data.pageSize;
+        this.total = data.data.total;
+      }
+      else{
+        this.notificationService.warning(data.message);
+      }
     })
   }
   
@@ -133,7 +120,6 @@ export class SolicitudesComponent implements OnInit {
 
   handlePageEvent(event: PageEvent) {
     // console.log(this.pageSizeOptions);
-    console.log(event)
     this.pageSize = event.pageSize;
     this.pageIndex = event.pageIndex;
     this.pageNum = event.pageIndex + 1;
@@ -143,22 +129,27 @@ export class SolicitudesComponent implements OnInit {
   getPayload(): RequestListaSolicitudesAfiliados{
     var fecInicio: any;
     var fecFin: any;
+    var idUnidOpe = JSON.parse(localStorage.getItem("UnidElegida")!);
 
     if (this.formBuscar.value.frmSearchDate == '') {
-      fecInicio = `${new Date().getDate()}/${new Date().getMonth()+1}/${new Date().getFullYear()-1}`;
-      fecFin = `${new Date().getDate()}/${new Date().getMonth()+1}/${new Date().getFullYear()}`;
+      fecInicio = `${new Date().getFullYear()}-1-1`;
+      fecFin = `${new Date().getFullYear()}-${new Date().getMonth()+1}-${new Date().getDate()}`;
     }
     else{
-      fecInicio = this.formBuscar.value.frmSearchDate.split(' - ')[0];
-      fecFin = this.formBuscar.value.frmSearchDate.split(' - ')[1];
+      var fechaSinFormatInit = this.formBuscar.value.frmSearchDate.split(' - ')[0];
+      var fechaSinFormatFin = this.formBuscar.value.frmSearchDate.split(' - ')[1];
+      fecInicio = `${fechaSinFormatInit.split('/')[2]}-${fechaSinFormatInit.split('/')[1]}-${fechaSinFormatInit.split('/')[0]}`;
+      fecFin = `${fechaSinFormatFin.split('/')[2]}-${fechaSinFormatFin.split('/')[1]}-${fechaSinFormatFin.split('/')[0]}`;
     }
 
     return {
-      tipoSolicitud: 'SOLICITUD_AFILIACION',
-      unidadOperativa: 3,
-      fechaInicio: fecInicio,
-      fechaFin: fecFin,
-      buscar: this.formBuscar.controls['frmSearch'].value
+      idUnidOpeCam: idUnidOpe.idUnidOperativa,
+      texto: this.formBuscar.controls['frmSearch'].value,
+      fecInicio: fecInicio,
+      fecFin: fecFin,
+      pageNum: this.pageNum.toString(),
+      pageSize: this.pageSize.toString(),
+      idEstadoParam: this.formBuscar.get('frmSearchEstado')?.value
     }
   }
 
@@ -168,6 +159,28 @@ export class SolicitudesComponent implements OnInit {
     let edadPersona = Math.floor(timeDiff / (1000 * 3600 * 24) / 365.25);
 
     return edadPersona
+  }
+
+  differenceInDays(date1: string): number {
+    const oneDay = 24 * 60 * 60 * 1000; // hours*minutes*seconds*milliseconds
+    const diffInTime = (new Date().getTime()) - (new Date(date1)).getTime();
+    return Math.round(diffInTime / oneDay) - 1;
+  }
+
+  nuevoAsegurado(){
+    const dialogRef = this.dialog.open(DialogNewAseguradoComponent,{
+      minWidth:'800px',
+      maxWidth:'50%',
+      data:{}
+    })
+    dialogRef.closed.subscribe(out =>{
+      // console.log(out)
+    })
+  }
+
+  firstDisplayValue(value: any){
+    this.formBuscar.get('frmSearchEstado')?.setValue(value);
+    this.onLoadData();
   }
   /*
   AsignarFiltro(filtro: string){

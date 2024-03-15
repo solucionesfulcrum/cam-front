@@ -12,7 +12,6 @@
     border-left: none;
     border-right: none;
     border-bottom: none;
-    padding: 5px 0 5px 5px;
     overflow-y: auto;
   }
   
@@ -24,7 +23,7 @@
       background: #D4D4D4;
   }
   .scrollbarra::-webkit-scrollbar-thumb {
-      background: var(--color-CAM-black-alt);
+      background: var(--color-black-alt);
   }
    
   .scrollbarra::-webkit-scrollbar-thumb:hover {

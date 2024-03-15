@@ -1,0 +1,63 @@
+<div class="px-4 py-3 bg-primary-700 flex justify-between text-white">
+    <span><b>Modalidad de ingreso *</b></span>
+    <button (click)="onClose()"><esp-icon icon="faClose"></esp-icon></button>
+</div>
+<div class="px-4 py-3 bg-white" [formGroup]="formModIngreso">
+    <div *ngIf="data.type==1">
+        <b>Derivacion IPRESS</b>
+        <div class="flex gap-3">
+            <input type="text" [formControl]="frmCtrlRegion" [matAutocomplete]="region"
+            class="inputTextoDialog focusCampo my-4 !w-1/3"
+            placeholder="Region">
+            <mat-autocomplete #region="matAutocomplete" [displayWith]="displayFnRegion" (optionSelected)="onSelectionChangeRegion($event)">
+                <mat-option *ngFor="let option of filteredOptionsRegion" [value]="option">
+                    {{option.max_des_red | titlecase}}
+                </mat-option>
+            </mat-autocomplete>
+            <input type="text" [formControl]="frmCtrlModalidad" [matAutocomplete]="ipress"
+            class="inputTextoDialog focusCampo my-4 !w-2/3"
+            placeholder="IPRESS">
+            <mat-autocomplete #ipress="matAutocomplete" [displayWith]="displayFnIpress" (optionSelected)="onSelectionChangeIpress($event)">
+                <mat-option *ngFor="let option of listIpress" [value]="option">
+                    {{option.nom_centro}}
+                </mat-option>
+            </mat-autocomplete>
+        </div>
+    </div>
+    <div *ngIf="data.type==2">
+        <b>Otra Unidad Operativa CERPS</b>
+        <input type="text" [formControl]="frmCtrlModalidad" [matAutocomplete]="cerp"
+        class="inputTextoDialog focusCampo my-4"
+        placeholder="CERPS - Centro Especializado en Reabilitacion Profecional">
+        <mat-autocomplete #cerp="matAutocomplete" [displayWith]="displayFnModalidad" (optionSelected)="onSelectionChangeModalidad($event)">
+            <mat-option *ngFor="let option of filteredOptionsModalidad" [value]="option">
+                {{option.nombre | titlecase}}
+            </mat-option>
+        </mat-autocomplete>
+    </div>
+    <div *ngIf="data.type==3">
+        <b>Derivación de CAM</b>
+        <input type="text" [formControl]="frmCtrlModalidad" [matAutocomplete]="cam"
+        class="inputTextoDialog focusCampo my-4"
+        placeholder="CAM - Centro del Adulto Mayor">
+        <mat-autocomplete #cam="matAutocomplete" [displayWith]="displayFnModalidad" (optionSelected)="onSelectionChangeModalidad($event)">
+            <mat-option *ngFor="let option of filteredCam | async" [value]="option">
+                {{option.nombre | titlecase}}
+            </mat-option>
+        </mat-autocomplete>
+    </div>
+    <div class="flex justify-center space-x-2">
+    <div class="w-1/4">
+        <div class="relative mt-2 rounded-md shadow-sm botonApariencia">
+            <app-btn color="white" (click)="onClose()">Cancelar
+            </app-btn>
+        </div>
+    </div>
+    <div class="w-1/4">
+        <div class="relative mt-2 rounded-md shadow-sm botonApariencia">
+            <app-btn color="mezclado" (click)="onSave()">Guardar
+            </app-btn>
+        </div>
+    </div>
+    </div>
+</div>

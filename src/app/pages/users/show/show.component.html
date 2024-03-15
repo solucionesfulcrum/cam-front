@@ -1,0 +1,79 @@
+<div class="my-2 w-full flex place-content-between">
+  <div class="flex cursor-pointer" [routerLink]="['..']">
+      <img class="h-6 self-center" src="assets/svg/circle-arrow-left.svg"> <span class="self-center ml-2">Regresar</span>
+  </div>
+  <div class="flex space-x-3">
+      <app-btn typeBtn="submit" class="botonApariencia" color="white" [routerLink]="['..']">
+          Cancelar
+      </app-btn>
+      <app-btn class="botonApariencia" color="white" >
+        <!-- [routerLink]="['../edit/'+idFicha]" -->
+          <div class="flex"><img class="h-5 self-center" src="assets/svg/iconFileEdit.svg">Editar</div>
+      </app-btn>
+      <app-btn color="success" class="botonMezclado" (click)="openDialog()">Activar</app-btn>
+  </div>
+</div>
+<div class="grid grid-cols-[25%_auto] gap-5">
+  <div class="bg-white">
+    <div class="w-full relative h-32 bg-red-500 bg-image">
+      <div class="avatar rounded-full absolute w-20 h-20 border-4
+        border-white left-5 bottom-1/2"></div>
+    </div>
+    <div class="pt-11 px-7 pb-6">
+      <h1 class="font-semibold text-xl mb-3">{{user.nombres | titlecase}}</h1>
+      <div class="flex justify-between mb-4">
+        <span class="px-4 py-1 rounded-full bg-primary-50 font-light text-sm">{{(rolAsignado ? rolAsignado  : 'Sin Rol') | titlecase}}</span>
+        <span *ngIf="showNuevo" class="px-4 py-1 rounded-full bg-cam font-light text-sm text-white">Nuevo</span>
+      </div>
+      <ul class="max-h-[41vh] overflow-auto">
+        <li class="mb-3"><span class="font-bold">DNI: </span>{{user.dni}}</li>
+        <li class="mb-3"><span class="font-bold">Celular: </span>{{user.celular}}</li>
+        <li class="mb-3 overflow-hidden text-ellipsis"><span class="font-bold">Correo: </span>{{user.correo}}</li>
+        <li class="mb-3 overflow-hidden text-ellipsis"><span class="font-bold">Correo Institucional: </span>{{user.correoInstitucional ? user.correoInstitucional : '-'}}</li>
+        <li class="mb-3"><span class="font-bold">Fecha nacimiento: </span>{{user.fechaNacimiento | date:'dd/MM/yyyy'}}</li>
+        <li class="mb-3"><span class="font-bold">Edad: </span>{{user.edad}} Años</li>
+        <li class="mb-3"><span class="font-bold">Sexo: </span>{{user.sexo}}</li>
+        <li class="mb-3 overflow-hidden text-ellipsis"><span class="font-bold">Direccion: </span>{{user.direccion | titlecase}}</li>
+        <li class="mb-3"><span class="font-bold">Código de planilla: </span>{{user.codPlanilla}}</li>
+        <li class="mb-3"><span class="font-bold">Distrito: </span>{{user.distrito | titlecase}}</li>
+        <li class="mb-3"><span class="font-bold">Provincia: </span>{{user.provincia | titlecase}}</li>
+        <li class="mb-3"><span class="font-bold">Región: </span>{{user.region | titlecase}}</li>
+        <li class="mb-3"><span class="font-bold">Nivel Educativo: </span>{{user.nivelEducativo | titlecase}}</li>
+        <li class="mb-3"><span class="font-bold">Profesión: </span>{{user.profesion ? (user.profesion| titlecase) : '-'}}</li>
+        <li class="mb-3"><span class="font-bold">RNE: </span>{{user.rne ? (user.rne| titlecase) : '-'}}</li>
+        <li class="mb-3"><span class="font-bold">CMP: </span>{{user.cmp ? (user.cmp| titlecase) : '-'}}</li>
+        <li class="mb-3"><span class="font-bold">Unidad Operativa: </span>{{user.unidadOperativaTipo}} - {{user.unidadOperativa | titlecase}}</li>
+        <li class="mb-3"><span class="font-bold">Fecha Registro: </span>{{user.fechaRegistro | date:'dd/MM/yyyy'}}</li>
+        <li class="mb-3"><span class="font-bold">Estado: </span> <span [ngClass]="user.estado === 'ACTIVADO' ? 'text-green-500' : 'text-blue-500'" class="text-green-500">{{user.estado | titlecase}}</span></li>
+      </ul>
+    </div>
+  </div>
+  <div class="bg-white px-6 py-8">
+    <span class="border-b-2 border-primary-700 text-xl
+      text-primary-700 pb-2">Activaciones</span>
+    <div class="mt-10 grid grid-cols-6 gap-1 border-b-2 border-gray-300 pb-2 text-[14px] filasPseudoTabla">
+      <span>Usuario Responsable</span>
+      <span>Fecha Inicio</span>
+      <span>Fecha Fin</span>
+      <span>Unid Ope</span>
+      <span>Rol</span>
+      <span>Estado</span>
+    </div>
+    <div *ngIf="activaciones.length == 0" class="w-full h-3/4 flex items-center">
+      <div class="m-auto w-fit text-center">
+        <img class="m-auto" src="assets/svg/empty-data.svg" alt="">
+        <h3 class="text-gray-500 mt-2 font-light">No existen registros aun.</h3>
+      </div>
+    </div>
+    <div *ngIf="activaciones.length != 0">
+      <div *ngFor="let activacion of activaciones, index as i" class="dataPseudoTabla">
+        <span class="text-[#008BD2]">{{activacion.responsable}}</span>
+        <span>{{activacion.fechInicio | date:'dd/MM/yyyy'}}</span>
+        <span>{{activacion.fechFin | date:'dd/MM/yyyy'}}</span>
+        <span>{{activacion.unidadOperativa}}</span>
+        <span>{{activacion.nombreRol}}</span>
+        <span [ngClass]="activacion.estado === 'ACTIVO' ? 'text-green-500':'text-red-500'">{{activacion.estado}}</span>
+      </div>
+    </div>
+  </div>
+</div>

@@ -1,118 +1,14 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
-import { FormBuilder } from '@angular/forms';
-import { MatPaginator } from '@angular/material/paginator';
-import { MatTableDataSource } from '@angular/material/table';
-import { ActivatedRoute, Router } from '@angular/router';
-import { CamsService } from 'src/app/core/_service/cams.service';
-import { BreadcrumService } from 'src/app/shared/services/breadcrum.service';
-import { AuthService } from '../../auth/services/auth-service.service';
-import { MatSort } from '@angular/material/sort';
-import { Parametro } from 'src/app/shared/components/opciones-busqueda/parametros-busqueda.model';
-
+import { Component } from '@angular/core';
 
 @Component({
   selector: 'app-users',
   templateUrl: './users.component.html',
   styleUrls: ['./users.component.css']
 })
-export class UsersComponent implements OnInit {
-
-  optAcciones: Parametro[] = [
-    {nombre:'Accion 1', valor1:'01'},
-    {nombre:'Accion 2', valor1:'02'},
-    {nombre:'Accion 3', valor1:'03'}
-  ];
-
-  optEstados: Parametro[] = [
-    {nombre:'Disponibles', valor1:'01'},
-    {nombre:'Suspendidos', valor1:'02'},
-    {nombre:'No Disponibles', valor1:'03'}
-  ];
-
-  form= this.fb.group({
-    fechaIni: [''],
-    fechaFin: [''],
-  });
-
-  displayedColumns: string[] = [
-    'seleccion',
-    'usuario',
-    'nombres',
-    'fechReg',
-    'rol',
-    'cam',
-    'tieneVigencia',
-  ];
-
-  breadcrum1:{url:string, title:string }   
-  breadcrum2:{url:string, title:string } 
-  breadcrum3:{url:string, title:string } 
-
-  dataSource: MatTableDataSource<any>;
-  @ViewChild(MatPaginator) paginator: MatPaginator;
-  @ViewChild(MatSort) sort: MatSort;
-
-  constructor(
-    private fb: FormBuilder, 
-    private router: Router, 
-    private route: ActivatedRoute,
-    private breadcrumService: BreadcrumService,
-    private authService: AuthService,
-
-    ) {
-      breadcrumService.link1$.next({ url: '/usuarios', title:'USUARIOS' });
-      this.breadcrumService.link2$.next({url:'' ,title:''});
-      this.breadcrumService.link3$.next({url:'', title:''});
-      breadcrumService.activeTab$.next('/usuarios');
-      this.loadUsers()
-  }
-
-  ngOnInit(): void {
-    this.loadUsers()
-  }
-
-  loadUsers(){
-    return this.authService.getUsuariosFromSSO(1,20)
-    .subscribe((rta:any) =>{
-      console.log("respuesta Usuarios",rta.data.list)
-      this.dataSource = new MatTableDataSource(rta.data.list);
-      this.dataSource.paginator = this.paginator;
-      this.dataSource.sort = this.sort;
-    })
-  }
-
-  filtrarFechas(): void {}
-
-  filtrarTabla(event: any): void {}
-
-  setLink2(nameLink: string, codigo:string){
-      this.breadcrumService.link2$.next({url:'/usuarios/show/'+codigo, title:nameLink});
-      this.router.navigate(['/usuarios/show/', codigo]);
-  }
-
-  getClassRow(i:number) :string {
-    let row =""
-    if ( i%2!=0)
-     row ="rowColor" 
-    return row
-  }
-
- applyFilter(event: Event) {
-    const filterValue = (event.target as HTMLInputElement).value;
-    this.dataSource.filter = filterValue.trim().toLowerCase();
-
-    if (this.dataSource.paginator) {
-      this.dataSource.paginator.firstPage();
-    }
-  }
-
-  // Se agrega esta funcion para opcion de seleccion TODOS
-  selectAll = false;   //dataSource: MatTableDataSource<any>; 
-  toggleSelectAll() {
-    const data = this.dataSource.data;
-    for (const element of data) {
-      element.isSelected = this.selectAll;
-    }
-  }
- 
+export class UsersComponent {
+  titulo: string='Lista de Usuarios';
+  links=[
+    {url:'/app/admin/users', title: 'Usuarios'},
+    {url:'/app/admin/users/roles', title: 'Roles'},
+  ]
 }

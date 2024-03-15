@@ -1,16 +1,17 @@
-import { Injectable } from "@angular/core";
-import { BehaviorSubject } from "rxjs";
+import { Injectable } from '@angular/core';
+import {BehaviorSubject} from 'rxjs';
 
 @Injectable({
-    providedIn: 'root',
+  providedIn: 'root'
 })
 
-export class UtilsService {
-    private sidenavOpen = new BehaviorSubject<boolean>(false);
-    sidenavOpen$ = this.sidenavOpen.asObservable();
+export class UtilService {
+  private sidenavOpen = new BehaviorSubject<boolean>(false);
+  sidenavOpen$ = this.sidenavOpen.asObservable();
 
-    openSidenav(value: boolean): void {
-        this.sidenavOpen.next(value);
-    }
+  constructor() { }
+
+  openSidenav(value: boolean): void {
+    this.sidenavOpen.next(value);
+  }
 }
-

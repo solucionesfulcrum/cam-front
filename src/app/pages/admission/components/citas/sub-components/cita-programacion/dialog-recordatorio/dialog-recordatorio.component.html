@@ -1,0 +1,60 @@
+<div class="px-4 py-3 bg-primary-700 flex justify-between text-white rounded-t-md">
+    <span>Nuevo Registro</span>
+    <button (click)="onClose()"><esp-icon icon="faClose"></esp-icon></button>
+</div>
+
+<div class="px-4 py-3 bg-white rounded-b-md flex flex-col gap-y-2.5 text-[#64748B]" [formGroup]="formCita">
+    <div class="flex">
+        <div class="iconoCita">
+            <img src="assets/svg/icon-cita-calendar.svg" alt="">
+            <span class="text-Name">Cita</span>
+        </div>
+    </div>
+    <div class="flex flex-col gap-y-2 text-sm">
+        <div class="flex flex-row items-end gap-x-3">
+            <div class="grow flex flex-col gap-y-1">
+                <span>Actividad</span>
+                <input type="text" formControlName="frmActividad" class="inputTextoDialog focusCampo" readonly>
+            </div>
+            <div class="bg-[#F5F8FA] w-[50px] h-[40px] flex flex-col items-center shrink-0">
+                <span>{{data.actividad.tiempo}}</span>
+                <span>{{data.actividad.tipoTiempo}}</span>
+            </div>
+        </div>
+        <div class="flex flex-col gap-y-1">
+            <span>Profesional</span>
+            <div class="flex flex-row gap-x-4">
+                <input type="text" formControlName="frmProfesional" class="inputTextoDialog focusCampo bg-[#DBDADE4D]" readonly>
+                <input type="text" formControlName="frmProfesionalCargo" class="inputTextoDialog focusCampo bg-[#DBDADE4D]" readonly>
+            </div>
+        </div>
+        <div class="flex flex-row gap-x-4">
+            <div class="grow flex shrink-0 flex-col gap-y-1">
+                <span>Fecha</span>
+                <input type="text" formControlName="frmFecha" class="inputTextoDialog focusCampo bg-[#DBDADE4D]" readonly>
+            </div>
+            <div class="grow flex shrink-0 flex-col gap-y-1">
+                <span>Hora</span>
+                <select formControlName="frmHora" class="bg-slate-50 !pr-3 border border-gray-300 text-gray-900 text-sm rounded-lg focusCampo block w-full h-[40px]">
+                    <ng-container *ngFor="let opcion of posiblesHorarios, index as i">
+                        <option [value]="opcion.horaComienzo" [disabled]="opcion.deshabilitado" [ngClass]="opcion.deshabilitado ? 'bg-[#DBDADE4D]': null">{{opcion.horaFormateada}}</option>
+                    </ng-container>
+                </select>
+            </div>
+        </div>
+    </div>
+    <div class="flex justify-center gap-x-5">
+        <div >
+            <div class="relative rounded-md shadow-sm botonApariencia">
+                <app-btn color="white" (click)="onClose()">Cancelar
+                </app-btn>
+            </div>
+        </div>
+        <div >
+            <div class="relative rounded-md shadow-sm botonApariencia">
+                <app-btn color="mezclado" (click)="onSave()">Guardar
+                </app-btn>
+            </div>
+        </div>
+    </div>
+</div>

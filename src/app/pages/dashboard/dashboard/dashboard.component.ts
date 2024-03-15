@@ -1,13 +1,13 @@
-import { Component, OnInit } from '@angular/core';
+import { Component,OnInit } from '@angular/core';
 import { FormatoTab } from '@shared/components/menu-opciones/formato-tab.model';
 
 @Component({
-  selector: 'app-dashboard',
+  selector: 'esp-dashboard',
   templateUrl: './dashboard.component.html',
-  styleUrls: ['./dashboard.component.css']
+  styleUrls: ['./dashboard.component.scss']
 })
-export class DashboardComponent implements OnInit {
-
+export class DashboardComponent implements OnInit{
+ 
   links: FormatoTab[] = [
     {url: `/app/dashboard`, title:'Afiliados'}
   ];
@@ -16,5 +16,4 @@ export class DashboardComponent implements OnInit {
 
   ngOnInit(): void {
   }
-
 }

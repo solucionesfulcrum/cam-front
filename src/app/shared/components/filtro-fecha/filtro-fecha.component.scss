@@ -47,13 +47,13 @@ background-color: rgb(170, 170, 170);
 
 .example-menu-item{
 margin: 5px 0px;
-color: var(--color-texto-selected) !important;
+color: var(--color-texto-selected);
 background: #F5F5F5;
 }
 
 .example-menu-item[role='menuitemradio'][aria-checked='true'] {
 background: var(--fondo-opcion-selected);
-color: #FFFFFF !important;
+color: #FFFFFF;
 }
 .example-menu-item[role='menuitemcheckbox'][aria-checked='true'] {
 background-color: rgb(225, 225, 225);

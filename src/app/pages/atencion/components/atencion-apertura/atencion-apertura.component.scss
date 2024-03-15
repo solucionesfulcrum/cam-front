@@ -1,0 +1,10 @@
+.bg-card{
+    background-color: white;
+    box-shadow: 1px 1px 4px 0px #00000066;
+    border-radius: 5px;
+    height: 100%;  
+}
+
+.filtroParaColor{
+    filter: invert(50%) sepia(27%) saturate(855%) hue-rotate(179deg) brightness(42%) contrast(86%);
+}

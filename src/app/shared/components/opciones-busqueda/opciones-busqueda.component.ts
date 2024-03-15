@@ -2,21 +2,21 @@ import { CdkMenuModule } from '@angular/cdk/menu';
 import { CommonModule } from '@angular/common';
 import { AfterViewInit, Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, FormsModule, ReactiveFormsModule } from '@angular/forms';
-// import { Parametro } from '@models/parametros-busqueda.model';
-import { FiltroFechaComponent } from '../filtro-fecha/filtro-fecha.component';
-import { debounceTime } from 'rxjs';
-import { IconComponent } from '../icon/icon.component';
 import { Parametro } from './parametros-busqueda.model';
+import { FiltroFechaComponent } from '../filtro-fecha/filtro-fecha.component';
+import { IconComponent } from '../icon/icon.component';
+import { ButtonComponent } from '../btn/button.component';
+import { debounceTime } from 'rxjs';
+import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 
 @Component({
   selector: 'esp-opciones-busqueda',
   standalone:true,
-  imports:[CommonModule, FormsModule, CdkMenuModule, FiltroFechaComponent, IconComponent, ReactiveFormsModule],
+  imports:[CommonModule,FormsModule, CdkMenuModule, FiltroFechaComponent, IconComponent, ButtonComponent, ReactiveFormsModule],
   templateUrl: './opciones-busqueda.component.html',
   styleUrls: ['./opciones-busqueda.component.scss']
 })
 export class OpcionesBusquedaComponent{
-  
   //Show Opciones----------------------------------------------------------------------------------------------------------------
   @Input()
   showDateFilter = false;
@@ -30,18 +30,8 @@ export class OpcionesBusquedaComponent{
   @Input()
   showSecondDisplayFilter = false;
 
-
   @Input()
   showButton = false;
-
-  @Input()
-  showotroBtn = false;
-
-  @Input()
-  showotroBtn2 = false;
-
-  @Input()
-  showotroBtn3 = false;
 
   //Filtro de Fecha----------------------------------------------------------------------------------------------------------------
   @Input()
@@ -94,6 +84,9 @@ export class OpcionesBusquedaComponent{
   @Output()
   firstDisplayFilterSendValue = new EventEmitter<any>();
 
+  @Input()
+  firstDisplaySelectedValue: boolean = true;
+
   //Segundo Filtro Desplazable-------------------------------------------------------------------------------------------------------------
   @Input()
   secDisplayFilterPlaceholder: {
@@ -107,8 +100,7 @@ export class OpcionesBusquedaComponent{
   @Output()
   secDisplayFilterSendValue = new EventEmitter<any>();
 
- 
-  //Botón ejecutable-------------------------------------------------------------------------------------------------------------
+  //Botón ejecutable-------------------------------------------------------------------------------------------------------------------------
   @Input()
   buttonBg: string = '';
 
@@ -117,39 +109,6 @@ export class OpcionesBusquedaComponent{
 
   @Output()
   buttonAccion = new EventEmitter<any>();
-
-
-  @Input()
-  otroBtnBg: string = '';
-
-  @Input()
-  otroBtnText: string = 'Notas';
-
-  @Output()
-  otroBtnAccion = new EventEmitter<any>();
-
-  @Input()
-  otroBtn2Bg: string = '';
-  
-  @Input()
-  otroBtn2Text: string = 'Actualizar';
-
-
-  @Output()
-  otroBtn2Accion = new EventEmitter<any>();
-
-
-
-  @Input()
-  otroBtn3Bg: string = '';
-  
-  @Input()
-  otroBtn3Text: string = 'Actualizar';
-
-
-  @Output()
-  otroBtn3Accion = new EventEmitter<any>();
-
 
   //Variables del componente-------------------------------------------------------------------------------------------------------------
   form:FormGroup = this.fb.group({
@@ -167,15 +126,6 @@ export class OpcionesBusquedaComponent{
   ngOnInit(): void {
     if(this.buttonBg != undefined){
       document.documentElement.style.setProperty('--color-boton',this.buttonBg);
-    }
-    //this.onFil                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                         ter();
-
-    if(this.otroBtnBg != undefined){
-      document.documentElement.style.setProperty('--color-boton',this.otroBtnBg);
-    }
-
-    if(this.otroBtn2Bg != undefined){
-      document.documentElement.style.setProperty('--color-boton',this.otroBtn2Bg);
     }
     this.onFilter();
   }
@@ -213,7 +163,6 @@ export class OpcionesBusquedaComponent{
     ).subscribe(
       (key:string) => {
         this.searchInputValue.emit(this.searchForm?.value)
-        console.log(key);
       }
     )
   }

@@ -1,0 +1,70 @@
+<div class="flex flex-col gap-2 py-[18px]">
+    <div class="flex flex-col gap-2.5">
+        <p class="subtituloMarcado"> Activación Vigente</p>
+        <div>
+            <div class="grid grid-cols-6 gap-1 border-b-2 border-gray-300 pb-2 text-[14px] filasPseudoTabla">
+              <span>Usuario que activa</span>
+              <span>Fecha Inicio</span>
+              <span>Fecha Fin</span>
+              <span>Unid Ope</span>
+              <span>Rol</span>
+              <span>Estado</span>
+            </div>
+            <div *ngIf="!dataActivacion" class="w-full h-3/4 flex items-center">
+              <div class="m-auto w-fit text-center">
+                <h3 class="text-gray-500 mt-2 font-light">No existen registros aun.</h3>
+              </div>
+            </div>
+            <div *ngIf="dataActivacion">
+              <div class="dataPseudoTabla">
+                <span class="text-[#008BD2]">{{dataActivacion.usuarioQueActivo}}</span>
+                <span>{{dataActivacion.fechaInicio | date:'dd/MM/yyyy'}}</span>
+                <span>{{dataActivacion.fechaFin | date:'dd/MM/yyyy'}}</span>
+                <span>{{dataActivacion.unidadOperativa}}</span>
+                <span>{{dataActivacion.rol}}</span>
+                <span class="flex flex-row flex-wrap gap-2" [ngClass]="dataActivacion.estado === 'Activo' ? 'text-green-500':'text-red-500'">{{dataActivacion.estado}}
+                    <!-- <label class="relative inline-flex items-center cursor-pointer" *ngIf="edicionActiva">
+                        <input type="checkbox" [formControl]="ctrlActivo" class="sr-only peer">
+                        <div class="w-11 h-6 bg-gray-200 peer-focus:outline-none peer-focus:ring-2 peer-focus:ring-[var(--color-CAM)] rounded-full peer peer-checked:after:translate-x-full rtl:peer-checked:after:-translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:start-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-cam"></div>
+                    </label> -->
+                </span>
+              </div>
+            </div>
+        </div>
+    </div>
+    <div class="flex flex-col">
+        <p class="subtituloMarcado"> Unidades</p>
+        <div class="pl-2.5 py-2.5">
+            <ul class="Lista-Opciones-Marcar">
+                <li *ngFor="let proceso of opcionesProcesos, index as i">
+                    <input [disabled]="!edicionActiva" type="checkbox" [id]="'proceso_'+proceso.procesoId" [value]="proceso.procesoId" (change)="SelectProceso($event)" class="peer focusCampo">
+                    <label [for]="'proceso_'+proceso.procesoId" class="hover:text-gray-600 hover:bg-gray-50">                           
+                        <span class="text-base">{{proceso.nombre}}</span>
+                    </label>
+                </li>
+            </ul>
+        </div>
+    </div>
+    <div class="flex flex-col gap-2.5">
+        <p class="subtituloMarcado"> Horas Mensuales</p>
+        <div class="pl-2.5 flex flex-row gap-2.5">
+            <div class="w-[60vw] max-w-[220px] flex items-center justify-end bg-[var(--color-fondo-claro)] px-2">
+                <span>Cant. Horas x Mes</span>
+            </div>
+            <input type="number" min="0" name="search" [formControl]="ctrlHoras" [readonly]="!edicionActiva" class="inputTextoDialog focusCampo !h-10 !rounded-none">
+        </div>
+        <div *ngIf="ctrlHoras.touched && ctrlHoras.invalid">
+            <p *ngIf="ctrlHoras.hasError('pattern')" class="font-medium text-red-500 text-xs ml-2.5">
+                Solo se debe ingresar valores numéricos
+            </p>
+        </div>
+    </div>
+    
+    <div class="flex justify-end space-x-2 mb-2" *ngIf="edicionActiva">
+        <!-- <app-btn typeBtn="submit" color="primary" (click)="showForm()">
+            <esp-icon icon="faSave"></esp-icon> Mostrar Datos Consola
+        </app-btn> -->
+        <app-btn typeBtn="submit" class="botonApariencia" color="white" (click)="opcionesEdicion(1)"> Cancelar</app-btn>
+        <app-btn typeBtn="submit" class="botonApariencia" color="mezclado" (click)="opcionesEdicion(2)"> Actualizar</app-btn>
+    </div>
+</div>
