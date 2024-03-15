@@ -42,7 +42,7 @@ export class DashboardAfiliadosComponent implements OnInit {
   @ViewChild("chart") chart!: ChartComponent;
   public chartOptions!: Partial<ChartOptions> | any;
   totalAfiliados: number = 0;
-
+  idUnidadOperativaUser = (JSON.parse(localStorage.getItem('UnidElegida')!)).idUnidOperativa;
 
   formBuscar: FormGroup = this.fb.group({
     frmSearch: new FormControl(""),
@@ -116,8 +116,8 @@ export class DashboardAfiliadosComponent implements OnInit {
     //console.log(data)
     //}
     //)
-
-    this.authService.listarDashboard({ fecInicio: '2024-03-01', fecFin: '2024-03-31' }).subscribe((data) => {
+    
+    this.authService.listarDashboard({ fecInicio: '2024-03-01', fecFin: '2024-03-31',idUnidadOperativa: this.idUnidadOperativaUser }).subscribe((data) => {
       console.log("algo saldra", data)
       console.log("algo saldra type", typeof data.data.fecha)
       for (let i = 0; i < data.data.contAsegurados.length; i++) {
