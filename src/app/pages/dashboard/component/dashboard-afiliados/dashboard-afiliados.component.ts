@@ -3,6 +3,8 @@ import { FormBuilder, FormControl, FormGroup } from '@angular/forms';
 import { PageEvent } from '@angular/material/paginator';
 import { RequestListaSAfiliadosContacto } from '@models/afiliados/ficha-solicitud.model';
 import { AfiliacionesSolicitudesService } from 'src/app/data/services/afiliaciones/afiliaciones-solicitudes.service';
+import { AuthService } from '@services/auth.service';
+import { listardashboardRequest } from '@models/dashboard/dashboard.model'
 import {
   ChartComponent,
   ApexAxisChartSeries,
@@ -16,6 +18,7 @@ import {
 } from "ng-apexcharts";
 
 import { series } from "./data";
+import { ArrayType } from '@angular/compiler';
 
 export type ChartOptions = {
   series: ApexAxisChartSeries;
@@ -38,6 +41,7 @@ export type ChartOptions = {
 export class DashboardAfiliadosComponent implements OnInit {
   @ViewChild("chart") chart!: ChartComponent;
   public chartOptions!: Partial<ChartOptions> | any;
+  totalAfiliados: number = 0;
 
 
   formBuscar: FormGroup = this.fb.group({
@@ -54,16 +58,17 @@ export class DashboardAfiliadosComponent implements OnInit {
   columns: string[] = ['marcar', 'nombres', 'tipoDoc', 'numDoc', 'edad', 'estadoCivil', 'ipress', 'fecha'];
 
   constructor(
+    private authService: AuthService,
     private fb: FormBuilder,
     private afiliacionesService: AfiliacionesSolicitudesService
   ) {
     this.chartOptions = {
-      series: [
+      /*series: [
         {
           name: "PACIENTES",
           data: series.monthDataSeries2.prices
         }
-      ],
+      ],*/
       chart: {
         type: "area",
         height: 350,
@@ -86,7 +91,7 @@ export class DashboardAfiliadosComponent implements OnInit {
         text: "",
         align: "left"
       },
-      labels: series.monthDataSeries1.dates,
+      //labels: series.monthDataSeries2.dates,
       xaxis: {
         type: "datetime"
       },
@@ -101,6 +106,7 @@ export class DashboardAfiliadosComponent implements OnInit {
 
   ngOnInit(): void {
     this.onLoadData()
+
   }
 
   onLoadData() {
@@ -110,7 +116,26 @@ export class DashboardAfiliadosComponent implements OnInit {
     //console.log(data)
     //}
     //)
+
+    this.authService.listarDashboard({ fecInicio: '2024-03-01', fecFin: '2024-03-31' }).subscribe((data) => {
+      console.log("algo saldra", data)
+      console.log("algo saldra type", typeof data.data.fecha)
+      for (let i = 0; i < data.data.contAsegurados.length; i++) {
+        this.totalAfiliados += data.data.contAsegurados[i]; // Suma cada elemento al total
+      }
+      this.chartOptions.series = [
+        {
+          name: "PACIENTES",
+          data: data.data.contAsegurados // Asume que contAsegurados es un arreglo de números
+        }
+      ];
+
+      this.chartOptions.labels = data.data.fecha;
+    })
+
   }
+
+
 
   getDataFecha(value: any) {
     this.formBuscar.get('frmSearchDate')?.setValue(value);

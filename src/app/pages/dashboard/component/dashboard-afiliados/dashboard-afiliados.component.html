@@ -1,4 +1,4 @@
-<esp-opciones-busqueda 
+<!--<esp-opciones-busqueda 
     [showDateFilter]="true"
     [setFilterDateOptionSelected]="'var(--color-CAM-mezclado)'" 
     [setFilterDateTextColour]="'#057EC9'"
@@ -6,20 +6,20 @@
     (sendDateFilterWithCeros)="getDataFecha($event)"
     [setFilterDateSelectionBg]="'#008BD2'"
     [setFilterDateButtonBg]="'#008BD2'"
-></esp-opciones-busqueda> 
+></esp-opciones-busqueda> -->
 
 
 <div class="infoGeneral text-[var(--color-black-alt)] font-semibold">
-    <div class="datosAnaliticos botonApariencia">
+    <div class="datosAnaliticos botonApariencia mt-5">
         <div>
             <div class="text-[12px]">Total de afiliados</div>
-            <div class="text-[18px]">4050</div>
+            <div class="text-[18px]">{{totalAfiliados}}</div>
         </div>
         <div class="icono">
             <img class="self-center" src="assets/svg/iconTotalAfiliados.svg">
         </div>
     </div>
-    <div class="datosAnaliticos botonApariencia">
+    <!--<div class="datosAnaliticos botonApariencia">
         <div>
             <div class="text-[12px]">Nuevos Afiliados</div>
             <div class="text-[18px]">367</div>
@@ -45,7 +45,7 @@
         <div class="icono">
             <img class="self-center" src="assets/svg/iconBajas.svg">
         </div>
-    </div>
+    </div>-->
 </div>
 
 <div id="chart">
