@@ -1,6 +1,6 @@
 import { CdkMenuModule } from '@angular/cdk/menu';
-import { CommonModule } from '@angular/common';
-import { Component, EventEmitter, Input, Output, TemplateRef, ViewChild } from '@angular/core';
+import { CommonModule, formatDate } from '@angular/common';
+import { Component, EventEmitter, Inject, Input, LOCALE_ID, Output, TemplateRef, ViewChild } from '@angular/core';
 import { FormControlName, FormGroupDirective, FormGroupName, FormsModule } from '@angular/forms';
 import { NgxDaterangepickerMd } from 'ngx-daterangepicker-material';
 
@@ -56,7 +56,7 @@ export class FiltroFechaComponent {
 
   @ViewChild('menu', { static: true }) menu!: TemplateRef<any>;
 
-  constructor() { }
+  constructor(@Inject(LOCALE_ID) private locale: string) { }
 
   ngOnInit(): void {
     if(this.setSelectionBg != undefined){
@@ -89,16 +89,16 @@ export class FiltroFechaComponent {
     this.selectedPersonalizado = false;
     var today = new Date();
     if (value == 1){
-      var stringFecha = today.toLocaleDateString();
+      var stringFecha = formatDate(today, 'dd/MM/yyyy', this.locale);
       this.datoFecha = stringFecha + ' - ' + stringFecha;
     }
     if (value == 2){
-      var stringFecha = (new Date(today.valueOf() - 1000*60*60*24)).toLocaleDateString();
+      var stringFecha = formatDate(new Date(today.valueOf() - 1000*60*60*24), 'dd/MM/yyyy', this.locale);
       this.datoFecha = stringFecha + ' - ' + stringFecha;
     }
     if (value == 3){
       let first = today.getDate() - today.getDay()+1;
-      var stringFecha = (new Date(new Date(today.setDate(first)).toISOString())).toLocaleDateString()+' - '+((new Date()).toLocaleDateString());
+      var stringFecha = formatDate(new Date(new Date(today.setDate(first)).toISOString()), 'dd/MM/yyyy', this.locale)+' - '+(formatDate(new Date(), 'dd/MM/yyyy', this.locale)); 
       this.datoFecha = stringFecha;
     }
     if (value == 4){
@@ -107,17 +107,17 @@ export class FiltroFechaComponent {
         sundayLW = sundayLW - 7;//obtiene domingo pasado
       let mondayLW = sundayLW - 6; //obtiene domingo pasado
       let segundoDia = new Date();
-      var stringFecha = (new Date(new Date(today.setDate(mondayLW)).toISOString())).toLocaleDateString()+' - '+((new Date(segundoDia.setDate(sundayLW))).toLocaleDateString());
+      var stringFecha = formatDate(new Date(new Date(today.setDate(mondayLW)).toISOString()), 'dd/MM/yyyy', this.locale)+' - '+(formatDate(new Date(segundoDia.setDate(sundayLW)), 'dd/MM/yyyy', this.locale));
       this.datoFecha = stringFecha;
     }
     if (value == 5){
-      var stringFecha = (new Date(new Date(today.setDate(1)).toISOString())).toLocaleDateString()+' - '+((new Date()).toLocaleDateString());
+      var stringFecha = formatDate(new Date(new Date(today.setDate(1)).toISOString()), 'dd/MM/yyyy', this.locale)+' - '+formatDate((new Date()), 'dd/MM/yyyy', this.locale);   
       this.datoFecha = stringFecha;
     }
     if (value == 6){
       let firstDayMonth = new Date();
       firstDayMonth.setDate(0); 
-      var stringFecha = (new Date(new Date(firstDayMonth.setDate(1)).toISOString())).toLocaleDateString()+' - '+(new Date(new Date(today.setDate(0)).toISOString())).toLocaleDateString();
+      var stringFecha = formatDate(new Date(new Date(firstDayMonth.setDate(1)).toISOString()), 'dd/MM/yyyy', this.locale)+' - '+formatDate(new Date(new Date(today.setDate(0)).toISOString()), 'dd/MM/yyyy', this.locale);
       this.datoFecha = stringFecha;
     }
     if (value == 7){
@@ -136,7 +136,7 @@ export class FiltroFechaComponent {
           break;
       }
       today.setDate(1)
-      var stringFecha = today.toLocaleDateString()+' - '+(new Date()).toLocaleDateString();
+      var stringFecha = formatDate(today, 'dd/MM/yyyy', this.locale)+' - '+formatDate(new Date(), 'dd/MM/yyyy', this.locale);
       this.datoFecha = stringFecha;
     }
     if (value == 8){
@@ -162,14 +162,14 @@ export class FiltroFechaComponent {
       }
       today.setDate(1)
       segundoDia.setDate(0)
-      var stringFecha = today.toLocaleDateString()+' - '+segundoDia.toLocaleDateString();
+      var stringFecha = formatDate(today, 'dd/MM/yyyy', this.locale)+' - '+formatDate(segundoDia, 'dd/MM/yyyy', this.locale);
       this.datoFecha = stringFecha;
     }
     if (value == 9){
       let firstDay = new Date();
       firstDay.setMonth(0);
       firstDay.setDate(1);
-      var stringFecha = firstDay.toLocaleDateString()+' - '+today.toLocaleDateString();
+      var stringFecha = formatDate(firstDay, 'dd/MM/yyyy', this.locale)+' - '+formatDate(today, 'dd/MM/yyyy', this.locale);
       this.datoFecha = stringFecha;
     }
     if (value == 10){
@@ -179,7 +179,7 @@ export class FiltroFechaComponent {
       firstDay.setFullYear(firstDay.getFullYear()-1);
       firstDay.setMonth(0);
       firstDay.setDate(1);
-      var stringFecha = firstDay.toLocaleDateString()+' - '+today.toLocaleDateString();
+      var stringFecha = formatDate(firstDay, 'dd/MM/yyyy', this.locale)+' - '+formatDate(today, 'dd/MM/yyyy', this.locale);
       this.datoFecha = stringFecha;
     }
     this.orderDatesAsRequired(this.datoFecha, value);
@@ -189,7 +189,9 @@ export class FiltroFechaComponent {
   choosedDate(event : any){
     this.selectedSize = {descripcion: 'Personalizado', accion: 11};
     this.selectedPersonalizado = true;
+    console.log(event.chosenLabel)
     this.datoFecha = event.chosenLabel.split('-')[0].trim()+' - '+event.chosenLabel.split('-')[1].trim();
+    console.log(this.datoFecha);
     this.orderDatesAsRequired(this.datoFecha, 11);
     this.sendDateFilter.emit(this.datoFecha);
   }
