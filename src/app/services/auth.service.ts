@@ -135,7 +135,7 @@ export class AuthService {
 
   preRecoverPassword(model: PreRecoverPassword){
     const url = `${environment.API}/auth/pre-recover-password`;
-    return this.http.post(url, model,{responseType: 'text'});
+    return this.http.post<any>(url, model);
   }
 
   recoverPassword(model: RecoverPassword){
@@ -153,7 +153,7 @@ export class AuthService {
     return this.http.post<any>(url, {guiidSso: guiid});
   }
   /*
-  registerAndLogin(name:string, email:string, password:string )
+  registerAndLogin(name:string, email:string, password:string )|
   {
     return this.register(name, email, password)
     .pipe(

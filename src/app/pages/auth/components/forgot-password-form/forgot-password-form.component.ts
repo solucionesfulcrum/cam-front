@@ -21,7 +21,7 @@ export class ForgotPasswordFormComponent {
 
   email: string = '';
   statusConfirm: RequestStatus = 'init';
-  validPass  = 0;
+  validPass = 0;
   showPassword = false;
   showConfirmPassword = false;
   faEye = faEye;
@@ -56,30 +56,30 @@ export class ForgotPasswordFormComponent {
   sendLink() {
     if (this.form.valid) {
       this.status = 'loading';
-      // this.authService.preRecoverPassword({ usuario: this.form.value.numDoc! }).subscribe((data) => {
-      //   if (data) {
-      //     this.status = 'success';
-      //     this.email = data;
-      //     this.emailSent = true;
-      //   }
-      //   else {
-      //     this._notificacion.warning(`No se encontró ningún usuario con el documento ${this.form.value.numDoc}`)
-      //     this.status = 'failed';
-      //     this.emailSent = false;
-      //   }
-      //   console.log(data);
-      // })
-      // const { numDoc } = this.form.getRawValue();
-      // this.authService.recovery(numDoc)
-      // .subscribe({
-      //   next: ()=>{
-      //     this.status='success'
-      //     this.emailSent = true
-      //   },
-      //   error: ()=>{
-      //     this.status='failed'
-      //   }
-      // })
+      this.authService.preRecoverPassword({ usuario: this.form.value.numDoc! }).subscribe((data) => {
+        if (data.data) {
+          this.status = 'success';
+          this.email = data.data;
+          this.emailSent = true;
+        }
+        else {
+          this._notificacion.warning(`No se encontró ningún usuario con el documento ${this.form.value.numDoc}`)
+          this.status = 'failed';
+          this.emailSent = false;
+        }
+        console.log(data.data);
+      })
+      /*const { numDoc } = this.form.getRawValue();
+      this.authService.recovery(numDoc)
+      .subscribe({
+        next: ()=>{
+          this.status='success'
+          this.emailSent = true
+        },
+        error: ()=>{
+          this.status='failed'
+        }
+      })*/
     } else {
       this.form.markAllAsTouched();
     }
@@ -90,18 +90,18 @@ export class ForgotPasswordFormComponent {
     if (this.formCambio.valid) {
       this.statusConfirm = 'loading';
       if (this.formCambio.value.newPass == this.formCambio.value.confirmPass) {
-        // this.authService.recoverPassword(this.getRecoverPass()).subscribe((data) => {
-        //   console.log(data)
-        //   if (data == true) {
-        //     this.statusConfirm = 'success';
-        //     this._notificacion.success('Se cambio la contraseña');
-        //     this.router.navigate(['login']);
-        //   }
-        //   else {
-        //     this.statusConfirm = 'failed';
-        //     this._notificacion.warning(data.message);
-        //   }
-        // })
+        this.authService.recoverPassword(this.getRecoverPass()).subscribe((data) => {
+          console.log(data.data)
+          if (data.data == "true") {
+            this.statusConfirm = 'success';
+            this._notificacion.success('Se cambio la contraseña');
+            this.router.navigate(['/login']);
+          }
+          else {
+            this.statusConfirm = 'failed';
+            this._notificacion.warning(data.message);
+          }
+        })
       } else {
         this.validPass = 1;
         this.statusConfirm = 'init';
