@@ -1,4 +1,13 @@
-<div class="flex flex-row gap-2.5 mt-3">
+<div class="px-4 py-3 bg-white w-full mt-3 grid botonApariencia" *ngIf="!dataListCams">
+    <div class="text-gray-600 w-full text-center">
+        <span class="py-1 font-bold text-2xl">
+            <fa-icon class="mr-2" [icon]="faSpinner" [pulse]="true"></fa-icon>
+            Obteniendo datos...
+        </span>
+    </div>
+</div>
+
+<div class="flex flex-row gap-2.5 mt-3" *ngIf="dataListCams">
     <div class="bg-white botonApariencia py-3 px-2.5 w-[300px] flex flex-col shrink-0">
         <div class="py-2">
             <div class="relative rounded-md shadow-sm">
@@ -11,19 +20,19 @@
             </div>
         </div>
         <div class="py-2 whitespace-nowrap text-ellipsis overflow-hidden text-[18px] font-semibold text-[var(--color-CAM)]">
-            <span>RED ASISTENCIAL DEL CUSCO</span>
+            <span>{{dataListCams.nombreRed | uppercase}}</span>
         </div>
         <div class="pr-2.5 flex flex-col gap-1 overflow-auto max-h-[66vh] scrollbarra">
-            <div class="flex flex-col gap-1 text-[#64748B]" *ngFor="let cam of listCams, index as i">
+            <div class="flex flex-col gap-1 text-[#64748B]" *ngFor="let cam of dataListCams.listarCam, index as i">
                 <div class="py-2.5 pl-1.5 flex flex-row items-center gap-1.5 whitespace-nowrap text-ellipsis overflow-hidden hover:bg-[#F4F4F5] cursor-pointer" (click)="cam.activo = !cam.activo">
                     <img src="assets/svg/icon-house-full.svg">
                     <span>{{cam.nombreCam}}</span>
                 </div>
                 <div class="flex flex-col pl-6" *ngIf="cam.activo">
-                    <div class="border-l-2 pl-1.5 border-[var(--color-black-alt)] py-2 pr-1.5 gap-1.5 flex flex-row items-center justify-between hover:bg-[#F4F4F5] cursor-pointer" *ngFor="let subCam of cam.listSub, index as j" (click)="camElegido = subCam" [ngClass]="subCam == camElegido ? 'text-[var(--color-black-alt)] bg-[#F4F4F5]' : null">
+                    <div class="border-l-2 pl-1.5 border-[var(--color-black-alt)] py-2 pr-1.5 gap-1.5 flex flex-row items-center justify-between hover:bg-[#F4F4F5] cursor-pointer" *ngFor="let subCam of cam.listaCiram, index as j" (click)="camElegido = subCam" [ngClass]="subCam == camElegido ? 'text-[var(--color-black-alt)] bg-[#F4F4F5]' : null">
                         <div class="flex flex-row gap-1.5 whitespace-nowrap text-ellipsis overflow-hidden">
                             <img src="assets/svg/icon-house-rounded.svg">
-                            <span>{{subCam.nombreSub}}</span>
+                            <span>{{subCam.nombre}}</span>
                         </div>
                         <esp-icon icon="faChevronRight"></esp-icon>
                     </div>
@@ -34,7 +43,7 @@
     <div class="bg-white botonApariencia w-full pt-3 px-2.5 flex flex-col text-[var(--color-black-alt)]">
         <div class="py-2 text-[18px] flex flex-row justify-between font-semibold">
             <span class="text-[var(--color-CAM)]">CONTRATO DE TALLERISTAS</span>
-            <span>{{ camElegido ? camElegido.nombreSub : 'No se eligió un CAM'}}</span>
+            <span>{{ camElegido ? camElegido.nombre : 'No se eligió un CAM'}}</span>
         </div>
         <esp-opciones-busqueda 
           [showDateFilter]="true"

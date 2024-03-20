@@ -43,15 +43,15 @@ export class ContactosAfiliadosService {
     const url = `${environment.API}/client/afiliado/sagw-qa-identapi-v2/busqueda?tipodoc=${tipoDoc}&numerodocumento=${numDoc}&busqueda=2&codigo=0H2YU123&file=1`
     return this._httpClient.get<any>(url);
   }
-
-  //Servicios SIGPS -------------------------------------------------------------------------------------------------------
   getDatoSeguro(tipo: string, numDoc: string){
-    const url = `https://apps.essalud.gob.pe/sagw/sigps/viva-apidatosmaestros/ASEGURADO/Buscar?VS_TIPODOCUME=${tipo}&VS_NRODOCUMEN=${numDoc}`;
+    const url = `${environment.API}/client/afiliado/viva-mestros-asegurado?tipoDoc=${tipo}&nroDoc=${numDoc}`;
     return this._httpClient.get<any>(url);
   }
 
+  //Servicios SIGPS -------------------------------------------------------------------------------------------------------
+
   searchUnidadOperativa(tipo: string, text: string){ //Obtener lista de CERPS
-    const url = `https://appsqa.essalud.gob.pe/sigps-service/unidad-operativa/listarPorTipo/${tipo}?texto=${text}`;
+    const url = `${environment.API}/client/sigps/unidad-operativa/listar-cerps?texto=${text}`;
     return this._httpClient.get<any>(url);
   }
 

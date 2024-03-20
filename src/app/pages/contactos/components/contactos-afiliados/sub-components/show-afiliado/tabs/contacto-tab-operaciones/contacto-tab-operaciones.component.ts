@@ -1,5 +1,5 @@
-import { registerLocaleData } from '@angular/common';
-import { Component, LOCALE_ID, OnInit } from '@angular/core';
+import { formatDate, registerLocaleData } from '@angular/common';
+import { Component, Inject, LOCALE_ID, OnInit } from '@angular/core';
 import localeEs from '@angular/common/locales/es';
 import { AfiliacionesOperacionesService } from 'src/app/data/services/afiliaciones/afiliaciones-operaciones.service';
 import { RequestListOperaciones } from '@models/afiliaciones/operaciones/evaluacion-operacion.model';
@@ -38,6 +38,7 @@ export class ContactoTabOperacionesComponent implements OnInit {
   constructor(private fb                                    : FormBuilder, 
               private operacionesService                    : AfiliacionesOperacionesService,
               private activeRoute                           : ActivatedRoute,
+              @Inject(LOCALE_ID) private locale             : string,
               private notificationService                   : NotificationService) {
       this.idFicha = this.activeRoute.snapshot.paramMap.get('idFicha')!; }
 
@@ -83,10 +84,10 @@ export class ContactoTabOperacionesComponent implements OnInit {
 
     if (this.formBuscar.value.frmSearchDate == '') {
       let todayDate = new Date();      
-      var stringFecha = (new Date(new Date(todayDate.setDate(todayDate.getDate() - todayDate.getDay()+1)).toISOString())).toLocaleDateString();
+      var stringFecha = formatDate(new Date(new Date(todayDate.setDate(todayDate.getDate() - todayDate.getDay()+1)).toISOString()), 'dd/MM/yyyy', this.locale);
 
       fecInicio = stringFecha.split('/')[2] + '-' + `0${stringFecha.split('/')[1]}`.slice(-2) + '-' + `0${stringFecha.split('/')[0]}`.slice(-2);
-      fecFin = ((new Date()).toLocaleDateString()).split('/')[2] + '-' + `0${((new Date()).toLocaleDateString()).split('/')[1]}`.slice(-2) + '-' + `0${((new Date()).toLocaleDateString()).split('/')[0]}`.slice(-2);
+      fecFin = formatDate((new Date()), 'yyyy-MM-dd', this.locale);
     }
     else{
       var fechaSinFormatInit = this.formBuscar.value.frmSearchDate.split(' - ')[0];
@@ -94,7 +95,7 @@ export class ContactoTabOperacionesComponent implements OnInit {
       fecInicio = `${fechaSinFormatInit.split('/')[2]}-${fechaSinFormatInit.split('/')[1]}-${fechaSinFormatInit.split('/')[0]}`;
       fecFin = `${fechaSinFormatFin.split('/')[2]}-${fechaSinFormatFin.split('/')[1]}-${fechaSinFormatFin.split('/')[0]}`;
     }
-
+    console.log(fecInicio, fecFin)
     return {
       idFichaAdmision: parseInt(this.idFicha),
       fecInicio: fecInicio,

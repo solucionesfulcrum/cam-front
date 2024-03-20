@@ -142,13 +142,13 @@ export class RegisterAseguradoComponent {
     this._contactoService.servicioObtenerCodCentro(this.requestDataCodCentro()).subscribe((data)=>{
       if (data.code == 0) {
         this._datoGeneralesService.getRedesAsistenciales().subscribe((datos)=>{
-          if (datos.codResultado == 0) {
-            this.dataRed = datos.response.find((x: any)=> {return x.cod_CENTRO  === data.data.dataAfiliado[0].codCentro});
+          if (datos.code == 0) {
+            this.dataRed = datos.data.data.find((x: any)=> {return x.cod_CENTRO  === data.data.dataAfiliado[0].codCentro});
             this.feFallecimiento = data.data.dataPersona.fefallecid;
             // console.log(this.dataRed)
           }
           else{
-            this._notificacionService.warning(datos.msgResultado);
+            this._notificacionService.warning(datos.message);
           }
         })
       }
@@ -186,7 +186,12 @@ export class RegisterAseguradoComponent {
     
     // Obtener Info Seguro ------------------------------------------------------------------------------------------------------------------------------
     this._contactoService.getDatoSeguro(this.tipoDoc,this.numDoc).subscribe((data)=>{
-      this.dataSeguro = Object(data.response[0]);
+      if (data.code == 0) {
+        this.dataSeguro = Object(data.data[0]);
+      }
+      else{
+        this._notificacionService.warning(data.message);
+      }
     })
   }
 

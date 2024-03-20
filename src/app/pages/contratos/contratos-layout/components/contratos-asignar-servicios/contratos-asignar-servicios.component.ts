@@ -5,6 +5,7 @@ import { NotificationService } from '@services/notification.service';
 import { FormatoBoton } from '@shared/components/opciones-botones/formato-boton.model';
 import { FormatoColumna, TablaOpciones } from '@shared/components/tabla-adaptable/formato-columna.model';
 import { AppRoute } from 'src/app/data/constants/app-route.constant';
+import { DatosGeneralesService } from 'src/app/data/services/datos-generales.service';
 
 @Component({
   selector: 'esp-contratos-asignar-servicios',
@@ -18,16 +19,8 @@ export class ContratosAsignarServiciosComponent {
     {texto: 'Guardar y Enviar', colorBtn:'mezclado'},
   ];
 
-  opcionesEvento: TablaOpciones[] = [
-    {idOpcion: 1, nombre: 'Taller', value: 1},
-    {idOpcion: 2, nombre: 'Festividad', value: 2},
-    {idOpcion: 3, nombre: 'Curso', value: 3},
-  ];
-  opcionesModalidad: TablaOpciones[] = [
-    {idOpcion: 1, nombre: 'Presencial', value: 1},
-    {idOpcion: 2, nombre: 'Virtual', value: 2},
-    {idOpcion: 3, nombre: 'Híbrido', value: 3},
-  ];
+  opcionesEvento: TablaOpciones[] = [];
+  opcionesModalidad: TablaOpciones[] = [];
   
   dataColumnas: FormatoColumna[] = [
     {nomAttribute: 'idServicio', oculto: true},
@@ -48,10 +41,12 @@ export class ContratosAsignarServiciosComponent {
   
   constructor(private fb                      : FormBuilder, 
               private notificationService     : NotificationService,
+              private datosGeneralesService   : DatosGeneralesService,
               private router                  : Router, 
               private route                   : ActivatedRoute) { }
 
   ngOnInit(){
+    this.getDataServices();
     // let controlPrueba = this.fb.group({
     //   idUnidOperativ: [2],
     //   listServices: [[]]
@@ -60,6 +55,29 @@ export class ContratosAsignarServiciosComponent {
     // console.log(this.dataTables.get('0')!.value)
     this.dataTables.valueChanges.subscribe((data)=>{
       console.log(data);
+    })
+  }
+
+  getDataServices(){
+    this.datosGeneralesService.getTipoParametros('TIPO_SERVICIO').subscribe((data)=>{
+      if (data.code == 0) {
+        data.data.forEach((x)=>{
+          this.opcionesEvento.push({idOpcion: x.idParametros, nombre: x.nombre, value: x.idParametros})
+        })
+      }
+      else{
+        this.notificationService.warning(data.message);
+      }
+    })
+    this.datosGeneralesService.getTipoParametros('MODALIDAD').subscribe((data)=>{
+      if (data.code == 0) {
+        data.data.forEach((x)=>{
+          this.opcionesModalidad.push({idOpcion: x.idParametros, nombre: x.nombre, value: x.idParametros})
+        })
+      }
+      else{
+        this.notificationService.warning(data.message);
+      }
     })
   }
 

@@ -1,9 +1,0 @@
-<div class="flex flex-col my-[16px]">
-    <div class="flex flex-row justify-between font-bold text-[#344563]">
-        <div class="flex gap-2.5 text-lg"><img class="self-center" src="assets/svg/configurationWheel.svg">Rehabilitación Social</div>
-        <div class="self-center">{{citasAtendidas.length}} {{citasAtendidas.length > 1 ? 'Actividades': 'Actividad'}}</div>
-    </div>
-</div>
-<div class="py-2 flex flex-col gap-y-2 max-h-[31rem] overflow-auto">
-    <esp-cartilla-info [cartillas]="citasModificadas" [redireccionNombre]="''"></esp-cartilla-info>
-</div>
