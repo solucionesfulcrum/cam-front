@@ -67,7 +67,6 @@ export class ForgotPasswordFormComponent {
           this.status = 'failed';
           this.emailSent = false;
         }
-        console.log(data.data);
       })
       /*const { numDoc } = this.form.getRawValue();
       this.authService.recovery(numDoc)
@@ -91,7 +90,6 @@ export class ForgotPasswordFormComponent {
       this.statusConfirm = 'loading';
       if (this.formCambio.value.newPass == this.formCambio.value.confirmPass) {
         this.authService.recoverPassword(this.getRecoverPass()).subscribe((data) => {
-          console.log(data.data)
           if (data.data == "true") {
             this.statusConfirm = 'success';
             this._notificacion.success('Se cambio la contraseña');
