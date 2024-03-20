@@ -134,12 +134,12 @@ export class AuthService {
   }
 
   preRecoverPassword(model: PreRecoverPassword){
-    const url = `${environment.SSO_API}/auth/pre-recover-password`;
+    const url = `${environment.API}/auth/pre-recover-password`;
     return this.http.post(url, model,{responseType: 'text'});
   }
 
   recoverPassword(model: RecoverPassword){
-    const url = `${environment.SSO_API}/auth/recover-password`;
+    const url = `${environment.API}/auth/recover-password`;
     return this.http.post<any>(url, model);
   }
 
