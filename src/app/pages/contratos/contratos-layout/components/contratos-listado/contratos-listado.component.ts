@@ -1,6 +1,6 @@
 import { Dialog } from '@angular/cdk/dialog';
 import { Component } from '@angular/core';
-import { FormBuilder } from '@angular/forms';
+import { FormBuilder, FormControl } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { NotificationService } from '@services/notification.service';
 import { DialogNewContratoComponent } from '../dialog/dialog-new-contrato/dialog-new-contrato.component';
@@ -43,7 +43,9 @@ export class ContratosListadoComponent {
     ]},
   ];
   dataListCams!: any;
+  filteredList!: any;
 
+  ctrlSearchCam = new FormControl();
 
   camElegido: any;
 
@@ -60,21 +62,39 @@ export class ContratosListadoComponent {
         console.log(data.data[0])
         this.dataListCams = data.data[0];
         this.dataListCams.listarCam.forEach((x: any)=> x.activo = false);
+        this.filteredList = this.dataListCams;
       }
       else{
         this.notificationService.warning(data.message);
       }
     })
+
+    this.ctrlSearchCam.valueChanges.subscribe((data)=>{
+      console.log(data)
+    })
   }
 
   nuevoContrato(){
-    const dialogRef = this.dialog.open(DialogNewContratoComponent,{
-      minWidth:'800px',
-      maxWidth:'50%',
-      data:{}
-    })
-    dialogRef.closed.subscribe(out =>{
-      // console.log(out)
-    })
+    if (this.camElegido) {
+      const dialogRef = this.dialog.open(DialogNewContratoComponent,{
+        minWidth:'800px',
+        maxWidth:'50%',
+        data:{
+          idUnid: this.camElegido.idUnidadOperativa
+        }
+      })
+    }
+    else{
+      this.notificationService.warning('Seleccione un CAM o CIRAM')
+    }
+  }
+
+  setDataSelected(obj: any, opt: number, event: MouseEvent){
+    event.stopPropagation();
+    if (opt != 0) {
+      console.log(obj, opt)
+      this.camElegido = obj;
+      this.camElegido.opt = opt;
+    }
   }
 }

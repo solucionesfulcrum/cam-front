@@ -1,11 +1,13 @@
-import { DialogRef } from '@angular/cdk/dialog';
-import { Component } from '@angular/core';
+import { DIALOG_DATA, DialogRef } from '@angular/cdk/dialog';
+import { Component, Inject } from '@angular/core';
 import { FormBuilder, FormControl, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
+import { RequestSendCabeceraContrato } from '@models/contratos/contratos-administracion.model';
 import { Parametro } from '@models/parametros-busqueda.model';
 import { RequestStatus } from '@models/request-status.model';
 import { NotificationService } from '@services/notification.service';
 import { AppRoute } from 'src/app/data/constants/app-route.constant';
+import { ContratosAdministracionService } from 'src/app/data/services/contratos/contratos-administracion.service';
 import { DatosGeneralesService } from 'src/app/data/services/datos-generales.service';
 
 @Component({
@@ -18,21 +20,27 @@ export class DialogNewContratoComponent {
   opciones: Parametro[] = [];
   status: RequestStatus = 'init';
   tipoDocSelected: any = Object();
-  
-  talleristaEncontrado = false;
+
+  talleristaInfo: any;
   
   public formNewContrato = this.fb.nonNullable.group({
-    frmSelectDoc: new FormControl(""),
+    frmSelectDoc: new FormControl(null),
     frmDoc: ['', [Validators.required, Validators.minLength(8)]],
   });
   public formVigencia = this.fb.nonNullable.group({
     frmInicioVigencia: [null, [Validators.required]],
     frmFinVigencia: [null, [Validators.required]],
   });
+  public formDataOrden = this.fb.nonNullable.group({
+    frmOrden: [null, [Validators.required]],
+    frmMonto: [null, [Validators.required]],
+  });
 
   constructor(private fb                                  : FormBuilder,
               private router                              : Router,
+              @Inject(DIALOG_DATA) public data            : any,
               private datosService                        : DatosGeneralesService,
+              private contratosService                    : ContratosAdministracionService,
               private notificationService                 : NotificationService,
               private _dialogRef                          : DialogRef<DialogNewContratoComponent>) {
 
@@ -70,9 +78,53 @@ export class DialogNewContratoComponent {
     this._dialogRef.close();
   }
 
-  onSearch(){
-    this._dialogRef.close();
-    this.router.navigate([`app/${AppRoute.CONTRATOS}/${AppRoute.CONTRATOS_ASIGNAR_SERVICIOS}`])
+  searchDataPersona(opt: number){
+    if (opt == 1) {
+      this.contratosService.searchForPerson({tipoDoc: this.formNewContrato.controls.frmSelectDoc.value!, numDoc: this.formNewContrato.controls.frmDoc.value!}).subscribe((data)=>{
+        if (data.code == 0) {
+          this.talleristaInfo = data.data;
+          this.formNewContrato.disable()
+        }
+        else{
+          this.notificationService.warning(data.message);
+        }
+      })
+    }
+    else{
+      this.formNewContrato.enable()
+      this.formNewContrato.reset();
+      this.talleristaInfo = null;
+    }
   }
 
+  generateContract(){
+    if (this.talleristaInfo && this.formVigencia.valid && this.formDataOrden.valid) {
+      console.log(this.getCabeceraPayload())
+    }
+    else{
+      this.formDataOrden.markAllAsTouched();
+      this.formVigencia.markAllAsTouched();
+    }
+    // this._dialogRef.close();
+    // this.router.navigate([`app/${AppRoute.CONTRATOS}/${AppRoute.CONTRATOS_ASIGNAR_SERVICIOS}`])
+  }
+
+  getCabeceraPayload(): RequestSendCabeceraContrato{
+    return {
+      cabecera: {
+        idUsuarioTallerista: this.talleristaInfo.idUsuario,
+        numOc: this.formDataOrden.controls.frmOrden.value!,
+        fechaInicio: this.formVigencia.controls.frmInicioVigencia.value!,
+        fechaFin: this.formVigencia.controls.frmFinVigencia.value!,
+        monto: this.formDataOrden.controls.frmMonto.value!,
+        usuarioRegId: (JSON.parse(localStorage.getItem('camUser')!)).idUsuario
+      },
+      detalle: [
+        {
+          idUnidadOperativa: this.data.idUnid,
+          tipoOrigenUnidad: "MISMA_UNIDAD"
+        }
+      ]
+    }
+  }
 }

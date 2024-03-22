@@ -43,7 +43,7 @@ export class DatosGeneralesService {
   }
 
   searchByUbigeo(ubigeo: string){
-    const url = `${URL_BASE}/ubigeo/sas/${ubigeo}`;
+    const url = `${URL_BASE}/client/essi/ubigeo/${ubigeo}`;
     return this._httpClient.get<any>(url);
   }
 
