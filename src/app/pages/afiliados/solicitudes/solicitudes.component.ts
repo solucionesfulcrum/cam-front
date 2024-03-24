@@ -81,7 +81,6 @@ export class SolicitudesComponent implements OnInit {
    }
 
   ngOnInit(): void {
-    this.onLoadData();
     this.datosService.getTipoParametros('ESTADO_SOLICITUD').subscribe((data)=>{
       if (data.code == 0) {
         this.opciones = data.data;

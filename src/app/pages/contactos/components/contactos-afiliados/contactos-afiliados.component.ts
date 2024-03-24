@@ -37,7 +37,6 @@ export class ContactosAfiliadosComponent implements OnInit {
               private afiliacionesService     : AfiliacionesSolicitudesService,) { }
 
   ngOnInit(): void {
-    this.onLoadData()
     this.datosService.getTipoParametros('ESTADO_FICHA_ADMISION').subscribe((data)=>{
       this.opciones = data.data;
     });

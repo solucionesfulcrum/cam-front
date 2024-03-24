@@ -25,6 +25,9 @@ export class FiltroFechaComponent {
   @Input()
   setTextColour: string = '#057EC9';
 
+  @Input()
+  setDateSelectedDefault!: number;
+
   @Output()
   sendDateFilter = new EventEmitter<any>(); //Se requiere de una funcion en donde se llame el valor seleccionado para, posteriormente, almacenarlo en donde se requiera
   
@@ -82,6 +85,9 @@ export class FiltroFechaComponent {
     }
     else{
       document.documentElement.style.setProperty('--color-texto-selected','#057EC9');
+    }
+    if (this.setDateSelectedDefault) {
+      this.selectRangoFecha(this.setDateSelectedDefault)
     }
   }
 
@@ -182,6 +188,7 @@ export class FiltroFechaComponent {
       var stringFecha = formatDate(firstDay, 'dd/MM/yyyy', this.locale)+' - '+formatDate(today, 'dd/MM/yyyy', this.locale);
       this.datoFecha = stringFecha;
     }
+    this.selectedSize = this.opcionesFecha.find((x)=> x.accion == value)!;
     this.orderDatesAsRequired(this.datoFecha, value);
     this.sendDateFilter.emit(this.datoFecha);
   }

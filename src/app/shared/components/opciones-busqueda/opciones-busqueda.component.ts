@@ -49,6 +49,9 @@ export class OpcionesBusquedaComponent{
   @Input()
   setFilterDateTextColour!: string;
 
+  @Input()
+  setDateSelectedDefault!: number;
+
   @Output()
   sendDateFilter = new EventEmitter<any>();
   

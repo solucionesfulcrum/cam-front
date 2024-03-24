@@ -43,7 +43,6 @@ export class ContactoTabOperacionesComponent implements OnInit {
       this.idFicha = this.activeRoute.snapshot.paramMap.get('idFicha')!; }
 
   ngOnInit(): void {
-    this.getData()
   }
   
   getDataFecha(value: any){
