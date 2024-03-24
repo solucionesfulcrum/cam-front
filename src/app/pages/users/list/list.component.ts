@@ -58,7 +58,6 @@ export class ListComponent implements OnInit{
 
   ngOnInit(): void {
     this.paginator._intl.itemsPerPageLabel="Registros por página";
-    this.onLoadData();
     this.onFilter('');
   }
   onLoadData(){
