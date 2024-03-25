@@ -1,5 +1,6 @@
 import { DIALOG_DATA, DialogRef } from '@angular/cdk/dialog';
-import { Component, Inject } from '@angular/core';
+import { formatDate } from '@angular/common';
+import { Component, Inject, LOCALE_ID } from '@angular/core';
 import { FormBuilder, FormControl, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { RequestSendCabeceraContrato } from '@models/contratos/contratos-administracion.model';
@@ -28,8 +29,8 @@ export class DialogNewContratoComponent {
     frmDoc: ['', [Validators.required, Validators.minLength(8)]],
   });
   public formVigencia = this.fb.nonNullable.group({
-    frmInicioVigencia: [null, [Validators.required]],
-    frmFinVigencia: [null, [Validators.required]],
+    frmInicioVigencia: ['', [Validators.required]],
+    frmFinVigencia: ['', [Validators.required]],
   });
   public formDataOrden = this.fb.nonNullable.group({
     frmOrden: [null, [Validators.required]],
@@ -39,6 +40,7 @@ export class DialogNewContratoComponent {
   constructor(private fb                                  : FormBuilder,
               private router                              : Router,
               @Inject(DIALOG_DATA) public data            : any,
+              @Inject(LOCALE_ID) private locale           : string,
               private datosService                        : DatosGeneralesService,
               private contratosService                    : ContratosAdministracionService,
               private notificationService                 : NotificationService,
@@ -83,6 +85,14 @@ export class DialogNewContratoComponent {
       this.contratosService.searchForPerson({tipoDoc: this.formNewContrato.controls.frmSelectDoc.value!, numDoc: this.formNewContrato.controls.frmDoc.value!}).subscribe((data)=>{
         if (data.code == 0) {
           this.talleristaInfo = data.data;
+          if (!this.talleristaInfo.acreditado) {
+            this.formVigencia.controls.frmInicioVigencia.setValue(formatDate(this.talleristaInfo.contratoVigente[0].fechaInicio, 'd/M/yyyy', this.locale))
+            this.formVigencia.controls.frmFinVigencia.setValue(formatDate(this.talleristaInfo.contratoVigente[0].fechaFin, 'd/M/yyyy', this.locale))
+            this.formVigencia.disable()
+            this.formDataOrden.controls.frmOrden.setValue(this.talleristaInfo.contratoVigente[0].numOC)
+            this.formDataOrden.controls.frmMonto.setValue(this.talleristaInfo.contratoVigente[0].monto)
+            this.formDataOrden.disable()
+          }
           this.formNewContrato.disable()
         }
         else{

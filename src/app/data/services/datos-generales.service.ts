@@ -18,17 +18,17 @@ export class DatosGeneralesService {
   }
 
   getDepartamentosReniec(){
-    const url = `${URL_BASE}/ubigeo/departamento-reniec/listar`;
+    const url = `${URL_BASE}/client/essi/ubigeo/departamento-reniec/listar`;
     return this._httpClient.get<any>(url);
   }
 
   getProvinciasReniec(codDepart: string){
-    const url = `${URL_BASE}/ubigeo/provincia-reniec/listar/${codDepart}`;
+    const url = `${URL_BASE}/client/essi/ubigeo/provincia-reniec/listar/${codDepart}`;
     return this._httpClient.get<any>(url);
   }
 
   getDistritosReniec(codProv: string){
-    const url = `${URL_BASE}/ubigeo/distrito-reniec/listar/${codProv}`;
+    const url = `${URL_BASE}/client/essi/ubigeo/distrito-reniec/listar/${codProv}`;
     return this._httpClient.get<any>(url);
   }
 
