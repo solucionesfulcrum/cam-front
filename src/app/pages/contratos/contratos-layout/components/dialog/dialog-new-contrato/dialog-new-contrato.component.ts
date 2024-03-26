@@ -22,6 +22,11 @@ export class DialogNewContratoComponent {
   status: RequestStatus = 'init';
   tipoDocSelected: any = Object();
 
+  retrievedPdf: any;
+  nombrePdf = '';
+  applicationFile: any;
+  isPdfUpdate = false;
+
   talleristaInfo: any;
   
   public formNewContrato = this.fb.nonNullable.group({
@@ -80,6 +85,39 @@ export class DialogNewContratoComponent {
     this._dialogRef.close();
   }
 
+  onChangeFile(files: any) {
+    if (files.length === 0) {
+      return;
+    }
+    const mimeType = files[0].type;
+    this.nombrePdf = files[0].name;
+    if (mimeType.match(/pdf\/*/) == null) {
+      this.notificationService.warning(
+        'Por favor seleccione un archivo PDF'
+      );
+      return;
+    }
+    const reader = new FileReader();
+    reader.readAsDataURL(files[0]);
+    reader.onload = _event => {
+      const fileApp = files[0];
+      this.applicationFile = files[0];
+      if (fileApp.size >= 1048576){
+        this.notificationService.warning('Tamaño de archivo excedido, máximo 1MB');
+        return;
+      }
+      else{
+        }
+      this.retrievedPdf = reader.result;
+      console.log(this.applicationFile)
+      this.isPdfUpdate = true;
+      };
+  }
+  removePdf() {
+    this.retrievedPdf = null;
+    this.isPdfUpdate = false;
+  }
+
   searchDataPersona(opt: number){
     if (opt == 1) {
       this.contratosService.searchForPerson({tipoDoc: this.formNewContrato.controls.frmSelectDoc.value!, numDoc: this.formNewContrato.controls.frmDoc.value!}).subscribe((data)=>{
@@ -108,24 +146,44 @@ export class DialogNewContratoComponent {
   }
 
   generateContract(){
-    if (this.talleristaInfo && this.formVigencia.valid && this.formDataOrden.valid) {
-      console.log(this.getCabeceraPayload())
+    if (this.talleristaInfo.acreditado) {
+      if (this.talleristaInfo && this.formVigencia.valid && this.formDataOrden.valid) {
+        console.log(this.getCabeceraPayload())
+        this.contratosService.saveDataContrato(this.getCabeceraPayload()).subscribe((data)=>{
+          if (data.code == 0) {
+            console.log(data)
+            this.router.navigate([`app/${AppRoute.CONTRATOS}/${AppRoute.CONTRATOS_ASIGNAR_SERVICIOS}/${data.data.numOc}`])
+            this._dialogRef.close();
+          } 
+          else {
+            this.notificationService.warning(data.message);
+          }
+        })
+      }
+      else{
+        this.formDataOrden.markAllAsTouched();
+        this.formVigencia.markAllAsTouched();
+      }
     }
     else{
-      this.formDataOrden.markAllAsTouched();
-      this.formVigencia.markAllAsTouched();
+      this._dialogRef.close();
+      this.router.navigate([`app/${AppRoute.CONTRATOS}/${AppRoute.CONTRATOS_ASIGNAR_SERVICIOS}/${this.talleristaInfo.contratoVigente[0].numOC}`])
     }
     // this._dialogRef.close();
     // this.router.navigate([`app/${AppRoute.CONTRATOS}/${AppRoute.CONTRATOS_ASIGNAR_SERVICIOS}`])
   }
 
   getCabeceraPayload(): RequestSendCabeceraContrato{
+    let fechaInicio: string, fechaFin: string;
+    fechaInicio = this.formVigencia.value.frmInicioVigencia!;
+    fechaFin = this.formVigencia.value.frmFinVigencia!;
+    
     return {
       cabecera: {
         idUsuarioTallerista: this.talleristaInfo.idUsuario,
         numOc: this.formDataOrden.controls.frmOrden.value!,
-        fechaInicio: this.formVigencia.controls.frmInicioVigencia.value!,
-        fechaFin: this.formVigencia.controls.frmFinVigencia.value!,
+        fechaInicio: formatDate(fechaInicio!.split('/')[2] + '/' + fechaInicio!.split('/')[1] + '/' + fechaInicio!.split('/')[0], 'yyyy-MM-dd', this.locale),
+        fechaFin: formatDate(fechaFin!.split('/')[2] + '/' + fechaFin!.split('/')[1] + '/' + fechaFin!.split('/')[0], 'yyyy-MM-dd', this.locale),
         monto: this.formDataOrden.controls.frmMonto.value!,
         usuarioRegId: (JSON.parse(localStorage.getItem('camUser')!)).idUsuario
       },

@@ -29,6 +29,14 @@
                                     <div *ngIf="atributo.tipo == 'inputText'">
                                         <input type="text" [formControlName]="atributo.nomAttribute" class="inputTextoDialog focusCampo !h-10">
                                     </div>
+                                    <div *ngIf="atributo.tipo == 'typeAndSelect'">
+                                        <input type="text" [formControlName]="atributo.nomAttribute" [matAutocomplete]="typeAndSelect" class="inputTextoDialog focusCampo !h-10">
+                                        <mat-autocomplete #typeAndSelect="matAutocomplete" [displayWith]="displayOptFiltered" (optionSelected)="onSelectedTypeSelect(i, atributo.nomAttribute, $event)">
+                                            <mat-option *ngFor="let option of getOptionsFiltered(i, atributo.nomAttribute)" [value]="option">
+                                                {{option.nombre | titlecase}}
+                                            </mat-option>
+                                        </mat-autocomplete>
+                                    </div>
                                     <div *ngIf="atributo.tipo == 'inputFecha'">
                                         <div class="relative">
                                           <mat-form-field style="position: absolute; visibility:hidden;">

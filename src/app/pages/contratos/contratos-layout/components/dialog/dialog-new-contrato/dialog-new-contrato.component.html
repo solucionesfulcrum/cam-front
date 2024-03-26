@@ -103,6 +103,30 @@
               </div>              
             </div>
         </div>
+        <div class="py-2 border-[var(--color-black-alt)] border mx-2.5 rounded border-dashed" (click)="isPdfUpdate ? null : filePdf.click()" [ngClass]="isPdfUpdate ? null : 'hover:bg-gray-100 cursor-pointer'">
+          <input hidden #filePdf type="file" name="Upload" accept="application/pdf" (change)="onChangeFile(filePdf.files)">
+          <div class="flex flex-col gap-2 items-center" *ngIf="!isPdfUpdate">
+            <div class="flex flex-row gap-2 py-1.5 px-4 text-[var(--color-CAM)] text-[16px] rounded-[32px] border border-[#D9D9D9]">
+              <img src="assets/svg/icon-arrow-circle-up.svg">
+              <span>Seleccione un archivo</span>
+            </div>
+            <span class="text-[#9B9B9B] text-[12px]">o</span>
+            <span class="text-[#505050] text-[14px]">Arrastra y suelta un archivo aquí</span>
+          </div>
+          <div class="flex flex-col gap-2 items-center" *ngIf="isPdfUpdate">
+            <esp-icon class="text-[32px] text-[#6DD92A]" [icon]="'faCheck'"></esp-icon>
+            <span class="text-[#3D3D3D] text-[16px]">Archivo subido</span>
+            <div class="flex flex-row">
+              <div class="bg-[#F5F5F5] rounded-l-[16px] px-3 py-1.5 flex flex-row gap-2 text-[#363636] items-center text-[12px]">
+                <esp-icon class="text-[11px] text-[#E4002B]" [icon]="'faPaperclip'"></esp-icon>
+                <span>{{applicationFile.name}} <b>({{applicationFile.size / 1048576 | number:'.1-2'}}MB)</b></span>
+              </div>
+              <div class="bg-[#FEE6E6] rounded-r-[16px] px-3 py-1.5 flex justify-center items-center cursor-pointer" (click)="removePdf()">
+                <esp-icon class="text-[8px] text-[#E4002B]" [icon]="'faX'"></esp-icon>
+              </div>
+            </div>
+          </div>
+        </div>
     </div>
     <div class="flex flex-row gap-2 justify-center pt-6 pb-3 px-4 border-t border-[#F4F5F5]">
       <div class="w-1/2 text-wright">
@@ -113,7 +137,8 @@
       </div>
       <div class="w-1/2">
         <div class="w-fit">
-            <app-btn class="botonApariencia flex" type="submit" color="mezclado" (click)="generateContract()" [loading]="status === 'loading'" [disabled]="!talleristaInfo">Generar
+            <app-btn class="botonApariencia flex" type="submit" color="mezclado" (click)="generateContract()" [loading]="status === 'loading'" [disabled]="!talleristaInfo">
+              {{talleristaInfo ? (!talleristaInfo.acreditado ? 'Continuar' : 'Generar') : 'Generar'}}
             </app-btn>
         </div>
       </div>

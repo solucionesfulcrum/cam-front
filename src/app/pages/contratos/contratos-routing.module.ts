@@ -17,7 +17,7 @@ const routes: Routes = [
         title: 'Contratos - Listado'
       },
       {
-        path: AppRoute.CONTRATOS_ASIGNAR_SERVICIOS,
+        path: `${AppRoute.CONTRATOS_ASIGNAR_SERVICIOS}/:codOrden`,
         component: ContratosAsignarServiciosComponent,
         title: 'Contratos - Asignación'
       },
