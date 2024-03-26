@@ -18,7 +18,7 @@ import { User } from '@models/user.model';
 import { UserService } from '@shared/stores/user.service';
 import { RequestRegisterSIGPS } from '@models/auth/register.model';
 import { PreRecoverPassword, RecoverPassword } from '@models/auth/recover-pass.model';
-import { listardashboardRequest } from '@models/dashboard/dashboard.model'
+import { listardashboardRequest,listardashboardRequestActivos } from '@models/dashboard/dashboard.model'
 const helperJWT = new JwtHelperService();
 
 @Injectable({
@@ -227,6 +227,11 @@ export class AuthService {
   //Servicios de dashboard deben ser migrados a dasboard.service.ts esto es temporal.
   listarDashboard(model: listardashboardRequest) {
     const url = `${environment.API}/asegurado/listar/dashboard`;
+    return this.http.post<any>(url, model);
+  }
+
+  listarDashboardActivos(model: listardashboardRequestActivos) {
+    const url = `${environment.API}/asegurado/listar/dashboard/estado`;
     return this.http.post<any>(url, model);
   }
 }

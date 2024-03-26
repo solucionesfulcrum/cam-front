@@ -42,6 +42,7 @@ export class DashboardAfiliadosComponent implements OnInit {
   @ViewChild("chart") chart!: ChartComponent;
   public chartOptions!: Partial<ChartOptions> | any;
   totalAfiliados: number = 0;
+  totalAfiliadosActivos: number = 0;
   idUnidadOperativaUser = (JSON.parse(localStorage.getItem('UnidElegida')!)).idUnidOperativa;
 
   formBuscar: FormGroup = this.fb.group({
@@ -134,10 +135,24 @@ export class DashboardAfiliadosComponent implements OnInit {
     //)
 
     this.authService.listarDashboard({ fecInicio: '2024-03-01', fecFin: '2024-03-31', idUnidadOperativa: this.idUnidadOperativaUser }).subscribe((data) => {
-      console.log("algo saldra", data)
-      console.log("algo saldra type", typeof data.data.fecha)
+      console.log("data servicio dashboard", data)
       for (let i = 0; i < data.data.contAsegurados.length; i++) {
         this.totalAfiliados += data.data.contAsegurados[i]; // Suma cada elemento al total
+      }
+      this.chartOptions.series = [
+        {
+          name: "PACIENTES",
+          data: data.data.contAsegurados // Asume que contAsegurados es un arreglo de números
+        }
+      ];
+
+      this.chartOptions.labels = data.data.fecha;
+    })
+
+    this.authService.listarDashboardActivos({ fecInicio: '2024-03-01', fecFin: '2024-03-31', idUnidadOperativa: this.idUnidadOperativaUser, estado: 14 }).subscribe((data) => {
+      console.log("data servicio dashboard", data)
+      for (let i = 0; i < data.data.contAsegurados.length; i++) {
+        this.totalAfiliadosActivos += data.data.contAsegurados[i]; // Suma cada elemento al total
       }
       this.chartOptions.series = [
         {
