@@ -42,6 +42,7 @@ export class DashboardAfiliadosComponent implements OnInit {
   @ViewChild("chart") chart!: ChartComponent;
   public chartOptions!: Partial<ChartOptions> | any;
   totalAfiliados: number = 0;
+  totalAfiliadosActivos: number = 0;
   idUnidadOperativaUser = (JSON.parse(localStorage.getItem('UnidElegida')!)).idUnidOperativa;
 
   formBuscar: FormGroup = this.fb.group({
@@ -126,16 +127,28 @@ export class DashboardAfiliadosComponent implements OnInit {
   }
 
   onLoadData() {
-    //this.afiliacionesService.getListaAfiliados(this.getPayload()).subscribe((data)=>{
-    //this.dataSource = data;
-    //this.total = this.dataSource.length;
-    //console.log(data)
-    //}
-    //)
+    const fechaActual = new Date();
 
-    this.authService.listarDashboard({ fecInicio: '2024-03-01', fecFin: '2024-03-31', idUnidadOperativa: this.idUnidadOperativaUser }).subscribe((data) => {
-      console.log("algo saldra", data)
-      console.log("algo saldra type", typeof data.data.fecha)
+    // Primer día del mes
+    const primerDiaDelMes = new Date(fechaActual.getFullYear(), fechaActual.getMonth(), 1);
+    const fechaInicio = new Date(primerDiaDelMes);
+    // Formatear la fecha manualmente
+    const fechaFormateadaInicio = fechaInicio.getFullYear() + "-" +
+      String(fechaInicio.getMonth() + 1).padStart(2, '0') + "-" +
+      String(fechaInicio.getDate()).padStart(2, '0');
+
+    console.log(fechaFormateadaInicio); // "2024-03-01"
+
+    // Último día del mes
+    const ultimoDiaDelMes = new Date(fechaActual.getFullYear(), fechaActual.getMonth() + 1, 0);
+    const fechaFin = new Date(ultimoDiaDelMes);
+    const fechaFormateadaFin = fechaFin.getFullYear() + "-" +
+      String(fechaFin.getMonth() + 1).padStart(2, '0') + "-" +
+      String(fechaFin.getDate()).padStart(2, '0');
+
+    console.log(fechaFormateadaFin); // "2024-03-01"
+
+    this.authService.listarDashboard({ fecInicio: fechaFormateadaInicio, fecFin: fechaFormateadaFin, idUnidadOperativa: this.idUnidadOperativaUser }).subscribe((data) => {
       for (let i = 0; i < data.data.contAsegurados.length; i++) {
         this.totalAfiliados += data.data.contAsegurados[i]; // Suma cada elemento al total
       }
@@ -149,9 +162,13 @@ export class DashboardAfiliadosComponent implements OnInit {
       this.chartOptions.labels = data.data.fecha;
     })
 
+    this.authService.listarDashboardActivos({ fecInicio: fechaFormateadaInicio, fecFin: fechaFormateadaFin, idUnidadOperativa: this.idUnidadOperativaUser, estado: 14 }).subscribe((data) => {
+      for (let i = 0; i < data.data.contAsegurados.length; i++) {
+        this.totalAfiliadosActivos += data.data.contAsegurados[i]; // Suma cada elemento al total
+      }
+    })
+
   }
-
-
 
   getDataFecha(value: any) {
     this.formBuscar.get('frmSearchDate')?.setValue(value);
