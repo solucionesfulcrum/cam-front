@@ -3,6 +3,7 @@ import { Component, Inject, LOCALE_ID } from '@angular/core';
 import { AbstractControl, FormArray, FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { faSpinner } from '@fortawesome/free-solid-svg-icons';
+import { ContratoDetalle, ContratoSubDetalle, RequestContratoDetalle } from '@models/contratos/contratos-administracion.model';
 import { NotificationService } from '@services/notification.service';
 import { FormatoBoton } from '@shared/components/opciones-botones/formato-boton.model';
 import { FormatoColumna, FormatoTypeAndSelect, TablaOpciones } from '@shared/components/tabla-adaptable/formato-columna.model';
@@ -105,15 +106,12 @@ export class ContratosAsignarServiciosComponent {
     this.contratoService.getDataFromOC(this.numOc).subscribe((data)=>{
       if (data.code == 0) {
         this.dataContrato = data.data;
-        this.addTablaUnid(2,this.dataContrato.datosDetMismaUnidad[0])
+        this.addTablaUnid(2,this.dataContrato.datosDetMismaUnidad[0], 0)
         if (this.dataContrato.datosDetOtraUnidad.length > 0) {
           this.dataContrato.datosDetOtraUnidad.forEach((x: any)=>{
             this.addTablaUnid(2, x);
           })
         }
-        this.dataTables.valueChanges.subscribe((data)=>{
-          console.log(data)
-        })
       }
       else{
         this.notificationService.warning(data.message);
@@ -122,10 +120,10 @@ export class ContratosAsignarServiciosComponent {
   }
 
   goToConfirm(){
-    this.router.navigate([`app/${AppRoute.CONTRATOS}/${AppRoute.CONTRATOS_CONFIRMAR_SERVICIOS}`])
+    
   }
 
-  addTablaUnid(opt: number, dataTabla?: any){
+  addTablaUnid(opt: number, dataTabla?: any, type?: number){
     if (opt == 1) {
       let controlPrueba = this.fb.group({
         idUnidOperativ: new FormControl('', [Validators.required]),
@@ -152,10 +150,18 @@ export class ContratosAsignarServiciosComponent {
         )
       })
 
+      let dataFecha: Date;
+      if (type == 0) {
+        dataFecha = this.dataContrato.datosTallerista.fechaRegistro;
+      }
+      else{
+        dataFecha = dataTabla.fechaRegistroUo;
+      }
+
       let controlPrueba = this.fb.group({
         idUnidOperativ: new FormControl(this.opcionesUnidades.find((x)=> x.idUnidadOperativa == dataTabla.idUnidadOperativa), [Validators.required]),
-        fecRegistro: new FormControl(formatDate(dataTabla.fechaRegistroUo, 'd/M/yyyy', this.locale), [Validators.required]),
-        fecRegistroDef: new FormControl((new Date(dataTabla.fechaRegistroUo)), [Validators.required]),
+        fecRegistro: new FormControl(formatDate(dataFecha, 'd/M/yyyy', this.locale), [Validators.required]),
+        fecRegistroDef: new FormControl((new Date(dataFecha)), [Validators.required]),
         dataServiciosEnviado: new FormControl(),
         dataDefault: [dataOrdenada],
         ctrlDataObt: new FormControl(),
@@ -202,9 +208,16 @@ export class ContratosAsignarServiciosComponent {
   }
 
   sendData(){
-    console.log(this.validacionDataTable())
-    console.log(this.dataContrato)
-    console.log(this.dataTables.value)
+    if (this.validacionDataTable()) {
+      this.contratoService.saveDataDetalleContrato(this.getPayloadAsignacion()).subscribe((data)=>{
+        if (data.code == 0) {
+          this.router.navigate([`app/${AppRoute.CONTRATOS}/${AppRoute.CONTRATOS_CONFIRMAR_SERVICIOS}`]);
+        }
+        else{
+          this.notificationService.warning(data.message);
+        }
+      })
+    }
   }
 
   validacionDataTable(): boolean{
@@ -218,7 +231,19 @@ export class ContratosAsignarServiciosComponent {
       data.forEach((x: any, index: number) => {
         if (typeof x.idUnidOperativ == 'object') {
           if (x.ctrlDataObt.data.length > 0) {
-            valueReturned = true;
+            let listComprob = [];
+            x.ctrlDataObt.data.forEach((serv: any)=>{
+              if (!serv.fecFin || !serv.fecInicio || !serv.typeEvent || !serv.typeModalidad || !serv.nomServicio) {
+                listComprob.push(false);
+              }
+            })
+            if (listComprob.length > 0) {
+              this.notificationService.warning(`La tabla N°${index + 1} contiene campos incompletos`);
+              valueReturned = false;
+            }
+            else{
+              valueReturned = true;
+            }
           }
           else{
             this.notificationService.warning(`La Unidad Operativa N°${index + 1} no tiene ningún servicio asignado`);
@@ -231,6 +256,47 @@ export class ContratosAsignarServiciosComponent {
         }
       });
       return valueReturned;
+    }
+  }
+
+  getPayloadAsignacion(): RequestContratoDetalle{
+    let listDataSend = this.dataTables.value;
+
+    let listUnidOper: ContratoDetalle[] = [];
+    let firstUnit: ContratoDetalle = Object();
+    let firstServ: ContratoSubDetalle [] = [];
+    let firstUO = listDataSend.find((x: any)=> x.idUnidOperativ.idUnidadOperativa == this.dataContrato.datosDetMismaUnidad[0].idUnidadOperativa);
+    firstUnit.idUnidadOperativa = firstUO.idUnidOperativ.idUnidadOperativa;
+    firstUnit.tipoOrigenUnidad = 'MISMA_UNIDAD';
+    firstUnit.fechaRegistroUo = formatDate(`${firstUO.fecRegistro.split('/')[2]}-${firstUO.fecRegistro.split('/')[1]}-${firstUO.fecRegistro.split('/')[0]}`, 'yyyy-MM-dd', this.locale);
+    firstUO.ctrlDataObt.data.forEach((x: any)=>{
+      let fecIn = formatDate(`${x.fecInicio.split('/')[2]}-${x.fecInicio.split('/')[1]}-${x.fecInicio.split('/')[0]}`, 'yyyy-MM-dd', this.locale);
+      let fecFn = formatDate(`${x.fecFin.split('/')[2]}-${x.fecFin.split('/')[1]}-${x.fecFin.split('/')[0]}`, 'yyyy-MM-dd', this.locale);
+      firstServ.push({idServicio: x.nomServicio.idOpcion, paramServicioTipoId: (typeof x.typeEvent == 'string' ? parseInt(x.typeEvent) : x.typeEvent), fechaInicio: fecIn, fechaFin: fecFn, paramModalidadId: (typeof x.typeModalidad == 'string' ? parseInt(x.typeModalidad) : x.typeModalidad)})
+    })
+    firstUnit.subDetalle = firstServ;
+    listUnidOper.push(firstUnit);
+
+    listDataSend.forEach((uo: any, ix: number)=>{
+      if (ix != 0) {
+        let unitOtra: ContratoDetalle = Object();
+        let unitServ: ContratoSubDetalle [] = [];
+        unitOtra.idUnidadOperativa = uo.idUnidOperativ.idUnidadOperativa;
+        unitOtra.tipoOrigenUnidad = 'OTRA_UNIDAD';
+        unitOtra.fechaRegistroUo = formatDate(`${uo.fecRegistro.split('/')[2]}-${uo.fecRegistro.split('/')[1]}-${uo.fecRegistro.split('/')[0]}`, 'yyyy-MM-dd', this.locale);
+        uo.ctrlDataObt.data.forEach((x: any)=>{
+          let fecIn = formatDate(`${x.fecInicio.split('/')[2]}-${x.fecInicio.split('/')[1]}-${x.fecInicio.split('/')[0]}`, 'yyyy-MM-dd', this.locale);
+          let fecFn = formatDate(`${x.fecFin.split('/')[2]}-${x.fecFin.split('/')[1]}-${x.fecFin.split('/')[0]}`, 'yyyy-MM-dd', this.locale);
+          unitServ.push({idServicio: x.nomServicio.idOpcion, paramServicioTipoId: (typeof x.typeEvent == 'string' ? parseInt(x.typeEvent) : x.typeEvent), fechaInicio: fecIn, fechaFin: fecFn, paramModalidadId: (typeof x.typeModalidad == 'string' ? parseInt(x.typeModalidad) : x.typeModalidad)})
+        })
+        unitOtra.subDetalle = unitServ;
+
+        listUnidOper.push(unitOtra);
+      }
+    })
+    return {
+      numOc: this.dataContrato.datosContrato.nroContrato,
+      detalle: listUnidOper
     }
   }
 }

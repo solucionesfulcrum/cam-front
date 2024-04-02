@@ -7,7 +7,7 @@
     </div>
   </div>
 <div *ngIf="dataContrato">
-    <esp-opciones-botones [listOpciones]="opcionesBotones" (thirdFunction)="sendData()"></esp-opciones-botones>
+    <esp-opciones-botones [rutaRegreso]="'../..'" [listOpciones]="opcionesBotones" (thirdFunction)="sendData()"></esp-opciones-botones>
     <div class="flex flex-col gap-2.5">
         <div class="bg-white botonApariencia p-3 flex flex-row text-[#37474F]">
             <div class="flex flex-col gap-2.5 h-full border-r border-[#D4D4D4] w-full">
@@ -37,7 +37,7 @@
         <div class="bg-white botonApariencia px-[22px] py-2.5 flex flex-col gap-3">
             <div class="pt-2 flex flex-col gap-3" *ngFor="let controles of dataTables.controls, index as ix">
                 <ng-container [formGroup]="getFormGroup(controles)">
-                    <div class="py-3 flex flex-row justify-between items-center" *ngIf="ix > 0">
+                    <div class="flex flex-row justify-between items-center" *ngIf="ix > 0">
                         <span class="font-semibold">Asignar servicios a mas de una unidad operativa.</span>
                         <app-btn class="botonApariencia flex" color="transparenteCancel" (click)="deleteTablaUnid(ix)">Eliminar</app-btn>
                     </div>
