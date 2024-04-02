@@ -152,7 +152,7 @@ export class DialogNewContratoComponent {
   generateContract(){
     if (this.talleristaInfo.acreditado) {
       if (this.talleristaInfo && this.formVigencia.valid && this.formDataOrden.valid) {
-        console.log(this.getCabeceraPayload())
+        this.status = 'loading';
         this.contratosService.saveDataContrato(this.getCabeceraPayload()).subscribe((data)=>{
           if (data.code == 0) {
             const formData = new FormData();
@@ -163,13 +163,16 @@ export class DialogNewContratoComponent {
                 console.log(data)
                 this.router.navigate([`app/${AppRoute.CONTRATOS}/${AppRoute.CONTRATOS_ASIGNAR_SERVICIOS}/${data.data.numOc}`])
                 this._dialogRef.close();
+                this.status = 'success';
               } 
               else {
+                this.status = 'failed';
                 this.notificationService.warning(datos.message);
               }
             })
           } 
           else {
+            this.status = 'failed';
             this.notificationService.warning(data.message);
           }
         })

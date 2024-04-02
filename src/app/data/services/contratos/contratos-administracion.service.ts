@@ -57,4 +57,14 @@ export class ContratosAdministracionService {
     const url = `${URL_BASE}/download/file-oc?numOc=${numOc}`;
     return this._httpClient.get(url,{responseType:'blob'});
   }
+
+  confirmContrato(numOc: string){
+    const url = `${URL_BASE}/confirmar/${numOc}`;
+    return this._httpClient.post<any>(url, null);
+  }
+
+  deleteContrato(id: number){
+    const url = `${URL_BASE}/eliminar/${id}`;
+    return this._httpClient.delete<any>(url);
+  }
 }

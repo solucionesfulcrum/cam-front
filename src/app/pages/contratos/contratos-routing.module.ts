@@ -22,7 +22,7 @@ const routes: Routes = [
         title: 'Contratos - Asignación'
       },
       {
-        path: AppRoute.CONTRATOS_CONFIRMAR_SERVICIOS,
+        path: `${AppRoute.CONTRATOS_CONFIRMAR_SERVICIOS}/:codOrden`,
         component: ContratosResumenAsignacionComponent,
         title: 'Contratos - Resumen',
       },

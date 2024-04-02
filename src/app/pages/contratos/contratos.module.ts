@@ -13,6 +13,7 @@ import { ContratosResumenAsignacionComponent } from './contratos-layout/componen
 import { DialogNewContratoComponent } from './contratos-layout/components/dialog/dialog-new-contrato/dialog-new-contrato.component';
 import { CdkMenuModule } from '@angular/cdk/menu';
 import { MatAutocompleteModule } from '@angular/material/autocomplete';
+import { DialogConfirmSelectionComponent } from './contratos-layout/components/dialog/dialog-confirm-selection/dialog-confirm-selection.component';
 
 
 @NgModule({
@@ -21,7 +22,8 @@ import { MatAutocompleteModule } from '@angular/material/autocomplete';
     ContratosListadoComponent,
     ContratosAsignarServiciosComponent,
     ContratosResumenAsignacionComponent,
-    DialogNewContratoComponent
+    DialogNewContratoComponent,
+    DialogConfirmSelectionComponent
   ],
   imports: [
     CommonModule,

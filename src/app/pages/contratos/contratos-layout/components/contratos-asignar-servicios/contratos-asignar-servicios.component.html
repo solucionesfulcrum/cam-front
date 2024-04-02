@@ -5,9 +5,9 @@
             Obteniendo datos...
         </span>
     </div>
-  </div>
+</div>
 <div *ngIf="dataContrato">
-    <esp-opciones-botones [rutaRegreso]="'../..'" [listOpciones]="opcionesBotones" (thirdFunction)="sendData()"></esp-opciones-botones>
+    <esp-opciones-botones [rutaRegreso]="'../..'" [listOpciones]="opcionesBotones" (firstFunction)="optFunc(1)" (secondFunction)="optFunc(2)" (thirdFunction)="optFunc(3)"></esp-opciones-botones>
     <div class="flex flex-col gap-2.5">
         <div class="bg-white botonApariencia p-3 flex flex-row text-[#37474F]">
             <div class="flex flex-col gap-2.5 h-full border-r border-[#D4D4D4] w-full">

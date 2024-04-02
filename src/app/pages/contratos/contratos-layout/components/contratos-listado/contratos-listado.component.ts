@@ -11,6 +11,7 @@ import { DomSanitizer } from '@angular/platform-browser';
 import { Parametro } from '@models/parametros-busqueda.model';
 import { DatosGeneralesService } from 'src/app/data/services/datos-generales.service';
 import { AppRoute } from 'src/app/data/constants/app-route.constant';
+import { DialogConfirmSelectionComponent } from '../dialog/dialog-confirm-selection/dialog-confirm-selection.component';
 
 @Component({
   selector: 'esp-contratos-listado',
@@ -82,15 +83,12 @@ export class ContratosListadoComponent {
     })
     this.contratosService.getListCamById().subscribe((data)=>{
       if (data.code == 0) {
-        console.log(data.data[0])
         this.dataListCams = data.data[0];
         this.dataListCams.listarCam.forEach((x: any)=> x.activo = false);
         this.filteredList = this.dataListCams.listarCam;
 
         this.ctrlSearchCam.valueChanges.subscribe((data)=>{
           this.filteredList = this.dataListCams.listarCam.filter((x: any)=> x.nombreCam.toLowerCase().includes(data.toLowerCase()))
-          
-          console.log(this.filteredList)
         })
       }
       else{
@@ -187,5 +185,23 @@ export class ContratosListadoComponent {
       link.download = ocSelected.fileOcNombre; // set a name for the file
       link.click();
     })
+  }
+
+  deleteItem(dataContrato: any){
+    console.log(dataContrato)
+    const dialogRef = this.dialog.open(DialogConfirmSelectionComponent,{
+      data:{
+        title: '¿Quiere borrar el registro?',
+        message: `Se eliminará la Orden de Compra ${dataContrato.numOc}`,
+        type: 0,
+        dataRequired: dataContrato.idContrato
+      }
+    })
+
+    dialogRef.closed.subscribe(result => {
+      if (result == 1) {
+        this.getDateFromService();
+      }
+    });
   }
 }

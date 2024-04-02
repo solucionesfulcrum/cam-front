@@ -1,3 +1,4 @@
+import { Dialog } from '@angular/cdk/dialog';
 import { formatDate } from '@angular/common';
 import { Component, Inject, LOCALE_ID } from '@angular/core';
 import { AbstractControl, FormArray, FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
@@ -10,6 +11,7 @@ import { FormatoColumna, FormatoTypeAndSelect, TablaOpciones } from '@shared/com
 import { AppRoute } from 'src/app/data/constants/app-route.constant';
 import { ContratosAdministracionService } from 'src/app/data/services/contratos/contratos-administracion.service';
 import { DatosGeneralesService } from 'src/app/data/services/datos-generales.service';
+import { DialogConfirmSelectionComponent } from '../dialog/dialog-confirm-selection/dialog-confirm-selection.component';
 
 @Component({
   selector: 'esp-contratos-asignar-servicios',
@@ -19,7 +21,7 @@ import { DatosGeneralesService } from 'src/app/data/services/datos-generales.ser
 export class ContratosAsignarServiciosComponent {
   opcionesBotones: FormatoBoton[] = [
     {texto: 'Cancelar'},
-    {texto: 'Guardar', colorBtn:'mezclado'},
+    {texto: 'Guardar', colorBtn:'mezclado', loading: false},
     {texto: 'Guardar y Enviar', colorBtn:'mezclado'},
   ];
   faSpinner = faSpinner;
@@ -45,6 +47,7 @@ export class ContratosAsignarServiciosComponent {
               private notificationService               : NotificationService,
               private datosGeneralesService             : DatosGeneralesService,
               private activeRoute                       : ActivatedRoute,
+              private dialog                            : Dialog,
               @Inject(LOCALE_ID) private locale         : string,
               private contratoService                   : ContratosAdministracionService,
               private router                            : Router, 
@@ -117,10 +120,6 @@ export class ContratosAsignarServiciosComponent {
         this.notificationService.warning(data.message);
       }
     })
-  }
-
-  goToConfirm(){
-    
   }
 
   addTablaUnid(opt: number, dataTabla?: any, type?: number){
@@ -207,16 +206,44 @@ export class ContratosAsignarServiciosComponent {
     this.dataTables.removeAt(index);
   }
 
-  sendData(){
-    if (this.validacionDataTable()) {
-      this.contratoService.saveDataDetalleContrato(this.getPayloadAsignacion()).subscribe((data)=>{
-        if (data.code == 0) {
-          this.router.navigate([`app/${AppRoute.CONTRATOS}/${AppRoute.CONTRATOS_CONFIRMAR_SERVICIOS}`]);
+  optFunc(opt: number){
+    switch (opt) {
+      case 1:
+        this.router.navigate(['../..'])
+        break;
+      case 2:
+        if (this.validacionDataTable()) {
+          this.opcionesBotones[1].loading = true;
+          this.contratoService.saveDataDetalleContrato(this.getPayloadAsignacion()).subscribe((data)=>{
+            if (data.code == 0) {
+              this.opcionesBotones[1].loading = false;
+              this.notificationService.success('¡Se guardaron los datos del contrato!');
+            }
+            else{
+              this.opcionesBotones[1].loading = false;
+              this.notificationService.warning(data.message);
+            }
+          })
         }
-        else{
-          this.notificationService.warning(data.message);
-        }
-      })
+        break;
+      case 3:
+        if (this.validacionDataTable()) {
+          const dialogRef = this.dialog.open(DialogConfirmSelectionComponent,{
+            data:{
+              title: '¿Está seguro de confirmar el contrato?',
+              message: `De confirmarse, no se podrá volver a editar`,
+              type: 1,
+              dataRequired: this.getPayloadAsignacion()
+            }
+          })
+      
+          dialogRef.closed.subscribe(result => {
+            if (result == 1) {
+              this.router.navigate([`app/${AppRoute.CONTRATOS}/${AppRoute.CONTRATOS_CONFIRMAR_SERVICIOS}/${this.numOc}`]);
+            }
+          });
+        }        
+        break;
     }
   }
 
