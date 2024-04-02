@@ -24,6 +24,7 @@ export class DialogNewContratoComponent {
 
   retrievedPdf: any;
   nombrePdf = '';
+  fileSize = '';
   applicationFile: any;
   isPdfUpdate = false;
 
@@ -90,7 +91,6 @@ export class DialogNewContratoComponent {
       return;
     }
     const mimeType = files[0].type;
-    this.nombrePdf = files[0].name;
     if (mimeType.match(/pdf\/*/) == null) {
       this.notificationService.warning(
         'Por favor seleccione un archivo PDF'
@@ -108,6 +108,7 @@ export class DialogNewContratoComponent {
       }
       else{
         }
+      this.nombrePdf = files[0].name;
       this.retrievedPdf = reader.result;
       console.log(this.applicationFile)
       this.isPdfUpdate = true;
@@ -130,6 +131,9 @@ export class DialogNewContratoComponent {
             this.formDataOrden.controls.frmOrden.setValue(this.talleristaInfo.contratoVigente[0].numOC)
             this.formDataOrden.controls.frmMonto.setValue(this.talleristaInfo.contratoVigente[0].monto)
             this.formDataOrden.disable()
+            this.nombrePdf = this.talleristaInfo.contratoVigente[0].nombreFile;
+            this.fileSize = this.talleristaInfo.contratoVigente[0].sizeFile;
+            this.isPdfUpdate = true;
           }
           this.formNewContrato.disable()
         }
@@ -151,9 +155,19 @@ export class DialogNewContratoComponent {
         console.log(this.getCabeceraPayload())
         this.contratosService.saveDataContrato(this.getCabeceraPayload()).subscribe((data)=>{
           if (data.code == 0) {
-            console.log(data)
-            this.router.navigate([`app/${AppRoute.CONTRATOS}/${AppRoute.CONTRATOS_ASIGNAR_SERVICIOS}/${data.data.numOc}`])
-            this._dialogRef.close();
+            const formData = new FormData();
+            formData.append('numOc', this.formDataOrden.controls.frmOrden.value!)
+            formData.append('archivoPdf', this.applicationFile);
+            this.contratosService.saveFileOc(formData).subscribe((datos)=>{
+              if (datos.code == 0) {
+                console.log(data)
+                this.router.navigate([`app/${AppRoute.CONTRATOS}/${AppRoute.CONTRATOS_ASIGNAR_SERVICIOS}/${data.data.numOc}`])
+                this._dialogRef.close();
+              } 
+              else {
+                this.notificationService.warning(datos.message);
+              }
+            })
           } 
           else {
             this.notificationService.warning(data.message);
@@ -180,6 +194,8 @@ export class DialogNewContratoComponent {
     
     return {
       cabecera: {
+        tipoOrigen: 'DESDE_RED',
+        idUnidadOperativa: JSON.parse(localStorage.getItem('UnidElegida')!).idUnidOperativa,
         idUsuarioTallerista: this.talleristaInfo.idUsuario,
         numOc: this.formDataOrden.controls.frmOrden.value!,
         fechaInicio: formatDate(fechaInicio!.split('/')[2] + '/' + fechaInicio!.split('/')[1] + '/' + fechaInicio!.split('/')[0], 'yyyy-MM-dd', this.locale),

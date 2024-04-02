@@ -116,12 +116,12 @@
           <div class="flex flex-col gap-2 items-center" *ngIf="isPdfUpdate">
             <esp-icon class="text-[32px] text-[#6DD92A]" [icon]="'faCheck'"></esp-icon>
             <span class="text-[#3D3D3D] text-[16px]">Archivo subido</span>
-            <div class="flex flex-row">
-              <div class="bg-[#F5F5F5] rounded-l-[16px] px-3 py-1.5 flex flex-row gap-2 text-[#363636] items-center text-[12px]">
+            <div class="flex flex-row rounded-[16px] overflow-hidden">
+              <div class="bg-[#F5F5F5] px-3 py-1.5 flex flex-row gap-2 text-[#363636] items-center text-[12px]">
                 <esp-icon class="text-[11px] text-[#E4002B]" [icon]="'faPaperclip'"></esp-icon>
-                <span>{{applicationFile.name}} <b>({{applicationFile.size / 1048576 | number:'.1-2'}}MB)</b></span>
+                <span>{{nombrePdf}} <b>({{(applicationFile ? (applicationFile.size / 1048576 | number:'.1-2'): fileSize)}}MB)</b></span>
               </div>
-              <div class="bg-[#FEE6E6] rounded-r-[16px] px-3 py-1.5 flex justify-center items-center cursor-pointer" (click)="removePdf()">
+              <div class="bg-[#FEE6E6] px-3 py-1.5 flex justify-center items-center cursor-pointer" (click)="removePdf()" *ngIf="talleristaInfo ? (!talleristaInfo.acreditado ? false : true) : true">
                 <esp-icon class="text-[8px] text-[#E4002B]" [icon]="'faX'"></esp-icon>
               </div>
             </div>

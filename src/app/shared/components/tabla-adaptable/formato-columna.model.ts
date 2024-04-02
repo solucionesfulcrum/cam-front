@@ -5,7 +5,8 @@ export interface FormatoColumna{
     optTypeSelect?: FormatoTypeAndSelect[],
     nomAttribute: string,
     oculto?: boolean,
-    resaltado?: boolean
+    resaltado?: boolean,
+    obligatorio?: boolean,
 }
 
 export interface TablaOpciones{

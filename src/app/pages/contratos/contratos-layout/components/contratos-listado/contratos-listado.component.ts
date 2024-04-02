@@ -1,11 +1,16 @@
 import { Dialog } from '@angular/cdk/dialog';
 import { Component } from '@angular/core';
-import { FormBuilder, FormControl } from '@angular/forms';
+import { FormBuilder, FormControl, FormGroup } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { NotificationService } from '@services/notification.service';
 import { DialogNewContratoComponent } from '../dialog/dialog-new-contrato/dialog-new-contrato.component';
 import { ContratosAdministracionService } from 'src/app/data/services/contratos/contratos-administracion.service';
 import { faSpinner } from '@fortawesome/free-solid-svg-icons';
+import { RequestListContracts } from '@models/contratos/contratos-administracion.model';
+import { DomSanitizer } from '@angular/platform-browser';
+import { Parametro } from '@models/parametros-busqueda.model';
+import { DatosGeneralesService } from 'src/app/data/services/datos-generales.service';
+import { AppRoute } from 'src/app/data/constants/app-route.constant';
 
 @Component({
   selector: 'esp-contratos-listado',
@@ -13,6 +18,7 @@ import { faSpinner } from '@fortawesome/free-solid-svg-icons';
   styleUrls: ['./contratos-listado.component.scss']
 })
 export class ContratosListadoComponent {
+  appRoute = AppRoute;
   faSpinner = faSpinner;
   listCams: any[] = [
     {nombreCam: 'CAM CUSCO', activo: false, listSub: [
@@ -44,6 +50,13 @@ export class ContratosListadoComponent {
   ];
   dataListCams!: any;
   filteredList!: any;
+  formBuscar: FormGroup = this.fb.group({
+    frmSearch:new FormControl(""),
+    frmSearchDate:new FormControl(""),
+    frmSearchEstado:new FormControl(),
+  });
+  listContratos: any[] = [];
+  optEstado: Parametro[] = [];
 
   ctrlSearchCam = new FormControl();
 
@@ -53,24 +66,36 @@ export class ContratosListadoComponent {
               private dialog                  : Dialog,
               private contratosService        : ContratosAdministracionService,
               private notificationService     : NotificationService,
+              private datosGeneralesService   : DatosGeneralesService,
+              private sanitizer               : DomSanitizer,
               private router                  : Router, 
               private route                   : ActivatedRoute) { }
               
   ngOnInit(){
-    this.contratosService.getListCamById().subscribe((data)=>{
+    this.datosGeneralesService.getTipoParametros('ESTADO_CONTRATO').subscribe((data)=>{
       if (data.code == 0) {
-        console.log(data.data[0])
-        this.dataListCams = data.data[0];
-        this.dataListCams.listarCam.forEach((x: any)=> x.activo = false);
-        this.filteredList = this.dataListCams;
+        this.optEstado = data.data;
       }
       else{
         this.notificationService.warning(data.message);
       }
     })
+    this.contratosService.getListCamById().subscribe((data)=>{
+      if (data.code == 0) {
+        console.log(data.data[0])
+        this.dataListCams = data.data[0];
+        this.dataListCams.listarCam.forEach((x: any)=> x.activo = false);
+        this.filteredList = this.dataListCams.listarCam;
 
-    this.ctrlSearchCam.valueChanges.subscribe((data)=>{
-      console.log(data)
+        this.ctrlSearchCam.valueChanges.subscribe((data)=>{
+          this.filteredList = this.dataListCams.listarCam.filter((x: any)=> x.nombreCam.toLowerCase().includes(data.toLowerCase()))
+          
+          console.log(this.filteredList)
+        })
+      }
+      else{
+        this.notificationService.warning(data.message);
+      }
     })
   }
 
@@ -92,9 +117,75 @@ export class ContratosListadoComponent {
   setDataSelected(obj: any, opt: number, event: MouseEvent){
     event.stopPropagation();
     if (opt != 0) {
-      console.log(obj, opt)
+      if (this.camElegido) {
+        if (this.camElegido.idUnidadOperativa != obj.idUnidadOperativa) {
+          this.getDateFromService(obj.idUnidadOperativa)
+        }
+      }
+      else{
+        this.getDateFromService(obj.idUnidadOperativa)
+      }
       this.camElegido = obj;
       this.camElegido.opt = opt;
     }
+  }
+
+  getDateFromService(optId?: number){
+    let payload: any;
+    if (optId) {
+      payload = this.getPayloadList(optId);
+    }
+    else{
+      if (this.camElegido) {
+        payload = this.getPayloadList(this.camElegido.idUnidadOperativa);
+      }
+    }
+
+    if (payload){
+      this.contratosService.getListContratos(payload).subscribe((data)=>{
+        if (data.code == 0) {
+          console.log(data.data.list)
+          this.listContratos = data.data.list;
+        }
+        else {
+          this.notificationService.warning(data.message);
+        }
+      })
+    }
+  }
+
+  getPayloadList(optId: number): RequestListContracts{
+    var fecInicio: any;
+    var fecFin: any;
+    var fechaSinFormatInit = this.formBuscar.value.frmSearchDate.split(' - ')[0];
+    var fechaSinFormatFin = this.formBuscar.value.frmSearchDate.split(' - ')[1];
+    fecInicio = `${fechaSinFormatInit.split('/')[2]}-${fechaSinFormatInit.split('/')[1]}-${fechaSinFormatInit.split('/')[0]}`;
+    fecFin = `${fechaSinFormatFin.split('/')[2]}-${fechaSinFormatFin.split('/')[1]}-${fechaSinFormatFin.split('/')[0]}`;
+
+    return {
+      idUnidOpe: optId,
+      texto: this.formBuscar.controls['frmSearch'].value,
+      fecInicio: fecInicio,
+      fecFin: fecFin,
+      estado: this.formBuscar.get('frmSearchEstado')?.value,
+      pageNum: 1,
+      pageSize: 100
+    }
+  }
+  
+  getDataFecha(value: any){
+    this.formBuscar.get('frmSearchDate')?.setValue(value);
+    this.getDateFromService();
+  }
+
+  downloadFile(ocSelected: any){
+    this.contratosService.getFileOc(ocSelected.numOc).subscribe((data)=>{
+      const blob = new Blob([data], { type: 'application/pdf' });
+      const data1 = window.URL.createObjectURL(blob);
+      const link = document.createElement("a");
+      link.href = data1;
+      link.download = ocSelected.fileOcNombre; // set a name for the file
+      link.click();
+    })
   }
 }

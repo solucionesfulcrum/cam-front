@@ -23,9 +23,9 @@
             <span>{{dataListCams.nombreRed | uppercase}}</span>
         </div>
         <div class="pr-2.5 flex flex-col gap-1 overflow-auto max-h-[66vh] scrollbarra">
-            <div class="flex flex-col gap-1 text-[#64748B]" *ngFor="let cam of dataListCams.listarCam, index as i">
-                <div class="flex flex-row justify-between items-center hover:bg-[#F4F4F5] cursor-pointer" (click)="setDataSelected(cam, 1, $event)">
-                    <div class="py-2.5 pl-1.5 flex flex-row items-center gap-1.5 whitespace-nowrap text-ellipsis overflow-hidden">
+            <div class="flex flex-col gap-1 text-[#64748B]" *ngFor="let cam of filteredList, index as i">
+                <div class="flex flex-row justify-between items-center hover:bg-[#F0FCFE] cursor-pointer" (click)="setDataSelected(cam, 1, $event)" [ngClass]="camElegido ? (cam.idUnidadOperativa == camElegido.idUnidadOperativa  ? 'bg-[#F0FCFE]' : null) : null">
+                    <div class="py-2.5 pl-1.5 flex flex-row items-center gap-1.5 whitespace-nowrap text-ellipsis overflow-hidden" [ngClass]="camElegido ? (cam.idUnidadOperativa == camElegido.idUnidadOperativa  ? 'text-Name' : null) : null">
                         <img src="assets/svg/icon-house-full.svg">
                         <span>{{cam.nombreCam}}</span>
                     </div>
@@ -57,10 +57,15 @@
           [filterDateAppearance]="2"
           [setFilterDateSelectionBg]="'#008BD2'"
           [setFilterDateButtonBg]="'#008BD2'"
+          [setDateSelectedDefault]="7"
+          (sendDateFilterWithCeros)="getDataFecha($event)"
           [showSearch]="true"
+          (searchInputValue)="formBuscar.get('frmSearch')?.setValue($event.toUpperCase()); getDateFromService()"
           [searchInputPlaceHolder]="'Buscar tallerista'"
           [showFirstDisplayFilter]="true"
-          [firstDisplayFilterPlaceholder]="{'indicador': false, 'placeholder': 'Estado'}"
+          [firstDisplayFilterPlaceholder]="{indicador: true, placeholder: 'Todos los estados'}"
+          [firstDisplayFilterData]="optEstado"
+          (firstDisplayFilterSendValue)="formBuscar.get('frmSearchEstado')?.setValue($event); getDateFromService()"
           [showButton]="true"
           [buttonBg]="'var(--color-CAM-Mezclado)'"
           [buttonText]="'Nuevo Contrato'"
@@ -73,21 +78,45 @@
           <span>Estado</span>
           <span>Opc</span>
         </div>
-        <div *ngIf="!camElegido" class="w-full h-3/4 flex items-center">
-          <div class="m-auto w-fit text-center">
+        <div *ngIf="listContratos.length == 0" class="w-full h-3/4 flex items-center">
+          <div class="m-auto w-fit text-center py-6">
             <img class="m-auto" src="assets/svg/empty-data.svg" alt="">
             <h3 class="text-gray-500 mt-2 font-light">No existen registros aun.</h3>
           </div>
         </div>
-        <div *ngIf="camElegido">
-          <div class="dataPseudoTabla">
-            <span class="col-span-2">{{'ROXANA ESTRADA ARIAS'}}</span>
-            <span class="text-[var(--color-CAM)]">{{'0450620384'}}</span>
-            <span>{{'2024-02-09' | date:'dd/MM/yyyy'}}</span>
-            <span [ngClass]="true ? 'text-green-500':'text-red-500'">{{'Confirmado'}}</span>
+        <div *ngIf="listContratos.length > 0">
+          <div class="dataPseudoTabla" *ngFor="let contrato of listContratos, index as i">
+            <span class="col-span-2">{{contrato.tallerista | uppercase}}</span>
+            <span class="text-[var(--color-CAM)]">{{contrato.numOc}}</span>
+            <span>{{contrato.fechaRegistroUo | date:'dd/MM/yyyy'}}</span>
+            <span [ngClass]="true ? 'text-green-500':'text-red-500'">{{contrato.estado | titlecase}}</span>
             <div class="text-center self-center text-[20px]">
-                <esp-icon icon="faEllipsis"></esp-icon>
+                <esp-icon icon="faEllipsis" class="cursor-pointer" [cdkMenuTriggerFor]="optionsSidenav"></esp-icon>
             </div>
+            <ng-template #optionsSidenav>
+                <div class="botonApariencia bg-white !text-[var(--color-black-alt)] text-sm" cdkMenu>
+                    <div class="p-1 flex flex-col gap-px"cdkMenuGroup>
+                        <div class="flex flex-row items-center gap-2 hover:bg-[#E9E9E9] px-2 py-1.5 outline-none cursor-pointer rounded" cdkMenuItem [routerLink]="'/app/'+ appRoute.CONTRATOS + '/' + appRoute.CONTRATOS_ASIGNAR_SERVICIOS + '/' + contrato.numOc">
+                            <div class="text-[16px]">
+                                <esp-icon [icon]="'faEdit'"></esp-icon>
+                            </div>
+                            <span>Editar</span>
+                        </div>
+                        <div class="flex flex-row items-center gap-2 hover:bg-[#E9E9E9] px-2 py-1.5 outline-none cursor-pointer rounded" cdkMenuItem (click)="downloadFile(contrato)">
+                            <div class="text-[16px]">
+                                <esp-icon [icon]="'faDownload'"></esp-icon>
+                            </div>
+                            <span>Descargar OC</span>
+                        </div>
+                        <div class="flex flex-row items-center gap-2 hover:bg-[#E9E9E9] px-2 py-1.5 outline-none cursor-pointer rounded" cdkMenuItem>
+                            <div class="text-[16px]">
+                                <esp-icon [icon]="'faTrashCan'"></esp-icon>
+                            </div>
+                            <span>Eliminar</span>
+                        </div>
+                    </div>
+                </div>
+            </ng-template>
           </div>
         </div>
     </div>

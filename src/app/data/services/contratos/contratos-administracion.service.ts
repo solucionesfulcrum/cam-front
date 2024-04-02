@@ -1,7 +1,8 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { environment } from '@environments/environment';
-import { RequestSearchUser, RequestSendCabeceraContrato } from '@models/contratos/contratos-administracion.model';
+import { RequestListContracts, RequestSearchUser, RequestSendCabeceraContrato } from '@models/contratos/contratos-administracion.model';
+import { Observable } from 'rxjs';
 
 const URL_BASE = `${environment.API}/contrato`;
 
@@ -22,6 +23,11 @@ export class ContratosAdministracionService {
     return this._httpClient.get<any>(url);
   }
 
+  getListContratos(model: RequestListContracts){
+    const url = `${URL_BASE}/listar`;
+    return this._httpClient.post<any>(url, model);
+  }
+
   searchForPerson(model: RequestSearchUser){
     const url = `${URL_BASE}/buscar/usuario`;
     return this._httpClient.post<any>(url, model);
@@ -33,7 +39,17 @@ export class ContratosAdministracionService {
   }
 
   saveDataContrato(model: RequestSendCabeceraContrato){
-    const url = `${URL_BASE}/registrar`;
+    const url = `${URL_BASE}/registro/inicial`;
     return this._httpClient.post<any>(url, model);
+  }
+
+  saveFileOc(fd: FormData){
+    const url = `${URL_BASE}/load/file-oc`;
+    return this._httpClient.post<any>(url, fd);
+  }
+
+  getFileOc(numOc: string): Observable<Blob>{
+    const url = `${URL_BASE}/download/file-oc?numOc=${numOc}`;
+    return this._httpClient.get(url,{responseType:'blob'});
   }
 }

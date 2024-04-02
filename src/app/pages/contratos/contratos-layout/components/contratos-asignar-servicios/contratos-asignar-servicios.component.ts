@@ -1,6 +1,6 @@
 import { formatDate } from '@angular/common';
 import { Component, Inject, LOCALE_ID } from '@angular/core';
-import { FormArray, FormBuilder, FormControl } from '@angular/forms';
+import { AbstractControl, FormArray, FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { faSpinner } from '@fortawesome/free-solid-svg-icons';
 import { NotificationService } from '@services/notification.service';
@@ -23,18 +23,19 @@ export class ContratosAsignarServiciosComponent {
   ];
   faSpinner = faSpinner;
   numOc: any; 
-  dataContrato: any; 
+  dataContrato: any;
   opcionesEvento: TablaOpciones[] = [];
   opcionesServicios: FormatoTypeAndSelect[] = [];
   opcionesModalidad: TablaOpciones[] = [];
+  opcionesUnidades: any[] = [];
   
   dataColumnas: FormatoColumna[] = [
     {nomAttribute: 'idServicio', oculto: true},
-    {header: 'Servicio', tipo: 'typeAndSelect', optTypeSelect: this.opcionesServicios, nomAttribute: 'nomServicio', resaltado: true},
-    {header: 'Tipo de Evento', tipo: 'select', opciones: this.opcionesEvento, nomAttribute: 'typeEvent'},
-    {header: 'Fecha de inicio', tipo: 'inputFecha', nomAttribute: 'fecInicio'},
-    {header: 'Fecha de Fin', tipo: 'inputFecha', nomAttribute: 'fecFin'},
-    {header: 'Modalidad', tipo: 'select', opciones: this.opcionesModalidad, nomAttribute: 'typeModalidad'}
+    {header: 'Servicio', tipo: 'typeAndSelect', optTypeSelect: this.opcionesServicios, nomAttribute: 'nomServicio', resaltado: true, obligatorio: true},
+    {header: 'Tipo de Evento', tipo: 'select', opciones: this.opcionesEvento, nomAttribute: 'typeEvent', obligatorio: true},
+    {header: 'Fecha de inicio', tipo: 'inputFecha', nomAttribute: 'fecInicio', obligatorio: true},
+    {header: 'Fecha de Fin', tipo: 'inputFecha', nomAttribute: 'fecFin', obligatorio: true},
+    {header: 'Modalidad', tipo: 'select', opciones: this.opcionesModalidad, nomAttribute: 'typeModalidad', obligatorio: true}
   ];
 
   dataTables: FormArray = this.fb.array([]);
@@ -55,6 +56,22 @@ export class ContratosAsignarServiciosComponent {
   }
 
   getDataServices(){
+    this.contratoService.getListCamById().subscribe((data)=>{
+      if (data.code == 0) {
+        data.data[0].listarCam.forEach((x: any)=>{
+          this.opcionesUnidades.push({idUnidadOperativa: x.idUnidadOperativa, codigo: x.codigoCam, nombre: x.nombreCam})
+          if (x.listaCiram.length > 0) {
+            x.listaCiram.forEach((val: any)=>{
+              this.opcionesUnidades.push({idUnidadOperativa: val.idUnidadOperativa, codigo: val.codigo, nombre: val.nombre})
+            })
+          }
+        })
+      }
+      else{
+        this.notificationService.warning(data.message);
+      }
+    })
+
     this.contratoService.getListServicios().subscribe((data)=>{
       if (data.code == 0) {
         data.data.forEach((x: any)=>{
@@ -89,28 +106,14 @@ export class ContratosAsignarServiciosComponent {
       if (data.code == 0) {
         this.dataContrato = data.data;
         this.addTablaUnid(2,this.dataContrato.datosDetMismaUnidad[0])
-        // this.dataTables.push(this.fb.group({idUnidOperativ: [this.dataContrato.datosDetMismaUnidad[0].idUnidadOperativa], fecRegistro: [formatDate(this.dataContrato.datosTallerista.fechaRegistro, 'd/M/yyyy', this.locale)], dataServiciosEnviado: new FormControl(), ctrlDataObt: new FormControl({data: [{
-        //     idServicio: 1,
-        //     nomServicio: {idOpcion: 12, nombre: "ACTIVIDAD DEPORTIVAS"},
-        //     typeEvent: 27,
-        //     typeModalidad: 31,
-        //     fecInicio: "25/3/2024",
-        //     fecFin: "25/3/2024"
-        //   }]})})
-        // )
-        this.dataTables.valueChanges.subscribe((data)=>{
-          console.log(data);
-        })
-        if(this.dataContrato.datosDetMismaUnidad[0].servicios.length > 0){
-          this.dataContrato.datosDetMismaUnidad[0].servicios.forEach((x: any)=>{
-            this.addServiceToTablaUnid(0, 2, x)
-          })
-        }
         if (this.dataContrato.datosDetOtraUnidad.length > 0) {
           this.dataContrato.datosDetOtraUnidad.forEach((x: any)=>{
             this.addTablaUnid(2, x);
           })
         }
+        this.dataTables.valueChanges.subscribe((data)=>{
+          console.log(data)
+        })
       }
       else{
         this.notificationService.warning(data.message);
@@ -125,43 +128,65 @@ export class ContratosAsignarServiciosComponent {
   addTablaUnid(opt: number, dataTabla?: any){
     if (opt == 1) {
       let controlPrueba = this.fb.group({
-        idUnidOperativ: [null],
-        fecRegistro: [null],
+        idUnidOperativ: new FormControl('', [Validators.required]),
+        fecRegistro: new FormControl(null, [Validators.required]),
+        fecRegistroDef: new FormControl(null, [Validators.required]),
         dataServiciosEnviado: new FormControl(),
+        dataDefault: [null],
         ctrlDataObt: new FormControl(),
       });
       (this.dataTables as FormArray).push(controlPrueba);
     }
     else{
-      console.log(dataTabla)
+      let dataOrdenada: any[] = [];
+      dataTabla.servicios.forEach((val: any)=>{
+        dataOrdenada.push(
+          {
+            idServicio: 1,
+            nomServicio: (val.servicio ? {idOpcion: this.opcionesServicios.find((x) => x.nombre === val.servicio)!.idOpcion, nombre: val.servicio} : ''),
+            typeEvent: (val.paramServicioTipoId ? val.paramServicioTipoId : null),
+            typeModalidad: (val.paramModalidadId ? val.paramModalidadId : null),
+            fecInicio: (val.fechaInicio ? formatDate(val.fechaInicio, 'd/M/yyyy', this.locale) : null),
+            fecFin: (val.fechaFin ? formatDate(val.fechaFin, 'd/M/yyyy', this.locale) : null)
+          }
+        )
+      })
+
       let controlPrueba = this.fb.group({
-        idUnidOperativ: [dataTabla.idUnidadOperativa],
-        fecRegistro: [formatDate(dataTabla.fechaRegistroUo, 'd/M/yyyy', this.locale)],
+        idUnidOperativ: new FormControl(this.opcionesUnidades.find((x)=> x.idUnidadOperativa == dataTabla.idUnidadOperativa), [Validators.required]),
+        fecRegistro: new FormControl(formatDate(dataTabla.fechaRegistroUo, 'd/M/yyyy', this.locale), [Validators.required]),
+        fecRegistroDef: new FormControl((new Date(dataTabla.fechaRegistroUo)), [Validators.required]),
         dataServiciosEnviado: new FormControl(),
+        dataDefault: [dataOrdenada],
         ctrlDataObt: new FormControl(),
       });
       (this.dataTables as FormArray).push(controlPrueba);
-      console.log(document.getElementById('prueba'))
-      this.addServiceToTablaUnid(0, 1)
     }
   }
+  
+  actualizarDate(index: number, value: any) {
+    if (value) {
+      this.dataTables.at(index).get('fecRegistro')?.setValue(value)
+    }
+  }
+  
+  getFormGroup(control: AbstractControl) { return control as FormGroup; }
 
-  addServiceToTablaUnid(index: number, opt?: number, dataService?: any){
+  displayOptFiltered(selectedoption: any) {
+    return selectedoption ? selectedoption.nombre : undefined;
+  }
+
+  onSelectedTypeSelect(index: number, event: any){
+    this.dataTables.at(index).get('idUnidOperativ')?.setValue(event.option.value)
+  }
+
+  getOptionsFiltered(index: number): any[]{
+    let listTypSelect = this.opcionesUnidades;
+    return (listTypSelect!.filter((x) => x.nombre.toLowerCase().includes((typeof this.dataTables.at(index).get('idUnidOperativ')!.value) === 'string' ? this.dataTables.at(index).get('idUnidOperativ')!.value.toLowerCase() : this.dataTables.at(index).get('idUnidOperativ')!.value.nombre.toLowerCase())))
+  }
+
+  addServiceToTablaUnid(index: number, opt?: number){
     this.dataTables.get(index.toString())!.get('dataServiciosEnviado')!.setValue({idServicio: 1, nomServicio: ''})
-    console.log(this.dataTables.get(index.toString())!.get('dataServiciosEnviado')!.value)
-    // console.log(index, opt)
-    if (opt == 1) {
-    }
-    else{
-      // this.dataTables.get(index.toString())!.get('dataServiciosEnviado')!.setValue({
-      //   idServicio: 1,
-      //   nomServicio: (dataService.servicio ? {idOpcion: this.opcionesServicios.find((x) => x.nombre === dataService.servicio)!.idOpcion, nombre: dataService.servicio} : ''),
-      //   typeEvent: (dataService.paramServicioTipoId ? dataService.paramServicioTipoId : null),
-      //   typeModalidad: (dataService.paramModalidadId ? dataService.paramModalidadId : null),
-      //   fecInicio: (dataService.fechaInicio ? formatDate(dataService.fechaInicio, 'd/M/yyyy', this.locale) : null),
-      //   fecFin: (dataService.fechaFin ? formatDate(dataService.fechaFin, 'd/M/yyyy', this.locale) : null)
-      // })
-    }
   }
 
   getTablaAndAttribute(index: number, attr: string){
@@ -174,5 +199,38 @@ export class ContratosAsignarServiciosComponent {
 
   deleteTablaUnid(index: number){
     this.dataTables.removeAt(index);
+  }
+
+  sendData(){
+    console.log(this.validacionDataTable())
+    console.log(this.dataContrato)
+    console.log(this.dataTables.value)
+  }
+
+  validacionDataTable(): boolean{
+    if (this.dataTables.value.length == 0) {
+      this.notificationService.warning(`'El contrato debe estar asignado almenos a una unidad operativa'`);
+      return false;
+    }
+    else{
+      let data = this.dataTables.value;
+      let valueReturned: boolean = false;
+      data.forEach((x: any, index: number) => {
+        if (typeof x.idUnidOperativ == 'object') {
+          if (x.ctrlDataObt.data.length > 0) {
+            valueReturned = true;
+          }
+          else{
+            this.notificationService.warning(`La Unidad Operativa N°${index + 1} no tiene ningún servicio asignado`);
+            valueReturned = false;
+          }
+        }
+        else{
+          this.notificationService.warning(`La Unidad Operativa N°${index + 1} debe ser elegida de las opciones brindadas`);
+          valueReturned = false;
+        }
+      });
+      return valueReturned;
+    }
   }
 }
