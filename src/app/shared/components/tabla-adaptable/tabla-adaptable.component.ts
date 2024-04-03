@@ -91,6 +91,16 @@ export class TablaAdaptableComponent {
   deleteElement(elementIndex: number) {
     this.getDatos.removeAt(elementIndex);
   }
+
+  getDateAnclado(index: number, nomAttribute: string): Date{
+    if (this.formData.controls["data"].at(index).get(nomAttribute)!.value == null) {
+      return new Date();
+    }
+    else{
+      let valueFec = this.formData.controls["data"].at(index).get(nomAttribute)!.value;
+      return new Date(parseInt(valueFec.split('/')[2]), parseInt(valueFec.split('/')[1]) - 1, parseInt(valueFec.split('/')[0]))
+    }
+  }
   
   actualizarDate(index: number, nomAttribute: string, value: any) {
     if (value) {

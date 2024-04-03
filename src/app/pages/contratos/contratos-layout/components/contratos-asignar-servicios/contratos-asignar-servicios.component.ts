@@ -37,7 +37,7 @@ export class ContratosAsignarServiciosComponent {
     {header: 'Servicio', tipo: 'typeAndSelect', optTypeSelect: this.opcionesServicios, nomAttribute: 'nomServicio', resaltado: true, obligatorio: true},
     {header: 'Tipo de Evento', tipo: 'select', opciones: this.opcionesEvento, nomAttribute: 'typeEvent', obligatorio: true},
     {header: 'Fecha de inicio', tipo: 'inputFecha', nomAttribute: 'fecInicio', obligatorio: true},
-    {header: 'Fecha de Fin', tipo: 'inputFecha', nomAttribute: 'fecFin', obligatorio: true},
+    {header: 'Fecha de Fin', tipo: 'inputFecha', nomAttribute: 'fecFin', obligatorio: true, ancladoFecIni: 'fecInicio'},
     {header: 'Modalidad', tipo: 'select', opciones: this.opcionesModalidad, nomAttribute: 'typeModalidad', obligatorio: true}
   ];
 
@@ -166,6 +166,7 @@ export class ContratosAsignarServiciosComponent {
         ctrlDataObt: new FormControl(),
       });
       (this.dataTables as FormArray).push(controlPrueba);
+      this.dataTables.valueChanges.subscribe((data)=>{console.log(data)})
     }
   }
   
@@ -260,7 +261,7 @@ export class ContratosAsignarServiciosComponent {
           if (x.ctrlDataObt.data.length > 0) {
             let listComprob = [];
             x.ctrlDataObt.data.forEach((serv: any)=>{
-              if (!serv.fecFin || !serv.fecInicio || !serv.typeEvent || !serv.typeModalidad || !serv.nomServicio) {
+              if (!serv.fecFin || !serv.fecInicio || !serv.typeEvent || !serv.typeModalidad || !serv.nomServicio || typeof serv.nomServicio != 'object') {
                 listComprob.push(false);
               }
             })

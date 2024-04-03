@@ -7,7 +7,7 @@
     </div>
 </div>
 <div *ngIf="dataContrato">
-    <esp-opciones-botones [rutaRegreso]="'../' +  rutas.CONTRATOS_ASIGNAR_SERVICIOS" [listOpciones]="opcionesBotones"></esp-opciones-botones>
+    <esp-opciones-botones [rutaRegreso]="'../..'" [listOpciones]="opcionesBotones" (firstFunction)="deleteItem()"></esp-opciones-botones>
     <div class="flex flex-col gap-2.5">
         <div class="bg-white botonApariencia p-3 flex flex-row text-[#37474F] leading-5">
             <div class="flex flex-col gap-2.5 border-r border-[#D4D4D4] w-full">

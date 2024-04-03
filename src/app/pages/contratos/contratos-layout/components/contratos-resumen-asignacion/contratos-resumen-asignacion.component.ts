@@ -8,6 +8,8 @@ import { FormatoBoton } from '@shared/components/opciones-botones/formato-boton.
 import { AppRoute } from 'src/app/data/constants/app-route.constant';
 import { ContratosAdministracionService } from 'src/app/data/services/contratos/contratos-administracion.service';
 import { DatosGeneralesService } from 'src/app/data/services/datos-generales.service';
+import { Dialog } from '@angular/cdk/dialog';
+import { DialogConfirmSelectionComponent } from '../dialog/dialog-confirm-selection/dialog-confirm-selection.component';
 registerLocaleData(localeEs, 'es');
 
 @Component({
@@ -24,12 +26,13 @@ export class ContratosResumenAsignacionComponent {
 
   opcionesBotones: FormatoBoton[] = [
     {texto: 'Eliminar Contrato', colorBtn: 'bordeado'},
-    {texto: 'Editar', colorBtn: 'bordeado'},
+    {texto: 'Editar', colorBtn: 'bordeado', deshabilitado: true},
     {texto: 'Confirmar Contrato', colorBtn:'mezclado', deshabilitado: true},
   ];  
 
   constructor(private router                              : Router,
               private datosService                        : DatosGeneralesService,
+              private dialog                              : Dialog,
               private activeRoute                         : ActivatedRoute,
               private contratosService                    : ContratosAdministracionService,
               private notificationService                 : NotificationService) {
@@ -53,5 +56,21 @@ export class ContratosResumenAsignacionComponent {
         this.notificationService.warning(data.message);
       }
     })
+  }
+  deleteItem(){
+    const dialogRef = this.dialog.open(DialogConfirmSelectionComponent,{
+      data:{
+        title: '¿Quiere borrar el registro?',
+        message: `Se eliminará la Orden de Compra ${this.dataContrato.datosContrato.nroContrato}`,
+        type: 0,
+        dataRequired: this.dataContrato.datosContrato.idContrato
+      }
+    })
+
+    dialogRef.closed.subscribe(result => {
+      if (result == 1) {
+        this.router.navigate([`app/${this.rutas.CONTRATOS}`])
+      }
+    });
   }
 }

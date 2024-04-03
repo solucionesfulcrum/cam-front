@@ -40,7 +40,7 @@
                                     <div *ngIf="atributo.tipo == 'inputFecha'">
                                         <div class="relative">
                                           <mat-form-field style="position: absolute; visibility:hidden;">
-                                            <input #inputFec matInput [matDatepicker]="picker">
+                                            <input #inputFec matInput [matDatepicker]="picker" [min]="atributo.ancladoFecIni ? getDateAnclado(i, atributo.ancladoFecIni) : null">
                                             <mat-datepicker #picker (closed)="actualizarDate(i, atributo.nomAttribute, inputFec.value)"></mat-datepicker>
                                           </mat-form-field>
                                           <input type="text" name="search" readonly (click)="picker.open()" [formControlName]="atributo.nomAttribute" class="inputTextoDialog focusCampo !h-10 pr-7" [ngClass]="atributo.obligatorio ? (getFormControl(dataForm, atributo.nomAttribute) ? '!border !border-red-500 !focus:border-red-500' : null) : null">

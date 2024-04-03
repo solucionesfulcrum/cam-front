@@ -7,6 +7,7 @@ export interface FormatoColumna{
     oculto?: boolean,
     resaltado?: boolean,
     obligatorio?: boolean,
+    ancladoFecIni?: string
 }
 
 export interface TablaOpciones{
