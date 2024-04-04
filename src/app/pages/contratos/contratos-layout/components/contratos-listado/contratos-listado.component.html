@@ -96,7 +96,7 @@
             <ng-template #optionsSidenav>
                 <div class="botonApariencia bg-white !text-[var(--color-black-alt)] text-sm" cdkMenu>
                     <div class="p-1 flex flex-col gap-px"cdkMenuGroup>
-                        <div class="flex flex-row items-center gap-2 hover:bg-[#E9E9E9] px-2 py-1.5 outline-none cursor-pointer rounded" cdkMenuItem [routerLink]="'/app/'+ appRoute.CONTRATOS + '/' + appRoute.CONTRATOS_ASIGNAR_SERVICIOS + '/' + contrato.numOc">
+                        <div class="flex flex-row items-center gap-2 hover:bg-[#E9E9E9] px-2 py-1.5 outline-none cursor-pointer rounded" cdkMenuItem (click)="contrato.estado === 'CONFIRMADO' ? notificationService.warning('La Orden de Compra '+ contrato.numOc + ' ha sido confirmada. No puede editarse') : router.navigate(['/app/'+ appRoute.CONTRATOS + '/' + appRoute.CONTRATOS_ASIGNAR_SERVICIOS + '/' + contrato.numOc])">
                             <div class="text-[16px]">
                                 <esp-icon [icon]="'faEdit'"></esp-icon>
                             </div>

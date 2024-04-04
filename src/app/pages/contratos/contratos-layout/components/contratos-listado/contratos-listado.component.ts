@@ -21,34 +21,6 @@ import { DialogConfirmSelectionComponent } from '../dialog/dialog-confirm-select
 export class ContratosListadoComponent {
   appRoute = AppRoute;
   faSpinner = faSpinner;
-  listCams: any[] = [
-    {nombreCam: 'CAM CUSCO', activo: false, listSub: [
-      {nombreSub: 'CIRAN Cusco 1'},
-      {nombreSub: 'CIRAN Cusco X'},
-      {nombreSub: 'CIRAN Cusco b'},
-      {nombreSub: 'CIRAN Cusco II'},
-    ]},
-    {nombreCam: 'CAM Quillabamba', activo: false, listSub: [
-      {nombreSub: 'CIRAM Huyros'},
-      {nombreSub: 'CIRAM Raya'},
-      {nombreSub: 'CIRAM Hulla'}
-    ]},
-    {nombreCam: 'CIRAM Pichari', activo: false, listSub: [
-      {nombreSub: 'CIRAM Huyros'},
-      {nombreSub: 'CIRAM Raya'},
-      {nombreSub: 'CIRAM Hulla'}
-    ]},
-    {nombreCam: 'CAM Urcos', activo: false, listSub: [
-      {nombreSub: 'CIRAM Huyros'},
-      {nombreSub: 'CIRAM Raya'},
-      {nombreSub: 'CIRAM Hulla'}
-    ]},
-    {nombreCam: 'CAM Espinar', activo: false, listSub: [
-      {nombreSub: 'CIRAM Huyros'},
-      {nombreSub: 'CIRAM Raya'},
-      {nombreSub: 'CIRAM Hulla'}
-    ]},
-  ];
   dataListCams!: any;
   filteredList!: any;
   formBuscar: FormGroup = this.fb.group({
@@ -66,10 +38,10 @@ export class ContratosListadoComponent {
   constructor(private fb                      : FormBuilder, 
               private dialog                  : Dialog,
               private contratosService        : ContratosAdministracionService,
-              private notificationService     : NotificationService,
+              public notificationService     : NotificationService,
               private datosGeneralesService   : DatosGeneralesService,
               private sanitizer               : DomSanitizer,
-              private router                  : Router, 
+              public router                  : Router, 
               private route                   : ActivatedRoute) { }
               
   ngOnInit(){
