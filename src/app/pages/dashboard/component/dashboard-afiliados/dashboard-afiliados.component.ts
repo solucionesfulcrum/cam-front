@@ -104,7 +104,7 @@ export class DashboardAfiliadosComponent implements OnInit {
           }
         }*/
       },
-      yaxis: {
+      /*yaxis: {
         opposite: false,
         tickAmount: 4,
         forceNiceScale: false,
@@ -114,7 +114,7 @@ export class DashboardAfiliadosComponent implements OnInit {
             return val.toFixed(0); // This will convert the float to a string with no decimal places
           }
         }
-      },
+      },*/
       legend: {
         horizontalAlign: "left"
       }
@@ -146,11 +146,13 @@ export class DashboardAfiliadosComponent implements OnInit {
       String(fechaFin.getMonth() + 1).padStart(2, '0') + "-" +
       String(fechaFin.getDate()).padStart(2, '0');
 
-    console.log(fechaFormateadaFin); // "2024-03-01"
+    console.log(fechaFormateadaFin);
 
     this.authService.listarDashboard({ fecInicio: fechaFormateadaInicio, fecFin: fechaFormateadaFin, idUnidadOperativa: this.idUnidadOperativaUser }).subscribe((data) => {
       for (let i = 0; i < data.data.contAsegurados.length; i++) {
         this.totalAfiliados += data.data.contAsegurados[i]; // Suma cada elemento al total
+
+        console.log("total",this.totalAfiliados)
       }
       this.chartOptions.series = [
         {
@@ -158,6 +160,36 @@ export class DashboardAfiliadosComponent implements OnInit {
           data: data.data.contAsegurados // Asume que contAsegurados es un arreglo de números
         }
       ];
+
+      if(this.totalAfiliados>4){
+      this.chartOptions.yaxis = [
+        {
+          opposite: false,
+          tickAmount: 4,
+          forceNiceScale: false,
+          min: 0,
+          labels: {
+            formatter: function (val: number) {
+              return val.toFixed(0); // This will convert the float to a string with no decimal places
+            }
+          }
+        }
+      ];
+      }else{
+        this.chartOptions.yaxis = [
+          {
+            opposite: false,
+            tickAmount: 1,
+            forceNiceScale: false,
+            min: 0,
+            labels: {
+              formatter: function (val: number) {
+                return val.toFixed(0); // This will convert the float to a string with no decimal places
+              }
+            }
+          }
+        ];
+      }
 
       this.chartOptions.labels = data.data.fecha;
     })

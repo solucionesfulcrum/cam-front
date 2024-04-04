@@ -63,19 +63,6 @@
           </p>
       </div>
     </div>
-    <!--<div class="relative mt-2 rounded-md shadow-sm">
-      <select formControlName="frmUnidadOpe"
-        class="space-x-5 bg-slate-50 border border-gray-300 text-gray-900 text-sm rounded-lg focusCampo block w-full">
-         <option [selected]="true" disabled>Tipo de documento</option> -->
-        <!--<option value="" disabled selected>UnidadOperativa</option>
-        <option *ngFor="let option of listUnidadOperativa" [value]='option.idUnidadOperativa'>{{option.nombre | titlecase}}</option>
-      </select>
-      <div *ngIf="formDatosAdicionales.controls.frmRol.touched && formDatosAdicionales.controls.frmRol.invalid">
-          <p *ngIf="formDatosAdicionales.controls.frmRol.hasError('required')" class="font-medium text-red-500 text-xs mt-1 ml-1">
-            Seleccione una unidad operativa
-          </p>
-      </div>
-    </div>-->
     <div class="relative mt-2 rounded-md shadow-sm">
       <div class="pointer-events-none absolute inset-y-0 right-0 flex !h-9 items-center pr-3">
         <span class="text-gray-500 sm:text-sm">
@@ -87,7 +74,7 @@
         placeholder="Unidad Operativa">
       <mat-autocomplete #uniOper="matAutocomplete" [displayWith]="displayFnUnidadOperativa" (optionSelected)="onSelectionChangeUnidadOperativa($event)">
           <mat-option *ngFor="let option of listUnidadOperativa" [value]="option">
-              CAM - {{option.nombre}}
+              {{option.nombre}}
           </mat-option>
       </mat-autocomplete>
       <div *ngIf="frmCtrlUnidadOperativa.touched && frmCtrlUnidadOperativa.invalid">

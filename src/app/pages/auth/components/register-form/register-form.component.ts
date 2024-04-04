@@ -121,13 +121,6 @@ export class RegisterFormComponent {
     this.datosService.getTipoParametros('TIPO_DOCUMENTO_IDENTIDAD').subscribe((data) => {
       this.listParamDoc = data.data;
     });
-    /*this.listParamDoc = [{idParametros:1,tipo:"algun",activo:true,descripcion:'DNI',fechaModificacion:"",fechaRegistro:"",idPradre:1,nombre:"Documento Nacional de Indentidad",valor1:"1",valor2:"01"},
-    {idParametros:1,tipo:"algun",activo:true,descripcion:'DNI',fechaModificacion:"",fechaRegistro:"",idPradre:1,nombre:"Carnet de Extrangeria",valor1:"2",valor2:"01"}];
-    */
-    /*this.datosService.getUnidadesOperativas('').subscribe((data) => {
-      this.listUnidadOperativa = data.data;
-      console.log("lista de unidaddes operativas", this.listUnidadOperativa)
-    });*/
   }
 
   register() {
