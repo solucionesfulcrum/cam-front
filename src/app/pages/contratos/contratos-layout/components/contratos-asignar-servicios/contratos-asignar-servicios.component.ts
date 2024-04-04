@@ -166,7 +166,7 @@ export class ContratosAsignarServiciosComponent {
         ctrlDataObt: new FormControl(),
       });
       (this.dataTables as FormArray).push(controlPrueba);
-      this.dataTables.valueChanges.subscribe((data)=>{console.log(data)})
+      // this.dataTables.valueChanges.subscribe((data)=>{console.log(data)})
     }
   }
   
@@ -188,6 +188,9 @@ export class ContratosAsignarServiciosComponent {
 
   getOptionsFiltered(index: number): any[]{
     let listTypSelect = this.opcionesUnidades;
+    let excluded: any[] = [];
+    this.dataTables.value.filter((x: any)=> typeof x.idUnidOperativ === 'object').forEach((data: any)=> excluded.push(data.idUnidOperativ));
+    listTypSelect = listTypSelect.filter((data)=> !excluded.some((x)=> x.idUnidadOperativa == data.idUnidadOperativa));
     return (listTypSelect!.filter((x) => x.nombre.toLowerCase().includes((typeof this.dataTables.at(index).get('idUnidOperativ')!.value) === 'string' ? this.dataTables.at(index).get('idUnidOperativ')!.value.toLowerCase() : this.dataTables.at(index).get('idUnidOperativ')!.value.nombre.toLowerCase())))
   }
 

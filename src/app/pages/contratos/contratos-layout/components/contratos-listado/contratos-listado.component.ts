@@ -60,7 +60,10 @@ export class ContratosListadoComponent {
         this.filteredList = this.dataListCams.listarCam;
 
         this.ctrlSearchCam.valueChanges.subscribe((data)=>{
-          this.filteredList = this.dataListCams.listarCam.filter((x: any)=> x.nombreCam.toLowerCase().includes(data.toLowerCase()))
+          this.filteredList = this.dataListCams.listarCam.filter((x: any)=> {
+            
+            return (x.listaCiram.length > 0 ? (x.nombreCam.toLowerCase().includes(data.toLowerCase())  || x.listaCiram.some((value: any)=> value.nombre.toLowerCase().includes(data.toLowerCase()))): x.nombreCam.toLowerCase().includes(data.toLowerCase()));
+          })
         })
       }
       else{
