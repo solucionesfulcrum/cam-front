@@ -151,6 +151,8 @@ export class DashboardAfiliadosComponent implements OnInit {
     this.authService.listarDashboard({ fecInicio: fechaFormateadaInicio, fecFin: fechaFormateadaFin, idUnidadOperativa: this.idUnidadOperativaUser }).subscribe((data) => {
       for (let i = 0; i < data.data.contAsegurados.length; i++) {
         this.totalAfiliados += data.data.contAsegurados[i]; // Suma cada elemento al total
+
+        console.log("total",this.totalAfiliados)
       }
       this.chartOptions.series = [
         {
@@ -158,7 +160,7 @@ export class DashboardAfiliadosComponent implements OnInit {
           data: data.data.contAsegurados // Asume que contAsegurados es un arreglo de números
         }
       ];
-      
+
       if(this.totalAfiliados>4){
       this.chartOptions.yaxis = [
         {

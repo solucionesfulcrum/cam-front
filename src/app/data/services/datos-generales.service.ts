@@ -62,6 +62,13 @@ export class DatosGeneralesService {
     return this._httpClient.get<any>(url);
   }
 
+  getUnidadesOperativasRol(texto : string, idRol: number){
+    const url = `${URL_BASE}/roles/listar/unidadesOperativas?texto=${texto}`+`&idRol=${idRol}`;
+    return this._httpClient.get<any>(url);
+  }
+  //roles/listar/unidadesOperativas?texto=&idRol=9
+
+
   getUnidadesOperativasAsignadas(idUsuario: number){
     const url = `${URL_BASE}/unidad-operativa/activas/usuario/${idUsuario}`;
     return this._httpClient.get<any>(url);

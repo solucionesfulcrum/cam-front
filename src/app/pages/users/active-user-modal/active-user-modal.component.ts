@@ -1,6 +1,6 @@
 import { DIALOG_DATA, DialogRef } from '@angular/cdk/dialog';
 import { DatePipe } from '@angular/common';
-import { Component, Inject } from '@angular/core';
+import { Component, Inject, OnChanges, SimpleChanges } from '@angular/core';
 import { FormBuilder, FormControl, Validators } from '@angular/forms';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { RequestStatus } from '@models/request-status.model';
@@ -67,13 +67,15 @@ export class ActiveUserModalComponent {
       const dataStr = String(data)
       this.minDate = new Date(parseInt(dataStr.split('/')[2]), parseInt(dataStr.split('/')[1]) - 1, parseInt(dataStr.split('/')[0]))
     })
-    this.frmCtrlUnidadOperativa.valueChanges.pipe(startWith(''), map(value => typeof value === 'string' ? value : value.nombre)).subscribe((data) => {
-
-      this.datosService.getUnidadesOperativas(data).subscribe((datos) => {
-        this.listUnidadOperativa = datos.data;
+    this.formDatosAdicionales.get('frmRol')!.valueChanges.subscribe(selectedRoleId => {
+      this.frmCtrlUnidadOperativa.valueChanges.pipe(startWith(''), map(value => typeof value === 'string' ? value : value.nombre)).subscribe((data) => {
+        let idRolNum = parseInt(selectedRoleId);
+        this.datosService.getUnidadesOperativasRol(data, idRolNum).subscribe((datos) => {
+          this.listUnidadOperativa = datos.data;
+        })
       })
-    })
-    this.frmCtrlUnidadOperativa.setValue('')
+      this.frmCtrlUnidadOperativa.setValue('')
+    });
 
 
     this.cargaServiciosParametros();
@@ -85,7 +87,6 @@ export class ActiveUserModalComponent {
 
   cargaServiciosParametros() {
     this.rolesService.getListRolesActivos().subscribe((data) => {
-
       this.listRoles = data.data;
     })
   }
