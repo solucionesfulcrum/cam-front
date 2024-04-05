@@ -1,6 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup } from '@angular/forms';
 import { PageEvent } from '@angular/material/paginator';
+import { RequestListTallerista } from '@models/contactos/talleristas/contactos-talleristas.model';
+import { NotificationService } from '@services/notification.service';
+import { ContactosTalleristasService } from 'src/app/data/services/contactos/contactos-talleristas.service';
 
 @Component({
   selector: 'app-contactos-talleristas',
@@ -23,25 +26,36 @@ export class ContactosTalleristasComponent implements OnInit {
   pageSizeOptions:  number[] = [5,10,20];
   total = 0;
   
-  constructor(private fb: FormBuilder, ) { }
+  constructor(private fb                                    : FormBuilder,
+              private talleristaService                     : ContactosTalleristasService,
+              private notificationService                   : NotificationService) { }
 
   ngOnInit(): void {
     this.onLoadData();
   }
 
   onLoadData(){
-    this.dataSource = [
-      {nombre: 'ROXANA ESTRADA ARIAS', tipoDoc: 1, numDoc: '28277073',telefono: '949451724', correo: 'tim.jennings@example.com', perfil: 'Trabajador Social'},
-      {nombre: 'FRIDA AIDA PAREDES RUIZ' , tipoDoc: 1, numDoc: '40293555',telefono: '949451724', correo: 'felicia.reid@example.com', perfil: 'Trabajador Social'},
-      {nombre: 'ANGELA KIARA MENDOZA MARCATINCO', tipoDoc: 1, numDoc: '91599999',telefono: '949451724', correo: 'jessica.hanson@example.com', perfil: 'Psicologo'},
-      {nombre: 'MIGUEL FREDY TENORIO SALVATIERRA', tipoDoc: 1, numDoc: '43635826',telefono: '949451724', correo: 'nevaeh.simmons@example.com', perfil: 'Medico'},
-      {nombre: 'Juan Alberto Dorado Rivera', tipoDoc: 1, numDoc: '23835688',telefono: '949451724', correo: 'kenzi.lawson@example.com', perfil: 'Admisionista'},
-      {nombre: 'ANA PURIFICACION ZUÑIGA DE GALVEZ', tipoDoc: 1, numDoc: '23835688',telefono: '949451724', correo: 'michelle.rivera@example.com', perfil: 'Medico'},
-      {nombre: 'ANA PURIFICACION ZUÑIGA DE GALVEZ', tipoDoc: 1, numDoc: '23835688',telefono: '949451724', correo: 'jackson.graham@example.com', perfil: 'Trabajador Social'},
-      {nombre: 'FRIDA AIDA PAREDES RUIZ', tipoDoc: 1, numDoc: '23811054',telefono: '949451724', correo: 'michael.mitc@example.com', perfil: 'Psicologo'},
-      {nombre: 'MARILUZ CORONADO CALVO', tipoDoc: 1, numDoc: '23886393',telefono: '949451724', correo: 'debra.holt@example.com', perfil: 'Admisionista'},
-      {nombre: 'MARILUZ CORONADO CALVO', tipoDoc: 1, numDoc: '23855637',telefono: '949451724', correo: 'tanya.hill@example.com', perfil: 'Medico'}
-    ]
+    this.talleristaService.getTalleristaList(this.getPayloadList()).subscribe((data)=>{
+      if (data.code == 0) {
+        console.log(data.data.list)
+        this.dataSource = data.data.list;
+        this.pageNum = data.data.pageNum;
+        this.pageSize = data.data.pageSize;
+        this.total = data.data.total;
+      }
+      else {
+        this.notificationService.warning(data.message);
+      }
+    })
+  }
+
+  getPayloadList(): RequestListTallerista{
+    return {
+      idUnidOpe: JSON.parse(localStorage.getItem("UnidElegida")!).idUnidOperativa,
+      texto: this.formBuscar.controls['frmSearch'].value,
+      pageNum: this.pageNum,
+      pageSize: this.pageSize
+    }
   }
   
   handlePageEvent(event: PageEvent) {

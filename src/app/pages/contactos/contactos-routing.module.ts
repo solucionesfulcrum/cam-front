@@ -7,10 +7,10 @@ import { ShowAfiliadoComponent } from './components/contactos-afiliados/sub-comp
 import { ContactoTabOperacionesComponent } from './components/contactos-afiliados/sub-components/show-afiliado/tabs/contacto-tab-operaciones/contacto-tab-operaciones.component';
 import { ContactoTabEvaluacionesComponent } from './components/contactos-afiliados/sub-components/show-afiliado/tabs/contacto-tab-evaluaciones/contacto-tab-evaluaciones.component';
 import { ShowTalleristaComponent } from './components/contactos-talleristas/sub-components/show-tallerista/show-tallerista.component';
-import { ContactoTabParametrosComponent } from './components/contactos-talleristas/sub-components/show-tallerista/tabs/contacto-tab-parametros/contacto-tab-parametros.component';
-import { ContactoTabHorariosComponent } from './components/contactos-talleristas/sub-components/show-tallerista/tabs/contacto-tab-horarios/contacto-tab-horarios.component';
-import { RegisterAseguradoComponent } from './components/contactos-afiliados/sub-components/register-asegurado/register-asegurado.component';
 import { EditAseguradoComponent } from './components/contactos-afiliados/sub-components/edit-asegurado/edit-asegurado.component';
+import { ContactoTabContratosComponent } from './components/contactos-talleristas/sub-components/show-tallerista/tabs/contacto-tab-contratos/contacto-tab-contratos.component';
+import { ContactoTabCalendarioComponent } from './components/contactos-talleristas/sub-components/show-tallerista/tabs/contacto-tab-calendario/contacto-tab-calendario.component';
+import { ContactoTabTalleresComponent } from './components/contactos-talleristas/sub-components/show-tallerista/tabs/contacto-tab-talleres/contacto-tab-talleres.component';
 
 const routes: Routes = [
   {
@@ -36,13 +36,23 @@ const routes: Routes = [
             children: [
               {
                 path: '',
-                component: ContactoTabParametrosComponent,
-                title: 'Datos del Tallerista'
+                component: ContactoTabContratosComponent,
+                title: 'Tallerista - Datos del contrato'
               },
               {
-                path: 'horarios',
-                component: ContactoTabHorariosComponent,
-                title: 'Horarios tallerista'
+                path: 'calendarios',
+                component: ContactoTabCalendarioComponent,
+                title: 'Tallerista - Calendarios'
+              },
+              {
+                path: 'talleres',
+                component: ContactoTabTalleresComponent,
+                title: 'Tallerista - Talleres'
+              },
+              {
+                path: 'evaluaciones',
+                component: ContactoTabEvaluacionesComponent,
+                title: 'Tallerista - Evaluaciones'
               }
             ]
           },

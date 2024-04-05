@@ -15,7 +15,7 @@
     display: flex;
     flex-direction: row;
     gap: 12px;
-    color: var(--color-CAM-black-alt);
+    color: var(--color-black-alt);
     /* width */
     ::-webkit-scrollbar {
         width: 10px;
@@ -25,7 +25,7 @@
       background: #D4D4D4;
     }
     ::-webkit-scrollbar-thumb {
-      background: var(--color-CAM-black-alt);
+      background: var(--color-black-alt);
     }
      
     ::-webkit-scrollbar-thumb:hover {
@@ -44,7 +44,7 @@
         flex-shrink: 0;
         width: 360px;
         .rolPersona{
-            background: var(--color-CAM-mezclado);
+            background: var(--color-CAM-Mezclado);
             color: white;
         }
     }

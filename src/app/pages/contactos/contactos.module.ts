@@ -12,14 +12,16 @@ import { ShowAfiliadoComponent } from './components/contactos-afiliados/sub-comp
 import { ContactoTabOperacionesComponent } from './components/contactos-afiliados/sub-components/show-afiliado/tabs/contacto-tab-operaciones/contacto-tab-operaciones.component';
 import { ContactoTabEvaluacionesComponent } from './components/contactos-afiliados/sub-components/show-afiliado/tabs/contacto-tab-evaluaciones/contacto-tab-evaluaciones.component';
 import { ShowTalleristaComponent } from './components/contactos-talleristas/sub-components/show-tallerista/show-tallerista.component';
-import { ContactoTabParametrosComponent } from './components/contactos-talleristas/sub-components/show-tallerista/tabs/contacto-tab-parametros/contacto-tab-parametros.component';
-import { ContactoTabHorariosComponent } from './components/contactos-talleristas/sub-components/show-tallerista/tabs/contacto-tab-horarios/contacto-tab-horarios.component';
 import { DialogNewAseguradoComponent } from './components/contactos-afiliados/sub-components/dialog/dialog-new-asegurado/dialog-new-asegurado.component';
 import { RegisterAseguradoComponent } from './components/contactos-afiliados/sub-components/register-asegurado/register-asegurado.component';
 import { DialogNewDireccionComponent } from './components/contactos-afiliados/sub-components/dialog/dialog-new-direccion/dialog-new-direccion.component';
 import { DialogModalidadIngresoComponent } from './components/contactos-afiliados/sub-components/dialog/dialog-modalidad-ingreso/dialog-modalidad-ingreso.component';
 import { MatAutocompleteModule } from '@angular/material/autocomplete';
 import { EditAseguradoComponent } from './components/contactos-afiliados/sub-components/edit-asegurado/edit-asegurado.component';
+import { ContactoTabContratosComponent } from './components/contactos-talleristas/sub-components/show-tallerista/tabs/contacto-tab-contratos/contacto-tab-contratos.component';
+import { ContactoTabCalendarioComponent } from './components/contactos-talleristas/sub-components/show-tallerista/tabs/contacto-tab-calendario/contacto-tab-calendario.component';
+import { ContactoTabTalleresComponent } from './components/contactos-talleristas/sub-components/show-tallerista/tabs/contacto-tab-talleres/contacto-tab-talleres.component';
+import { CdkMenuModule } from '@angular/cdk/menu';
 
 
 @NgModule({
@@ -31,13 +33,14 @@ import { EditAseguradoComponent } from './components/contactos-afiliados/sub-com
     ContactoTabOperacionesComponent,
     ContactoTabEvaluacionesComponent,
     ShowTalleristaComponent,
-    ContactoTabParametrosComponent,
-    ContactoTabHorariosComponent,
     DialogNewAseguradoComponent,
     RegisterAseguradoComponent,
     DialogNewDireccionComponent,
     DialogModalidadIngresoComponent,
-    EditAseguradoComponent
+    EditAseguradoComponent,
+    ContactoTabContratosComponent,
+    ContactoTabCalendarioComponent,
+    ContactoTabTalleresComponent
   ],
   imports: [
     CommonModule,
@@ -45,7 +48,8 @@ import { EditAseguradoComponent } from './components/contactos-afiliados/sub-com
     CdkTableModule,
     MatAutocompleteModule,
     MaterialModule,
-    SharedModule
+    SharedModule,
+    CdkMenuModule,
   ]
 })
 export class ContactosModule { }

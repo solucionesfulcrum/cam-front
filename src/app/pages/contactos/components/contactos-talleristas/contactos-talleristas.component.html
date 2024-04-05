@@ -20,8 +20,8 @@
       </ng-container>
 
       <ng-container cdkColumnDef="nombres">
-        <th cdk-header-cell class="py-[1.25rem] px-6" *cdkHeaderCellDef>Nombres</th>
-        <td cdk-cell class="py-[1rem] px-6" *cdkCellDef="let row, index as i"><span class="text-Name cursor-pointer" [routerLink]="['show/' + row.tipoDoc + '/' + row.numDoc]">{{ row.nombre }}</span></td>
+        <th cdk-header-cell class="py-[1.25rem] px-6" *cdkHeaderCellDef>Apellidos y Nombre</th>
+        <td cdk-cell class="py-[1rem] px-6" *cdkCellDef="let row, index as i"><span class="text-Name cursor-pointer" [routerLink]="['show/' + row.tipoDoc + '/' + row.numDoc]">{{ row.tallerista }}</span></td>
       </ng-container>
 
       <ng-container cdkColumnDef="tipoDoc">
@@ -36,7 +36,7 @@
 
       <ng-container cdkColumnDef="telefono">
         <th cdk-header-cell class="py-[1.25rem] px-6" *cdkHeaderCellDef>Teléfono</th>
-        <td cdk-cell class="py-[1rem] px-6" *cdkCellDef="let row">{{row.telefono}}</td>
+        <td cdk-cell class="py-[1rem] px-6" *cdkCellDef="let row">{{row.celular}}</td>
       </ng-container>
 
       <ng-container cdkColumnDef="correo">
@@ -46,7 +46,7 @@
 
       <ng-container cdkColumnDef="perfil">
         <th cdk-header-cell class="py-[1.25rem] px-6" *cdkHeaderCellDef>Perfil Profesional</th>
-        <td cdk-cell class="py-[1rem] px-6 font-medium" *cdkCellDef="let row">{{row.perfil }}</td>
+        <td cdk-cell class="py-[1rem] px-6 font-medium" *cdkCellDef="let row">{{row.profesion }}</td>
       </ng-container>
     </table>
     <mat-paginator #paginator class="demo-paginator paginatorDatos" 
