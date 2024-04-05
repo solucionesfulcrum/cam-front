@@ -18,10 +18,9 @@
                     <div class="px-3 py-2 flex flex-row bg-white justify-between w-[676px] items-center"
                         *ngFor="let unidOp of listUnidOperativa, index as i">
                         <div class="py-2 flex flex-row gap-2.5 items-center">
-                            <img *ngIf="unidOp.unidOperativa.split(' ')[0]=='RED'" src="assets/svg/icon-unid-red.svg" />
-                            <img *ngIf="unidOp.unidOperativa.split(' ')[0]=='CAM'" src="assets/svg/icon-select-CERP.svg" />
-                            
-                            <img *ngIf="unidOp.unidOperativa.split(' ')[0]=='CIRAM'" src="assets/svg/icon-unid-ciram.svg" />
+                            <img class="select-none" *ngIf="unidOp.unidOperativa.split(' ')[0]=='CAM'" src="assets/svg/icon-select-CERP.svg" />
+                            <img class="select-none" *ngIf="unidOp.unidOperativa.split(' ')[0]=='RED'" src="assets/svg/icon-unid-red.svg" />
+                            <img class="select-none" *ngIf="unidOp.unidOperativa.split(' ')[0]=='CIRAM'" src="assets/svg/icon-unid-ciram.svg" />
                             <span>{{unidOp.unidOperativa}}</span>
                         </div>
                         <button *ngIf="unidOp.vigente==1" class="bg-[#F4F5F7] px-2.5 h-[30px]"
