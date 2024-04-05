@@ -8,6 +8,7 @@ import { AppRoute } from '../data/constants/app-route.constant';
 import { SelectUnidOperativaComponent } from './administracion-usuario/select-unid-operativa/select-unid-operativa.component';
 import { EditActiveUserComponent } from './administracion-usuario/edit-active-user/edit-active-user.component';
 import { AfiliadosLayoutComponent } from './afiliados/afiliados-layout.component';
+import { GuardCoordinadorGuard } from '@guards/guard-coordinador.guard';
 
 export const pagesRoutes: Route[] = [
   {
@@ -50,7 +51,7 @@ export const pagesRoutes: Route[] = [
       {
         path: AppRoute.CONTRATOS,
         title: 'CAM - CONTRATOS',
-        canActivate: [AuthGuard],
+        canActivate: [AuthGuard, GuardCoordinadorGuard],
         loadChildren: () => import('../pages/contratos/contratos.module').then((m) => m.ContratosModule),
       },
       {

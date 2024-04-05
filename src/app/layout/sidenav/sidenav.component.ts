@@ -19,7 +19,7 @@ import { ConnectionPositionPair } from '@angular/cdk/overlay';
 })
 export class SidenavComponent {
   rutas = AppRoute;
-
+  unid = JSON.parse(localStorage.getItem('UnidElegida')!);
   positions = [
     new ConnectionPositionPair(
       { originX: 'start', originY: 'bottom' },
