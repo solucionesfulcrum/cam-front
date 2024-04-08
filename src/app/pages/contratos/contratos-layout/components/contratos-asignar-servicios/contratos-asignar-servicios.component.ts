@@ -213,7 +213,7 @@ export class ContratosAsignarServiciosComponent {
   optFunc(opt: number){
     switch (opt) {
       case 1:
-        this.router.navigate(['../..'])
+        this.router.navigate(['app/contratos'])
         break;
       case 2:
         if (this.validacionDataTable()) {

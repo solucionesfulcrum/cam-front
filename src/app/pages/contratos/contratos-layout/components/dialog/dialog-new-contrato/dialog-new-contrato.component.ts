@@ -55,6 +55,7 @@ export class DialogNewContratoComponent {
   }
 
   ngOnInit(){
+    console.log(this.data)
     this.formNewContrato.controls.frmSelectDoc.valueChanges.subscribe((data)=>{
       this.tipoDocSelected = this.opciones.find((x)=> x.valor1 == data);
     })
@@ -198,7 +199,7 @@ export class DialogNewContratoComponent {
     return {
       cabecera: {
         tipoOrigen: 'DESDE_RED',
-        idUnidadOperativa: JSON.parse(localStorage.getItem('UnidElegida')!).idUnidOperativa,
+        idUnidadOperativa: this.data.idUnid,
         idUsuarioTallerista: this.talleristaInfo.idUsuario,
         numOc: this.formDataOrden.controls.frmOrden.value!,
         fechaInicio: formatDate(fechaInicio!.split('/')[2] + '/' + fechaInicio!.split('/')[1] + '/' + fechaInicio!.split('/')[0], 'yyyy-MM-dd', this.locale),
