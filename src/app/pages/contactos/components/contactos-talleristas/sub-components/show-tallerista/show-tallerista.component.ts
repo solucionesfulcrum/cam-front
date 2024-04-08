@@ -1,7 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { faSpinner } from '@fortawesome/free-solid-svg-icons';
+import { NotificationService } from '@services/notification.service';
 import { FormatoBoton } from '@shared/components/opciones-botones/formato-boton.model';
+import { ContactosTalleristasService } from 'src/app/data/services/contactos/contactos-talleristas.service';
 
 @Component({
   selector: 'app-show-tallerista',
@@ -15,26 +17,26 @@ export class ShowTalleristaComponent implements OnInit {
     {texto: 'Contratar', colorBtn:'mezclado'},
   ];
 
-
-  tipoDoc: string = '';
-  numDoc: string = '';
+  idTallerista: string = '';
   rutasTallerista=[
-    {url:`/app/contactos/talleristas/show/${this.tipoDoc}/${this.numDoc}`, title:'Contratos'},
-    {url:`/app/contactos/talleristas/show/${this.tipoDoc}/${this.numDoc}/calendarios`, title:'Calendario'},
-    {url:`/app/contactos/talleristas/show/${this.tipoDoc}/${this.numDoc}/talleres`, title:'Talleres'},
-    {url:`/app/contactos/talleristas/show/${this.tipoDoc}/${this.numDoc}/evaluaciones`, title:'Evaluaciones'}
+    {url:`/app/contactos/talleristas/show/${this.idTallerista}`, title:'Contratos'},
+    {url:`/app/contactos/talleristas/show/${this.idTallerista}/calendarios`, title:'Calendario'},
+    {url:`/app/contactos/talleristas/show/${this.idTallerista}/talleres`, title:'Talleres'},
+    {url:`/app/contactos/talleristas/show/${this.idTallerista}/evaluaciones`, title:'Evaluaciones'}
   ];
 
   dataTallerista: any;
   faSpinner = faSpinner;
 
-  constructor(private activeRoute                   : ActivatedRoute,) { 
-    this.tipoDoc = this.activeRoute.snapshot.paramMap.get('tipoDoc')!;
-    this.numDoc = this.activeRoute.snapshot.paramMap.get('numDoc')!;
-    this.rutasTallerista[0].url = `/app/contactos/talleristas/show/${this.tipoDoc}/${this.numDoc}`;
-    this.rutasTallerista[1].url = `/app/contactos/talleristas/show/${this.tipoDoc}/${this.numDoc}/calendarios`;
-    this.rutasTallerista[2].url = `/app/contactos/talleristas/show/${this.tipoDoc}/${this.numDoc}/talleres`;
-    this.rutasTallerista[3].url = `/app/contactos/talleristas/show/${this.tipoDoc}/${this.numDoc}/evaluaciones`;
+  constructor(private activeRoute                           : ActivatedRoute,
+              private talleristaService                     : ContactosTalleristasService,
+              private notificationService                   : NotificationService,
+  ) { 
+    this.idTallerista = this.activeRoute.snapshot.paramMap.get('idTallerista')!;
+    this.rutasTallerista[0].url = `/app/contactos/talleristas/show/${this.idTallerista}`;
+    this.rutasTallerista[1].url = `/app/contactos/talleristas/show/${this.idTallerista}/calendarios`;
+    this.rutasTallerista[2].url = `/app/contactos/talleristas/show/${this.idTallerista}/talleres`;
+    this.rutasTallerista[3].url = `/app/contactos/talleristas/show/${this.idTallerista}/evaluaciones`;
   }
 
   ngOnInit(): void {

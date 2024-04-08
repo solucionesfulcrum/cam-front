@@ -67,6 +67,12 @@ export const pagesRoutes: Route[] = [
         loadChildren: () => import('../pages/afiliados/afiliados.module').then((m) => m.AfiliadosModule),
       },
       {
+        path: AppRoute.PROGRAMACION,
+        title: 'CAM - PROGRAMACION',
+        canActivate: [AuthGuard],
+        loadChildren: () => import('../pages/programacion/programacion.module').then((m) => m.ProgramacionModule),
+      },
+      {
         path: AppRoute.HORARIOS,
         canActivate:[AuthGuard, CerpUserGuard],
         title:'Horarios',

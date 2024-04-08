@@ -10,18 +10,13 @@
               <span>Rol</span>
               <span>Estado</span>
             </div>
-            
-            <!-- <div>
-              <div class="dataPseudoTabla">
-                <span class="text-[#008BD2]">ROXANA ESTRADA ARIAS</span>
-                <span>20/02/2023</span>
-                <span>20/08/2023</span>
-                <span>CERPS LIMA</span>
-                <span>Adm CERPS</span>
-                <span class="flex flex-row flex-wrap gap-2" [ngClass]="true ? 'text-green-500':'text-red-500'">Activo</span>
+            <div *ngIf="dataActivacion.length == 0" class="w-full h-3/4 flex items-center">
+              <div class="m-auto w-fit text-center py-6">
+                <img class="m-auto" src="assets/svg/empty-data.svg" alt="">
+                <h3 class="text-gray-500 mt-2 font-light">No existen registros aun.</h3>
               </div>
-            </div> -->
-            <div *ngIf="dataActivacion.length > 0">
+            </div>
+            <div *ngIf="dataActivacion.length > 0" class="overflow-auto max-h-[201px]">
               <div class="dataPseudoTabla" *ngFor="let data of dataActivacion, index as i">
                 <span class="text-[#008BD2] col-span-2">{{data.usuario}}</span>
                 <span>{{data.fechaInicio | date:'dd/MM/yyyy'}}</span>
@@ -58,19 +53,14 @@
               <span>Fecha Registro</span>
               <span>Estado</span>
               <span>Opc</span>
-            </div>
-            
-            <!-- <div>
-              <div class="dataPseudoTabla">
-                <span class="text-[#008BD2]">ROXANA ESTRADA ARIAS</span>
-                <span>20/02/2023</span>
-                <span>20/08/2023</span>
-                <span>CERPS LIMA</span>
-                <span>Adm CERPS</span>
-                <span class="flex flex-row flex-wrap gap-2" [ngClass]="true ? 'text-green-500':'text-red-500'">Activo</span>
+            </div>            
+            <div *ngIf="dataContratos.length == 0" class="w-full h-3/4 flex items-center">
+              <div class="m-auto w-fit text-center py-6">
+                <img class="m-auto" src="assets/svg/empty-data.svg" alt="">
+                <h3 class="text-gray-500 mt-2 font-light">No existen registros aun.</h3>
               </div>
-            </div> -->
-            <div *ngIf="dataActivacion.length > 0">
+            </div>
+            <div *ngIf="dataContratos.length > 0" class="overflow-auto max-h-[201px]">
               <div class="dataPseudoTablaContratos" *ngFor="let data of dataContratos, index as i">
                 <span class="col-span-2">{{data.origenContrato === 'DESDE_RED' ? 'Contrato desde la RED' : 'Contratado por el CAM'}}</span>
                 <span class="text-[var(--color-CAM)]">{{data.numOc}}</span>
