@@ -127,28 +127,38 @@ export class DashboardAfiliadosComponent implements OnInit {
   }
 
   onLoadData() {
-    const fechaActual = new Date();
-
+    console.log("fecha de filtro",this.formBuscar.get('frmSearchDate')?.value.split("-")[0])
+    //const fechaActual = new Date();
+    const fechaIicioComponent = this.formBuscar.get('frmSearchDate')?.value.split("-")[0].trim();
+    console.log("fechaActual",fechaIicioComponent);
+    const fechaInicio = fechaIicioComponent.split("/");
+    const fechaFormateadaInicio = `${fechaInicio[2]}-${fechaInicio[1]}-${fechaInicio[0]}`;
     // Primer día del mes
-    const primerDiaDelMes = new Date(fechaActual.getFullYear(), fechaActual.getMonth(), 1);
-    const fechaInicio = new Date(primerDiaDelMes);
+    /*const primerDiaDelAno = new Date(fechaActual.getFullYear(), 0, 1);
+    console.log("primerDiaDelAno",primerDiaDelAno);
+    const fechaInicio = new Date(primerDiaDelAno);
+    console.log("primer dia del año",fechaInicio);
     // Formatear la fecha manualmente
     const fechaFormateadaInicio = fechaInicio.getFullYear() + "-" +
       String(fechaInicio.getMonth() + 1).padStart(2, '0') + "-" +
-      String(fechaInicio.getDate()).padStart(2, '0');
+      String(fechaInicio.getDate()).padStart(2, '0');*/
 
-    console.log(fechaFormateadaInicio); // "2024-03-01"
+    console.log("fechaFormateadaInicio",fechaFormateadaInicio); // "2024-03-01"
 
+    const fechaFinComponent = this.formBuscar.get('frmSearchDate')?.value.split("-")[1].trim()
+    const fechaFin = fechaFinComponent.split("/");
+    const fechaFormateadaFin= `${fechaFin[2]}-${fechaFin[1]}-${fechaFin[0]}`;
     // Último día del mes
-    const ultimoDiaDelMes = new Date(fechaActual.getFullYear(), fechaActual.getMonth() + 1, 0);
+    /*const ultimoDiaDelMes = new Date(fechaActual.getFullYear(), fechaActual.getMonth() + 1, 0);
     const fechaFin = new Date(ultimoDiaDelMes);
     const fechaFormateadaFin = fechaFin.getFullYear() + "-" +
       String(fechaFin.getMonth() + 1).padStart(2, '0') + "-" +
       String(fechaFin.getDate()).padStart(2, '0');
 
-    console.log(fechaFormateadaFin);
+    console.log(fechaFormateadaFin);*/
 
     this.authService.listarDashboard({ fecInicio: fechaFormateadaInicio, fecFin: fechaFormateadaFin, idUnidadOperativa: this.idUnidadOperativaUser }).subscribe((data) => {
+      this.totalAfiliados=0;
       for (let i = 0; i < data.data.contAsegurados.length; i++) {
         this.totalAfiliados += data.data.contAsegurados[i]; // Suma cada elemento al total
 
@@ -161,7 +171,7 @@ export class DashboardAfiliadosComponent implements OnInit {
         }
       ];
 
-      if(this.totalAfiliados>4){
+      if(this.totalAfiliados>=4){
       this.chartOptions.yaxis = [
         {
           opposite: false,
@@ -195,6 +205,7 @@ export class DashboardAfiliadosComponent implements OnInit {
     })
 
     this.authService.listarDashboardActivos({ fecInicio: fechaFormateadaInicio, fecFin: fechaFormateadaFin, idUnidadOperativa: this.idUnidadOperativaUser, estado: 14 }).subscribe((data) => {
+      this.totalAfiliadosActivos=0;
       for (let i = 0; i < data.data.contAsegurados.length; i++) {
         this.totalAfiliadosActivos += data.data.contAsegurados[i]; // Suma cada elemento al total
       }
@@ -204,6 +215,7 @@ export class DashboardAfiliadosComponent implements OnInit {
 
   getDataFecha(value: any) {
     this.formBuscar.get('frmSearchDate')?.setValue(value);
+    console.log("fecha?",value)
     this.onLoadData();
   }
 
