@@ -31,7 +31,7 @@ const routes: Routes = [
             title: 'Contacto - Talleristas'
           },
           {
-            path: 'show/:tipoDoc/:numDoc',
+            path: 'show/:idTallerista',
             component: ShowTalleristaComponent,
             children: [
               {

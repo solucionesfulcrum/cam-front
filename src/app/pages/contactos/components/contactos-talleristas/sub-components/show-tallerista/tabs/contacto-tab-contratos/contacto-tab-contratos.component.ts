@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup } from '@angular/forms';
+import { ActivatedRoute } from '@angular/router';
 import { RequestListTalleristaContrato } from '@models/contactos/talleristas/contactos-talleristas.model';
 import { NotificationService } from '@services/notification.service';
 import { ContactosTalleristasService } from 'src/app/data/services/contactos/contactos-talleristas.service';
@@ -12,6 +13,7 @@ import { ContactosTalleristasService } from 'src/app/data/services/contactos/con
 export class ContactoTabContratosComponent {
   dataActivacion: any[] = [];
   dataContratos: any[] = [];
+  idTallerista!: number;
   formBuscar: FormGroup = this.fb.group({
     frmSearch:new FormControl(""),
     frmSearchDate:new FormControl(""),
@@ -29,14 +31,17 @@ export class ContactoTabContratosComponent {
   // ];
   constructor(private fb                                    : FormBuilder,
               private talleristaService                     : ContactosTalleristasService,
-              private notificationService                   : NotificationService) { }
+              private activeRoute                           : ActivatedRoute,
+              private notificationService                   : NotificationService) { 
+                this.idTallerista = parseInt(this.activeRoute.snapshot.paramMap.get('idTallerista')!);
+              }
 
   ngOnInit(): void {
     this.getActivacion()
   }
 
   getActivacion(){
-    this.talleristaService.getTalleristaActivacion(1, 33, 'OC123483').subscribe((data)=>{
+    this.talleristaService.getTalleristaActivacion(this.idTallerista).subscribe((data)=>{
       if (data.code == 0) {
         console.log(data.data)
         this.dataActivacion = data.data;
@@ -71,7 +76,8 @@ export class ContactoTabContratosComponent {
     fecFin = `${fechaSinFormatFin.split('/')[2]}-${fechaSinFormatFin.split('/')[1]}-${fechaSinFormatFin.split('/')[0]}`;
 
     return {
-      idUsuarioTallerista: 1,
+      idUsuarioTallerista: this.idTallerista,
+      idUnidadOperativa: JSON.parse(localStorage.getItem("UnidElegida")!).idUnidOperativa,
       texto: this.formBuscar.controls['frmSearch'].value,
       fecInicio: fecInicio,
       fecFin: fecFin,

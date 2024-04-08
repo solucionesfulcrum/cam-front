@@ -7,6 +7,7 @@ export interface RequestListTallerista{
 
 export interface RequestListTalleristaContrato{
     idUsuarioTallerista: number,
+    idUnidadOperativa: number,
     texto: string,
     fecInicio: string,
     fecFin: string,

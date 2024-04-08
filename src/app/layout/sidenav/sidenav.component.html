@@ -18,12 +18,12 @@
           <span>Dashboard</span>
         </a>
       </li>
-      <!-- <li>
+      <li *ngIf="unid.rol === 'COORDINADOR RED'">
         <a routerLink="/app/contratos" routerLinkActive="list-item-activo">
           <img class="" src="assets/svg/nav-icon-contratos.svg"/>
           <span>Contratos</span>
         </a>
-      </li> -->
+      </li>
       <li>
         <a routerLink="/app/contactos" routerLinkActive="list-item-activo">
           <img class="" src="assets/svg/nav-icon-contacto.svg"/>
@@ -36,19 +36,19 @@
           <span>Afiliaciones</span>
         </a>
       </li>
-      <!-- <li>
-        <a routerLink="/app/programacion" routerLinkActive="list-item-activo">
+      <li>
+        <a [routerLink]="'/app/' + rutas.PROGRAMACION" routerLinkActive="list-item-activo">
           <img class="" src="assets/svg/nav-icon-programacion.svg"/>
           <span>Programación</span>
         </a>
       </li>
-      <li>
+      <!-- <li>
         <a routerLink='/app/control' routerLinkActive="list-item-activo">
           <img class="" src="assets/svg/nav-icon-control.svg"/>
           <span>Control</span>
         </a>
-      </li>
-      <li>
+      </li> -->
+      <!-- <li>
         <a routerLink="/app/reportes" routerLinkActive="list-item-activo">
           <img class="" src="assets/svg/nav-icon-reporte.svg"/>
           <span>Reportes</span>

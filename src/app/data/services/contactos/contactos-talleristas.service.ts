@@ -22,8 +22,8 @@ export class ContactosTalleristasService {
     return this._httpClient.post<any>(url,model);
   }
   
-  getTalleristaActivacion(idUsuario: number, idUnidad: number, numOc: string){
-    const url = `${URL_BASE}/activacion/vigente?idUsuarioTallerista=${idUsuario}&idUnidadOperativa=${idUnidad}&numOc=${numOc}`;
+  getTalleristaActivacion(idUsuario: number){
+    const url = `${URL_BASE}/activaciones/vigentes?idUsuarioTallerista=${idUsuario}`;
     return this._httpClient.get<any>(url);
   }
 }

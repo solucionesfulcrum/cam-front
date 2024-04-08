@@ -7,6 +7,10 @@ export class AppRoute {
   static readonly CONTRATOS = 'contratos';
   static readonly CONTRATOS_ASIGNAR_SERVICIOS = 'asignar-servicios';
   static readonly CONTRATOS_CONFIRMAR_SERVICIOS = 'confirm-servicios';
+  //---------------------------------------------------------------------------------------------------------- RUTAS PROGRAMACIÓN
+  static readonly PROGRAMACION = 'programacion';
+  static readonly PROGRAMACION_TAB_TALLERES = `${this.PROGRAMACION}/talleres`;
+  static readonly PROGRAMACION_TAB_CALENDARIOS = `${this.PROGRAMACION}/calendarios`;
 
   //---------------------------------------------------------------------------------------------------------- RUTAS HORARIOS
   static readonly HORARIOS = 'schedule';

@@ -28,7 +28,7 @@ export class SelectUnidOperativaComponent {
       this.userInfo = JSON.parse(localStorage.getItem('camUser')!);
       this.datosGeneralesService.getUnidadesOperativasAsignadas(this.userInfo.idUsuario).subscribe((data)=>{
         if (data.code == 0) {
-          console.log("unidades",data);
+          // console.log("unidades",data);
           this.listUnidOperativa = data.data;
         }
         else{
