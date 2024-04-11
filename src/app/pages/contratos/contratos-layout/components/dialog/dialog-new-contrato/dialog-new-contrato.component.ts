@@ -52,7 +52,7 @@ export class DialogNewContratoComponent {
               private datosService                        : DatosGeneralesService,
               private contratosService                    : ContratosAdministracionService,
               private notificationService                 : NotificationService,
-              private _dialogRef                          : DialogRef<DialogNewContratoComponent>) {
+              private _dialogRef                          : DialogRef<any>) {
 
   }
 
@@ -217,7 +217,31 @@ export class DialogNewContratoComponent {
   }
 
   actualizarCabecera(){
-    console.log(this.getEditCabecera())
+    if (this.talleristaInfo && this.formVigencia.valid && this.formDataOrden.valid) {
+      this.status = 'loading';
+      this.contratosService.editCabeceraContrato(this.getEditCabecera()).subscribe((data)=>{
+        if (data.code == 0){
+          const formData = new FormData();
+          formData.append('numOc', this.formDataOrden.controls.frmOrden.value!)
+          formData.append('archivoPdf', this.applicationFile);
+          this.contratosService.saveFileOc(formData).subscribe((datos)=>{
+            if (datos.code == 0) {
+              this.status = 'success';
+              this.notificationService.success('Se editaron los datos de la cabecera del contrato');
+              this._dialogRef.close(1);
+            } 
+            else {
+              this.status = 'failed';
+              this.notificationService.warning(datos.message);
+            }
+          })
+        }
+        else {
+          this.status = 'failed';
+          this.notificationService.warning(data.message);
+        }
+      })
+    }
   }
 
   getEditCabecera(): RequestEditCabecera{
