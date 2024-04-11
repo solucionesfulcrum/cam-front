@@ -11,7 +11,7 @@
                 formControlName="frmSelectDoc"
                 class="space-x-5 bg-slate-50 border border-gray-300 text-gray-900 text-sm rounded-lg focusCampo block w-full h-[42px]"
               >
-                <option [value]="null" disabled selected>Seleccione su tipo de documento</option>
+                <option value="" disabled selected>Seleccione su tipo de documento</option>
                 <option *ngFor="let documento of opciones" [value]='documento.valor1'>{{documento.nombre | titlecase}}</option>
                 <!-- <option value="1">Registrado</option> -->
               </select>
@@ -24,7 +24,7 @@
                 placeholder="Documento"
                 type="text"
                 name="doc"
-                class="w-full text-sm rounded bg-white border-gray-400 border-1 px-4 py-2 font-light focusCampo h-[42px]"
+                class="w-full text-sm rounded bg-white border-gray-400 border-1 px-4 py-2 font-light focusCampo h-[42px]" (keydown.enter)="searchDataPersona((talleristaInfo ? 2 : 1))"
               />
             </div>
             <div class="w-[34px] h-10 flex items-center justify-center border border-gray-400 rounded cursor-pointer hover:bg-slate-200 shrink-0" (click)="searchDataPersona((talleristaInfo ? 2 : 1))" [ngClass]="!talleristaInfo ? null : 'border-red-600 text-red-600'">
@@ -103,26 +103,34 @@
               </div>              
             </div>
         </div>
-        <div class="py-2 border-[var(--color-black-alt)] border mx-2.5 rounded border-dashed" (click)="isPdfUpdate ? null : filePdf.click()" [ngClass]="isPdfUpdate ? null : 'hover:bg-gray-100 cursor-pointer'">
-          <input hidden #filePdf type="file" name="Upload" accept="application/pdf" (change)="onChangeFile(filePdf.files)">
-          <div class="flex flex-col gap-2 items-center" *ngIf="!isPdfUpdate">
-            <div class="flex flex-row gap-2 py-1.5 px-4 text-[var(--color-CAM)] text-[16px] rounded-[32px] border border-[#D9D9D9]">
-              <img src="assets/svg/icon-arrow-circle-up.svg">
-              <span>Seleccione un archivo</span>
+        <div class="border-[var(--color-black-alt)] border mx-2.5 rounded border-dashed">
+          <div *ngIf="bloquearPDFAusente">
+            <div class="m-auto w-fit text-center py-6">
+              <img class="m-auto" src="assets/svg/empty-data.svg" alt="">
+              <h3 class="text-gray-500 mt-2 font-light">El contrato no registra un archivo.</h3>
             </div>
-            <span class="text-[#9B9B9B] text-[12px]">o</span>
-            <span class="text-[#505050] text-[14px]">Arrastra y suelta un archivo aquí</span>
           </div>
-          <div class="flex flex-col gap-2 items-center" *ngIf="isPdfUpdate">
-            <esp-icon class="text-[32px] text-[#6DD92A]" [icon]="'faCheck'"></esp-icon>
-            <span class="text-[#3D3D3D] text-[16px]">Archivo subido</span>
-            <div class="flex flex-row rounded-[16px] overflow-hidden">
-              <div class="bg-[#F5F5F5] px-3 py-1.5 flex flex-row gap-2 text-[#363636] items-center text-[12px]">
-                <esp-icon class="text-[11px] text-[#E4002B]" [icon]="'faPaperclip'"></esp-icon>
-                <span>{{nombrePdf}} <b>({{(applicationFile ? (applicationFile.size / 1048576 | number:'.1-2'): fileSize)}}MB)</b></span>
+          <div *ngIf="!bloquearPDFAusente" class="py-2 " (click)="isPdfUpdate ? null : filePdf.click()" [ngClass]="isPdfUpdate ? null : 'hover:bg-gray-100 cursor-pointer'">
+            <input hidden #filePdf type="file" name="Upload" accept="application/pdf" (change)="onChangeFile(filePdf.files)">
+            <div class="flex flex-col gap-2 items-center" *ngIf="!isPdfUpdate">
+              <div class="flex flex-row gap-2 py-1.5 px-4 text-[var(--color-CAM)] text-[16px] rounded-[32px] border border-[#D9D9D9]">
+                <img src="assets/svg/icon-arrow-circle-up.svg">
+                <span>Seleccione un archivo</span>
               </div>
-              <div class="bg-[#FEE6E6] px-3 py-1.5 flex justify-center items-center cursor-pointer" (click)="removePdf()" *ngIf="talleristaInfo ? (!talleristaInfo.acreditado ? false : true) : true">
-                <esp-icon class="text-[8px] text-[#E4002B]" [icon]="'faX'"></esp-icon>
+              <span class="text-[#9B9B9B] text-[12px]">o</span>
+              <span class="text-[#505050] text-[14px]">Arrastra y suelta un archivo aquí</span>
+            </div>
+            <div class="flex flex-col gap-2 items-center" *ngIf="isPdfUpdate">
+              <esp-icon class="text-[32px] text-[#6DD92A]" [icon]="'faCheck'"></esp-icon>
+              <span class="text-[#3D3D3D] text-[16px]">Archivo subido</span>
+              <div class="flex flex-row rounded-[16px] overflow-hidden">
+                <div class="bg-[#F5F5F5] px-3 py-1.5 flex flex-row gap-2 text-[#363636] items-center text-[12px]">
+                  <esp-icon class="text-[11px] text-[#E4002B]" [icon]="'faPaperclip'"></esp-icon>
+                  <span>{{nombrePdf}} <b>({{(applicationFile ? (applicationFile.size / 1048576 | number:'.1-2'): fileSize)}}MB)</b></span>
+                </div>
+                <div class="bg-[#FEE6E6] px-3 py-1.5 flex justify-center items-center cursor-pointer" (click)="removePdf()" *ngIf="talleristaInfo ? (!talleristaInfo.acreditado ? false : true) : true">
+                  <esp-icon class="text-[8px] text-[#E4002B]" [icon]="'faX'"></esp-icon>
+                </div>
               </div>
             </div>
           </div>
@@ -137,21 +145,10 @@
       </div>
       <div class="w-1/2">
         <div class="w-fit">
-            <app-btn class="botonApariencia flex" type="submit" color="mezclado" (click)="generateContract()" [loading]="status === 'loading'" [disabled]="!talleristaInfo">
-              {{talleristaInfo ? (!talleristaInfo.acreditado ? 'Continuar' : 'Generar') : 'Generar'}}
+            <app-btn class="botonApariencia flex" type="submit" color="mezclado" (click)="data.type == 2 ? actualizarCabecera() : generateContract()" [loading]="status === 'loading'" [disabled]="!talleristaInfo">
+              {{data.type == 2 ? 'Actualizar' :  (talleristaInfo ? (!talleristaInfo.acreditado ? 'Continuar' : 'Generar') : 'Generar')}}
             </app-btn>
         </div>
       </div>
     </div>
-    <!-- <div *ngIf="tipoMsg==true" class="flex justify-center">
-      <div class="boxMsgSatisf">
-        <div class="boxSpanMsg">
-          <span class="text-green-500 text-center">{{msgRespuesta | titlecase}}</span>
-        </div>
-        <div class="btnSgte">
-          <app-btn color="mezclado" (click)="setLink2(createRequest().numDoc, createRequest().tipoDoc)">Generar Ficha de Admisión
-          </app-btn>
-        </div>
-      </div>
-    </div> -->
 </div>

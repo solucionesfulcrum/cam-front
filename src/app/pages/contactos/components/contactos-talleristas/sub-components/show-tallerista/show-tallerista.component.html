@@ -19,32 +19,32 @@
                   border-white left-5 bottom-1/2"></div>
             </div>
             <div class="flex flex-col pl-4 pr-2 pb-6 gap-[10px]">
-                <span class="font-semibold text-xl">Juan Alberto Dorado Rivera</span>
+                <span class="font-semibold text-xl">{{dataTallerista.nombres | titlecase}}</span>
                 <!-- <h1 class="font-semibold text-xl mb-3">{{infoProfesional.pefilProfesional.nombre}}</h1> -->
                 <div class="flex justify-center">
                   <span class="px-4 py-1 rounded-full rolPersona font-light text-sm">Admisionista</span>
                   <!-- <span class="px-4 py-1 rounded-full rolPersona font-light text-sm">{{infoProfesional.pefilProfesional.rol | titlecase}}</span> -->
                 </div>
-                <ul class="max-h-[46vh] overflow-auto flex flex-col gap-[12px]">
-                  <li><span class="font-bold">DNI: </span>23855637</li>
-                  <li><span class="font-bold">Celular: </span>949252426</li>
-                  <li><span class="font-bold">Correo: </span>frida@gmail.com</li>
-                  <li><span class="font-bold">Correo Institucional: </span>-</li>
-                  <li><span class="font-bold">Fecha nacimiento: </span>14/04/1967</li>
-                  <li><span class="font-bold">Edad: </span>35 Años</li>
-                  <li><span class="font-bold">Sexo: </span>M</li>
-                  <li><span class="font-bold">Direccion: </span>Jr. Manco capac 128</li>
-                  <li><span class="font-bold">Código de planilla: </span>-</li>
-                  <li><span class="font-bold">Distrito: </span>Lima</li>
-                  <li><span class="font-bold">Provincia: </span>Lima</li>
-                  <li><span class="font-bold">Región: </span>Lima</li>
-                  <li><span class="font-bold">Nivel Educativo: </span>Superior Universitario</li>
-                  <li><span class="font-bold">Profesión: </span>Trabajador Social</li>
+                <ul class="max-h-[46vh] overflow-auto flex flex-col gap-[12px]"> <!--   {{dataTallerista.sexo ? dataTallerista.sexo : '-'}}   -->
+                  <li><span class="font-bold">DNI: </span>{{dataTallerista.dni}}</li>
+                  <li><span class="font-bold">Celular: </span>{{dataTallerista.celular ? dataTallerista.celular : '-'}}</li>
+                  <li><span class="font-bold">Correo: </span>{{dataTallerista.correo ? dataTallerista.correo : '-'}}</li>
+                  <li><span class="font-bold">Correo Institucional: </span>{{dataTallerista.correoIns ? dataTallerista.correoIns : '-'}}</li>
+                  <li><span class="font-bold">Fecha nacimiento: </span>{{dataTallerista.fechaNacimiento ? (dataTallerista.fechaNacimiento | date:'dd/MM/yyyy') : '-'}}</li>
+                  <li><span class="font-bold">Edad: </span>{{dataTallerista.edad ? dataTallerista.edad : '-'}} Años</li>
+                  <li><span class="font-bold">Sexo: </span>{{dataTallerista.sexo ? dataTallerista.sexo : '-'}}</li>
+                  <li><span class="font-bold">Direccion: </span>{{dataTallerista.direccion ? dataTallerista.direccion : '-'}}</li>
+                  <li><span class="font-bold">Código de planilla: </span>{{dataTallerista.codPlanilla ? dataTallerista.codPlanilla : '-'}}</li>
+                  <li><span class="font-bold">Distrito: </span>{{dataTallerista.codDistrito ? dataTallerista.codDistrito : '-'}}</li>
+                  <li><span class="font-bold">Provincia: </span>{{dataTallerista.codProvincia ? dataTallerista.codProvincia : '-'}}</li>
+                  <li><span class="font-bold">Región: </span>{{dataTallerista.codRegion ? dataTallerista.codRegion : '-'}}</li>
+                  <li><span class="font-bold">Nivel Educativo: </span>{{dataTallerista.nivelEducativo ? dataTallerista.nivelEducativo : '-'}}</li>
+                  <li><span class="font-bold">Profesión: </span>{{dataTallerista.sexo ? dataTallerista.sexo : '-'}}</li>
                   <li><span class="font-bold">RNE: </span>-</li>
                   <li><span class="font-bold">CMP: </span>-</li>
-                  <li><span class="font-bold">Unidad Operativa: </span>CERPS LIMA</li>
-                  <li><span class="font-bold">Fecha Registro: </span>01/02/2023</li>
-                  <li><span class="font-bold">Estado: </span> <span class="text-green-500">Activo</span></li>
+                  <li><span class="font-bold">Unidad Operativa: </span>{{dataTallerista.unidadOperativaTipo ? dataTallerista.unidadOperativaTipo : '-'}} {{dataTallerista.unidadOperativa ? dataTallerista.unidadOperativa : '-'}}</li>
+                  <li><span class="font-bold">Fecha Registro: </span>{{dataTallerista.fechaRegistro ? (dataTallerista.fechaRegistro | date:'dd/MM/yyyy') : '-'}}</li>
+                  <li><span class="font-bold">Estado: </span> <span class="text-green-500">{{dataTallerista.estado ? (dataTallerista.estado | titlecase) : '-'}}</span></li>
                   <!-- <li><span class="font-bold">{{infoProfesional.pefilProfesional.tipoDoc === 'DOCUMENTO NACIONAL DE IDENTIDAD' ? 'DNI': infoProfesional.pefilProfesional.tipoDoc | titlecase}}: </span>{{infoProfesional.pefilProfesional.numDoc}}</li>
                   <li><span class="font-bold">Celular: </span>{{infoProfesional.pefilProfesional.celular ? infoProfesional.pefilProfesional.celular : '-'}}</li>
                   <li class="overflow-hidden text-ellipsis"><span class="font-bold">Correo: </span>{{infoProfesional.pefilProfesional.correoPersonal}}</li>

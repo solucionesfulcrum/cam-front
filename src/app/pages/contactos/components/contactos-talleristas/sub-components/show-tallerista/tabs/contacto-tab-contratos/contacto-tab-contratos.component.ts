@@ -43,7 +43,6 @@ export class ContactoTabContratosComponent {
   getActivacion(){
     this.talleristaService.getTalleristaActivacion(this.idTallerista).subscribe((data)=>{
       if (data.code == 0) {
-        console.log(data.data)
         this.dataActivacion = data.data;
       }
       else {
@@ -55,7 +54,6 @@ export class ContactoTabContratosComponent {
   getContratos(){
     this.talleristaService.getListContratosTallerista(this.payloadActivacion()).subscribe((data)=>{
       if (data.code == 0) {
-        console.log(data.data.list)
         this.dataContratos = data.data.list;
         this.pageNum = data.data.pageNum;
         this.pageSize = data.data.pageSize;

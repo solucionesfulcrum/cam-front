@@ -78,7 +78,8 @@ export class ContratosListadoComponent {
         minWidth:'800px',
         maxWidth:'50%',
         data:{
-          idUnid: this.camElegido.idUnidadOperativa
+          idUnid: this.camElegido.idUnidadOperativa,
+          type: 1
         }
       })
     }

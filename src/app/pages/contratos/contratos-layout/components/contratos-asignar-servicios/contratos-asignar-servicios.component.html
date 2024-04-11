@@ -20,12 +20,13 @@
                     </div>
                 </div>
             </div>
-            <div class="pl-3 flex flex-col gap-2.5 border-r border-[#D4D4D4] w-full">
+            <div class="pl-3 flex flex-col gap-2.5 border-r border-[#D4D4D4] w-full relative">
                 <span class="text-[22px] text-[var(--color-CAM)] font-semibold leading-[20px]">Contrato</span>
                 <div class="flex flex-col gap-2 leading-5 text-[18px]">
                     <span><b>Orden de  Compra :</b> {{dataContrato.datosContrato.nroContrato}}</span>
                     <span><b>Desde :</b> {{dataContrato.datosContrato.fechaInicio | date:'dd/MM/yyyy'}} al {{dataContrato.datosContrato.fechaFin | date:'dd/MM/yyyy'}}</span>
                 </div>
+                <img class="absolute bottom-0 right-2 rounded hover:bg-gray-100 p-1 cursor-pointer" (click)="editCabeceraCOntrato()" src="assets/svg/Edit.svg">
             </div>
             <div class="pl-3 flex items-center justify-center shrink-0">
                 <app-btn class="botonApariencia flex" color="bordeado" (click)="addTablaUnid(1)">
@@ -76,7 +77,7 @@
                     </div>
                     <div class="flex flex-col gap-2.5 items-start">
                         <esp-tabla-adaptable class="w-full" [identificadorVisible]="false" [dataColumnas]="dataColumnas" [dataIngresante]="getTablaAndAttribute(ix, 'dataServiciosEnviado')" (sendData)="getTablaAndAttribute(ix, 'ctrlDataObt').setValue($event)" [dataDefault]="dataTables.get(ix.toString())!.get('dataDefault')!.value"></esp-tabla-adaptable>
-                        <app-btn class="botonApariencia flex" color="transparente" (click)="addServiceToTablaUnid(ix, 1)">
+                        <app-btn class="botonApariencia flex" color="transparente" (click)="addServiceToTablaUnid(ix)">
                             <esp-icon icon="faAdd"></esp-icon> Agregar Servicio
                         </app-btn>
                     </div>

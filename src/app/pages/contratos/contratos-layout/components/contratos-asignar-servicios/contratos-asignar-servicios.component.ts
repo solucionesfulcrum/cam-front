@@ -12,6 +12,7 @@ import { AppRoute } from 'src/app/data/constants/app-route.constant';
 import { ContratosAdministracionService } from 'src/app/data/services/contratos/contratos-administracion.service';
 import { DatosGeneralesService } from 'src/app/data/services/datos-generales.service';
 import { DialogConfirmSelectionComponent } from '../dialog/dialog-confirm-selection/dialog-confirm-selection.component';
+import { DialogNewContratoComponent } from '../dialog/dialog-new-contrato/dialog-new-contrato.component';
 
 @Component({
   selector: 'esp-contratos-asignar-servicios',
@@ -126,8 +127,8 @@ export class ContratosAsignarServiciosComponent {
     if (opt == 1) {
       let controlPrueba = this.fb.group({
         idUnidOperativ: new FormControl('', [Validators.required]),
-        fecRegistro: new FormControl(null, [Validators.required]),
-        fecRegistroDef: new FormControl(null, [Validators.required]),
+        fecRegistro: new FormControl(formatDate(new Date(), 'd/M/yyyy', this.locale), [Validators.required]),
+        fecRegistroDef: new FormControl(new Date(), [Validators.required]),
         dataServiciosEnviado: new FormControl(),
         dataDefault: [null],
         ctrlDataObt: new FormControl(),
@@ -166,8 +167,20 @@ export class ContratosAsignarServiciosComponent {
         ctrlDataObt: new FormControl(),
       });
       (this.dataTables as FormArray).push(controlPrueba);
-      // this.dataTables.valueChanges.subscribe((data)=>{console.log(data)})
+      this.dataTables.valueChanges.subscribe((data)=>{console.log(data)})
     }
+  }
+
+  editCabeceraCOntrato(){
+    const dialogRef = this.dialog.open(DialogNewContratoComponent,{
+      minWidth:'800px',
+      maxWidth:'50%',
+      data:{
+        dataTallerista: this.dataContrato.datosTallerista,
+        dataContrato: this.dataContrato.datosContrato,
+        type: 2
+      }
+    })
   }
   
   actualizarDate(index: number, value: any) {
@@ -194,7 +207,7 @@ export class ContratosAsignarServiciosComponent {
     return (listTypSelect!.filter((x) => x.nombre.toLowerCase().includes((typeof this.dataTables.at(index).get('idUnidOperativ')!.value) === 'string' ? this.dataTables.at(index).get('idUnidOperativ')!.value.toLowerCase() : this.dataTables.at(index).get('idUnidOperativ')!.value.nombre.toLowerCase())))
   }
 
-  addServiceToTablaUnid(index: number, opt?: number){
+  addServiceToTablaUnid(index: number){
     this.dataTables.get(index.toString())!.get('dataServiciosEnviado')!.setValue({idServicio: 1, nomServicio: ''})
   }
 

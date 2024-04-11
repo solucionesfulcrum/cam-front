@@ -23,15 +23,16 @@ export class DialogNewContratoComponent {
   tipoDocSelected: any = Object();
 
   retrievedPdf: any;
-  nombrePdf = '';
+  nombrePdf = null;
   fileSize = '';
   applicationFile: any;
   isPdfUpdate = false;
+  bloquearPDFAusente = false;
 
   talleristaInfo: any;
   
   public formNewContrato = this.fb.nonNullable.group({
-    frmSelectDoc: new FormControl(null),
+    frmSelectDoc: new FormControl(''),
     frmDoc: ['', [Validators.required, Validators.minLength(8)]],
   });
   public formVigencia = this.fb.nonNullable.group({
@@ -66,6 +67,11 @@ export class DialogNewContratoComponent {
     this.datosService.getTipoParametros('TIPO_DOCUMENTO_IDENTIDAD').subscribe((data) =>{
       // console.log(data);
       this.opciones = data.data;
+      if (this.data.type == 2) {
+        this.formNewContrato.controls.frmSelectDoc.setValue('1');
+        this.formNewContrato.controls.frmDoc.setValue(this.data.dataTallerista.nroDoc);
+        this.searchDataPersona(1)
+      }
     });
   }
 
@@ -116,6 +122,8 @@ export class DialogNewContratoComponent {
       };
   }
   removePdf() {
+    this.applicationFile = null;
+    this.nombrePdf = null;
     this.retrievedPdf = null;
     this.isPdfUpdate = false;
   }
@@ -132,9 +140,14 @@ export class DialogNewContratoComponent {
             this.formDataOrden.controls.frmOrden.setValue(this.talleristaInfo.contratoVigente[0].numOC)
             this.formDataOrden.controls.frmMonto.setValue(this.talleristaInfo.contratoVigente[0].monto)
             this.formDataOrden.disable()
-            this.nombrePdf = this.talleristaInfo.contratoVigente[0].nombreFile;
-            this.fileSize = this.talleristaInfo.contratoVigente[0].sizeFile;
             this.isPdfUpdate = true;
+            if (this.talleristaInfo.contratoVigente[0].nombreFile || this.talleristaInfo.contratoVigente[0].sizeFile) {
+              this.nombrePdf = this.talleristaInfo.contratoVigente[0].nombreFile;
+              this.fileSize = this.talleristaInfo.contratoVigente[0].sizeFile;
+            }
+            else{
+              this.bloquearPDFAusente = true;
+            }
           }
           this.formNewContrato.disable()
         }
@@ -156,21 +169,27 @@ export class DialogNewContratoComponent {
         this.status = 'loading';
         this.contratosService.saveDataContrato(this.getCabeceraPayload()).subscribe((data)=>{
           if (data.code == 0) {
-            const formData = new FormData();
-            formData.append('numOc', this.formDataOrden.controls.frmOrden.value!)
-            formData.append('archivoPdf', this.applicationFile);
-            this.contratosService.saveFileOc(formData).subscribe((datos)=>{
-              if (datos.code == 0) {
-                console.log(data)
-                this.router.navigate([`app/${AppRoute.CONTRATOS}/${AppRoute.CONTRATOS_ASIGNAR_SERVICIOS}/${data.data.numOc}`])
-                this._dialogRef.close();
-                this.status = 'success';
-              } 
-              else {
-                this.status = 'failed';
-                this.notificationService.warning(datos.message);
-              }
-            })
+            if (this.applicationFile) {
+              const formData = new FormData();
+              formData.append('numOc', this.formDataOrden.controls.frmOrden.value!)
+              formData.append('archivoPdf', this.applicationFile);
+              this.contratosService.saveFileOc(formData).subscribe((datos)=>{
+                if (datos.code == 0) {
+                  this.router.navigate([`app/${AppRoute.CONTRATOS}/${AppRoute.CONTRATOS_ASIGNAR_SERVICIOS}/${data.data.numOc}`])
+                  this._dialogRef.close();
+                  this.status = 'success';
+                } 
+                else {
+                  this.status = 'failed';
+                  this.notificationService.warning(datos.message);
+                }
+              })
+            }
+            else{
+              this.router.navigate([`app/${AppRoute.CONTRATOS}/${AppRoute.CONTRATOS_ASIGNAR_SERVICIOS}/${data.data.numOc}`])
+              this._dialogRef.close();
+              this.status = 'success';
+            }
           } 
           else {
             this.status = 'failed';
@@ -187,8 +206,10 @@ export class DialogNewContratoComponent {
       this._dialogRef.close();
       this.router.navigate([`app/${AppRoute.CONTRATOS}/${AppRoute.CONTRATOS_ASIGNAR_SERVICIOS}/${this.talleristaInfo.contratoVigente[0].numOC}`])
     }
-    // this._dialogRef.close();
-    // this.router.navigate([`app/${AppRoute.CONTRATOS}/${AppRoute.CONTRATOS_ASIGNAR_SERVICIOS}`])
+  }
+
+  actualizarCabecera(){
+
   }
 
   getCabeceraPayload(): RequestSendCabeceraContrato{
