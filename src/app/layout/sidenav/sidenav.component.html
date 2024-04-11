@@ -96,6 +96,16 @@
             </div>
             <div class="flex flex-col gap-2.5 px-3 py-2.5">
               <div class="flex flex-row items-center gap-2.5 cursor-pointer" [routerLink]="'/app/admin'">
+                <img class="h-5 self-center" src="assets/svg/iconoCiramSidNav.svg">
+                <span>Administrar CIRAM'S</span>
+              </div>
+              <div class="flex flex-row items-center gap-2.5 cursor-pointer" (click)="logout()">
+                <img src="assets/svg/iconoCloudCiramNav.svg"/>
+                <span>Ver Datos como CIRAM</span>
+              </div>
+            </div>
+            <div class="flex flex-col gap-[7.5px] px-3 py-2.5 border-[#D4D4D4] border-y">
+              <div class="flex flex-row items-center gap-2.5 cursor-pointer" [routerLink]="'/app/admin'">
                 <img class="h-5 self-center" src="assets/svg/circle-arrow-left.svg">
                 <span>Volver a lista de Centros</span>
               </div>
