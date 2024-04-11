@@ -3,7 +3,7 @@ import { formatDate } from '@angular/common';
 import { Component, Inject, LOCALE_ID } from '@angular/core';
 import { FormBuilder, FormControl, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
-import { RequestSendCabeceraContrato } from '@models/contratos/contratos-administracion.model';
+import { RequestEditCabecera, RequestSendCabeceraContrato } from '@models/contratos/contratos-administracion.model';
 import { Parametro } from '@models/parametros-busqueda.model';
 import { RequestStatus } from '@models/request-status.model';
 import { NotificationService } from '@services/notification.service';
@@ -28,6 +28,7 @@ export class DialogNewContratoComponent {
   applicationFile: any;
   isPdfUpdate = false;
   bloquearPDFAusente = false;
+  comprobacionPDF = '';
 
   talleristaInfo: any;
   
@@ -76,16 +77,15 @@ export class DialogNewContratoComponent {
   }
 
   actualizarDate(input: any, opt: number) {
-    if (input == '') {
-      input = null;
-    }
-    switch (opt) {
-      case 1:
-        this.formVigencia.controls.frmInicioVigencia.setValue(input)
-        break;
-      case 2:
-        this.formVigencia.controls.frmFinVigencia.setValue(input)
-        break;
+    if (input) {
+      switch (opt) {
+        case 1:
+          this.formVigencia.controls.frmInicioVigencia.setValue(input)
+          break;
+        case 2:
+          this.formVigencia.controls.frmFinVigencia.setValue(input)
+          break;
+      }
     }
   }
 
@@ -136,17 +136,25 @@ export class DialogNewContratoComponent {
           if (!this.talleristaInfo.acreditado) {
             this.formVigencia.controls.frmInicioVigencia.setValue(formatDate(this.talleristaInfo.contratoVigente[0].fechaInicio, 'd/M/yyyy', this.locale))
             this.formVigencia.controls.frmFinVigencia.setValue(formatDate(this.talleristaInfo.contratoVigente[0].fechaFin, 'd/M/yyyy', this.locale))
-            this.formVigencia.disable()
             this.formDataOrden.controls.frmOrden.setValue(this.talleristaInfo.contratoVigente[0].numOC)
             this.formDataOrden.controls.frmMonto.setValue(this.talleristaInfo.contratoVigente[0].monto)
-            this.formDataOrden.disable()
-            this.isPdfUpdate = true;
+            if (this.data.type == 1) {
+              this.formVigencia.disable()
+              this.formDataOrden.disable()
+            }
+            else{
+              this.formDataOrden.controls.frmOrden.disable();
+              this.comprobacionPDF = this.talleristaInfo.contratoVigente[0].nombreFile;
+            }
             if (this.talleristaInfo.contratoVigente[0].nombreFile || this.talleristaInfo.contratoVigente[0].sizeFile) {
               this.nombrePdf = this.talleristaInfo.contratoVigente[0].nombreFile;
               this.fileSize = this.talleristaInfo.contratoVigente[0].sizeFile;
+              this.isPdfUpdate = true;
             }
             else{
-              this.bloquearPDFAusente = true;
+              if (this.data.type == 1) {
+                this.bloquearPDFAusente = true;
+              }
             }
           }
           this.formNewContrato.disable()
@@ -209,7 +217,22 @@ export class DialogNewContratoComponent {
   }
 
   actualizarCabecera(){
+    console.log(this.getEditCabecera())
+  }
 
+  getEditCabecera(): RequestEditCabecera{
+    let fechaInicio: string, fechaFin: string;
+    fechaInicio = this.formVigencia.value.frmInicioVigencia!;
+    fechaFin = this.formVigencia.value.frmFinVigencia!;
+
+    return {
+      idUsuarioTallerista: this.talleristaInfo.idUsuario,
+      numOc: this.formDataOrden.controls.frmOrden.value!,
+      fechaInicio: formatDate(fechaInicio!.split('/')[2] + '/' + fechaInicio!.split('/')[1] + '/' + fechaInicio!.split('/')[0], 'yyyy-MM-dd', this.locale),
+      fechaFin: formatDate(fechaFin!.split('/')[2] + '/' + fechaFin!.split('/')[1] + '/' + fechaFin!.split('/')[0], 'yyyy-MM-dd', this.locale),
+      monto: this.formDataOrden.controls.frmMonto.value!,
+      usuarioModId: (JSON.parse(localStorage.getItem('camUser')!)).idUsuario
+    }
   }
 
   getCabeceraPayload(): RequestSendCabeceraContrato{

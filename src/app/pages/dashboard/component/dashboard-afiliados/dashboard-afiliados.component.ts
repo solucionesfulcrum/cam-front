@@ -20,6 +20,7 @@ import {
 
 import { series } from "./data";
 import { ArrayType } from '@angular/compiler';
+import { NotificationService } from '@services/notification.service';
 
 export type ChartOptions = {
   series: ApexAxisChartSeries;
@@ -46,6 +47,7 @@ export class DashboardAfiliadosComponent implements OnInit {
   faSpinner = faSpinner;
   respuestaServicio=1000;
   totalAfiliadosActivos: number = 0;
+  dataServicio: any;
   idUnidadOperativaUser = (JSON.parse(localStorage.getItem('UnidElegida')!)).idUnidOperativa;
 
   formBuscar: FormGroup = this.fb.group({
@@ -64,7 +66,8 @@ export class DashboardAfiliadosComponent implements OnInit {
   constructor(
     private authService: AuthService,
     private fb: FormBuilder,
-    private afiliacionesService: AfiliacionesSolicitudesService
+    private afiliacionesService: AfiliacionesSolicitudesService,
+    private notificationService: NotificationService
   ) {
     this.chartOptions = {
       /*series: [
@@ -125,7 +128,6 @@ export class DashboardAfiliadosComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.onLoadData()
 
   }
 
@@ -139,40 +141,26 @@ export class DashboardAfiliadosComponent implements OnInit {
     const fechaFormateadaFin= `${fechaFin[2]}-${fechaFin[1]}-${fechaFin[0]}`;
     
     this.authService.listarDashboard({ fecInicio: fechaFormateadaInicio, fecFin: fechaFormateadaFin, idUnidadOperativa: this.idUnidadOperativaUser }).subscribe((data) => {
-      
-      this.respuestaServicio = data.code;
-      console.log("data.code", data.code)
-      console.log("data.code", typeof(data.code))
-      this.totalAfiliados=0;
-      for (let i = 0; i < data.data.contAsegurados.length; i++) {
-        this.totalAfiliados += data.data.contAsegurados[i]; 
-      }
-      this.chartOptions.series = [
-        {
-          name: "PACIENTES",
-          data: data.data.contAsegurados
+      if (data.code == 0) {
+        this.respuestaServicio = data.code;
+        console.log("data.code", data.code)
+        console.log("data.code", typeof(data.code))
+        this.totalAfiliados=0;
+        for (let i = 0; i < data.data.contAsegurados.length; i++) {
+          this.totalAfiliados += data.data.contAsegurados[i]; 
         }
-      ];
-
-      if(this.totalAfiliados>=4){
-      this.chartOptions.yaxis = [
-        {
-          opposite: false,
-          tickAmount: 4,
-          forceNiceScale: false,
-          min: 0,
-          labels: {
-            formatter: function (val: number) {
-              return val.toFixed(0); 
-            }
+        this.chartOptions.series = [
+          {
+            name: "PACIENTES",
+            data: data.data.contAsegurados
           }
-        }
-      ];
-      }else{
+        ];
+  
+        if(this.totalAfiliados>=4){
         this.chartOptions.yaxis = [
           {
             opposite: false,
-            tickAmount: 1,
+            tickAmount: 4,
             forceNiceScale: false,
             min: 0,
             labels: {
@@ -182,9 +170,29 @@ export class DashboardAfiliadosComponent implements OnInit {
             }
           }
         ];
+        }else{
+          this.chartOptions.yaxis = [
+            {
+              opposite: false,
+              tickAmount: 1,
+              forceNiceScale: false,
+              min: 0,
+              labels: {
+                formatter: function (val: number) {
+                  return val.toFixed(0); 
+                }
+              }
+            }
+          ];
+        }
+  
+        this.chartOptions.labels = data.data.fecha;
+        
+        this.dataServicio = data.data;
       }
-
-      this.chartOptions.labels = data.data.fecha;
+      else{
+        this.notificationService.warning(data.message);
+      }
     })
 
     this.authService.listarDashboardActivos({ fecInicio: fechaFormateadaInicio, fecFin: fechaFormateadaFin, idUnidadOperativa: this.idUnidadOperativaUser, estado: 14 }).subscribe((data) => {

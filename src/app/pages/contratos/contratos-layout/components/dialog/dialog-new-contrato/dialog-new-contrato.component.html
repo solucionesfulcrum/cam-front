@@ -1,5 +1,5 @@
 <div class="px-4 py-3 bg-primary-700 flex justify-between text-white rounded-t-lg">
-    <span><b>Nuevo Contrato</b></span>
+    <span><b>{{data.type == 1 ? 'Nuevo Contrato': 'Editar Cabecera de Contrato'}}</b></span>
     <button (click)="onClose()"><esp-icon icon="faClose"></esp-icon></button>
 </div>
 <div class="px-4 py-3 bg-white rounded-b-lg">
@@ -27,7 +27,7 @@
                 class="w-full text-sm rounded bg-white border-gray-400 border-1 px-4 py-2 font-light focusCampo h-[42px]" (keydown.enter)="searchDataPersona((talleristaInfo ? 2 : 1))"
               />
             </div>
-            <div class="w-[34px] h-10 flex items-center justify-center border border-gray-400 rounded cursor-pointer hover:bg-slate-200 shrink-0" (click)="searchDataPersona((talleristaInfo ? 2 : 1))" [ngClass]="!talleristaInfo ? null : 'border-red-600 text-red-600'">
+            <div class="w-[34px] h-10 flex items-center justify-center border border-gray-400 rounded cursor-pointer hover:bg-slate-200 shrink-0" *ngIf="data.type == 1" (click)="searchDataPersona((talleristaInfo ? 2 : 1))" [ngClass]="!talleristaInfo ? null : 'border-red-600 text-red-600'">
               <img *ngIf="!talleristaInfo" src="assets/svg/icon-contrato-confirm.svg">
               <esp-icon *ngIf="talleristaInfo" icon="faTrashCan"></esp-icon>
             </div>
@@ -128,7 +128,7 @@
                   <esp-icon class="text-[11px] text-[#E4002B]" [icon]="'faPaperclip'"></esp-icon>
                   <span>{{nombrePdf}} <b>({{(applicationFile ? (applicationFile.size / 1048576 | number:'.1-2'): fileSize)}}MB)</b></span>
                 </div>
-                <div class="bg-[#FEE6E6] px-3 py-1.5 flex justify-center items-center cursor-pointer" (click)="removePdf()" *ngIf="talleristaInfo ? (!talleristaInfo.acreditado ? false : true) : true">
+                <div class="bg-[#FEE6E6] px-3 py-1.5 flex justify-center items-center cursor-pointer" (click)="removePdf()" *ngIf="data.type == 1 ? (talleristaInfo ? (!talleristaInfo.acreditado ? false : true) : true) : true">
                   <esp-icon class="text-[8px] text-[#E4002B]" [icon]="'faX'"></esp-icon>
                 </div>
               </div>
