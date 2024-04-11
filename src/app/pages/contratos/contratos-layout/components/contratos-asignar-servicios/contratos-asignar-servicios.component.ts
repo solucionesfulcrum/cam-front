@@ -110,6 +110,7 @@ export class ContratosAsignarServiciosComponent {
     this.contratoService.getDataFromOC(this.numOc).subscribe((data)=>{
       if (data.code == 0) {
         this.dataContrato = data.data;
+        console.log(this.dataContrato)
         this.addTablaUnid(2,this.dataContrato.datosDetMismaUnidad[0], 0)
         if (this.dataContrato.datosDetOtraUnidad.length > 0) {
           this.dataContrato.datosDetOtraUnidad.forEach((x: any)=>{
@@ -181,6 +182,19 @@ export class ContratosAsignarServiciosComponent {
         type: 2
       }
     })
+    dialogRef.closed.subscribe(result => {
+      if (result == 1) {
+        this.contratoService.getDataFromOC(this.numOc).subscribe((data)=>{
+          if (data.code == 0) {
+            this.dataContrato.datosContrato.fechaInicio = data.data.datosContrato.fechaInicio;
+            this.dataContrato.datosContrato.fechaFin = data.data.datosContrato.fechaFin;
+          }
+          else{
+            this.notificationService.warning(data.message);
+          }
+        })
+      }
+    });
   }
   
   actualizarDate(index: number, value: any) {
