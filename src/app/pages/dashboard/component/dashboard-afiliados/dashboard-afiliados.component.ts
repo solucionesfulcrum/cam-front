@@ -5,6 +5,7 @@ import { RequestListaSAfiliadosContacto } from '@models/afiliados/ficha-solicitu
 import { AfiliacionesSolicitudesService } from 'src/app/data/services/afiliaciones/afiliaciones-solicitudes.service';
 import { AuthService } from '@services/auth.service';
 import { listardashboardRequest } from '@models/dashboard/dashboard.model'
+import { faSpinner } from '@fortawesome/free-solid-svg-icons';
 import {
   ChartComponent,
   ApexAxisChartSeries,
@@ -42,6 +43,8 @@ export class DashboardAfiliadosComponent implements OnInit {
   @ViewChild("chart") chart!: ChartComponent;
   public chartOptions!: Partial<ChartOptions> | any;
   totalAfiliados: number = 0;
+  faSpinner = faSpinner;
+  respuestaServicio=1000;
   totalAfiliadosActivos: number = 0;
   idUnidadOperativaUser = (JSON.parse(localStorage.getItem('UnidElegida')!)).idUnidOperativa;
 
@@ -127,47 +130,27 @@ export class DashboardAfiliadosComponent implements OnInit {
   }
 
   onLoadData() {
-    console.log("fecha de filtro",this.formBuscar.get('frmSearchDate')?.value.split("-")[0])
-    //const fechaActual = new Date();
     const fechaIicioComponent = this.formBuscar.get('frmSearchDate')?.value.split("-")[0].trim();
-    console.log("fechaActual",fechaIicioComponent);
     const fechaInicio = fechaIicioComponent.split("/");
     const fechaFormateadaInicio = `${fechaInicio[2]}-${fechaInicio[1]}-${fechaInicio[0]}`;
-    // Primer día del mes
-    /*const primerDiaDelAno = new Date(fechaActual.getFullYear(), 0, 1);
-    console.log("primerDiaDelAno",primerDiaDelAno);
-    const fechaInicio = new Date(primerDiaDelAno);
-    console.log("primer dia del año",fechaInicio);
-    // Formatear la fecha manualmente
-    const fechaFormateadaInicio = fechaInicio.getFullYear() + "-" +
-      String(fechaInicio.getMonth() + 1).padStart(2, '0') + "-" +
-      String(fechaInicio.getDate()).padStart(2, '0');*/
-
-    console.log("fechaFormateadaInicio",fechaFormateadaInicio); // "2024-03-01"
 
     const fechaFinComponent = this.formBuscar.get('frmSearchDate')?.value.split("-")[1].trim()
     const fechaFin = fechaFinComponent.split("/");
     const fechaFormateadaFin= `${fechaFin[2]}-${fechaFin[1]}-${fechaFin[0]}`;
-    // Último día del mes
-    /*const ultimoDiaDelMes = new Date(fechaActual.getFullYear(), fechaActual.getMonth() + 1, 0);
-    const fechaFin = new Date(ultimoDiaDelMes);
-    const fechaFormateadaFin = fechaFin.getFullYear() + "-" +
-      String(fechaFin.getMonth() + 1).padStart(2, '0') + "-" +
-      String(fechaFin.getDate()).padStart(2, '0');
-
-    console.log(fechaFormateadaFin);*/
-
+    
     this.authService.listarDashboard({ fecInicio: fechaFormateadaInicio, fecFin: fechaFormateadaFin, idUnidadOperativa: this.idUnidadOperativaUser }).subscribe((data) => {
+      
+      this.respuestaServicio = data.code;
+      console.log("data.code", data.code)
+      console.log("data.code", typeof(data.code))
       this.totalAfiliados=0;
       for (let i = 0; i < data.data.contAsegurados.length; i++) {
-        this.totalAfiliados += data.data.contAsegurados[i]; // Suma cada elemento al total
-
-        console.log("total",this.totalAfiliados)
+        this.totalAfiliados += data.data.contAsegurados[i]; 
       }
       this.chartOptions.series = [
         {
           name: "PACIENTES",
-          data: data.data.contAsegurados // Asume que contAsegurados es un arreglo de números
+          data: data.data.contAsegurados
         }
       ];
 
@@ -180,7 +163,7 @@ export class DashboardAfiliadosComponent implements OnInit {
           min: 0,
           labels: {
             formatter: function (val: number) {
-              return val.toFixed(0); // This will convert the float to a string with no decimal places
+              return val.toFixed(0); 
             }
           }
         }
@@ -194,7 +177,7 @@ export class DashboardAfiliadosComponent implements OnInit {
             min: 0,
             labels: {
               formatter: function (val: number) {
-                return val.toFixed(0); // This will convert the float to a string with no decimal places
+                return val.toFixed(0); 
               }
             }
           }
@@ -207,7 +190,7 @@ export class DashboardAfiliadosComponent implements OnInit {
     this.authService.listarDashboardActivos({ fecInicio: fechaFormateadaInicio, fecFin: fechaFormateadaFin, idUnidadOperativa: this.idUnidadOperativaUser, estado: 14 }).subscribe((data) => {
       this.totalAfiliadosActivos=0;
       for (let i = 0; i < data.data.contAsegurados.length; i++) {
-        this.totalAfiliadosActivos += data.data.contAsegurados[i]; // Suma cada elemento al total
+        this.totalAfiliadosActivos += data.data.contAsegurados[i]; 
       }
     })
 

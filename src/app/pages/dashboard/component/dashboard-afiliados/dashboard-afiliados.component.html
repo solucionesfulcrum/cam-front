@@ -1,13 +1,15 @@
-<esp-opciones-busqueda 
-    [showDateFilter]="true"
-    [setFilterDateOptionSelected]="'var(--color-CAM-Mezclado)'" 
-    [setFilterDateTextColour]="'var(--color-CAM-Mezclado)'"
-    [filterDateAppearance]="2"
-    (sendDateFilterWithCeros)="getDataFecha($event)"
-    [setFilterDateSelectionBg]="'var(--color-CAM-Claro)'"
-    [setFilterDateButtonBg]="'var(--color-CAM-Claro)'"
-    [setDateSelectedDefault]="9"
-></esp-opciones-busqueda>
+<div class="px-4 py-3 bg-white w-full mt-3 grid botonApariencia" *ngIf="respuestaServicio">
+    <div class="text-gray-600 w-full text-center">
+        <span class="py-1 font-bold text-2xl">
+            <fa-icon class="mr-2" [icon]="faSpinner" [pulse]="true"></fa-icon>
+            Obteniendo datos...
+        </span>
+    </div>
+</div>
+<esp-opciones-busqueda [showDateFilter]="true" [setFilterDateOptionSelected]="'var(--color-CAM-Mezclado)'"
+    [setFilterDateTextColour]="'var(--color-CAM-Mezclado)'" [filterDateAppearance]="2"
+    (sendDateFilterWithCeros)="getDataFecha($event)" [setFilterDateSelectionBg]="'var(--color-CAM-Claro)'"
+    [setFilterDateButtonBg]="'var(--color-CAM-Claro)'" [setDateSelectedDefault]="9"></esp-opciones-busqueda>
 
 
 <div class="infoGeneral text-[var(--color-black-alt)] font-semibold">
@@ -50,16 +52,8 @@
 </div>
 
 <div id="chart">
-    <apx-chart
-    [series]="chartOptions.series"
-    [chart]="chartOptions.chart"
-    [xaxis]="chartOptions.xaxis"
-    [stroke]="chartOptions.stroke"
-    [dataLabels]="chartOptions.dataLabels"
-    [yaxis]="chartOptions.yaxis"
-    [labels]="chartOptions.labels"
-    [legend]="chartOptions.legend"
-    [title]="chartOptions.title"
-    [subtitle]="chartOptions.subtitle"
-    ></apx-chart>
-  </div>
+    <apx-chart [series]="chartOptions.series" [chart]="chartOptions.chart" [xaxis]="chartOptions.xaxis"
+        [stroke]="chartOptions.stroke" [dataLabels]="chartOptions.dataLabels" [yaxis]="chartOptions.yaxis"
+        [labels]="chartOptions.labels" [legend]="chartOptions.legend" [title]="chartOptions.title"
+        [subtitle]="chartOptions.subtitle"></apx-chart>
+</div>
