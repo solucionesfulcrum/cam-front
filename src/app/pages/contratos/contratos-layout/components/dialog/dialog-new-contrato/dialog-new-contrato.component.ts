@@ -3,7 +3,7 @@ import { formatDate } from '@angular/common';
 import { Component, Inject, LOCALE_ID } from '@angular/core';
 import { FormBuilder, FormControl, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
-import { RequestSendCabeceraContrato } from '@models/contratos/contratos-administracion.model';
+import { RequestEditCabecera, RequestSendCabeceraContrato } from '@models/contratos/contratos-administracion.model';
 import { Parametro } from '@models/parametros-busqueda.model';
 import { RequestStatus } from '@models/request-status.model';
 import { NotificationService } from '@services/notification.service';
@@ -23,15 +23,17 @@ export class DialogNewContratoComponent {
   tipoDocSelected: any = Object();
 
   retrievedPdf: any;
-  nombrePdf = '';
+  nombrePdf = null;
   fileSize = '';
   applicationFile: any;
   isPdfUpdate = false;
+  bloquearPDFAusente = false;
+  comprobacionPDF = '';
 
   talleristaInfo: any;
   
   public formNewContrato = this.fb.nonNullable.group({
-    frmSelectDoc: new FormControl(null),
+    frmSelectDoc: new FormControl(''),
     frmDoc: ['', [Validators.required, Validators.minLength(8)]],
   });
   public formVigencia = this.fb.nonNullable.group({
@@ -66,20 +68,24 @@ export class DialogNewContratoComponent {
     this.datosService.getTipoParametros('TIPO_DOCUMENTO_IDENTIDAD').subscribe((data) =>{
       // console.log(data);
       this.opciones = data.data;
+      if (this.data.type == 2) {
+        this.formNewContrato.controls.frmSelectDoc.setValue('1');
+        this.formNewContrato.controls.frmDoc.setValue(this.data.dataTallerista.nroDoc);
+        this.searchDataPersona(1)
+      }
     });
   }
 
   actualizarDate(input: any, opt: number) {
-    if (input == '') {
-      input = null;
-    }
-    switch (opt) {
-      case 1:
-        this.formVigencia.controls.frmInicioVigencia.setValue(input)
-        break;
-      case 2:
-        this.formVigencia.controls.frmFinVigencia.setValue(input)
-        break;
+    if (input) {
+      switch (opt) {
+        case 1:
+          this.formVigencia.controls.frmInicioVigencia.setValue(input)
+          break;
+        case 2:
+          this.formVigencia.controls.frmFinVigencia.setValue(input)
+          break;
+      }
     }
   }
 
@@ -116,6 +122,8 @@ export class DialogNewContratoComponent {
       };
   }
   removePdf() {
+    this.applicationFile = null;
+    this.nombrePdf = null;
     this.retrievedPdf = null;
     this.isPdfUpdate = false;
   }
@@ -128,13 +136,26 @@ export class DialogNewContratoComponent {
           if (!this.talleristaInfo.acreditado) {
             this.formVigencia.controls.frmInicioVigencia.setValue(formatDate(this.talleristaInfo.contratoVigente[0].fechaInicio, 'd/M/yyyy', this.locale))
             this.formVigencia.controls.frmFinVigencia.setValue(formatDate(this.talleristaInfo.contratoVigente[0].fechaFin, 'd/M/yyyy', this.locale))
-            this.formVigencia.disable()
             this.formDataOrden.controls.frmOrden.setValue(this.talleristaInfo.contratoVigente[0].numOC)
             this.formDataOrden.controls.frmMonto.setValue(this.talleristaInfo.contratoVigente[0].monto)
-            this.formDataOrden.disable()
-            this.nombrePdf = this.talleristaInfo.contratoVigente[0].nombreFile;
-            this.fileSize = this.talleristaInfo.contratoVigente[0].sizeFile;
-            this.isPdfUpdate = true;
+            if (this.data.type == 1) {
+              this.formVigencia.disable()
+              this.formDataOrden.disable()
+            }
+            else{
+              this.formDataOrden.controls.frmOrden.disable();
+              this.comprobacionPDF = this.talleristaInfo.contratoVigente[0].nombreFile;
+            }
+            if (this.talleristaInfo.contratoVigente[0].nombreFile || this.talleristaInfo.contratoVigente[0].sizeFile) {
+              this.nombrePdf = this.talleristaInfo.contratoVigente[0].nombreFile;
+              this.fileSize = this.talleristaInfo.contratoVigente[0].sizeFile;
+              this.isPdfUpdate = true;
+            }
+            else{
+              if (this.data.type == 1) {
+                this.bloquearPDFAusente = true;
+              }
+            }
           }
           this.formNewContrato.disable()
         }
@@ -156,21 +177,27 @@ export class DialogNewContratoComponent {
         this.status = 'loading';
         this.contratosService.saveDataContrato(this.getCabeceraPayload()).subscribe((data)=>{
           if (data.code == 0) {
-            const formData = new FormData();
-            formData.append('numOc', this.formDataOrden.controls.frmOrden.value!)
-            formData.append('archivoPdf', this.applicationFile);
-            this.contratosService.saveFileOc(formData).subscribe((datos)=>{
-              if (datos.code == 0) {
-                console.log(data)
-                this.router.navigate([`app/${AppRoute.CONTRATOS}/${AppRoute.CONTRATOS_ASIGNAR_SERVICIOS}/${data.data.numOc}`])
-                this._dialogRef.close();
-                this.status = 'success';
-              } 
-              else {
-                this.status = 'failed';
-                this.notificationService.warning(datos.message);
-              }
-            })
+            if (this.applicationFile) {
+              const formData = new FormData();
+              formData.append('numOc', this.formDataOrden.controls.frmOrden.value!)
+              formData.append('archivoPdf', this.applicationFile);
+              this.contratosService.saveFileOc(formData).subscribe((datos)=>{
+                if (datos.code == 0) {
+                  this.router.navigate([`app/${AppRoute.CONTRATOS}/${AppRoute.CONTRATOS_ASIGNAR_SERVICIOS}/${data.data.numOc}`])
+                  this._dialogRef.close();
+                  this.status = 'success';
+                } 
+                else {
+                  this.status = 'failed';
+                  this.notificationService.warning(datos.message);
+                }
+              })
+            }
+            else{
+              this.router.navigate([`app/${AppRoute.CONTRATOS}/${AppRoute.CONTRATOS_ASIGNAR_SERVICIOS}/${data.data.numOc}`])
+              this._dialogRef.close();
+              this.status = 'success';
+            }
           } 
           else {
             this.status = 'failed';
@@ -187,8 +214,25 @@ export class DialogNewContratoComponent {
       this._dialogRef.close();
       this.router.navigate([`app/${AppRoute.CONTRATOS}/${AppRoute.CONTRATOS_ASIGNAR_SERVICIOS}/${this.talleristaInfo.contratoVigente[0].numOC}`])
     }
-    // this._dialogRef.close();
-    // this.router.navigate([`app/${AppRoute.CONTRATOS}/${AppRoute.CONTRATOS_ASIGNAR_SERVICIOS}`])
+  }
+
+  actualizarCabecera(){
+    console.log(this.getEditCabecera())
+  }
+
+  getEditCabecera(): RequestEditCabecera{
+    let fechaInicio: string, fechaFin: string;
+    fechaInicio = this.formVigencia.value.frmInicioVigencia!;
+    fechaFin = this.formVigencia.value.frmFinVigencia!;
+
+    return {
+      idUsuarioTallerista: this.talleristaInfo.idUsuario,
+      numOc: this.formDataOrden.controls.frmOrden.value!,
+      fechaInicio: formatDate(fechaInicio!.split('/')[2] + '/' + fechaInicio!.split('/')[1] + '/' + fechaInicio!.split('/')[0], 'yyyy-MM-dd', this.locale),
+      fechaFin: formatDate(fechaFin!.split('/')[2] + '/' + fechaFin!.split('/')[1] + '/' + fechaFin!.split('/')[0], 'yyyy-MM-dd', this.locale),
+      monto: this.formDataOrden.controls.frmMonto.value!,
+      usuarioModId: (JSON.parse(localStorage.getItem('camUser')!)).idUsuario
+    }
   }
 
   getCabeceraPayload(): RequestSendCabeceraContrato{

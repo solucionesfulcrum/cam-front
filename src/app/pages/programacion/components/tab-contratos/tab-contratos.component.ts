@@ -32,7 +32,6 @@ export class TabContratosComponent {
   ) { }
 
   loadData(){
-    console.log(1)
     this.programacionService.listContratosProgramacion(this.getPayloadList()).subscribe((data)=>{
       if (data.code == 0) {
         console.log(data.data.list)

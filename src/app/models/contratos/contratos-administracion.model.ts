@@ -8,6 +8,15 @@ export interface RequestSendCabeceraContrato{
     detalle: ContratoDetalle[]
 }
 
+export interface RequestEditCabecera{
+    idUsuarioTallerista: number,
+    numOc: string,
+    fechaInicio: string,
+    fechaFin: string,
+    monto: number,
+    usuarioModId: number
+}
+
 export interface RequestListContracts{
     idUnidOpe: number,
     texto: string,

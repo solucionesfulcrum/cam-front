@@ -17,6 +17,11 @@ export class ContactosTalleristasService {
     return this._httpClient.post<any>(url,model);
   }
 
+  getDataTallerista(idUsuario: string){
+    const url = `${URL_BASE}/obtener/datos/usuario/${idUsuario}`;
+    return this._httpClient.get<any>(url);
+  }
+
   getListContratosTallerista(model: RequestListTalleristaContrato){
     const url = `${URL_BASE}/listar/contratos`;
     return this._httpClient.post<any>(url,model);

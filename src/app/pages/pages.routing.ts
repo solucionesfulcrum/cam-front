@@ -29,6 +29,13 @@ export const pagesRoutes: Route[] = [
           import('./dashboard/dashboard.module').then((c) => c.DashboardModule),
       },
       {
+        path: 'adm-uo',
+        canActivate:[AuthGuard, CerpUserGuard],
+        title:'Mi Administración UO',
+        loadChildren: () =>
+          import('./adm-uo/adm-uo.module').then((c) => c.AdmUoModule),
+      },
+      {
         path: 'home',
         canActivate:[AuthGuard],
         title:'Mi home',

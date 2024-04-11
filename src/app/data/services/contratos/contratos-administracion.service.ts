@@ -1,7 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { environment } from '@environments/environment';
-import { RequestContratoDetalle, RequestListContracts, RequestSearchUser, RequestSendCabeceraContrato } from '@models/contratos/contratos-administracion.model';
+import { RequestContratoDetalle, RequestEditCabecera, RequestListContracts, RequestSearchUser, RequestSendCabeceraContrato } from '@models/contratos/contratos-administracion.model';
 import { Observable } from 'rxjs';
 
 const URL_BASE = `${environment.API}/contrato`;
@@ -45,6 +45,11 @@ export class ContratosAdministracionService {
 
   saveDataDetalleContrato(model: RequestContratoDetalle){
     const url = `${URL_BASE}/registrar/detalle`;
+    return this._httpClient.post<any>(url, model);
+  }
+
+  editCabeceraContrato(model: RequestEditCabecera){
+    const url = `${URL_BASE}/actualizar/cabecera`;
     return this._httpClient.post<any>(url, model);
   }
 
