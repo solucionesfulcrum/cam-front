@@ -1,0 +1,176 @@
+<div class="px-4 py-3 bg-white w-full mt-3 grid botonApariencia" *ngIf="!dataContrato">
+    <div class="text-gray-600 w-full text-center">
+        <p class="py-1 font-semibold text-2xl">
+            <fa-icon class="mr-2" [icon]="faSpinner" [pulse]="true"></fa-icon>
+            Obteniendo datos...
+        </p>
+    </div>
+</div>
+<div *ngIf="dataContrato">
+    <esp-opciones-botones class="modificarAltura" [listOpciones]="opcionesBotones" (firstFunction)="funcionesExtra(0)" (secondFunction)="funcionesExtra(1)" [rutaRegreso]="'../../show/' + numOc"></esp-opciones-botones>
+    <div class="flex flex-row gap-2.5">
+        <div class="cardBackground shrink-0 w-[300px] px-2">
+            <div class="flex flex-row gap-2.5 py-2 items-center">
+                <img class="" src="assets/svg/icon-calendar-xl.svg" alt="">
+                <div class="flex flex-col gap-1 leading-5">
+                    <span class="text-[18px] font-medium">Programar Servicios</span>
+                    <span class="text-[var(--color-CAM)]">Contrato: {{numOc}}</span>
+                    <span class="text-[#28C2FF] text-[14px] font-light">En Planificación</span>
+                </div>
+            </div>
+            <div class="flex flex-col gap-1.5 pr-2">
+                <div class="font-semibold flex flex-row justify-between">
+                    <span>Proveedor</span>
+                </div>
+                <div class="flex flex-col">
+                    <div class="contenedorOpcion">
+                        <div class="flex flex-row gap-2 items-center truncate">
+                            <div class="inputCustom">
+                                <input [id]="dataContrato.datosContrato.numDoc" class="focusCampo" [formControl]="ctrlProfesionales" name="profesional" type="radio" [value]="1">
+                            </div>
+                            <label class="truncate" [for]="dataContrato.datosContrato.numDoc">{{dataContrato.datosContrato.nombreProveedor | titlecase}}</label>
+                        </div>
+                        <!-- <div class="deleteDiv">
+                            <img class="h-5 self-center" src="assets/svg/icon-minus-gray.svg">
+                        </div> -->
+                    </div>
+                </div>
+            </div>
+            <div class="flex flex-col gap-1.5">
+                <span class="font-semibold">Otros Calendarios</span>
+                <div class="flex flex-col gap-2">
+                    <div class="contenedorOpcion">
+                        <div class="flex flex-row gap-2 items-center truncate">
+                            <div class="inputCustom">
+                                <input [id]="'calendar1'" class="focusCampo" name="calendars" type="radio">
+                            </div>
+                            <label class="truncate" [for]="'calendar1'">Días festivos Nacional</label>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="cardBackground grow px-4">
+            <div class="flex flex-row justify-between w-full">
+                <div class="flex flex-row">
+                    <div class="relative rounded-md shadow-sm botonApariencia">
+                        <!-- <app-btn color="transparente" class="texturizarBoton" (click)="showScheduleCalendar(null, null)"> -->
+                        <app-btn color="bordeado" >
+                            <esp-icon icon="faAdd"></esp-icon> Agregar Servicio
+                        </app-btn>
+                    </div>
+                </div>
+                <div class="flex flex-row items-center gap-2 text-sm">
+                    <img class="p-2 hover:bg-[#dfdfdf] hover:rounded-full cursor-pointer" src="assets/svg/icon-arrow-head.svg" (click)="changeDates(0)">
+                    <span class="text-[0.80rem] min-w-[210px] text-center">{{fechasSemana[0] | date:'dd'}} de {{(fechasSemana[0] | date:'LLL.') | titlecase}} - {{fechasSemana[fechasSemana.length-1] | date:'dd'}} de {{(fechasSemana[fechasSemana.length-1] | date:'LLL.') | titlecase}} de {{fechasSemana[fechasSemana.length-1] | date:'yyyy'}}</span>
+                    <img class="rotate-180 p-2 hover:bg-[#dfdfdf] hover:rounded-full cursor-pointer" src="assets/svg/icon-arrow-head.svg" (click)="changeDates(1)">
+                </div>
+            </div>
+            <div class="pseudoTablaHorarios">
+                <div class="headTable">
+                    <div class="headerFecha" *ngFor="let fechas of fechasSemana, index as i" [ngClass]="{'bg-[#FAFAFA]': comprobacionBloqueo(fechas)}">
+                        <span class="text-[14px]"><span class="font-light text-gray-500">{{(fechas | date:'EEE.') | titlecase}}</span> {{fechas | date:'dd/MM'}}</span>
+                    </div>
+                </div>
+                
+                <div class="contenedorHorarios">
+                    <div class="filaHorariosDia" *ngFor="let horario of horarios, index as i">
+                        <div class="hora text-xs font-semibold text-gray-500">
+                            <span>{{horario}}</span>
+                        </div>
+                        <div class="cuadroHorarioDia relative" *ngFor="let espacios of fechasSemana" [ngClass]="{'bg-[#FAFAFA]': comprobacionBloqueo(espacios), 'border-b': i == (horarios.length - 1), 'bg-[var(--color-fondo-claro)]': espacios.toLocaleDateString() == fechaActual.toLocaleDateString()}">
+                            <ng-container *ngIf="!comprobacionBloqueo(espacios)">
+                                <div (click)="verifyData(horario, espacios)" class="w-full h-full">
+                                    <!-- <div class="absolute left-0 top-0 z-10 flex flex-row w-full" *ngIf="validarActividadRegistrada(horario, espacios)" [ngStyle]="{'height': (validarActividadRegistrada(horario, espacios) ? getDataAsignacion(horario, espacios).longitud + 'px': null)}" [cdkMenuTriggerFor]="getDataAsignacion(horario, espacios) ? accountOptions : null">
+                                        <div class="barraTarea">
+                                            <img src="assets/svg/icon-task-small.svg">
+                                        </div>
+                                        <div class="flex items-start w-full">
+                                            <span class="text-[10px] bg-white px-1 h-[99%] text-[#333333] overflow-auto w-full">{{getDataAsignacion(horario, espacios).obj.actividad}}, <span class="text-[#64748B]">{{getDataAsignacion(horario, espacios).obj.inicioActividad | date:'h aa'}}</span></span>
+                                        </div>
+                                    </div> -->
+                                </div>
+                            </ng-container>
+                        </div>
+                    </div>
+                </div>
+                <!-- <ng-template #accountOptions>
+                    <div class="menu-layout botonApariencia min-w-[600px]" cdkMenu>
+                        <div class="flex flex-row py-2 justify-end gap-6 items-center">
+                            <button class="elementoOpcion" cdkMenuItem>
+                                <img class="iconoEscalaGris h-6" src="assets/svg/Edit.svg"/>
+                            </button>
+                            <button class="elementoOpcion" cdkMenuItem>
+                                <img src="assets/svg/icon-trash-can.svg"/>
+                            </button>
+                            <button class="elementoOpcion" cdkMenuItem>
+                                <fa-icon class="flex" [icon]="faClose" [classes]="['h-6', 'w-6', 'text-[#64748B]']"></fa-icon>
+                            </button>
+                        </div>
+                        <div class="flex flex-col">
+                            <span class="text-[14px] leading-[14px]">Hora programada para:</span>
+                            <div class="flex flex-row gap-2.5 items-center py-2">
+                                <div class="w-5 h-5 bg-[var(--color-CAM)] rounded"></div>
+                                <div class="flex flex-col gap-1">
+                                    <span class="text-[18px] leading-5" *ngIf="dataAsignacionSelected.obj">{{dataAsignacionSelected.obj.actividad | titlecase}}</span>
+                                    <span class="text-[14px] leading-[14px]" *ngIf="dataAsignacionSelected.obj">Cupos de {{dataAsignacionSelected.tiempoSesion}} min</span>
+                                </div>
+                            </div>
+                            <div class="flex flex-row gap-2.5 items-center py-2">
+                                <img class="h-5 self-center iconoEscalaGris" src="assets/svg/timeIcon.svg">
+                                <div class="flex flex-col gap-1">
+                                    <span class="text-[16px] leading-5">{{dataAsignacionSelected.sesiones}} {{dataAsignacionSelected.sesiones > 1 ? 'Cupos programados' : 'Cupo programado'}}</span>
+                                    <span class="text-[14px] leading-[14px]">Detalle de usuarios que pueden ser atendidos </span>
+                                </div>
+                            </div>
+                            <div class="flex flex-row gap-2.5 items-center py-2">
+                                <img class="h-5 self-center iconoEscalaGris" src="assets/svg/icon-profesional-man.svg">
+                                <div class="flex flex-col gap-1">
+                                    <span class="text-[16px] leading-5" *ngIf="dataAsignacionSelected.profesional">{{dataAsignacionSelected.profesional.nomProf | titlecase}}</span>
+                                    <span class="text-[14px] leading-[14px]">Profesional a cargo</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </ng-template> -->
+            </div>
+            <div class="flex flex-col gap-2">
+                <div class="flex flex-row justify-between items-center">
+                    <div class="border-b-2 border-[var(--color-CAM)] text-[var(--color-CAM)] pb-1">
+                        <span>Servicios</span>
+                    </div>
+                    <div class="relative rounded-md shadow-sm botonApariencia">
+                        <app-btn color="bordeado">Exportar</app-btn>
+                    </div>
+                </div>
+                <div class="flex flex-row gap-2.5">
+                    <div class="flex flex-col py-1 pr-3 grow shrink-0">
+                        <span class="text-sm font-medium text-[#37474F]">{{dataContrato.datosContrato.nombreProveedor | titlecase}}</span>
+                        <span class="text-xs">Tallerista</span>
+                        <div class="flex flex-row gap-2.5 items-center">
+                            <span class="text-xs">Total Talleres</span>
+                            <div class="px-3 text-xs text-white h-5 bg-cam flex items-center">
+                                <span>{{2}}</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="flex flex-row px-3 grow shrink-0 justify-between text-[#37474F]">
+                        <div class="px-3 py-2 flex gap-1 text-center flex-col">
+                            <span class="text-[18px]">{{24}}</span>
+                            <span class="text-sm font-medium">Sesiones<br>del Contrato</span>
+                        </div>
+                        <div class="px-3 py-2 flex gap-1 text-center flex-col">
+                            <span class="text-[18px]">{{0}}</span>
+                            <span class="text-sm font-medium">Sesiones<br>Programadas</span>
+                        </div>
+                        <div class="px-3 py-2 flex gap-1 text-center flex-col">
+                            <span class="text-[18px]">{{24}}</span>
+                            <span class="text-sm font-medium">Sesiones<br>X Programar</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>

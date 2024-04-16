@@ -65,7 +65,7 @@
         <h3 class="text-gray-500 mt-2 font-light">No existen registros aun.</h3>
       </div>
     </div>
-    <div *ngIf="activaciones.length != 0">
+    <div *ngIf="activaciones.length != 0" class="max-h-[52vh] overflow-auto">
       <div *ngFor="let activacion of activaciones, index as i" class="dataPseudoTabla">
         <span class="text-[#008BD2]">{{activacion.responsable}}</span>
         <span>{{activacion.fechInicio | date:'dd/MM/yyyy'}}</span>

@@ -1,0 +1,61 @@
+<div class="py-2.5 flex flex-col gap-2.5">
+    <div>
+        <div class="bg-[#FAFAFA] grid grid-cols-12 gap-1 border-b-2 border-gray-300 py-4 text-[14px] filasPseudoTabla">
+            <span>N°</span>
+            <span>Tipo</span>
+            <span class="col-span-4">Nombre del servicio</span>
+            <span class="col-span-2">Fecha Inicio</span>
+            <span class="col-span-2">Fecha Fin</span>
+            <span class="col-span-2">Modalidad</span>
+        </div>
+        <div *ngIf="serviciosContratados.length == 0" class="w-full h-3/4 flex items-center">
+          <div class="m-auto w-fit text-center">
+            <img class="m-auto" src="assets/svg/empty-data.svg" alt="">
+            <h3 class="text-gray-500 mt-2 font-light">No existen registros aun.</h3>
+          </div>
+        </div>
+        <div *ngIf="serviciosContratados.length > 0">
+            <div class="dataPseudoTabla" *ngFor="let servicio of serviciosContratados, index as i">
+              <span>{{servicio.numero}}</span>
+              <span>{{servicio.tipoServicio | titlecase}}</span>
+              <span class="col-span-4 text-[var(--color-CAM)]">{{servicio.nombreServicio | titlecase}}</span>
+              <span class="col-span-2">{{servicio.fechInicio | date:'dd/MM/yyyy'}}</span>
+              <span class="col-span-2">{{servicio.fechFin | date:'dd/MM/yyyy'}}</span>
+              <span class="col-span-2">{{servicio.modalidad | titlecase}}</span>
+            </div>
+        </div>
+    </div>
+    <div class="flex flex-col gap-2.5" *ngIf="serviciosCiramContratados.length > 0">
+        <!-- <div class="flex flex-col gap-2.5" *ngFor="let unid of dataContrato.datosDetOtraUnidad, index as i">
+            <div class="bg-[#F4F5F7] text-[var(--color-black-alt)] px-1 py-[7.5px] border-b border-[#D4D4D4]">
+                <span class="leading-[25px] text-[18px]">{{unid.unidadOperativa}}</span>
+            </div>
+            <div>
+                <div class="grid grid-cols-12 gap-1 border-b-2 border-gray-300 pb-2 text-[14px] filasPseudoTabla">
+                    <span>N°</span>
+                    <span>Tipo</span>
+                    <span class="col-span-4">Nombre</span>
+                    <span class="col-span-2">Fecha Inicio</span>
+                    <span class="col-span-2">Fecha Fin</span>
+                    <span class="col-span-2">Modalidad</span>
+                </div>
+                <div *ngIf="unid.servicios.length == 0" class="w-full h-3/4 flex items-center">
+                  <div class="m-auto w-fit text-center">
+                    <img class="m-auto" src="assets/svg/empty-data.svg" alt="">
+                    <h3 class="text-gray-500 mt-2 font-light">No existen registros aun.</h3>
+                  </div>
+                </div>
+                <div *ngIf="unid.servicios.length > 0">
+                    <div class="dataPseudoTabla" *ngFor="let servicio of unid.servicios, index as ix">
+                      <span>{{ix+1}}</span>
+                      <span>{{servicio.tipoServicio | titlecase}}</span>
+                      <span class="col-span-4 text-[var(--color-CAM)]">{{servicio.servicio | titlecase}}</span>
+                      <span class="col-span-2">{{servicio.fechaInicio | date:'dd/MM/yyyy'}}</span>
+                      <span class="col-span-2">{{servicio.fechaFin | date:'dd/MM/yyyy'}}</span>
+                      <span class="col-span-2">{{servicio.modalidad | titlecase}}</span>
+                    </div>
+                </div>
+            </div>
+        </div> -->
+    </div>
+</div>
