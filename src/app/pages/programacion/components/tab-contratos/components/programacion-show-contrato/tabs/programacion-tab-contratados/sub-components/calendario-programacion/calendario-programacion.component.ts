@@ -127,7 +127,7 @@ export class CalendarioProgramacionComponent {
   }
 
   showScheduleCalendar(dataRangoElegido: any, dataFechaElegida: any){
-    if (this.fechasSemana.some((x)=>{return (x.getMonth() == this.periodoCalendario.getMonth() && x.getFullYear() == this.periodoCalendario.getFullYear())})) {
+    if (this.fechasSemana.some((x)=>{ return !this.comprobacionBloqueo(x)})) {
       const dialogRef = this.dialog.open(DialogAddProgramacionAsignacionComponent,{
         minWidth:'400px',
         width:'60vw',
