@@ -22,42 +22,42 @@ const routes: Routes = [
         component: ContactosAfiliadosComponent,
         title: 'Contacto - Afiliados'
       },
-      // {
-      //   path: 'talleristas',
-      //   children:[
-      //     {
-      //       path: '',
-      //       component: ContactosTalleristasComponent,
-      //       title: 'Contacto - Talleristas'
-      //     },
-      //     {
-      //       path: 'show/:idTallerista',
-      //       component: ShowTalleristaComponent,
-      //       children: [
-      //         {
-      //           path: '',
-      //           component: ContactoTabContratosComponent,
-      //           title: 'Tallerista - Datos del contrato'
-      //         },
-      //         {
-      //           path: 'calendarios',
-      //           component: ContactoTabCalendarioComponent,
-      //           title: 'Tallerista - Calendarios'
-      //         },
-      //         {
-      //           path: 'talleres',
-      //           component: ContactoTabTalleresComponent,
-      //           title: 'Tallerista - Talleres'
-      //         },
-      //         {
-      //           path: 'evaluaciones',
-      //           component: ContactoTabEvaluacionesComponent,
-      //           title: 'Tallerista - Evaluaciones'
-      //         }
-      //       ]
-      //     },
-      //   ]
-      // },
+      {
+        path: 'talleristas',
+        children:[
+          {
+            path: '',
+            component: ContactosTalleristasComponent,
+            title: 'Contacto - Talleristas'
+          },
+          {
+            path: 'show/:idTallerista',
+            component: ShowTalleristaComponent,
+            children: [
+              {
+                path: '',
+                component: ContactoTabContratosComponent,
+                title: 'Tallerista - Datos del contrato'
+              },
+              {
+                path: 'calendarios',
+                component: ContactoTabCalendarioComponent,
+                title: 'Tallerista - Calendarios'
+              },
+              {
+                path: 'talleres',
+                component: ContactoTabTalleresComponent,
+                title: 'Tallerista - Talleres'
+              },
+              {
+                path: 'evaluaciones',
+                component: ContactoTabEvaluacionesComponent,
+                title: 'Tallerista - Evaluaciones'
+              }
+            ]
+          },
+        ]
+      },
       {
         path: 'show/:idFicha',
         component: ShowAfiliadoComponent,

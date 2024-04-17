@@ -55,12 +55,12 @@ export const pagesRoutes: Route[] = [
       //   loadChildren: () =>
       //     import('./users/users.module').then((m) => m.UsersModule),
       // },
-      // {
-      //   path: AppRoute.CONTRATOS,
-      //   title: 'CAM - CONTRATOS',
-      //   canActivate: [AuthGuard, GuardCoordinadorGuard],
-      //   loadChildren: () => import('../pages/contratos/contratos.module').then((m) => m.ContratosModule),
-      // },
+      {
+        path: AppRoute.CONTRATOS,
+        title: 'CAM - CONTRATOS',
+        canActivate: [AuthGuard, GuardCoordinadorGuard],
+        loadChildren: () => import('../pages/contratos/contratos.module').then((m) => m.ContratosModule),
+      },
       {
         path: 'contactos',
         title: 'CAM - CONTACTOS',
@@ -73,12 +73,12 @@ export const pagesRoutes: Route[] = [
         canActivate: [AuthGuard],
         loadChildren: () => import('../pages/afiliados/afiliados.module').then((m) => m.AfiliadosModule),
       },
-      // {
-      //   path: AppRoute.PROGRAMACION,
-      //   title: 'CAM - PROGRAMACION',
-      //   canActivate: [AuthGuard],
-      //   loadChildren: () => import('../pages/programacion/programacion.module').then((m) => m.ProgramacionModule),
-      // },
+      {
+        path: AppRoute.PROGRAMACION,
+        title: 'CAM - PROGRAMACION',
+        canActivate: [AuthGuard],
+        loadChildren: () => import('../pages/programacion/programacion.module').then((m) => m.ProgramacionModule),
+      },
       // {
       //   path: AppRoute.HORARIOS,
       //   canActivate:[AuthGuard, CerpUserGuard],
