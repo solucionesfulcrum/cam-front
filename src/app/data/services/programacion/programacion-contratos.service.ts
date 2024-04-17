@@ -25,4 +25,9 @@ export class ProgramacionContratosService {
     const url = `${URL_BASE}/obtener/datos-contrato`;
     return this._httpClient.post<any>(url,model);
   }
+
+  getDatosServicioContrato(numOc: string){
+    const url = `${URL_BASE}/servicios/contratados?num-oc=${numOc}&id-unid-ope=${JSON.parse(localStorage.getItem("UnidElegida")!).idUnidOperativa}`;
+    return this._httpClient.get<any>(url);
+  }
 }

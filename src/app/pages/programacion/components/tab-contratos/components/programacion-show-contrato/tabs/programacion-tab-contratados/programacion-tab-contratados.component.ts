@@ -22,7 +22,7 @@ export class ProgramacionTabContratadosComponent {
   }
 
   ngOnInit(){
-    this.programacionService.getDatosContrato(this.numOc).subscribe((data)=>{
+    this.programacionService.getDatosServicioContrato(this.numOc).subscribe((data)=>{
       if (data.code == 0) {
         console.log(data.data)
         if (data.data.serviciosCam) {this.serviciosContratados = data.data.serviciosCam}
