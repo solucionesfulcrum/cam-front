@@ -1,10 +1,10 @@
 <div class="px-4 py-3 bg-primary-700 flex justify-between text-white rounded-t-lg">
-    <span><b>Nueva consulta de Asegurado</b></span>
+    <span><b>Nueva solicitud de Asegurado</b></span>
     <button (click)="onClose()"><esp-icon icon="faClose"></esp-icon></button>
 </div>
 <div class="px-4 py-3 bg-white rounded-b-lg">
-    <b>Unidad Operativa - {{unidOpeUserSession.unidOperativa}}</b>
-    <div class="flex justify-between space-x-2 p-2.5" [formGroup]="formNewFicha">
+    <span class="text-[#37474F] font-bold">Unidad Operativa - {{unidOpeUserSession.unidOperativa}}</span>
+    <div class="flex justify-between space-x-2 py-2.5" [formGroup]="formNewFicha">
         <div class="w-1/2">
             <div class="relative rounded-md shadow-sm">
               <select
