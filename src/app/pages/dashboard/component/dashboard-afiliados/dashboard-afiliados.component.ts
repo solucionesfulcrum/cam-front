@@ -143,8 +143,8 @@ export class DashboardAfiliadosComponent implements OnInit {
     this.authService.listarDashboard({ fecInicio: fechaFormateadaInicio, fecFin: fechaFormateadaFin, idUnidadOperativa: this.idUnidadOperativaUser }).subscribe((data) => {
       if (data.code == 0) {
         this.respuestaServicio = data.code;
-        console.log("data.code", data.code)
-        console.log("data.code", typeof(data.code))
+        // console.log("data.code", data.code)
+        // console.log("data.code", typeof(data.code))
         this.totalAfiliados=0;
         for (let i = 0; i < data.data.contAsegurados.length; i++) {
           this.totalAfiliados += data.data.contAsegurados[i]; 
@@ -206,7 +206,7 @@ export class DashboardAfiliadosComponent implements OnInit {
 
   getDataFecha(value: any) {
     this.formBuscar.get('frmSearchDate')?.setValue(value);
-    console.log("fecha?",value)
+    // console.log("fecha?",value)
     this.onLoadData();
   }
 

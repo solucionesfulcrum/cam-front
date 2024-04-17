@@ -241,22 +241,22 @@ export class EditAseguradoComponent {
     }
   }
   showDatosProcedencia(opt: number, modalidad: string){
-    if (opt < 1) {
+    if (opt == 18 || opt == 19) {
       this.datosProcedenciaExtra = false;
     }
     else{
       let type: number = 0;
       let seleccion: string;
       switch (opt) {
-        case 1: 
+        case 20: 
           type = 3;
           seleccion = 'CAM';
           break;
-        case 2:
+        case 21:
           type = 1;
           seleccion = 'IPRESS';
           break;
-        case 3:
+        case 22:
           type = 2;
           seleccion = 'CERPS';
           break;

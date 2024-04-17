@@ -24,9 +24,9 @@
             <p class="font-semibold text-lg">{{infoReniec.txtNombres | titlecase}}</p>
             <!-- <p class="py-1 bordColorEstablecido font-bold text-2xl">{{dataPersona.persona.datosBasicos.nombres | titlecase}}</p>
             <p class="font-semibold text-lg">{{dataPersona.persona.datosBasicos.apellidoPaterno | titlecase}} {{dataPersona.persona.datosBasicos.apellidoMaterno | titlecase}}</p> -->
-            <p class="font-thin">{{parametroDocumento.idParametros == 6 ? 'DNI' : parametroDocumento.nombre | titlecase}} {{numDoc}}</p>
+            <p class="">{{parametroDocumento.idParametros == 6 ? 'DNI' : parametroDocumento.nombre | titlecase}} {{numDoc}}</p>
         </div>
-        <div class="border-t-2 mt-3 font-thin">
+        <div class="border-t-2 mt-3">
             <p class="py-1 bordColorEstablecido font-bold">Datos Generales</p>
             <p class="py-1 font-semibold">Lugar de Nacimiento</p>
             <p class="py-1">{{infoReniec.desNacubiDepa | titlecase}} - {{infoReniec.desNacubiProv | titlecase}} - {{infoReniec.desNacubiDist | titlecase}}</p>
@@ -70,7 +70,7 @@
                         <div class="w-full flex flex-col">
                             <div class="w-full flex space-x-2">
                                 <span class="text-gray-600 font-semibold w-[120px]">Dirección</span>
-                                <span>{{item.direccion | titlecase}}</span>
+                                <span class="font-normal">{{item.direccion | titlecase}}</span>
                             </div>
                             <div class="w-full flex space-x-2">
                                 <span class="text-gray-600 font-semibold w-[120px]">Distrito</span>
@@ -116,7 +116,7 @@
             </div> -->
             <div class="flex space-x-2 mb-2">
                 <div class="w-1/6 bg-slate-100 justify-end pr-2 flex items-center">
-                    <span class="font-thin">Celular</span>
+                    <span >Celular</span>
                 </div>
                 <div class="w-5/6">
                     <input type="text" pattern="[0-9]*" min="0" maxlength="10" formControlName="frmCelular" placeholder="Numero de celular" class="block w-full p-2 text-gray-900 placeholder-gray-300 border border-gray-300 focusCampo">
@@ -134,7 +134,7 @@
             </div>
             <div class="flex space-x-2 mb-2 items-center h-[42px]">
                 <div class="w-1/6 bg-slate-100 justify-end pr-2 flex items-center h-full">
-                    <span class="font-thin">Whatsapp</span>
+                    <span >Whatsapp</span>
                 </div>
                 <div class="w-5/6">
                     <div class="flex">
@@ -156,7 +156,7 @@
             </div>
             <div class="flex space-x-2 mb-2">
                 <div class="w-1/6 bg-slate-100 justify-end pr-2 flex items-center">
-                    <span class="font-thin">Correo</span>
+                    <span >Correo</span>
                 </div>
                 <div class="w-5/6">
                     <input type="text" formControlName="frmCorreo" placeholder="Direccion de correo Electronico" class="block w-full p-2 text-gray-900 placeholder-gray-300 border border-gray-300 focusCampo">
@@ -183,7 +183,7 @@
             <ul class="grupoOpciones grid w-full gap-3 md:grid-cols-3 mb-2">
                 <!--Propiedad checked="true" para marcar un radio predefinidamente-->
                 <li class="elementoSeleccionable" *ngFor="let modalidad of listParamModIngr, index as i">
-                    <input type="radio" [id]="modalidad.tipo + i" name="modalidad" [formControl]="frmCtrlModIngr" [value]="modalidad.idParametros" class="peer focusCampo" (click)="showDatosProcedencia(i-1,modalidad.tipo + i)" [attr.disabled]="modalidad.idParametros == 23 ? true : null">
+                    <input type="radio" [id]="modalidad.tipo + i" name="modalidad" [formControl]="frmCtrlModIngr" [value]="modalidad.idParametros" class="peer focusCampo" (click)="showDatosProcedencia(modalidad.idParametros,modalidad.tipo + i)" [attr.disabled]="modalidad.idParametros == 23 ? true : null">
                     <label [for]="modalidad.tipo + i" class="cuadroRadioButton" [ngClass]="modalidad.idParametros == 23 ? 'opacity-50' : null">
                         <div class="flex justify-center w-full">
                             <div class="w-full text-center pl-2.5">{{modalidad.nombre | titlecase}}</div>
