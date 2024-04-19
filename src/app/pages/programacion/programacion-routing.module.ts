@@ -21,7 +21,7 @@ const routes: Routes = [
         title: 'Programación - Listado de Contratos'
       },
       {
-        path: 'show/:numOc',
+        path: 'show/:idProgramacion',
         component: ProgramacionShowContratoComponent,
         children: [
           {
@@ -49,7 +49,7 @@ const routes: Routes = [
     ]
   },
   {
-    path: 'programacion-horarios/:numOc',
+    path: 'programacion-horarios/:idProgramacion',
     component: CalendarioProgramacionComponent,
     title: 'Programación - Asignación de Horarios'
   }

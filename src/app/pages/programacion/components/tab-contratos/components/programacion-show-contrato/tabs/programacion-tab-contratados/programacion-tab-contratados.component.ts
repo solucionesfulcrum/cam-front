@@ -9,7 +9,7 @@ import { ProgramacionContratosService } from 'src/app/data/services/programacion
   styleUrls: ['./programacion-tab-contratados.component.scss']
 })
 export class ProgramacionTabContratadosComponent {
-  numOc!: string;
+  idProgramacion!: string;
 
   serviciosContratados: any[] = [];
   serviciosCiramContratados: any[] = [];
@@ -18,11 +18,11 @@ export class ProgramacionTabContratadosComponent {
               private programacionService                   : ProgramacionContratosService,
               private notificationService                   : NotificationService
   ) { 
-    this.numOc = this.activeRoute.snapshot.paramMap.get('numOc')!;
+    this.idProgramacion = this.activeRoute.snapshot.paramMap.get('idProgramacion')!;
   }
 
   ngOnInit(){
-    this.programacionService.getDatosContrato(this.numOc).subscribe((data)=>{
+    this.programacionService.getDatosContrato(this.idProgramacion).subscribe((data)=>{
       if (data.code == 0) {
         this.programacionService.getDatosServicioContrato(data.data.datosContrato.idProgramacion).subscribe((datos)=>{
           if (datos.code == 0) {

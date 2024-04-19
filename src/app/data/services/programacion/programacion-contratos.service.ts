@@ -17,17 +17,18 @@ export class ProgramacionContratosService {
     return this._httpClient.post<any>(url,model);
   }
 
-  getDatosContrato(numOc: string){
-    let model = {
-      idUnidOpe: JSON.parse(localStorage.getItem("UnidElegida")!).idUnidOperativa,
-      numOc: numOc
-    }
-    const url = `${URL_BASE}/obtener/datos-contrato`;
-    return this._httpClient.post<any>(url,model);
+  getDatosContrato(idProgramacion: string){
+    const url = `${URL_BASE}/obtener/datos-contrato/${idProgramacion}`;
+    return this._httpClient.post<any>(url,null);
   }
 
   getDatosServicioContrato(idProgramacion: number){
     const url = `${URL_BASE}/servicios/contratados/${idProgramacion}`;
+    return this._httpClient.get<any>(url);
+  }
+
+  getResumenInferiorProgramacion(idProgramacion: number){
+    const url = `${URL_BASE}/obtener/resumen/programados/${idProgramacion}`;
     return this._httpClient.get<any>(url);
   }
 }

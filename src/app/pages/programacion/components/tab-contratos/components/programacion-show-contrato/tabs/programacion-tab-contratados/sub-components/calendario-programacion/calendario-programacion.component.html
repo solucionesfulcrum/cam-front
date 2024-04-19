@@ -7,14 +7,14 @@
     </div>
 </div>
 <div *ngIf="dataContrato">
-    <esp-opciones-botones class="modificarAltura" [listOpciones]="opcionesBotones" (firstFunction)="funcionesExtra(0)" (secondFunction)="funcionesExtra(1)" [rutaRegreso]="'../../show/' + numOc"></esp-opciones-botones>
+    <esp-opciones-botones class="modificarAltura" [listOpciones]="opcionesBotones" (firstFunction)="funcionesExtra(0)" (secondFunction)="funcionesExtra(1)" [rutaRegreso]="'../../show/' + idProgramacion"></esp-opciones-botones>
     <div class="flex flex-row gap-2.5">
         <div class="cardBackground shrink-0 w-[300px] px-2">
             <div class="flex flex-row gap-2.5 py-2 items-center">
                 <img class="" src="assets/svg/icon-calendar-xl.svg" alt="">
                 <div class="flex flex-col gap-1 leading-5">
                     <span class="text-[18px] font-medium">Programar Servicios</span>
-                    <span class="text-[var(--color-CAM)]">Contrato: {{numOc}}</span>
+                    <span class="text-[var(--color-CAM)]">Contrato: {{dataContrato.numOC}}</span>
                     <span class="text-[#28C2FF] text-[14px] font-light">En Planificación</span>
                 </div>
             </div>
@@ -143,28 +143,28 @@
                         <app-btn color="bordeado">Exportar</app-btn>
                     </div>
                 </div>
-                <div class="flex flex-row gap-2.5">
+                <div class="flex flex-row gap-2.5" *ngIf="dataResumenContrato">
                     <div class="flex flex-col py-1 pr-3 grow shrink-0">
                         <span class="text-sm font-medium text-[#37474F]">{{dataContrato.nombreProveedor | titlecase}}</span>
                         <span class="text-xs">Tallerista</span>
                         <div class="flex flex-row gap-2.5 items-center">
                             <span class="text-xs">Total Talleres</span>
-                            <div class="px-3 text-xs text-white h-5 bg-cam flex items-center" *ngIf="listServicios">
-                                <span>{{listServicios.servicios.length}}</span>
+                            <div class="px-3 text-xs text-white h-5 bg-cam flex items-center">
+                                <span>{{dataResumenContrato.totalTalleres}}</span>
                             </div>
                         </div>
                     </div>
                     <div class="flex flex-row px-3 grow shrink-0 justify-between text-[#37474F]">
                         <div class="px-3 py-2 flex gap-1 text-center flex-col">
-                            <span class="text-[18px]">{{24}}</span>
+                            <span class="text-[18px]">{{dataResumenContrato.totalSesiones}}</span>
                             <span class="text-sm font-medium">Sesiones<br>del Contrato</span>
                         </div>
                         <div class="px-3 py-2 flex gap-1 text-center flex-col">
-                            <span class="text-[18px]">{{0}}</span>
+                            <span class="text-[18px]">{{dataResumenContrato.sesionesProgramados}}</span>
                             <span class="text-sm font-medium">Sesiones<br>Programadas</span>
                         </div>
                         <div class="px-3 py-2 flex gap-1 text-center flex-col">
-                            <span class="text-[18px]">{{24}}</span>
+                            <span class="text-[18px]">{{dataResumenContrato.sesionesPorProgramar}}</span>
                             <span class="text-sm font-medium">Sesiones<br>X Programar</span>
                         </div>
                     </div>

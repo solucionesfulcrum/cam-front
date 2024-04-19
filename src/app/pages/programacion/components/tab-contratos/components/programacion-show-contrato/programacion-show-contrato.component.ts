@@ -14,10 +14,10 @@ export class ProgramacionShowContratoComponent {
   opcionesBotones: FormatoBoton[] = [
     {texto: 'Programar', colorBtn:'mezclado'},
   ];
-  numOc!: string;
+  idProgramacion!: string;
   rutasContrato=[
-    {url:`/app/programacion/show/${this.numOc}`, title:'Servicios Contratados'},
-    {url:`/app/programacion/show/${this.numOc}/programados`, title:'Servicios Programados'},
+    {url:`/app/programacion/show/${this.idProgramacion}`, title:'Servicios Contratados'},
+    {url:`/app/programacion/show/${this.idProgramacion}/programados`, title:'Servicios Programados'},
   ];
   faSpinner = faSpinner;
   dataContrato: any;
@@ -27,13 +27,13 @@ export class ProgramacionShowContratoComponent {
               private router                                : Router,
               private notificationService                   : NotificationService
   ) { 
-    this.numOc = this.activeRoute.snapshot.paramMap.get('numOc')!;
-    this.rutasContrato[0].url = `/app/programacion/show/${this.numOc}`;
-    this.rutasContrato[1].url = `/app/programacion/show/${this.numOc}/programados`;
+    this.idProgramacion = this.activeRoute.snapshot.paramMap.get('idProgramacion')!;
+    this.rutasContrato[0].url = `/app/programacion/show/${this.idProgramacion}`;
+    this.rutasContrato[1].url = `/app/programacion/show/${this.idProgramacion}/programados`;
   }
 
   ngOnInit(){
-    this.programacionService.getDatosContrato(this.numOc).subscribe((data)=>{
+    this.programacionService.getDatosContrato(this.idProgramacion).subscribe((data)=>{
       if (data.code == 0) {
         this.dataContrato = data.data;
       }
@@ -43,6 +43,6 @@ export class ProgramacionShowContratoComponent {
     })
   }
   goToProgramacion(){
-    this.router.navigate(['app/programacion/programacion-horarios/' + this.numOc])
+    this.router.navigate(['app/programacion/programacion-horarios/' + this.idProgramacion])
   }
 }

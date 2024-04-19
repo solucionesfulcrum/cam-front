@@ -82,6 +82,21 @@ export class ContratosAsignarServiciosComponent {
         data.data.forEach((x: any)=>{
           this.opcionesServicios.push({idOpcion: x.idServicio, nombre: x.nombre})
         })
+        this.contratoService.getDataFromOC(this.numOc).subscribe((data)=>{
+          if (data.code == 0) {
+            this.dataContrato = data.data;
+            console.log(this.dataContrato)
+            this.addTablaUnid(2,this.dataContrato.datosDetMismaUnidad[0], 0)
+            if (this.dataContrato.datosDetOtraUnidad.length > 0) {
+              this.dataContrato.datosDetOtraUnidad.forEach((x: any)=>{
+                this.addTablaUnid(2, x);
+              })
+            }
+          }
+          else{
+            this.notificationService.warning(data.message);
+          }
+        })
       }
       else{
         this.notificationService.warning(data.message);
@@ -102,21 +117,6 @@ export class ContratosAsignarServiciosComponent {
         data.data.forEach((x)=>{
           this.opcionesModalidad.push({idOpcion: x.idParametros, nombre: x.nombre, value: x.idParametros})
         })
-      }
-      else{
-        this.notificationService.warning(data.message);
-      }
-    })
-    this.contratoService.getDataFromOC(this.numOc).subscribe((data)=>{
-      if (data.code == 0) {
-        this.dataContrato = data.data;
-        console.log(this.dataContrato)
-        this.addTablaUnid(2,this.dataContrato.datosDetMismaUnidad[0], 0)
-        if (this.dataContrato.datosDetOtraUnidad.length > 0) {
-          this.dataContrato.datosDetOtraUnidad.forEach((x: any)=>{
-            this.addTablaUnid(2, x);
-          })
-        }
       }
       else{
         this.notificationService.warning(data.message);
@@ -151,24 +151,23 @@ export class ContratosAsignarServiciosComponent {
         )
       })
 
-      let dataFecha: Date;
+      let dataFecha: any;
       if (type == 0) {
         dataFecha = this.dataContrato.datosTallerista.fechaRegistro;
       }
       else{
         dataFecha = dataTabla.fechaRegistroUo;
       }
-
       let controlPrueba = this.fb.group({
         idUnidOperativ: new FormControl(this.opcionesUnidades.find((x)=> x.idUnidadOperativa == dataTabla.idUnidadOperativa), [Validators.required]),
         fecRegistro: new FormControl(formatDate(dataFecha, 'd/M/yyyy', this.locale), [Validators.required]),
-        fecRegistroDef: new FormControl((new Date(dataFecha)), [Validators.required]),
+        fecRegistroDef: new FormControl((new Date(type == 0 ? dataFecha : dataFecha.replace(/-/g, '\/'))), [Validators.required]),
         dataServiciosEnviado: new FormControl(),
         dataDefault: [dataOrdenada],
         ctrlDataObt: new FormControl(),
       });
       (this.dataTables as FormArray).push(controlPrueba);
-      this.dataTables.valueChanges.subscribe((data)=>{console.log(data)})
+      // this.dataTables.valueChanges.subscribe((data)=>{console.log(data)})
     }
   }
 

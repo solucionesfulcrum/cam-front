@@ -24,10 +24,11 @@ export class CalendarioProgramacionComponent {
     {texto: 'Guardar', colorBtn:'bordeado'},
     {texto: 'Guardar y publicar', colorBtn:'mezclado', esImagen: true, rutaIcono: 'assets/svg/icon-white-save.svg'},
   ];
-  numOc!: string;
+  idProgramacion!: string;
   faSpinner = faSpinner;
   dataContrato: any;
   listServicios: any;
+  dataResumenContrato: any;
   
   faClose = fonts.faClose;
   fechaActual = new Date();
@@ -45,11 +46,11 @@ export class CalendarioProgramacionComponent {
               private router                                : Router,
               private notificationService                   : NotificationService
   ) { 
-    this.numOc = this.activeRoute.snapshot.paramMap.get('numOc')!;
+    this.idProgramacion = this.activeRoute.snapshot.paramMap.get('idProgramacion')!;
   }
 
   ngOnInit(){
-    this.programacionService.getDatosContrato(this.numOc).subscribe((data)=>{
+    this.programacionService.getDatosContrato(this.idProgramacion).subscribe((data)=>{
       if (data.code == 0) {
         this.limitesHorario.push(new Date(data.data.datosContrato.fechInicio.replace(/-/g, '\/')));
         this.limitesHorario.push(new Date(data.data.datosContrato.fechFin.replace(/-/g, '\/')));
@@ -57,6 +58,7 @@ export class CalendarioProgramacionComponent {
         this.periodoCalendario.setFullYear(this.limitesHorario[0].getFullYear());
         this.getFechasSemana(new Date(this.limitesHorario[0].getFullYear(), this.limitesHorario[0].getMonth(), this.limitesHorario[0].getDate()));
         this.dataContrato = data.data.datosContrato;
+        this.getDataResumenContrato();
         this.getServiciosContrato()
         this.ctrlProfesionales.setValue(1);
         console.log(this.dataContrato)
@@ -76,6 +78,18 @@ export class CalendarioProgramacionComponent {
 
         break;
     }
+  }
+
+  getDataResumenContrato(){
+    this.programacionService.getResumenInferiorProgramacion(this.dataContrato.idProgramacion).subscribe((data)=>{
+      if (data.code == 0) {
+        this.dataResumenContrato = data.data;
+        console.log(data.data)
+      }
+      else {
+        this.notificationService.warning(data.message);
+      }
+    })
   }
 
   getServiciosContrato(){
@@ -146,7 +160,7 @@ export class CalendarioProgramacionComponent {
         width:'60vw',
         maxWidth:'800px',
         data:{
-          numOc:              this.numOc,
+          idProgramacion:              this.idProgramacion,
           rangoHorario:       dataRangoElegido,
           fechaHorario:       dataFechaElegida,
           dataContrato:        this.dataContrato,
