@@ -25,7 +25,7 @@
           <div class="flex flex-col gap-1 py-2 !leading-5">
             <span class="bordColorEstablecido font-bold text-[1.5rem] text-[var(--color-CAM)] text-sky-600">{{ dataFichaAfiliado.asegurado.apePaterno + ' ' + dataFichaAfiliado.asegurado.apeMaterno| titlecase}}</span>
             <span class="font-medium text-[1.125rem]">{{ dataFichaAfiliado.asegurado.nombres | titlecase}}</span>
-            <span class="font-thin text-[14px]">{{dataFichaAfiliado.asegurado.tipoDoc == '1' ? 'DNI' : 'CE'}} {{dataFichaAfiliado.asegurado.numDoc}}</span>
+            <span class="text-[14px]">{{dataFichaAfiliado.asegurado.tipoDoc == '1' ? 'DNI' : 'CE'}} {{dataFichaAfiliado.asegurado.numDoc}}</span>
             <!-- <p class="font-thin">{{tipoDoc == '1' ? 'DNI' : 'CE'}} {{numDoc}}</p> -->
           </div>
       </div>

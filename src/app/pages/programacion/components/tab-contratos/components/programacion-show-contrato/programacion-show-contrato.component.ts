@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { faSpinner } from '@fortawesome/free-solid-svg-icons';
 import { NotificationService } from '@services/notification.service';
 import { FormatoBoton } from '@shared/components/opciones-botones/formato-boton.model';
@@ -14,21 +14,27 @@ export class ProgramacionShowContratoComponent {
   opcionesBotones: FormatoBoton[] = [
     {texto: 'Programar', colorBtn:'mezclado'},
   ];
+  idProgramacion!: string;
+  rutasContrato=[
+    {url:`/app/programacion/show/${this.idProgramacion}`, title:'Servicios Contratados'},
+    {url:`/app/programacion/show/${this.idProgramacion}/programados`, title:'Servicios Programados'},
+  ];
   faSpinner = faSpinner;
-  numOc!: string;
   dataContrato: any;
   
   constructor(private activeRoute                           : ActivatedRoute,
               private programacionService                   : ProgramacionContratosService,
+              private router                                : Router,
               private notificationService                   : NotificationService
   ) { 
-    this.numOc = this.activeRoute.snapshot.paramMap.get('numOc')!;
+    this.idProgramacion = this.activeRoute.snapshot.paramMap.get('idProgramacion')!;
+    this.rutasContrato[0].url = `/app/programacion/show/${this.idProgramacion}`;
+    this.rutasContrato[1].url = `/app/programacion/show/${this.idProgramacion}/programados`;
   }
 
   ngOnInit(){
-    this.programacionService.getDatosContrato(this.numOc).subscribe((data)=>{
+    this.programacionService.getDatosContrato(this.idProgramacion).subscribe((data)=>{
       if (data.code == 0) {
-        console.log(data.data)
         this.dataContrato = data.data;
       }
       else {
@@ -36,5 +42,7 @@ export class ProgramacionShowContratoComponent {
       }
     })
   }
-
+  goToProgramacion(){
+    this.router.navigate(['app/programacion/programacion-horarios/' + this.idProgramacion])
+  }
 }

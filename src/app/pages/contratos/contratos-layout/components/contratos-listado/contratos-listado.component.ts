@@ -153,14 +153,19 @@ export class ContratosListadoComponent {
   }
 
   downloadFile(ocSelected: any){
-    this.contratosService.getFileOc(ocSelected.numOc).subscribe((data)=>{
-      const blob = new Blob([data], { type: 'application/pdf' });
-      const data1 = window.URL.createObjectURL(blob);
-      const link = document.createElement("a");
-      link.href = data1;
-      link.download = ocSelected.fileOcNombre; // set a name for the file
-      link.click();
-    })
+    if (ocSelected.fileOcNombre) {
+      this.contratosService.getFileOc(ocSelected.numOc).subscribe((data)=>{
+        const blob = new Blob([data], { type: 'application/pdf' });
+        const data1 = window.URL.createObjectURL(blob);
+        const link = document.createElement("a");
+        link.href = data1;
+        link.download = ocSelected.fileOcNombre; // set a name for the file
+        link.click();
+      })
+    }
+    else{
+      this.notificationService.warning('La orden de compra ' + ocSelected.numOc + ' no registra un archivo adjunto');
+    }
   }
 
   deleteItem(dataContrato: any){

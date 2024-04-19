@@ -88,7 +88,7 @@
           <div class="dataPseudoTabla" *ngFor="let contrato of listContratos, index as i">
             <span class="col-span-2">{{contrato.tallerista | uppercase}}</span>
             <span class="text-[var(--color-CAM)]" [routerLink]="contrato.estado === 'CONFIRMADO' ? [appRoute.CONTRATOS_CONFIRMAR_SERVICIOS + '/' + contrato.numOc] : null" [ngClass]="contrato.estado === 'CONFIRMADO' ? 'cursor-pointer' : null">{{contrato.numOc}}</span>
-            <span>{{contrato.fechaRegistroUo | date:'dd/MM/yyyy'}}</span>
+            <span>{{contrato.fechaContrato | date:'dd/MM/yyyy'}}</span>
             <span [ngClass]="true ? 'text-green-500':'text-red-500'">{{contrato.estado | titlecase}}</span>
             <div class="text-center self-center text-[20px]">
                 <esp-icon icon="faEllipsis" class="cursor-pointer" [cdkMenuTriggerFor]="optionsSidenav"></esp-icon>

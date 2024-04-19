@@ -103,4 +103,9 @@ export class DatosGeneralesService {
     const url = `${URL_BASE}/client/essi/lista-ipress/${codRed}`;
     return this._httpClient.get<any>(url);
   }
+
+  getListCiramsOfCam(idUnidadOpe: number){
+    const url = `${URL_BASE}/unidad-operativa/listar/ciramUo?idUndiadOperativa=${idUnidadOpe}`;
+    return this._httpClient.get<any>(url);
+  }
 }

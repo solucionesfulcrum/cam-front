@@ -6,6 +6,9 @@ import { AppRoute } from 'src/app/data/constants/app-route.constant';
 import { TabCalendarioComponent } from './components/tab-calendario/tab-calendario.component';
 import { TabTalleresComponent } from './components/tab-talleres/tab-talleres.component';
 import { ProgramacionShowContratoComponent } from './components/tab-contratos/components/programacion-show-contrato/programacion-show-contrato.component';
+import { ProgramacionTabContratadosComponent } from './components/tab-contratos/components/programacion-show-contrato/tabs/programacion-tab-contratados/programacion-tab-contratados.component';
+import { ProgramacionTabProgramadosComponent } from './components/tab-contratos/components/programacion-show-contrato/tabs/programacion-tab-programados/programacion-tab-programados.component';
+import { CalendarioProgramacionComponent } from './components/tab-contratos/components/programacion-show-contrato/tabs/programacion-tab-contratados/sub-components/calendario-programacion/calendario-programacion.component';
 
 const routes: Routes = [
   {
@@ -18,9 +21,20 @@ const routes: Routes = [
         title: 'Programación - Listado de Contratos'
       },
       {
-        path: 'show/:numOc',
+        path: 'show/:idProgramacion',
         component: ProgramacionShowContratoComponent,
-        title: 'Programación - Contrato'
+        children: [
+          {
+            path: '',
+            component: ProgramacionTabContratadosComponent,
+            title: 'Programación - Servicios Contratados',
+          },
+          {
+            path: 'programados',
+            component: ProgramacionTabProgramadosComponent,
+            title: 'Programación - Servicios Programados',
+          }
+        ]
       },
       {
         path: `${AppRoute.PROGRAMACION_TAB_TALLERES.split('/')[1]}`,
@@ -33,6 +47,11 @@ const routes: Routes = [
         title: 'Programación - Listado de Calendarios'
       }
     ]
+  },
+  {
+    path: 'programacion-horarios/:idProgramacion',
+    component: CalendarioProgramacionComponent,
+    title: 'Programación - Asignación de Horarios'
   }
 ];
 
