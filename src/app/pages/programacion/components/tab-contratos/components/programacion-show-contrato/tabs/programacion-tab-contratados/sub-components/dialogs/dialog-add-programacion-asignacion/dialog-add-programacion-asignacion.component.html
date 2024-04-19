@@ -15,26 +15,28 @@
             <div class="flex flex-row items-end gap-x-3">
                 <div class="grow flex flex-col gap-y-1">
                     <span>Servicio <b class="text-red-500">*</b></span>
-                    <!-- <input [formControl]="ctrlActividad" type="text" [matAutocomplete]="actividad" class="inputTextoDialog focusCampo" placeholder="Buscar Actividad"> -->
-                    <input type="text" class="inputTextoDialog focusCampo" placeholder="Buscar Servicio">
-                    <!-- <mat-autocomplete #actividad="matAutocomplete" [displayWith]="displayFnActividad" (optionSelected)="onSelectionChangeActividad($event)">
-                        <mat-option *ngFor="let option of filteredOptionsActividad | async" [value]="option">
-                            {{option.actividad | titlecase}}
+                    <input [formControl]="ctrlServicio" type="text" [matAutocomplete]="servicios" class="inputTextoDialog focusCampo" placeholder="Buscar Servicio">
+                    <!-- <input type="text" class="inputTextoDialog focusCampo" placeholder="Buscar Servicio"> -->
+                    <mat-autocomplete #servicios="matAutocomplete" [displayWith]="displayServicioFiltered" (optionSelected)="onSelectedServicioSelect($event)">
+                        <mat-option *ngFor="let option of getOptionsFilteresServicio()" [value]="option">
+                            {{option.nombreServicio | titlecase}}
                         </mat-option>
-                    </mat-autocomplete> -->
+                    </mat-autocomplete>
                 </div>
                 <div class="flex flex-col gap-y-1 w-[168px]">
                     <span>Tipo Evento <b class="text-red-500">*</b></span>
-                    <select class="bg-slate-50 !pr-3 border border-gray-300 text-gray-900 text-sm rounded-lg focusCampo block w-full h-[40px]">
+                    <select [formControl]="ctrlTipo" class="bg-slate-50 !pr-3 border border-gray-300 text-gray-900 text-sm rounded-lg focusCampo block w-full h-[40px]">
                         <option [value]="null" disabled selected></option>
                         <ng-container *ngFor="let opcion of listParamTipo, index as i">
                             <option [value]="opcion.idParametros">{{opcion.nombre | titlecase}}</option>
                         </ng-container>
                     </select>
                 </div>
-                <div class="bg-[#F5F8FA] w-[50px] h-[40px] flex flex-col items-center shrink-0">
-                    <span>{{45}}</span>
-                    <span>min</span>
+                <div class="shrink-0 w-[50px] ">
+                    <div class="bg-[#F5F8FA] w-full h-[40px] flex flex-col items-center" *ngIf="dataTipo">
+                        <span>{{dataTipo.valor1 ? dataTipo.valor1 : 60}}</span>
+                        <span>min</span>
+                    </div>
                 </div>
             </div>
             <div class="flex flex-row gap-x-3">
@@ -49,7 +51,7 @@
                 </div>
                 <div class="w-full">
                     <div class="flex flex-row gap-3 items-end">
-                        <div class="flex w-full flex-col gap-y-1 w-[168px]">
+                        <div class="flex flex-col gap-y-1 w-[168px]">
                             <span>Desde</span>
                             <select formControlName="frmInicioHorario" class="bg-slate-50 !pr-3 border border-gray-300 text-gray-900 text-sm rounded-lg focusCampo block w-full h-[40px]" [ngClass]="ctrlPersonalizado.value || data.horarioFijo ? 'bg-[#DBDADE4D]' : null">
                                 <option [value]="null" disabled selected></option>
@@ -58,7 +60,7 @@
                                 </ng-container>
                             </select>
                         </div>
-                        <div class="flex w-full flex-col gap-y-1 w-[168px]">
+                        <div class="flex flex-col gap-y-1 w-[168px]">
                             <span>Hasta</span>
                             <select formControlName="frmFinHorario" class="bg-slate-50 !pr-3 border border-gray-300 text-gray-900 text-sm rounded-lg focusCampo block w-full h-[40px]" [ngClass]="ctrlPersonalizado.value || data.horarioFijo ? 'bg-[#DBDADE4D]' : null">
                                 <option [value]="null" disabled selected></option>
@@ -67,9 +69,11 @@
                                 </ng-container>
                             </select>
                         </div>
-                        <div class="bg-[#F5F8FA] w-[50px] h-[40px] flex flex-col items-center shrink-0">
-                            <span>{{2}}</span>
-                            <span>Ses</span>
+                        <div class="shrink-0 w-[50px] ">
+                            <div class="bg-[#F5F8FA] w-full h-[40px] flex flex-col items-center" *ngIf="horarioFinElegido">
+                                <span>{{horarioFinElegido.cantidadCupos}}</span>
+                                <span>Ses</span>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -93,7 +97,12 @@
             <div class="py-2 flex flex-col text-[#344563]" *ngIf="ctrlPersonalizado.value">
                 <div class="grow flex flex-col gap-y-1">
                     <span>CIRAM</span>
-                    <input type="text" class="inputTextoDialog focusCampo" placeholder="Buscar CIRAM">
+                    <input [formControl]="ctrlCiram" type="text" [matAutocomplete]="ciram" class="inputTextoDialog focusCampo" placeholder="Buscar CIRAM">
+                    <mat-autocomplete #ciram="matAutocomplete" [displayWith]="displayCiramFiltered" (optionSelected)="onSelectedCiramSelect($event)">
+                        <mat-option *ngFor="let option of getOptionsFilteresCiram()" [value]="option">
+                            {{option.nombre | titlecase}}
+                        </mat-option>
+                    </mat-autocomplete>
                 </div>
                 <!-- <span class="font-bold">Se repite el</span>
                 <div class="flex flex-col leading-[40px] max-h-[280px] overflow-auto">

@@ -22,11 +22,17 @@ export class ProgramacionTabContratadosComponent {
   }
 
   ngOnInit(){
-    this.programacionService.getDatosServicioContrato(this.numOc).subscribe((data)=>{
+    this.programacionService.getDatosContrato(this.numOc).subscribe((data)=>{
       if (data.code == 0) {
-        console.log(data.data)
-        if (data.data.serviciosCam) {this.serviciosContratados = data.data.serviciosCam}
-        if (data.data.cirams) {this.serviciosCiramContratados = data.data.cirams}
+        this.programacionService.getDatosServicioContrato(data.data.datosContrato.idProgramacion).subscribe((datos)=>{
+          if (datos.code == 0) {
+            if (datos.data.serviciosCam) {this.serviciosContratados = datos.data.serviciosCam.servicios}
+            if (datos.data.cirams) {this.serviciosCiramContratados = datos.data.cirams}
+          }
+          else {
+            this.notificationService.warning(datos.message);
+          }
+        })
       }
       else {
         this.notificationService.warning(data.message);

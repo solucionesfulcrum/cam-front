@@ -26,9 +26,9 @@
                     <div class="contenedorOpcion">
                         <div class="flex flex-row gap-2 items-center truncate">
                             <div class="inputCustom">
-                                <input [id]="dataContrato.datosContrato.numDoc" class="focusCampo" [formControl]="ctrlProfesionales" name="profesional" type="radio" [value]="1">
+                                <input [id]="dataContrato.numDoc" class="focusCampo" [formControl]="ctrlProfesionales" name="profesional" type="radio" [value]="1">
                             </div>
-                            <label class="truncate" [for]="dataContrato.datosContrato.numDoc">{{dataContrato.datosContrato.nombreProveedor | titlecase}}</label>
+                            <label class="truncate" [for]="dataContrato.numDoc">{{dataContrato.nombreProveedor | titlecase}}</label>
                         </div>
                         <!-- <div class="deleteDiv">
                             <img class="h-5 self-center" src="assets/svg/icon-minus-gray.svg">
@@ -145,12 +145,12 @@
                 </div>
                 <div class="flex flex-row gap-2.5">
                     <div class="flex flex-col py-1 pr-3 grow shrink-0">
-                        <span class="text-sm font-medium text-[#37474F]">{{dataContrato.datosContrato.nombreProveedor | titlecase}}</span>
+                        <span class="text-sm font-medium text-[#37474F]">{{dataContrato.nombreProveedor | titlecase}}</span>
                         <span class="text-xs">Tallerista</span>
                         <div class="flex flex-row gap-2.5 items-center">
                             <span class="text-xs">Total Talleres</span>
-                            <div class="px-3 text-xs text-white h-5 bg-cam flex items-center">
-                                <span>{{2}}</span>
+                            <div class="px-3 text-xs text-white h-5 bg-cam flex items-center" *ngIf="listServicios">
+                                <span>{{listServicios.servicios.length}}</span>
                             </div>
                         </div>
                     </div>
@@ -172,5 +172,4 @@
             </div>
         </div>
     </div>
-
 </div>

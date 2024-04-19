@@ -16,6 +16,7 @@ export class DialogAddProgramacionAsignacionComponent {
 
   listParamTipo: any[] = [];
   listaHorariosFiltrados: any[] = [];
+  listCirams: any[] = [];
   listaRangosHorariosFiltrados: any[] = [];
   listaLimitesHorarios: any[] = [];
   formSchedule = this.fb.nonNullable.group({
@@ -23,6 +24,12 @@ export class DialogAddProgramacionAsignacionComponent {
     frmInicioHorario:['', Validators.required],
     frmFinHorario:['', Validators.required]
   });
+  horarioFinElegido: any;
+  
+  ctrlTipo = new FormControl('');
+  dataTipo: any;
+  ctrlServicio = new FormControl('');
+  ctrlCiram = new FormControl('');
 
 
   constructor(@Inject(DIALOG_DATA) public data      : any,
@@ -37,6 +44,7 @@ export class DialogAddProgramacionAsignacionComponent {
 
   ngOnInit(): void {
     console.log(this.data)
+    this.ctrlTipo.disable();
     // this.getActividades();
     this.formSchedule.controls.frmInicioHorario.setValue(null!)
     this.setListeners();
@@ -48,9 +56,19 @@ export class DialogAddProgramacionAsignacionComponent {
       this.formSchedule.controls.frmFecha.setValue(this.data.fechaHorario);
       this.formSchedule.controls.frmFecha.disable();
       this.formSchedule.controls.frmInicioHorario.setValue((new Date(`${this.data.fechaHorario.getFullYear()}-${this.data.fechaHorario.getMonth()+1}-${this.data.fechaHorario.getDate()} ${this.data.rangoHorario.split(' ')[0]}:00 ${this.data.rangoHorario.split(' ')[1]}`)).toString());
-      console.log(this.formSchedule.controls.frmInicioHorario.value)
       this.formSchedule.controls.frmInicioHorario.disable();
     }
+    this.ctrlServicio.valueChanges.subscribe((data: any)=>{
+      if (typeof data === 'object') {
+        this.ctrlTipo.setValue(this.listParamTipo.find((datos)=> datos.nombre === data.tipoServicio).idParametros);
+        this.dataTipo = this.listParamTipo.find((datos)=> datos.nombre === data.tipoServicio);
+      }
+      else{
+        this.ctrlTipo.setValue('');
+        this.dataTipo = null;
+      }
+      this.cargarOpcionesLimitantes()
+    })
   }
 
   getParaametros(){
@@ -62,10 +80,44 @@ export class DialogAddProgramacionAsignacionComponent {
         this.notificacionService.warning(data.message);
       }
     })
+    this.datosService.getListCiramsOfCam(JSON.parse(localStorage.getItem("UnidElegida")!).idUnidOperativa).subscribe((data)=>{
+      if (data.code == 0) {
+        this.listCirams = data.data;
+      }
+      else {
+        this.notificacionService.warning(data.message);
+      }
+    })
   }
 
   onClose(){
     this._dialogRef.close();
+  }
+
+  onSelectedServicioSelect(event: any){
+    this.ctrlServicio.setValue(event.option.value);
+  }
+
+  onSelectedCiramSelect(event: any){
+    this.ctrlCiram.setValue(event.option.value);
+  }
+
+  getOptionsFilteresServicio(): any{
+    let list = this.data.serviciosContrato.servicios;
+    return (list.filter((x: any)=> x.nombreServicio.toLowerCase().includes((typeof this.ctrlServicio.value) === 'string' ? this.ctrlServicio.value!.toLowerCase() : (this.ctrlServicio.value! as any).nombreServicio.toLowerCase())));
+  }
+  
+  getOptionsFilteresCiram(): any{
+    let list = this.listCirams;
+    return (list.filter((x: any)=> x.nombre.toLowerCase().includes((typeof this.ctrlCiram.value) === 'string' ? this.ctrlCiram.value!.toLowerCase() : (this.ctrlCiram.value! as any).nombre.toLowerCase())));
+  }
+
+  displayServicioFiltered(selectedoption: any) {
+    return selectedoption ? selectedoption.nombreServicio : undefined;
+  }
+
+  displayCiramFiltered(selectedoption: any) {
+    return selectedoption ? selectedoption.nombre : undefined;
   }
 
   setListeners(){
@@ -83,24 +135,25 @@ export class DialogAddProgramacionAsignacionComponent {
       this.cargarOpcionesLimitantes()
     })
 
-    // this.formSchedule.controls.frmFinHorario.valueChanges.subscribe((data)=>{
-    //   this.horarioFinElegido = this.listaLimitesHorarios.find((x)=> {return x.horaFin == data});
-    // })
-
-    this.ctrlPersonalizado.valueChanges.subscribe((data)=>{
-      if (data){
-        this.formSchedule.controls.frmFecha.disable({ emitEvent: false });
-        this.formSchedule.controls.frmInicioHorario.disable({ emitEvent: false });
-        this.formSchedule.controls.frmFinHorario.disable({ emitEvent: false });
-      }
-      else{
-        if (!this.data.horarioFijo) {
-          this.formSchedule.controls.frmFecha.enable({ emitEvent: false });
-          this.formSchedule.controls.frmInicioHorario.enable({ emitEvent: false });
-        }
-        this.formSchedule.controls.frmFinHorario.enable({ emitEvent: false });
-      }
+    this.formSchedule.controls.frmFinHorario.valueChanges.subscribe((data)=>{
+      this.horarioFinElegido = this.listaLimitesHorarios.find((x)=> {return x.horaFin == data});
+      console.log(this.horarioFinElegido)
     })
+
+    // this.ctrlPersonalizado.valueChanges.subscribe((data)=>{
+    //   if (data){
+    //     this.formSchedule.controls.frmFecha.disable({ emitEvent: false });
+    //     this.formSchedule.controls.frmInicioHorario.disable({ emitEvent: false });
+    //     this.formSchedule.controls.frmFinHorario.disable({ emitEvent: false });
+    //   }
+    //   else{
+    //     if (!this.data.horarioFijo) {
+    //       this.formSchedule.controls.frmFecha.enable({ emitEvent: false });
+    //       this.formSchedule.controls.frmInicioHorario.enable({ emitEvent: false });
+    //     }
+    //     this.formSchedule.controls.frmFinHorario.enable({ emitEvent: false });
+    //   }
+    // })
   }
   // -----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
@@ -120,38 +173,39 @@ export class DialogAddProgramacionAsignacionComponent {
 
   cargarOpcionesLimitantes(){
     this.listaLimitesHorarios = [];
-    if (/*this.actividadSeleccionadoTmp && */this.formSchedule.controls.frmInicioHorario.value) {
+    if (this.dataTipo && this.formSchedule.controls.frmInicioHorario.value) {
       let horaInicio = new Date(this.formSchedule.controls.frmInicioHorario.value)
       let count = 1;
       let horaAumentada;
 
       do {
-        horaAumentada = new Date (horaInicio.getTime() + (1000*60*45)*(count))
+        if (count > 3) {
+          console.log(this.listaLimitesHorarios)
+          break;
+        }
+        horaAumentada = new Date (horaInicio.getTime() + (1000*60*this.dataTipo.valor1)*(count))
         if (horaAumentada.getHours() > 20 || (horaAumentada.getHours() == 20 && horaAumentada.getMinutes() != 0)) {
           break;
         }
         this.listaLimitesHorarios.push({horaFin: horaAumentada, deshabilitado: false, cantidadCupos: count})
         count += 1;
       } while (horaAumentada.getHours() < 20);
-
-      console.log(this.listaLimitesHorarios)
     }
   }
 
   transformDataDates(){
-    let primerLimite = new Date(this.data.dataContrato.datosContrato.fechInicio.replace(/-/g, '\/'));
-    let segundoLimite = new Date(this.data.dataContrato.datosContrato.fechFin.replace(/-/g, '\/'));
+    let primerLimite = new Date(this.data.dataContrato.fechInicio.replace(/-/g, '\/'));
+    let segundoLimite = new Date(this.data.dataContrato.fechFin.replace(/-/g, '\/'));
     this.data.semanaElegida.forEach((x: Date) => {
       if ((x.getDay() != 0 && x.getDay() != 6) && (x.getTime() >= primerLimite.getTime() && x.getTime() <= segundoLimite.getTime())) {
         this.listaHorariosFiltrados.push({diaFecha: x, deshabilitado: false});
       }
     });
-    console.log(this.listaHorariosFiltrados)
   }
 
 
   onSave(){
-    this._dialogRef.close();
+    // this._dialogRef.close();
   }
 
 }

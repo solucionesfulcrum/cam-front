@@ -27,6 +27,7 @@ export class CalendarioProgramacionComponent {
   numOc!: string;
   faSpinner = faSpinner;
   dataContrato: any;
+  listServicios: any;
   
   faClose = fonts.faClose;
   fechaActual = new Date();
@@ -55,7 +56,8 @@ export class CalendarioProgramacionComponent {
         this.periodoCalendario.setMonth(this.limitesHorario[0].getMonth());
         this.periodoCalendario.setFullYear(this.limitesHorario[0].getFullYear());
         this.getFechasSemana(new Date(this.limitesHorario[0].getFullYear(), this.limitesHorario[0].getMonth(), this.limitesHorario[0].getDate()));
-        this.dataContrato = data.data;
+        this.dataContrato = data.data.datosContrato;
+        this.getServiciosContrato()
         this.ctrlProfesionales.setValue(1);
         console.log(this.dataContrato)
       }
@@ -74,6 +76,17 @@ export class CalendarioProgramacionComponent {
 
         break;
     }
+  }
+
+  getServiciosContrato(){
+    this.programacionService.getDatosServicioContrato(this.dataContrato.idProgramacion).subscribe((data)=>{
+      if (data.code == 0) {
+        this.listServicios = data.data.serviciosCam;
+      }
+      else {
+        this.notificationService.warning(data.message);
+      }
+    })
   }
 
   comprobacionBloqueo(dateElegido: any): boolean{
@@ -137,6 +150,7 @@ export class CalendarioProgramacionComponent {
           rangoHorario:       dataRangoElegido,
           fechaHorario:       dataFechaElegida,
           dataContrato:        this.dataContrato,
+          serviciosContrato:  this.listServicios,
           dataRangosHorarios: this.horarios,
           semanaElegida:      this.fechasSemana,
           horarioFijo:        (dataRangoElegido ? true : false)
