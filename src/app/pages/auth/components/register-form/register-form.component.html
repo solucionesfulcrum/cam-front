@@ -74,14 +74,24 @@
               </div>
             </div>
 
-            <div class="flex">
-              <div class="w-full">
-                <input formControlName="names" placeholder="Nombres y Apellidos" type="text" name="names"
+            <div class="flex space-x-2">
+              <div class="w-1/2">
+                <input formControlName="names" placeholder="Nombres" type="text" name="names"
                   class="w-full text-sm rounded bg-white border-gray-400 border-1 px-4 py-2 font-light focus:border-blue-200 focus:border-1" />
                 <div *ngIf="form.controls.names.touched && form.controls.names.invalid">
                   <p *ngIf="form.controls.names.hasError('required')"
                     class="font-medium text-red-500 text-xs mt-1 ml-1">
                     El nombre es obligatorio
+                  </p>
+                </div>
+              </div>
+              <div class="w-1/2">
+                <input formControlName="apellidos" placeholder="Apellidos" type="text" name="names"
+                  class="w-full text-sm rounded bg-white border-gray-400 border-1 px-4 py-2 font-light focus:border-blue-200 focus:border-1" />
+                <div *ngIf="form.controls.apellidos.touched && form.controls.names.invalid">
+                  <p *ngIf="form.controls.apellidos.hasError('required')"
+                    class="font-medium text-red-500 text-xs mt-1 ml-1">
+                    Los Apellidos son obligatorios
                   </p>
                 </div>
               </div>

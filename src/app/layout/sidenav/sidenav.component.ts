@@ -31,6 +31,8 @@ export class SidenavComponent {
   userInfo: any = Object();
   userCategoria: string = '';
   showUnidOpe: boolean = false;
+  showCiram: boolean= false;
+  listCiram: any;
 
   constructor(private datosService : DatosGeneralesService,
               private authService:AuthService,
@@ -45,20 +47,39 @@ export class SidenavComponent {
       this.userInfo = (JSON.parse(localStorage.getItem('camUser')!));
       this.unidOpeUserSession = (JSON.parse(localStorage.getItem('UnidElegida')!)).unidOperativa;
       this.showUnidOpe = true;
+      this.showCiram = true;
       // idUnid = (JSON.parse(localStorage.getItem('camUser')!)).idUnidOperativa;
       // this.datosService.getUnidadesOperativas('').subscribe((data) =>{
       //   this.unidOpeUserSession = data.data.find((x: any)=> {return x.idUnidOperativa == idUnid!}).descripcionCompleta;
       //   this.showUnidOpe = true;
       // });
+      this.authService.getListarCiram(parseInt(this.unid.idUnidOperativa)).subscribe((data) => {
+        console.log("dataciram",data)
+        this.listCiram = data.data
+      })
     }
     else{
       this.unidOpeUserSession = 'SEDE CENTRAL';
       this.showUnidOpe = true;
+      this.showCiram = true;
     }
   }
 
   logout(){
     this.authService.logout()
     this.router.navigate(['/login'])
+  }
+
+  selecionarCiram(unidCiram: any){
+    console.log("selecion",unidCiram)
+    /*localStorage.setItem('UnidElegida', JSON.stringify(unidCiram));
+    this.unidOpeUserSession = (JSON.parse(localStorage.getItem('UnidElegida')!)).nombre;
+    this.showCiram = true;
+    this.showUnidOpe = true;
+    this.router.navigate(['/app']);*/
+  }
+
+  administrarCiram(){
+    this.router.navigate(['/app/adm-uo']);
   }
 }
