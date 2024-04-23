@@ -7,7 +7,7 @@
         </div>
         <!-- Right side content if needed -->
     </div>
-    <h1 class="font-bold mt-4">Santos Avid Silva Huamán</h1>
+    <h1 class="font-bold mt-4">{{nombreCompleto}}</h1>
     <div class="flex items-center justify-start space-x-4">
         <h1>La información básica de cada usuario sirve para poder identificar las acciones dentro de SCAM.</h1>
         <h1 class="text-[#057EC9] hover:text-blue-700 cursor-pointer">Más información</h1>
@@ -17,18 +17,18 @@
             Datos personales
         </span>
     </div>
-    <form>
+    <div [formGroup]="formDatosPersonales">
         <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mt-4">
             <!-- Nombres -->
             <div>
                 <label class="block text-gray-700">Nombres *</label>
-                <input type="text" class="mt-2 p-3 block w-full border rounded" placeholder="Santos Avid">
+                <input type="text" name="nombres" class="mt-2 p-3 block w-full border rounded" formControlName="frmNombres">
             </div>
 
             <!-- Apellidos -->
             <div>
                 <label class="block text-gray-700">Apellidos *</label>
-                <input type="text" class="mt-2 p-3 block w-full border rounded" placeholder="Silva Huamán">
+                <input type="text" class="mt-2 p-3 block w-full border rounded" placeholder="">
             </div>
 
             <!-- Celular -->
@@ -40,7 +40,7 @@
             <!-- Correo electrónico -->
             <div>
                 <label class="block text-gray-700">Correo electrónico</label>
-                <input type="email" class="mt-2 p-3 block w-full border rounded" placeholder="correo@gmail.com">
+                <input type="email" class="mt-2 p-3 block w-full border rounded" placeholder="">
             </div>
         </div>
         <div class="info-container flex items-center mt-5">
@@ -107,7 +107,7 @@
                 Guardar cambios
             </button>
         </div>
-    </form>
+    </div>
 
     <h1 class="font-bold mt-4">Nivel Educativo</h1>
     <div class="relative border-b-2 border-gray-200 py-1 bg-gray-200 mt-4">
