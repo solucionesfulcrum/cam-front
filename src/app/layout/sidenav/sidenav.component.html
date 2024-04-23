@@ -1,7 +1,7 @@
 <div class="w-full relative h-full flex flex-col justify-between">
   <div>
     <div class="div-sidenav-img mt-[12px]">
-      <img src="assets/images/logo/cam-logo.png"/>
+      <img src="assets/images/logo/cam-logo.png" />
     </div>
     <ul class="nav-list-item w-full flex flex-col font-medium text-gray-700 menuNav">
       <!-- <li class="elementoSeleccionable">
@@ -14,25 +14,25 @@
       </li> -->
       <li>
         <a routerLink="/app/dashboard" routerLinkActive="list-item-activo" (select)="true">
-          <img src="assets/svg/nav-icon-dashboard.svg"/>
+          <img src="assets/svg/nav-icon-dashboard.svg" />
           <span>Dashboard</span>
         </a>
       </li>
       <li *ngIf="unid.rol === 'COORDINADOR RED'">
         <a routerLink="/app/contratos" routerLinkActive="list-item-activo">
-          <img class="" src="assets/svg/nav-icon-contratos.svg"/>
+          <img class="" src="assets/svg/nav-icon-contratos.svg" />
           <span>Contratos</span>
         </a>
       </li>
       <li>
         <a routerLink="/app/contactos" routerLinkActive="list-item-activo">
-          <img class="" src="assets/svg/nav-icon-contacto.svg"/>
+          <img class="" src="assets/svg/nav-icon-contacto.svg" />
           <span>Contactos</span>
         </a>
       </li>
       <li>
         <a routerLink='/app/afiliados' routerLinkActive="list-item-activo">
-          <img class="" src="assets/svg/nav-icon-afiliacion.svg"/>
+          <img class="" src="assets/svg/nav-icon-afiliacion.svg" />
           <span>Afiliaciones</span>
         </a>
       </li>
@@ -56,65 +56,93 @@
       </li> -->
     </ul>
   </div>
-  <div *ngIf="showUnidOpe" class="h-[55px] p-[8px] flex justify-between mb-4 select-none hover:bg-[#F0FCFE]" [cdkMenuTriggerFor]="optionsSidenav">
+  <div *ngIf="showUnidOpe" class="h-[55px] p-[8px] flex justify-between mb-4 select-none hover:bg-[#F0FCFE]"
+    [cdkMenuTriggerFor]="optionsSidenav">
     <div class="flex gap-2">
-      <div class=" bg-cam w-[40px] h-full rounded-[5px] flex justify-center items-center text-white font-bold text-[20px]">
+      <div
+        class=" bg-cam w-[40px] h-full rounded-[5px] flex justify-center items-center text-white font-bold text-[20px]">
         <span>{{unidOpeUserSession[0]}}</span>
       </div>
       <div class="flex flex-col text-[14px]">
         <span>Unidad Operativa</span>
-        <span class="text-Name !font-light max-w-[168px] whitespace-nowrap text-ellipsis overflow-hidden">{{unidOpeUserSession}}</span>
+        <span
+          class="text-Name !font-light max-w-[168px] whitespace-nowrap text-ellipsis overflow-hidden">{{unidOpeUserSession}}</span>
       </div>
     </div>
     <div class="flex items-center opacity-60">
-        <esp-icon icon="faChevronRight"></esp-icon>
+      <esp-icon icon="faChevronRight"></esp-icon>
     </div>
   </div>
 
   <ng-template #optionsSidenav>
-      <div class="botonApariencia bg-white !text-[#344563] text-sm ml-[250px] mb-[-70px]" cdkMenu>
-          <div class="flex flex-col" cdkMenuGroup>
-            <div class="flex flex-col gap-[7.5px] px-3 py-2.5 ">
-              <span class="font-bold">USUARIO</span>
-              <div class="flex flex-row gap-1.5 items-center">
-                <div class="flex items-center justify-center bg-cam w-10 h-10 rounded">
-                  <span class="text-white font-bold text-lg">{{userInfo.nombres[0]}}</span>
-                </div>
-                <div class="flex flex-col min-w-[265px]">
-                  <span>{{userInfo.nombres}}</span>
-                  <span class="text-[12px] leading-[12px] opacity-50">{{userInfo.correo}}</span>
-                </div>
-                <img class="h-5 self-center cursor-pointer" src="assets/svg/icon-edit-list.svg" [routerLink]="'/app/admin/edit-user'">
-              </div>
+    <div class="botonApariencia bg-white !text-[#344563] text-sm ml-[250px] mb-[-70px]" cdkMenu>
+      <div class="flex flex-col" cdkMenuGroup>
+        <div class="flex flex-col gap-[7.5px] px-3 py-2.5 ">
+          <span class="font-bold">USUARIO</span>
+          <div class="flex flex-row gap-1.5 items-center">
+            <div class="flex items-center justify-center bg-cam w-10 h-10 rounded">
+              <span class="text-white font-bold text-lg">{{userInfo.nombres[0]}}</span>
             </div>
-            <div class="flex flex-col gap-[7.5px] px-3 py-2.5 border-[#D4D4D4] border-y">
-              <span class="font-bold">CENTRO</span>
-              <div class="flex flex-col bg-[#F5F8FA] w-full py-[7px] pl-2.5 pr-1">
-                <span>{{unidOpeUserSession}}</span>
-                <span class="text-[#64748B] text-[12px]">------------------------</span>
-              </div>
+            <div class="flex flex-col min-w-[265px]">
+              <span>{{userInfo.nombres}}</span>
+              <span class="text-[12px] leading-[12px] opacity-50">{{userInfo.correo}}</span>
             </div>
-            <div class="flex flex-col gap-2.5 px-3 py-2.5">
-              <div class="flex flex-row items-center gap-2.5 cursor-pointer" [routerLink]="'/app/admin'">
-                <img class="h-5 self-center" src="assets/svg/iconoCiramSidNav.svg">
-                <span>Administrar CIRAM'S</span>
-              </div>
-              <div class="flex flex-row items-center gap-2.5 cursor-pointer" (click)="logout()">
-                <img src="assets/svg/iconoCloudCiramNav.svg"/>
-                <span>Ver Datos como CIRAM</span>
-              </div>
+            <img class="h-5 self-center cursor-pointer" src="assets/svg/icon-edit-list.svg"
+              [routerLink]="'/app/admin/edit-user'">
+          </div>
+        </div>
+        <div class="flex flex-col gap-[7.5px] px-3 py-2.5 border-[#D4D4D4] border-y">
+          <span class="font-bold">CENTRO</span>
+          <div class="flex flex-col bg-[#F5F8FA] w-full py-[7px] pl-2.5 pr-1">
+            <span>{{unidOpeUserSession}}</span>
+            <span class="text-[#64748B] text-[12px]">------------------------</span>
+          </div>
+        </div>
+        <div class="flex flex-col gap-2.5 px-3 py-2.5 ">
+          <div class="flex flex-row items-center gap-2.5 cursor-pointer" (click)="administrarCiram()">
+            <img class="h-5 self-center" src="assets/svg/iconoCiramSidNav.svg">
+            <span>Administrar CIRAM'S</span>
+          </div>
+
+          <div *ngIf="showCiram" class="flex justify-between select-none hover:bg-[#F0FCFE]"
+            [cdkMenuTriggerFor]="optionsCiram">
+            <div *ngIf="listCiram.length>0" class="flex flex-row items-center gap-2.5 cursor-pointer">
+              <img src="assets/svg/iconoCloudCiramNav.svg" />
+              <span>Ver Datos como CIRAM</span>
             </div>
-            <div class="flex flex-col gap-[7.5px] px-3 py-2.5 border-[#D4D4D4] border-y">
-              <div class="flex flex-row items-center gap-2.5 cursor-pointer" [routerLink]="'/app/admin'">
-                <img class="h-5 self-center" src="assets/svg/circle-arrow-left.svg">
-                <span>Volver a lista de Centros</span>
-              </div>
-              <div class="flex flex-row items-center gap-2.5 cursor-pointer" (click)="logout()">
-                <img src="assets/svg/icon-toolbar-logout.svg"/>
-                <span>Cerrar la sesión</span>
-              </div>
+            <div *ngIf="listCiram.length==0" class="flex flex-row items-center gap-2.5">
+              <img src="assets/svg/iconoCloudCiramNav.svg" />
+              <span>No tiene CIRAM</span>
+            </div>
+            <div *ngIf="listCiram.length>0" class="flex items-center opacity-60">
+              <esp-icon icon="faChevronRight"></esp-icon>
             </div>
           </div>
+
+        </div>
+        <div class="flex flex-col gap-[7.5px] px-3 py-2.5 border-[#D4D4D4] border-y">
+          <div class="flex flex-row items-center gap-2.5 cursor-pointer" [routerLink]="'/app/admin'">
+            <img class="h-5 self-center" src="assets/svg/circle-arrow-left.svg">
+            <span>Volver a lista de Centros</span>
+          </div>
+          <div class="flex flex-row items-center gap-2.5 cursor-pointer" (click)="logout()">
+            <img src="assets/svg/icon-toolbar-logout.svg" />
+            <span>Cerrar la sesión</span>
+          </div>
+        </div>
       </div>
+    </div>
+  </ng-template>
+  <ng-template #optionsCiram>
+    <div class="botonApariencia bg-white !text-[#344563] text-sm ml-[13px] mb-[-70px] mt-[-40px]" cdkMenu>
+      <div class="flex flex-col" cdkMenuGroup>
+        <div class="flex flex-col gap-[7.5px] px-3 py-2.5 cursor-pointer" *ngFor="let unidCiram of listCiram, index as i">
+          <div class="flex flex-row gap-1.5 items-center" (click)="selecionarCiram(unidCiram)">
+            <img class="h-5 self-center" src="assets/svg/iconoCiramSidNav.svg">
+            <span>CIRAM {{unidCiram.nombre}}</span>
+          </div>
+        </div>
+      </div>
+    </div>
   </ng-template>
 </div>

@@ -4,6 +4,7 @@ export interface RequestRegisterSIGPS {
   tipoDoc: string;
   numDoc: string;
   nombres: string;
+  apellidos: string;
   codPlanilla: string;
   unidOperativaId: number;
   guiidSso: string;

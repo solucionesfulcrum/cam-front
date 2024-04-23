@@ -9,7 +9,7 @@
         [setFilterDateTextColour]="'#057EC9'" [filterDateAppearance]="2"
         (sendDateFilterWithCeros)="getDataFecha($event)" [setFilterDateSelectionBg]="'#008BD2'"
         [setFilterDateButtonBg]="'#008BD2'" [setDateSelectedDefault]="9" [showSearch]="true"
-        [searchInputPlaceHolder]="'Busquedar'" [showButton]="true" [buttonText]="'Nuevo CIRAM'"
+        [searchInputPlaceHolder]="'Busquedar'" [showButton]="true" [buttonText]="'Nuevo CIRAM'" (buttonAccion)="nuevoCiram()"
         [buttonBg]="'#057EC9'"></esp-opciones-busqueda>
 
 
@@ -24,43 +24,21 @@
 
         <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
             <!-- Repeat this section for each active item -->
-            <div class="flex items-center justify-between p-4 bg-white rounded-lg shadow-md">
+            <div *ngFor="let unidCiram of listCiramActivos, index as i"
+                class="flex items-center justify-between p-4 bg-white rounded-lg shadow-md cursor-pointer" [routerLink]="'/app/adm-uo/edit'">
                 <div>
-                    <h3 class="font-bold">CIRAM Nombre</h3>
-                    <p class="text-sm">Jr. Las Magdolias 450 - Jesus Maria - Lima</p>
+                    <div class="py-2 flex flex-row gap-2.5 items-center">
+                        <img class="select-none" src="assets/svg/icon-unid-ciram.svg" />
+                        <div>
+                            <h3 class="font-bold">CIRAM {{unidCiram.nombre}}</h3>
+                            <p class="text-sm">{{unidCiram.direccion}}</p>
+                        </div>
+                    </div>
                 </div>
                 <div class="flex items-center">
                     <button class="p-2 rounded-full bg-white text-gray-600">⋮</button>
                 </div>
             </div>
-            <div class="flex items-center justify-between p-4 bg-white rounded-lg shadow-md">
-                <div>
-                    <h3 class="font-bold">CIRAM Nombre</h3>
-                    <p class="text-sm">Jr. Las Magdolias 450 - Jesus Maria - Lima</p>
-                </div>
-                <div class="flex items-center">
-                    <button class="p-2 rounded-full bg-white text-gray-600">⋮</button>
-                </div>
-            </div>
-            <div class="flex items-center justify-between p-4 bg-white rounded-lg shadow-md">
-                <div>
-                    <h3 class="font-bold">CIRAM Nombre</h3>
-                    <p class="text-sm">Jr. Las Magdolias 450 - Jesus Maria - Lima</p>
-                </div>
-                <div class="flex items-center">
-                    <button class="p-2 rounded-full bg-white text-gray-600">⋮</button>
-                </div>
-            </div>
-            <div class="flex items-center justify-between p-4 bg-white rounded-lg shadow-md">
-                <div>
-                    <h3 class="font-bold">CIRAM Nombre</h3>
-                    <p class="text-sm">Jr. Las Magdolias 450 - Jesus Maria - Lima</p>
-                </div>
-                <div class="flex items-center">
-                    <button class="p-2 rounded-full bg-white text-gray-600">⋮</button>
-                </div>
-            </div>
-            <!-- End of repeated section -->
         </div>
     </div>
     <div class="bg-gray-100 p-3 mt-4">
@@ -70,10 +48,16 @@
 
         <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
             <!-- Repeat this section for each inactive item -->
-            <div class="flex items-center justify-between p-4 bg-white rounded-lg shadow-md">
+            <div *ngFor="let unidCiram of listCiramInactivos, index as i"
+                class="flex items-center justify-between p-4 bg-white rounded-lg shadow-md">
                 <div>
-                    <h3 class="font-bold text-gray-500">CIRAM Nombre</h3>
-                    <p class="text-sm text-gray-500">Jr. Las Magdolias 450 - Jesus Maria - Lima</p>
+                    <div class="py-2 flex flex-row gap-2.5 items-center">
+                        <img class="select-none" src="assets/svg/icon-unid-ciram.svg" />
+                        <div>
+                            <h3 class="font-bold">CIRAM {{unidCiram.nombre}}</h3>
+                            <p class="text-sm">{{unidCiram.direccion}}</p>
+                        </div>
+                    </div>
                 </div>
                 <div class="flex items-center">
                     <button class="p-2 rounded-full bg-white text-gray-600">⋮</button>

@@ -1,1 +1,166 @@
-<p>edit-active-user works!</p>
+<div class="max-w-5xl mx-auto p-6 bg-white rounded-lg shadow-md">
+    <h2 class="text-xl font-semibold">Perfil y visibilidad</h2>
+    <div class="bg-[#057EC9] p-4 flex items-center justify-between" style="height: 180px;">
+        <!-- Left side with the big icon and banner text -->
+        <div class="flex items-center">
+            <!-- Insert content here -->
+        </div>
+        <!-- Right side content if needed -->
+    </div>
+    <h1 class="font-bold mt-4">Santos Avid Silva Huamán</h1>
+    <div class="flex items-center justify-start space-x-4">
+        <h1>La información básica de cada usuario sirve para poder identificar las acciones dentro de SCAM.</h1>
+        <h1 class="text-[#057EC9] hover:text-blue-700 cursor-pointer">Más información</h1>
+    </div>
+    <div class="relative border-b-2 border-gray-200 py-1 bg-gray-200 mt-4">
+        <span class="relative px-2 -translate-y-1/2 transform top-1/2 font-bold">
+            Datos personales
+        </span>
+    </div>
+    <form>
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mt-4">
+            <!-- Nombres -->
+            <div>
+                <label class="block text-gray-700">Nombres *</label>
+                <input type="text" class="mt-2 p-3 block w-full border rounded" placeholder="Santos Avid">
+            </div>
+
+            <!-- Apellidos -->
+            <div>
+                <label class="block text-gray-700">Apellidos *</label>
+                <input type="text" class="mt-2 p-3 block w-full border rounded" placeholder="Silva Huamán">
+            </div>
+
+            <!-- Celular -->
+            <div>
+                <label class="block text-gray-700">Celular</label>
+                <input type="text" class="mt-2 p-3 block w-full border rounded">
+            </div>
+
+            <!-- Correo electrónico -->
+            <div>
+                <label class="block text-gray-700">Correo electrónico</label>
+                <input type="email" class="mt-2 p-3 block w-full border rounded" placeholder="correo@gmail.com">
+            </div>
+        </div>
+        <div class="info-container flex items-center mt-5">
+            <!-- Dirección de residencia -->
+            <div class="w-3/4 my-1 mr-4">
+                <label class="block text-gray-700">Dirección de residencia</label>
+                <input type="text" class="mt-2 p-3 block w-full border rounded">
+            </div>
+
+            <!-- Distrito -->
+            <div class="w-1/4 my-1">
+                <select class="mt-7 p-3 block w-full border rounded">
+                    <option>Distrito</option>
+                </select>
+            </div>
+        </div>
+        <div class="info-container flex items-center mt-5">
+            <!-- Fecha de nacimiento -->
+            <div class="w-1/3 mr-4">
+                <input type="date" class="mt-2 p-3 block w-full border rounded" placeholder="Fecha de nacimiento *">
+            </div>
+
+            <!-- Estado civil -->
+            <div class="w-1/3 my-1 mr-4">
+                <select class="mt-2 p-3 block w-full border rounded">
+                    <option>Estado civil *</option>
+                </select>
+            </div>
+
+            <!-- Género -->
+            <div class="w-1/3 my-1">
+                <select class="mt-2 p-3 block w-full border rounded">
+                    <option>genero *</option>
+                </select>
+            </div>
+        </div>
+        <div class="info-container flex items-center mt-5">
+            <!-- Nacionalidad -->
+            <div class="w-1/3 mr-4">
+                <select class="mt-2 p-3 block w-full border rounded">
+                    <option>Nacionalidad *</option>
+                </select>
+            </div>
+
+            <!-- Documento Nacional de Identidad -->
+            <div class="w-1/3 my-1 mr-4">
+                <input type="text" class="mt-2 p-3 block w-full border rounded"
+                    placeholder="Documento Nacional de Identidad *">
+            </div>
+
+            <div class="w-1/3 my-1">
+                <input type="text" class="mt-2 p-3 block w-full border rounded" placeholder="47787230">
+            </div>
+        </div>
+        <!-- Firma -->
+        <div class="md:col-span-2 mt-4">
+            <label class="block text-gray-700">Firma</label>
+            <input type="file" class="mt-2 p-3 block w-full border rounded">
+        </div>
+
+
+        <div class="flex justify-end mt-6">
+            <button type="submit" class="px-6 py-3 bg-blue-600 text-white rounded bg-[#057EC9] focus:outline-none">
+                Guardar cambios
+            </button>
+        </div>
+    </form>
+
+    <h1 class="font-bold mt-4">Nivel Educativo</h1>
+    <div class="relative border-b-2 border-gray-200 py-1 bg-gray-200 mt-4">
+        <span class="relative px-2 -translate-y-1/2 transform top-1/2 font-bold">
+            Datos sobre estudios realizados
+        </span>
+    </div>
+    <form>
+        <div>
+            <select class="mt-2 p-3 block w-full border rounded mt-4">
+                <option>Nivel de Educacion Actual</option>
+            </select>
+        </div>
+        <div class="mt-4">
+            <label class="block text-gray-700">Nombre de la institucion Educativa</label>
+            <input type="text" class="mt-2 p-3 block w-full border rounded"
+                placeholder="Nombre de la institucion Educativa">
+        </div>
+        <div>
+            <select class="mt-2 p-3 block w-full border rounded mt-4">
+                <option>Año de Graduación</option>
+            </select>
+        </div>
+
+        <div class="flex justify-end mt-6">
+            <button type="submit" class="px-6 py-3 bg-blue-600 text-white rounded bg-[#057EC9] focus:outline-none">
+                Guardar cambios
+            </button>
+        </div>
+    </form>
+    <form>
+        <h1 class="font-bold mt-4">Seguridad</h1>
+        <div class="relative border-b-2 border-gray-200 py-1 bg-gray-200 mt-4">
+            <span class="relative px-2 -translate-y-1/2 transform top-1/2 font-bold">
+                Datos de seguridad
+            </span>
+        </div>
+        <div class="mt-4">
+            <label class="block text-gray-700">Contraseña actual</label>
+            <input type="text" class="mt-2 p-3 block w-full border rounded">
+        </div>
+        <div class="mt-4">
+            <label class="block text-gray-700">Nueva Contraseña</label>
+            <input type="text" class="mt-2 p-3 block w-full border rounded">
+        </div>
+        <div class="mt-4">
+            <label class="block text-gray-700">Repita la Nueva Contraseña</label>
+            <input type="text" class="mt-2 p-3 block w-full border rounded">
+        </div>
+        <div class="flex justify-end mt-6">
+            <button type="submit" class="px-6 py-3 bg-blue-600 text-white rounded bg-[#057EC9] focus:outline-none">
+                Guardar cambios
+            </button>
+        </div>
+    </form>
+</div>

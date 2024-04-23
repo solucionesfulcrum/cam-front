@@ -18,7 +18,7 @@ import { User } from '@models/user.model';
 import { UserService } from '@shared/stores/user.service';
 import { RequestRegisterSIGPS } from '@models/auth/register.model';
 import { PreRecoverPassword, RecoverPassword } from '@models/auth/recover-pass.model';
-import { listardashboardRequest,listardashboardRequestActivos } from '@models/dashboard/dashboard.model'
+import { listCiramActivosInactivos, listardashboardRequest,listardashboardRequestActivos } from '@models/dashboard/dashboard.model'
 const helperJWT = new JwtHelperService();
 
 @Injectable({
@@ -119,6 +119,7 @@ export class AuthService {
     tipoDoc: string,
     doc: string,
     names: string,
+    apellidos: string,
     email: string,
     password: string,
     codigoPlanilla: string
@@ -129,6 +130,7 @@ export class AuthService {
       password: password,
       email: email,
       nombres: names,
+      apellidos: apellidos,
       codigoPlanilla: codigoPlanilla,
     });
   }
@@ -232,6 +234,16 @@ export class AuthService {
 
   listarDashboardActivos(model: listardashboardRequestActivos) {
     const url = `${environment.API}/asegurado/listar/dashboard/estado`;
+    return this.http.post<any>(url, model);
+  }
+
+  getListarCiram(idUndiadOperativa: number){
+    const url = `${environment.API}/unidad-operativa/listar/ciramUo?idUndiadOperativa=${idUndiadOperativa}`;
+    return this.http.get<any>(url);
+  }
+
+  listarActivosInactivos(model: listCiramActivosInactivos) {
+    const url = `${environment.API}/unidad-operativa/listar/ciram/admin`;
     return this.http.post<any>(url, model);
   }
 }
