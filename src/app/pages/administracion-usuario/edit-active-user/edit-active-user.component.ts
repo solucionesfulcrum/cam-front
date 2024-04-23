@@ -26,6 +26,10 @@ export class EditActiveUserComponent {
   constructor(private fb: FormBuilder, private datosService: DatosGeneralesService) {
 
   }
+
+  grabarDatosPersonales(){
+    
+  }
   ngOnInit() {
     this.datosService.getTipoParametros('GENERO').subscribe((data) => {
       console.log(data);

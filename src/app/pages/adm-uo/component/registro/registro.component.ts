@@ -42,6 +42,7 @@ export class RegistroComponent {
     this.formRegistroCiram.controls.frmNombreCam.setValue((JSON.parse(localStorage.getItem('UnidElegida')!)).unidOperativa)
     this.formRegistroCiram.controls.frmNombreCam.disable();
     this.formRegistroCiram.controls.frmFechCreacion.disable();
+    this.formRegistroCiram.controls.frmActivo.disable();
   }
 
   getPayloadRegistro(): RequestCiramRegistro {
