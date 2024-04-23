@@ -1,9 +1,12 @@
 import { DIALOG_DATA, DialogRef } from '@angular/cdk/dialog';
-import { DatePipe } from '@angular/common';
+import { DatePipe, formatDate } from '@angular/common';
 import { Component, Inject, LOCALE_ID } from '@angular/core';
 import { FormBuilder, FormControl, Validators } from '@angular/forms';
+import { DetallesServicio, ProgramacionRequestRegisterServicio } from '@models/programacion/programacion-contratos/programacion-contrato-lista.model';
+import { RequestStatus } from '@models/request-status.model';
 import { NotificationService } from '@services/notification.service';
 import { DatosGeneralesService } from 'src/app/data/services/datos-generales.service';
+import { ProgramacionContratosService } from 'src/app/data/services/programacion/programacion-contratos.service';
 
 @Component({
   selector: 'esp-dialog-add-programacion-asignacion',
@@ -12,6 +15,7 @@ import { DatosGeneralesService } from 'src/app/data/services/datos-generales.ser
   providers: [{provide: LOCALE_ID, useValue: 'es'}]
 })
 export class DialogAddProgramacionAsignacionComponent {
+  status: RequestStatus = 'init';
   ctrlPersonalizado = new FormControl(false);
 
   listParamTipo: any[] = [];
@@ -27,15 +31,18 @@ export class DialogAddProgramacionAsignacionComponent {
   horarioFinElegido: any;
   
   ctrlTipo = new FormControl('');
+  ctrlDireccion = new FormControl('', [Validators.required]);
   dataTipo: any;
-  ctrlServicio = new FormControl('');
+  ctrlServicio = new FormControl('', [Validators.required]);
   ctrlCiram = new FormControl('');
 
 
   constructor(@Inject(DIALOG_DATA) public data      : any,
               private fb                            : FormBuilder,
+              @Inject(LOCALE_ID) private locale     : string,
               public datepipe                       : DatePipe,
               private datosService                  : DatosGeneralesService,
+              private programacionService           : ProgramacionContratosService,
               private notificacionService           : NotificationService,
               private _dialogRef                    : DialogRef<any>) {
 
@@ -51,6 +58,13 @@ export class DialogAddProgramacionAsignacionComponent {
     this.getParaametros();
     this.transformDataDates()
     this.listarHorariosDisponibles()
+    this.formSchedule.controls.frmFecha.valueChanges.subscribe((data)=>{
+      this.formSchedule.controls.frmInicioHorario.setValue(null!);
+      this.formSchedule.controls.frmFinHorario.setValue(null!);
+    })
+    this.formSchedule.controls.frmInicioHorario.valueChanges.subscribe((data)=>{
+      this.formSchedule.controls.frmFinHorario.setValue(null!);
+    })
 
     if (this.data.horarioFijo) {
       this.formSchedule.controls.frmFecha.setValue(this.data.fechaHorario);
@@ -67,7 +81,16 @@ export class DialogAddProgramacionAsignacionComponent {
         this.ctrlTipo.setValue('');
         this.dataTipo = null;
       }
+      this.formSchedule.controls.frmFinHorario.setValue(null!);
       this.cargarOpcionesLimitantes()
+    })
+    this.ctrlPersonalizado.valueChanges.subscribe((data)=>{
+      if (data) {
+        this.ctrlCiram.addValidators(Validators.required);
+      }
+      else{
+        this.ctrlCiram.removeValidators(Validators.required);
+      }
     })
   }
 
@@ -121,12 +144,6 @@ export class DialogAddProgramacionAsignacionComponent {
   }
 
   setListeners(){
-    // this.filteredOptionsActividad = this.ctrlActividad.valueChanges.pipe(
-    //   startWith(''),
-    //   map(value => typeof value === 'string' ? value : value.actividad),
-    //   map(actividad => actividad ? this._filter(actividad) : this.listActividades.slice())
-    // );
-
     this.formSchedule.controls.frmFecha.valueChanges.subscribe((data)=>{
       this.listarHorariosDisponibles()
     })
@@ -137,25 +154,17 @@ export class DialogAddProgramacionAsignacionComponent {
 
     this.formSchedule.controls.frmFinHorario.valueChanges.subscribe((data)=>{
       this.horarioFinElegido = this.listaLimitesHorarios.find((x)=> {return x.horaFin == data});
-      console.log(this.horarioFinElegido)
     })
-
-    // this.ctrlPersonalizado.valueChanges.subscribe((data)=>{
-    //   if (data){
-    //     this.formSchedule.controls.frmFecha.disable({ emitEvent: false });
-    //     this.formSchedule.controls.frmInicioHorario.disable({ emitEvent: false });
-    //     this.formSchedule.controls.frmFinHorario.disable({ emitEvent: false });
-    //   }
-    //   else{
-    //     if (!this.data.horarioFijo) {
-    //       this.formSchedule.controls.frmFecha.enable({ emitEvent: false });
-    //       this.formSchedule.controls.frmInicioHorario.enable({ emitEvent: false });
-    //     }
-    //     this.formSchedule.controls.frmFinHorario.enable({ emitEvent: false });
-    //   }
-    // })
   }
   // -----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+  isNotObject(val: any): boolean{
+    return typeof val !== 'object';
+  }
+
+  asAny(val: any): any{
+    return (val as any);
+  }
 
   listarHorariosDisponibles(){
     this.listaRangosHorariosFiltrados = [];
@@ -177,10 +186,8 @@ export class DialogAddProgramacionAsignacionComponent {
       let horaInicio = new Date(this.formSchedule.controls.frmInicioHorario.value)
       let count = 1;
       let horaAumentada;
-
       do {
-        if (count > 3) {
-          console.log(this.listaLimitesHorarios)
+        if (this.comprobarCantidadSesiones((this.ctrlServicio.value as any).idServicio) + count > 3) {
           break;
         }
         horaAumentada = new Date (horaInicio.getTime() + (1000*60*this.dataTipo.valor1)*(count))
@@ -203,9 +210,81 @@ export class DialogAddProgramacionAsignacionComponent {
     });
   }
 
-
-  onSave(){
-    // this._dialogRef.close();
+  comprobarCantidadSesiones(idServicio: any): number{
+    let asignacionesSemana: any[] = [];
+    let numeroSesiones: number = 0;
+    let soloSemana: any[] = [];
+    this.data.semanaElegida.forEach((x: any) => {
+      this.data.infoServiciosContratados.filter((y: any) => y.fecha == formatDate(x, 'yyyy-MM-dd', this.locale)).forEach((z: any)=> {if(z.idServicio == idServicio){asignacionesSemana.push(z)}})
+    });
+    asignacionesSemana.forEach((x)=>{
+      numeroSesiones = numeroSesiones + x.nroSesiones;
+    })
+    return numeroSesiones;
   }
 
+  onSave(){
+    if (this.ctrlPersonalizado.value && (typeof this.ctrlCiram.value !== 'object')) {
+      this.ctrlCiram.markAllAsTouched()
+    }
+    else if (this.formSchedule.valid && this.dataTipo && this.ctrlDireccion.valid) {
+      this.status = 'loading';
+      this.programacionService.registerAsignacionesDia(this.getPayloadRegistro()).subscribe((data)=>{
+        if (data.code == 0) {
+          this.status = 'success';
+          this.listParamTipo = data.data;
+          this.notificacionService.success('Se registró la asignación satisfactoriamente');
+          this._dialogRef.close(1);
+        }
+        else {
+          this.status = 'failed';
+          this.notificacionService.warning(data.message);
+        }
+      })
+    }
+    else {
+      this.formSchedule.markAllAsTouched();
+      this.ctrlServicio.markAllAsTouched();
+      this.ctrlDireccion.markAllAsTouched()
+    }
+  }
+
+  getPayloadRegistro(): ProgramacionRequestRegisterServicio{
+    return {
+      idProgramacion: this.data.dataContrato.idProgramacion,
+      fecha: formatDate(this.formSchedule.controls.frmFecha.value, 'yyyy-MM-dd', this.locale),
+      detalles: this.payloadServicio()
+    }
+  }
+
+  payloadServicio(): DetallesServicio[]{
+    let listServicios: DetallesServicio[] = [];
+    let listServiciosPrevios = this.data.infoServiciosContratados.filter((x: any)=>{ return x.fecha == formatDate(this.formSchedule.controls.frmFecha.value, 'yyyy-MM-dd', this.locale)});
+    if (listServiciosPrevios.length > 0) {
+      listServiciosPrevios.forEach((x: any) => {
+        listServicios.push({
+          idServicio: x.idServicio,
+          horaInicio: x.horaInicio,
+          horaFin: x.horaFin,
+          nroSesiones: x.nroSesiones,
+          duracion: x.duracion,
+          paramServicioTipoId: x.paramServicioTipoId,
+          idUoCiram: x.idUoCiram,
+          ubicacion: x.ubicacion
+        })
+      });
+    }
+    listServicios.push({
+      idServicio: (this.ctrlServicio.value! as any).idServicio,
+      horaInicio: formatDate(this.formSchedule.controls.frmInicioHorario.value, 'HH:mm', this.locale),
+      horaFin: formatDate(this.formSchedule.controls.frmFinHorario.value, 'HH:mm', this.locale),
+      nroSesiones: this.horarioFinElegido.cantidadCupos,
+      duracion: (this.dataTipo.valor1 ? this.dataTipo.valor1 : 60),
+      paramServicioTipoId: this.dataTipo.idParametros,
+      idUoCiram: (this.ctrlPersonalizado.value ? (this.ctrlCiram.value! as any).idUnidadOperativa : null),
+      ubicacion: this.ctrlDireccion.value!
+    })
+
+    return listServicios;
+  }
 }

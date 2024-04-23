@@ -1,7 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { environment } from '@environments/environment';
-import { ProgramacionRequestListContratos } from '@models/programacion/programacion-contratos/programacion-contrato-lista.model';
+import { ProgramacionRequestListContratos, ProgramacionRequestRegisterServicio } from '@models/programacion/programacion-contratos/programacion-contrato-lista.model';
 
 const URL_BASE = `${environment.API}/programacion`;
 
@@ -30,5 +30,21 @@ export class ProgramacionContratosService {
   getResumenInferiorProgramacion(idProgramacion: number){
     const url = `${URL_BASE}/obtener/resumen/programados/${idProgramacion}`;
     return this._httpClient.get<any>(url);
+  }
+
+  getDataAsignacionServicioSelected(idProgramacionDet: any){
+    const url = `${URL_BASE}/detalle/obtener/datos/${idProgramacionDet}`;
+    return this._httpClient.get<any>(url);
+  }
+
+  getServiciosProgramadosContrato(idProgramacion: number){
+    const url = `${URL_BASE}/detalle/listar/${idProgramacion}`;
+    return this._httpClient.get<any>(url);
+  }
+
+  registerAsignacionesDia(model: ProgramacionRequestRegisterServicio){
+    const url = `${URL_BASE}/detalle/registrar`;
+    return this._httpClient.post<any>(url,model);
+
   }
 }
