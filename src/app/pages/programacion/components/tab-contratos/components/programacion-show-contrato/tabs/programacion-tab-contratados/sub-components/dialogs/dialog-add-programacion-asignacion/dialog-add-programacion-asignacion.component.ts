@@ -213,7 +213,6 @@ export class DialogAddProgramacionAsignacionComponent {
   comprobarCantidadSesiones(idServicio: any): number{
     let asignacionesSemana: any[] = [];
     let numeroSesiones: number = 0;
-    let soloSemana: any[] = [];
     this.data.semanaElegida.forEach((x: any) => {
       this.data.infoServiciosContratados.filter((y: any) => y.fecha == formatDate(x, 'yyyy-MM-dd', this.locale)).forEach((z: any)=> {if(z.idServicio == idServicio){asignacionesSemana.push(z)}})
     });

@@ -10,9 +10,7 @@ import { data } from 'autoprefixer';
 @Component({
   selector: 'esp-edit-active-user',
   templateUrl: './edit-active-user.component.html',
-  styleUrls: ['./edit-active-user.component.scss'],
-  standalone: true,
-  imports: [CommonModule, RouterModule, FormsModule, ReactiveFormsModule],
+  styleUrls: ['./edit-active-user.component.scss']
 })
 
 export class EditActiveUserComponent {

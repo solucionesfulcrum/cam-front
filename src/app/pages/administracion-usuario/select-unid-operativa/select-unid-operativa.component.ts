@@ -9,9 +9,7 @@ import { SharedModule } from '@shared/shared.module';
 @Component({
   selector: 'esp-select-unid-operativa',
   templateUrl: './select-unid-operativa.component.html',
-  styleUrls: ['./select-unid-operativa.component.scss'],
-  standalone: true,
-  imports: [CommonModule, RouterModule, SharedModule]
+  styleUrls: ['./select-unid-operativa.component.scss']
 })
 export class SelectUnidOperativaComponent {
 
