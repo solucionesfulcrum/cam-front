@@ -54,6 +54,7 @@ export class RegisterFormComponent {
       password: ['', [Validators.minLength(8), Validators.required]],
       email: ['', [Validators.email, Validators.required]],
       names: ['', [Validators.required]],
+      apellidos: ['', [Validators.required]],
       codigoPlanilla: [''],
       confirmPassword: ['', [Validators.required]],
       //frmCtrlUnidadOperativa: ['', [Validators.required]],
@@ -132,11 +133,11 @@ export class RegisterFormComponent {
       } else {
 
         this.status = 'loading';
-        const { tipoDoc, doc, names, email, password, codigoPlanilla } =
+        const { tipoDoc, doc, names, apellidos, email, password, codigoPlanilla } =
           this.form.getRawValue();
         //this.authService.register(name, email, password)
         this.authService
-          .register(tipoDoc, doc, names, email, password, codigoPlanilla)
+          .register(tipoDoc, doc, names, apellidos , email, password, codigoPlanilla)
           .subscribe({
             next: (rta: any) => {
               if (rta.code == 0) {
@@ -190,6 +191,7 @@ export class RegisterFormComponent {
       tipoDoc: this.form.value.tipoDoc!,
       numDoc: this.form.value.doc!,
       nombres: this.form.value.names!.toUpperCase(),
+      apellidos: this.form.value.apellidos!.toUpperCase(),
       codPlanilla: this.form.value.codigoPlanilla!,
       unidOperativaId: this.unidOperaSeleccionadaTmp,
       guiidSso: guiidSso
