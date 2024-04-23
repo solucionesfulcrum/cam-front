@@ -17,3 +17,17 @@ export interface listCiramActivosInactivos{
     fecFin: string,
     texto: string
 }
+
+export interface RequestCiramRegistro{
+    codigoUoCiram: string,
+    idUnidadOperativaCam: number,
+    activo: number,
+    nombreCiram: string,
+    userCreacion: string,
+    correo: string,
+    direccion: string,
+    distrito: string,
+    lider: string,
+    celular: string,
+    tipo: string
+}

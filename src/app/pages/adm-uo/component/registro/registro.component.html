@@ -3,21 +3,21 @@
 <div class="bg-white p-4">
         <h4 class="text-1xl font-bold mb-1">Registro de un Nuevo CIRAM</h4>
         <h4 class="text-1xl mb-1">Por favor llene los datos para registrar un nuevo Circulo de Adulto Mayor</h4>
-        <form>
+        <div [formGroup]="formRegistroCiram">
             <div class="space-y-6 pt-5">
                 <div class="flex space-x-2">
                     <div class="w-1/2">
                         <div class="flex flex-col">
                             <span>Código del Centro</span>
-                            <input placeholder="Código" type="text" name="codigoPlanilla"
+                            <input placeholder="Código" type="text" name="codigoCentro" formControlName="frmCodigoCentro"
                                 class="w-full text-sm rounded bg-white border-gray-400 border-1 px-4 py-2 font-light focus:border-blue-200 focus:border-1" />
                         </div>
                     </div>
                     <div class="w-1/2">
                         <div class="flex flex-col">
                             <span>Fecha de Creación</span>
-                            <input placeholder="Código" type="text" name="codigoPlanilla"
-                                class="w-full text-sm rounded bg-white border-gray-400 border-1 px-4 py-2 font-light focus:border-blue-200 focus:border-1" />
+                            <input placeholder="Fecha de Registro" type="text" name="fechCreacion" formControlName="frmFechCreacion"
+                                class="w-full text-sm rounded bg-gray-100 border-gray-400 border-1 px-4 py-2 font-light focus:border-blue-200 focus:border-1" />
                         </div>
                     </div>
                 </div>
@@ -25,7 +25,7 @@
                     <div class="w-full">
                         <div class="flex flex-col">
                             <span>Nombre del Centro</span>
-                            <input placeholder="Escriba el nombre" type="text" name="codigoPlanilla"
+                            <input placeholder="Escriba el nombre" type="text" name="nombreCentro" formControlName="frmNombreCentro"
                                 class="w-full text-sm rounded bg-white border-gray-400 border-1 px-4 py-2 font-light focus:border-blue-200 focus:border-1" />
                         </div>
                     </div>
@@ -34,7 +34,7 @@
                     <div class="w-full">
                         <div class="flex flex-col">
                             <span>Dirección</span>
-                            <input placeholder="Escriba la dirección" type="text" name="codigoPlanilla"
+                            <input placeholder="Escriba la dirección" type="text" name="direccion" formControlName="frmDireccion"
                                 class="w-full text-sm rounded bg-white border-gray-400 border-1 px-4 py-2 font-light focus:border-blue-200 focus:border-1" />
                         </div>
                     </div>
@@ -43,14 +43,28 @@
                     <div class="w-1/2">
                         <div class="flex flex-col">
                             <span>Distrito</span>
-                            <input placeholder="Distrito - Provincia - Region" type="text" name="codigoPlanilla"
+                            <input placeholder="Distrito - Provincia - Region" type="text" name="distrito" formControlName="frmDistrito"
                                 class="w-full text-sm rounded bg-white border-gray-400 border-1 px-4 py-2 font-light focus:border-blue-200 focus:border-1" />
                         </div>
                     </div>
                     <div class="w-1/2">
                         <div class="flex flex-col">
                             <span>Centro CAM Asociado</span>
-                            <input placeholder="------" type="text" name="codigoPlanilla"
+                            <input placeholder="" type="text" name="nombreCam" formControlName="frmNombreCam" 
+                                class="w-full text-sm rounded bg-gray-100 border-gray-400 border-1 px-4 py-2 font-light focus:border-blue-200 focus:border-1"/>
+                        </div>
+                    </div>
+                </div>
+                <div class="flex space-x-2">
+                    <div class="w-1/2">
+                        <div class="flex flex-col">
+                            <input placeholder="Número de Contacto" type="text" name="numContacto" formControlName="frmNumContacto"
+                                class="w-full text-sm rounded bg-white border-gray-400 border-1 px-4 py-2 font-light focus:border-blue-200 focus:border-1" />
+                        </div>
+                    </div>
+                    <div class="w-1/2">
+                        <div class="flex flex-col">
+                            <input placeholder="Correo de Contacto" type="text" name="correoContacto" formControlName="frmCorreo"
                                 class="w-full text-sm rounded bg-white border-gray-400 border-1 px-4 py-2 font-light focus:border-blue-200 focus:border-1" />
                         </div>
                     </div>
@@ -58,25 +72,11 @@
                 <div class="flex space-x-2">
                     <div class="w-1/2">
                         <div class="flex flex-col">
-                            <input placeholder="Número de Contacto" type="text" name="codigoPlanilla"
-                                class="w-full text-sm rounded bg-white border-gray-400 border-1 px-4 py-2 font-light focus:border-blue-200 focus:border-1" />
-                        </div>
-                    </div>
-                    <div class="w-1/2">
-                        <div class="flex flex-col">
-                            <input placeholder="Correo de Contacto" type="text" name="codigoPlanilla"
-                                class="w-full text-sm rounded bg-white border-gray-400 border-1 px-4 py-2 font-light focus:border-blue-200 focus:border-1" />
-                        </div>
-                    </div>
-                </div>
-                <div class="flex space-x-2">
-                    <div class="w-1/2">
-                        <div class="flex flex-col">
-                            <input placeholder="Activo" type="text" name="codigoPlanilla"
+                            <input placeholder="Activo" type="text" name="activo" formControlName="frmActivo"
                                 class="w-full text-sm rounded bg-white border-gray-400 border-1 px-4 py-2 font-light focus:border-blue-200 focus:border-1" />
                         </div>
                     </div>
                 </div>
             </div>
-        </form>
+        </div>
 </div>

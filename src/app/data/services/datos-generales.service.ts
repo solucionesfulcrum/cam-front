@@ -1,6 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { environment } from '@environments/environment';
+import { RequestCiramRegistro } from '@models/dashboard/dashboard.model';
 import { TipoParametro } from '@models/parametros-busqueda.model';
 
 const URL_BASE = `${environment.API}`;
@@ -107,5 +108,15 @@ export class DatosGeneralesService {
   getListCiramsOfCam(idUnidadOpe: number){
     const url = `${URL_BASE}/unidad-operativa/listar/ciramUo?idUndiadOperativa=${idUnidadOpe}`;
     return this._httpClient.get<any>(url);
+  }
+
+  getObtenerDatos(idUser: number){
+    const url = `${URL_BASE}/usuario/perfil/obtener/datos/${idUser}`;
+    return this._httpClient.get<any>(url);
+  }
+
+  registerCiram(model: RequestCiramRegistro){
+    const url = `${URL_BASE}/unidad-operativa/registrar/ciram`;
+    return this._httpClient.post<any>(url, model);
   }
 }

@@ -1,154 +1,161 @@
 <div class="px-4 py-3 bg-primary-700 flex justify-between text-white rounded-t-lg">
-    <span><b>{{data.type == 1 ? 'Nuevo Contrato': 'Editar Cabecera de Contrato'}}</b></span>
-    <button (click)="onClose()"><esp-icon icon="faClose"></esp-icon></button>
+  <span><b>{{data.type == 1 ? 'Nuevo Contrato': 'Editar Cabecera de Contrato'}}</b></span>
+  <button (click)="onClose()"><esp-icon icon="faClose"></esp-icon></button>
 </div>
 <div class="px-4 py-3 bg-white rounded-b-lg">
-    <div class="flex justify-between space-x-2 p-2.5" [formGroup]="formNewContrato">
-        <div class="w-1/2">
-            <div class="relative rounded-md shadow-sm">
-              <select
-                id="searchDoc"
-                formControlName="frmSelectDoc"
-                class="space-x-5 bg-slate-50 border border-gray-300 text-gray-900 text-sm rounded-lg focusCampo block w-full h-[42px]"
-              >
-                <option value="" disabled selected>Seleccione su tipo de documento</option>
-                <option *ngFor="let documento of opciones" [value]='documento.valor1'>{{documento.nombre | titlecase}}</option>
-                <!-- <option value="1">Registrado</option> -->
-              </select>
-            </div>
-        </div>  
-        <div class="w-1/2 flex flex-row gap-2">
-            <div class="relative rounded-md shadow-sm w-full">
-              <input
-                formControlName="frmDoc"
-                placeholder="Documento"
-                type="text"
-                name="doc"
-                class="w-full text-sm rounded bg-white border-gray-400 border-1 px-4 py-2 font-light focusCampo h-[42px]" (keydown.enter)="searchDataPersona((talleristaInfo ? 2 : 1))"
-              />
-            </div>
-            <div class="w-[34px] h-10 flex items-center justify-center border border-gray-400 rounded cursor-pointer hover:bg-slate-200 shrink-0" *ngIf="data.type == 1" (click)="searchDataPersona((talleristaInfo ? 2 : 1))" [ngClass]="!talleristaInfo ? null : 'border-red-600 text-red-600'">
-              <img *ngIf="!talleristaInfo" src="assets/svg/icon-contrato-confirm.svg">
-              <esp-icon *ngIf="talleristaInfo" icon="faTrashCan"></esp-icon>
-            </div>
-        </div>  
+  <div class="flex justify-between space-x-2 p-2.5" [formGroup]="formNewContrato">
+    <div class="w-1/2">
+      <div class="relative rounded-md shadow-sm">
+        <select id="searchDoc" formControlName="frmSelectDoc"
+          class="space-x-5 bg-slate-50 border border-gray-300 text-gray-900 text-sm rounded-lg focusCampo block w-full h-[42px]">
+          <option value="" disabled selected>Seleccione su tipo de documento</option>
+          <option *ngFor="let documento of opciones" [value]='documento.valor1'>{{documento.nombre | titlecase}}
+          </option>
+          <!-- <option value="1">Registrado</option> -->
+        </select>
+      </div>
     </div>
-    <div class="pt-2 pb-4 flex flex-col gap-2.5 text-[var(--color-black-alt)]">
-        <div class="my-2 mx-2.5 flex flex-row text-[14px] border-b border-[#D4D4D4] font-semibold" *ngIf="talleristaInfo">
-            <div class="px-1.5 py-[5px] bg-[#F5F8FA]">
-                <span>{{tipoDocSelected.nombre}}</span>
-            </div>
-            <div class="px-1.5 py-[5px] text-[var(--color-CAM)]">
-                <span>{{talleristaInfo.nombre}} - {{talleristaInfo.numDoc}}</span>
-            </div>
-        </div>
-        <span class="px-2.5 pt-2.5 font-semibold">Sobre la Orden de Compra</span>
-        <div class="flex justify-between space-x-2 px-2.5">
-            <div class="w-1/2 flex flex-row gap-2.5" [formGroup]="formVigencia">
-                <div class="relative">
-                  <mat-form-field style="position: absolute; visibility:hidden;">
-                    <input #input matInput [matDatepicker]="picker">
-                    <mat-datepicker #picker (closed)="actualizarDate(input.value, 1)"></mat-datepicker>
-                  </mat-form-field>
-                  <input type="text" name="search" formControlName="frmInicioVigencia" readonly (click)="picker.open()"
-                    class="inputTextoDialog focusCampo !h-10 pr-7"
-                    placeholder="Fecha de Inicio">
-                    <div class="absolute inset-y-0 right-0 flex items-center pr-3 z-10 !h-9 pointer-events-none">
-                      <span class="text-gray-500 sm:text-sm">
-                        <img src="assets/svg/icon-calendar-simple.svg">
-                      </span>
-                    </div>
-                    <div *ngIf="formVigencia.controls.frmInicioVigencia.touched">
-                        <p *ngIf="formVigencia.controls.frmInicioVigencia.value == null" class="font-medium text-red-500 text-xs mt-1 ml-1">
-                            Fecha Inicio requerida
-                        </p>
-                    </div>
-                </div>
-                <div class="relative">
-                  <mat-form-field style="position: absolute; visibility:hidden;">
-                    <input #inputFecFin matInput [matDatepicker]="pickerFecFin" [min]="minDate">
-                    <mat-datepicker #pickerFecFin (closed)="actualizarDate(inputFecFin.value, 2)"></mat-datepicker>
-                  </mat-form-field>
-                  <input type="text" name="search" formControlName="frmFinVigencia" readonly (click)="pickerFecFin.open()"
-                    class="inputTextoDialog focusCampo !h-10 pr-7"
-                    placeholder="Fecha de Fin">
-                    <div class="absolute inset-y-0 right-0 flex items-center pr-3 !h-9 pointer-events-none">
-                      <span class="text-gray-500 sm:text-sm">
-                        <img src="assets/svg/icon-calendar-simple.svg">
-                      </span>
-                    </div>
-                    <div *ngIf="formVigencia.controls.frmFinVigencia.touched">
-                        <p *ngIf="formVigencia.controls.frmFinVigencia.value == null" class="font-medium text-red-500 text-xs mt-1 ml-1">
-                            Fecha Fin requerida
-                        </p>
-                    </div>
-                </div>
-            </div>
-            <div class="w-1/2 flex flex-row gap-2.5" [formGroup]="formDataOrden">
-              <div class="flex flex-col">
-                <input type="text" name="order" class="inputTextoDialog focusCampo !h-10 pr-7" formControlName="frmOrden" placeholder="N° Orden">
-                <div *ngIf="formDataOrden.controls.frmOrden.touched">
-                  <p *ngIf="formDataOrden.controls.frmOrden.value == null" class="font-medium text-red-500 text-xs mt-1 ml-1">
-                      N° de Orden requerida
-                  </p>
-                </div>
-              </div>
-              <div class="flex flex-col">
-                <input type="number" name="quantity" class="inputTextoDialog focusCampo !h-10 pr-7" formControlName="frmMonto" placeholder="Monto Total">  
-                <div *ngIf="formDataOrden.controls.frmMonto.touched">
-                  <p *ngIf="formDataOrden.controls.frmMonto.value == null" class="font-medium text-red-500 text-xs mt-1 ml-1">
-                      Monto requerido
-                  </p>
-                </div>
-              </div>              
-            </div>
-        </div>
-        <div class="border-[var(--color-black-alt)] border mx-2.5 rounded border-dashed">
-          <div *ngIf="bloquearPDFAusente">
-            <div class="m-auto w-fit text-center py-6">
-              <img class="m-auto" src="assets/svg/empty-data.svg" alt="">
-              <h3 class="text-gray-500 mt-2 font-light">El contrato no registra un archivo.</h3>
-            </div>
+    <div class="w-1/2 flex flex-row gap-2">
+      <div class="relative rounded-md shadow-sm w-full">
+        <input formControlName="frmDoc" placeholder="Documento" type="text" name="doc"
+          class="w-full text-sm rounded bg-white border-gray-400 border-1 px-4 py-2 font-light focusCampo h-[42px]"
+          (keydown.enter)="searchDataPersona((talleristaInfo ? 2 : 1))" />
+      </div>
+      <div
+        class="w-[34px] h-10 flex items-center justify-center border border-gray-400 rounded cursor-pointer hover:bg-slate-200 shrink-0"
+        *ngIf="data.type == 1" (click)="searchDataPersona((talleristaInfo ? 2 : 1))"
+        [ngClass]="!talleristaInfo ? null : 'border-red-600 text-red-600'">
+        <img *ngIf="!talleristaInfo" src="assets/svg/icon-contrato-confirm.svg">
+        <esp-icon *ngIf="talleristaInfo" icon="faTrashCan"></esp-icon>
+      </div>
+    </div>
+  </div>
+  <div class="pt-2 pb-4 flex flex-col gap-2.5 text-[var(--color-black-alt)]">
+    <div class="my-2 mx-2.5 flex flex-row text-[14px] border-b border-[#D4D4D4] font-semibold" *ngIf="talleristaInfo">
+      <div class="px-1.5 py-[5px] bg-[#F5F8FA]">
+        <span>{{tipoDocSelected.nombre}}</span>
+      </div>
+      <div class="px-1.5 py-[5px] text-[var(--color-CAM)]">
+        <span>{{talleristaInfo.nombre}} - {{talleristaInfo.numDoc}}</span>
+      </div>
+    </div>
+    <span class="px-2.5 pt-2.5 font-semibold">Sobre la Orden de Compra</span>
+    <div class="flex justify-between space-x-2 px-2.5">
+      <div class="w-1/2 flex flex-row gap-2.5" [formGroup]="formVigencia">
+        <div class="relative">
+          <mat-form-field style="position: absolute; visibility:hidden;">
+            <input #input matInput [matDatepicker]="picker">
+            <mat-datepicker #picker (closed)="actualizarDate(input.value, 1)"></mat-datepicker>
+          </mat-form-field>
+          <input type="text" name="search" formControlName="frmInicioVigencia" readonly (click)="picker.open()"
+            class="inputTextoDialog focusCampo !h-10 pr-7" placeholder="Fecha de Inicio">
+          <div class="absolute inset-y-0 right-0 flex items-center pr-3 z-10 !h-9 pointer-events-none">
+            <span class="text-gray-500 sm:text-sm">
+              <img src="assets/svg/icon-calendar-simple.svg">
+            </span>
           </div>
-          <div *ngIf="!bloquearPDFAusente" class="py-2 " (click)="isPdfUpdate ? null : filePdf.click()" [ngClass]="isPdfUpdate ? null : 'hover:bg-gray-100 cursor-pointer'">
-            <input hidden #filePdf type="file" name="Upload" accept="application/pdf" (change)="onChangeFile(filePdf.files)">
-            <div class="flex flex-col gap-2 items-center" *ngIf="!isPdfUpdate">
-              <div class="flex flex-row gap-2 py-1.5 px-4 text-[var(--color-CAM)] text-[16px] rounded-[32px] border border-[#D9D9D9]">
-                <img src="assets/svg/icon-arrow-circle-up.svg">
-                <span>Seleccione un archivo</span>
-              </div>
-              <span class="text-[#9B9B9B] text-[12px]">o</span>
-              <span class="text-[#505050] text-[14px]">Arrastra y suelta un archivo aquí</span>
-            </div>
-            <div class="flex flex-col gap-2 items-center" *ngIf="isPdfUpdate">
-              <esp-icon class="text-[32px] text-[#6DD92A]" [icon]="'faCheck'"></esp-icon>
-              <span class="text-[#3D3D3D] text-[16px]">Archivo subido</span>
-              <div class="flex flex-row rounded-[16px] overflow-hidden">
-                <div class="bg-[#F5F5F5] px-3 py-1.5 flex flex-row gap-2 text-[#363636] items-center text-[12px]">
-                  <esp-icon class="text-[11px] text-[#E4002B]" [icon]="'faPaperclip'"></esp-icon>
-                  <span>{{nombrePdf}} <b>({{(applicationFile ? (applicationFile.size / 1048576 | number:'.1-2'): fileSize)}}MB)</b></span>
-                </div>
-                <div class="bg-[#FEE6E6] px-3 py-1.5 flex justify-center items-center cursor-pointer" (click)="removePdf()" *ngIf="data.type == 1 ? (talleristaInfo ? (!talleristaInfo.acreditado ? false : true) : true) : true">
-                  <esp-icon class="text-[8px] text-[#E4002B]" [icon]="'faX'"></esp-icon>
-                </div>
-              </div>
-            </div>
+          <div *ngIf="formVigencia.controls.frmInicioVigencia.touched">
+            <p *ngIf="formVigencia.controls.frmInicioVigencia.value == null"
+              class="font-medium text-red-500 text-xs mt-1 ml-1">
+              Fecha Inicio requerida
+            </p>
           </div>
         </div>
-    </div>
-    <div class="flex flex-row gap-2 justify-center pt-6 pb-3 px-4 border-t border-[#F4F5F5]">
-      <div class="w-1/2 text-wright">
-        <div class="w-fit">
-            <app-btn class="botonApariencia flex" color="white" (click)="onClose()">Cancelar
-            </app-btn>
+        <div class="relative">
+          <mat-form-field style="position: absolute; visibility:hidden;">
+            <input #inputFecFin matInput [matDatepicker]="pickerFecFin" [min]="minDate">
+            <mat-datepicker #pickerFecFin (closed)="actualizarDate(inputFecFin.value, 2)"></mat-datepicker>
+          </mat-form-field>
+          <input type="text" name="search" formControlName="frmFinVigencia" readonly (click)="pickerFecFin.open()"
+            class="inputTextoDialog focusCampo !h-10 pr-7" placeholder="Fecha de Fin">
+          <div class="absolute inset-y-0 right-0 flex items-center pr-3 !h-9 pointer-events-none">
+            <span class="text-gray-500 sm:text-sm">
+              <img src="assets/svg/icon-calendar-simple.svg">
+            </span>
+          </div>
+          <div *ngIf="formVigencia.controls.frmFinVigencia.touched">
+            <p *ngIf="formVigencia.controls.frmFinVigencia.value == null"
+              class="font-medium text-red-500 text-xs mt-1 ml-1">
+              Fecha Fin requerida
+            </p>
+          </div>
         </div>
       </div>
-      <div class="w-1/2">
-        <div class="w-fit">
-            <app-btn class="botonApariencia flex" type="submit" color="mezclado" (click)="data.type == 2 ? actualizarCabecera() : generateContract()" [loading]="status === 'loading'" [disabled]="!talleristaInfo">
-              {{data.type == 2 ? 'Actualizar' :  (talleristaInfo ? (!talleristaInfo.acreditado ? 'Continuar' : 'Generar') : 'Generar')}}
-            </app-btn>
+      <div class="w-1/2 flex flex-row gap-2.5" [formGroup]="formDataOrden">
+        <div class="flex flex-col">
+          <input type="text" name="order" class="inputTextoDialog focusCampo !h-10 pr-7" formControlName="frmOrden"
+            placeholder="N° Orden">
+          <div *ngIf="formDataOrden.controls.frmOrden.touched">
+            <p *ngIf="formDataOrden.controls.frmOrden.value == null" class="font-medium text-red-500 text-xs mt-1 ml-1">
+              N° de Orden requerida
+            </p>
+          </div>
+        </div>
+        <div class="flex flex-col">
+          <input type="number" name="quantity" class="inputTextoDialog focusCampo !h-10 pr-7" formControlName="frmMonto"
+            placeholder="Monto Total">
+          <div *ngIf="formDataOrden.controls.frmMonto.touched">
+            <p *ngIf="formDataOrden.controls.frmMonto.value == null" class="font-medium text-red-500 text-xs mt-1 ml-1">
+              Monto requerido
+            </p>
+          </div>
         </div>
       </div>
     </div>
+    <div class="border-[var(--color-black-alt)] border mx-2.5 rounded border-dashed">
+      <div *ngIf="bloquearPDFAusente">
+        <div class="m-auto w-fit text-center py-6">
+          <img class="m-auto" src="assets/svg/empty-data.svg" alt="">
+          <h3 class="text-gray-500 mt-2 font-light">El contrato no registra un archivo.</h3>
+        </div>
+      </div>
+      <div *ngIf="!bloquearPDFAusente" class="py-2 " (click)="isPdfUpdate ? null : filePdf.click()"
+        [ngClass]="isPdfUpdate ? null : 'hover:bg-gray-100 cursor-pointer'">
+        <input hidden #filePdf type="file" name="Upload" accept="application/pdf"
+          (change)="onChangeFile(filePdf.files)">
+        <div class="flex flex-col gap-2 items-center" *ngIf="!isPdfUpdate">
+          <div
+            class="flex flex-row gap-2 py-1.5 px-4 text-[var(--color-CAM)] text-[16px] rounded-[32px] border border-[#D9D9D9]">
+            <img src="assets/svg/icon-arrow-circle-up.svg">
+            <span>Seleccione un archivo</span>
+          </div>
+          <span class="text-[#9B9B9B] text-[12px]">o</span>
+          <span class="text-[#505050] text-[14px]">Arrastra y suelta un archivo aquí</span>
+        </div>
+        <div class="flex flex-col gap-2 items-center" *ngIf="isPdfUpdate">
+          <esp-icon class="text-[32px] text-[#6DD92A]" [icon]="'faCheck'"></esp-icon>
+          <span class="text-[#3D3D3D] text-[16px]">Archivo subido</span>
+          <div class="flex flex-row rounded-[16px] overflow-hidden">
+            <div class="bg-[#F5F5F5] px-3 py-1.5 flex flex-row gap-2 text-[#363636] items-center text-[12px]">
+              <esp-icon class="text-[11px] text-[#E4002B]" [icon]="'faPaperclip'"></esp-icon>
+              <span>{{nombrePdf}} <b>({{(applicationFile ? (applicationFile.size / 1048576 | number:'.1-2'):
+                  fileSize)}}MB)</b></span>
+            </div>
+            <div class="bg-[#FEE6E6] px-3 py-1.5 flex justify-center items-center cursor-pointer" (click)="removePdf()"
+              *ngIf="data.type == 1 ? (talleristaInfo ? (!talleristaInfo.acreditado ? false : true) : true) : true">
+              <esp-icon class="text-[8px] text-[#E4002B]" [icon]="'faX'"></esp-icon>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="flex flex-row gap-2 justify-center pt-6 pb-3 px-4 border-t border-[#F4F5F5]">
+    <div class="w-1/2 text-wright">
+      <div class="w-fit">
+        <app-btn class="botonApariencia flex" color="white" (click)="onClose()">Cancelar
+        </app-btn>
+      </div>
+    </div>
+    <div class="w-1/2">
+      <div class="w-fit">
+        <app-btn class="botonApariencia flex" type="submit" color="mezclado"
+          (click)="data.type == 2 ? actualizarCabecera() : generateContract()" [loading]="status === 'loading'"
+          [disabled]="!talleristaInfo">
+          {{data.type == 2 ? 'Actualizar' : (talleristaInfo ? (!talleristaInfo.acreditado ? 'Continuar' : 'Generar') :
+          'Generar')}}
+        </app-btn>
+      </div>
+    </div>
+  </div>
 </div>
