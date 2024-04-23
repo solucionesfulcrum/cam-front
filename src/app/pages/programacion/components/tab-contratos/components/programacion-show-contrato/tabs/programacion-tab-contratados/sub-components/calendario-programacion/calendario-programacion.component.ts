@@ -1,4 +1,4 @@
-import { Component, LOCALE_ID } from '@angular/core';
+import { Component, Inject, LOCALE_ID } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { faSpinner } from '@fortawesome/free-solid-svg-icons';
 import { NotificationService } from '@services/notification.service';
@@ -6,7 +6,7 @@ import localeEs from '@angular/common/locales/es';
 import { FormatoBoton } from '@shared/components/opciones-botones/formato-boton.model';
 import * as fonts from '@fortawesome/free-solid-svg-icons';
 import { ProgramacionContratosService } from 'src/app/data/services/programacion/programacion-contratos.service';
-import { registerLocaleData } from '@angular/common';
+import { formatDate, registerLocaleData } from '@angular/common';
 import { FormControl } from '@angular/forms';
 import { DialogAddProgramacionAsignacionComponent } from '../dialogs/dialog-add-programacion-asignacion/dialog-add-programacion-asignacion.component';
 import { Dialog } from '@angular/cdk/dialog';
@@ -27,6 +27,7 @@ export class CalendarioProgramacionComponent {
   idProgramacion!: string;
   faSpinner = faSpinner;
   dataContrato: any;
+  dataAsignacionSelected: any;
   listServicios: any;
   dataResumenContrato: any;
   
@@ -34,6 +35,7 @@ export class CalendarioProgramacionComponent {
   fechaActual = new Date();
   fechasSemana: Date[] = [];
   limitesHorario: Date[] = [];
+  serviciosAsignados: any[] = [];
   horarios = ['7 AM', '8 AM', '9 AM', '10 AM', '11 AM', '12 PM', '1 PM', '2 PM', '3 PM', '4 PM', '5 PM', '6 PM', '7 PM']
   
   periodoCalendario: Date = new Date();
@@ -42,6 +44,7 @@ export class CalendarioProgramacionComponent {
   
   constructor(private activeRoute                           : ActivatedRoute,
               private programacionService                   : ProgramacionContratosService,
+              @Inject(LOCALE_ID) private locale             : string,
               private dialog                                : Dialog,
               private router                                : Router,
               private notificationService                   : NotificationService
@@ -60,8 +63,8 @@ export class CalendarioProgramacionComponent {
         this.dataContrato = data.data.datosContrato;
         this.getDataResumenContrato();
         this.getServiciosContrato()
+        this.getDataServiciosAsignados();
         this.ctrlProfesionales.setValue(1);
-        console.log(this.dataContrato)
       }
       else {
         this.notificationService.warning(data.message);
@@ -84,7 +87,18 @@ export class CalendarioProgramacionComponent {
     this.programacionService.getResumenInferiorProgramacion(this.dataContrato.idProgramacion).subscribe((data)=>{
       if (data.code == 0) {
         this.dataResumenContrato = data.data;
+      }
+      else {
+        this.notificationService.warning(data.message);
+      }
+    })
+  }
+
+  getDataServiciosAsignados(){
+    this.programacionService.getServiciosProgramadosContrato(this.dataContrato.idProgramacion).subscribe((data)=>{
+      if (data.code == 0) {
         console.log(data.data)
+        this.serviciosAsignados = data.data;
       }
       else {
         this.notificationService.warning(data.message);
@@ -131,26 +145,55 @@ export class CalendarioProgramacionComponent {
       diaInicio = new Date(diaInicio.getTime() + 1000*60*60*24);
     }
   }
+  //______________________________________________________________________________________________________________________________________________________________________________________________ TERMINAR
+  validarActividadRegistrada(horario: any, espacios: Date): boolean{
+    if (this.serviciosAsignados.length > 0){
+      let horaHorario = (horario.split(' ')[1] == 'PM' && horario.split(' ')[0] !== '12') ? parseInt(horario.split(' ')[0]) + 12 : parseInt(horario.split(' ')[0]);
+      let listAct = this.serviciosAsignados.find((x: any)=>{return parseInt(x.horaInicio.split(':')[0]) == horaHorario && (new Date(x.fecha+' '+x.horaInicio)).getDate() == espacios.getDate()});
+      // let listAct = this.profesionalElegido.actividadesAsignadas.find((x: any)=>{return x.inicioActividad.getDate() == espacios.getDate() && x.inicioActividad.getHours() == horaHorario});
+      if (listAct) {
+        // console.log(listAct)
+        // if (!this.listHorariosAsignados.some((x)=>{return x.obj == listAct && x.horario == horario && x.fecha == espacios})) this.listHorariosAsignados.push({horario: horario, fecha: espacios, obj: listAct, profesional: {idProf: this.profesionalElegido.idProfesional, nomProf: this.profesionalElegido.nomProfesional}});
+        return true;
+      }
+      return false;
+    }
+    return false;
+  }
+  //______________________________________________________________________________________________________________________________________________________________________________________________ TERMINAR
+    getDataAsignacion(horario: any, espacios: Date): any{
+      let horaHorario = (horario.split(' ')[1] == 'PM' && horario.split(' ')[0] !== '12') ? parseInt(horario.split(' ')[0]) + 12 : parseInt(horario.split(' ')[0]);
+      let listAct = this.serviciosAsignados.find((x)=>{return x.horaInicio.split(':')[0] == horaHorario && x.fecha == formatDate(espacios, 'yyyy-MM-dd', this.locale)});
+      if (!listAct) return false;
+      listAct.fechaHorarioInicio  = new Date(listAct.fecha + ' ' + listAct.horaInicio);
+      let fechaFin = new Date(listAct.fecha + ' ' + listAct.horaFin);
+      let longitudHoras = ((fechaFin.getTime() - listAct.fechaHorarioInicio.getTime()) / (1000*60))/60;
+      listAct.longitud = longitudHoras*40;
+      return listAct;
+    }
+  //______________________________________________________________________________________________________________________________________________________________________________________________ TERMINAR
 
   verifyData(dataRangoElegido: any, dataFechaElegida: any){
-    // let asignacion = this.getDataAsignacion(dataRangoElegido, dataFechaElegida);
-    // if (!asignacion) {
+    let asignacion = this.getDataAsignacion(dataRangoElegido, dataFechaElegida);
+    if (!asignacion) {
       this.showScheduleCalendar(dataRangoElegido, dataFechaElegida);
-    //   return false
-    // }
-    // else{
-    //   this.dataAsignacionSelected = asignacion;
-    //   let actividadInfo = this.admisionCitasServicio.actividadesInfo.find((x)=>{return x.nombreActividad === asignacion.obj.actividad});
-    //   let horaIncremental = 0;
-    //   let fechaIncremental = this.dataAsignacionSelected.obj.inicioActividad;
-    //   do {
-    //     fechaIncremental = new Date(fechaIncremental.getTime() +  (1000*60*actividadInfo!.tiempo));
-    //     horaIncremental += 1;
-    //   } while (fechaIncremental.getTime() != this.dataAsignacionSelected.obj.terminaActividad.getTime());
-    //   this.dataAsignacionSelected.tiempoSesion = actividadInfo?.tiempo;
-    //   this.dataAsignacionSelected.sesiones = horaIncremental;
-    //   return true
-    // }
+      return false
+    }
+    else{
+      return true
+    }
+  }
+  
+  getDataServiceAsignadoSelected(idProgramacionDet: any){
+    this.dataAsignacionSelected = null;
+    this.programacionService.getDataAsignacionServicioSelected(idProgramacionDet).subscribe((data)=>{
+      if (data.code == 0) {
+        this.dataAsignacionSelected = data.data;
+      }
+      else {
+        this.notificationService.warning(data.message);
+      }
+    })
   }
 
   showScheduleCalendar(dataRangoElegido: any, dataFechaElegida: any){
@@ -160,16 +203,23 @@ export class CalendarioProgramacionComponent {
         width:'60vw',
         maxWidth:'800px',
         data:{
-          idProgramacion:              this.idProgramacion,
-          rangoHorario:       dataRangoElegido,
-          fechaHorario:       dataFechaElegida,
-          dataContrato:        this.dataContrato,
-          serviciosContrato:  this.listServicios,
-          dataRangosHorarios: this.horarios,
-          semanaElegida:      this.fechasSemana,
-          horarioFijo:        (dataRangoElegido ? true : false)
+          idProgramacion:               this.idProgramacion,
+          rangoHorario:                 dataRangoElegido,
+          fechaHorario:                 dataFechaElegida,
+          dataContrato:                 this.dataContrato,
+          infoServiciosContratados:     this.serviciosAsignados,
+          serviciosContrato:            this.listServicios,
+          dataRangosHorarios:           this.horarios,
+          semanaElegida:                this.fechasSemana,
+          horarioFijo:                  (dataRangoElegido ? true : false)
         }
-      })        
+      })
+      dialogRef.closed.subscribe(result => {
+        if (result == 1) {
+          this.getDataServiciosAsignados();
+          this.getDataResumenContrato();
+        }
+      });    
     }
     else{
       this.notificationService.warning('Este horario no corresponde al mes a programar');

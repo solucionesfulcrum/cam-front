@@ -81,6 +81,14 @@
                         <div class="cuadroHorarioDia relative" *ngFor="let espacios of fechasSemana" [ngClass]="{'bg-[#FAFAFA]': comprobacionBloqueo(espacios), 'border-b': i == (horarios.length - 1), 'bg-[var(--color-fondo-claro)]': espacios.toLocaleDateString() == fechaActual.toLocaleDateString()}">
                             <ng-container *ngIf="!comprobacionBloqueo(espacios)">
                                 <div (click)="verifyData(horario, espacios)" class="w-full h-full">
+                                    <div class="absolute left-0 top-0 z-10 flex flex-row w-full" *ngIf="validarActividadRegistrada(horario, espacios)" [ngStyle]="{'height': (validarActividadRegistrada(horario, espacios) ? getDataAsignacion(horario, espacios).longitud + 'px': null)}" [cdkMenuTriggerFor]="getDataAsignacion(horario, espacios) ? accountOptions : null" (click)="getDataServiceAsignadoSelected(getDataAsignacion(horario, espacios).idProgramacionDet)">
+                                        <div class="barraTarea">
+                                            <img src="assets/svg/icon-task-small.svg">
+                                        </div>
+                                        <div class="flex items-start w-full">
+                                            <span class="text-[10px] bg-white px-1 h-[99%] text-[#333333] overflow-auto w-full">{{getDataAsignacion(horario, espacios).nombreServicio | titlecase}}, <span class="text-[var(--color-CAM)]">{{getDataAsignacion(horario, espacios).fechaHorarioInicio | date:'h aa'}}</span></span>
+                                        </div>
+                                    </div>
                                     <!-- <div class="absolute left-0 top-0 z-10 flex flex-row w-full" *ngIf="validarActividadRegistrada(horario, espacios)" [ngStyle]="{'height': (validarActividadRegistrada(horario, espacios) ? getDataAsignacion(horario, espacios).longitud + 'px': null)}" [cdkMenuTriggerFor]="getDataAsignacion(horario, espacios) ? accountOptions : null">
                                         <div class="barraTarea">
                                             <img src="assets/svg/icon-task-small.svg">
@@ -94,9 +102,17 @@
                         </div>
                     </div>
                 </div>
-                <!-- <ng-template #accountOptions>
+                <ng-template #accountOptions>
                     <div class="menu-layout botonApariencia min-w-[600px]" cdkMenu>
-                        <div class="flex flex-row py-2 justify-end gap-6 items-center">
+                        <div class="px-4 py-3 w-full grid" *ngIf="!dataAsignacionSelected">
+                            <div class="text-gray-600 w-full text-center">
+                                <p class="py-1 font-semibold text-2xl">
+                                    <fa-icon class="mr-2" [icon]="faSpinner" [pulse]="true"></fa-icon>
+                                    Obteniendo datos...
+                                </p>
+                            </div>
+                        </div>
+                        <div class="flex flex-row py-2 justify-end gap-6 items-center" *ngIf="dataAsignacionSelected">
                             <button class="elementoOpcion" cdkMenuItem>
                                 <img class="iconoEscalaGris h-6" src="assets/svg/Edit.svg"/>
                             </button>
@@ -107,32 +123,42 @@
                                 <fa-icon class="flex" [icon]="faClose" [classes]="['h-6', 'w-6', 'text-[#64748B]']"></fa-icon>
                             </button>
                         </div>
-                        <div class="flex flex-col">
-                            <span class="text-[14px] leading-[14px]">Hora programada para:</span>
+                        <div class="flex flex-col" *ngIf="dataAsignacionSelected">
+                            <span class="text-[14px] leading-[14px]">Programación de:</span>
                             <div class="flex flex-row gap-2.5 items-center py-2">
                                 <div class="w-5 h-5 bg-[var(--color-CAM)] rounded"></div>
                                 <div class="flex flex-col gap-1">
-                                    <span class="text-[18px] leading-5" *ngIf="dataAsignacionSelected.obj">{{dataAsignacionSelected.obj.actividad | titlecase}}</span>
-                                    <span class="text-[14px] leading-[14px]" *ngIf="dataAsignacionSelected.obj">Cupos de {{dataAsignacionSelected.tiempoSesion}} min</span>
+                                    <span class="text-[18px] leading-5">{{dataAsignacionSelected.servicio | titlecase}}</span>
+                                    <span class="text-[14px] leading-[14px] text-[#64748B]">Taller de {{dataAsignacionSelected.duracion}} min</span>
                                 </div>
                             </div>
                             <div class="flex flex-row gap-2.5 items-center py-2">
                                 <img class="h-5 self-center iconoEscalaGris" src="assets/svg/timeIcon.svg">
-                                <div class="flex flex-col gap-1">
-                                    <span class="text-[16px] leading-5">{{dataAsignacionSelected.sesiones}} {{dataAsignacionSelected.sesiones > 1 ? 'Cupos programados' : 'Cupo programado'}}</span>
-                                    <span class="text-[14px] leading-[14px]">Detalle de usuarios que pueden ser atendidos </span>
+                                <div>
+                                    <span class="text-[16px] leading-5">{{dataAsignacionSelected.nroSesiones}} {{dataAsignacionSelected.nroSesiones > 1 ? 'Sesiones programados' : 'Sesión programada'}}</span>
                                 </div>
                             </div>
                             <div class="flex flex-row gap-2.5 items-center py-2">
                                 <img class="h-5 self-center iconoEscalaGris" src="assets/svg/icon-profesional-man.svg">
                                 <div class="flex flex-col gap-1">
-                                    <span class="text-[16px] leading-5" *ngIf="dataAsignacionSelected.profesional">{{dataAsignacionSelected.profesional.nomProf | titlecase}}</span>
-                                    <span class="text-[14px] leading-[14px]">Profesional a cargo</span>
+                                    <span class="text-[16px] leading-5">{{dataAsignacionSelected.tallerista | titlecase}}</span>
+                                    <span class="text-[14px] leading-[14px] text-[#64748B]">Tallerista a cargo</span>
+                                </div>
+                            </div>
+                            <div class="flex flex-row gap-2.5 items-center py-2">
+                                <img class="h-5 self-center" src="assets/svg/icon-vinieta-cam.svg">
+                                <span class="text-[16px] leading-5">{{dataAsignacionSelected.unidadOperativaCiram ? ('CIRAM ' + (dataAsignacionSelected.unidadOperativaCiram | titlecase)) : ('CAM ' + (dataAsignacionSelected.unidadOperativaCam | titlecase))}}</span>
+                            </div>
+                            <div class="flex flex-row gap-2.5 items-center py-2">
+                                <img class="h-5 self-center" src="assets/svg/icon-direccion-gray.svg">
+                                <div class="flex flex-col gap-1">
+                                    <span class="text-[16px] leading-5">Ubicación</span>
+                                    <span class="text-[14px] leading-[14px] text-[#64748B]">{{dataAsignacionSelected.ubicacion}}</span>
                                 </div>
                             </div>
                         </div>
                     </div>
-                </ng-template> -->
+                </ng-template>
             </div>
             <div class="flex flex-col gap-2">
                 <div class="flex flex-row justify-between items-center">
