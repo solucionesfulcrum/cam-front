@@ -1,5 +1,5 @@
 import { NgModule } from '@angular/core';
-import { CommonModule } from '@angular/common';
+import { CommonModule, DatePipe } from '@angular/common';
 
 import { ProgramacionRoutingModule } from './programacion-routing.module';
 import { ProgramacionLayoutComponent } from './programacion-layout/programacion-layout.component';
@@ -11,6 +11,10 @@ import { SharedModule } from '@shared/shared.module';
 import { MaterialModule } from 'src/app/material/material.module';
 import { MatAutocompleteModule } from '@angular/material/autocomplete';
 import { ProgramacionShowContratoComponent } from './components/tab-contratos/components/programacion-show-contrato/programacion-show-contrato.component';
+import { ProgramacionTabContratadosComponent } from './components/tab-contratos/components/programacion-show-contrato/tabs/programacion-tab-contratados/programacion-tab-contratados.component';
+import { ProgramacionTabProgramadosComponent } from './components/tab-contratos/components/programacion-show-contrato/tabs/programacion-tab-programados/programacion-tab-programados.component';
+import { CalendarioProgramacionComponent } from './components/tab-contratos/components/programacion-show-contrato/tabs/programacion-tab-contratados/sub-components/calendario-programacion/calendario-programacion.component';
+import { DialogAddProgramacionAsignacionComponent } from './components/tab-contratos/components/programacion-show-contrato/tabs/programacion-tab-contratados/sub-components/dialogs/dialog-add-programacion-asignacion/dialog-add-programacion-asignacion.component';
 
 
 @NgModule({
@@ -19,7 +23,11 @@ import { ProgramacionShowContratoComponent } from './components/tab-contratos/co
     TabContratosComponent,
     TabTalleresComponent,
     TabCalendarioComponent,
-    ProgramacionShowContratoComponent
+    ProgramacionShowContratoComponent,
+    ProgramacionTabContratadosComponent,
+    ProgramacionTabProgramadosComponent,
+    CalendarioProgramacionComponent,
+    DialogAddProgramacionAsignacionComponent
   ],
   imports: [
     CommonModule,
@@ -28,6 +36,9 @@ import { ProgramacionShowContratoComponent } from './components/tab-contratos/co
     SharedModule,
     MaterialModule,
     MatAutocompleteModule
+  ],
+  providers: [
+    DatePipe
   ]
 })
 export class ProgramacionModule { }

@@ -25,7 +25,7 @@
                 <img src="data:image/JPEG;base64,{{dataSolicitud.asegurado.foto}}" class="my-1 w-[60px] h-[75px] justify-self-center">
                 <p class="bordColorEstablecido font-bold text-2xl">{{dataSolicitud.asegurado.apePaterno + ' ' + dataSolicitud.asegurado.apeMaterno | titlecase}}</p>
                 <p class="font-semibold text-lg">{{dataSolicitud.asegurado.nombres | titlecase}}</p>
-                <p class="font-thin">{{parametroDocumento.idParametros == 6 ? 'DNI' : parametroDocumento.nombre | titlecase}} {{dataSolicitud.asegurado.numDoc}}</p>
+                <p>{{parametroDocumento.idParametros == 6 ? 'DNI' : parametroDocumento.nombre | titlecase}} {{dataSolicitud.asegurado.numDoc}}</p>
             </div>
             <div class="scrollbarra max-h-[47vh] overflow-auto">
                 <p class="subTitulo my-2.5 text-[18px]">Datos Personales</p>
@@ -121,7 +121,7 @@
           </div> -->
           <div class="flex flex-row gap-[10px]">
               <div class="w-1/6 bg-slate-100 justify-end pr-2 flex items-center">
-                  <span class="font-thin">Celular</span>
+                  <span>Celular</span>
               </div>
               <div class="w-5/6">
                   <input type="text" formControlName="frmCelular" id="small-input" placeholder="Numero de celular" class="block w-full p-2 text-gray-900 placeholder-gray-300 border border-gray-300 focusCampo">
@@ -129,7 +129,7 @@
           </div>
           <div class="flex space-x-2 items-center h-[42px]">
               <div class="w-1/6 bg-slate-100 justify-end pr-2 flex items-center h-full">
-                  <span class="font-thin">Whatsapp</span>
+                  <span>Whatsapp</span>
               </div>
               <div class="w-5/6">
                   <div class="flex">
@@ -146,7 +146,7 @@
           </div>
           <div class="flex flex-row gap-[10px]">
               <div class="w-1/6 bg-slate-100 justify-end pr-2 flex items-center">
-                  <span class="font-thin">Correo</span>
+                  <span>Correo</span>
               </div>
               <div class="w-5/6">
                   <input type="text" formControlName="frmCorreo" id="small-input" placeholder="Direccion de correo Electronico" class="block w-full p-2 text-gray-900 placeholder-gray-300 border border-gray-300 focusCampo">

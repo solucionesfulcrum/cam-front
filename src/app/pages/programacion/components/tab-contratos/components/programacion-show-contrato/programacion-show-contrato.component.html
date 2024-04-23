@@ -7,15 +7,15 @@
     </div>
 </div>
 <div *ngIf="dataContrato">
-    <esp-opciones-botones [rutaRegreso]="'../..'" [listOpciones]="opcionesBotones"></esp-opciones-botones>
+    <esp-opciones-botones [rutaRegreso]="'../..'" [listOpciones]="opcionesBotones" (firstFunction)="goToProgramacion()"></esp-opciones-botones>
     <div class="bg-white botonApariencia pl-[15px] pr-2.5 pt-2.5 pb-5 flex flex-col gap-2.5">
         <div class="flex flex-row gap-2.5">
-            <div class="bg-[#FAFAFA] flex flex-col items-end gap-2.5 py-[5px] px-2.5 w-1/2">
+            <div class="bg-[#FAFAFA] flex flex-col items-end gap-2.5 py-[5px] px-2.5 w-1/2 botonApariencia">
                 <span class="font-bold">Orden de Compra</span>
                 <span>Periodo</span>
                 <span>Estado</span>
                 <span class="font-bold">Proveedor</span>
-                <span class="font-bold">DNI</span>
+                <span class="font-bold">{{dataContrato.datosContrato.tipoDoc}}</span>
                 <span>Registrado desde</span>
                 <span>Fecha de Nacimiento</span>
                 <span>Género</span>
@@ -26,10 +26,15 @@
                 <span>{{dataContrato.datosContrato.estadoContrato | titlecase}}</span>
                 <span class="text-[var(--color-CAM)] font-bold">{{dataContrato.datosContrato.nombreProveedor | titlecase}}</span>
                 <span>{{dataContrato.datosContrato.numDoc}}</span>
-                <span>{{dataContrato.datosContrato.resgistroUsuario | date:'dd/MM/yyyy'}}</span>
+                <span>{{dataContrato.datosContrato.fechaRegistro | date:'dd/MM/yyyy'}}</span>
                 <span>{{dataContrato.datosContrato.fechaNacimiento ? (dataContrato.datosContrato.fechaNacimiento | date:'dd/MM/yyyy') : '-'}}</span>
                 <span>{{dataContrato.datosContrato.genero ? (dataContrato.datosContrato.genero | titlecase) : '-'}}</span>
             </div>
+        </div>
+        <div>
+            <esp-menu-opciones [links]="rutasContrato" [setColorTab]="'var(--color-CAM)'" [showBottomLine]="false">
+            </esp-menu-opciones>
+            <router-outlet></router-outlet>
         </div>
     </div>
 </div>

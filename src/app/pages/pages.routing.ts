@@ -79,20 +79,20 @@ export const pagesRoutes: Route[] = [
         canActivate: [AuthGuard],
         loadChildren: () => import('../pages/programacion/programacion.module').then((m) => m.ProgramacionModule),
       },
-      {
-        path: AppRoute.HORARIOS,
-        canActivate:[AuthGuard, CerpUserGuard],
-        title:'Horarios',
-        loadChildren: () =>
-          import('./horario/horario.module').then((m) => m.HorarioModule),
-      },
-      {
-        path: AppRoute.ATENCIONES,
-        canActivate:[AuthGuard, CerpUserGuard],
-        title:'Atenciones',
-        loadChildren: () =>
-          import('./atencion/atencion.module').then((m) => m.AtencionModule),
-      },
+      // {
+      //   path: AppRoute.HORARIOS,
+      //   canActivate:[AuthGuard, CerpUserGuard],
+      //   title:'Horarios',
+      //   loadChildren: () =>
+      //     import('./horario/horario.module').then((m) => m.HorarioModule),
+      // },
+      // {
+      //   path: AppRoute.ATENCIONES,
+      //   canActivate:[AuthGuard, CerpUserGuard],
+      //   title:'Atenciones',
+      //   loadChildren: () =>
+      //     import('./atencion/atencion.module').then((m) => m.AtencionModule),
+      // },
       {
         path:'**',
         redirectTo:'home'
