@@ -116,13 +116,10 @@ export const pagesAdminRoutes: Route[] = [
       },
       {
         path: '',
-        title: 'Elija la Unidad Operativa',
-        component: SelectUnidOperativaComponent
-      },
-      {
-        path: AppRoute.EDIT_USER,
-        title: 'Editar Usuario',
-        component: EditActiveUserComponent,
+        canActivate:[AuthGuard],
+        title:'Administración de usuario',
+        loadChildren: () =>
+          import('./administracion-usuario/administracion-usuario.module').then((m) => m.AdministracionUsuarioModule),
       }
     ]
   },
