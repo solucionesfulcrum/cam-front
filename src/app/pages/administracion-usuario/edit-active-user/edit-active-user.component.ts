@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component } from '@angular/core';
+import { Component, Inject, LOCALE_ID } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
 import { FormBuilder, FormControl, Validators } from '@angular/forms';
@@ -8,9 +8,9 @@ import { Parametro } from '@models/parametros-busqueda.model';
 import { data } from 'autoprefixer';
 import { ubicacionGeo } from '@models/admision/ficha-admision.model';
 import { Observable, map, startWith } from 'rxjs';
-import { RequestDatosPersonalesRegistro } from '@models/dashboard/dashboard.model';
+import { RequestChangePassword, RequestDatosFormacionRegistro, RequestDatosPersonalesRegistro, changePassword } from '@models/dashboard/dashboard.model';
 import { NotificationService } from '@services/notification.service';
-
+import { formatDate } from '@angular/common';
 
 @Component({
   selector: 'esp-edit-active-user',
@@ -22,14 +22,16 @@ export class EditActiveUserComponent {
   opcionesGenero: Parametro[] = [];
   opcionesEstadoCivil: Parametro[] = [];
   opcionesNacionalidad: Parametro[] = [];
+  opcionesNivelEducativo: Parametro[] = [];
   nombreCompleto = '';
   ubicacionSeleccionadaTmp!: ubicacionGeo;
   listUbicaciones: ubicacionGeo[] = [];
   filteredOptions!: Observable<ubicacionGeo[]>;
+  yearsGrad: Number[] = [];
+  numDocumento = '';
+  imagenFirma: any = null;
 
   public formDatosPersonales = this.fb.nonNullable.group({
-    //frmSelectDoc: new FormControl(''),
-    //frmNombres: ['', [Validators.required, Validators.minLength(8)]]
     frmNombres: ['', [Validators.required]],
     frmApellidos: ['', [Validators.required]],
     frmCelular: ['', [Validators.required]],
@@ -40,17 +42,42 @@ export class EditActiveUserComponent {
     frmEstadoCivil: ['', [Validators.required]],
     frmNacionalidad: ['', [Validators.required]],
     frmTipoDoc: ['', [Validators.required]],
+    frmNumDoc: ['', [Validators.required]],
   });
+
+
+  public formDatosFormacion = this.fb.nonNullable.group({
+    frmNivelEstudio: ['', [Validators.required]],
+    frmInstEduca: ['', [Validators.required]],
+    frmAnioGraduacion: ['', [Validators.required]],
+  });
+
+  public formDatosSeguridad = this.fb.nonNullable.group({
+    frmContraActual: ['', [Validators.required]],
+    frmNuevaContra: ['', [Validators.required]],
+    frmRepNuevaContra: ['', [Validators.required]],
+  });
+
+
 
   distrControl = new FormControl();
 
-  constructor(private fb: FormBuilder, private datosService: DatosGeneralesService, private notificationService: NotificationService) {
+  constructor(private fb: FormBuilder, private datosService: DatosGeneralesService, private notificationService: NotificationService, @Inject(LOCALE_ID) private locale: string,) {
 
   }
 
+  rangeYear() {
+    const max = new Date().getFullYear()
+    const min = max - 100
+    //const years = []
+
+    for (let i = max; i >= min; i--) {
+      this.yearsGrad.push(i)
+    }
+    return this.yearsGrad
+  }
+
   grabarDatosPersonales() {
-    //console.log("guardar", this.distrControl.value.nombreUbicacion)
-    //console.log("filteredOptions", this.filteredOptions)
     this.datosService.registerDatosPersonales(this.getPayloadRegistro()).subscribe((data) => {
       if (data.code == 0) {
         this.notificationService.success('¡Se guardaron los datos personales!');
@@ -61,9 +88,47 @@ export class EditActiveUserComponent {
       }
     })
   }
+
+  grabarDatosSeguridad() {
+    this.datosService.loginChangePassword(this.getPayloadLoginChangePasswoard()).subscribe((data) => {
+      if (data.code == 0) {
+        const auth = data.data.accessToken
+        const guiid = data.data.id
+        this.datosService.changePassword(this.getPayloadChangePasswoard(guiid), auth).subscribe((data) => {
+          if (data.code == 0) {
+            this.notificationService.success(data.message);
+          }else{
+            this.notificationService.warning(data.message);
+          }
+        })
+        //this.notificationService.success('¡Se guardaron los datos personales!');
+        //this.router.navigate(['app/adm-uo'])
+      }
+      else {
+        this.notificationService.warning(data.message);
+      }
+    })
+  }
+
+  grabarDatosFormacion() {
+    console.log('datos', this.formDatosFormacion.value.frmAnioGraduacion)
+    this.datosService.registerDatosFormacion(this.getPayloadRegistroFormacion()).subscribe((data) => {
+      if (data.code == 0) {
+        this.notificationService.success('¡Se guardaron los datos personales!');
+        //this.router.navigate(['app/adm-uo'])
+      }
+      else {
+        this.notificationService.warning(data.message);
+      }
+    })
+  }
+
   ngOnInit() {
+    this.rangeYear()
     this.formDatosPersonales.controls.frmCorreo.disable();
     this.formDatosPersonales.controls.frmTipoDoc.disable();
+    this.formDatosPersonales.controls.frmNumDoc.disable();
+
     this.datosService.getTipoParametros('GENERO').subscribe((data) => {
       this.opcionesGenero = data.data;
     });
@@ -74,11 +139,18 @@ export class EditActiveUserComponent {
 
       this.opcionesNacionalidad = data.data;
     });
+    this.datosService.getTipoParametros('NIVEL_EDUCATIVO').subscribe((data) => {
+
+      this.opcionesNivelEducativo = data.data;
+    });
 
     const idUsuarioTemp = (JSON.parse(localStorage.getItem('camUser')!)).idUsuario
 
     this.datosService.getObtenerDatos(idUsuarioTemp).subscribe((data) => {
-      console.log("datos personales", data.data.datosPersonales)
+      console.log("datos personales", data.data)
+      this.imagenFirma = data.data.datosPersonales.firmaImg
+      console.log("imagenFirma", this.imagenFirma)
+      this.numDocumento = data.data.datosPersonales.numeroDocumento;
       this.nombreCompleto = data.data.datosPersonales.nombres + " " + data.data.datosPersonales.apellidos;
       this.formDatosPersonales.controls.frmNombres.setValue(data.data.datosPersonales.nombres)
       this.formDatosPersonales.controls.frmApellidos.setValue(data.data.datosPersonales.apellidos)
@@ -88,6 +160,11 @@ export class EditActiveUserComponent {
       this.formDatosPersonales.controls.frmTipoDoc.setValue(data.data.datosPersonales.tipoDocumento)
       this.formDatosPersonales.controls.frmEstadoCivil.setValue(data.data.datosPersonales.paramEstadoCivilId)
       this.formDatosPersonales.controls.frmGenero.setValue(data.data.datosPersonales.paramGeneroId)
+      this.formDatosPersonales.controls.frmNumDoc.setValue(data.data.datosPersonales.numeroDocumento)
+      this.formDatosPersonales.controls.frmFechNacimiento.setValue(data.data.datosPersonales.fechaNacimiento)
+      this.formDatosFormacion.controls.frmNivelEstudio.setValue(data.data.datosFormacionProf.paramNivelEducativoId)
+      this.formDatosFormacion.controls.frmInstEduca.setValue(data.data.datosFormacionProf.nombreInstitucion)
+      this.formDatosFormacion.controls.frmAnioGraduacion.setValue(data.data.datosFormacionProf.anioGraduacion)
     })
 
     this.getUbicaciones();
@@ -97,10 +174,22 @@ export class EditActiveUserComponent {
       map(value => typeof value === 'string' ? value : value.nombreUbicacion),
       map(nombreUbicacion => nombreUbicacion ? this._filter(nombreUbicacion) : this.listUbicaciones.slice())
     );
-    this.distrControl.addValidators([Validators.required])
   }
-
+  actualizarDate(input: any, opt: number) {
+    if (input) {
+      switch (opt) {
+        case 1:
+          this.formDatosPersonales.controls.frmFechNacimiento.setValue(input)
+          break;
+        case 2:
+          this.formDatosPersonales.controls.frmFechNacimiento.setValue(input)
+          break;
+      }
+    }
+  }
   getPayloadRegistro(): RequestDatosPersonalesRegistro {
+    let fechaNacimiento = this.formDatosPersonales.value.frmFechNacimiento
+
     return {
       idUsuario: (JSON.parse(localStorage.getItem('camUser')!)).idUsuario,
       nombres: this.formDatosPersonales.value.frmNombres!,
@@ -109,14 +198,39 @@ export class EditActiveUserComponent {
       codUbiDep: '15',
       codUbiProv: '01',
       codUbiDist: '07',
-      direccion: 'Calle Ejemplo 123, Barrio Seguro',
-      fechaNacimiento: '1985-08-25',
+      direccion: this.formDatosPersonales.value.frmDireccion!,
+      fechaNacimiento: formatDate(fechaNacimiento!.split('/')[2] + '/' + fechaNacimiento!.split('/')[1] + '/' + fechaNacimiento!.split('/')[0], 'yyyy-MM-dd', this.locale),
       paramEstadoCivilId: parseInt(this.formDatosPersonales.value.frmEstadoCivil!),
       paramGeneroId: parseInt(this.formDatosPersonales.value.frmGenero!),
       idNacionalidad: 568,
       idProfesion: 1,
       rne: 'rne123',
       cmp: 'cmp123'
+    }
+  }
+
+  getPayloadRegistroFormacion(): RequestDatosFormacionRegistro {
+    return {
+      idUsuario: (JSON.parse(localStorage.getItem('camUser')!)).idUsuario,
+      paramNivelEducativoId: parseInt(this.formDatosFormacion.value.frmNivelEstudio!),
+      nombreInstitucion: this.formDatosFormacion.value.frmInstEduca!,
+      anioGraduacion: parseInt(this.formDatosFormacion.value.frmAnioGraduacion!)
+    }
+  }
+
+  getPayloadLoginChangePasswoard(): RequestChangePassword {
+    return {
+      username: this.numDocumento,
+      password: this.formDatosSeguridad.value.frmContraActual!
+    }
+  }
+
+  getPayloadChangePasswoard(guiid: string): changePassword {
+    return {
+      guiid: guiid,
+      currentPwd: this.formDatosSeguridad.value.frmContraActual!,
+      newPwd: this.formDatosSeguridad.value.frmNuevaContra!,
+      confirmNewPwd: this.formDatosSeguridad.value.frmRepNuevaContra!,
     }
   }
 

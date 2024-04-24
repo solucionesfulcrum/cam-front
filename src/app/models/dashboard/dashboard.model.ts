@@ -1,24 +1,24 @@
-export interface listardashboardRequest{
+export interface listardashboardRequest {
     idUnidadOperativa: number,
     fecInicio: string,
     fecFin: string
 }
 
-export interface listardashboardRequestActivos{
+export interface listardashboardRequestActivos {
     idUnidadOperativa: number,
     fecInicio: string,
     fecFin: string,
     estado: number
 }
 
-export interface listCiramActivosInactivos{
+export interface listCiramActivosInactivos {
     idUnidadOperativa: number,
     fecInicio: string,
     fecFin: string,
     texto: string
 }
 
-export interface RequestCiramRegistro{
+export interface RequestCiramRegistro {
     codigoUoCiram: string,
     idUnidadOperativaCam: number,
     activo: number,
@@ -32,7 +32,7 @@ export interface RequestCiramRegistro{
     tipo: string
 }
 
-export interface RequestDatosPersonalesRegistro{
+export interface RequestDatosPersonalesRegistro {
     idUsuario: number,
     nombres: string,
     apellidos: string,
@@ -46,6 +46,25 @@ export interface RequestDatosPersonalesRegistro{
     paramGeneroId: number,
     idNacionalidad: number,
     idProfesion: number,
-    rne : string,
-    cmp : string
+    rne: string,
+    cmp: string
+}
+
+export interface RequestDatosFormacionRegistro {
+    idUsuario: number,
+    paramNivelEducativoId: number,
+    nombreInstitucion: string,
+    anioGraduacion: number
+}
+
+export interface RequestChangePassword {
+    username: string,
+    password: string
+}
+
+export interface changePassword {
+    guiid: string,
+    currentPwd: string,
+    newPwd: string,
+    confirmNewPwd: string
 }
