@@ -29,71 +29,100 @@
             <!-- Apellidos -->
             <div>
                 <label class="block text-gray-700">Apellidos *</label>
-                <input type="text" class="mt-2 p-3 block w-full border rounded" placeholder="">
+                <input type="text" class="mt-2 p-3 block w-full border rounded" formControlName="frmApellidos">
             </div>
 
             <!-- Celular -->
             <div>
                 <label class="block text-gray-700">Celular</label>
-                <input type="text" class="mt-2 p-3 block w-full border rounded">
+                <input type="text" class="mt-2 p-3 block w-full border rounded" formControlName="frmCelular">
             </div>
 
             <!-- Correo electrónico -->
             <div>
                 <label class="block text-gray-700">Correo electrónico</label>
-                <input type="email" class="mt-2 p-3 block w-full border rounded" placeholder="">
+                <input type="email" class="mt-2 p-3 bg-gray-100 block w-full border rounded"
+                    formControlName="frmCorreo">
             </div>
         </div>
         <div class="info-container flex items-center mt-5">
             <!-- Dirección de residencia -->
             <div class="w-3/4 my-1 mr-4">
                 <label class="block text-gray-700">Dirección de residencia</label>
-                <input type="text" class="mt-2 p-3 block w-full border rounded">
+                <input type="text" class="mt-2 p-3 block w-full border rounded" formControlName="frmDireccion">
             </div>
 
             <!-- Distrito -->
             <div class="w-1/4 my-1">
-                <select class="mt-7 p-3 block w-full border rounded">
-                    <option>Distrito</option>
-                </select>
+                <label class="block text-gray-700">Distrito</label>
+                <input type="text" [formControl]="distrControl" [matAutocomplete]="auto" aria-expanded="true"
+                    aria-owns="mat-autocomplete-0" class="inputTextoDialog focusCampo"
+                    placeholder="Distrito - Provincia - Departamento">
+                <mat-autocomplete #auto="matAutocomplete" [displayWith]="displayFnUbicacion"
+                    (optionSelected)="onSelectionChangeJefe($event)">
+                    <mat-option *ngFor="let option of filteredOptions | async" [value]="option">
+                        {{option.nombreUbicacion | titlecase}}
+                    </mat-option>
+                </mat-autocomplete>
             </div>
         </div>
         <div class="info-container flex items-center mt-5">
             <!-- Fecha de nacimiento -->
             <div class="w-1/3 mr-4">
-                <input type="date" class="mt-2 p-3 block w-full border rounded" placeholder="Fecha de nacimiento *">
+                <input type="date" class="mt-2 p-3 block w-full border rounded" formControlName="frmFechNacimiento">
             </div>
 
             <!-- Estado civil -->
             <div class="w-1/3 my-1 mr-4">
-                <select class="mt-2 p-3 block w-full border rounded">
-                    <option>Estado civil *</option>
-                </select>
+                <div class="relative rounded-md shadow-sm">
+                    <select id="searchEstadoCivil" formControlName="frmEstadoCivil"
+                        class="space-x-5 border border-gray-300 text-gray-900 text-sm rounded-lg focusCampo block w-full h-[42px]">
+                        <option value="" disabled selected>Estado Civil *</option>
+                        <option *ngFor="let estadoCivil of opcionesEstadoCivil" [value]='estadoCivil.idParametros'>{{
+                            estadoCivil.nombre}}
+                        </option>
+                        <!-- <option value="1">Registrado</option> -->
+                    </select>
+                </div>
             </div>
 
             <!-- Género -->
             <div class="w-1/3 my-1">
-                <select class="mt-2 p-3 block w-full border rounded">
-                    <option>genero *</option>
-                </select>
+                <div class="relative rounded-md shadow-sm">
+                    <select id="searchGenero" formControlName="frmGenero"
+                        class="space-x-5 border border-gray-300 text-gray-900 text-sm rounded-lg focusCampo block w-full h-[42px]">
+                        <option value="" disabled selected>Genero *</option>
+                        <option *ngFor="let genero of opcionesGenero" [value]='genero.idParametros'>{{ genero.nombre }}
+                        </option>
+                        <!-- <option value="1">Registrado</option> -->
+                    </select>
+                </div>
             </div>
         </div>
         <div class="info-container flex items-center mt-5">
             <!-- Nacionalidad -->
-            <div class="w-1/3 mr-4">
-                <select class="mt-2 p-3 block w-full border rounded">
-                    <option>Nacionalidad *</option>
-                </select>
+            <div class="w-1/3 my-1 mr-4">
+                <div class="relative rounded-md shadow-sm">
+                    <select id="searchNacionalidad" formControlName="frmNacionalidad"
+                        class="space-x-5 border border-gray-300 text-gray-900 text-sm rounded-lg focusCampo block w-full h-[42px]">
+                        <option value="" disabled selected>Nacionalidad *</option>
+                        <option *ngFor="let nacionalidad of opcionesNacionalidad" [value]='nacionalidad.descripcion'>{{
+                            nacionalidad.descripcion |
+                            titlecase}}
+                        </option>
+                        <!-- <option value="1">Registrado</option> -->
+                    </select>
+                </div>
             </div>
 
             <!-- Documento Nacional de Identidad -->
             <div class="w-1/3 my-1 mr-4">
-                <input type="text" class="mt-2 p-3 block w-full border rounded"
+                <input type="text" class="mt-2 p-3 bg-gray-100 block w-full border rounded" formControlName="frmTipoDoc"
                     placeholder="Documento Nacional de Identidad *">
             </div>
 
             <div class="w-1/3 my-1">
-                <input type="text" class="mt-2 p-3 block w-full border rounded" placeholder="47787230">
+                <input type="text" class="mt-2 p-3 bg-gray-100 block w-full border rounded" placeholder="47787230">
             </div>
         </div>
         <!-- Firma -->
@@ -101,14 +130,10 @@
             <label class="block text-gray-700">Firma</label>
             <input type="file" class="mt-2 p-3 block w-full border rounded">
         </div>
-
-
         <div class="flex justify-end mt-6">
-            <button type="submit" class="px-6 py-3 bg-blue-600 text-white rounded bg-[#057EC9] focus:outline-none">
-                Guardar cambios
-            </button>
-            <!--<app-btn class="botonApariencia flex" color="white" (click)="grabarDatosPersonales()">Cancelar
-            </app-btn>-->
+            <app-btn class="botonApariencia flex" type="submit" color="mezclado" (click)="grabarDatosPersonales()">
+                Guardar Cambios
+            </app-btn>
         </div>
     </div>
 

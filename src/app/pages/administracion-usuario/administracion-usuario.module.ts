@@ -5,6 +5,7 @@ import { AdministracionUsuarioRoutingModule } from './administracion-usuario-rou
 import { SelectUnidOperativaComponent } from './select-unid-operativa/select-unid-operativa.component';
 import { EditActiveUserComponent } from './edit-active-user/edit-active-user.component';
 import { SharedModule } from '@shared/shared.module';
+import { MatAutocompleteModule } from '@angular/material/autocomplete';
 
 
 @NgModule({
@@ -15,7 +16,8 @@ import { SharedModule } from '@shared/shared.module';
   imports: [
     CommonModule,
     AdministracionUsuarioRoutingModule,
-    SharedModule
+    SharedModule,
+    MatAutocompleteModule
   ]
 })
 export class AdministracionUsuarioModule { }

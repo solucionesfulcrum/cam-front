@@ -31,3 +31,21 @@ export interface RequestCiramRegistro{
     celular: string,
     tipo: string
 }
+
+export interface RequestDatosPersonalesRegistro{
+    idUsuario: number,
+    nombres: string,
+    apellidos: string,
+    celular: string,
+    codUbiDep: string,
+    codUbiProv: string,
+    codUbiDist: string,
+    direccion: string,
+    fechaNacimiento: string,
+    paramEstadoCivilId: number,
+    paramGeneroId: number,
+    idNacionalidad: number,
+    idProfesion: number,
+    rne : string,
+    cmp : string
+}

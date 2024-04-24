@@ -1,7 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { environment } from '@environments/environment';
-import { RequestCiramRegistro } from '@models/dashboard/dashboard.model';
+import { RequestCiramRegistro, RequestDatosPersonalesRegistro } from '@models/dashboard/dashboard.model';
 import { TipoParametro } from '@models/parametros-busqueda.model';
 
 const URL_BASE = `${environment.API}`;
@@ -117,6 +117,16 @@ export class DatosGeneralesService {
 
   registerCiram(model: RequestCiramRegistro){
     const url = `${URL_BASE}/unidad-operativa/registrar/ciram`;
+    return this._httpClient.post<any>(url, model);
+  }
+
+  getObtenerNacionalidad(texto: string){
+    const url = `${URL_BASE}/client/essi/nacionalidad/${texto}`;
+    return this._httpClient.get<any>(url);
+  }
+
+  registerDatosPersonales(model: RequestDatosPersonalesRegistro){
+    const url = `${URL_BASE}/usuario/perfil/datos-personales/registrar`;
     return this._httpClient.post<any>(url, model);
   }
 }
