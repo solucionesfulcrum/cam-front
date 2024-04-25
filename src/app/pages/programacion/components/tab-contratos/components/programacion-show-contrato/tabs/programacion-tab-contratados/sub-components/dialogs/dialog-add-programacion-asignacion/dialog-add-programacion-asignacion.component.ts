@@ -50,7 +50,6 @@ export class DialogAddProgramacionAsignacionComponent {
 
 
   ngOnInit(): void {
-    console.log(this.data)
     this.ctrlTipo.disable();
     // this.getActividades();
     this.formSchedule.controls.frmInicioHorario.setValue(null!)
@@ -69,7 +68,18 @@ export class DialogAddProgramacionAsignacionComponent {
     if (this.data.horarioFijo) {
       this.formSchedule.controls.frmFecha.setValue(this.data.fechaHorario);
       this.formSchedule.controls.frmFecha.disable();
-      this.formSchedule.controls.frmInicioHorario.setValue((new Date(`${this.data.fechaHorario.getFullYear()}-${this.data.fechaHorario.getMonth()+1}-${this.data.fechaHorario.getDate()} ${this.data.rangoHorario.split(' ')[0]}:00 ${this.data.rangoHorario.split(' ')[1]}`)).toString());
+      let listServiciosPrevios = this.data.infoServiciosContratados.filter((x: any)=>{ return x.fecha == formatDate(this.formSchedule.controls.frmFecha.value, 'yyyy-MM-dd', this.locale)});
+      let fechaEstablecido = new Date(`${formatDate(this.formSchedule.controls.frmFecha.value, 'yyyy-MM-dd', this.locale)} ${this.data.rangoHorario.split(' ')[0]}:00 ${this.data.rangoHorario.split(' ')[1]}`);
+      if (listServiciosPrevios.length) {
+        listServiciosPrevios.forEach((x: any)=> {
+          let primeraFecha = new Date(`${x.fecha} ${x.horaInicio}`);
+          let limiteFecha = new Date(`${x.fecha} ${x.horaFin}`);
+          if (primeraFecha.getTime() <= (fechaEstablecido).getTime() && limiteFecha.getTime() > (fechaEstablecido).getTime()) {
+            fechaEstablecido.setMinutes(limiteFecha.getMinutes());
+          }
+        })
+      }
+      this.formSchedule.controls.frmInicioHorario.setValue(fechaEstablecido.toString());
       this.formSchedule.controls.frmInicioHorario.disable();
     }
     this.ctrlServicio.valueChanges.subscribe((data: any)=>{
@@ -171,7 +181,11 @@ export class DialogAddProgramacionAsignacionComponent {
     if (this.formSchedule.controls.frmFecha.value != '') {
       let fechaProgramada = new Date(this.formSchedule.controls.frmFecha.value);
       this.data.dataRangosHorarios.forEach((x: any) => {
-        this.listaRangosHorariosFiltrados.push({horaSeleccionable: new Date(`${fechaProgramada.getFullYear()}-${fechaProgramada.getMonth()+1}-${fechaProgramada.getDate()} ${x.split(' ')[0]}:00 ${x.split(' ')[1]}`), deshabilitado: false})
+        let minutos = 0;
+        for (let i = 0; i < 4; i++) {
+          this.listaRangosHorariosFiltrados.push({horaSeleccionable: new Date(`${fechaProgramada.getFullYear()}-${fechaProgramada.getMonth()+1}-${fechaProgramada.getDate()} ${x.split(' ')[0]}:${minutos} ${x.split(' ')[1]}`), deshabilitado: false});
+          minutos+=15;
+        }
       });
       if (!this.data.horarioFijo) {
         this.formSchedule.controls.frmInicioHorario.setValue(null!);

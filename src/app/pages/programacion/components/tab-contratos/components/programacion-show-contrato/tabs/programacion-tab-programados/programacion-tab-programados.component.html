@@ -1,1 +1,30 @@
-<p>programacion-tab-programados works!</p>
+<div class="py-2.5">
+    <div class="bg-[#FAFAFA] grid grid-cols-13 gap-1 border-b-2 border-gray-300 py-4 text-[14px] filasPseudoTabla">
+        <span>N°</span>
+        <span>Tipo</span>
+        <span class="col-span-5">Nombre del servicio</span>
+        <span class="col-span-2">Fecha Inicio</span>
+        <span class="col-span-2">Fecha Fin</span>
+        <span>Modalidad</span>
+        <span class="text-center">Estado</span>
+    </div>
+    <div *ngIf="serviciosProgramados.length == 0" class="w-full h-3/4 flex items-center">
+      <div class="mx-auto my-4 w-fit text-center">
+        <img class="m-auto" src="assets/svg/empty-data.svg" alt="">
+        <h3 class="text-gray-500 mt-2 font-light">No existen registros aun.</h3>
+      </div>
+    </div>
+    <div *ngIf="serviciosProgramados.length > 0">
+        <div class="dataPseudoTabla" *ngFor="let servicio of serviciosProgramados, index as i">
+          <span>{{i+1}}</span>
+          <span>{{servicio.tipoServicio | titlecase}}</span>
+          <span class="col-span-5 text-[var(--color-CAM)]">{{servicio.nombreServicio | titlecase}}</span>
+          <span class="col-span-2">{{servicio.fechInicio | date:'dd/MM/yyyy'}}</span>
+          <span class="col-span-2">{{servicio.fechFin | date:'dd/MM/yyyy'}}</span>
+          <span>{{servicio.modalidad | titlecase}}</span>
+          <div class="text-center" [ngClass]="servicio.publicado ? 'text-green-500' : 'text-red-500'">
+            <esp-icon [icon]="servicio.publicado ? 'faCheck' : 'faX'"[matTooltip]= "servicio.publicado ? 'Programado' : 'No programado'" matTooltipPosition="above"></esp-icon>
+          </div>
+        </div>
+    </div>
+</div>

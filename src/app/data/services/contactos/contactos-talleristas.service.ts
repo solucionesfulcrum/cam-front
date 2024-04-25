@@ -28,7 +28,7 @@ export class ContactosTalleristasService {
   }
   
   getTalleristaActivacion(idUsuario: number){
-    const url = `${URL_BASE}/activaciones/vigentes?idUsuarioTallerista=${idUsuario}`;
+    const url = `${URL_BASE}/activaciones/vigentes?idUsuario=${idUsuario}`;
     return this._httpClient.get<any>(url);
   }
 }

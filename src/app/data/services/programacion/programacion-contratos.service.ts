@@ -22,8 +22,13 @@ export class ProgramacionContratosService {
     return this._httpClient.post<any>(url,null);
   }
 
-  getDatosServicioContrato(idProgramacion: number){
+  getDatosServicioContrato(idProgramacion: string){
     const url = `${URL_BASE}/servicios/contratados/${idProgramacion}`;
+    return this._httpClient.get<any>(url);
+  }
+
+  getServiciosProgramados(idProgramacion: string){
+    const url = `${URL_BASE}/detalle/listar/servicios-programados?id-programacion=${idProgramacion}&id-unid-ope=${(JSON.parse(localStorage.getItem('UnidElegida')!)).idUnidOperativa}`;
     return this._httpClient.get<any>(url);
   }
 
