@@ -13,7 +13,8 @@ import { ContactosTalleristasService } from 'src/app/data/services/contactos/con
 export class ContactoTabContratosComponent {
   dataActivacion: any[] = [];
   dataContratos: any[] = [];
-  idTallerista!: number;
+  idTallerista!: string;
+  idUsuario: any;
   formBuscar: FormGroup = this.fb.group({
     frmSearch:new FormControl(""),
     frmSearchDate:new FormControl(""),
@@ -33,15 +34,23 @@ export class ContactoTabContratosComponent {
               private talleristaService                     : ContactosTalleristasService,
               private activeRoute                           : ActivatedRoute,
               private notificationService                   : NotificationService) { 
-                this.idTallerista = parseInt(this.activeRoute.snapshot.paramMap.get('idTallerista')!);
+                this.idTallerista = (this.activeRoute.snapshot.paramMap.get('idTallerista')!);
               }
 
   ngOnInit(): void {
-    this.getActivacion()
+    this.talleristaService.getDataTallerista(this.idTallerista).subscribe((data)=>{
+      if (data.code == 0) {
+        this.idUsuario = data.data.idUsuario;
+        this.getActivacion()
+      }
+      else {
+        this.notificationService.warning(data.message);
+      }
+    })
   }
 
   getActivacion(){
-    this.talleristaService.getTalleristaActivacion(this.idTallerista).subscribe((data)=>{
+    this.talleristaService.getTalleristaActivacion(this.idUsuario).subscribe((data)=>{
       if (data.code == 0) {
         this.dataActivacion = data.data;
       }
@@ -52,6 +61,7 @@ export class ContactoTabContratosComponent {
   }
 
   getContratos(){
+    console.log(this.payloadActivacion())
     this.talleristaService.getListContratosTallerista(this.payloadActivacion()).subscribe((data)=>{
       if (data.code == 0) {
         this.dataContratos = data.data.list;
@@ -72,9 +82,9 @@ export class ContactoTabContratosComponent {
     var fechaSinFormatFin = this.formBuscar.value.frmSearchDate.split(' - ')[1];
     fecInicio = `${fechaSinFormatInit.split('/')[2]}-${fechaSinFormatInit.split('/')[1]}-${fechaSinFormatInit.split('/')[0]}`;
     fecFin = `${fechaSinFormatFin.split('/')[2]}-${fechaSinFormatFin.split('/')[1]}-${fechaSinFormatFin.split('/')[0]}`;
-
+    
     return {
-      idUsuarioTallerista: this.idTallerista,
+      idUsuario: this.idUsuario,
       idUnidadOperativa: JSON.parse(localStorage.getItem("UnidElegida")!).idUnidOperativa,
       texto: this.formBuscar.controls['frmSearch'].value,
       fecInicio: fecInicio,
