@@ -61,7 +61,6 @@ export class ContactoTabContratosComponent {
   }
 
   getContratos(){
-    console.log(this.payloadActivacion())
     this.talleristaService.getListContratosTallerista(this.payloadActivacion()).subscribe((data)=>{
       if (data.code == 0) {
         this.dataContratos = data.data.list;
