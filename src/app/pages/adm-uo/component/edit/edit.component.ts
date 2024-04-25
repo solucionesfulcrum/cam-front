@@ -8,6 +8,7 @@ import { faSpinner } from '@fortawesome/free-solid-svg-icons';
   styleUrls: ['./edit.component.scss']
 })
 export class EditComponent {
+  nombreCam = '';
   dataShow = false;
   faSpinner = faSpinner;
   id = 1;
@@ -20,4 +21,7 @@ export class EditComponent {
     {url:`/app/contactos/show/${this.id}`, title:'Talleres'},
     {url:`/app/contactos/show/${this.id}`, title:'Talleristas'},
   ]
+  ngOnInit() {
+    this.nombreCam = (JSON.parse(localStorage.getItem('UnidElegida')!)).unidOperativa
+  }
 }

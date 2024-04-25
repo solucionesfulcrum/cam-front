@@ -1,11 +1,8 @@
 <div class="max-w-5xl mx-auto p-6 bg-white rounded-lg shadow-md">
     <h2 class="text-xl font-semibold">Perfil y visibilidad</h2>
     <div class="bg-[#057EC9] p-4 flex items-center justify-between" style="height: 180px;">
-        <!-- Left side with the big icon and banner text -->
         <div class="flex items-center">
-            <!-- Insert content here -->
         </div>
-        <!-- Right side content if needed -->
     </div>
     <h1 class="font-bold mt-4">{{nombreCompleto}}</h1>
     <div class="flex items-center justify-start space-x-4">
@@ -19,96 +16,121 @@
     </div>
     <div [formGroup]="formDatosPersonales">
         <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mt-4">
-            <!-- Nombres -->
-            <div>
-                <label class="block text-gray-700">Nombres *</label>
-                <input type="text" name="nombres" class="mt-2 p-3 block w-full border rounded"
+            <div class="">
+                <label class="text-gray-700">Nombres</label>
+                <input type="text" name="nombres"
+                    class="space-x-5 border border-gray-300 text-gray-900 text-sm rounded-lg focusCampo block w-full h-[42px]"
                     formControlName="frmNombres">
             </div>
-
-            <!-- Apellidos -->
             <div>
-                <label class="block text-gray-700">Apellidos *</label>
-                <input type="text" class="mt-2 p-3 block w-full border rounded" placeholder="">
+                <label class="block text-gray-700">Apellidos</label>
+                <input type="text"
+                    class="space-x-5 border border-gray-300 text-gray-900 text-sm rounded-lg focusCampo block w-full h-[42px]"
+                    formControlName="frmApellidos">
             </div>
-
-            <!-- Celular -->
             <div>
                 <label class="block text-gray-700">Celular</label>
-                <input type="text" class="mt-2 p-3 block w-full border rounded">
+                <input type="text"
+                    class="space-x-5 border border-gray-300 text-gray-900 text-sm rounded-lg focusCampo block w-full h-[42px]"
+                    formControlName="frmCelular">
             </div>
-
-            <!-- Correo electrónico -->
             <div>
                 <label class="block text-gray-700">Correo electrónico</label>
-                <input type="email" class="mt-2 p-3 block w-full border rounded" placeholder="">
+                <input type="email"
+                    class="space-x-5 border bg-gray-100 border-gray-300 text-gray-900 text-sm rounded-lg focusCampo block w-full h-[42px]"
+                    formControlName="frmCorreo">
             </div>
         </div>
         <div class="info-container flex items-center mt-5">
-            <!-- Dirección de residencia -->
-            <div class="w-3/4 my-1 mr-4">
+            <div class="w-4/6 my-1 mr-4">
                 <label class="block text-gray-700">Dirección de residencia</label>
-                <input type="text" class="mt-2 p-3 block w-full border rounded">
+                <input type="text"
+                    class="space-x-5 border border-gray-300 text-gray-900 text-sm rounded-lg focusCampo block w-full h-[42px]"
+                    formControlName="frmDireccion">
             </div>
-
-            <!-- Distrito -->
-            <div class="w-1/4 my-1">
-                <select class="mt-7 p-3 block w-full border rounded">
-                    <option>Distrito</option>
-                </select>
-            </div>
-        </div>
-        <div class="info-container flex items-center mt-5">
-            <!-- Fecha de nacimiento -->
-            <div class="w-1/3 mr-4">
-                <input type="date" class="mt-2 p-3 block w-full border rounded" placeholder="Fecha de nacimiento *">
-            </div>
-
-            <!-- Estado civil -->
-            <div class="w-1/3 my-1 mr-4">
-                <select class="mt-2 p-3 block w-full border rounded">
-                    <option>Estado civil *</option>
-                </select>
-            </div>
-
-            <!-- Género -->
-            <div class="w-1/3 my-1">
-                <select class="mt-2 p-3 block w-full border rounded">
-                    <option>genero *</option>
-                </select>
+            <div class="w-2/6 my-1">
+                <label class="block text-gray-700">Distrito</label>
+                <input type="text" [formControl]="distrControl" [matAutocomplete]="auto" aria-expanded="true"
+                    aria-owns="mat-autocomplete-0" class="inputTextoDialog focusCampo"
+                    placeholder="Distrito - Provincia - Departamento">
+                <mat-autocomplete #auto="matAutocomplete" [displayWith]="displayFnUbicacion"
+                    (optionSelected)="onSelectionChangeJefe($event)">
+                    <mat-option *ngFor="let option of filteredOptions | async" [value]="option">
+                        {{option.nombreUbicacion | titlecase}}
+                    </mat-option>
+                </mat-autocomplete>
             </div>
         </div>
         <div class="info-container flex items-center mt-5">
-            <!-- Nacionalidad -->
             <div class="w-1/3 mr-4">
-                <select class="mt-2 p-3 block w-full border rounded">
-                    <option>Nacionalidad *</option>
-                </select>
+                <mat-form-field style="position: absolute; visibility:hidden;">
+                    <input #input matInput [matDatepicker]="picker">
+                    <mat-datepicker #picker (closed)="actualizarDate(input.value, 1)"></mat-datepicker>
+                </mat-form-field>
+                <input type="text" name="search" formControlName="frmFechNacimiento" readonly (click)="picker.open()"
+                    class="inputTextoDialog focusCampo !h-10 pr-7" placeholder="Fecha de Nacimiento">
+                <div class="absolute inset-y-0 right-0 flex items-center pr-3 z-10 !h-9 pointer-events-none">
+                    <span class="text-gray-500 sm:text-sm">
+                        <img src="assets/svg/icon-calendar-simple.svg">
+                    </span>
+                </div>
             </div>
-
-            <!-- Documento Nacional de Identidad -->
             <div class="w-1/3 my-1 mr-4">
-                <input type="text" class="mt-2 p-3 block w-full border rounded"
-                    placeholder="Documento Nacional de Identidad *">
+                <div class="relative rounded-md shadow-sm">
+                    <select id="searchEstadoCivil" formControlName="frmEstadoCivil"
+                        class="space-x-5 border border-gray-300 text-gray-900 text-sm rounded-lg focusCampo block w-full h-[42px]">
+                        <option value="" disabled selected>Estado Civil *</option>
+                        <option *ngFor="let estadoCivil of opcionesEstadoCivil" [value]='estadoCivil.idParametros'>{{
+                            estadoCivil.nombre}}
+                        </option>
+                    </select>
+                </div>
+            </div>
+            <div class="w-1/3 my-1">
+                <div class="relative rounded-md shadow-sm">
+                    <select id="searchGenero" formControlName="frmGenero"
+                        class="space-x-5 border border-gray-300 text-gray-900 text-sm rounded-lg focusCampo block w-full h-[42px]">
+                        <option value="" disabled selected>Genero *</option>
+                        <option *ngFor="let genero of opcionesGenero" [value]='genero.idParametros'>{{ genero.nombre }}
+                        </option>
+                    </select>
+                </div>
+            </div>
+        </div>
+        <div class="info-container flex items-center mt-5">
+            <div class="w-1/3 my-1 mr-4">
+                <div class="relative rounded-md shadow-sm">
+                    <select id="searchNacionalidad" formControlName="frmNacionalidad"
+                        class="space-x-5 border border-gray-300 text-gray-900 text-sm rounded-lg focusCampo block w-full h-[42px]">
+                        <option value="" disabled selected>Nacionalidad *</option>
+                        <option *ngFor="let nacionalidad of opcionesNacionalidad" [value]='nacionalidad.descripcion'>{{
+                            nacionalidad.descripcion |
+                            titlecase}}
+                        </option>
+                    </select>
+                </div>
+            </div>
+            <div class="w-1/3 my-1 mr-4">
+                <input type="text"
+                    class="space-x-5 border bg-gray-100 border-gray-300 text-gray-900 text-sm rounded-lg focusCampo block w-full h-[42px]"
+                    formControlName="frmTipoDoc" placeholder="Documento Nacional de Identidad *">
             </div>
 
             <div class="w-1/3 my-1">
-                <input type="text" class="mt-2 p-3 block w-full border rounded" placeholder="47787230">
+                <input type="text"
+                    class="space-x-5 border bg-gray-100 border-gray-300 text-gray-900 text-sm rounded-lg focusCampo block w-full h-[42px]"
+                    formControlName="frmNumDoc">
             </div>
         </div>
-        <!-- Firma -->
         <div class="md:col-span-2 mt-4">
             <label class="block text-gray-700">Firma</label>
-            <input type="file" class="mt-2 p-3 block w-full border rounded">
+            <input *ngIf="!imagenFirma" type="file" class="mt-2 p-3 block w-full border rounded">
+            <img *ngIf="imagenFirma" src="data:image/JPEG;base64,{{imagenFirma}}" class="my-1 imagen">
         </div>
-
-
         <div class="flex justify-end mt-6">
-            <button type="submit" class="px-6 py-3 bg-blue-600 text-white rounded bg-[#057EC9] focus:outline-none">
-                Guardar cambios
-            </button>
-            <!--<app-btn class="botonApariencia flex" color="white" (click)="grabarDatosPersonales()">Cancelar
-            </app-btn>-->
+            <app-btn class="botonApariencia flex" type="submit" color="mezclado" (click)="grabarDatosPersonales()">
+                Guardar Cambios
+            </app-btn>
         </div>
     </div>
 
@@ -118,30 +140,43 @@
             Datos sobre estudios realizados
         </span>
     </div>
-    <form>
+    <div [formGroup]="formDatosFormacion">
         <div>
-            <select class="mt-2 p-3 block w-full border rounded mt-4">
-                <option>Nivel de Educacion Actual</option>
-            </select>
+            <div class="relative rounded-md shadow-sm mt-5">
+                <select id="searchNivelEstudio" formControlName="frmNivelEstudio"
+                    class="space-x-5 border border-gray-300 text-gray-900 text-sm rounded-lg focusCampo block w-full h-[42px]">
+                    <option value="" disabled selected>Nivel de Educación Actual</option>
+                    <option *ngFor="let nivelEdu of opcionesNivelEducativo" [value]='nivelEdu.idParametros'>{{
+                        nivelEdu.nombre }}
+                    </option>
+                </select>
+            </div>
         </div>
         <div class="mt-4">
-            <label class="block text-gray-700">Nombre de la institucion Educativa</label>
-            <input type="text" class="mt-2 p-3 block w-full border rounded"
-                placeholder="Nombre de la institucion Educativa">
+            <label class="block text-gray-700 mb-1">Nombre de la institucion Educativa</label>
+            <input type="text"
+                class="space-x-5 border border-gray-300 text-gray-900 text-sm rounded-lg focusCampo block w-full h-[42px]"
+                formControlName="frmInstEduca">
         </div>
-        <div>
-            <select class="mt-2 p-3 block w-full border rounded mt-4">
-                <option>Año de Graduación</option>
-            </select>
+        <div class="mt-4">
+            <div class="relative rounded-md shadow-sm mt-5">
+                <select id="searchAnioGraduacion" formControlName="frmAnioGraduacion"
+                    class="space-x-5 border border-gray-300 text-gray-900 text-sm rounded-lg focusCampo block w-full h-[42px]">
+                    <option value="" disabled selected>Año de Graduación</option>
+                    <option *ngFor="let anio of yearsGrad" [value]='anio'>{{
+                        anio }}
+                    </option>
+                </select>
+            </div>
         </div>
 
         <div class="flex justify-end mt-6">
-            <button type="submit" class="px-6 py-3 bg-blue-600 text-white rounded bg-[#057EC9] focus:outline-none">
-                Guardar cambios
-            </button>
+            <app-btn class="botonApariencia flex" type="submit" color="mezclado" (click)="grabarDatosFormacion()">
+                Guardar Cambios
+            </app-btn>
         </div>
-    </form>
-    <form>
+    </div>
+    <div [formGroup]="formDatosSeguridad">
         <h1 class="font-bold mt-4">Seguridad</h1>
         <div class="relative border-b-2 border-gray-200 py-1 bg-gray-200 mt-4">
             <span class="relative px-2 -translate-y-1/2 transform top-1/2 font-bold">
@@ -149,21 +184,27 @@
             </span>
         </div>
         <div class="mt-4">
-            <label class="block text-gray-700">Contraseña actual</label>
-            <input type="text" class="mt-2 p-3 block w-full border rounded">
+            <label class="block text-gray-700 mb-1">Contraseña actual</label>
+            <input type="password"
+                class="space-x-5 border border-gray-300 text-gray-900 text-sm rounded-lg focusCampo block w-full h-[42px]"
+                formControlName="frmContraActual">
         </div>
         <div class="mt-4">
-            <label class="block text-gray-700">Nueva Contraseña</label>
-            <input type="text" class="mt-2 p-3 block w-full border rounded">
+            <label class="block text-gray-700 mb-1">Nueva Contraseña</label>
+            <input type="password"
+                class="space-x-5 border border-gray-300 text-gray-900 text-sm rounded-lg focusCampo block w-full h-[42px]"
+                formControlName="frmNuevaContra">
         </div>
         <div class="mt-4">
-            <label class="block text-gray-700">Repita la Nueva Contraseña</label>
-            <input type="text" class="mt-2 p-3 block w-full border rounded">
+            <label class="block text-gray-700 mb-1">Repita la Nueva Contraseñaa</label>
+            <input type="password"
+                class="space-x-5 border border-gray-300 text-gray-900 text-sm rounded-lg focusCampo block w-full h-[42px]"
+                formControlName="frmRepNuevaContra">
         </div>
         <div class="flex justify-end mt-6">
-            <button type="submit" class="px-6 py-3 bg-blue-600 text-white rounded bg-[#057EC9] focus:outline-none">
-                Guardar cambios
-            </button>
+            <app-btn class="botonApariencia flex" type="submit" color="mezclado" (click)="grabarDatosSeguridad()">
+                Guardar Cambios
+            </app-btn>
         </div>
-    </form>
+    </div>
 </div>
