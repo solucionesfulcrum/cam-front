@@ -80,8 +80,8 @@
                         </div>
                         <div class="cuadroHorarioDia relative" *ngFor="let espacios of fechasSemana" [ngClass]="{'bg-[#FAFAFA]': comprobacionBloqueo(espacios), 'border-b': i == (horarios.length - 1), 'bg-[var(--color-fondo-claro)]': espacios.toLocaleDateString() == fechaActual.toLocaleDateString()}">
                             <ng-container *ngIf="!comprobacionBloqueo(espacios)">
-                                <div (click)="verifyData(horario, espacios)" class="w-full h-full">
-                                    <div class="absolute left-0 top-0 z-10 flex flex-row w-full" *ngIf="validarActividadRegistrada(horario, espacios)" [ngStyle]="{'height': (validarActividadRegistrada(horario, espacios) ? getDataAsignacion(horario, espacios).longitud + 'px': null)}" [cdkMenuTriggerFor]="getDataAsignacion(horario, espacios) ? accountOptions : null" (click)="getDataServiceAsignadoSelected(getDataAsignacion(horario, espacios).idProgramacionDet)">
+                                <div (click)="verifyData(horario, espacios, $event)" class="w-full h-full hover:bg-gray-200 cursor-pointer">
+                                    <div class="absolute left-0 top-0 z-10 flex flex-row w-full" *ngIf="validarActividadRegistrada(horario, espacios)" [ngStyle]="{'height': (validarActividadRegistrada(horario, espacios) ? getDataAsignacion(horario, espacios).longitud + 'px': null), 'margin-top': (validarActividadRegistrada(horario, espacios) ? getDataAsignacion(horario, espacios).controlarInicio + 'px': null)}" [cdkMenuTriggerFor]="getDataAsignacion(horario, espacios) ? accountOptions : null" (click)="getDataServiceAsignadoSelected(getDataAsignacion(horario, espacios).idProgramacionDet, $event)">
                                         <div class="barraTarea">
                                             <img src="assets/svg/icon-task-small.svg">
                                         </div>

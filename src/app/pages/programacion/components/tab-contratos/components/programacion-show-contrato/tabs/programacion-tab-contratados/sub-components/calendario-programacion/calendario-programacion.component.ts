@@ -149,7 +149,7 @@ export class CalendarioProgramacionComponent {
   validarActividadRegistrada(horario: any, espacios: Date): boolean{
     if (this.serviciosAsignados.length > 0){
       let horaHorario = (horario.split(' ')[1] == 'PM' && horario.split(' ')[0] !== '12') ? parseInt(horario.split(' ')[0]) + 12 : parseInt(horario.split(' ')[0]);
-      let listAct = this.serviciosAsignados.find((x: any)=>{return parseInt(x.horaInicio.split(':')[0]) == horaHorario && (new Date(x.fecha+' '+x.horaInicio)).getDate() == espacios.getDate()});
+      let listAct = this.serviciosAsignados.find((x: any)=>{return parseInt(x.horaInicio.split(':')[0]) == horaHorario && formatDate(new Date(x.fecha+' '+x.horaInicio), 'yyyy-MM-dd', this.locale) == formatDate(espacios, 'yyyy-MM-dd', this.locale)});
       // let listAct = this.profesionalElegido.actividadesAsignadas.find((x: any)=>{return x.inicioActividad.getDate() == espacios.getDate() && x.inicioActividad.getHours() == horaHorario});
       if (listAct) {
         // console.log(listAct)
@@ -161,20 +161,22 @@ export class CalendarioProgramacionComponent {
     return false;
   }
   //______________________________________________________________________________________________________________________________________________________________________________________________ TERMINAR
-    getDataAsignacion(horario: any, espacios: Date): any{
-      let horaHorario = (horario.split(' ')[1] == 'PM' && horario.split(' ')[0] !== '12') ? parseInt(horario.split(' ')[0]) + 12 : parseInt(horario.split(' ')[0]);
-      let listAct = this.serviciosAsignados.find((x)=>{return x.horaInicio.split(':')[0] == horaHorario && x.fecha == formatDate(espacios, 'yyyy-MM-dd', this.locale)});
-      if (!listAct) return false;
-      listAct.fechaHorarioInicio  = new Date(listAct.fecha + ' ' + listAct.horaInicio);
-      let fechaFin = new Date(listAct.fecha + ' ' + listAct.horaFin);
-      let longitudHoras = ((fechaFin.getTime() - listAct.fechaHorarioInicio.getTime()) / (1000*60))/60;
-      listAct.longitud = longitudHoras*40;
-      return listAct;
-    }
+  getDataAsignacion(horario: any, espacios: Date): any{
+    let horaHorario = (horario.split(' ')[1] == 'PM' && horario.split(' ')[0] !== '12') ? parseInt(horario.split(' ')[0]) + 12 : parseInt(horario.split(' ')[0]);
+    let listAct = this.serviciosAsignados.find((x)=>{return x.horaInicio.split(':')[0] == horaHorario && x.fecha == formatDate(espacios, 'yyyy-MM-dd', this.locale)});    
+    if (!listAct) return false;
+    listAct.fechaHorarioInicio  = new Date(listAct.fecha + ' ' + listAct.horaInicio);
+    let fechaFin = new Date(listAct.fecha + ' ' + listAct.horaFin);
+    let longitudHoras = ((fechaFin.getTime() - listAct.fechaHorarioInicio.getTime()) / (1000*60))/60;
+    listAct.controlarInicio = (((new Date(listAct.fecha + ' ' + listAct.horaInicio)).getMinutes())/60)*40;
+    listAct.longitud = longitudHoras*40;
+    return listAct;
+  }
   //______________________________________________________________________________________________________________________________________________________________________________________________ TERMINAR
 
-  verifyData(dataRangoElegido: any, dataFechaElegida: any){
-    let asignacion = this.getDataAsignacion(dataRangoElegido, dataFechaElegida);
+  verifyData(dataRangoElegido: any, dataFechaElegida: any, event: MouseEvent){
+    event.stopPropagation();
+    let asignacion = false;
     if (!asignacion) {
       this.showScheduleCalendar(dataRangoElegido, dataFechaElegida);
       return false
@@ -184,7 +186,8 @@ export class CalendarioProgramacionComponent {
     }
   }
   
-  getDataServiceAsignadoSelected(idProgramacionDet: any){
+  getDataServiceAsignadoSelected(idProgramacionDet: any, event: MouseEvent){
+    event.stopPropagation();
     this.dataAsignacionSelected = null;
     this.programacionService.getDataAsignacionServicioSelected(idProgramacionDet).subscribe((data)=>{
       if (data.code == 0) {
