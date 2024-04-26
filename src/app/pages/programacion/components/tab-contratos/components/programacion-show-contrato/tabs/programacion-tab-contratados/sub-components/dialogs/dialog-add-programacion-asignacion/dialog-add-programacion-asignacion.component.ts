@@ -262,20 +262,21 @@ export class DialogAddProgramacionAsignacionComponent {
       this.ctrlCiram.markAllAsTouched()
     }
     else if (this.formSchedule.valid && this.dataTipo && this.ctrlDireccion.valid) {
-      this.validateAsignacionFecha();
-      // this.status = 'loading';
-      // this.programacionService.registerAsignacionesDia(this.getPayloadRegistro()).subscribe((data)=>{
-      //   if (data.code == 0) {
-      //     this.status = 'success';
-      //     this.listParamTipo = data.data;
-      //     this.notificacionService.success('Se registró la asignación satisfactoriamente');
-      //     this._dialogRef.close(1);
-      //   }
-      //   else {
-      //     this.status = 'failed';
-      //     this.notificacionService.warning(data.message);
-      //   }
-      // })
+      if (this.validateAsignacionFecha()) {
+        this.status = 'loading';
+        this.programacionService.registerAsignacionesDia(this.getPayloadRegistro()).subscribe((data)=>{
+          if (data.code == 0) {
+            this.status = 'success';
+            this.listParamTipo = data.data;
+            this.notificacionService.success('Se registró la asignación satisfactoriamente');
+            this._dialogRef.close(1);
+          }
+          else {
+            this.status = 'failed';
+            this.notificacionService.warning(data.message);
+          }
+        })
+      }
     }
     else {
       this.formSchedule.markAllAsTouched();
