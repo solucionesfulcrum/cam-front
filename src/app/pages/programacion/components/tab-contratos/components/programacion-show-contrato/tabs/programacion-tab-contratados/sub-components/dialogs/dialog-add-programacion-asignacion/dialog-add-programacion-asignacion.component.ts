@@ -236,24 +236,46 @@ export class DialogAddProgramacionAsignacionComponent {
     return numeroSesiones;
   }
 
+  validateAsignacionFecha(): boolean{
+    let listServiciosPrevios = this.data.infoServiciosContratados.filter((x: any)=>{ return x.fecha == formatDate(this.formSchedule.controls.frmFecha.value, 'yyyy-MM-dd', this.locale)});
+    let error: boolean = false;
+    let HorarioInicio = new Date(this.formSchedule.controls.frmInicioHorario.value);
+    let HorarioFin = new Date(this.formSchedule.controls.frmFinHorario.value);
+    listServiciosPrevios.forEach((x: any)=>{
+      let primeraFecha = new Date(`${x.fecha} ${x.horaInicio}`);
+      let limiteFecha = new Date(`${x.fecha} ${x.horaFin}`);
+      if ((primeraFecha.getTime() <= HorarioInicio.getTime() && HorarioInicio.getTime() < limiteFecha.getTime()) || (primeraFecha.getTime() < HorarioFin.getTime() && limiteFecha.getTime() >= HorarioFin.getTime())) {
+        this.notificacionService.warning('El horario seleccionado se superpone a uno existente de '+ formatDate(primeraFecha, 'hh:mm aa', this.locale) + ' - ' + formatDate(limiteFecha, 'hh:mm aa', this.locale))
+        error = true;
+      }
+    })
+    if (error) {
+      return false;
+    }
+    else{
+      return true;
+    }
+  }
+
   onSave(){
     if (this.ctrlPersonalizado.value && (typeof this.ctrlCiram.value !== 'object')) {
       this.ctrlCiram.markAllAsTouched()
     }
     else if (this.formSchedule.valid && this.dataTipo && this.ctrlDireccion.valid) {
-      this.status = 'loading';
-      this.programacionService.registerAsignacionesDia(this.getPayloadRegistro()).subscribe((data)=>{
-        if (data.code == 0) {
-          this.status = 'success';
-          this.listParamTipo = data.data;
-          this.notificacionService.success('Se registró la asignación satisfactoriamente');
-          this._dialogRef.close(1);
-        }
-        else {
-          this.status = 'failed';
-          this.notificacionService.warning(data.message);
-        }
-      })
+      this.validateAsignacionFecha();
+      // this.status = 'loading';
+      // this.programacionService.registerAsignacionesDia(this.getPayloadRegistro()).subscribe((data)=>{
+      //   if (data.code == 0) {
+      //     this.status = 'success';
+      //     this.listParamTipo = data.data;
+      //     this.notificacionService.success('Se registró la asignación satisfactoriamente');
+      //     this._dialogRef.close(1);
+      //   }
+      //   else {
+      //     this.status = 'failed';
+      //     this.notificacionService.warning(data.message);
+      //   }
+      // })
     }
     else {
       this.formSchedule.markAllAsTouched();
