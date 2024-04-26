@@ -25,6 +25,18 @@ export class EditActiveUserComponent {
   opcionesNivelEducativo: Parametro[] = [];
   opcionesProfesion: ParametroProfesion[] = [];
 
+  isImageFotoUpdate = false;
+  applicationFile: any;
+  nombreFoto = null;
+  retrievedFoto: any;
+  isFotoUpdate = false;
+
+  isImageFotoUpdateFirma = false;
+  applicationFileFirma: any;
+  nombreFotoFirma = null;
+  retrievedFotoFirma: any;
+  isFotoUpdateFirma = false;
+
   nombreCompleto = '';
   ubicacionSeleccionadaTmp!: ubicacionGeo;
   nacionalidadSeleccionadaTmp: any;
@@ -34,6 +46,8 @@ export class EditActiveUserComponent {
   numDocumento = '';
   imagenFirma: any = null;
   imagenFoto: any = null;
+
+  valid = false;
 
   public formDatosPersonales = this.fb.nonNullable.group({
     frmNombres: ['', [Validators.required]],
@@ -85,15 +99,40 @@ export class EditActiveUserComponent {
   }
 
   grabarDatosPersonales() {
-    this.datosService.registerDatosPersonales(this.getPayloadRegistro()).subscribe((data) => {
-      if (data.code == 0) {
-        this.notificationService.success('¡Se guardaron los datos personales!');
-        //this.router.navigate(['app/adm-uo'])
-      }
-      else {
-        this.notificationService.warning(data.message);
-      }
-    })
+    this.valid = false
+    if (this.formDatosPersonales.valid || this.distrControl.valid) {
+      this.datosService.registerDatosPersonales(this.getPayloadRegistro()).subscribe((data) => {
+        if (data.code == 0) {
+          if (this.applicationFile) {
+            const formData = new FormData();
+            formData.append('img-foto', this.applicationFile);
+            const idUsuario = (JSON.parse(localStorage.getItem('camUser')!)).idUsuario
+            this.datosService.saveFileImagenFoto(formData, idUsuario).subscribe((datos) => {
+              console.log(datos)
+              this.notificationService.success('¡Se guardaron los datos personales!');
+            })
+          }
+          if (this.applicationFileFirma) {
+            const formDataFirma = new FormData();
+            formDataFirma.append('img-firma', this.applicationFileFirma);
+            const idUsuario = (JSON.parse(localStorage.getItem('camUser')!)).idUsuario
+            this.datosService.saveFileImagenFirma(formDataFirma, idUsuario).subscribe((datos) => {
+              console.log(datos)
+              this.notificationService.success('¡Se guardaron los datos personales!');
+            })
+          }
+          this.notificationService.success('¡Se guardaron los datos personales!');
+          //this.router.navigate(['app/adm-uo'])
+        }
+        else {
+          this.notificationService.warning(data.message);
+        }
+      })
+    } else {
+      this.formDatosPersonales.markAllAsTouched();
+      this.distrControl.markAllAsTouched();
+      this.valid = true
+    }
   }
 
   grabarDatosSeguridad() {
@@ -184,10 +223,8 @@ export class EditActiveUserComponent {
       this.distrControl.setValue({ nombreUbicacion: data.data.datosPersonales.descUbigeo, codUbigeo: data.data.datosPersonales.codUbiDep + data.data.datosPersonales.codUbiProv + data.data.datosPersonales.codUbiDist, codUbiDep: data.data.datosPersonales.codUbiDep, codUbiProv: data.data.datosPersonales.codUbiProv, codUbiDistr: data.data.datosPersonales.codUbiDist })
     })
 
-    console.log("frmCtrlNacionalidad", this.frmCtrlNacionalidad)
 
     this.getUbicaciones();
-    console.log("filteredOptions", this.filteredOptions)
     this.distrControl.valueChanges.pipe(startWith(''), map(value => typeof value === 'string' ? value : value.codUbigeo)).subscribe((dataValue) => {
       if (dataValue) {
         this.datosService.searchByUbigeo(dataValue).subscribe((data) => {
@@ -209,11 +246,71 @@ export class EditActiveUserComponent {
         this.datosService.getObtenerNacionalidad(data).subscribe((data) => {
           this.opcionesNacionalidad = data.data;
         });
-        console.log('dataaaaaaa', data)
       }
 
     })
   }
+  //Imagenes-----------
+  onChangeFileFotoFirma(files: any) {
+    console.log("hola mundo", files)
+    if (files.length === 0) {
+      return;
+    }
+    const mimeType = files[0].type;
+    if (mimeType.match(/image\/(jpeg|png)$/) == null) {
+      this.notificationService.warning(
+        'Por favor seleccione una Imagen Valida formato PNG o JPEG'
+      );
+      return;
+    }
+    const reader = new FileReader();
+    reader.readAsDataURL(files[0]);
+    reader.onload = _event => {
+      const fileApp = files[0];
+      this.applicationFileFirma = files[0];
+      if (fileApp.size >= 1048576) {
+        this.notificationService.warning('Tamaño de archivo excedido, máximo 1MB');
+        return;
+      }
+      else {
+      }
+      this.nombreFotoFirma = files[0].name;
+      this.retrievedFotoFirma = reader.result;
+      console.log(this.applicationFile)
+      this.isFotoUpdateFirma = true;
+    };
+  }
+
+  onChangeFileFoto(files: any) {
+    console.log("hola mundo", files)
+    if (files.length === 0) {
+      return;
+    }
+    const mimeType = files[0].type;
+    if (mimeType.match(/image\/(jpeg|png)$/) == null) {
+      this.notificationService.warning(
+        'Por favor seleccione una Imagen Valida formato PNG o JPEG'
+      );
+      return;
+    }
+    const reader = new FileReader();
+    reader.readAsDataURL(files[0]);
+    reader.onload = _event => {
+      const fileApp = files[0];
+      this.applicationFile = files[0];
+      if (fileApp.size >= 1048576) {
+        this.notificationService.warning('Tamaño de archivo excedido, máximo 1MB');
+        return;
+      }
+      else {
+      }
+      this.nombreFoto = files[0].name;
+      this.retrievedFoto = reader.result;
+      console.log(this.applicationFile)
+      this.isFotoUpdate = true;
+    };
+  }
+
   actualizarDate(input: any, opt: number) {
     if (input) {
       switch (opt) {
@@ -228,7 +325,6 @@ export class EditActiveUserComponent {
   }
   getPayloadRegistro(): RequestDatosPersonalesRegistro {
     let fechaNacimiento = this.formDatosPersonales.value.frmFechNacimiento
-
     return {
       idUsuario: (JSON.parse(localStorage.getItem('camUser')!)).idUsuario,
       nombres: this.formDatosPersonales.value.frmNombres!,

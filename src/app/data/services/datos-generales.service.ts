@@ -162,4 +162,13 @@ export class DatosGeneralesService {
     const url = `${URL_BASE}/profesion/listar/activos`;
     return this._httpClient.get<any>(url);
   }
+
+  saveFileImagenFoto(fd: FormData, idUser: number){
+    const url = `${URL_BASE}/usuario/perfil/upload/img-foto/${idUser}`;
+    return this._httpClient.post<any>(url, fd);
+  }
+  saveFileImagenFirma(fd: FormData, idUser: number){
+    const url = `${URL_BASE}/usuario/perfil/upload/img-firma/${idUser}`;
+    return this._httpClient.post<any>(url, fd);
+  }
 }
