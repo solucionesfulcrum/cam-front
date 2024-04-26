@@ -2,7 +2,14 @@
     <h2 class="text-xl font-semibold">Perfil y visibilidad</h2>
     <div class="bg-[#057EC9] p-4 flex items-center justify-between" style="height: 180px;">
         <div class="flex items-center">
+            <!-- Aquí puede ir contenido adicional si es necesario -->
         </div>
+    </div>
+    <div class="flex justify-end -mt-20 mr-10">
+        <!--<input *ngIf="!imagenFoto" type="file" class="mt-2 p-3 block w-full border rounded">-->
+        <div *ngIf="!imagenFoto" class="my-1 imagen w-32 h-32 rounded-full border-b-2 bg-gray-400"></div>
+        <img *ngIf="imagenFoto" [src]="'data:image/JPEG;base64,' + imagenFoto"
+            class="my-1 imagen w-32 h-32 rounded-full">
     </div>
     <h1 class="font-bold mt-4">{{nombreCompleto}}</h1>
     <div class="flex items-center justify-start space-x-4">
@@ -71,7 +78,7 @@
                     class="inputTextoDialog focusCampo !h-10 pr-7" placeholder="Fecha de Nacimiento">
                 <div class="absolute inset-y-0 right-0 flex items-center pr-3 z-10 !h-9 pointer-events-none">
                     <span class="text-gray-500 sm:text-sm">
-                        <img src="assets/svg/icon-calendar-simple.svg">
+                        <!--<img src="assets/svg/icon-calendar-simple.svg">-->
                     </span>
                 </div>
             </div>
@@ -79,7 +86,7 @@
                 <div class="relative rounded-md shadow-sm">
                     <select id="searchEstadoCivil" formControlName="frmEstadoCivil"
                         class="space-x-5 border border-gray-300 text-gray-900 text-sm rounded-lg focusCampo block w-full h-[42px]">
-                        <option value="" disabled selected>Estado Civil *</option>
+                        <option value="" disabled selected>Estado Civil</option>
                         <option *ngFor="let estadoCivil of opcionesEstadoCivil" [value]='estadoCivil.idParametros'>{{
                             estadoCivil.nombre}}
                         </option>
@@ -90,7 +97,7 @@
                 <div class="relative rounded-md shadow-sm">
                     <select id="searchGenero" formControlName="frmGenero"
                         class="space-x-5 border border-gray-300 text-gray-900 text-sm rounded-lg focusCampo block w-full h-[42px]">
-                        <option value="" disabled selected>Genero *</option>
+                        <option value="" disabled selected>Genero</option>
                         <option *ngFor="let genero of opcionesGenero" [value]='genero.idParametros'>{{ genero.nombre }}
                         </option>
                     </select>
@@ -100,15 +107,22 @@
         <div class="info-container flex items-center mt-5">
             <div class="w-1/3 my-1 mr-4">
                 <div class="relative rounded-md shadow-sm">
-                    <select id="searchNacionalidad" formControlName="frmNacionalidad"
-                        class="space-x-5 border border-gray-300 text-gray-900 text-sm rounded-lg focusCampo block w-full h-[42px]">
-                        <option value="" disabled selected>Nacionalidad *</option>
-                        <option *ngFor="let nacionalidad of opcionesNacionalidad" [value]='nacionalidad.descripcion'>{{
-                            nacionalidad.descripcion |
-                            titlecase}}
-                        </option>
-                    </select>
+                    <input type="text" name="search" [formControl]="frmCtrlNacionalidad"
+                        [matAutocomplete]="uniNacionalidad" class="space-x-5 border border-gray-300 text-gray-900 text-sm rounded-lg focusCampo block w-full h-[42px]"
+                        placeholder="Nacionalidad">
+                    <mat-autocomplete #uniNacionalidad="matAutocomplete" [displayWith]="displayFnNacionalidad"
+                        (optionSelected)="onSelectionChangeNacional($event)">
+                        <mat-option *ngFor="let option of opcionesNacionalidad" [value]="option">
+                            {{option.descripcion}}
+                        </mat-option>
+                    </mat-autocomplete>
                 </div>
+                <!--<div *ngIf="frmCtrlUnidadOperativa.touched && frmCtrlUnidadOperativa.invalid">
+                  <p *ngIf="frmCtrlUnidadOperativa.hasError('required')"
+                    class="font-medium text-red-500 text-xs mt-1 ml-1">
+                    Seleccione una unidad operativa
+                  </p>
+                </div>-->
             </div>
             <div class="w-1/3 my-1 mr-4">
                 <input type="text"
@@ -122,10 +136,34 @@
                     formControlName="frmNumDoc">
             </div>
         </div>
+        <div class="info-container flex items-center mt-5">
+            <div class="w-1/3 my-1 mr-4">
+                <div class="relative rounded-md shadow-sm">
+                    <select id="searchProfesion" formControlName="frmProfesion"
+                        class="space-x-5 border border-gray-300 text-gray-900 text-sm rounded-lg focusCampo block w-full h-[42px]">
+                        <option value="" disabled selected>Profesión</option>
+                        <option *ngFor="let profesion of opcionesProfesion" [value]='profesion.idProfesion'>{{
+                            profesion.nombre}}
+                        </option>
+                    </select>
+                </div>
+            </div>
+            <div class="w-1/3 my-1 mr-4">
+                <input type="text"
+                    class="space-x-5 border border-gray-300 text-gray-900 text-sm rounded-lg focusCampo block w-full h-[42px]"
+                    formControlName="frmColegiatura" placeholder="Número de Colegiatura">
+            </div>
+
+            <div class="w-1/3 my-1">
+                <input type="text"
+                    class="space-x-5 border border-gray-300 text-gray-900 text-sm rounded-lg focusCampo block w-full h-[42px]"
+                    formControlName="frmEspecialidad" placeholder="Número de especialidad">
+            </div>
+        </div>
         <div class="md:col-span-2 mt-4">
             <label class="block text-gray-700">Firma</label>
             <input *ngIf="!imagenFirma" type="file" class="mt-2 p-3 block w-full border rounded">
-            <img *ngIf="imagenFirma" src="data:image/JPEG;base64,{{imagenFirma}}" class="my-1 imagen">
+            <img *ngIf="imagenFirma" src="data:image/JPEG;base64,{{imagenFirma}}" class="my-1 imagen w-64 h-32">
         </div>
         <div class="flex justify-end mt-6">
             <app-btn class="botonApariencia flex" type="submit" color="mezclado" (click)="grabarDatosPersonales()">

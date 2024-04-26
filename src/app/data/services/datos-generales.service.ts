@@ -157,4 +157,9 @@ export class DatosGeneralesService {
     });
     return this._httpClient.post<any>(url, model, { headers });
   }
+
+  getProfesion() {
+    const url = `${URL_BASE}/profesion/listar/activos`;
+    return this._httpClient.get<any>(url);
+  }
 }
