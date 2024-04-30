@@ -1,9 +1,9 @@
-export interface TipoParametro{
+export interface TipoParametro {
     code: number;
     message: string;
     data: Parametro[]
 }
-export interface Parametro{
+export interface Parametro {
     idParametros: number,
     tipo: string,
     idPradre: number,
@@ -14,4 +14,14 @@ export interface Parametro{
     fechaRegistro: string,
     fechaModificacion: string,
     activo: boolean
+}
+
+export interface ParametroProfesion {
+    activo: number,
+    fechMod: string,
+    fechReg: string,
+    idProfesion: number,
+    nombre: string,
+    usuarioModId: number,
+    usuarioRegId: number,
 }

@@ -47,7 +47,9 @@ export interface RequestDatosPersonalesRegistro {
     idNacionalidad: number,
     idProfesion: number,
     rne: string,
-    cmp: string
+    cmp: string,
+    descUbigeo: string,
+    descNacionalidad: string
 }
 
 export interface RequestDatosFormacionRegistro {
