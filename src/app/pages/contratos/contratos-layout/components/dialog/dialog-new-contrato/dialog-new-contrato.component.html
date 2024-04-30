@@ -92,6 +92,15 @@
           </div>
         </div>
         <div class="flex flex-col">
+          <input type="number" name="entregables" min="1" class="inputTextoDialog focusCampo !h-10 pr-7" formControlName="frmEntregables"
+            placeholder="N° Entregables">
+          <div *ngIf="formDataOrden.controls.frmEntregables.touched">
+            <p *ngIf="formDataOrden.controls.frmEntregables.value == null" class="font-medium text-red-500 text-xs mt-1 ml-1">
+              N° de Entregables requerido
+            </p>
+          </div>
+        </div>
+        <div class="flex flex-col">
           <input type="number" name="quantity" class="inputTextoDialog focusCampo !h-10 pr-7" formControlName="frmMonto"
             placeholder="Monto Total">
           <div *ngIf="formDataOrden.controls.frmMonto.touched">

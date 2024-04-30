@@ -34,6 +34,7 @@ export interface ContratoCabecera{
     numOc: string,
     fechaInicio: string,
     fechaFin: string,
+    nroEntregables: number,
     monto: number,
     usuarioRegId: number
 }

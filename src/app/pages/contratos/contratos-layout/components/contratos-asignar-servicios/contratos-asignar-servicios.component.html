@@ -11,20 +11,21 @@
     <div class="flex flex-col gap-2.5">
         <div class="bg-white botonApariencia p-3 flex flex-row text-[#37474F]">
             <div class="flex flex-col gap-2.5 h-full border-r border-[#D4D4D4] w-full">
-                <span class="text-[22px] text-[var(--color-CAM)] font-semibold leading-[20px]">Tallerista</span>
+                <span class="text-[22px] text-[var(--color-CAM)] font-medium leading-[20px]">Detalle del Contrato:</span>
                 <div class="flex flex-row gap-2.5">
                     <img src="assets/svg/icon-contrato-person.svg">
-                    <div class="flex flex-col gap-2">
-                        <span class="text-[18px] font-semibold">{{dataContrato.datosTallerista.usuarioTallerista | uppercase}}</span>
-                        <span><b>DNI:</b> {{dataContrato.datosTallerista.nroDoc}}</span>
+                    <div class="flex flex-col gap-2 font-light">
+                        <span class="text-[18px] font-normal">{{dataContrato.datosTallerista.usuarioTallerista | uppercase}}</span>
+                        <span><span class="font-medium">DNI:</span> {{dataContrato.datosTallerista.nroDoc}}</span>
                     </div>
                 </div>
             </div>
-            <div class="pl-3 flex flex-col gap-2.5 border-r border-[#D4D4D4] w-full relative">
-                <span class="text-[22px] text-[var(--color-CAM)] font-semibold leading-[20px]">Contrato</span>
-                <div class="flex flex-col gap-2 leading-5 text-[18px]">
-                    <span><b>Orden de  Compra :</b> {{dataContrato.datosContrato.nroContrato}}</span>
-                    <span><b>Desde :</b> {{dataContrato.datosContrato.fechaInicio | date:'dd/MM/yyyy'}} al {{dataContrato.datosContrato.fechaFin | date:'dd/MM/yyyy'}}</span>
+            <div class="pl-3 flex flex-col gap-2.5 border-r border-[#D4D4D4] w-full relative justify-center">
+                <!-- <span class="text-[22px] text-[var(--color-CAM)] font-medium leading-[20px]">Contrato</span> -->
+                <div class="flex flex-col gap-2 leading-5 text-[18px] font-light">
+                    <span><span class="font-normal">Orden de  Compra :</span> {{dataContrato.datosContrato.nroContrato}}</span>
+                    <span><span class="font-normal">Cantidad de Entregables :</span> {{dataContrato.datosContrato.nroEntregables}}</span>
+                    <span><span class="font-normal">Desde :</span> {{dataContrato.datosContrato.fechaInicio | date:'dd/MM/yyyy'}} al {{dataContrato.datosContrato.fechaFin | date:'dd/MM/yyyy'}}</span>
                 </div>
                 <img class="absolute bottom-0 right-2 rounded hover:bg-gray-100 p-1 cursor-pointer" (click)="editCabeceraCOntrato()" src="assets/svg/Edit.svg">
             </div>

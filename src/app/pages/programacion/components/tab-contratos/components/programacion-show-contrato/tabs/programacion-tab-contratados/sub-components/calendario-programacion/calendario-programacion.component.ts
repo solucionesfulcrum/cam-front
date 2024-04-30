@@ -21,7 +21,7 @@ registerLocaleData(localeEs, 'es');
 })
 export class CalendarioProgramacionComponent {
   opcionesBotones: FormatoBoton[] = [
-    {texto: 'Guardar', colorBtn:'bordeado'},
+    {texto: 'Limpiar', colorBtn:'bordeado', esImagen: true, rutaIcono:'assets/svg/icon-clean-data.svg'},
     {texto: 'Guardar y publicar', colorBtn:'mezclado', esImagen: true, rutaIcono: 'assets/svg/icon-white-save.svg'},
   ];
   idProgramacion!: string;

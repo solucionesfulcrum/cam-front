@@ -25,7 +25,7 @@ export class ProgramacionTabContratadosComponent {
     this.programacionService.getDatosServicioContrato(this.idProgramacion).subscribe((datos)=>{
       if (datos.code == 0) {
         if (datos.data.serviciosCam) {this.serviciosContratados = datos.data.serviciosCam.servicios}
-        if (datos.data.cirams) {this.serviciosCiramContratados = datos.data.cirams}
+        if (datos.data.serviciosCirams) {this.serviciosCiramContratados = datos.data.serviciosCirams; console.log(this.serviciosCiramContratados)}
       }
       else {
         this.notificationService.warning(datos.message);

@@ -34,6 +34,9 @@
                             <p *ngIf="!isNotObject(ctrlServicio.value) ? comprobarCantidadSesiones(asAny(ctrlServicio.value).idServicio) == 3 : false" class="font-medium text-red-500 text-xs mt-1 ml-1">
                                 El servicio alcanzó su limite de sesiones en la semana (3 sesiones)
                             </p>
+                            <p *ngIf="!isNotObject(ctrlServicio.value) ? comprobarLimiteSesiones(asAny(ctrlServicio.value).idServicio) >= 12 : false" class="font-medium text-red-500 text-xs mt-1 ml-1">
+                                El servicio alcanzó su limite de sesiones a contratar (máx. 12 sesiones)
+                            </p>
                         </div>
                     </div>
                 </div>

@@ -20,3 +20,22 @@
     align-self: center;
   }
 }
+.contenedorDatos{
+  max-height: 18vh;
+  overflow-y: overlay;
+}
+
+::-webkit-scrollbar {
+  width: 6px;
+}
+
+::-webkit-scrollbar-track {
+  background: #D4D4D4;
+}
+::-webkit-scrollbar-thumb {
+  background: var(--color-black-alt);
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #28364d;
+}

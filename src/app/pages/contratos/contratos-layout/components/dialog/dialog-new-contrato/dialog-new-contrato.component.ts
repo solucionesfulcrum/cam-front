@@ -42,6 +42,7 @@ export class DialogNewContratoComponent {
   });
   public formDataOrden = this.fb.nonNullable.group({
     frmOrden: [null, [Validators.required]],
+    frmEntregables: [null, [Validators.required]],
     frmMonto: [null, [Validators.required]],
   });
 
@@ -272,6 +273,7 @@ export class DialogNewContratoComponent {
         numOc: this.formDataOrden.controls.frmOrden.value!,
         fechaInicio: formatDate(fechaInicio!.split('/')[2] + '/' + fechaInicio!.split('/')[1] + '/' + fechaInicio!.split('/')[0], 'yyyy-MM-dd', this.locale),
         fechaFin: formatDate(fechaFin!.split('/')[2] + '/' + fechaFin!.split('/')[1] + '/' + fechaFin!.split('/')[0], 'yyyy-MM-dd', this.locale),
+        nroEntregables: this.formDataOrden.controls.frmEntregables.value!,
         monto: this.formDataOrden.controls.frmMonto.value!,
         usuarioRegId: (JSON.parse(localStorage.getItem('camUser')!)).idUsuario
       },
