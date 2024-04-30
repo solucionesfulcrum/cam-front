@@ -11,20 +11,22 @@
     <div class="bg-white botonApariencia pl-[15px] pr-2.5 pt-2.5 pb-5 flex flex-col gap-2.5">
         <div class="flex flex-row gap-2.5">
             <div class="bg-[#FAFAFA] flex flex-col items-end gap-2.5 py-[5px] px-2.5 w-[330px]">
-                <span class="font-bold">Orden de Compra</span>
+                <span class="font-semibold">Orden de Compra</span>
                 <span>Periodo</span>
+                <span>Entregables</span>
                 <span>Estado</span>
-                <span class="font-bold">Proveedor</span>
-                <span class="font-bold">{{dataContrato.datosContrato.tipoDoc}}</span>
+                <span class="font-semibold">Proveedor</span>
+                <span class="font-semibold">{{dataContrato.datosContrato.tipoDoc}}</span>
                 <span>Registrado desde</span>
                 <span>Fecha de Nacimiento</span>
                 <span>Género</span>
             </div>
             <div class="flex flex-col gap-2.5 py-[5px] px-[5px]">
-                <span class="text-[var(--color-CAM)] font-bold">{{dataContrato.datosContrato.numOC}}</span>
+                <span class="text-[var(--color-CAM)] font-semibold">{{dataContrato.datosContrato.numOC}}</span>
                 <span>Del {{dataContrato.datosContrato.fechInicio | date:'dd/MM/yyyy'}} al {{dataContrato.datosContrato.fechFin | date:'dd/MM/yyyy'}}</span>
+                <span>{{dataContrato.datosContrato.nroEntregables}}</span>
                 <span>{{dataContrato.datosContrato.estadoContrato | titlecase}}</span>
-                <span class="text-[var(--color-CAM)] font-bold">{{dataContrato.datosContrato.nombreProveedor | titlecase}}</span>
+                <span class="text-[var(--color-CAM)] font-semibold">{{dataContrato.datosContrato.nombreProveedor | titlecase}}</span>
                 <span>{{dataContrato.datosContrato.numDoc}}</span>
                 <span>{{dataContrato.datosContrato.fechaRegistro | date:'dd/MM/yyyy'}}</span>
                 <span>{{dataContrato.datosContrato.fechaNacimiento ? (dataContrato.datosContrato.fechaNacimiento | date:'dd/MM/yyyy') : '-'}}</span>

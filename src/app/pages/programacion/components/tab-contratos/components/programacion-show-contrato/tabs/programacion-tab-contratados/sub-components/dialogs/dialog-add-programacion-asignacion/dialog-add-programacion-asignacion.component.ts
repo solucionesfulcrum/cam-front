@@ -86,6 +86,7 @@ export class DialogAddProgramacionAsignacionComponent {
       if (typeof data === 'object') {
         this.ctrlTipo.setValue(this.listParamTipo.find((datos)=> datos.nombre === data.tipoServicio).idParametros);
         this.dataTipo = this.listParamTipo.find((datos)=> datos.nombre === data.tipoServicio);
+        this.comprobarLimiteSesiones(data.idServicio)
       }
       else{
         this.ctrlTipo.setValue('');
@@ -201,7 +202,7 @@ export class DialogAddProgramacionAsignacionComponent {
       let count = 1;
       let horaAumentada;
       do {
-        if (this.comprobarCantidadSesiones((this.ctrlServicio.value as any).idServicio) + count > 3) {
+        if ((this.comprobarCantidadSesiones((this.ctrlServicio.value as any).idServicio) + count > 3) || this.comprobarLimiteSesiones((this.ctrlServicio.value as any).idServicio) >= 12) {
           break;
         }
         horaAumentada = new Date (horaInicio.getTime() + (1000*60*this.dataTipo.valor1)*(count))
@@ -234,6 +235,12 @@ export class DialogAddProgramacionAsignacionComponent {
       numeroSesiones = numeroSesiones + x.nroSesiones;
     })
     return numeroSesiones;
+  }
+
+  comprobarLimiteSesiones(idServicio: any): number{
+    let sesionesTotales: number = 0;
+    this.data.infoServiciosContratados.forEach((x: any)=> {if (x.idServicio == idServicio) { sesionesTotales += x.nroSesiones }})
+    return sesionesTotales;
   }
 
   validateAsignacionFecha(): boolean{
