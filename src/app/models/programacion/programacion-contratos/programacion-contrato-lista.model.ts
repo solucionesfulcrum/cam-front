@@ -24,3 +24,17 @@ export interface DetallesServicio {
   idUoCiram: number,
   ubicacion: string
 }
+
+export interface ServiciosOrdenados {
+  idUnid: number,
+  nomUnid: string,
+  servicios: Servicio[]
+}
+
+export interface Servicio{
+  idServicio: number,
+  nombreServicio: string,
+  tipoServicio: string,
+  idUnid: number,
+  nomUnid: string
+}
