@@ -1,23 +1,25 @@
-import { Component,Inject, LOCALE_ID } from '@angular/core';
+import { Component, Inject, LOCALE_ID } from '@angular/core';
 import { FormatoBoton } from '@shared/components/opciones-botones/formato-boton.model';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { FormBuilder, FormControl, Validators } from '@angular/forms';
 import { RequestCiramRegistro } from '@models/dashboard/dashboard.model';
 import { DatosGeneralesService } from 'src/app/data/services/datos-generales.service';
 import { NotificationService } from '@services/notification.service';
 import { formatDate } from '@angular/common';
+import { AuthService } from '@services/auth.service';
 
 @Component({
-  selector: 'esp-registro',
-  templateUrl: './registro.component.html',
-  styleUrls: ['./registro.component.scss']
+  selector: 'esp-edit-ciram',
+  templateUrl: './edit-ciram.component.html',
+  styleUrls: ['./edit-ciram.component.scss']
 })
-export class RegistroComponent {
+export class EditCiramComponent {
   nombreCam = "";
+  datosPerfilCiram: any;
+  idUnidadOperativa: any;
   opcionesBotones: FormatoBoton[] = [
     { texto: 'Cancelar' },
-    { texto: 'Guardar y registrar otro', colorBtn: 'mezclado', loading: false },
-    { texto: 'Guardar', colorBtn: 'mezclado' },
+    { texto: 'Editar', colorBtn: 'mezclado' },
   ];
   public formRegistroCiram = this.fb.nonNullable.group({
     frmCodigoCentro: ['', [Validators.required]],
@@ -36,16 +38,32 @@ export class RegistroComponent {
     private datosGeneralesService: DatosGeneralesService,
     private notificationService: NotificationService,
     @Inject(LOCALE_ID) private locale: string,
+    private activeRoute: ActivatedRoute,
+    private authService: AuthService,
   ) {
-    
+    this.idUnidadOperativa = this.activeRoute.snapshot.paramMap.get('idUnidadOperativa');
   }
 
   ngOnInit() {
+    console.log("idunid", this.idUnidadOperativa)
     this.nombreCam = (JSON.parse(localStorage.getItem('UnidElegida')!)).unidOperativa
     this.formRegistroCiram.controls.frmNombreCam.setValue((JSON.parse(localStorage.getItem('UnidElegida')!)).unidOperativa)
     this.formRegistroCiram.controls.frmNombreCam.disable();
     this.formRegistroCiram.controls.frmActivo.disable();
-  }
+    this.authService.getPerfilCiram(this.idUnidadOperativa).subscribe((data) => {
+      console.log('hola', data.data)
+      this.datosPerfilCiram = data.data
+      this.formRegistroCiram.controls.frmCodigoCentro.setValue(data.data.idCentro)
+      this.formRegistroCiram.controls.frmFechCreacion.setValue(data.data.fechaIncripcion.split("T")[0])
+      this.formRegistroCiram.controls.frmNombreCentro.setValue(data.data.nombre)
+      this.formRegistroCiram.controls.frmDireccion.setValue(data.data.direccion)
+      this.formRegistroCiram.controls.frmDistrito.setValue(data.data.distrito)
+      this.formRegistroCiram.controls.frmNumContacto.setValue(data.data.celular)
+      this.formRegistroCiram.controls.frmCorreo.setValue(data.data.correo)
+      this.formRegistroCiram.controls.frmNombreLider.setValue(data.data.lider)
+      this.formRegistroCiram.controls.frmActivo.setValue(data.data.estado)
+    })
+    }
 
   getPayloadRegistro(): RequestCiramRegistro {
     let fechaCreacion = this.formRegistroCiram.value.frmFechCreacion
@@ -62,7 +80,7 @@ export class RegistroComponent {
       lider: this.formRegistroCiram.value.frmNombreLider!,
       celular: this.formRegistroCiram.value.frmNumContacto!,
       tipo: "CIRAM",
-      fecCreacion:  formatDate(fechaCreacion!.split('/')[2] + '/' + fechaCreacion!.split('/')[1] + '/' + fechaCreacion!.split('/')[0], 'yyyy-MM-dd', this.locale),
+      fecCreacion: formatDate(fechaCreacion!.split('/')[2] + '/' + fechaCreacion!.split('/')[1] + '/' + fechaCreacion!.split('/')[0], 'yyyy-MM-dd', this.locale),
     }
   }
 

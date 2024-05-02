@@ -358,15 +358,14 @@ export class DialogAddProgramacionAsignacionComponent {
       dataSemanaPasada.push(diaInicio);
       diaInicio = new Date(diaInicio.getTime() + 1000*60*60*24);
     }
-    // dataSemanaPasada.forEach((x)=> { console.log(this.data.infoServiciosContratados.filter((y: any) => y.fecha == formatDate(x, 'yyyy-MM-dd', this.locale) && y.idServicio == idServicio)) })
+    dataSemanaPasada.forEach((x)=> { console.log(this.data.infoServiciosContratados.filter((y: any) => y.fecha == formatDate(x, 'yyyy-MM-dd', this.locale) && y.idServicio == idServicio)) })
     // console.log(dataSemanaPasada)
     // console.log(idServicio)
     return false;
   }
 
-  comprobarAsignacionesUnidadOper(idServicio: any): any{
+  comprobarAsignacionesUnidadOper(idServicio: any){
     let objRespuesta: any = Object();
-    let listIdCiram: number[] = []; this.data.serviciosCiram.forEach((x: any)=>{listIdCiram.push(x.idUnidOpeCiram)});
     let sesionesServ: number = 0;
     let listSersionesAsig = this.data.infoServiciosContratados.filter((x: any)=> {
       return x.idServicio == idServicio/* && ((this.ctrlPersonalizado.value && typeof this.ctrlCiram.value == 'object') ? (this.ctrlCiram.value as any).idUnidadOperativa == x.idUoCiram : true)*/;
@@ -401,10 +400,10 @@ export class DialogAddProgramacionAsignacionComponent {
         console.log(contadorUnid)
       }
     }
-    // console.log(listSersionesAsig)
-    // console.log(0/4, 1/4, 2/4, 3/4, 4/4)
-    // console.log(0%4, 1%4, 2%4, 3%4, 4%4)
-    return objRespuesta;
+    console.log(listSersionesAsig)
+    console.log(0/4, 1/4, 2/4, 3/4, 4/4)
+    console.log(0%4, 1%4, 2%4, 3%4, 4%4)
+    return false;
   }
 
   comprobarLimiteSesiones(idServicio: any): number{

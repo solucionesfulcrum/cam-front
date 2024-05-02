@@ -27,4 +27,8 @@ export class AppRoute {
   static readonly ATENCIONES_NO_ATENDIDOS = 'not-attended';
   static readonly ATENCIONES_HISTORIAL = 'historial';
 
+  //------------------------------------------------------
+  static readonly ADM_UO = 'adm_uo';
+  static readonly EDIT_UO = `edit`;
+  static readonly EDIT_CIRAM = `edit-ciram`
 }

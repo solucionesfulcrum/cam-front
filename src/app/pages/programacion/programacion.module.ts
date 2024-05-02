@@ -14,9 +14,9 @@ import { ProgramacionShowContratoComponent } from './components/tab-contratos/co
 import { ProgramacionTabContratadosComponent } from './components/tab-contratos/components/programacion-show-contrato/tabs/programacion-tab-contratados/programacion-tab-contratados.component';
 import { ProgramacionTabProgramadosComponent } from './components/tab-contratos/components/programacion-show-contrato/tabs/programacion-tab-programados/programacion-tab-programados.component';
 import { CalendarioProgramacionComponent } from './components/tab-contratos/components/programacion-show-contrato/tabs/programacion-tab-contratados/sub-components/calendario-programacion/calendario-programacion.component';
-import { DialogAddProgramacionAsignacionComponent } from './components/tab-contratos/components/programacion-show-contrato/tabs/programacion-tab-contratados/sub-components/dialogs/dialog-add-programacion-asignacion/dialog-add-programacion-asignacion.component';
 import { CdkMenuModule } from '@angular/cdk/menu';
 import { ConfirmarProgramacionComponent } from './components/tab-contratos/components/programacion-show-contrato/tabs/programacion-tab-contratados/sub-components/dialogs/confirmar-programacion/confirmar-programacion.component';
+import { DialogAddProgramacionAsignacionComponent } from './components/tab-contratos/components/programacion-show-contrato/tabs/programacion-tab-contratados/sub-components/dialogs/dialog-add-programacion-asignacion/dialog-add-programacion-asignacion.component';
 
 
 @NgModule({

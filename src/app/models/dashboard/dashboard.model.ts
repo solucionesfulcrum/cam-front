@@ -30,6 +30,7 @@ export interface RequestCiramRegistro {
     lider: string,
     celular: string,
     tipo: string
+    fecCreacion: string
 }
 
 export interface RequestDatosPersonalesRegistro {

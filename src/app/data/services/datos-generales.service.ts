@@ -171,4 +171,9 @@ export class DatosGeneralesService {
     const url = `${URL_BASE}/usuario/perfil/upload/img-firma/${idUser}`;
     return this._httpClient.post<any>(url, fd);
   }
+
+  getlistaProgramacion(idUnidadOpe: number) {
+    const url = `${URL_BASE}/programacion/obtener/lista/programacion/${idUnidadOpe}`;
+    return this._httpClient.get<any>(url);
+  }
 }

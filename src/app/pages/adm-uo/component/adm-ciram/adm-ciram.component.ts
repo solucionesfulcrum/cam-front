@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { AuthService } from '@services/auth.service';
 import { Router, RouterModule } from '@angular/router';
+import { AppRoute } from 'src/app/data/constants/app-route.constant';
 
 @Component({
   selector: 'esp-adm-ciram',
@@ -18,6 +19,7 @@ export class AdmCiramComponent {
   listCiramActivos: any;
   listCiramInactivos: any;
 
+
   getDataFecha(value: any) {
     /*this.formBuscar.get('frmSearchDate')?.setValue(value);
     console.log("fecha?",value)
@@ -29,7 +31,9 @@ export class AdmCiramComponent {
       this.listCiramInactivos = data.data.ciramInactivos
     })
   }
-
+  editUoCiram(idUnidadOperativa:any){
+    this.router.navigate([`app/adm-uo/edit/${idUnidadOperativa}`])
+  }
   nuevoCiram(){
     this.router.navigate(['/app/adm-uo/registro']);
   }
