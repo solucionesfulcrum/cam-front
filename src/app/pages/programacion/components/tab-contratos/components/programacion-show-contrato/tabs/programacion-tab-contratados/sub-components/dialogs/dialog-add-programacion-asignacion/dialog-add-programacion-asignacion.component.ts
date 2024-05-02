@@ -366,6 +366,7 @@ export class DialogAddProgramacionAsignacionComponent {
 
   comprobarAsignacionesUnidadOper(idServicio: any): any{
     let objRespuesta: any = Object();
+    let listIdCiram: number[] = []; this.data.serviciosCiram.forEach((x: any)=>{listIdCiram.push(x.idUnidOpeCiram)});
     let sesionesServ: number = 0;
     let listSersionesAsig = this.data.infoServiciosContratados.filter((x: any)=> {
       return x.idServicio == idServicio/* && ((this.ctrlPersonalizado.value && typeof this.ctrlCiram.value == 'object') ? (this.ctrlCiram.value as any).idUnidadOperativa == x.idUoCiram : true)*/;
@@ -381,12 +382,24 @@ export class DialogAddProgramacionAsignacionComponent {
         objRespuesta.validacion = false;
       }
       else{
-
+        let contadorUnid: {idUnid?: number, contador?: number}[] = [];
+        contadorUnid.push({idUnid: undefined, contador: 0})
+        listSersionesAsig.forEach((element: any) => {
+          if (element.idUoCiram == null) contadorUnid[0].contador += element.nroSesiones;          
+        });
+        listIdCiram.forEach((x) => {
+          let cuentaUnid: number = 0;
+          listSersionesAsig.forEach((element: any) => {
+            if (element.idUoCiram == x) cuentaUnid += element.nroSesiones;          
+          });
+          contadorUnid.push({idUnid: x, contador: cuentaUnid});
+        })
+        console.log(contadorUnid)
       }
     }
-    console.log(listSersionesAsig)
-    console.log(0/4, 1/4, 2/4, 3/4, 4/4)
-    console.log(0%4, 1%4, 2%4, 3%4, 4%4)
+    // console.log(listSersionesAsig)
+    // console.log(0/4, 1/4, 2/4, 3/4, 4/4)
+    // console.log(0%4, 1%4, 2%4, 3%4, 4%4)
     return objRespuesta;
   }
 
