@@ -358,7 +358,7 @@ export class DialogAddProgramacionAsignacionComponent {
       dataSemanaPasada.push(diaInicio);
       diaInicio = new Date(diaInicio.getTime() + 1000*60*60*24);
     }
-    dataSemanaPasada.forEach((x)=> { console.log(this.data.infoServiciosContratados.filter((y: any) => y.fecha == formatDate(x, 'yyyy-MM-dd', this.locale) && y.idServicio == idServicio)) })
+    // dataSemanaPasada.forEach((x)=> { console.log(this.data.infoServiciosContratados.filter((y: any) => y.fecha == formatDate(x, 'yyyy-MM-dd', this.locale) && y.idServicio == idServicio)) })
     // console.log(dataSemanaPasada)
     // console.log(idServicio)
     return false;
@@ -379,6 +379,9 @@ export class DialogAddProgramacionAsignacionComponent {
     else {
       if (sesionesServ % 12 == 0) {
         objRespuesta.validacion = false;
+      }
+      else{
+
       }
     }
     console.log(listSersionesAsig)
