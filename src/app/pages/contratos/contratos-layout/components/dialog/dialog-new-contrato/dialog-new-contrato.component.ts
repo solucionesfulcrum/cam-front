@@ -118,7 +118,6 @@ export class DialogNewContratoComponent {
         }
       this.nombrePdf = files[0].name;
       this.retrievedPdf = reader.result;
-      console.log(this.applicationFile)
       this.isPdfUpdate = true;
       };
   }
@@ -168,6 +167,10 @@ export class DialogNewContratoComponent {
     else{
       this.formNewContrato.enable()
       this.formNewContrato.reset();
+      this.formDataOrden.reset();
+      this.bloquearPDFAusente = false;
+      this.formVigencia.reset();
+      this.removePdf();
       this.talleristaInfo = null;
     }
   }

@@ -54,14 +54,6 @@
                   <span class="col-span-2">{{servicio.fechFin | date:'dd/MM/yyyy'}}</span>
                   <span class="col-span-2">{{servicio.modalidad | titlecase}}</span>
                 </div>
-                <div class="dataPseudoTabla" *ngFor="let servicio of unid.servicios, index as ix">
-                  <span>{{ix+1}}</span>
-                  <span>{{servicio.tipoServicio | titlecase}}</span>
-                  <span class="col-span-4 text-[var(--color-CAM)]">{{servicio.nombreServicio | titlecase}}</span>
-                  <span class="col-span-2">{{servicio.fechInicio | date:'dd/MM/yyyy'}}</span>
-                  <span class="col-span-2">{{servicio.fechFin | date:'dd/MM/yyyy'}}</span>
-                  <span class="col-span-2">{{servicio.modalidad | titlecase}}</span>
-                </div>
               </div>
             </div>
         </div>
