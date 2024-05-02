@@ -187,6 +187,7 @@ export class ContratosAsignarServiciosComponent {
           if (data.code == 0) {
             this.dataContrato.datosContrato.fechaInicio = data.data.datosContrato.fechaInicio;
             this.dataContrato.datosContrato.fechaFin = data.data.datosContrato.fechaFin;
+            this.dataContrato.datosContrato.nroEntregables = data.data.datosContrato.nroEntregables;
           }
           else{
             this.notificationService.warning(data.message);
