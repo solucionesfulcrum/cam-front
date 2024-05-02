@@ -75,7 +75,7 @@ export class ContratosListadoComponent {
   nuevoContrato(){
     if (this.camElegido) {
       const dialogRef = this.dialog.open(DialogNewContratoComponent,{
-        minWidth:'800px',
+        minWidth:'900px',
         maxWidth:'50%',
         data:{
           idUnid: this.camElegido.idUnidadOperativa,
