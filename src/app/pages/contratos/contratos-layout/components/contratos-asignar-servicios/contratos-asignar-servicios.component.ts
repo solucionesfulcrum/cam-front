@@ -145,8 +145,8 @@ export class ContratosAsignarServiciosComponent {
             nomServicio: (val.servicio ? {idOpcion: this.opcionesServicios.find((x) => x.nombre === val.servicio)!.idOpcion, nombre: val.servicio} : ''),
             typeEvent: (val.paramServicioTipoId ? val.paramServicioTipoId : null),
             typeModalidad: (val.paramModalidadId ? val.paramModalidadId : null),
-            fecInicio: (val.fechaInicio ? formatDate(val.fechaInicio, 'd/M/yyyy', this.locale) : null),
-            fecFin: (val.fechaFin ? formatDate(val.fechaFin, 'd/M/yyyy', this.locale) : null)
+            fecInicio: (val.fechaInicio ? formatDate(val.fechaInicio, 'd/M/yyyy', this.locale) : formatDate(this.dataContrato.datosContrato.fechaInicio, 'd/M/yyyy', this.locale)),
+            fecFin: (val.fechaFin ? formatDate(val.fechaFin, 'd/M/yyyy', this.locale) : formatDate(this.dataContrato.datosContrato.fechaFin, 'd/M/yyyy', this.locale))
           }
         )
       })
@@ -187,6 +187,7 @@ export class ContratosAsignarServiciosComponent {
           if (data.code == 0) {
             this.dataContrato.datosContrato.fechaInicio = data.data.datosContrato.fechaInicio;
             this.dataContrato.datosContrato.fechaFin = data.data.datosContrato.fechaFin;
+            this.dataContrato.datosContrato.nroEntregables = data.data.datosContrato.nroEntregables;
           }
           else{
             this.notificationService.warning(data.message);
@@ -221,7 +222,7 @@ export class ContratosAsignarServiciosComponent {
   }
 
   addServiceToTablaUnid(index: number){
-    this.dataTables.get(index.toString())!.get('dataServiciosEnviado')!.setValue({idServicio: 1, nomServicio: ''})
+    this.dataTables.get(index.toString())!.get('dataServiciosEnviado')!.setValue({idServicio: 1, nomServicio: '', fecInicio: formatDate(this.dataContrato.datosContrato.fechaInicio, 'd/M/yyyy', this.locale),fecFin: formatDate(this.dataContrato.datosContrato.fechaFin, 'd/M/yyyy', this.locale)})
   }
 
   getTablaAndAttribute(index: number, attr: string){

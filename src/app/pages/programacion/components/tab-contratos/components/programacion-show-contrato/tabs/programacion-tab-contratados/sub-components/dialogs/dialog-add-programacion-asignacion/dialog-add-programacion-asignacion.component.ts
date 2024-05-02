@@ -260,7 +260,7 @@ export class DialogAddProgramacionAsignacionComponent {
       let count = 1;
       let horaAumentada;
       do {
-        if ((this.comprobarCantidadSesiones((this.ctrlServicio.value as any).idServicio) + count > 3) || this.comprobarSimilaridadSemana((this.ctrlServicio.value as any).idServicio).validacion || this.comprobarLimiteSesiones((this.ctrlServicio.value as any).idServicio) >= 12 || this.comprobarAsignacionesEntregables((this.ctrlServicio.value as any).idServicio) || this.comprobarAsignacionesUnidadOper((this.ctrlServicio.value as any).idServicio)) {
+        if ((this.comprobarCantidadSesiones((this.ctrlServicio.value as any).idServicio) + count > 3) || this.comprobarSimilaridadSemana((this.ctrlServicio.value as any).idServicio).validacion || this.comprobarLimiteSesiones((this.ctrlServicio.value as any).idServicio) >= (this.data.dataContrato.nroEntregables*12) || this.comprobarAsignacionesEntregables((this.ctrlServicio.value as any).idServicio) || this.comprobarAsignacionesUnidadOper((this.ctrlServicio.value as any).idServicio).validacion) { 
           break;
         }
         horaAumentada = new Date (horaInicio.getTime() + (1000*60*this.dataTipo.valor1)*(count))
@@ -378,7 +378,26 @@ export class DialogAddProgramacionAsignacionComponent {
     }
     else {
       if (sesionesServ % 12 == 0) {
-        
+        objRespuesta.validacion = false;
+      }
+      else{
+        let contadorUnid: {idUnid?: number, nombre: string, contador: number}[] = [];
+        contadorUnid.push({idUnid: undefined, nombre: this.data.serviciosContrato.cam, contador: 0})
+        listSersionesAsig.forEach((element: any) => {
+          if (element.idUoCiram == null) contadorUnid[0].contador += element.nroSesiones;          
+        });
+        listIdCiram.forEach((x) => {
+          let cuentaUnid: number = 0;
+          listSersionesAsig.forEach((element: any) => {
+            if (element.idUoCiram == x) cuentaUnid += element.nroSesiones;          
+          });
+          contadorUnid.push({idUnid: x, nombre: this.data.serviciosCiram.find((z: any)=> z.idUnidOpeCiram == x).ciram, contador: cuentaUnid});
+        })
+        let encontradoFaltante: any;
+        contadorUnid.forEach((r)=>{if (!encontradoFaltante) { if (r.contador % 12 == 0) {
+          
+        }}})
+        console.log(contadorUnid)
       }
     }
     console.log(listSersionesAsig)

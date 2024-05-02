@@ -13,6 +13,7 @@ export interface RequestEditCabecera{
     numOc: string,
     fechaInicio: string,
     fechaFin: string,
+    nroEntregables: number,
     monto: number,
     usuarioModId: number
 }

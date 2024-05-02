@@ -142,6 +142,7 @@ export class DialogNewContratoComponent {
             this.formVigencia.controls.frmInicioVigencia.setValue(formatDate(this.talleristaInfo.contratoVigente[0].fechaInicio, 'd/M/yyyy', this.locale))
             this.formVigencia.controls.frmFinVigencia.setValue(formatDate(this.talleristaInfo.contratoVigente[0].fechaFin, 'd/M/yyyy', this.locale))
             this.formDataOrden.controls.frmOrden.setValue(this.talleristaInfo.contratoVigente[0].numOC)
+            this.formDataOrden.controls.frmEntregables.setValue(this.talleristaInfo.contratoVigente[0].nroEntregables)
             this.formDataOrden.controls.frmMonto.setValue(this.talleristaInfo.contratoVigente[0].monto)
             if (this.data.type == 1) {
               this.formVigencia.disable()
@@ -263,6 +264,7 @@ export class DialogNewContratoComponent {
       numOc: this.formDataOrden.controls.frmOrden.value!,
       fechaInicio: formatDate(fechaInicio!.split('/')[2] + '/' + fechaInicio!.split('/')[1] + '/' + fechaInicio!.split('/')[0], 'yyyy-MM-dd', this.locale),
       fechaFin: formatDate(fechaFin!.split('/')[2] + '/' + fechaFin!.split('/')[1] + '/' + fechaFin!.split('/')[0], 'yyyy-MM-dd', this.locale),
+      nroEntregables: this.formDataOrden.controls.frmEntregables.value!,
       monto: this.formDataOrden.controls.frmMonto.value!,
       usuarioModId: (JSON.parse(localStorage.getItem('camUser')!)).idUsuario
     }
