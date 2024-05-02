@@ -62,6 +62,11 @@ export class DialogNewContratoComponent {
     this.formNewContrato.controls.frmSelectDoc.valueChanges.subscribe((data)=>{
       this.tipoDocSelected = this.opciones.find((x)=> x.valor1 == data);
     })
+    this.formDataOrden.controls.frmOrden.valueChanges.subscribe((val: any) => {
+      if (val) {
+        this.formDataOrden.controls.frmOrden.setValue(val.trim(), { emitEvent: false })
+      }
+    })
     this.formVigencia.controls.frmInicioVigencia.valueChanges.subscribe((data) => {
       const dataStr = String(data)
       this.minDate = new Date(parseInt(dataStr.split('/')[2]), parseInt(dataStr.split('/')[1]) - 1, parseInt(dataStr.split('/')[0]))
