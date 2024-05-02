@@ -79,6 +79,12 @@ export const pagesRoutes: Route[] = [
         canActivate: [AuthGuard],
         loadChildren: () => import('../pages/programacion/programacion.module').then((m) => m.ProgramacionModule),
       },
+      {
+        path: 'control',
+        title: 'CAM - CONTROL',
+        canActivate: [AuthGuard],
+        loadChildren: () => import('../pages/control/control.module').then((m) => m.ControlModule),
+      },
       // {
       //   path: AppRoute.HORARIOS,
       //   canActivate:[AuthGuard, CerpUserGuard],

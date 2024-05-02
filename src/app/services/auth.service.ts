@@ -246,4 +246,9 @@ export class AuthService {
     const url = `${environment.API}/unidad-operativa/listar/ciram/admin`;
     return this.http.post<any>(url, model);
   }
+
+  getPerfilCiram(idUndiadOperativa: number){
+    const url = `${environment.API}/unidad-operativa/obtener/perfil/ciram/${idUndiadOperativa}`;
+    return this.http.get<any>(url);
+  }
 }
