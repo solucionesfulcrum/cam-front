@@ -9,9 +9,9 @@ import { FormatoTab } from '@shared/components/menu-opciones/formato-tab.model';
 export class ControlComponent {
   links: FormatoTab[] = [
     {url: `/app/control`, title: 'Programados'},
-    {url: `/app/`, title: 'En Calendario'},
+    /*{url: `/app/`, title: 'En Calendario'},
     {url: `/app/`, title: 'Talleristas'},
     {url: `/app/`, title: 'Talleres'},
-    {url: `/app/`, title: 'Asistencias'},
+    {url: `/app/`, title: 'Asistencias'},*/
   ]
 }

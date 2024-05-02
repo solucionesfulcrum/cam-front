@@ -52,7 +52,7 @@ pipeline {
             steps {
                 script {
                     nodejsLib.npmInstall('--legacy-peer-deps')
-                    nodejsLib.buildAngularProject()
+                    nodejsLib.buildAngularProject('--base-href=/cam/')
                     commonLib.showWsFiles()
                 }
             }

@@ -10,6 +10,8 @@ import { formatDate, registerLocaleData } from '@angular/common';
 import { FormControl } from '@angular/forms';
 import { DialogAddProgramacionAsignacionComponent } from '../dialogs/dialog-add-programacion-asignacion/dialog-add-programacion-asignacion.component';
 import { Dialog } from '@angular/cdk/dialog';
+import { ConfirmarProgramacionComponent } from '../dialogs/confirmar-programacion/confirmar-programacion.component';
+import { AppRoute } from 'src/app/data/constants/app-route.constant';
 
 registerLocaleData(localeEs, 'es');
 
@@ -80,7 +82,19 @@ export class CalendarioProgramacionComponent {
         break;
       case 1:
         if (this.validacionHorariosCompletos()) {
-
+          const dialogRef = this.dialog.open(ConfirmarProgramacionComponent,{
+            data:{
+              title: '¿Está seguro de publicar esta programación?',
+              message: `De confirmarse, no se podrá volver a editar`,
+              dataRequired: this.idProgramacion
+            }
+          })
+      
+          dialogRef.closed.subscribe(result => {
+            if (result == 1) {
+              this.router.navigate([`app/${AppRoute.PROGRAMACION}/show/${this.idProgramacion}/programados`]);
+            }
+          });
         }
         break;
     }
