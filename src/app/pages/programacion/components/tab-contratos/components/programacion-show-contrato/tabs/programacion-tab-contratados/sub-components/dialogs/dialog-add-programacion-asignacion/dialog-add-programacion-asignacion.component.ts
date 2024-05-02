@@ -260,7 +260,7 @@ export class DialogAddProgramacionAsignacionComponent {
       let count = 1;
       let horaAumentada;
       do {
-        if ((this.comprobarCantidadSesiones((this.ctrlServicio.value as any).idServicio) + count > 3) || this.comprobarSimilaridadSemana((this.ctrlServicio.value as any).idServicio).validacion || this.comprobarLimiteSesiones((this.ctrlServicio.value as any).idServicio) >= 12 || this.comprobarAsignacionesEntregables((this.ctrlServicio.value as any).idServicio) || this.comprobarAsignacionesUnidadOper((this.ctrlServicio.value as any).idServicio)) {
+        if ((this.comprobarCantidadSesiones((this.ctrlServicio.value as any).idServicio) + count > 3) || this.comprobarSimilaridadSemana((this.ctrlServicio.value as any).idServicio).validacion || this.comprobarLimiteSesiones((this.ctrlServicio.value as any).idServicio) >= (this.data.dataContrato.nroEntregables*12) || this.comprobarAsignacionesEntregables((this.ctrlServicio.value as any).idServicio) || this.comprobarAsignacionesUnidadOper((this.ctrlServicio.value as any).idServicio).validacion) {
           break;
         }
         horaAumentada = new Date (horaInicio.getTime() + (1000*60*this.dataTipo.valor1)*(count))
@@ -364,7 +364,7 @@ export class DialogAddProgramacionAsignacionComponent {
     return false;
   }
 
-  comprobarAsignacionesUnidadOper(idServicio: any){
+  comprobarAsignacionesUnidadOper(idServicio: any): any{
     let objRespuesta: any = Object();
     let sesionesServ: number = 0;
     let listSersionesAsig = this.data.infoServiciosContratados.filter((x: any)=> {
@@ -378,13 +378,13 @@ export class DialogAddProgramacionAsignacionComponent {
     }
     else {
       if (sesionesServ % 12 == 0) {
-        
+        objRespuesta.validacion = false;
       }
     }
     console.log(listSersionesAsig)
     console.log(0/4, 1/4, 2/4, 3/4, 4/4)
     console.log(0%4, 1%4, 2%4, 3%4, 4%4)
-    return false;
+    return objRespuesta;
   }
 
   comprobarLimiteSesiones(idServicio: any): number{

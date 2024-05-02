@@ -16,6 +16,7 @@ import { ProgramacionTabProgramadosComponent } from './components/tab-contratos/
 import { CalendarioProgramacionComponent } from './components/tab-contratos/components/programacion-show-contrato/tabs/programacion-tab-contratados/sub-components/calendario-programacion/calendario-programacion.component';
 import { DialogAddProgramacionAsignacionComponent } from './components/tab-contratos/components/programacion-show-contrato/tabs/programacion-tab-contratados/sub-components/dialogs/dialog-add-programacion-asignacion/dialog-add-programacion-asignacion.component';
 import { CdkMenuModule } from '@angular/cdk/menu';
+import { ConfirmarProgramacionComponent } from './components/tab-contratos/components/programacion-show-contrato/tabs/programacion-tab-contratados/sub-components/dialogs/confirmar-programacion/confirmar-programacion.component';
 
 
 @NgModule({
@@ -28,7 +29,8 @@ import { CdkMenuModule } from '@angular/cdk/menu';
     ProgramacionTabContratadosComponent,
     ProgramacionTabProgramadosComponent,
     CalendarioProgramacionComponent,
-    DialogAddProgramacionAsignacionComponent
+    DialogAddProgramacionAsignacionComponent,
+    ConfirmarProgramacionComponent
   ],
   imports: [
     CommonModule,
