@@ -100,7 +100,7 @@ export class EditActiveUserComponent {
 
   grabarDatosPersonales() {
     this.valid = false
-    if (this.formDatosPersonales.valid || this.distrControl.valid) {
+    if (this.formDatosPersonales.valid) {
       this.datosService.registerDatosPersonales(this.getPayloadRegistro()).subscribe((data) => {
         if (data.code == 0) {
           if (this.applicationFile) {
@@ -132,6 +132,7 @@ export class EditActiveUserComponent {
       this.formDatosPersonales.markAllAsTouched();
       this.distrControl.markAllAsTouched();
       this.valid = true
+      console.log("valid",this.valid)
     }
   }
 
