@@ -29,6 +29,7 @@ export class CalendarioProgramacionComponent {
   dataContrato: any;
   dataAsignacionSelected: any;
   listServicios: any;
+  listServiciosCiram!: any[];
   dataResumenContrato: any;
   
   faClose = fonts.faClose;
@@ -78,10 +79,33 @@ export class CalendarioProgramacionComponent {
 
         break;
       case 1:
+        if (this.validacionHorariosCompletos()) {
 
+        }
         break;
     }
   }
+
+  validacionHorariosCompletos(): boolean{
+    let valueReturned: boolean = true;
+    this.listServicios.servicios.forEach((x: any)=>{
+      if (valueReturned) {
+        let totalAsignaciones = 0;
+        let validacionTotal = 12*this.dataResumenContrato.nroEntregables;
+        this.serviciosAsignados.filter((y)=> y.idServicio == x.idServicio).forEach((y)=> totalAsignaciones += y.nroSesiones)
+        if (totalAsignaciones >= validacionTotal){
+
+        }
+        else{
+          this.notificationService.warning('El servicio ' + x.nombreServicio + ' tiene ' + (validacionTotal - totalAsignaciones) + (validacionTotal - totalAsignaciones == 1 ? ' sesión pendiente' : ' sesiones pendientes' ));
+          valueReturned = false;
+        }
+      }
+    })
+
+    return valueReturned;
+  }
+
 
   getDataResumenContrato(){
     this.programacionService.getResumenInferiorProgramacion(this.dataContrato.idProgramacion).subscribe((data)=>{
@@ -110,6 +134,7 @@ export class CalendarioProgramacionComponent {
     this.programacionService.getDatosServicioContrato(this.dataContrato.idProgramacion).subscribe((data)=>{
       if (data.code == 0) {
         this.listServicios = data.data.serviciosCam;
+        this.listServiciosCiram = data.data.serviciosCirams;
       }
       else {
         this.notificationService.warning(data.message);
@@ -118,12 +143,9 @@ export class CalendarioProgramacionComponent {
   }
 
   comprobacionBloqueo(dateElegido: any): boolean{
-    if (dateElegido.getDay() == 0 || dateElegido.getDay() == 6 || dateElegido.getTime() < this.limitesHorario[0].getTime() || dateElegido.getTime() > this.limitesHorario[1].getTime()/*!(dateElegido.getMonth() == this.periodoCalendario.getMonth() && dateElegido.getFullYear() == this.periodoCalendario.getFullYear())*/) {
+    if (dateElegido.getDay() == 0 || dateElegido.getDay() == 6 || dateElegido.getTime() < this.limitesHorario[0].getTime() || dateElegido.getTime() > this.limitesHorario[1].getTime()) {
       return true
     }
-    // else if (this.profesionalElegido ? (this.profesionalElegido.rangoDias == 'L-V' && dateElegido.getDay() == 6) : dateElegido.getDay() == 6){
-    //   return true
-    // }
     return false
   }
 
@@ -150,10 +172,7 @@ export class CalendarioProgramacionComponent {
     if (this.serviciosAsignados.length > 0){
       let horaHorario = (horario.split(' ')[1] == 'PM' && horario.split(' ')[0] !== '12') ? parseInt(horario.split(' ')[0]) + 12 : parseInt(horario.split(' ')[0]);
       let listAct = this.serviciosAsignados.find((x: any)=>{return parseInt(x.horaInicio.split(':')[0]) == horaHorario && formatDate(new Date(x.fecha+' '+x.horaInicio), 'yyyy-MM-dd', this.locale) == formatDate(espacios, 'yyyy-MM-dd', this.locale)});
-      // let listAct = this.profesionalElegido.actividadesAsignadas.find((x: any)=>{return x.inicioActividad.getDate() == espacios.getDate() && x.inicioActividad.getHours() == horaHorario});
       if (listAct) {
-        // console.log(listAct)
-        // if (!this.listHorariosAsignados.some((x)=>{return x.obj == listAct && x.horario == horario && x.fecha == espacios})) this.listHorariosAsignados.push({horario: horario, fecha: espacios, obj: listAct, profesional: {idProf: this.profesionalElegido.idProfesional, nomProf: this.profesionalElegido.nomProfesional}});
         return true;
       }
       return false;
@@ -212,6 +231,7 @@ export class CalendarioProgramacionComponent {
           dataContrato:                 this.dataContrato,
           infoServiciosContratados:     this.serviciosAsignados,
           serviciosContrato:            this.listServicios,
+          serviciosCiram:               this.listServiciosCiram,
           dataRangosHorarios:           this.horarios,
           semanaElegida:                this.fechasSemana,
           horarioFijo:                  (dataRangoElegido ? true : false)

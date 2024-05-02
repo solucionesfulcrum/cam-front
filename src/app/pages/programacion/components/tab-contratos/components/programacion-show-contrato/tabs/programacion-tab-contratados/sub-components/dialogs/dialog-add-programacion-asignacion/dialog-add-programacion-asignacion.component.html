@@ -17,9 +17,13 @@
                     <span>Servicio <b class="text-red-500">*</b></span>
                     <input [formControl]="ctrlServicio" type="text" [matAutocomplete]="servicios" class="inputTextoDialog focusCampo" placeholder="Buscar Servicio">
                     <mat-autocomplete #servicios="matAutocomplete" [displayWith]="displayServicioFiltered" (optionSelected)="onSelectedServicioSelect($event)">
-                        <mat-option *ngFor="let option of getOptionsFilteresServicio()" [value]="option">
-                            {{option.nombreServicio | titlecase}}
-                        </mat-option>
+                        <ng-container *ngFor="let unidades of listFiltered, index as i">
+                            <mat-optgroup [label]=" (unidades.idUnid == data.serviciosContrato.idUnidOpeCam ? 'CAM ' : 'CIRAM ') + (unidades.nomUnid | titlecase)" class="font-bold">
+                                <mat-option *ngFor="let option of unidades.servicios" [value]="option">
+                                    {{option.nombreServicio | titlecase}}
+                                </mat-option>
+                            </mat-optgroup>
+                        </ng-container>
                     </mat-autocomplete>
                     <div *ngIf="ctrlServicio.touched">
                         <div *ngIf="ctrlServicio.invalid">
@@ -30,6 +34,9 @@
                         <div *ngIf="ctrlServicio.value">
                             <p *ngIf="isNotObject(ctrlServicio.value)" class="font-medium text-red-500 text-xs mt-1 ml-1">
                                 Debe seleccionar una de las opciones listadas
+                            </p>
+                            <p *ngIf="!isNotObject(ctrlServicio.value) ? comprobarSimilaridadSemana(asAny(ctrlServicio.value).idServicio).validacion : false" class="font-medium text-red-500 text-xs mt-1 ml-1">
+                                {{comprobarSimilaridadSemana(asAny(ctrlServicio.value).idServicio).message}}
                             </p>
                             <p *ngIf="!isNotObject(ctrlServicio.value) ? comprobarCantidadSesiones(asAny(ctrlServicio.value).idServicio) == 3 : false" class="font-medium text-red-500 text-xs mt-1 ml-1">
                                 El servicio alcanzó su limite de sesiones en la semana (3 sesiones)
