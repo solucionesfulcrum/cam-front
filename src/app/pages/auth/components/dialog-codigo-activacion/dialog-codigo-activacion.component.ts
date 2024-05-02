@@ -40,8 +40,7 @@ export class DialogCodigoActivacionComponent {
       const { code } = this.formCodeEmail.getRawValue();
       this.authService.validateCode(code, this.data.genWithCode,this.data.numDoc).subscribe({
         next: (rta) => {
-          var result = JSON.parse(rta.data);
-          if (result = true) {
+          if (rta.code == 0) {
             this.authService.confirmEmailSIGPS(this.data.genWithCode).subscribe((data)=>{
               if (data.code == 0) {
                 this.status = 'success';
@@ -54,54 +53,12 @@ export class DialogCodigoActivacionComponent {
                 this.status = 'failed';
               }
             })
-            this.status = 'success';
-            this._dialogRef.close();
-            this._router.navigate(['login']);
           } else {
-            //this.formCodeEmail.controls.code.setValue("")
             this.formCodeEmail.setErrors({'invalid':true})
             this.status = 'failed';
+            //this._notificacion.error(rta.message);
+            this.msgError = rta.message.toUpperCase();
           }
-          /*var resError = true;
-          try {
-            var result = JSON.parse(rta.data);
-          } catch (error) {
-            resError = false;
-          }
-          if (rta.data === 'true') {
-            resError = false;
-          }
-          if(resError){
-            this.msgError = result.message;
-            this.msgError = this.msgError[0].toUpperCase() + this.msgError.substr(1).toLowerCase();
-            this.status = 'failed';
-            console.log('Error detected: ', result);
-          }
-          else{
-            console.log('next for validate code: ', rta);
-            if (rta.data === 'true') {
-              this.authService.confirmEmailSIGPS(this.data.genWithCode).subscribe((data)=>{
-                if (data.code == 0) {
-                  this.status = 'success';
-                  this._notificacion.success('Se registró correctamente su usuario');
-                  this._dialogRef.close();
-                  this._router.navigate(['login']);
-                }
-                else{
-                  this._notificacion.error(data.message);
-                  this.status = 'failed';
-                }
-                console.log(data)
-              })
-              this.status = 'success';
-              this._dialogRef.close();
-              this._router.navigate(['login']);
-            } else {
-              //this.formCodeEmail.controls.code.setValue("")
-              this.formCodeEmail.setErrors({'invalid':true})
-              this.status = 'failed';
-            }
-          }*/
         },
         error: (rta) => {
           this.status = 'failed';
