@@ -366,6 +366,7 @@ export class DialogAddProgramacionAsignacionComponent {
 
   comprobarAsignacionesUnidadOper(idServicio: any){
     let objRespuesta: any = Object();
+    let listIdCiram: number[] = []; this.data.serviciosCiram.forEach((x: any)=>{listIdCiram.push(x.idUnidOpeCiram)});
     let sesionesServ: number = 0;
     let listSersionesAsig = this.data.infoServiciosContratados.filter((x: any)=> {
       return x.idServicio == idServicio/* && ((this.ctrlPersonalizado.value && typeof this.ctrlCiram.value == 'object') ? (this.ctrlCiram.value as any).idUnidadOperativa == x.idUoCiram : true)*/;
@@ -400,10 +401,10 @@ export class DialogAddProgramacionAsignacionComponent {
         console.log(contadorUnid)
       }
     }
-    console.log(listSersionesAsig)
-    console.log(0/4, 1/4, 2/4, 3/4, 4/4)
-    console.log(0%4, 1%4, 2%4, 3%4, 4%4)
-    return false;
+    // console.log(listSersionesAsig)
+    // console.log(0/4, 1/4, 2/4, 3/4, 4/4)
+    // console.log(0%4, 1%4, 2%4, 3%4, 4%4)
+    return objRespuesta;
   }
 
   comprobarLimiteSesiones(idServicio: any): number{
