@@ -21,7 +21,7 @@ export class ProgramadosComponent {
     this.meses = ["ENE", "FEB", "MAR", "ABR", "MAYO", "JUN", "JUL", "AGO", "SET", "OCT", "NOV", "DIC"];
     const fecha = new Date("2024-04-11");
     this.mes = this.meses[fecha.getMonth()];
-    this.datosService.getlistaProgramacion(idUsuario).subscribe((data) => {
+    this.datosService.getlistaProgramacion(idUsuario,"2024-04-11").subscribe((data) => {
       console.log("data", data.data);
       this.ListaProgramacines = data.data
     });

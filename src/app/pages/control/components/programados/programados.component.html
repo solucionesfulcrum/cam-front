@@ -30,20 +30,23 @@
         </app-btn>
     </div>
 </div>
-<div *ngFor="let prog of ListaProgramacines" class="info-container flex items-center mt-5">
-    <div class="w-1/3 my-1 mr-4">
-        <div class="p-4 bg-white rounded-lg shadow-lg">
-            <div class="info-container flex">
-                <div>
-                    <div class="text-lg font-bold text-xl mr-4">{{prog.fecha.split("-")[2]}}</div>
-                    <div class="text-lg text-xs mr-4">{{getMes(prog.fecha)}}</div>
-                </div>
+<div class="mt-4">
+    <div *ngFor="let prog of ListaProgramacines" class="info-container flex items-center">
+        <div class="w-1/3 mr-4">
+            <div class="p-4 bg-white shadow-lg">
+                <div class="info-container flex">
+                    <div>
+                        <div class="text-lg font-bold text-xl mr-4">{{prog.fecha.split("-")[2]}}</div>
+                        <div class="text-lg text-xs mr-4">{{getMes(prog.fecha)}}</div>
+                    </div>
 
-                <div>
-                    <div class="text-sm font-semibold"> TALLER DE {{prog.nombre}}</div>
-                    <div class="text-gray-600 text-xs"> {{formatoFecha(prog.fecha)}} de {{prog.horaInicio}} - {{prog.horaFin}}</div>
-                    <div class="text-gray-600 text-xs">CAM {{prog.nombreCam}}</div>
-                    <div class="text-indigo-500 text-xs">{{prog.distrito}}</div>
+                    <div>
+                        <div class="text-sm font-semibold"> TALLER DE {{prog.nombre}}</div>
+                        <div class="text-gray-600 text-xs"> {{formatoFecha(prog.fecha)}} de {{prog.horaInicio}} -
+                            {{prog.horaFin}}</div>
+                        <div class="text-gray-600 text-xs">CAM {{prog.nombreCam}}</div>
+                        <div class="text-indigo-500 text-xs">{{prog.distrito}}</div>
+                    </div>
                 </div>
             </div>
         </div>

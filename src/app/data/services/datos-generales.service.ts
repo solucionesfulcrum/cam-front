@@ -172,8 +172,8 @@ export class DatosGeneralesService {
     return this._httpClient.post<any>(url, fd);
   }
 
-  getlistaProgramacion(idUnidadOpe: number) {
-    const url = `${URL_BASE}/programacion/obtener/lista/programacion/${idUnidadOpe}`;
+  getlistaProgramacion(idUnidadOpe: number,fechInicio: string) {
+    const url = `${URL_BASE}/programacion/obtener/lista/programacion/?idUnidadOperativa=${idUnidadOpe}&fechInicio=${fechInicio}`;
     return this._httpClient.get<any>(url);
   }
 }
