@@ -9,11 +9,15 @@
         <!--<input *ngIf="!imagenFoto" type="file" class="mt-2 p-3 block w-full border rounded">-->
         <div *ngIf="!imagenFoto" class="my-1 imagen w-32 h-32 rounded-full border-b-2 bg-gray-400"></div>
         <div *ngIf="!imagenFoto"
-            class="my-1 w-14 h-14 mt-20 -ml-12 rounded-full border-b-2 flex items-center justify-center">
+            class="my-1 w-14 h-14 mt-20 -ml-12 rounded-full border-b-2 flex items-center justify-center cursor-pointer">
             <div *ngIf="!imagenFoto" (click)="isImageFotoUpdate ? null : fileImagenFoto.click()"
                 class="w-full h-full rounded-full bg-cam">
                 <input hidden #fileImagenFoto type="file" name="Upload" accept="image/jpeg,image/png"
                     (change)="onChangeFileFoto(fileImagenFoto.files)">
+                <div style="width: 35px; height: 35px;"
+                    class="my-1 ml-3 mt-2 border-b-2 flex items-center justify-center"><img class="select-none"
+                        src="assets/svg/camera.svg" /></div>
+
             </div>
         </div>
         <img *ngIf="imagenFoto" [src]="'data:image/JPEG;base64,' + imagenFoto"
@@ -201,11 +205,15 @@
             <div class="w-1/6 my-1 ml-4">
                 <label class="block text-gray-700">Firma:</label>
             </div>
-            <div class="w-1/3 my-1 flex justify-start mt-4 -ml-12">
+            <div class="w-1/3 my-1 flex justify-start mt-4 -ml-12 cursor-pointer">
                 <div *ngIf="!imagenFirma" (click)="isImageFotoUpdateFirma ? null : fileImagenFotoFirma.click()"
                     class="my-1 imagen w-32 h-16 border-b-2 bg-gray-200">
                     <input hidden #fileImagenFotoFirma type="file" name="Upload" accept="image/jpeg,image/png"
                         (change)="onChangeFileFotoFirma(fileImagenFotoFirma.files)">
+                    <div style="width: 35px; height: 35px;"
+                        class="my-1 ml-12 mt-2 border-b-2 flex items-center justify-center"><img class="select-none"
+                            src="assets/svg/camera.svg" /></div>
+
                 </div>
                 <img *ngIf="imagenFirma" [src]="'data:image/JPEG;base64,' + imagenFirma" class="my-1 imagen w-32 h-32">
             </div>

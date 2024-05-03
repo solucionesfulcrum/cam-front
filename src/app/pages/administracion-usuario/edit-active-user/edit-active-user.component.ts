@@ -50,20 +50,20 @@ export class EditActiveUserComponent {
   valid = false;
 
   public formDatosPersonales = this.fb.nonNullable.group({
-    frmNombres: ['', [Validators.required]],
-    frmApellidos: ['', [Validators.required]],
-    frmCelular: ['', [Validators.required]],
-    frmCorreo: ['', [Validators.required]],
-    frmDireccion: ['', [Validators.required]],
+    frmNombres: [''],
+    frmApellidos: [''],
+    frmCelular: [''],
+    frmCorreo: [''],
+    frmDireccion: [''],
     frmFechNacimiento: ['', [Validators.required]],
-    frmGenero: ['', [Validators.required]],
-    frmEstadoCivil: ['', [Validators.required]],
-    frmNacionalidad: ['', [Validators.required]],
-    frmTipoDoc: ['', [Validators.required]],
-    frmNumDoc: ['', [Validators.required]],
+    frmGenero: [''],
+    frmEstadoCivil: [''],
+    frmNacionalidad: [''],
+    frmTipoDoc: [''],
+    frmNumDoc: [''],
     frmProfesion: ['', [Validators.required]],
-    frmColegiatura: ['', [Validators.required]],
-    frmEspecialidad: ['', [Validators.required]],
+    frmColegiatura: [''],
+    frmEspecialidad: [''],
   });
 
 
@@ -100,7 +100,7 @@ export class EditActiveUserComponent {
 
   grabarDatosPersonales() {
     this.valid = false
-    if (this.formDatosPersonales.valid) {
+    if (this.formDatosPersonales.valid && this.distrControl.value.codUbigeo != 0) {
       this.datosService.registerDatosPersonales(this.getPayloadRegistro()).subscribe((data) => {
         if (data.code == 0) {
           if (this.applicationFile) {
@@ -132,7 +132,7 @@ export class EditActiveUserComponent {
       this.formDatosPersonales.markAllAsTouched();
       this.distrControl.markAllAsTouched();
       this.valid = true
-      console.log("valid",this.valid)
+      console.log("valid", this.valid)
     }
   }
 
