@@ -30,7 +30,7 @@
                                         <input type="text" [formControlName]="atributo.nomAttribute" class="inputTextoDialog focusCampo !h-10" [ngClass]="atributo.obligatorio ? (getFormControl(dataForm, atributo.nomAttribute) ? '!border !border-red-500 !focus:border-red-500' : null) : null">
                                     </div>
                                     <div *ngIf="atributo.tipo == 'typeAndSelect'">
-                                        <input type="text" [formControlName]="atributo.nomAttribute" [matAutocomplete]="typeAndSelect" class="inputTextoDialog focusCampo !h-10" [ngClass]="atributo.obligatorio ? (getFormControl(dataForm, atributo.nomAttribute) ? '!border !border-red-500 !focus:border-red-500' : null) : null">
+                                        <input type="text" [placeholder]="atributo.placeholder ? atributo.placeholder : ''" [formControlName]="atributo.nomAttribute" [matAutocomplete]="typeAndSelect" class="inputTextoDialog focusCampo !h-10" [ngClass]="atributo.obligatorio ? (getFormControl(dataForm, atributo.nomAttribute) ? '!border !border-red-500 !focus:border-red-500' : null) : null">
                                         <mat-autocomplete #typeAndSelect="matAutocomplete" [displayWith]="displayOptFiltered" (optionSelected)="onSelectedTypeSelect(i, atributo.nomAttribute, $event)">
                                             <mat-option *ngFor="let option of getOptionsFiltered(i, atributo.nomAttribute)" [value]="option">
                                                 {{option.nombre | titlecase}}

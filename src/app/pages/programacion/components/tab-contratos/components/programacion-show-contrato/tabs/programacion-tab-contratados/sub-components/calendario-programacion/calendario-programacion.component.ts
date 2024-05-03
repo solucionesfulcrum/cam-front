@@ -8,10 +8,10 @@ import * as fonts from '@fortawesome/free-solid-svg-icons';
 import { ProgramacionContratosService } from 'src/app/data/services/programacion/programacion-contratos.service';
 import { formatDate, registerLocaleData } from '@angular/common';
 import { FormControl } from '@angular/forms';
-import { DialogAddProgramacionAsignacionComponent } from '../dialogs/dialog-add-programacion-asignacion/dialog-add-programacion-asignacion.component';
 import { Dialog } from '@angular/cdk/dialog';
 import { ConfirmarProgramacionComponent } from '../dialogs/confirmar-programacion/confirmar-programacion.component';
 import { AppRoute } from 'src/app/data/constants/app-route.constant';
+import { DialogAddProgramacionAsignacionComponent } from '../dialogs/dialog-add-programacion-asignacion/dialog-add-programacion-asignacion.component';
 
 registerLocaleData(localeEs, 'es');
 

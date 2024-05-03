@@ -2,6 +2,7 @@ export interface FormatoColumna{
     header?: string,
     tipo?: 'texto' | 'select' | 'inputText' | 'inputNumber' | 'typeAndSelect' | 'inputFecha',
     opciones?: TablaOpciones[],
+    placeholder?: string,
     optTypeSelect?: FormatoTypeAndSelect[],
     nomAttribute: string,
     oculto?: boolean,

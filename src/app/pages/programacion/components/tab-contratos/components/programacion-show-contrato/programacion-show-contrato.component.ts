@@ -36,6 +36,9 @@ export class ProgramacionShowContratoComponent {
     this.programacionService.getDatosContrato(this.idProgramacion).subscribe((data)=>{
       if (data.code == 0) {
         this.dataContrato = data.data;
+        if (this.dataContrato.datosContrato.estadoProgramacionId != 36) {
+          this.opcionesBotones[0].deshabilitado = true;
+        }
       }
       else {
         this.notificationService.warning(data.message);
