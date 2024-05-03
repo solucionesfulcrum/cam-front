@@ -58,7 +58,6 @@ export class DialogNewContratoComponent {
   }
 
   ngOnInit(){
-    console.log(this.data)
     this.formNewContrato.controls.frmSelectDoc.valueChanges.subscribe((data)=>{
       this.tipoDocSelected = this.opciones.find((x)=> x.valor1 == data);
     })
@@ -70,6 +69,8 @@ export class DialogNewContratoComponent {
     this.formVigencia.controls.frmInicioVigencia.valueChanges.subscribe((data) => {
       const dataStr = String(data)
       this.minDate = new Date(parseInt(dataStr.split('/')[2]), parseInt(dataStr.split('/')[1]) - 1, parseInt(dataStr.split('/')[0]))
+      this.formVigencia.controls.frmFinVigencia.reset()
+      this.formVigencia.controls.frmFinVigencia.markAllAsTouched()
     })
     this.datosService.getTipoParametros('TIPO_DOCUMENTO_IDENTIDAD').subscribe((data) =>{
       // console.log(data);

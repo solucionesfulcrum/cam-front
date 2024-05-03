@@ -73,8 +73,8 @@
               <img src="assets/svg/icon-calendar-simple.svg">
             </span>
           </div>
-          <div *ngIf="formVigencia.controls.frmFinVigencia.touched">
-            <p *ngIf="formVigencia.controls.frmFinVigencia.value == null"
+          <div *ngIf="formVigencia.controls.frmFinVigencia.touched  && formVigencia.controls.frmFinVigencia.invalid">
+            <p *ngIf="formVigencia.controls.frmFinVigencia.hasError('required')"
               class="font-medium text-red-500 text-xs mt-1 ml-1">
               Fecha Fin requerida
             </p>
