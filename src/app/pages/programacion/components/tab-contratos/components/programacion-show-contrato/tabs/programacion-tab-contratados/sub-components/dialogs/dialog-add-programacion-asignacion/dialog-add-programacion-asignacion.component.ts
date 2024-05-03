@@ -22,6 +22,7 @@ export class DialogAddProgramacionAsignacionComponent {
   listFiltered: ServiciosOrdenados[] = [];
   listParamTipo: any[] = [];
   listaHorariosFiltrados: any[] = [];
+  objValidacion: any = Object();
   listCirams: any[] = [];
   listaRangosHorariosFiltrados: any[] = [];
   listaLimitesHorarios: any[] = [];
@@ -52,7 +53,7 @@ export class DialogAddProgramacionAsignacionComponent {
 
 
   ngOnInit(): void {
-    this.ctrlTipo.disable(); console.log(this.data)
+    this.ctrlTipo.disable();
     // this.getActividades();
     this.formSchedule.controls.frmInicioHorario.setValue(null!)
     this.setListeners();
@@ -260,7 +261,7 @@ export class DialogAddProgramacionAsignacionComponent {
       let count = 1;
       let horaAumentada;
       do {
-        if ((this.comprobarCantidadSesiones((this.ctrlServicio.value as any).idServicio) + count > 3) || this.comprobarSimilaridadSemana((this.ctrlServicio.value as any).idServicio).validacion || this.comprobarLimiteSesiones((this.ctrlServicio.value as any).idServicio) >= (this.data.dataContrato.nroEntregables*12) || this.comprobarAsignacionesEntregables((this.ctrlServicio.value as any).idServicio) || this.comprobarAsignacionesUnidadOper((this.ctrlServicio.value as any).idServicio).validacion) { 
+        if ((this.comprobarCantidadSesiones((this.ctrlServicio.value as any).idServicio) + count > 3) || this.comprobarSimilaridadSemana((this.ctrlServicio.value as any).idServicio).validacion || this.comprobarLimiteSesiones((this.ctrlServicio.value as any).idServicio) >= (this.data.dataContrato.nroEntregables*12) || this.comprobarAsignacionesUnidadOper((this.ctrlServicio.value as any).idServicio).validacion) { 
           break;
         }
         horaAumentada = new Date (horaInicio.getTime() + (1000*60*this.dataTipo.valor1)*(count))
@@ -343,27 +344,6 @@ export class DialogAddProgramacionAsignacionComponent {
     })
     return numeroSesiones;
   }
-
-  comprobarAsignacionesEntregables(idServicio: any): boolean{
-    let dataSemanaPasada: Date[] = [];
-    let fechaEvaluar: Date;
-    if (this.data.horarioFijo) {
-      fechaEvaluar = this.data.fechaHorario;
-    }
-    else{
-      fechaEvaluar = this.data.semanaElegida[0];
-    }
-    let diaInicio = new Date(fechaEvaluar.getTime() - 1000*60*60*24*fechaEvaluar.getDay() - 1000*60*60*24*7);
-    for (let i = 0; i < 7; i++) {
-      dataSemanaPasada.push(diaInicio);
-      diaInicio = new Date(diaInicio.getTime() + 1000*60*60*24);
-    }
-    dataSemanaPasada.forEach((x)=> { console.log(this.data.infoServiciosContratados.filter((y: any) => y.fecha == formatDate(x, 'yyyy-MM-dd', this.locale) && y.idServicio == idServicio)) })
-    // console.log(dataSemanaPasada)
-    // console.log(idServicio)
-    return false;
-  }
-
   comprobarAsignacionesUnidadOper(idServicio: any){
     let objRespuesta: any = Object();
     let listIdCiram: number[] = []; this.data.serviciosCiram.forEach((x: any)=>{listIdCiram.push(x.idUnidOpeCiram)});
@@ -395,15 +375,67 @@ export class DialogAddProgramacionAsignacionComponent {
           contadorUnid.push({idUnid: x, nombre: this.data.serviciosCiram.find((z: any)=> z.idUnidOpeCiram == x).ciram, contador: cuentaUnid});
         })
         let encontradoFaltante: any;
-        contadorUnid.forEach((r)=>{if (!encontradoFaltante) { if (r.contador % 12 == 0) {
-          
+        contadorUnid.forEach((r)=>{if (!encontradoFaltante) { if (r.contador % 12 != 0) {
+          encontradoFaltante = r;
         }}})
-        console.log(contadorUnid)
+        if (encontradoFaltante.contador % 3 == 0) {
+          let serviciosCorrespondientes = listSersionesAsig.filter((x: any)=> ( encontradoFaltante.idUnid ? x.idUoCiram == encontradoFaltante.idUnid : x.idUoCiram == null ))
+          let dataSemanaPasada: Date[] = [];
+          let idUnidCompar: number = (this.ctrlPersonalizado.value && ( typeof this.ctrlCiram.value == 'object') ? (this.ctrlCiram.value as any).idUnidadOperativa : null);
+          let encontrado: any;
+          let cuentaFaltante = 0; serviciosCorrespondientes.forEach((seguid: any) => { cuentaFaltante += seguid.nroSesiones});
+          let fechaEvaluar: Date;
+          if (this.data.horarioFijo) {
+            fechaEvaluar = this.data.fechaHorario;
+          }
+          else{
+            fechaEvaluar = this.data.semanaElegida[0];
+          }
+          let diaInicio = new Date(fechaEvaluar.getTime() - 1000*60*60*24*fechaEvaluar.getDay() - 1000*60*60*24*7);
+          for (let i = 0; i < 7; i++) {
+            dataSemanaPasada.push(diaInicio);
+            diaInicio = new Date(diaInicio.getTime() + 1000*60*60*24);
+          }
+          dataSemanaPasada.forEach((dia)=> {
+            if (!encontrado) {
+              serviciosCorrespondientes.forEach((servicio: any)=>{
+                if (servicio.fecha == formatDate(dia, 'yyyy-MM-dd', this.locale) && servicio.idUoCiram == idUnidCompar) {
+                  encontrado = servicio;
+                }
+              })
+            }
+          })
+          if (encontrado) {
+            objRespuesta.validacion = false;
+          }
+          else{
+            objRespuesta.message = `No se ha completado el entregable para este servicio, quedan ${12 - cuentaFaltante} asignaciones que deben ser continuas y en el mismo CAM o CIRAM.`;
+            objRespuesta.validacion = true;
+          }
+        }
+        else{
+          let valid: boolean = false;
+          this.data.semanaElegida.forEach((date: Date)=>{
+            if (!valid) {
+              listSersionesAsig.forEach((ses: any)=> {
+                if (formatDate(date, 'yyyy-MM-dd', this.locale) == ses.fecha) {
+                  valid = true;
+                }
+              })
+            }
+          })
+          if (valid) {
+            objRespuesta.validacion = false;
+          }
+          else{
+            let diff = 3 - encontradoFaltante.contador;
+            objRespuesta.message = `${diff == 2 ? 'Quedan': 'Queda'} ${diff} ${diff == 2 ? 'sesiones pendientes': 'sesión pendiente'} en ${encontradoFaltante.idUnid ? 'CIRAM ' + encontradoFaltante.nombre : 'CAM ' + encontradoFaltante.nombre} en otra semana`
+            objRespuesta.validacion = true;
+          }
+        }
       }
     }
-    // console.log(listSersionesAsig)
-    // console.log(0/4, 1/4, 2/4, 3/4, 4/4)
-    // console.log(0%4, 1%4, 2%4, 3%4, 4%4)
+    this.objValidacion = objRespuesta;
     return objRespuesta;
   }
 

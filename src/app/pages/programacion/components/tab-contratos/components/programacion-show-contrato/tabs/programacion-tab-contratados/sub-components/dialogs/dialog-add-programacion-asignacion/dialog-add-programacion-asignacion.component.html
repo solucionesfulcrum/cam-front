@@ -4,7 +4,7 @@
         <button (click)="onClose()"><esp-icon icon="faClose"></esp-icon></button>
     </div>
     
-    <div class="px-4 py-3 bg-white rounded-b-md flex flex-col gap-y-2.5 text-[#64748B]">
+    <div class="px-4 py-3 bg-white rounded-b-md flex flex-col gap-y-2.5 text-[#64748B]" *ngIf="listParamTipo.length > 0">
         <div class="flex">
             <div class="iconoCita">
                 <img src="assets/svg/icon-cita-calendar.svg" alt="">
@@ -37,6 +37,9 @@
                             </p>
                             <p *ngIf="!isNotObject(ctrlServicio.value) ? comprobarSimilaridadSemana(asAny(ctrlServicio.value).idServicio).validacion : false" class="font-medium text-red-500 text-xs mt-1 ml-1">
                                 {{comprobarSimilaridadSemana(asAny(ctrlServicio.value).idServicio).message}}
+                            </p>
+                            <p *ngIf="!isNotObject(ctrlServicio.value) ? objValidacion.validacion : false" class="font-medium text-red-500 text-xs mt-1 ml-1">
+                                {{objValidacion.message}}
                             </p>
                             <p *ngIf="!isNotObject(ctrlServicio.value) ? comprobarCantidadSesiones(asAny(ctrlServicio.value).idServicio) == 3 : false" class="font-medium text-red-500 text-xs mt-1 ml-1">
                                 El servicio alcanzó su limite de sesiones en la semana (3 sesiones)
