@@ -12,10 +12,16 @@
             </div>
         </label>
       </li> -->
-      <li>
+      <li *ngIf="unid.rol !== 'TALLERISTA'">
         <a routerLink="/app/dashboard" routerLinkActive="list-item-activo" (select)="true">
           <img src="assets/svg/nav-icon-dashboard.svg" />
           <span>Dashboard</span>
+        </a>
+      </li>
+      <li *ngIf="unid.rol === 'TALLERISTA'">
+        <a routerLink="/app/home" routerLinkActive="list-item-activo" (select)="true">
+          <img src="assets/svg/nav-icon-dashboard.svg" />
+          <span>Inicio</span>
         </a>
       </li>
       <li *ngIf="unid.rol === 'COORDINADOR RED'">
@@ -24,13 +30,13 @@
           <span>Contratos</span>
         </a>
       </li>
-      <li>
+      <li *ngIf="unid.rol !== 'TALLERISTA'">
         <a routerLink="/app/contactos" routerLinkActive="list-item-activo">
           <img class="" src="assets/svg/nav-icon-contacto.svg" />
           <span>Contactos</span>
         </a>
       </li>
-      <li>
+      <li *ngIf="unid.rol !== 'TALLERISTA'">
         <a routerLink='/app/afiliados' routerLinkActive="list-item-activo">
           <img class="" src="assets/svg/nav-icon-afiliacion.svg" />
           <span>Afiliaciones</span>
@@ -42,12 +48,12 @@
           <span>Programación</span>
         </a>
       </li>
-      <!-- <li>
+      <li *ngIf="unid.rol === 'TALLERISTA'">
         <a routerLink='/app/control' routerLinkActive="list-item-activo">
           <img class="" src="assets/svg/nav-icon-control.svg"/>
           <span>Control</span>
         </a>
-      </li>-->
+      </li>
       <!-- <li>
         <a routerLink="/app/reportes" routerLinkActive="list-item-activo">
           <img class="" src="assets/svg/nav-icon-reporte.svg"/>

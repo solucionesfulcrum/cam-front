@@ -29,19 +29,26 @@ export const pagesRoutes: Route[] = [
           import('./dashboard/dashboard.module').then((c) => c.DashboardModule),
       },
       {
+        path: 'home',
+        canActivate:[AuthGuard, CerpUserGuard],
+        title:'Bienvenida',
+        loadChildren: () =>
+          import('./landing-page/landing-page.module').then((c) => c.LandingPageModule),
+      },
+      {
         path: 'adm-uo',
         canActivate:[AuthGuard, CerpUserGuard],
         title:'Mi Administración UO',
         loadChildren: () =>
           import('./adm-uo/adm-uo.module').then((c) => c.AdmUoModule),
       },
-      {
-        path: 'home',
-        canActivate:[AuthGuard],
-        title:'Mi home',
-        loadChildren: () =>
-          import('./home/home.routing').then((c) => c.homeRoutes),
-      },
+      // {
+      //   path: 'home',
+      //   canActivate:[AuthGuard],
+      //   title:'Mi home',
+      //   loadChildren: () =>
+      //     import('./home/home.routing').then((c) => c.homeRoutes),
+      // },
       {
         path: 'profile',
         canActivate:[AuthGuard],
