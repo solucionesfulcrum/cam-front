@@ -55,6 +55,10 @@ export class ProgramacionContratosService {
   registerAsignacionesDia(model: ProgramacionRequestRegisterServicio){
     const url = `${URL_BASE}/detalle/registrar`;
     return this._httpClient.post<any>(url,model);
+  }
 
+  deleteAsignacionId(idProgramacionDet: number){
+    const url = `${URL_BASE}/detalle/eliminar/${idProgramacionDet}`;
+    return this._httpClient.delete<any>(url);
   }
 }
