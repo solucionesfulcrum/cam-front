@@ -135,7 +135,6 @@ export class CalendarioProgramacionComponent {
   getDataServiciosAsignados(){
     this.programacionService.getServiciosProgramadosContrato(this.dataContrato.idProgramacion).subscribe((data)=>{
       if (data.code == 0) {
-        console.log(data.data)
         this.serviciosAsignados = data.data;
       }
       else {
@@ -239,6 +238,7 @@ export class CalendarioProgramacionComponent {
     this.programacionService.getDataAsignacionServicioSelected(idProgramacionDet).subscribe((data)=>{
       if (data.code == 0) {
         this.dataAsignacionSelected = data.data;
+        this.dataAsignacionSelected.idProgramacionDet = idProgramacionDet;
       }
       else {
         this.notificationService.warning(data.message);
@@ -277,5 +277,16 @@ export class CalendarioProgramacionComponent {
     }
   }
 
-
+  deleteAsignacion(idProgramacionDet: any){ console.log(idProgramacionDet)
+    this.programacionService.deleteAsignacionId(idProgramacionDet).subscribe((data)=>{
+      if (data.code == 0) {
+        this.getDataServiciosAsignados();
+        this.getDataResumenContrato();
+        this.notificationService.success('Se eliminó la asignación satisfactoriamente');
+      }
+      else {
+        this.notificationService.warning(data.message);
+      }
+    })
+  }
 }
