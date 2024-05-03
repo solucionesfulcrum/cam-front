@@ -3,6 +3,8 @@ import { FormBuilder, FormControl, FormGroup } from '@angular/forms';
 import { PageEvent } from '@angular/material/paginator';
 import { ProgramacionRequestListContratos } from '@models/programacion/programacion-contratos/programacion-contrato-lista.model';
 import { NotificationService } from '@services/notification.service';
+import { Parametro } from '@shared/components/opciones-busqueda/parametros-busqueda.model';
+import { DatosGeneralesService } from 'src/app/data/services/datos-generales.service';
 import { ProgramacionContratosService } from 'src/app/data/services/programacion/programacion-contratos.service';
 
 @Component({
@@ -11,6 +13,7 @@ import { ProgramacionContratosService } from 'src/app/data/services/programacion
   styleUrls: ['./tab-contratos.component.scss']
 })
 export class TabContratosComponent {
+  opciones: Parametro[] = [];
 
   formBuscar: FormGroup = this.fb.group({
     frmSearch:new FormControl(""),
@@ -28,8 +31,20 @@ export class TabContratosComponent {
   
   constructor(private fb                      : FormBuilder,
               private programacionService     : ProgramacionContratosService,
+              private datosService             : DatosGeneralesService,
               private notificationService     : NotificationService
   ) { }
+
+  ngOnInit(){
+    this.datosService.getTipoParametros('ESTADO_PROGRAMACION').subscribe((data)=>{
+      if (data.code == 0) {
+        this.opciones = data.data;
+      }
+      else{
+        this.notificationService.warning(data.message);
+      }
+    });
+  }
 
   loadData(){
     this.programacionService.listContratosProgramacion(this.getPayloadList()).subscribe((data)=>{
@@ -37,7 +52,6 @@ export class TabContratosComponent {
         console.log(data.data.list)
         this.dataSource = data.data.list;
         this.pageNum = data.data.pageNum;
-        this.pageSize = data.data.pageSize;
         this.total = data.data.total;
       }
       else {

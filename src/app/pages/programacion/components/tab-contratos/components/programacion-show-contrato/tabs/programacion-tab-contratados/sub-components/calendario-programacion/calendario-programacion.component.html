@@ -89,12 +89,14 @@
                                             <span class="text-[10px] bg-white px-1 h-[99%] text-[#333333] overflow-auto w-full">{{getDataAsignacion(horario, espacios).nombreServicio | titlecase}}, <span class="text-[var(--color-CAM)]">{{getDataAsignacion(horario, espacios).fechaHorarioInicio | date:'h aa'}}</span></span>
                                         </div>
                                     </div>
-                                    <!-- <div class="absolute left-0 top-0 z-10 flex flex-row w-full" *ngIf="validarActividadRegistrada(horario, espacios)" [ngStyle]="{'height': (validarActividadRegistrada(horario, espacios) ? getDataAsignacion(horario, espacios).longitud + 'px': null)}" [cdkMenuTriggerFor]="getDataAsignacion(horario, espacios) ? accountOptions : null">
-                                        <div class="barraTarea">
-                                            <img src="assets/svg/icon-task-small.svg">
-                                        </div>
-                                        <div class="flex items-start w-full">
-                                            <span class="text-[10px] bg-white px-1 h-[99%] text-[#333333] overflow-auto w-full">{{getDataAsignacion(horario, espacios).obj.actividad}}, <span class="text-[#64748B]">{{getDataAsignacion(horario, espacios).obj.inicioActividad | date:'h aa'}}</span></span>
+                                    <!-- <div *ngFor="let actividad of getDataAsignacion(horario, espacios), index as i">
+                                        <div class="absolute left-0 top-0 z-10 flex flex-row w-full" *ngIf="validarActividadRegistrada(horario, espacios)" [ngStyle]="{'height': (validarActividadRegistrada(horario, espacios) ? actividad.longitud + 'px': null), 'margin-top': (validarActividadRegistrada(horario, espacios) ? actividad.controlarInicio + 'px': null)}" [cdkMenuTriggerFor]="actividad ? accountOptions : null" (click)="getDataServiceAsignadoSelected(actividad.idProgramacionDet, $event)">
+                                            <div class="barraTarea">
+                                                <img src="assets/svg/icon-task-small.svg">
+                                            </div>
+                                            <div class="flex items-start w-full">
+                                                <span class="text-[10px] bg-white px-1 h-[99%] text-[#333333] overflow-auto w-full">{{actividad.nombreServicio | titlecase}}, <span class="text-[var(--color-CAM)]">{{actividad.fechaHorarioInicio | date:'h aa'}}</span></span>
+                                            </div>
                                         </div>
                                     </div> -->
                                 </div>

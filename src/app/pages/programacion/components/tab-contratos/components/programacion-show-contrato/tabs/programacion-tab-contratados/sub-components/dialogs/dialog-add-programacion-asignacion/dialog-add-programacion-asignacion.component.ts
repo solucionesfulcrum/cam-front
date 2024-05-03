@@ -1,7 +1,7 @@
 import { DIALOG_DATA, DialogRef } from '@angular/cdk/dialog';
 import { DatePipe, formatDate } from '@angular/common';
 import { Component, Inject, LOCALE_ID } from '@angular/core';
-import { FormBuilder, FormControl, Validators } from '@angular/forms';
+import { AbstractControl, FormArray, FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { DetallesServicio, ProgramacionRequestRegisterServicio, Servicio, ServiciosOrdenados } from '@models/programacion/programacion-contratos/programacion-contrato-lista.model';
 import { RequestStatus } from '@models/request-status.model';
 import { NotificationService } from '@services/notification.service';
@@ -17,6 +17,22 @@ import { ProgramacionContratosService } from 'src/app/data/services/programacion
 export class DialogAddProgramacionAsignacionComponent {
   status: RequestStatus = 'init';
   ctrlPersonalizado = new FormControl(false);
+  // Avanzado--------------------------------------------------------------------------------
+  ctrlAvanzado = new FormControl(false);
+  formSemanaDias = this.fb.nonNullable.group({
+    0: this.fb.array([]),
+    1: this.fb.array([]),
+    2: this.fb.array([]),
+    3: this.fb.array([]),
+    4: this.fb.array([]),
+    5: this.fb.array([]),
+    6: this.fb.array([])
+  })
+
+  ctrlTermina = new FormControl(null);
+  ctrlRepeticiones = new FormControl(null);
+  ctrlDiaSelected = new FormControl(null);
+  // ----------------------------------------------------------------------------------------
 
   listServicios: ServiciosOrdenados[] = [];
   listFiltered: ServiciosOrdenados[] = [];
@@ -467,6 +483,47 @@ export class DialogAddProgramacionAsignacionComponent {
   }
   // -----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
+
+  // -----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------Funciones de control de datos
+  getFormGroup(control: AbstractControl) { return control as FormGroup; }
+
+  addControlToDate(value: Date){
+    let filaForm = this.fb.group({
+      fechaAgendacion: new FormControl((value)),
+      horaInicio: new FormControl(),
+      horaFin: new FormControl(),
+      cantCupos: new FormControl()
+    })
+    
+    filaForm.valueChanges.subscribe((fila: any)=>{
+      if (fila.horaInicio) {
+        fila.horaInicio = new Date((new Date(fila.fechaAgendacion)).setHours((new Date(fila.horaInicio)).getHours()))
+      }
+      if (fila.cantCupos < 1) filaForm.controls.cantCupos.setValue(null, { emitEvent: false });
+      if (fila.cantCupos == null) filaForm.controls.horaFin.setValue(null, { emitEvent: false });
+
+      if (fila.horaInicio && fila.cantCupos && this.dataTipo) {
+        let diaFinal = new Date(fila.horaInicio.getTime() + (1000*60*this.dataTipo.valor1)*(fila.cantCupos));
+        if (diaFinal.getHours() > 20 || (diaFinal.getHours() == 20  && diaFinal.getMinutes() != 0)|| diaFinal.getDate() != fila.horaInicio.getDate()) {
+          this.notificacionService.warning('La cantidad de turnos excede al limite')
+          filaForm.controls.cantCupos.setValue(1);
+        }
+        else{
+          filaForm.controls.horaFin.setValue(diaFinal, { emitEvent: false });
+        }
+      }
+    })
+    this.getControlDia(value.getDay()).push(filaForm);
+  }
+
+  getControlDia(value: any) {
+    return this.formSemanaDias.controls[value as keyof typeof this.formSemanaDias.controls] as FormArray;
+  }
+
+  deleteElement(dateIndex: number, elementIndex: number) {
+    this.getControlDia(dateIndex).removeAt(elementIndex);
+  }
+  // -----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
   // -----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
   onSave(){
     if (this.ctrlPersonalizado.value && (typeof this.ctrlCiram.value !== 'object')) {
