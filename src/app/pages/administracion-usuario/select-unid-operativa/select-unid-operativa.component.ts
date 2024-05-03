@@ -38,8 +38,12 @@ export class SelectUnidOperativaComponent {
   }
 
   AsignarUnidadOperativa(unidOperativ: any){
-    // console.log(unidOperativ)
     localStorage.setItem('UnidElegida', JSON.stringify(unidOperativ));
-    this.router.navigate(['/app']);
+    if (unidOperativ.rol === 'TALLERISTA') {
+      this.router.navigate(['/app/home']);
+    }
+    else{
+      this.router.navigate(['/app']);
+    }
   }
 }
