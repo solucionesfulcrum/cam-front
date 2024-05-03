@@ -397,6 +397,7 @@ export class DialogAddProgramacionAsignacionComponent {
         if (encontradoFaltante.contador % 3 == 0) {
           let serviciosCorrespondientes = listSersionesAsig.filter((x: any)=> ( encontradoFaltante.idUnid ? x.idUoCiram == encontradoFaltante.idUnid : x.idUoCiram == null ))
           let dataSemanaPasada: Date[] = [];
+          let dataSemanaSiguiente: Date[] = [];
           let idUnidCompar: number = (this.ctrlPersonalizado.value && ( typeof this.ctrlCiram.value == 'object') ? (this.ctrlCiram.value as any).idUnidadOperativa : null);
           let encontrado: any;
           let cuentaFaltante = 0; serviciosCorrespondientes.forEach((seguid: any) => { cuentaFaltante += seguid.nroSesiones});
@@ -408,11 +409,23 @@ export class DialogAddProgramacionAsignacionComponent {
             fechaEvaluar = this.data.semanaElegida[0];
           }
           let diaInicio = new Date(fechaEvaluar.getTime() - 1000*60*60*24*fechaEvaluar.getDay() - 1000*60*60*24*7);
+          let diaInicioSiguiente = new Date(fechaEvaluar.getTime() - 1000*60*60*24*fechaEvaluar.getDay() + 1000*60*60*24*7);
           for (let i = 0; i < 7; i++) {
             dataSemanaPasada.push(diaInicio);
             diaInicio = new Date(diaInicio.getTime() + 1000*60*60*24);
+            dataSemanaSiguiente.push(diaInicioSiguiente);
+            diaInicioSiguiente = new Date(diaInicioSiguiente.getTime() + 1000*60*60*24);
           }
           dataSemanaPasada.forEach((dia)=> {
+            if (!encontrado) {
+              serviciosCorrespondientes.forEach((servicio: any)=>{
+                if (servicio.fecha == formatDate(dia, 'yyyy-MM-dd', this.locale) && servicio.idUoCiram == idUnidCompar) {
+                  encontrado = servicio;
+                }
+              })
+            }
+          })
+          dataSemanaSiguiente.forEach((dia)=> {
             if (!encontrado) {
               serviciosCorrespondientes.forEach((servicio: any)=>{
                 if (servicio.fecha == formatDate(dia, 'yyyy-MM-dd', this.locale) && servicio.idUoCiram == idUnidCompar) {
@@ -444,7 +457,7 @@ export class DialogAddProgramacionAsignacionComponent {
             objRespuesta.validacion = false;
           }
           else{
-            let diff = 3 - encontradoFaltante.contador;
+            let diff = 3 - Math.floor(encontradoFaltante.contador/3);
             objRespuesta.message = `${diff == 2 ? 'Quedan': 'Queda'} ${diff} ${diff == 2 ? 'sesiones pendientes': 'sesión pendiente'} en ${encontradoFaltante.idUnid ? 'CIRAM ' + encontradoFaltante.nombre : 'CAM ' + encontradoFaltante.nombre} en otra semana`
             objRespuesta.validacion = true;
           }
