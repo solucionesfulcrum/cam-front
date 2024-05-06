@@ -208,7 +208,7 @@ export class CalendarioProgramacionComponent {
     let horaHorario = (horario.split(' ')[1] == 'PM' && horario.split(' ')[0] !== '12') ? parseInt(horario.split(' ')[0]) + 12 : parseInt(horario.split(' ')[0]);
     let listAct: any[] = [];
     listAct = this.serviciosAsignados.filter((x)=>{return x.horaInicio.split(':')[0] == horaHorario && x.fecha == formatDate(espacios, 'yyyy-MM-dd', this.locale)});
-    if (listAct.length == 0) return false;
+    if (listAct.length == 0) return listAct;
     listAct.forEach((x)=>{
       x.fechaHorarioInicio  = new Date(x.fecha + ' ' + x.horaInicio);
       let fechaFin = new Date(x.fecha + ' ' + x.horaFin);
@@ -277,7 +277,7 @@ export class CalendarioProgramacionComponent {
     }
   }
 
-  deleteAsignacion(idProgramacionDet: any){ console.log(idProgramacionDet)
+  deleteAsignacion(idProgramacionDet: any){
     this.programacionService.deleteAsignacionId(idProgramacionDet).subscribe((data)=>{
       if (data.code == 0) {
         this.getDataServiciosAsignados();
