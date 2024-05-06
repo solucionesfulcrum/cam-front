@@ -101,7 +101,7 @@ export class RegistroComponent {
         this.datosGeneralesService.registerCiram(this.getPayloadRegistro()).subscribe((data) => {
           if (data.code == 0) {
             this.opcionesBotones[1].loading = false;
-            this.notificationService.success('¡Se guardaron los datos del contrato!');
+            this.notificationService.success('¡Se guardaron los datos de CIRAM!');
             this.router.navigate(['app/adm-uo'])
           }
           else {
