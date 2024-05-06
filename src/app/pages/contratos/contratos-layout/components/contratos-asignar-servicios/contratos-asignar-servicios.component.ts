@@ -85,7 +85,6 @@ export class ContratosAsignarServiciosComponent {
         this.contratoService.getDataFromOC(this.numOc).subscribe((data)=>{
           if (data.code == 0) {
             this.dataContrato = data.data;
-            console.log(this.dataContrato)
             this.addTablaUnid(2,this.dataContrato.datosDetMismaUnidad[0], 0)
             if (this.dataContrato.datosDetOtraUnidad.length > 0) {
               this.dataContrato.datosDetOtraUnidad.forEach((x: any)=>{
@@ -154,6 +153,16 @@ export class ContratosAsignarServiciosComponent {
       let dataFecha: any;
       if (type == 0) {
         dataFecha = this.dataContrato.datosTallerista.fechaRegistro;
+        if (dataTabla.servicios.length == 0) {
+          dataOrdenada.push(
+            {
+              idServicio: 1,
+              nomServicio: '',
+              fecInicio: formatDate(this.dataContrato.datosContrato.fechaInicio, 'd/M/yyyy', this.locale),
+              fecFin: formatDate(this.dataContrato.datosContrato.fechaFin, 'd/M/yyyy', this.locale)
+            }
+          )
+        }
       }
       else{
         dataFecha = dataTabla.fechaRegistroUo;
