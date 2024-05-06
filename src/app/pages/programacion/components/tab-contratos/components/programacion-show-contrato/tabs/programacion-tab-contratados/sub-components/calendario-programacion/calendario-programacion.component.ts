@@ -193,31 +193,31 @@ export class CalendarioProgramacionComponent {
     return false;
   }
   //______________________________________________________________________________________________________________________________________________________________________________________________ TERMINAR
-  getDataAsignacion(horario: any, espacios: Date): any{
-    let horaHorario = (horario.split(' ')[1] == 'PM' && horario.split(' ')[0] !== '12') ? parseInt(horario.split(' ')[0]) + 12 : parseInt(horario.split(' ')[0]);
-    let listAct = this.serviciosAsignados.find((x)=>{return x.horaInicio.split(':')[0] == horaHorario && x.fecha == formatDate(espacios, 'yyyy-MM-dd', this.locale)});    
-    if (!listAct) return false;
-    listAct.fechaHorarioInicio  = new Date(listAct.fecha + ' ' + listAct.horaInicio);
-    let fechaFin = new Date(listAct.fecha + ' ' + listAct.horaFin);
-    let longitudHoras = ((fechaFin.getTime() - listAct.fechaHorarioInicio.getTime()) / (1000*60))/60;
-    listAct.controlarInicio = (((new Date(listAct.fecha + ' ' + listAct.horaInicio)).getMinutes())/60)*40;
-    listAct.longitud = longitudHoras*40;
-    return listAct;
-  }
   // getDataAsignacion(horario: any, espacios: Date): any{
   //   let horaHorario = (horario.split(' ')[1] == 'PM' && horario.split(' ')[0] !== '12') ? parseInt(horario.split(' ')[0]) + 12 : parseInt(horario.split(' ')[0]);
-  //   let listAct: any[] = [];
-  //   listAct = this.serviciosAsignados.filter((x)=>{return x.horaInicio.split(':')[0] == horaHorario && x.fecha == formatDate(espacios, 'yyyy-MM-dd', this.locale)});console.log(listAct)
-  //   if (listAct.length = 0) return false;
-  //   listAct.forEach((x)=>{
-  //     x.fechaHorarioInicio  = new Date(x.fecha + ' ' + x.horaInicio);
-  //     let fechaFin = new Date(x.fecha + ' ' + x.horaFin);
-  //     let longitudHoras = ((fechaFin.getTime() - x.fechaHorarioInicio.getTime()) / (1000*60))/60;
-  //     x.controlarInicio = (((new Date(x.fecha + ' ' + x.horaInicio)).getMinutes())/60)*40;
-  //     x.longitud = longitudHoras*40;
-  //   })
+  //   let listAct = this.serviciosAsignados.find((x)=>{return x.horaInicio.split(':')[0] == horaHorario && x.fecha == formatDate(espacios, 'yyyy-MM-dd', this.locale)});    
+  //   if (!listAct) return false;
+  //   listAct.fechaHorarioInicio  = new Date(listAct.fecha + ' ' + listAct.horaInicio);
+  //   let fechaFin = new Date(listAct.fecha + ' ' + listAct.horaFin);
+  //   let longitudHoras = ((fechaFin.getTime() - listAct.fechaHorarioInicio.getTime()) / (1000*60))/60;
+  //   listAct.controlarInicio = (((new Date(listAct.fecha + ' ' + listAct.horaInicio)).getMinutes())/60)*40;
+  //   listAct.longitud = longitudHoras*40;
   //   return listAct;
   // }
+  getDataAsignacion(horario: any, espacios: Date): any{
+    let horaHorario = (horario.split(' ')[1] == 'PM' && horario.split(' ')[0] !== '12') ? parseInt(horario.split(' ')[0]) + 12 : parseInt(horario.split(' ')[0]);
+    let listAct: any[] = [];
+    listAct = this.serviciosAsignados.filter((x)=>{return x.horaInicio.split(':')[0] == horaHorario && x.fecha == formatDate(espacios, 'yyyy-MM-dd', this.locale)});
+    if (listAct.length == 0) return false;
+    listAct.forEach((x)=>{
+      x.fechaHorarioInicio  = new Date(x.fecha + ' ' + x.horaInicio);
+      let fechaFin = new Date(x.fecha + ' ' + x.horaFin);
+      let longitudHoras = ((fechaFin.getTime() - x.fechaHorarioInicio.getTime()) / (1000*60))/60;
+      x.controlarInicio = (((new Date(x.fecha + ' ' + x.horaInicio)).getMinutes())/60)*40;
+      x.longitud = longitudHoras*40;
+    })
+    return listAct;
+  }
   //______________________________________________________________________________________________________________________________________________________________________________________________ TERMINAR
 
   verifyData(dataRangoElegido: any, dataFechaElegida: any, event: MouseEvent){
