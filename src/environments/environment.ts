@@ -5,7 +5,7 @@ export const environment = {
   // API_SEGURO: 'https://appsqa.essalud.gob.pe/sagw/sigps/viva-apidatosmaestros',
   // API_ESSI: 'https://appsqa.essalud.gob.pe/sagw/servicios-essi/apimaestra',
   // SSO_API: 'https://appsqa.essalud.gob.pe/sagw/sso-main/api',
-  //API: 'http://localhost:8085',
+  //API: 'http://localhost:80',
   environmentName: 'Dev-Local',
 
 
