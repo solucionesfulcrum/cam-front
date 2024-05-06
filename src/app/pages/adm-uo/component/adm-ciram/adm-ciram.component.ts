@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { AuthService } from '@services/auth.service';
 import { Router, RouterModule } from '@angular/router';
 import { AppRoute } from 'src/app/data/constants/app-route.constant';
+import { FormBuilder, FormControl, FormGroup, FormGroupDirective } from '@angular/forms';
 
 @Component({
   selector: 'esp-adm-ciram',
@@ -12,21 +13,31 @@ export class AdmCiramComponent {
 
   constructor(
     private authService: AuthService,
-    private router:Router
+    private router:Router,
+    private fb: FormBuilder, 
   ) { }
 
   unid = JSON.parse(localStorage.getItem('UnidElegida')!);
   listCiramActivos: any;
   listCiramInactivos: any;
 
+  formBuscar: FormGroup = this.fb.group({
+    frmSearch:new FormControl(""),
+    //frmSearchDate:new FormControl(""),
+    //frmSearchEstado:new FormControl(24),
+  });
 
   getDataFecha(value: any) {
-    /*this.formBuscar.get('frmSearchDate')?.setValue(value);
+    //this.formBuscar.get('frmSearchDate')?.setValue(value);
     console.log("fecha?",value)
-    this.onLoadData();*/
+    //this.onLoadData();
+
   }
   ngOnInit() {
-    this.authService.listarActivosInactivos({idUnidadOperativa:parseInt(this.unid.idUnidOperativa),fecFin:"2024-04-31",fecInicio:"2024-01-01",texto:""}).subscribe((data) => {
+    //console.log(this.formBuscar.get('frmSearch'))
+    const fechaInicio = "2024-01-01"
+    const fechaFin = "2024-12-01"
+    this.authService.listarActivosInactivos({idUnidadOperativa:parseInt(this.unid.idUnidOperativa),fecFin:fechaFin,fecInicio:fechaInicio,texto:""}).subscribe((data) => {
       this.listCiramActivos = data.data.ciramActivos
       this.listCiramInactivos = data.data.ciramInactivos
     })
