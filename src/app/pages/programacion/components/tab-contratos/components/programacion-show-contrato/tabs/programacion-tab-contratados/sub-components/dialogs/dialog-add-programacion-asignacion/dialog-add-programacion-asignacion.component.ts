@@ -69,6 +69,7 @@ export class DialogAddProgramacionAsignacionComponent {
 
 
   ngOnInit(): void {
+    this.ctrlAvanzado.disable()
     this.ctrlTipo.disable();
     // this.getActividades();
     this.formSchedule.controls.frmInicioHorario.setValue(null!)
@@ -218,11 +219,14 @@ export class DialogAddProgramacionAsignacionComponent {
     this.ctrlServicio.valueChanges.subscribe((data: any)=>{
       this.listFiltered = this.getOptionsFilteresServicio();
       if (typeof data === 'object') {
+        this.ctrlAvanzado.enable({ emitEvent: false});
         this.ctrlTipo.setValue(this.listParamTipo.find((datos)=> datos.nombre === data.tipoServicio).idParametros);
         this.dataTipo = this.listParamTipo.find((datos)=> datos.nombre === data.tipoServicio);
         this.comprobarLimiteSesiones(data.idServicio)
       }
       else{
+        this.ctrlAvanzado.setValue(false, {emitEvent: false});
+        this.ctrlAvanzado.disable({ emitEvent: false});
         this.ctrlTipo.setValue('');
         this.dataTipo = null;
       }
@@ -236,6 +240,23 @@ export class DialogAddProgramacionAsignacionComponent {
       }
       else{
         this.ctrlCiram.removeValidators(Validators.required);
+      }
+    })
+    this.ctrlAvanzado.valueChanges.subscribe((data)=>{
+      if (typeof this.ctrlServicio.value != 'object') {
+        
+      }
+      if (data){
+        this.formSchedule.controls.frmFecha.disable({ emitEvent: false });
+        this.formSchedule.controls.frmInicioHorario.disable({ emitEvent: false });
+        this.formSchedule.controls.frmFinHorario.disable({ emitEvent: false });
+      }
+      else{
+        if (!this.data.horarioFijo) {
+          this.formSchedule.controls.frmFecha.enable({ emitEvent: false });
+          this.formSchedule.controls.frmInicioHorario.enable({ emitEvent: false });
+        }
+        this.formSchedule.controls.frmFinHorario.enable({ emitEvent: false });
       }
     })
     this.ctrlCiram.valueChanges.subscribe((data)=>{
@@ -508,7 +529,7 @@ export class DialogAddProgramacionAsignacionComponent {
       cantCupos: new FormControl()
     })
     
-    filaForm.valueChanges.subscribe((fila: any)=>{
+    filaForm.valueChanges.subscribe((fila: any)=>{ console.log(fila)
       if (fila.horaInicio) {
         fila.horaInicio = new Date((new Date(fila.fechaAgendacion)).setHours((new Date(fila.horaInicio)).getHours()))
       }
