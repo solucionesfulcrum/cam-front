@@ -73,7 +73,7 @@ export class DialogAddProgramacionAsignacionComponent {
   ngOnInit(): void {
     this.ctrlAvanzado.disable()
     this.ctrlTipo.disable();
-    console.log(new Date(this.data.dataContrato.fechInicio.replace(/-/g, '\/')))
+    // console.log(new Date(this.data.dataContrato.fechInicio.replace(/-/g, '\/')))
     // this.getActividades();
     this.formSchedule.controls.frmInicioHorario.setValue(null!)
     this.setListeners();
@@ -101,8 +101,10 @@ export class DialogAddProgramacionAsignacionComponent {
           }
         })
       }
-      this.formSchedule.controls.frmInicioHorario.setValue(fechaEstablecido.toString());
-      this.formSchedule.controls.frmInicioHorario.disable();
+      if (!this.data.datoEdicion) {
+        this.formSchedule.controls.frmInicioHorario.setValue(fechaEstablecido.toString());
+        this.formSchedule.controls.frmInicioHorario.disable();
+      }
     }
   }
   // Creación Lista de Servicios con Ciram --------------------------------------------------------------
@@ -146,22 +148,37 @@ export class DialogAddProgramacionAsignacionComponent {
   // ----------------------------------------------------------------------------------------------------
 
   getParaametros(){
-    this.datosService.getTipoParametros('TIPO_SERVICIO').subscribe((data)=>{
-      if (data.code == 0) {
-        this.listParamTipo = data.data;
-      }
-      else {
-        this.notificacionService.warning(data.message);
-      }
-    })
     this.datosService.getListCiramsOfCam(JSON.parse(localStorage.getItem("UnidElegida")!).idUnidOperativa).subscribe((data)=>{
       if (data.code == 0) {
         this.listCirams = data.data;
+        this.listParamTipo = this.data.paramTipo;
+        if (this.data.datoEdicion) {
+          this.getDataEdicion()
+        }
       }
       else {
         this.notificacionService.warning(data.message);
       }
     })
+  }
+
+  getDataEdicion(){
+    console.log(this.data.datoEdicion)
+    let fechaEstablecido = new Date(`${this.data.datoEdicion.fecha} ${this.data.datoEdicion.horaInicio}`);
+    this.formSchedule.controls.frmInicioHorario.setValue(fechaEstablecido.toString());
+    this.listServicios.forEach((serv)=>{
+      let infoServ = serv.servicios.find((item)=> item.idServicio == this.data.datoEdicion.idServicio);
+      if (infoServ) {
+        this.ctrlServicio.setValue((infoServ as any));
+      }
+    });console.log(this.data.infoServiciosContratados)
+    this.formSchedule.controls.frmFinHorario.setValue((new Date(`${this.data.datoEdicion.fecha} ${this.data.datoEdicion.horaFin}`)).toString());
+    this.ctrlDireccion.setValue(this.data.datoEdicion.ubicacion);
+    if (this.data.datoEdicion.idUoCiram) {
+      this.ctrlPersonalizado.setValue(true);
+      this.ctrlCiram.setValue(this.listCirams.find((cir: any)=> cir.idUnidadOperativa == this.data.datoEdicion.idUoCiram))
+      // console.log(this.listCirams)
+    }
   }
 
   onClose(){
@@ -392,7 +409,7 @@ export class DialogAddProgramacionAsignacionComponent {
     let asignacionesSemana: any[] = [];
     let numeroSesiones: number = 0;
     this.data.semanaElegida.forEach((x: any) => {
-      this.data.infoServiciosContratados.filter((y: any) => y.fecha == formatDate(x, 'yyyy-MM-dd', this.locale)).forEach((z: any)=> {if(z.idServicio == idServicio){asignacionesSemana.push(z)}})
+      this.data.infoServiciosContratados.filter((item: any)=> (this.data.datoEdicion ? item.idProgramacionDet != this.data.datoEdicion.idProgramacionDet : true)).filter((y: any) => y.fecha == formatDate(x, 'yyyy-MM-dd', this.locale)).forEach((z: any)=> {if(z.idServicio == idServicio){asignacionesSemana.push(z)}})
     });
     asignacionesSemana.forEach((x)=>{
       numeroSesiones = numeroSesiones + x.nroSesiones;
@@ -403,7 +420,7 @@ export class DialogAddProgramacionAsignacionComponent {
     let objRespuesta: any = Object();
     let listIdCiram: number[] = []; this.data.serviciosCiram.forEach((x: any)=>{listIdCiram.push(x.idUnidOpeCiram)});
     let sesionesServ: number = 0;
-    let listSersionesAsig = this.data.infoServiciosContratados.filter((x: any)=> {
+    let listSersionesAsig = this.data.infoServiciosContratados.filter((item: any)=> (this.data.datoEdicion ? item.idProgramacionDet != this.data.datoEdicion.idProgramacionDet : true)).filter((x: any)=> {
       return x.idServicio == idServicio/* && ((this.ctrlPersonalizado.value && typeof this.ctrlCiram.value == 'object') ? (this.ctrlCiram.value as any).idUnidadOperativa == x.idUoCiram : true)*/;
     })
     listSersionesAsig.forEach((element: any) => {
@@ -509,12 +526,12 @@ export class DialogAddProgramacionAsignacionComponent {
 
   comprobarLimiteSesiones(idServicio: any): number{
     let sesionesTotales: number = 0;
-    this.data.infoServiciosContratados.forEach((x: any)=> {if (x.idServicio == idServicio) { sesionesTotales += x.nroSesiones }})
+    this.data.infoServiciosContratados.filter((item: any)=> (this.data.datoEdicion ? item.idProgramacionDet != this.data.datoEdicion.idProgramacionDet : true)).forEach((x: any)=> {if (x.idServicio == idServicio) { sesionesTotales += x.nroSesiones }})
     return sesionesTotales;
   }
 
   validateAsignacionFecha(): boolean{
-    let listServiciosPrevios = this.data.infoServiciosContratados.filter((x: any)=>{ return x.fecha == formatDate(this.formSchedule.controls.frmFecha.value, 'yyyy-MM-dd', this.locale)});
+    let listServiciosPrevios = this.data.infoServiciosContratados.filter((item: any)=> (this.data.datoEdicion ? item.idProgramacionDet != this.data.datoEdicion.idProgramacionDet : true)).filter((x: any)=>{ return x.fecha == formatDate(this.formSchedule.controls.frmFecha.value, 'yyyy-MM-dd', this.locale)});
     let error: boolean = false;
     let HorarioInicio = new Date(this.formSchedule.controls.frmInicioHorario.value);
     let HorarioFin = new Date(this.formSchedule.controls.frmFinHorario.value);
@@ -694,7 +711,7 @@ export class DialogAddProgramacionAsignacionComponent {
 
   getPayloadAvanzado(data: any): ProgramacionRequestRegisterServicio{
     let listServicios: DetallesServicio[] = [];
-    let listServiciosPrevios = this.data.infoServiciosContratados.filter((x: any)=>{ return x.fecha == formatDate(data.fecha, 'yyyy-MM-dd', this.locale)});
+    let listServiciosPrevios = this.data.infoServiciosContratados.filter((item: any)=> (this.data.datoEdicion ? item.idProgramacionDet != this.data.datoEdicion.idProgramacionDet : true)).filter((x: any)=>{ return x.fecha == formatDate(data.fecha, 'yyyy-MM-dd', this.locale)});
     if (listServiciosPrevios.length > 0) {
       listServiciosPrevios.forEach((x: any) => {
         listServicios.push({
@@ -794,7 +811,7 @@ export class DialogAddProgramacionAsignacionComponent {
 
   payloadServicio(): DetallesServicio[]{
     let listServicios: DetallesServicio[] = [];
-    let listServiciosPrevios = this.data.infoServiciosContratados.filter((x: any)=>{ return x.fecha == formatDate(this.formSchedule.controls.frmFecha.value, 'yyyy-MM-dd', this.locale)});
+    let listServiciosPrevios = this.data.infoServiciosContratados.filter((item: any)=> (this.data.datoEdicion ? item.idProgramacionDet != this.data.datoEdicion.idProgramacionDet : true)).filter((x: any)=>{ return x.fecha == formatDate(this.formSchedule.controls.frmFecha.value, 'yyyy-MM-dd', this.locale)});
     if (listServiciosPrevios.length > 0) {
       listServiciosPrevios.forEach((x: any) => {
         listServicios.push({

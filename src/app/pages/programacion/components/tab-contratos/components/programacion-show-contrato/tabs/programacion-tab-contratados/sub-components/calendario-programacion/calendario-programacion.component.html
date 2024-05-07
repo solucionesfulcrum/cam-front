@@ -98,69 +98,69 @@
                                                 <span class="text-[10px] bg-white px-1 h-[99%] text-[#333333] overflow-auto w-full">{{actividad.nombreServicio | titlecase}}, <span class="text-[var(--color-CAM)]">{{actividad.fechaHorarioInicio | date:'h:mm aa'}}</span></span>
                                             </div>
                                         </div>
+                                        <ng-template #accountOptions>
+                                            <div class="menu-layout botonApariencia min-w-[600px]" cdkMenu>
+                                                <div class="px-4 py-3 w-full grid" *ngIf="!dataAsignacionSelected">
+                                                    <div class="text-gray-600 w-full text-center">
+                                                        <p class="py-1 font-semibold text-2xl">
+                                                            <fa-icon class="mr-2" [icon]="faSpinner" [pulse]="true"></fa-icon>
+                                                            Obteniendo datos...
+                                                        </p>
+                                                    </div>
+                                                </div>
+                                                <div class="flex flex-row py-2 justify-end gap-6 items-center" *ngIf="dataAsignacionSelected">
+                                                    <button class="elementoOpcion" cdkMenuItem (click)="editAsignacion(horario, espacios, actividad)">
+                                                        <img class="iconoEscalaGris h-6" src="assets/svg/Edit.svg"/>
+                                                    </button>
+                                                    <button class="elementoOpcion" cdkMenuItem (click)="deleteAsignacion(dataAsignacionSelected.idProgramacionDet)">
+                                                        <img src="assets/svg/icon-trash-can.svg"/>
+                                                    </button>
+                                                    <button class="elementoOpcion" cdkMenuItem>
+                                                        <fa-icon class="flex" [icon]="faClose" [classes]="['h-6', 'w-6', 'text-[#64748B]']"></fa-icon>
+                                                    </button>
+                                                </div>
+                                                <div class="flex flex-col" *ngIf="dataAsignacionSelected">
+                                                    <span class="text-[14px] leading-[14px]">Programación de:</span>
+                                                    <div class="flex flex-row gap-2.5 items-center py-2">
+                                                        <div class="w-5 h-5 bg-[var(--color-CAM)] rounded"></div>
+                                                        <div class="flex flex-col gap-1">
+                                                            <span class="text-[18px] leading-5">{{dataAsignacionSelected.servicio | titlecase}}</span>
+                                                            <span class="text-[14px] leading-[14px] text-[#64748B]">Taller de {{dataAsignacionSelected.duracion}} min</span>
+                                                        </div>
+                                                    </div>
+                                                    <div class="flex flex-row gap-2.5 items-center py-2">
+                                                        <img class="h-5 self-center iconoEscalaGris" src="assets/svg/timeIcon.svg">
+                                                        <div>
+                                                            <span class="text-[16px] leading-5">{{dataAsignacionSelected.nroSesiones}} {{dataAsignacionSelected.nroSesiones > 1 ? 'Sesiones programados' : 'Sesión programada'}}</span>
+                                                        </div>
+                                                    </div>
+                                                    <div class="flex flex-row gap-2.5 items-center py-2">
+                                                        <img class="h-5 self-center iconoEscalaGris" src="assets/svg/icon-profesional-man.svg">
+                                                        <div class="flex flex-col gap-1">
+                                                            <span class="text-[16px] leading-5">{{dataAsignacionSelected.tallerista | titlecase}}</span>
+                                                            <span class="text-[14px] leading-[14px] text-[#64748B]">Tallerista a cargo</span>
+                                                        </div>
+                                                    </div>
+                                                    <div class="flex flex-row gap-2.5 items-center py-2">
+                                                        <img class="h-5 self-center" src="assets/svg/icon-vinieta-cam.svg">
+                                                        <span class="text-[16px] leading-5">{{dataAsignacionSelected.unidadOperativaCiram ? ('CIRAM ' + (dataAsignacionSelected.unidadOperativaCiram | titlecase)) : ('CAM ' + (dataAsignacionSelected.unidadOperativaCam | titlecase))}}</span>
+                                                    </div>
+                                                    <div class="flex flex-row gap-2.5 items-center py-2">
+                                                        <img class="h-5 self-center" src="assets/svg/icon-direccion-gray.svg">
+                                                        <div class="flex flex-col gap-1">
+                                                            <span class="text-[16px] leading-5">Ubicación</span>
+                                                            <span class="text-[14px] leading-[14px] text-[#64748B]">{{dataAsignacionSelected.ubicacion}}</span>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </ng-template>
                                     </div>
                                 </div>
                             </ng-container>
                         </div>
                     </div>
                 </div>
-                <ng-template #accountOptions>
-                    <div class="menu-layout botonApariencia min-w-[600px]" cdkMenu>
-                        <div class="px-4 py-3 w-full grid" *ngIf="!dataAsignacionSelected">
-                            <div class="text-gray-600 w-full text-center">
-                                <p class="py-1 font-semibold text-2xl">
-                                    <fa-icon class="mr-2" [icon]="faSpinner" [pulse]="true"></fa-icon>
-                                    Obteniendo datos...
-                                </p>
-                            </div>
-                        </div>
-                        <div class="flex flex-row py-2 justify-end gap-6 items-center" *ngIf="dataAsignacionSelected">
-                            <button class="elementoOpcion" cdkMenuItem>
-                                <img class="iconoEscalaGris h-6" src="assets/svg/Edit.svg"/>
-                            </button>
-                            <button class="elementoOpcion" cdkMenuItem (click)="deleteAsignacion(dataAsignacionSelected.idProgramacionDet)">
-                                <img src="assets/svg/icon-trash-can.svg"/>
-                            </button>
-                            <button class="elementoOpcion" cdkMenuItem>
-                                <fa-icon class="flex" [icon]="faClose" [classes]="['h-6', 'w-6', 'text-[#64748B]']"></fa-icon>
-                            </button>
-                        </div>
-                        <div class="flex flex-col" *ngIf="dataAsignacionSelected">
-                            <span class="text-[14px] leading-[14px]">Programación de:</span>
-                            <div class="flex flex-row gap-2.5 items-center py-2">
-                                <div class="w-5 h-5 bg-[var(--color-CAM)] rounded"></div>
-                                <div class="flex flex-col gap-1">
-                                    <span class="text-[18px] leading-5">{{dataAsignacionSelected.servicio | titlecase}}</span>
-                                    <span class="text-[14px] leading-[14px] text-[#64748B]">Taller de {{dataAsignacionSelected.duracion}} min</span>
-                                </div>
-                            </div>
-                            <div class="flex flex-row gap-2.5 items-center py-2">
-                                <img class="h-5 self-center iconoEscalaGris" src="assets/svg/timeIcon.svg">
-                                <div>
-                                    <span class="text-[16px] leading-5">{{dataAsignacionSelected.nroSesiones}} {{dataAsignacionSelected.nroSesiones > 1 ? 'Sesiones programados' : 'Sesión programada'}}</span>
-                                </div>
-                            </div>
-                            <div class="flex flex-row gap-2.5 items-center py-2">
-                                <img class="h-5 self-center iconoEscalaGris" src="assets/svg/icon-profesional-man.svg">
-                                <div class="flex flex-col gap-1">
-                                    <span class="text-[16px] leading-5">{{dataAsignacionSelected.tallerista | titlecase}}</span>
-                                    <span class="text-[14px] leading-[14px] text-[#64748B]">Tallerista a cargo</span>
-                                </div>
-                            </div>
-                            <div class="flex flex-row gap-2.5 items-center py-2">
-                                <img class="h-5 self-center" src="assets/svg/icon-vinieta-cam.svg">
-                                <span class="text-[16px] leading-5">{{dataAsignacionSelected.unidadOperativaCiram ? ('CIRAM ' + (dataAsignacionSelected.unidadOperativaCiram | titlecase)) : ('CAM ' + (dataAsignacionSelected.unidadOperativaCam | titlecase))}}</span>
-                            </div>
-                            <div class="flex flex-row gap-2.5 items-center py-2">
-                                <img class="h-5 self-center" src="assets/svg/icon-direccion-gray.svg">
-                                <div class="flex flex-col gap-1">
-                                    <span class="text-[16px] leading-5">Ubicación</span>
-                                    <span class="text-[14px] leading-[14px] text-[#64748B]">{{dataAsignacionSelected.ubicacion}}</span>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </ng-template>
             </div>
             <div class="flex flex-col gap-2">
                 <div class="flex flex-row justify-between items-center">

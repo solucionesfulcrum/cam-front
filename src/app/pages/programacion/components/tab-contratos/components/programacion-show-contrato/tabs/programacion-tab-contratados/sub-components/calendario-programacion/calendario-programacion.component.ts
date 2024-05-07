@@ -12,6 +12,7 @@ import { Dialog } from '@angular/cdk/dialog';
 import { ConfirmarProgramacionComponent } from '../dialogs/confirmar-programacion/confirmar-programacion.component';
 import { AppRoute } from 'src/app/data/constants/app-route.constant';
 import { DialogAddProgramacionAsignacionComponent } from '../dialogs/dialog-add-programacion-asignacion/dialog-add-programacion-asignacion.component';
+import { DatosGeneralesService } from 'src/app/data/services/datos-generales.service';
 
 registerLocaleData(localeEs, 'es');
 
@@ -31,6 +32,7 @@ export class CalendarioProgramacionComponent {
   dataContrato: any;
   dataAsignacionSelected: any;
   listServicios: any;
+  listParamTipo: any[] = [];
   listServiciosCiram!: any[];
   dataResumenContrato: any;
   
@@ -47,6 +49,7 @@ export class CalendarioProgramacionComponent {
   
   constructor(private activeRoute                           : ActivatedRoute,
               private programacionService                   : ProgramacionContratosService,
+              private datosService                          : DatosGeneralesService,
               @Inject(LOCALE_ID) private locale             : string,
               private dialog                                : Dialog,
               private router                                : Router,
@@ -56,18 +59,26 @@ export class CalendarioProgramacionComponent {
   }
 
   ngOnInit(){
-    this.programacionService.getDatosContrato(this.idProgramacion).subscribe((data)=>{
+    this.datosService.getTipoParametros('TIPO_SERVICIO').subscribe((data)=>{
       if (data.code == 0) {
-        this.limitesHorario.push(new Date(data.data.datosContrato.fechInicio.replace(/-/g, '\/')));
-        this.limitesHorario.push(new Date(data.data.datosContrato.fechFin.replace(/-/g, '\/')));
-        this.periodoCalendario.setMonth(this.limitesHorario[0].getMonth());
-        this.periodoCalendario.setFullYear(this.limitesHorario[0].getFullYear());
-        this.getFechasSemana(new Date(this.limitesHorario[0].getFullYear(), this.limitesHorario[0].getMonth(), this.limitesHorario[0].getDate()));
-        this.dataContrato = data.data.datosContrato;
-        this.getDataResumenContrato();
-        this.getServiciosContrato()
-        this.getDataServiciosAsignados();
-        this.ctrlProfesionales.setValue(1);
+        this.listParamTipo = data.data;
+        this.programacionService.getDatosContrato(this.idProgramacion).subscribe((data)=>{
+          if (data.code == 0) {
+            this.limitesHorario.push(new Date(data.data.datosContrato.fechInicio.replace(/-/g, '\/')));
+            this.limitesHorario.push(new Date(data.data.datosContrato.fechFin.replace(/-/g, '\/')));
+            this.periodoCalendario.setMonth(this.limitesHorario[0].getMonth());
+            this.periodoCalendario.setFullYear(this.limitesHorario[0].getFullYear());
+            this.getFechasSemana(new Date(this.limitesHorario[0].getFullYear(), this.limitesHorario[0].getMonth(), this.limitesHorario[0].getDate()));
+            this.dataContrato = data.data.datosContrato;
+            this.getDataResumenContrato();
+            this.getServiciosContrato()
+            this.getDataServiciosAsignados();
+            this.ctrlProfesionales.setValue(1);
+          }
+          else {
+            this.notificationService.warning(data.message);
+          }
+        })
       }
       else {
         this.notificationService.warning(data.message);
@@ -273,6 +284,7 @@ export class CalendarioProgramacionComponent {
           serviciosContrato:            this.listServicios,
           serviciosCiram:               this.listServiciosCiram,
           dataRangosHorarios:           this.horarios,
+          paramTipo:                    this.listParamTipo,
           semanaElegida:                this.fechasSemana,
           horarioFijo:                  (dataRangoElegido ? true : false)
         }
@@ -282,11 +294,39 @@ export class CalendarioProgramacionComponent {
           this.getDataServiciosAsignados();
           this.getDataResumenContrato();
         }
-      });    
+      });
     }
     else{
       this.notificationService.warning('Este horario no corresponde al mes a programar');
     }
+  }
+
+  editAsignacion(dataRangoElegido: any, dataFechaElegida: any, data: any){
+    const dialogRef = this.dialog.open(DialogAddProgramacionAsignacionComponent,{
+      minWidth:'400px',
+      width:'60vw',
+      maxWidth:'800px',
+      data:{
+        idProgramacion:               this.idProgramacion,
+        datoEdicion:                  data,
+        rangoHorario:                 dataRangoElegido,
+        fechaHorario:                 dataFechaElegida,
+        dataContrato:                 this.dataContrato,
+        infoServiciosContratados:     this.serviciosAsignados,
+        serviciosContrato:            this.listServicios,
+        serviciosCiram:               this.listServiciosCiram,
+        dataRangosHorarios:           this.horarios,
+        paramTipo:                    this.listParamTipo,
+        semanaElegida:                this.fechasSemana,
+        horarioFijo:                  (dataRangoElegido ? true : false)
+      }
+    })
+    dialogRef.closed.subscribe(result => {
+      if (result == 1) {
+        this.getDataServiciosAsignados();
+        this.getDataResumenContrato();
+      }
+    });
   }
 
   deleteAsignacion(idProgramacionDet: any){
