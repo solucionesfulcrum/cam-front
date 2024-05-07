@@ -51,7 +51,7 @@ export class EditActiveUserComponent {
 
   public formDatosPersonales = this.fb.nonNullable.group({
     frmNombres: [''],
-    frmApellidos: [''],
+    frmApellidos: ['', [Validators.pattern('^[a-zA-Z ]*$')]],
     frmCelular: [''],
     frmCorreo: [''],
     frmDireccion: [''],
@@ -97,42 +97,57 @@ export class EditActiveUserComponent {
     }
     return this.yearsGrad
   }
+  
+  limitLength(event: KeyboardEvent) {
+    const currentValue = (event.target as HTMLInputElement).value;
+    if (currentValue.length >= 9 && event.key !== 'Backspace') {
+        event.preventDefault();
+    }
+
+    const key = event.key;
+    const allowedKeys = ['0', '1', '2', '3', '4', '5', '6', '7', '8', '9', 'Backspace'];
+    if (!allowedKeys.includes(key)) {
+        event.preventDefault();
+    }
+  }
 
   grabarDatosPersonales() {
     this.valid = false
-    if (this.formDatosPersonales.valid && this.distrControl.value.codUbigeo != 0) {
-      this.datosService.registerDatosPersonales(this.getPayloadRegistro()).subscribe((data) => {
-        if (data.code == 0) {
-          if (this.applicationFile) {
-            const formData = new FormData();
-            formData.append('img-foto', this.applicationFile);
-            const idUsuario = (JSON.parse(localStorage.getItem('camUser')!)).idUsuario
-            this.datosService.saveFileImagenFoto(formData, idUsuario).subscribe((datos) => {
-              console.log(datos)
-              this.notificationService.success('¡Se guardaron los datos personales!');
-            })
-          }
-          if (this.applicationFileFirma) {
-            const formDataFirma = new FormData();
-            formDataFirma.append('img-firma', this.applicationFileFirma);
-            const idUsuario = (JSON.parse(localStorage.getItem('camUser')!)).idUsuario
-            this.datosService.saveFileImagenFirma(formDataFirma, idUsuario).subscribe((datos) => {
-              console.log(datos)
-              this.notificationService.success('¡Se guardaron los datos personales!');
-            })
-          }
-          this.notificationService.success('¡Se guardaron los datos personales!');
-          //this.router.navigate(['app/adm-uo'])
-        }
-        else {
-          this.notificationService.warning(data.message);
-        }
-      })
-    } else {
-      this.formDatosPersonales.markAllAsTouched();
-      this.distrControl.markAllAsTouched();
+    if (this.distrControl.value.codUbigeo == 0) {
       this.valid = true
-      console.log("valid", this.valid)
+    } else {
+      if (this.formDatosPersonales.valid) {
+        this.datosService.registerDatosPersonales(this.getPayloadRegistro()).subscribe((data) => {
+          if (data.code == 0) {
+            if (this.applicationFile) {
+              const formData = new FormData();
+              formData.append('img-foto', this.applicationFile);
+              const idUsuario = (JSON.parse(localStorage.getItem('camUser')!)).idUsuario
+              this.datosService.saveFileImagenFoto(formData, idUsuario).subscribe((datos) => {
+                console.log(datos)
+                this.notificationService.success('¡Se guardaron los datos personales!');
+              })
+            }
+            if (this.applicationFileFirma) {
+              const formDataFirma = new FormData();
+              formDataFirma.append('img-firma', this.applicationFileFirma);
+              const idUsuario = (JSON.parse(localStorage.getItem('camUser')!)).idUsuario
+              this.datosService.saveFileImagenFirma(formDataFirma, idUsuario).subscribe((datos) => {
+                console.log(datos)
+                this.notificationService.success('¡Se guardaron los datos personales!');
+              })
+            }
+            this.notificationService.success('¡Se guardaron los datos personales!');
+            //this.router.navigate(['app/adm-uo'])
+          }
+          else {
+            this.notificationService.warning(data.message);
+          }
+        })
+      } else {
+        this.formDatosPersonales.markAllAsTouched();
+        this.distrControl.markAllAsTouched();
+      }
     }
   }
 

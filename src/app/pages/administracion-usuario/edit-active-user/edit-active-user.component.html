@@ -46,12 +46,19 @@
                 <input type="text"
                     class="space-x-5 border border-gray-300 text-gray-900 text-sm rounded-lg focusCampo block w-full h-[42px]"
                     formControlName="frmApellidos">
+                <div
+                    *ngIf="formDatosPersonales.controls.frmApellidos.touched && formDatosPersonales.controls.frmApellidos.invalid">
+                    <p *ngIf="formDatosPersonales.controls.frmApellidos.hasError('pattern')"
+                        class="font-medium text-red-500 text-xs mt-1 ml-1">
+                        Apellidos solo puede contar con Letras y Espacios
+                    </p>
+                </div>
             </div>
             <div>
                 <label class="block text-gray-700">Celular</label>
                 <input type="text"
                     class="space-x-5 border border-gray-300 text-gray-900 text-sm rounded-lg focusCampo block w-full h-[42px]"
-                    formControlName="frmCelular">
+                    formControlName="frmCelular" (keydown)="limitLength($event)" inputmode="numeric" pattern="[0-9]*">
             </div>
             <div>
                 <label class="block text-gray-700">Correo electrónico</label>
@@ -232,16 +239,15 @@
         </span>
     </div>
     <div [formGroup]="formDatosFormacion">
-        <div>
-            <div class="relative rounded-md shadow-sm mt-5">
-                <select id="searchNivelEstudio" formControlName="frmNivelEstudio"
-                    class="space-x-5 border border-gray-300 text-gray-900 text-sm rounded-lg focusCampo block w-full h-[42px]">
-                    <option value="" disabled selected>Nivel de Educación Actual</option>
-                    <option *ngFor="let nivelEdu of opcionesNivelEducativo" [value]='nivelEdu.idParametros'>{{
-                        nivelEdu.nombre }}
-                    </option>
-                </select>
-            </div>
+        <div class="relative rounded-md shadow-sm mt-5">
+            <select id="searchNivelEstudio" formControlName="frmNivelEstudio"
+                class="space-x-5 border border-gray-300 text-gray-900 text-sm rounded-lg focusCampo block w-full h-[42px]">
+                <option [ngValue]="null" disabled [selected]="!formDatosFormacion.controls['frmNivelEstudio'].value">
+                    Nivel de Educación Actual</option>
+                <option *ngFor="let nivelEdu of opcionesNivelEducativo" [value]="nivelEdu.idParametros">
+                    {{ nivelEdu.nombre }}
+                </option>
+            </select>
         </div>
         <div class="mt-4">
             <label class="block text-gray-700 mb-1">Nombre de la institucion Educativa</label>
@@ -249,16 +255,14 @@
                 class="space-x-5 border border-gray-300 text-gray-900 text-sm rounded-lg focusCampo block w-full h-[42px]"
                 formControlName="frmInstEduca">
         </div>
-        <div class="mt-4">
-            <div class="relative rounded-md shadow-sm mt-5">
-                <select id="searchAnioGraduacion" formControlName="frmAnioGraduacion"
-                    class="space-x-5 border border-gray-300 text-gray-900 text-sm rounded-lg focusCampo block w-full h-[42px]">
-                    <option value="" disabled selected>Año de Graduación</option>
-                    <option *ngFor="let anio of yearsGrad" [value]='anio'>{{
-                        anio }}
-                    </option>
-                </select>
-            </div>
+        <div class="relative rounded-md shadow-sm mt-5">
+            <select id="searchAnioGraduacion" formControlName="frmAnioGraduacion"
+                class="space-x-5 border border-gray-300 text-gray-900 text-sm rounded-lg focusCampo block w-full h-[42px]">
+                <option [ngValue]="null" disabled [selected]="!formDatosFormacion.controls['frmAnioGraduacion'].value">
+                    Año de Graduación
+                </option>
+                <option *ngFor="let anio of yearsGrad" [value]="anio">{{ anio }}</option>
+            </select>
         </div>
 
         <div class="flex justify-end mt-6">
@@ -298,4 +302,3 @@
             </app-btn>
         </div>
     </div>
-</div>
