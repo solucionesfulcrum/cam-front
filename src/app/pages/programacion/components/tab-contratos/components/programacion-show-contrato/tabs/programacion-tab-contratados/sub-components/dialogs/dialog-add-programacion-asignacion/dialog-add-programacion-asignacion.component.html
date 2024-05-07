@@ -154,15 +154,20 @@
                                         <div class="w-20">
                                             <span *ngIf="i == 0">{{(diaSemana | date: 'EEEE') | titlecase}}</span>
                                         </div>
-                                        <div class="flex flex-row items-center grow bg-[#F5F8FA] rounded px-[18px] gap-2.5">
-                                            <select formControlName="horaInicio" class="selectSmall">
+                                        <div class="flex flex-row items-center grow bg-[#F5F8FA] rounded px-2.5 gap-2.5">
+                                            <select formControlName="horaInicio" class="selectSmall" [ngClass]="getFormGroup(dataForm).get('horaInicio')!.touched && getFormGroup(dataForm).get('horaInicio')!.invalid ? (getFormGroup(dataForm).get('horaInicio')!.hasError('required') ? 'invalido' :  null) : null">
                                                 <option [value]="null" disabled selected></option>
-                                                <ng-container *ngFor="let opcion of listaRangosHorariosFiltrados, index as i">
+                                                <ng-container *ngFor="let opcion of getFormGroup(dataForm).get('listInit')!.value, index as i">
                                                     <option [value]="opcion.horaSeleccionable">{{opcion.horaSeleccionable | date:'hh:mm aa'}}</option>
                                                 </ng-container>
                                             </select>
                                             <span>-</span>
-                                            <span class="shrink-0 w-[76px]">{{dataForm.value['horaFin'] | date:'hh:mm aa'}}</span>
+                                            <select formControlName="horaFin" class="selectSmall w-[86px]" [ngClass]="getFormGroup(dataForm).get('horaFin')!.touched && getFormGroup(dataForm).get('horaFin')!.invalid ? (getFormGroup(dataForm).get('horaFin')!.hasError('required') ? 'invalido' :  null) : null">
+                                                <option [value]="null" disabled selected></option>
+                                                <ng-container *ngFor="let opcion of getFormGroup(dataForm).get('listFin')!.value, index as i">
+                                                    <option [value]="opcion.horaFin">{{opcion.horaFin | date:'hh:mm aa'}}</option>
+                                                </ng-container>
+                                            </select>
                                         </div>
                                         <div class="flex flex-row gap-3 items-center shrink-0">
                                             <img class="cursor-pointer" (click)="deleteElement(diaSemana.getDay(), i)" src="assets/svg/icon-restrict-delete.svg">
@@ -173,8 +178,8 @@
                                     </div>
                                     <div class="w-full flex flex-row justify-end items-center leading-5">
                                         <div class="bg-[#FAFAFA] flex flex-row gap-2.5 px-2.5">
-                                            <input formControlName="cantCupos" class="contadorNumber" type="number" min="1" max="100" pattern="\d*">
-                                            <span>Sesión</span>
+                                            <span>{{getFormGroup(dataForm).get('cantCupos')!.value}}</span>
+                                            <span>{{getFormGroup(dataForm).get('cantCupos')!.value == 1 ? 'Sesión' : 'Sesiones'}}</span>
                                         </div>
                                     </div>
                                 </div>
@@ -185,30 +190,35 @@
                 <span class="font-bold my-2">Termina</span>
                 <div>
                     <ul class="grupoOpciones grid w-full gap-3 md:grid-cols-2 mb-2">
-                        <!-- <li class="elementoSeleccionable">
-                            <input type="radio" [id]="modalidad.tipo + i" name="modalidad" [formControl]="ctrlTermina" [value]="modalidad.idParametros" class="peer focusCampo" (click)="showDatosProcedencia(modalidad.idParametros,modalidad.tipo + i)" [attr.disabled]="modalidad.idParametros == 23 ? true : null">
-                            <label [for]="modalidad.tipo + i" class="cuadroRadioButton" [ngClass]="modalidad.idParametros == 23 ? 'opacity-50' : null">
-                                <div class="flex justify-center w-full">
-                                    <div class="w-full text-center pl-2.5">{{modalidad.nombre | titlecase}}</div>
-                                </div>
-                            </label>
-                        </li> -->
                         <li class="elementoSeleccionable">
                             <input type="radio" [id]="'opcion_repeticion'" name="modalidad" [formControl]="ctrlTermina" [value]="1" class="peer focusCampo">
-                            <label [for]="'opcion_repeticion'" class="cuadroRadioButton rounded">
+                            <label [for]="'opcion_repeticion'" class="cuadroRadioButton rounded" [ngClass]="ctrlTermina.touched && ctrlTermina.invalid ? (ctrlTermina.hasError('required') ? 'invalido' :  null) : null">
                                 <div class="flex flex-row gap-2.5 items-center justify-center w-full !text-black">
                                     <div class="text-center">Después de</div>
-                                    <input type="number" min="1" class="!static !w-[95px] !ml-0 inputTextoDialog focusCampo">
+                                    <input type="number" min="1" [formControl]="ctrlRepeticiones" class="!static !w-[95px] !ml-0 inputTextoDialog focusCampo" [ngClass]="ctrlRepeticiones.touched && ctrlRepeticiones.invalid ? (ctrlRepeticiones.hasError('required') ? 'invalido' :  null) : null">
                                     <div class="text-center">repeticiones</div>
                                 </div>
                             </label>
                         </li>
                         <li class="elementoSeleccionable">
                             <input type="radio" [id]="'opcion_fecha'" name="modalidad" [formControl]="ctrlTermina" [value]="2" class="peer focusCampo">
-                            <label [for]="'opcion_fecha'" class="cuadroRadioButton rounded">
+                            <label [for]="'opcion_fecha'" class="cuadroRadioButton rounded" [ngClass]="ctrlTermina.touched && ctrlTermina.invalid ? (ctrlTermina.hasError('required') ? 'invalido' :  null) : null">
                                 <div class="flex flex-row gap-2.5 items-center justify-center w-full !text-black">
                                     <div class="text-center">El día</div>
-                                    <input type="text" class="!static !w-[243px] !ml-0 inputTextoDialog focusCampo">
+                                    <!-- <input type="text" [formControl]="ctrlDiaSelected" class="!static !w-[243px] !ml-0 inputTextoDialog focusCampo"> -->
+                                    <div class="relative">
+                                      <mat-form-field style="position: absolute; visibility:hidden;">
+                                        <input #input matInput [min]="diaMin" [max]="diaMax" [matDatepicker]="picker">
+                                        <mat-datepicker #picker (closed)="ctrlDiaSelected.setValue(input.value)"></mat-datepicker>
+                                      </mat-form-field>
+                                      <input type="text" name="search" [formControl]="ctrlDiaSelected" readonly (click)="picker.open()"
+                                        class="!static !w-[243px] !ml-0 inputTextoDialog focusCampo !h-10 pr-7" [ngClass]="ctrlDiaSelected.touched && ctrlDiaSelected.invalid ? (ctrlDiaSelected.hasError('required') ? 'invalido' :  null) : null">
+                                      <div class="absolute inset-y-0 right-0 flex items-center pr-3 z-10 !h-9 pointer-events-none">
+                                        <span class="text-gray-500 sm:text-sm">
+                                          <img src="assets/svg/icon-calendar-simple.svg">
+                                        </span>
+                                      </div>
+                                    </div>
                                 </div>
                             </label>
                         </li>

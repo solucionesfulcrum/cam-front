@@ -9,7 +9,7 @@
                 </app-btn>
             </div>
             <div class="relative rounded-md shadow-sm botonApariencia">
-                <app-btn [color]="'mezclado'" (click)="onConfirm()" [loading]="status === 'loading'">{{'Confirmar'}}
+                <app-btn [color]="'mezclado'" (click)="data.type == 1 ? onConfirm() : limpiarHorario()" [loading]="status === 'loading'">{{'Confirmar'}}
                 </app-btn>
             </div>
         </div>

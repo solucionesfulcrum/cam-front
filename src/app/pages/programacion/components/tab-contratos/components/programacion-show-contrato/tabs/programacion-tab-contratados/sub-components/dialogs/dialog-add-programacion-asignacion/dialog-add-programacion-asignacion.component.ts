@@ -29,9 +29,11 @@ export class DialogAddProgramacionAsignacionComponent {
     6: this.fb.array([])
   })
 
+  diaMin!: Date;
+  diaMax!: Date;
   ctrlTermina = new FormControl(null);
   ctrlRepeticiones = new FormControl(null);
-  ctrlDiaSelected = new FormControl(null);
+  ctrlDiaSelected = new FormControl('');
   // ----------------------------------------------------------------------------------------
 
   listServicios: ServiciosOrdenados[] = [];
@@ -71,6 +73,7 @@ export class DialogAddProgramacionAsignacionComponent {
   ngOnInit(): void {
     this.ctrlAvanzado.disable()
     this.ctrlTipo.disable();
+    console.log(new Date(this.data.dataContrato.fechInicio.replace(/-/g, '\/')))
     // this.getActividades();
     this.formSchedule.controls.frmInicioHorario.setValue(null!)
     this.setListeners();
@@ -79,6 +82,10 @@ export class DialogAddProgramacionAsignacionComponent {
     this.listarHorariosDisponibles()
     // Creación Lista de Servicios con Ciram --------------------------------------------------------------
     this.ordenamientoServicios();
+    // ----------------------------------------------------------------------------------------------------
+    // Parámetros de programación avanzada ----------------------------------------------------------------
+    this.diaMin = new Date(this.data.dataContrato.fechInicio.replace(/-/g, '\/'));
+    this.diaMax = new Date(this.data.dataContrato.fechFin.replace(/-/g, '\/'))
     // ----------------------------------------------------------------------------------------------------
     if (this.data.horarioFijo) {
       this.formSchedule.controls.frmFecha.setValue(this.data.fechaHorario);
@@ -243,10 +250,8 @@ export class DialogAddProgramacionAsignacionComponent {
       }
     })
     this.ctrlAvanzado.valueChanges.subscribe((data)=>{
-      if (typeof this.ctrlServicio.value != 'object') {
-        
-      }
       if (data){
+        this.ctrlTermina.addValidators(Validators.required);
         this.formSchedule.controls.frmFecha.disable({ emitEvent: false });
         this.formSchedule.controls.frmInicioHorario.disable({ emitEvent: false });
         this.formSchedule.controls.frmFinHorario.disable({ emitEvent: false });
@@ -259,6 +264,19 @@ export class DialogAddProgramacionAsignacionComponent {
         this.formSchedule.controls.frmFinHorario.enable({ emitEvent: false });
       }
     })
+    this.ctrlTermina.valueChanges.subscribe((data)=>{
+      if (data == 1) {
+        this.ctrlRepeticiones.setValidators([Validators.required]);
+        this.ctrlDiaSelected.setValidators(null);
+      }
+      else{
+        this.ctrlRepeticiones.setValidators(null);
+        this.ctrlDiaSelected.setValidators([Validators.required])
+      }
+      this.ctrlRepeticiones.updateValueAndValidity();
+      this.ctrlDiaSelected.updateValueAndValidity();
+    })
+
     this.ctrlCiram.valueChanges.subscribe((data)=>{
       this.cargarOpcionesLimitantes()
     })
@@ -526,28 +544,191 @@ export class DialogAddProgramacionAsignacionComponent {
       fechaAgendacion: new FormControl((value)),
       horaInicio: new FormControl(),
       horaFin: new FormControl(),
-      cantCupos: new FormControl()
+      cantCupos: new FormControl(0),
+      listInit: new FormControl(this.getListDay(value)),
+      listFin: new FormControl()
     })
-    
-    filaForm.valueChanges.subscribe((fila: any)=>{ console.log(fila)
-      if (fila.horaInicio) {
-        fila.horaInicio = new Date((new Date(fila.fechaAgendacion)).setHours((new Date(fila.horaInicio)).getHours()))
-      }
-      if (fila.cantCupos < 1) filaForm.controls.cantCupos.setValue(null, { emitEvent: false });
-      if (fila.cantCupos == null) filaForm.controls.horaFin.setValue(null, { emitEvent: false });
 
-      if (fila.horaInicio && fila.cantCupos && this.dataTipo) {
-        let diaFinal = new Date(fila.horaInicio.getTime() + (1000*60*this.dataTipo.valor1)*(fila.cantCupos));
-        if (diaFinal.getHours() > 20 || (diaFinal.getHours() == 20  && diaFinal.getMinutes() != 0)|| diaFinal.getDate() != fila.horaInicio.getDate()) {
-          this.notificacionService.warning('La cantidad de turnos excede al limite')
-          filaForm.controls.cantCupos.setValue(1);
-        }
-        else{
-          filaForm.controls.horaFin.setValue(diaFinal, { emitEvent: false });
-        }
-      }
+    filaForm.controls.horaInicio.addValidators([Validators.required]);
+    filaForm.controls.horaFin.addValidators([Validators.required]);
+
+    filaForm.controls.horaFin.valueChanges.subscribe((data)=>{
+      filaForm.controls.horaFin.setValue(new Date(data), {emitEvent: false})
+      filaForm.controls.cantCupos.setValue(filaForm.controls.listFin.value.find((x: any)=> x.horaFin == data).cantidadCupos);
+    })
+
+    filaForm.controls.horaInicio.valueChanges.subscribe((data)=>{
+      filaForm.controls.horaFin.setValue(null, {emitEvent: false})
+      filaForm.controls.cantCupos.setValue(0, {emitEvent: false})
+      filaForm.controls.listFin.setValue(this.getFinList(new Date(data)))
     })
     this.getControlDia(value.getDay()).push(filaForm);
+  }
+
+  getListDay(form: Date): any[]{
+    let listHoraInicio: any[] = [];
+    let fechaProgramada = form;
+    this.data.dataRangosHorarios.forEach((x: any) => {
+      let minutos = 0;
+      for (let i = 0; i < 4; i++) {
+        listHoraInicio.push({horaSeleccionable: new Date(`${formatDate(fechaProgramada, 'yyyy-MM-dd', this.locale)} ${x.split(' ')[0]}:${minutos} ${x.split(' ')[1]}`), deshabilitado: false});
+        minutos+=15;
+      }
+    });
+    return listHoraInicio;
+  }
+
+  getFinList(dia: Date): any[]{
+    let listFin: any[] = [];
+    let count = 1;
+    let secCount = 0;
+    let infoTabla = (this.formSemanaDias.value as any)
+    for (let i = 0; i < 7; i++) {
+      infoTabla[i].forEach((element: any)=>{
+        secCount += element.cantCupos;
+      })      
+    }
+    let horaAumentada;
+    do {
+      if (count + secCount > 3) { 
+        break;
+      }
+      horaAumentada = new Date (dia.getTime() + (1000*60*this.dataTipo.valor1)*(count))
+      if (horaAumentada.getHours() > 20 || (horaAumentada.getHours() == 20 && horaAumentada.getMinutes() != 0)) {
+        break;
+      }
+      listFin.push({horaFin: horaAumentada, deshabilitado: false, cantidadCupos: count})
+      count += 1;
+    } while (horaAumentada.getHours() < 20);
+
+    return listFin;
+  }
+
+  comprobacionesAvanzadas(): any{
+    let valueReturned: any = Object();
+    let infoTabla = (this.formSemanaDias.value as any);
+    let dataTable: any[] = [];
+    for (let i = 0; i < 7; i++) {
+      infoTabla[i].forEach((element: any)=>{
+        dataTable.push(element);
+      })      
+    }
+    if (dataTable.length == 0) {
+      valueReturned.validacion = false;
+      this.notificacionService.warning('Debe ingresar almenos una asignación en la programación avanzada');
+    }
+    else{
+      valueReturned.validacion = true;
+    }
+    return valueReturned;
+  }
+
+  getDataAsignacion(){
+    let infoTabla = (this.formSemanaDias.value as any);
+    let dataTable: any[] = [];
+    for (let i = 0; i < 7; i++) {
+      let asignacionDia: any = Object();
+      let listAsig: any[] = [];
+      infoTabla[i].forEach((element: any, index: number)=>{
+        if (index == 0) {
+          asignacionDia.dia = element.fechaAgendacion;
+        }
+        listAsig.push(element);
+      });
+      if (listAsig.length > 0) {
+        asignacionDia.asignaciones = listAsig;
+        dataTable.push(asignacionDia);
+      }
+    }
+    if (this.ctrlTermina.value == 1) {
+      // Data Armada ---------------------------------------------
+      let dataEnviar: any[] = []
+      // ---------------------------------------------------------
+      dataTable.forEach((x)=>{
+        let diaInicio: Date;
+        if (x.dia.getTime() < this.diaMin.getTime()) {
+          diaInicio = new Date(x.dia.getTime() + 1000*60*60*24*7);
+        }
+        else{
+          diaInicio = x.dia;
+        }
+        for (let i = 0; i < this.ctrlRepeticiones.value!; i++) {
+          let diaArmado: any = Object();
+          let asignacionesDia: any[] = [];
+          diaArmado.fecha = new Date(diaInicio.getTime() + 1000*3600*24*7*i);
+          if (diaArmado.fecha.getTime() <= this.diaMax.getTime()) {
+            x.asignaciones.forEach((med: any)=>{
+              asignacionesDia.push({horaInicio: new Date(med.horaInicio), horaFin: med.horaFin, sesiones: med.cantCupos})
+            })
+          }
+          diaArmado.listaAsig = asignacionesDia;
+          if (asignacionesDia.length > 0) {
+            dataEnviar.push(diaArmado)
+          }
+        }
+      })
+      this.armadoPayloadEnvio(dataEnviar)
+    }
+  }
+
+  armadoPayloadEnvio(dataEnviar: any[]){
+    this.status = 'loading';
+    dataEnviar.forEach((x, index)=>{
+      if (this.status == 'loading') {
+        this.programacionService.registerAsignacionesDia(this.getPayloadAvanzado(x)).subscribe((data)=>{
+          if (data.code == 0) {
+            if ((index + 1) == dataEnviar.length) {
+              this.status = 'success';
+              this.notificacionService.success('Se registraron las asignaciones satisfactoriamente');
+              this._dialogRef.close(1);
+            }
+          }
+          else {
+            this.status = 'failed';
+            this.notificacionService.warning(data.message);
+          }
+        })
+      }
+    })
+  }
+
+  getPayloadAvanzado(data: any): ProgramacionRequestRegisterServicio{
+    let listServicios: DetallesServicio[] = [];
+    let listServiciosPrevios = this.data.infoServiciosContratados.filter((x: any)=>{ return x.fecha == formatDate(data.fecha, 'yyyy-MM-dd', this.locale)});
+    if (listServiciosPrevios.length > 0) {
+      listServiciosPrevios.forEach((x: any) => {
+        listServicios.push({
+          idServicio: x.idServicio,
+          horaInicio: x.horaInicio,
+          horaFin: x.horaFin,
+          nroSesiones: x.nroSesiones,
+          duracion: x.duracion,
+          paramServicioTipoId: x.paramServicioTipoId,
+          idUoCiram: x.idUoCiram,
+          ubicacion: x.ubicacion
+        })
+      });
+    }
+    data.listaAsig.forEach((x: any)=>{
+      listServicios.push({
+        idServicio: (this.ctrlServicio.value! as any).idServicio,
+        horaInicio: formatDate(x.horaInicio, 'HH:mm', this.locale),
+        horaFin: formatDate(x.horaFin, 'HH:mm', this.locale),
+        nroSesiones: x.sesiones,
+        duracion: (this.dataTipo.valor1 ? this.dataTipo.valor1 : 60),
+        paramServicioTipoId: this.dataTipo.idParametros,
+        idUoCiram: (this.ctrlPersonalizado.value ? (this.ctrlCiram.value! as any).idUnidadOperativa : null),
+        ubicacion: this.ctrlDireccion.value!
+      })
+    })
+
+    let objPayload: ProgramacionRequestRegisterServicio = {
+      idProgramacion: this.data.dataContrato.idProgramacion,
+      fecha: formatDate(data.fecha, 'yyyy-MM-dd', this.locale),
+      detalles: listServicios
+    };
+
+    return objPayload;
   }
 
   getControlDia(value: any) {
@@ -563,27 +744,43 @@ export class DialogAddProgramacionAsignacionComponent {
     if (this.ctrlPersonalizado.value && (typeof this.ctrlCiram.value !== 'object')) {
       this.ctrlCiram.markAllAsTouched()
     }
-    else if (this.formSchedule.valid && this.dataTipo && this.ctrlDireccion.valid) {
-      if (this.validateAsignacionFecha()) {
-        this.status = 'loading';
-        this.programacionService.registerAsignacionesDia(this.getPayloadRegistro()).subscribe((data)=>{
-          if (data.code == 0) {
-            this.status = 'success';
-            this.listParamTipo = data.data;
-            this.notificacionService.success('Se registró la asignación satisfactoriamente');
-            this._dialogRef.close(1);
-          }
-          else {
-            this.status = 'failed';
-            this.notificacionService.warning(data.message);
-          }
-        })
-      }
-    }
     else {
-      this.formSchedule.markAllAsTouched();
-      this.ctrlServicio.markAllAsTouched();
-      this.ctrlDireccion.markAllAsTouched()
+      if (this.ctrlAvanzado.value) {
+        if (this.formSemanaDias.valid && this.ctrlTermina.valid && this.ctrlRepeticiones.valid && this.ctrlDiaSelected.valid  && this.ctrlDireccion.valid && this.comprobacionesAvanzadas().validacion) {
+          this.getDataAsignacion();
+        }
+        else{
+          this.formSemanaDias.markAllAsTouched();
+          this.ctrlTermina.markAllAsTouched();
+          this.ctrlRepeticiones.markAllAsTouched();
+          this.ctrlDiaSelected.markAllAsTouched();
+          this.ctrlServicio.markAllAsTouched();
+          this.ctrlDireccion.markAllAsTouched()
+        }
+      }
+      else{
+        if (this.formSchedule.valid && this.dataTipo && this.ctrlDireccion.valid) {
+          if (this.validateAsignacionFecha()) {
+            this.status = 'loading';
+            this.programacionService.registerAsignacionesDia(this.getPayloadRegistro()).subscribe((data)=>{
+              if (data.code == 0) {
+                this.status = 'success';
+                this.notificacionService.success('Se registró la asignación satisfactoriamente');
+                this._dialogRef.close(1);
+              }
+              else {
+                this.status = 'failed';
+                this.notificacionService.warning(data.message);
+              }
+            })
+          }
+        }
+        else {
+          this.formSchedule.markAllAsTouched();
+          this.ctrlServicio.markAllAsTouched();
+          this.ctrlDireccion.markAllAsTouched()
+        }
+      }
     }
   }
 

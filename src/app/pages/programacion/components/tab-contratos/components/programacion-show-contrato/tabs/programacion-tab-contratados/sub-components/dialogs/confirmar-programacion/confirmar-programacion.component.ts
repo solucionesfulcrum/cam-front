@@ -8,6 +8,7 @@ export interface NotificationDialog {
   title: string;
   message?: string;
   dataRequired: any;
+  type: number;
 }
 
 @Component({
@@ -43,5 +44,19 @@ export class ConfirmarProgramacionComponent {
     })
   }
 
+  limpiarHorario(){
+    this.status = 'loading';
+    this.programacionService.limpiarProgramacion(this.data.dataRequired).subscribe((data)=>{
+      if (data.code == 0) {
+        this.status = 'success';
+        this._dialogRef.close(1);
+        this.notificationService.success('Se limpio los registros de la programación');  
+      }
+      else {
+        this.status = 'failed';
+        this.notificationService.warning(data.message);  
+      }
+    })    
+  }
 
 }

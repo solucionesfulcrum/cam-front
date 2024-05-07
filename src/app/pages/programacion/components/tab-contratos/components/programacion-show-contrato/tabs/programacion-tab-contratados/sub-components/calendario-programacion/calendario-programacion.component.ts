@@ -78,7 +78,19 @@ export class CalendarioProgramacionComponent {
   funcionesExtra(opt: number){
     switch (opt) {
       case 0:
-
+        const dialogRef = this.dialog.open(ConfirmarProgramacionComponent,{
+          data:{
+            title: '¿Está seguro que desea borrar todos los registros de la programación?',
+            message: ``,
+            dataRequired: this.idProgramacion
+          }
+        })
+        dialogRef.closed.subscribe(result => {
+          if (result == 1) {
+            this.getDataServiciosAsignados();
+            this.getDataResumenContrato();
+          }
+        });
         break;
       case 1:
         if (this.validacionHorariosCompletos()) {

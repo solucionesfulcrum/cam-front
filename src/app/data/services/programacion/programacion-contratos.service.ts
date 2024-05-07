@@ -52,6 +52,11 @@ export class ProgramacionContratosService {
     return this._httpClient.put<any>(url, null);
   }
 
+  limpiarProgramacion(idProgramacion: number){
+    const url = `${URL_BASE}/limpiar/${idProgramacion}`;
+    return this._httpClient.post<any>(url,null);
+  }
+
   registerAsignacionesDia(model: ProgramacionRequestRegisterServicio){
     const url = `${URL_BASE}/detalle/registrar`;
     return this._httpClient.post<any>(url,model);
