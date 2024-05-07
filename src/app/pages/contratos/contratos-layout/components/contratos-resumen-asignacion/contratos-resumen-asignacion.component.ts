@@ -25,7 +25,7 @@ export class ContratosResumenAsignacionComponent {
   dataContrato: any;
 
   opcionesBotones: FormatoBoton[] = [
-    {texto: 'Eliminar Contrato', colorBtn: 'bordeado'},
+    {texto: 'Eliminar Contrato', colorBtn: 'bordeado', deshabilitado: true, tooltip:'Los contratos confirmados no pueden eliminarse sin autorización de un administrador'},
     {texto: 'Editar', colorBtn: 'bordeado', deshabilitado: true},
     {texto: 'Confirmar Contrato', colorBtn:'mezclado', deshabilitado: true},
   ];  

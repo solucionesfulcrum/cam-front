@@ -4,13 +4,14 @@ import { RouterModule } from '@angular/router';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { FormatoBoton } from './formato-boton.model';
 import { ButtonComponent } from '../btn/button.component';
+import { MatTooltipModule } from '@angular/material/tooltip';
 
 @Component({
   selector: 'esp-opciones-botones',
   templateUrl: './opciones-botones.component.html',
   styleUrls: ['./opciones-botones.component.scss'],
   standalone: true,
-  imports: [CommonModule, RouterModule, FontAwesomeModule, ButtonComponent],
+  imports: [CommonModule, RouterModule, FontAwesomeModule, ButtonComponent, MatTooltipModule],
 })
 export class OpcionesBotonesComponent {
   @Input()

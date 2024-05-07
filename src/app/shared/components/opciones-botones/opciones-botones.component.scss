@@ -14,3 +14,8 @@
     flex-wrap: wrap;
     gap: 1rem;
 }
+::ng-deep.tooltipEleccion{
+    .mdc-tooltip__surface-animation{
+        text-align: center !important;
+    }
+}
