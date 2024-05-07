@@ -62,6 +62,11 @@ export class ProgramacionContratosService {
     return this._httpClient.post<any>(url,model);
   }
 
+  registerAsignacionAvanzada(model: ProgramacionRequestRegisterServicio[]){
+    const url = `${URL_BASE}/detalle/registrar-prog-avanzada`;
+    return this._httpClient.post<any>(url,model);
+  }
+
   deleteAsignacionId(idProgramacionDet: number){
     const url = `${URL_BASE}/detalle/eliminar/${idProgramacionDet}`;
     return this._httpClient.delete<any>(url);

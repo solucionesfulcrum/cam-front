@@ -243,7 +243,9 @@ export class DialogAddProgramacionAsignacionComponent {
     this.ctrlServicio.valueChanges.subscribe((data: any)=>{
       this.listFiltered = this.getOptionsFilteresServicio();
       if (typeof data === 'object') {
-        this.ctrlAvanzado.enable({ emitEvent: false});
+        if (!(this.comprobarLimiteSesiones(data.idServicio) >= (this.data.dataContrato.nroEntregables*12))) {
+          this.ctrlAvanzado.enable({ emitEvent: false});
+        }
         this.ctrlTipo.setValue(this.listParamTipo.find((datos)=> datos.nombre === data.tipoServicio).idParametros);
         this.dataTipo = this.listParamTipo.find((datos)=> datos.nombre === data.tipoServicio);
         this.comprobarLimiteSesiones(data.idServicio)
@@ -686,25 +688,56 @@ export class DialogAddProgramacionAsignacionComponent {
       })
       this.armadoPayloadEnvio(dataEnviar)
     }
+    else{
+      let fechaFin = this.ctrlDiaSelected.value!;
+      let dateFin = new Date(`${this.datepipe.transform(fechaFin!.split('/')[2] + '/' + fechaFin!.split('/')[1] + '/' + fechaFin!.split('/')[0], 'yyyy-MM-dd')} 23:00`);
+      // Data Armada ---------------------------------------------
+      let dataEnviar: any[] = []
+      // ---------------------------------------------------------
+      dataTable.forEach((x)=>{
+        let diaInicio: Date;
+        let count = 0;
+        if (x.dia.getTime() < this.diaMin.getTime()) {
+          diaInicio = new Date(x.dia.getTime() + 1000*60*60*24*7);
+        }
+        else{
+          diaInicio = x.dia;
+        }
+        let diaAsig: Date = diaInicio;
+        while (diaInicio.getTime() < dateFin.getTime()) {
+          let diaArmado: any = Object();
+          let asignacionesDia: any[] = [];
+          diaArmado.fecha = new Date(diaAsig.getTime() + 1000*3600*24*7*count);
+          x.asignaciones.forEach((med: any)=>{
+            asignacionesDia.push({horaInicio: new Date(med.horaInicio), horaFin: med.horaFin, sesiones: med.cantCupos})
+          })
+          diaArmado.listaAsig = asignacionesDia;
+          if (asignacionesDia.length > 0) {
+            dataEnviar.push(diaArmado)
+          }
+          diaInicio = new Date(diaInicio.getTime() + 1000*60*60*24*7);
+          count += 1;
+        }
+      })
+      this.armadoPayloadEnvio(dataEnviar)
+    }
   }
 
   armadoPayloadEnvio(dataEnviar: any[]){
     this.status = 'loading';
-    dataEnviar.forEach((x, index)=>{
-      if (this.status == 'loading') {
-        this.programacionService.registerAsignacionesDia(this.getPayloadAvanzado(x)).subscribe((data)=>{
-          if (data.code == 0) {
-            if ((index + 1) == dataEnviar.length) {
-              this.status = 'success';
-              this.notificacionService.success('Se registraron las asignaciones satisfactoriamente');
-              this._dialogRef.close(1);
-            }
-          }
-          else {
-            this.status = 'failed';
-            this.notificacionService.warning(data.message);
-          }
-        })
+    let listEnviar: ProgramacionRequestRegisterServicio[] = [];
+    dataEnviar.forEach((x)=>{
+      listEnviar.push(this.getPayloadAvanzado(x))
+    })
+    this.programacionService.registerAsignacionAvanzada(listEnviar).subscribe((data)=>{
+      if (data.code == 0) {
+        this.status = 'success';
+        this.notificacionService.success('Se registraron las asignaciones satisfactoriamente');
+        this._dialogRef.close(1);
+      }
+      else {
+        this.status = 'failed';
+        this.notificacionService.warning(data.message);
       }
     })
   }
