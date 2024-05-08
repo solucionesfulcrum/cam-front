@@ -2,7 +2,7 @@ import { CdkMenuModule } from '@angular/cdk/menu';
 import { CommonModule } from '@angular/common';
 import { AfterViewInit, Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { Parametro } from './parametros-busqueda.model';
+import { ParamMenu, Parametro } from './parametros-busqueda.model';
 import { FiltroFechaComponent } from '../filtro-fecha/filtro-fecha.component';
 import { IconComponent } from '../icon/icon.component';
 import { ButtonComponent } from '../btn/button.component';
@@ -112,6 +112,19 @@ export class OpcionesBusquedaComponent{
 
   @Output()
   buttonAccion = new EventEmitter<any>();
+
+  // Menú Desplegable-------------------------------------------------------------------------------------------------------------------------
+  @Input()
+  menuOpt: ParamMenu[] = [];
+
+  @Output()
+  primerActionMenu = new EventEmitter<any>();
+
+  @Output()
+  segundoActionMenu = new EventEmitter<any>();
+
+  @Output()
+  tercerActionMenu = new EventEmitter<any>();
 
   //Variables del componente-------------------------------------------------------------------------------------------------------------
   form:FormGroup = this.fb.group({

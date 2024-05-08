@@ -67,5 +67,16 @@
           </button>
         </div>
     </div>
+    <div *ngIf="menuOpt.length > 0">
+      <app-btn color="bordeado" [cdkMenuTriggerFor]="accionesMenu"> <div class="flex flex-row gap-2"><span>Acciones</span><esp-icon icon="faBars"></esp-icon></div></app-btn>
+      <ng-template #accionesMenu>
+        <div class="menu-layout botonApariencia" cdkMenu>
+          <button *ngFor="let opcion of menuOpt, index as i" cdkMenuItem class="flex flex-row gap-2.5 text-[var(--color-black-alt)] px-2.5 py-2 hover:bg-gray-100" (click)="i == 0 ? primerActionMenu.emit() : (i == 1 ? segundoActionMenu.emit() : tercerActionMenu.emit())">
+            <span class="text-[16px] font-medium">{{opcion.texto}}</span>
+            <img [src]="opcion.svgDir"/>
+          </button>
+        </div>
+      </ng-template>
+    </div>
   </div>
 </div>

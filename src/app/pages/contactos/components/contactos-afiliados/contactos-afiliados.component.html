@@ -16,6 +16,8 @@
       [firstDisplayFilterData]="opciones"
       (firstDisplayFilterSendValue)="firstDisplayValue($event)"
       (firstDisplaySelectedValue)="false"
+      [menuOpt]="dataAcciones"
+      (primerActionMenu)="imprimirLista()"
     ></esp-opciones-busqueda>
 </div>
 <div>
