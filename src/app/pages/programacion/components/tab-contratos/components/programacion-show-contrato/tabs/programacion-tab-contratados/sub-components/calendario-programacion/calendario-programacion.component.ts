@@ -109,7 +109,8 @@ export class CalendarioProgramacionComponent {
             data:{
               title: '¿Está seguro de publicar esta programación?',
               message: `De confirmarse, no se podrá volver a editar`,
-              dataRequired: this.idProgramacion
+              dataRequired: this.idProgramacion,
+              type: 1
             }
           })
       
