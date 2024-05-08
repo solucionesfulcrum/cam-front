@@ -16,9 +16,9 @@ import { DialogNotasComponent } from 'src/app/pages/afiliados/show-sol/dialog-no
 })
 export class ShowAfiliadoComponent implements OnInit {
   opcionesBotones: FormatoBoton[] = [
+    {texto: 'Dar de Baja'},
     {texto: 'Notas', esImagen: true, rutaIcono: 'assets/svg/iconFileEdit.svg'},
     {texto: 'Actualizar Datos', esImagen: true, rutaIcono: 'assets/svg/icon-edit-data.svg'},
-    //{texto: 'Evaluar Afiliado', colorBtn:'bordeado', loading: false},
   ];
   idUnidadOperativaUser = (JSON.parse(localStorage.getItem('UnidElegida')!)).idUnidOperativa;
 
@@ -31,7 +31,7 @@ export class ShowAfiliadoComponent implements OnInit {
 
   links=[
     {url:`/app/contactos/show/${this.idFicha}`, title:'Operaciones'},
-    // {url:`/app/contactos/show/${this.idFicha}/evaluaciones`, title:'Evaluaciones'}
+    {url:`/app/contactos/show/${this.idFicha}/evaluaciones`, title:'Test'}
   ]
 
   constructor(private router                        : Router,
@@ -43,7 +43,7 @@ export class ShowAfiliadoComponent implements OnInit {
               private afiliadoServices              : AfiliacionesSolicitudesService) { 
       this.idFicha = this.activeRoute.snapshot.paramMap.get('idFicha')!;
       this.links[0].url = `/app/contactos/show/${this.idFicha}`;
-      // this.links[1].url = `/app/contactos/show/${this.idFicha}/evaluaciones`;
+      this.links[1].url = `/app/contactos/show/${this.idFicha}/evaluaciones`;
   }
 
   ngOnInit(): void {

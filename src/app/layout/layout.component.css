@@ -10,3 +10,6 @@ app-toolbar{
 #sidenav{
     width: 250px;
 }
+mat-drawer{
+    border-right: 0 !important;
+}

@@ -4,11 +4,13 @@
   </mat-drawer>
   <mat-drawer-content class="fondoSigps">
     <app-toolbar (toggleSidenav)="drawer.toggle()"></app-toolbar>
-    <div class="px-5 py-5">
+    <div class="px-5 py-5 flex justify-center">
+      <div class="max-w-[1366px] grow">
+        <router-outlet></router-outlet>
+      </div>
       <!-- <div>
         <h1 class="text-3xl font-semibold">Lista de Usuarios</h1>
       </div> -->
-      <router-outlet></router-outlet>
     </div>
   </mat-drawer-content>
 </mat-drawer-container>
