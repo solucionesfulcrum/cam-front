@@ -6,10 +6,10 @@
         </app-btn>
     </div>
 </div>
-<div class="mt-4 info-container flex">
-    <div *ngIf="ListaProgramacines.length>0" class="w-1/4 mr-4">
+<div class="mt-4 info-container flex cursor-pointer">
+    <div  *ngIf="ListaProgramacines.length>0" class="w-2/6 mr-4">
         <div *ngFor="let prog of ListaProgramacines" class="">
-            <div class="p-4 bg-white shadow-lg h-full">
+            <div (click)="selectProg(prog)"class="p-4 bg-white shadow-lg h-full">
                 <div class="info-container flex justify-between items-center">
                     <div>
                         <div class="text-lg font-bold text-xl mr-4">{{prog.fecha.split("-")[2]}}</div>
@@ -17,7 +17,7 @@
                     </div>
 
                     <div class="mr-12">
-                        <div class="text-sm font-semibold"> TALLER DE {{prog.nombre}}</div>
+                        <div class="text-sm font-semibold"> {{prog.nombre}}</div>
                         <div class="text-gray-600 text-xs"> {{formatoFecha(prog.fecha)}} de {{prog.horaInicio}} -
                             {{prog.horaFin}}</div>
                         <div class="text-gray-600 text-xs">CAM {{prog.nombreCam}}</div>
@@ -25,24 +25,24 @@
                     </div>
                     <div class="mr-12">
                         <div *ngIf="!imagenFoto" class="my-1 imagen w-24 h-24 border-b-2 bg-gray-400"></div>
-                        <div class="text-gray-600 text-xs ml-6">Presencial</div>
+                        <div class="text-gray-600 text-xs ml-4">{{prog.modalidad}}</div>
                     </div>
                 </div>
             </div>
         </div>
     </div>
-    <div *ngIf="ListaProgramacines.length>0" class="w-3/4 mr-4">
+    <div *ngIf="selectedProgramacion" class="w-4/6 mr-4">
         <div class="p-4 bg-white shadow-lg">
             <div class="info-container flex items-center">
                 <div>
-                    <div class="text-lg font-bold text-xl mr-4">{{ListaProgramacines[0].fecha.split("-")[2]}}</div>
-                    <div class="text-lg text-xs mr-4">{{getMes(ListaProgramacines[0].fecha)}}</div>
+                    <div class="text-lg font-bold text-xl mr-4">{{selectedProgramacion.fecha.split("-")[2]}}</div>
+                    <div class="text-lg text-xs mr-4">{{getMes(selectedProgramacion.fecha)}}</div>
                 </div>
                 <div>
                     <div class="mr-1">
-                        <div class="text-sm font-semibold"> TALLER DE {{ListaProgramacines[0].nombre}}</div>
+                        <div class="text-sm font-semibold"> TALLER DE {{selectedProgramacion.nombre}}</div>
 
-                        <div class="text-indigo-500 text-xs">{{ListaProgramacines[0].distrito}}</div>
+                        <div class="text-indigo-500 text-xs">{{selectedProgramacion.distrito}}</div>
                     </div>
                 </div>
             </div>
@@ -62,13 +62,13 @@
             </div>
             <div>
                 <div class="text-sm font-semibold mt-5">Detalles</div>
-                <div class="text-gray-600 text-xs mt-4"> {{formatoFecha(ListaProgramacines[0].fecha)}} de
-                    {{ListaProgramacines[0].horaInicio}} -
-                    {{ListaProgramacines[0].horaFin}}</div>
-                <div class="text-gray-600 text-xs mt-4">CAM {{ListaProgramacines[0].nombreCam}}</div>
+                <div class="text-gray-600 text-xs mt-4"> {{formatoFecha(selectedProgramacion.fecha)}} de
+                    {{selectedProgramacion.horaInicio}} -
+                    {{selectedProgramacion.horaFin}}</div>
+                <div class="text-gray-600 text-xs mt-4">CAM {{selectedProgramacion.nombreCam}}</div>
                 <div class="info-container flex justify-between items-center">
-                    <div class="text-gray-600 text-xs mt-4">Av. Petit Thours 4550, Miraflores</div>
-                    <div class="text-gray-600 text-xs mt-4">Presencial</div>
+                    <div class="text-gray-600 text-xs mt-4">{{selectedProgramacion.ubicacion}}</div>
+                    <div class="text-gray-600 text-xs mt-4">{{selectedProgramacion.modalidad}}</div>
                 </div>
             </div>
         </div>

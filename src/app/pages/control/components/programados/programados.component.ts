@@ -16,6 +16,7 @@ export class ProgramadosComponent {
   fechInicio: any = null;
   select: any = null;
   activeButton: number | null = null;
+  selectedProgramacion: any;
 
   buttons = [
     { label: 'Hoy', method: () => this.hoy() },
@@ -28,14 +29,15 @@ export class ProgramadosComponent {
 
   setActive(index: number) {
     this.activeButton = index;
-    console.log("index",index)  
-    this.buttons[index].method(); 
+    console.log("index", index)
+    this.buttons[index].method();
   }
 
   hoy() {
     const fechaActual = new Date().toISOString().split('T')[0];
     this.getListaProgramaciones(fechaActual, fechaActual)
     this.activeButton = 0
+    this.selectedProgramacion = null;
   }
 
   manana() {
@@ -43,22 +45,27 @@ export class ProgramadosComponent {
     now.setDate(now.getDate() + 1);
     const fechaManana = now.toISOString().split('T')[0];
     this.getListaProgramaciones(fechaManana, fechaManana)
+    this.selectedProgramacion = null;
   }
 
   estaSemana() {
     this.getListaProgramaciones("2024-05-06", "2024-05-11")
+    this.selectedProgramacion = null;
   }
 
   proximaSemana() {
     this.getListaProgramaciones("2024-05-13", "2024-05-18")
+    this.selectedProgramacion = null;
   }
 
   esteMes() {
     this.getListaProgramaciones("2024-05-01", "2024-05-31")
+    this.selectedProgramacion = null;
   }
 
   proximoMes() {
     this.getListaProgramaciones("2024-06-01", "2024-06-30")
+    this.selectedProgramacion = null;
   }
 
   getListaProgramaciones(fechInicio: string, fechFin: string) {
@@ -85,7 +92,14 @@ export class ProgramadosComponent {
 
   formatoFecha(fecha: string) {
     const date = new Date(fecha);
+    date.setDate(date.getDate() + 1);
+    date.setHours(0, 0, 0, 0);
     const fechaFormateada = new Intl.DateTimeFormat('es-ES', { weekday: 'long', day: 'numeric', month: 'long' }).format(date);
     return fechaFormateada;
+  }
+
+  selectProg(prog: any): void {
+    this.selectedProgramacion = prog;
+    console.log('Selected Programación:', this.selectedProgramacion);
   }
 }
