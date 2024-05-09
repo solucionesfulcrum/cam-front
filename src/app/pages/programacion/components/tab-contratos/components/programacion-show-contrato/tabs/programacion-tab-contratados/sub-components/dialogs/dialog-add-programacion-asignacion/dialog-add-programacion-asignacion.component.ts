@@ -295,6 +295,13 @@ export class DialogAddProgramacionAsignacionComponent {
       this.ctrlRepeticiones.updateValueAndValidity();
       this.ctrlDiaSelected.updateValueAndValidity();
     })
+    this.ctrlRepeticiones.valueChanges.subscribe((data)=>{
+      if (this.data.dataContrato.nroEntregables*4 < data!) {
+        this.ctrlRepeticiones.setValue((this.data.dataContrato.nroEntregables*4 as any), {emitEvent: false})
+        this.notificacionService.warning(`En este contrato, las repeticiones no pueden exceder a ${this.data.dataContrato.nroEntregables*4}`);
+      }
+      console.log(this.data.dataContrato.nroEntregables*12)
+    });
 
     this.ctrlCiram.valueChanges.subscribe((data)=>{
       this.cargarOpcionesLimitantes()
@@ -611,14 +618,17 @@ export class DialogAddProgramacionAsignacionComponent {
       data.forEach((x)=>{
         if (!encontrado) {
           x.listaAsig.forEach((asig: any)=>{
+            let asigInit = new Date(`${formatDate(x.fecha, 'yyyy-MM-dd', this.locale)} ${formatDate(asig.horaInicio, 'HH:mm', this.locale)}`);
+            let asigFin = new Date(`${formatDate(x.fecha, 'yyyy-MM-dd', this.locale)} ${formatDate(asig.horaFin, 'HH:mm', this.locale)}`);
             if (!encontrado) {
               let listServiciosPrevios = this.data.infoServiciosContratados.filter((y: any)=>{ return y.fecha == formatDate(x.fecha, 'yyyy-MM-dd', this.locale)});
               listServiciosPrevios.forEach((serv: any)=>{
                 if (!encontrado) {
                   let horaIni = new Date(`${serv.fecha} ${serv.horaInicio}`);
                   let horaFin = new Date(`${serv.fecha} ${serv.horaFin}`);
-                  if ((horaIni.getTime() <= asig.horaInicio.getTime() && asig.horaInicio.getTime() < horaFin.getTime()) || (horaIni.getTime() < asig.horaFin.getTime() && horaFin.getTime() >= asig.horaFin.getTime())) {
+                  if ((horaIni.getTime() <= asigInit.getTime() && asigInit.getTime() < horaFin.getTime()) || (horaIni.getTime() < asigFin.getTime() && asigFin.getTime() <= horaFin.getTime())) {
                     encontrado = asig;
+                    encontrado.asigInit = asigInit;
                     horarioConflicto = serv;
                   }
                 }
@@ -629,10 +639,10 @@ export class DialogAddProgramacionAsignacionComponent {
       })
       if (encontrado) {
         if (formatDate(encontrado.horaInicio, 'HH:mm', this.locale) === horarioConflicto.horaInicio && formatDate(encontrado.horaFin, 'HH:mm', this.locale) === horarioConflicto.horaFin) {
-          this.notificacionService.warning(`Ya existe un horario el ${formatDate(encontrado.horaInicio, 'EEEE dd/MM', this.locale)} a las ${formatDate(encontrado.horaInicio, 'HH:mm', this.locale)} - ${formatDate(encontrado.horaFin, 'HH:mm', this.locale)}`);          
+          this.notificacionService.warning(`Ya existe un horario el ${formatDate(encontrado.asigInit, 'EEEE dd/MM', this.locale)} a las ${formatDate(encontrado.horaInicio, 'HH:mm', this.locale)} - ${formatDate(encontrado.horaFin, 'HH:mm', this.locale)}`);          
         }
         else{
-          this.notificacionService.warning(`El horario del ${formatDate(encontrado.horaInicio, 'EEEE dd/MM', this.locale)} a las ${formatDate(encontrado.horaInicio, 'HH:mm', this.locale)} - ${formatDate(encontrado.horaFin, 'HH:mm', this.locale)} se superpone un horario previo a las ${horarioConflicto.horaInicio} - ${horarioConflicto.horaFin}`);          
+          this.notificacionService.warning(`El horario del ${formatDate(encontrado.asigInit, 'EEEE dd/MM', this.locale)} a las ${formatDate(encontrado.horaInicio, 'HH:mm', this.locale)} - ${formatDate(encontrado.horaFin, 'HH:mm', this.locale)} se superpone un horario previo a las ${horarioConflicto.horaInicio} - ${horarioConflicto.horaFin}`);          
         }
         validacion = false;
       }
@@ -641,7 +651,6 @@ export class DialogAddProgramacionAsignacionComponent {
       this.notificacionService.warning(`El horario del ${formatDate(encontrado.horaInicio, 'EEEE', this.locale)} a las ${formatDate(encontrado.horaInicio, 'HH:mm', this.locale)} - ${formatDate(encontrado.horaFin, 'HH:mm', this.locale)} se superpone a otro horario`);
       validacion = false;
     }
-
     return validacion;
   }
 

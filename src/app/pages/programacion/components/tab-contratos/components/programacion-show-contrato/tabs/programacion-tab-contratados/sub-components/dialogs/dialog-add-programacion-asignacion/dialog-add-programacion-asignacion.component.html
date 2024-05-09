@@ -195,7 +195,7 @@
                             <label [for]="'opcion_repeticion'" class="cuadroRadioButton rounded" [ngClass]="ctrlTermina.touched && ctrlTermina.invalid ? (ctrlTermina.hasError('required') ? 'invalido' :  null) : null">
                                 <div class="flex flex-row gap-2.5 items-center justify-center w-full !text-black">
                                     <div class="text-center">Después de</div>
-                                    <input type="number" min="1" [formControl]="ctrlRepeticiones" class="!static !w-[95px] !ml-0 inputTextoDialog focusCampo" [ngClass]="ctrlRepeticiones.touched && ctrlRepeticiones.invalid ? (ctrlRepeticiones.hasError('required') ? 'invalido' :  null) : null">
+                                    <input type="number" min="1" [max]="data.dataContrato.nroEntregables*12" [formControl]="ctrlRepeticiones" class="!static !w-[95px] !ml-0 inputTextoDialog focusCampo" [ngClass]="ctrlRepeticiones.touched && ctrlRepeticiones.invalid ? (ctrlRepeticiones.hasError('required') ? 'invalido' :  null) : null">
                                     <div class="text-center">repeticiones</div>
                                 </div>
                             </label>
