@@ -23,6 +23,7 @@ registerLocaleData(localeEs, 'es');
   providers: [{provide: LOCALE_ID, useValue: 'es'}]
 })
 export class CalendarioProgramacionComponent {
+  visualizacion: boolean = false;
   opcionesBotones: FormatoBoton[] = [
     {texto: 'Limpiar', colorBtn:'bordeado', esImagen: true, rutaIcono:'assets/svg/icon-clean-data.svg'},
     {texto: 'Guardar y publicar', colorBtn:'mezclado', esImagen: true, rutaIcono: 'assets/svg/icon-white-save.svg'},
@@ -64,6 +65,11 @@ export class CalendarioProgramacionComponent {
         this.listParamTipo = data.data;
         this.programacionService.getDatosContrato(this.idProgramacion).subscribe((data)=>{
           if (data.code == 0) {
+            if (data.data.datosContrato.estadoProgramacionId == 37) {
+              this.visualizacion = true;
+              this.opcionesBotones.forEach((x)=> x.deshabilitado = true)
+            }
+            console.log(data.data)
             this.limitesHorario.push(new Date(data.data.datosContrato.fechInicio.replace(/-/g, '\/')));
             this.limitesHorario.push(new Date(data.data.datosContrato.fechFin.replace(/-/g, '\/')));
             this.periodoCalendario.setMonth(this.limitesHorario[0].getMonth());
@@ -125,22 +131,36 @@ export class CalendarioProgramacionComponent {
   }
 
   validacionHorariosCompletos(): boolean{
-    let valueReturned: boolean = true;
+    let valueReturned: boolean = true;console.log(this.listServiciosCiram)
     this.listServicios.servicios.forEach((x: any)=>{
       if (valueReturned) {
         let totalAsignaciones = 0;
         let validacionTotal = 12*this.dataResumenContrato.nroEntregables;
         this.serviciosAsignados.filter((y)=> y.idServicio == x.idServicio).forEach((y)=> totalAsignaciones += y.nroSesiones)
-        if (totalAsignaciones >= validacionTotal){
-
-        }
-        else{
+        if (totalAsignaciones < validacionTotal){
           this.notificationService.warning('El servicio ' + x.nombreServicio + ' tiene ' + (validacionTotal - totalAsignaciones) + (validacionTotal - totalAsignaciones == 1 ? ' sesión pendiente' : ' sesiones pendientes' ));
           valueReturned = false;
         }
       }
     })
-
+    
+    if (valueReturned) {
+      this.listServiciosCiram.forEach((x)=>{
+        if (valueReturned) {
+          x.servicios.forEach((x: any)=>{
+            if (valueReturned) {
+              let totalAsignaciones = 0;
+              let validacionTotal = 12*this.dataResumenContrato.nroEntregables;
+              this.serviciosAsignados.filter((y)=> y.idServicio == x.idServicio).forEach((y)=> totalAsignaciones += y.nroSesiones)
+              if (totalAsignaciones < validacionTotal){
+                this.notificationService.warning('El servicio ' + x.nombreServicio + ' tiene ' + (validacionTotal - totalAsignaciones) + (validacionTotal - totalAsignaciones == 1 ? ' sesión pendiente' : ' sesiones pendientes' ));
+                valueReturned = false;
+              }
+            }
+          })
+        }
+      })
+    }
     return valueReturned;
   }
 
@@ -271,34 +291,36 @@ export class CalendarioProgramacionComponent {
   }
 
   showScheduleCalendar(dataRangoElegido: any, dataFechaElegida: any){
-    if (this.fechasSemana.some((x)=>{ return !this.comprobacionBloqueo(x)})) {
-      const dialogRef = this.dialog.open(DialogAddProgramacionAsignacionComponent,{
-        minWidth:'400px',
-        width:'60vw',
-        maxWidth:'800px',
-        data:{
-          idProgramacion:               this.idProgramacion,
-          rangoHorario:                 dataRangoElegido,
-          fechaHorario:                 dataFechaElegida,
-          dataContrato:                 this.dataContrato,
-          infoServiciosContratados:     this.serviciosAsignados,
-          serviciosContrato:            this.listServicios,
-          serviciosCiram:               this.listServiciosCiram,
-          dataRangosHorarios:           this.horarios,
-          paramTipo:                    this.listParamTipo,
-          semanaElegida:                this.fechasSemana,
-          horarioFijo:                  (dataRangoElegido ? true : false)
-        }
-      })
-      dialogRef.closed.subscribe(result => {
-        if (result == 1) {
-          this.getDataServiciosAsignados();
-          this.getDataResumenContrato();
-        }
-      });
-    }
-    else{
-      this.notificationService.warning('Este horario no corresponde al mes a programar');
+    if (!this.visualizacion) {
+      if (this.fechasSemana.some((x)=>{ return !this.comprobacionBloqueo(x)})) {
+        const dialogRef = this.dialog.open(DialogAddProgramacionAsignacionComponent,{
+          minWidth:'400px',
+          width:'60vw',
+          maxWidth:'800px',
+          data:{
+            idProgramacion:               this.idProgramacion,
+            rangoHorario:                 dataRangoElegido,
+            fechaHorario:                 dataFechaElegida,
+            dataContrato:                 this.dataContrato,
+            infoServiciosContratados:     this.serviciosAsignados,
+            serviciosContrato:            this.listServicios,
+            serviciosCiram:               this.listServiciosCiram,
+            dataRangosHorarios:           this.horarios,
+            paramTipo:                    this.listParamTipo,
+            semanaElegida:                this.fechasSemana,
+            horarioFijo:                  (dataRangoElegido ? true : false)
+          }
+        })
+        dialogRef.closed.subscribe(result => {
+          if (result == 1) {
+            this.getDataServiciosAsignados();
+            this.getDataResumenContrato();
+          }
+        });
+      }
+      else{
+        this.notificationService.warning('Este horario no corresponde al mes a programar');
+      }
     }
   }
 
