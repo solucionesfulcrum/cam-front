@@ -57,4 +57,11 @@ export interface listaFichaSolicitudRequest {
     pageSize: string;
 }
 
+export interface imprimirRequest{
+    idUnidOpe: number,
+    texto: string,
+    estado: number,
+    fecInicio: string,
+    fecFin: string
+}
 

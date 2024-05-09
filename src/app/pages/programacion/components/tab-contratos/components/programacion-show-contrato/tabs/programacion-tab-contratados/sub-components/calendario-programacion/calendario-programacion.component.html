@@ -15,7 +15,7 @@
                 <div class="flex flex-col gap-1 leading-5">
                     <span class="text-[18px] font-medium">Programar Servicios</span>
                     <span class="text-[var(--color-CAM)]">Contrato: {{dataContrato.numOC}}</span>
-                    <span class="text-[#28C2FF] text-[14px] font-light">En Planificación</span>
+                    <span class="text-[#28C2FF] text-[14px] font-light">{{dataContrato.estadoProgramacionId == 37 ? 'Programado' : 'En Planificación'}}</span>
                 </div>
             </div>
             <div class="flex flex-col gap-1.5 pr-2">
@@ -53,7 +53,7 @@
         <div class="cardBackground grow px-4">
             <div class="flex flex-row justify-between w-full">
                 <div class="flex flex-row">
-                    <div class="relative rounded-md shadow-sm botonApariencia">
+                    <div class="relative rounded-md shadow-sm botonApariencia" *ngIf="!visualizacion">
                         <app-btn color="bordeado" (click)="showScheduleCalendar(null, null)">
                         <!-- <app-btn color="bordeado" > -->
                             <esp-icon icon="faAdd"></esp-icon> Agregar Servicio
@@ -109,10 +109,10 @@
                                                     </div>
                                                 </div>
                                                 <div class="flex flex-row py-2 justify-end gap-6 items-center" *ngIf="dataAsignacionSelected">
-                                                    <button class="elementoOpcion" cdkMenuItem (click)="editAsignacion(horario, espacios, actividad)">
+                                                    <button class="elementoOpcion" cdkMenuItem (click)="editAsignacion(horario, espacios, actividad)" *ngIf="!visualizacion">
                                                         <img class="iconoEscalaGris h-6" src="assets/svg/Edit.svg"/>
                                                     </button>
-                                                    <button class="elementoOpcion" cdkMenuItem (click)="deleteAsignacion(dataAsignacionSelected.idProgramacionDet)">
+                                                    <button class="elementoOpcion" cdkMenuItem (click)="deleteAsignacion(dataAsignacionSelected.idProgramacionDet)" *ngIf="!visualizacion">
                                                         <img src="assets/svg/icon-trash-can.svg"/>
                                                     </button>
                                                     <button class="elementoOpcion" cdkMenuItem>

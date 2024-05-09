@@ -2,13 +2,14 @@ import { Dialog } from '@angular/cdk/dialog';
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup } from '@angular/forms';
 import { PageEvent } from '@angular/material/paginator';
-import { RequestListaSAfiliadosContacto,listaConstactosRequest } from '@models/afiliados/ficha-solicitud.model';
+import { RequestListaSAfiliadosContacto,imprimirRequest,listaConstactosRequest } from '@models/afiliados/ficha-solicitud.model';
 import { FormatoBoton } from '@shared/components/opciones-botones/formato-boton.model';
 import { AfiliacionesSolicitudesService } from 'src/app/data/services/afiliaciones/afiliaciones-solicitudes.service';
 import { DialogNewAseguradoComponent } from './sub-components/dialog/dialog-new-asegurado/dialog-new-asegurado.component';
 import { NotificationService } from '@services/notification.service';
 import { DatosGeneralesService } from 'src/app/data/services/datos-generales.service';
 import { Parametro } from '@models/parametros-busqueda.model';
+import { ParamMenu } from '@shared/components/opciones-busqueda/parametros-busqueda.model';
 
 @Component({
   selector: 'app-contactos-afiliados',
@@ -21,6 +22,10 @@ export class ContactosAfiliadosComponent implements OnInit {
     frmSearchDate:new FormControl(""),
     frmSearchEstado:new FormControl(),
   });
+
+  dataAcciones: ParamMenu[] = [
+    {texto: 'Descargar Excel', svgDir: 'assets/svg/icon-excel.svg'}
+  ];
   opciones: Parametro[] = [];
   dataSource: any[] = [];
   pageIndex = 0;
@@ -95,27 +100,33 @@ export class ContactosAfiliadosComponent implements OnInit {
     }
   }
 
-  getPayload(): RequestListaSAfiliadosContacto{
+  imprimirLista(){
     var fecInicio: any;
     var fecFin: any;
+    var fechaSinFormatInit = this.formBuscar.value.frmSearchDate.split(' - ')[0];
+    var fechaSinFormatFin = this.formBuscar.value.frmSearchDate.split(' - ')[1];
+    fecInicio = `${fechaSinFormatInit.split('/')[2]}-${fechaSinFormatInit.split('/')[1]}-${fechaSinFormatInit.split('/')[0]}`;
+    fecFin = `${fechaSinFormatFin.split('/')[2]}-${fechaSinFormatFin.split('/')[1]}-${fechaSinFormatFin.split('/')[0]}`;
+    var idUnidOpe = JSON.parse(localStorage.getItem("UnidElegida")!);
+    let payload: imprimirRequest = {
+      idUnidOpe: idUnidOpe.idUnidOperativa,
+      texto: this.formBuscar.controls['frmSearch'].value,
+      estado: parseInt(this.formBuscar.get('frmSearchEstado')?.value),
+      fecInicio: fecInicio,
+      fecFin: fecFin
+    };
 
-    if (this.formBuscar.value.frmSearchDate == '') {
-      fecInicio = `${new Date().getDate()}/${new Date().getMonth()+1}/${new Date().getFullYear()-1}`;
-      fecFin = `${new Date().getDate()}/${new Date().getMonth()+1}/${new Date().getFullYear()}`;
-    }
-    else{
-      fecInicio = this.formBuscar.value.frmSearchDate.split(' - ')[0];
-      fecFin = this.formBuscar.value.frmSearchDate.split(' - ')[1];
-    }
-
-    return {
-      estado: 1,
-      fechaInicio: fecInicio,
-      fechaFin: fecFin,
-      buscar: this.formBuscar.controls['frmSearch'].value
-    }
+    this.afiliacionesService.getExcelAsegurados(payload).subscribe((data)=>{
+      this.notificationService.success('Se esta descargando el reporte');
+      const blob: Blob = new Blob([data], { type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet' });
+      const url = window.URL.createObjectURL(blob);
+      const anchor = document.createElement('a');
+      anchor.download = 'Reporte_Asegurados.xlsx';
+      anchor.href = url;
+      anchor.click();
+      window.URL.revokeObjectURL(url);
+    })
   }
-
 
   firstDisplayValue(value: any){
     this.formBuscar.get('frmSearchEstado')?.setValue(value);

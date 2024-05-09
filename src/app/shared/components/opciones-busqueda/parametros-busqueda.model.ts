@@ -15,3 +15,8 @@ export interface Parametro{
     fechaModificacion: string,
     activo: boolean
 }
+
+export interface ParamMenu{
+    texto: string,
+    svgDir: string
+}

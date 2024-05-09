@@ -12,6 +12,7 @@ import { ProgramacionContratosService } from 'src/app/data/services/programacion
 })
 export class ProgramacionShowContratoComponent {
   opcionesBotones: FormatoBoton[] = [
+    {texto: 'Ver Programación', esImagen: true, rutaIcono: 'assets/svg/icon-list-see.svg'},
     {texto: 'Programar', colorBtn:'mezclado'},
   ];
   idProgramacion!: string;
@@ -37,7 +38,7 @@ export class ProgramacionShowContratoComponent {
       if (data.code == 0) {
         this.dataContrato = data.data;
         if (this.dataContrato.datosContrato.estadoProgramacionId != 36) {
-          this.opcionesBotones[0].deshabilitado = true;
+          this.opcionesBotones[1].deshabilitado = true;
         }
       }
       else {

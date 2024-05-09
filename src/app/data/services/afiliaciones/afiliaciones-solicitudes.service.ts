@@ -1,7 +1,8 @@
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { RegisterNota, RegisterSolicitud } from '@models/afiliaciones/register-afiliacion.model';
-import { RequestListaSAfiliadosContacto, RequestListaSolicitudesAfiliados,listaConstactosRequest } from '@models/afiliados/ficha-solicitud.model';
+import { RequestListaSAfiliadosContacto, RequestListaSolicitudesAfiliados,imprimirRequest,listaConstactosRequest } from '@models/afiliados/ficha-solicitud.model';
+import { Observable } from 'rxjs';
 import { environment } from 'src/environments/environment';
 
 const URL_BASE = `${environment.API}/afiliado`;
@@ -47,6 +48,11 @@ export class AfiliacionesSolicitudesService {
   getListaContacto(model: listaConstactosRequest){
     const url = `${api_URL}/ficha-admision/listar`;
     return this._httpClient.post<any>(url, model);
+  }
+
+  getExcelAsegurados(model: imprimirRequest): Observable<Blob>{
+    const url = `${api_URL}/report/contactos/excel/lista-asegurados`;
+    return this._httpClient.post(url, model, {responseType:'blob', headers: new HttpHeaders({'Accept': 'application/octet-stream'})});
   }
 
   // getDataSolicitud(tipoDoc: string, numDoc: string){
