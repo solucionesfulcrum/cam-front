@@ -60,6 +60,8 @@ export class ButtonComponent {
       'hover:bg-gray-100': true,
       'ring-gray-50': true,
       'text-gray-700': true,
+      'border': true,
+      'border-[var(--color-black-alt)]': true
     },
     sky: {
       'bg-sky-700': true,
