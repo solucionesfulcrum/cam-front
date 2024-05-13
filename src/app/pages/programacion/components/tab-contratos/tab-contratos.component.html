@@ -62,7 +62,7 @@
 
       <ng-container cdkColumnDef="estado">
         <th cdk-header-cell class="py-[1.25rem] px-6" *cdkHeaderCellDef>Estado</th>
-        <td cdk-cell class="py-[1rem] px-6" *cdkCellDef="let row" [ngClass]="row.estado === 'NUEVO' ? 'text-[#0CCE6B]' : (row.estado === 'SIN PROGRAMACION' ? 'text-[#F59E0B]' : 'text-[#DC2626]')">{{row.estado | titlecase}}</td>
+        <td cdk-cell class="py-[1rem] px-6" *cdkCellDef="let row" [ngClass]="row.estado === 'PROGRAMADO' ? 'text-[#0CCE6B]' : (row.estado === 'SIN PROGRAMACION' ? 'text-[#F59E0B]' : 'text-[#DC2626]')">{{row.estado | titlecase}}</td>
       </ng-container>
     </table>
     <mat-paginator #paginator class="demo-paginator paginatorDatos" 
