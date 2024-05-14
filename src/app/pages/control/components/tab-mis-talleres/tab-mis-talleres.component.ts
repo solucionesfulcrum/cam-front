@@ -2,21 +2,22 @@ import { formatDate, registerLocaleData } from '@angular/common';
 import localeEs from '@angular/common/locales/es';
 import { Component, Inject, LOCALE_ID } from '@angular/core';
 import { FormControl } from '@angular/forms';
+import { Router } from '@angular/router';
 import { faSpinner } from '@fortawesome/free-solid-svg-icons';
 import { RequestStatus } from '@models/request-status.model';
 import { NotificationService } from '@services/notification.service';
 import { debounceTime } from 'rxjs';
+import { ControlProgramacionService } from 'src/app/data/services/control/control-programacion.service';
 import { DatosGeneralesService } from 'src/app/data/services/datos-generales.service';
 
 registerLocaleData(localeEs, 'es');
-
 @Component({
-  selector: 'esp-programados',
-  templateUrl: './programados.component.html',
-  styleUrls: ['./programados.component.scss'],
+  selector: 'esp-tab-mis-talleres',
+  templateUrl: './tab-mis-talleres.component.html',
+  styleUrls: ['./tab-mis-talleres.component.scss'],
   providers: [{provide: LOCALE_ID, useValue: 'es'}]
 })
-export class ProgramadosComponent {
+export class TabMisTalleresComponent {
   status: RequestStatus = 'init';
   ListaProgramacines: any[] = [];
   faSpinner = faSpinner;
@@ -39,6 +40,8 @@ export class ProgramadosComponent {
   ];
   
   constructor(private datosService                      : DatosGeneralesService,
+              private router                            : Router,
+              private controlService                    : ControlProgramacionService,
               @Inject(LOCALE_ID) private locale         : string,
               private notificacionService               : NotificationService,
               ) { }
@@ -102,12 +105,14 @@ export class ProgramadosComponent {
   getListaProgramaciones() {
     this.status = 'loading';
     const idUsuario = (JSON.parse(localStorage.getItem('UnidElegida')!)).idUnidOperativa
-    this.datosService.getlistaProgramacion(idUsuario, this.ctrlInit.value!, this.ctrlFin.value!, this.ctrlSearch.value!.toUpperCase()).subscribe((data) => {
+    this.controlService.getlistaProgramacion(idUsuario, this.ctrlInit.value!, this.ctrlFin.value!, this.ctrlSearch.value!.toUpperCase()).subscribe((data) => {
       if (data.code == 0) {
-        this.status = 'success';
+        this.status = 'success';        
         console.log("data", data.data);
-        console.log("data", new Date);
-        this.ListaProgramacines = data.data
+        this.ListaProgramacines = data.data;
+        if (data.data.length > 0) {
+          this.selectedProgramacion = data.data[0];
+        }
       }
       else{
         this.status = 'failed';
@@ -126,4 +131,10 @@ export class ProgramadosComponent {
   selectProg(prog: any): void {
     this.selectedProgramacion = prog;
   }
+
+  goAsistencia(){
+    localStorage.setItem('idProgramElegida', JSON.stringify(this.selectedProgramacion.idProgDet));    
+    this.router.navigate(['/app/control/control-asistencia'])
+  }
+
 }

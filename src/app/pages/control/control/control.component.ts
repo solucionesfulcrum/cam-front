@@ -9,16 +9,18 @@ import { FormatoTab } from '@shared/components/menu-opciones/formato-tab.model';
 export class ControlComponent {
   
   userInfo = (JSON.parse(localStorage.getItem('UnidElegida')!));
-  links: FormatoTab[] = [
-    {url: `/app/control`, title: 'Programados'},
-    /*{url: `/app/`, title: 'En Calendario'},
-    {url: `/app/`, title: 'Talleristas'},
-    {url: `/app/`, title: 'Talleres'},
-    {url: `/app/`, title: 'Asistencias'},*/
-  ]
+  links: FormatoTab[] = []
   ngOnInit(){
     if (this.userInfo.rol === 'TALLERISTA') {
-      this.links[0].title = 'Mis Talleres';
+      this.links = [
+        {url: `/app/control/mis-talleres`, title: 'Mis Talleres'},
+        {url: `/app/control/control-asistencia`, title: 'Asistencias'},
+      ];
+    }
+    else{
+      this.links = [
+        {url: `/app/control`, title: 'Programados'},
+      ];
     }
   }
 }

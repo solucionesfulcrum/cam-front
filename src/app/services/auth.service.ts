@@ -201,6 +201,7 @@ export class AuthService {
     this.tokenService.removeToken();
     localStorage.removeItem('camUser');
     localStorage.removeItem('UnidElegida');
+    localStorage.removeItem('idProgramElegida');
     this.tokenService.removeRefreshToken();
   }
 

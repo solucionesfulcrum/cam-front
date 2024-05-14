@@ -2,6 +2,9 @@ import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { ControlComponent } from './control/control.component'
 import { ProgramadosComponent } from './components/programados/programados.component'
+import { TabMisTalleresComponent } from './components/tab-mis-talleres/tab-mis-talleres.component';
+import { TabAsistenciaComponent } from './components/tab-asistencia/tab-asistencia.component';
+import { ControlAsistenciaGuard } from '@guards/control-asistencia.guard';
 
 const routes: Routes = [
   {
@@ -11,7 +14,18 @@ const routes: Routes = [
       {
         path: '',
         component: ProgramadosComponent,
-        title: 'Aperturar atención de citas'
+        title: 'Talleres programados'
+      },
+      {
+        path: 'mis-talleres',
+        component: TabMisTalleresComponent,
+        title: 'Listado mis talleres'
+      },
+      {
+        path: 'control-asistencia',
+        canActivate:[ControlAsistenciaGuard],
+        component: TabAsistenciaComponent,
+        title: 'Control de Asistencia'
       }
     ]
   }

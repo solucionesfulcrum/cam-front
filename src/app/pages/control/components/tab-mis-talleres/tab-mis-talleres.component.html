@@ -24,7 +24,6 @@
                 </app-btn>
             </div>
         </div>
-        <app-btn class="botonApariencia" color="bordeado">Historial</app-btn>
     </div>
     <div class="px-4 py-3 bg-white mt-3 grid botonApariencia place-self-center" *ngIf="status === 'loading'">
         <div class="text-gray-600 text-center flex flex-col gap-2 items-center">
@@ -36,7 +35,7 @@
         </div>
     </div>
     <div class="flex flex-row gap-[30px] text-[#37474F] items-start" *ngIf="status !== 'loading'">
-        <div *ngIf="ListaProgramacines.length > 0" class="flex flex-col w-[435px] shrink-0 botonApariencia">
+        <div *ngIf="ListaProgramacines.length > 0" class="flex flex-col w-[435px] shrink-0 botonApariencia overflow-auto max-h-[68vh]">
             <div *ngFor="let prog of ListaProgramacines, index as i" class="py-2.5 border-x border-t border-[#979797] bg-white hover:bg-[#F0FCFE] cursor-pointer" [ngClass]="{'rounded-t': i == 0, 'rounded-b border-b': i == ListaProgramacines.length - 1, '!bg-[#F0FCFE]': (selectedProgramacion ? prog.idProgDet == selectedProgramacion.idProgDet : null)}" (click)="selectProg(prog)">
                 <div class="px-2.5 py-[14px] flex flex-row">
                     <div class="flex flex-col items-end gap-[5px] pt-[2px] px-2.5 shrink-0 w-[65px]">
@@ -59,14 +58,9 @@
             </div>
         </div>
         <div *ngIf="selectedProgramacion" class="bg-white grow botonApariencia flex flex-col">
-            <div class="flex flex-row justify-end gap-[14px] px-4 pt-2">
-                <app-btn class="botonApariencia flex" color="white">
-                    <div class="flex flex-row gap-[5px]">
-                        <img class="h-5 self-center" src="assets/svg/icon-edit-data.svg">
-                        <span>Editar</span>
-                    </div>
-                </app-btn>
-                <app-btn class="botonApariencia flex" color="bordeado">Posponer</app-btn>
+            <div class="flex flex-row justify-between gap-[14px] px-4 pt-2">
+                <app-btn class="botonApariencia flex" color="bordeado">Opciones</app-btn>
+                <app-btn class="botonApariencia flex" color="mezclado" (click)="goAsistencia()">Asistencia</app-btn>
             </div>
             <div class="p-2.5">
                 <div class="p-2.5 flex flex-row gap-2.5">
@@ -105,22 +99,22 @@
                     </div>
                     <span class="text-[14px] leading-5 font-light"> {{(selectedProgramacion.fecha | date: 'EEEE, dd') | titlecase}} de {{selectedProgramacion.fecha | date: 'MMMM'}} de {{((selectedProgramacion.fecha + ' ' + selectedProgramacion.horaInicio) | date:'hh -') +  ' ' + ((selectedProgramacion.fecha + ' ' + selectedProgramacion.horaFin) | date:'hh aa')}}</span>
                 </div>
-                <div class="py-1 flex flex-row gap-2.5 items-center">
+                <!-- <div class="py-1 flex flex-row gap-2.5 items-center">
                     <div class="w-[35px] h-[32px] flex items-center justify-center">
                         <img class="self-center select-none" src="assets/svg/icon-vinieta-cam.svg">
                     </div>
                     <span class="text-[14px] leading-5 font-light">CAM {{selectedProgramacion.nombreCam | titlecase}}</span>
-                </div>
+                </div> -->
                 <div class="py-1 flex flex-row gap-2.5 items-center">
                     <div class="w-[35px] h-[32px] flex items-center justify-center">
-                        <img class="self-center select-none" src="assets/svg/icon-direccion-gray.svg">
+                        <img class="self-center select-none" src="assets/svg/icon-direccion-double.svg">
                     </div>
                     <span class="text-[14px] leading-5 font-light">{{selectedProgramacion.ubicacion | titlecase}}</span>
                 </div>
                 <div class="py-1 flex flex-row justify-between items-center">
                     <div class="flex flex-row gap-2.5 items-center">
                         <div class="w-[35px] h-[32px] flex items-center justify-center">
-                            <img class="self-center select-none" src="assets/svg/icon-control-person.svg">
+                            <img class="self-center select-none opacity-50" src="assets/svg/icon-person-extended.svg">
                         </div>
                         <span class="text-[14px] leading-5 font-light">{{selectedProgramacion.nombreCompleto | titlecase}}</span>
                     </div>
@@ -132,112 +126,6 @@
                     </div>
                 </div>
             </div>
-            <!-- <div class="p-4 bg-white shadow-lg">
-                <div class="info-container flex items-center">
-                    <div>
-                        <div class="text-lg font-bold text-xl mr-4">{{selectedProgramacion.fecha.split("-")[2]}}</div>
-                        <div class="text-lg text-xs mr-4">{{(selectedProgramacion.fecha |date:'MMM') | titlecase}}</div>
-                    </div>
-                    <div>
-                        <div class="mr-1">
-                            <div class="text-sm font-semibold"> TALLER DE {{selectedProgramacion.nombre}}</div>
-    
-                            <div class="text-indigo-500 text-xs">{{selectedProgramacion.distrito}}</div>
-                        </div>
-                    </div>
-                </div>
-                <div class="info-container flex items-center">
-                    <div class="mr-12">
-                        <div *ngIf="!imagenFoto" class="my-1 imagen w-32 h-32 border-b-2 bg-gray-400"></div>
-                    </div>
-                    <div class="mr-12">
-                        <div *ngIf="!imagenFoto" class="my-1 imagen w-32 h-32 border-b-2 bg-gray-400"></div>
-                    </div>
-                    <div class="mr-12">
-                        <div *ngIf="!imagenFoto" class="my-1 imagen w-32 h-32 border-b-2 bg-gray-400"></div>
-                    </div>
-                    <div class="mr-12">
-                        <div *ngIf="!imagenFoto" class="my-1 imagen w-32 h-32 border-b-2 bg-gray-400"></div>
-                    </div>
-                </div>
-                <div>
-                    <div class="text-sm font-semibold mt-5">Detalles</div>
-                    <div class="text-gray-600 text-xs mt-4"> {{formatoFecha(selectedProgramacion.fecha)}} de
-                        {{selectedProgramacion.horaInicio}} -
-                        {{selectedProgramacion.horaFin}}</div>
-                    <div class="text-gray-600 text-xs mt-4">CAM {{selectedProgramacion.nombreCam}}</div>
-                    <div class="info-container flex justify-between items-center">
-                        <div class="text-gray-600 text-xs mt-4">{{selectedProgramacion.ubicacion}}</div>
-                        <div class="text-gray-600 text-xs mt-4">{{selectedProgramacion.modalidad}}</div>
-                    </div>
-                </div>
-            </div> -->
         </div>
-        <!-- <div  *ngIf="ListaProgramacines.length>0" class="w-2/6 mr-4">
-            <div *ngFor="let prog of ListaProgramacines" class="">
-                <div (click)="selectProg(prog)"class="p-4 bg-white shadow-lg h-full">
-                    <div class="info-container flex justify-between items-center">
-                        <div>
-                            <div class="text-lg font-bold text-xl mr-4">{{prog.fecha.split("-")[2]}}</div>
-                            <div class="text-lg text-xs mr-4">{{(prog.fecha |date:'MMM') | titlecase}}</div>
-                        </div>
-    
-                        <div class="mr-12">
-                            <div class="text-sm font-semibold"> {{prog.nombre}}</div>
-                            <div class="text-gray-600 text-xs"> {{formatoFecha(prog.fecha)}} de {{prog.horaInicio}} -
-                                {{prog.horaFin}}</div>
-                            <div class="text-gray-600 text-xs">CAM {{prog.nombreCam}}</div>
-                            <div class="text-indigo-500 text-xs">{{prog.distrito}}</div>
-                        </div>
-                        <div class="mr-12">
-                            <div *ngIf="!imagenFoto" class="my-1 imagen w-24 h-24 border-b-2 bg-gray-400"></div>
-                            <div class="text-gray-600 text-xs ml-4">{{prog.modalidad}}</div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div *ngIf="selectedProgramacion" class="w-4/6 mr-4">
-            <div class="p-4 bg-white shadow-lg">
-                <div class="info-container flex items-center">
-                    <div>
-                        <div class="text-lg font-bold text-xl mr-4">{{selectedProgramacion.fecha.split("-")[2]}}</div>
-                        <div class="text-lg text-xs mr-4">{{(selectedProgramacion.fecha |date:'MMM') | titlecase}}</div>
-                    </div>
-                    <div>
-                        <div class="mr-1">
-                            <div class="text-sm font-semibold"> TALLER DE {{selectedProgramacion.nombre}}</div>
-    
-                            <div class="text-indigo-500 text-xs">{{selectedProgramacion.distrito}}</div>
-                        </div>
-                    </div>
-                </div>
-                <div class="info-container flex items-center">
-                    <div class="mr-12">
-                        <div *ngIf="!imagenFoto" class="my-1 imagen w-32 h-32 border-b-2 bg-gray-400"></div>
-                    </div>
-                    <div class="mr-12">
-                        <div *ngIf="!imagenFoto" class="my-1 imagen w-32 h-32 border-b-2 bg-gray-400"></div>
-                    </div>
-                    <div class="mr-12">
-                        <div *ngIf="!imagenFoto" class="my-1 imagen w-32 h-32 border-b-2 bg-gray-400"></div>
-                    </div>
-                    <div class="mr-12">
-                        <div *ngIf="!imagenFoto" class="my-1 imagen w-32 h-32 border-b-2 bg-gray-400"></div>
-                    </div>
-                </div>
-                <div>
-                    <div class="text-sm font-semibold mt-5">Detalles</div>
-                    <div class="text-gray-600 text-xs mt-4"> {{formatoFecha(selectedProgramacion.fecha)}} de
-                        {{selectedProgramacion.horaInicio}} -
-                        {{selectedProgramacion.horaFin}}</div>
-                    <div class="text-gray-600 text-xs mt-4">CAM {{selectedProgramacion.nombreCam}}</div>
-                    <div class="info-container flex justify-between items-center">
-                        <div class="text-gray-600 text-xs mt-4">{{selectedProgramacion.ubicacion}}</div>
-                        <div class="text-gray-600 text-xs mt-4">{{selectedProgramacion.modalidad}}</div>
-                    </div>
-                </div>
-            </div>
-        </div> -->
     </div>
 </div>
