@@ -23,7 +23,6 @@
             </div>
             <div>
                 <div class="flex flex-row gap-[14px]">
-                    <input type="text" class="inputTextoDialog focusCampo" [formControl]="ctrlSearch" placeholder="Buscador">
                     <ul class="flex flex-row">
                         <li>
                             <input type="radio" id="hosting-small" name="hosting" value="hosting-small" class="hidden peer" required />
@@ -37,7 +36,20 @@
                                 <img src="assets/svg/icon-vista-lista.svg">
                             </label>
                         </li>
+                        <li>
+                            <input type="radio" id="hosting-big" name="hosting" value="hosting-big" class="hidden peer">
+                            <label for="hosting-big" class="flex items-center justify-center w-10 h-10 border-y border-r border-[#D4D4D4] rounded cursor-pointer peer-checked:bg-[#057EC933] hover:bg-[#057EC933]">
+                                <img src="assets/svg/icon-vista-lista.svg">
+                            </label>
+                        </li>
                     </ul>
+                    <div class="flex flex-row gap-3">
+                        <input type="text" class="inputTextoDialog focusCampo" [formControl]="ctrlSearch" placeholder="Buscador">
+                        <div
+                          class="w-[34px] h-10 flex items-center justify-center border border-gray-400 rounded cursor-pointer hover:bg-slate-200 shrink-0">
+                          <img src="assets/svg/icon-contrato-confirm.svg">
+                        </div>
+                    </div>
                 </div>                
             </div>
         </div>
@@ -69,7 +81,7 @@
                     <span class="font-light leading-2.5 text-[10px] text-[#64748B]">Participantes</span>
                 </div>
             </div>
-            <app-btn class="botonApariencia flex" color="mezclado" [disabled]="true">
+            <app-btn class="botonApariencia flex h-10" color="mezclado" [disabled]="true">
                 <div class="flex flex-row gap-[5px]">
                     <img class="h-5 self-center" src="assets/svg/icon-list-assignments.svg">
                     <span>{{datoProgramacion.numSesiones - comienzoSesiones + 1}} Hora</span>
