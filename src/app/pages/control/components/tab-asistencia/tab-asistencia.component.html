@@ -1,8 +1,81 @@
-<div class="px-4 py-3 bg-white w-full mt-3 grid botonApariencia">
+<div class="px-4 py-3 bg-white w-full mt-3 grid botonApariencia" *ngIf="!datoProgramacion">
     <div class="text-gray-600 w-full text-center">
         <p class="py-1 font-semibold text-2xl">
             <fa-icon class="mr-2" [icon]="faSpinner" [pulse]="true"></fa-icon>
             Obteniendo datos...
         </p>
+    </div>
+</div>
+<div class="flex flex-col gap-3" *ngIf="datoProgramacion">
+    <div class="flex flex-row gap-3 px-3 botonApariencia bg-white">
+        <div class="flex flex-col justify-between grow">
+            <div class="py-3">
+                <div class="flex flex-row gap-2.5">
+                    <div class="flex flex-col gap-[5px] shrink-0 w-[46px]">
+                        <span class="font-semibold text-[40px] leading-[30px]">{{datoProgramacion.fechaServicio | date:'dd'}}</span>
+                        <span class="font-light leading-[20px]">{{(datoProgramacion.fechaServicio | date:'MMM') | titlecase}}</span>
+                    </div>
+                    <div class="flex flex-col gap-[5px] leading-[20px]">
+                        <span class="text-[18px] font-medium"> {{datoProgramacion.nombreServicio[0] + (datoProgramacion.nombreServicio.substring(1) | lowercase)}}</span>
+                        <span class="text-[14px] font-light"> {{(datoProgramacion.fechaServicio | date: 'EEEE, dd') | titlecase}} de {{(datoProgramacion.fechaServicio | date: 'MMMM') | titlecase}} de {{((datoProgramacion.fechaServicio + ' ' + datoProgramacion.horaInicio) | date:'hh:mm aa -') +  ' ' + ((datoProgramacion.fechaServicio + ' ' + datoProgramacion.horaFin) | date:'hh:mm aa')}}</span>
+                    </div>
+                </div>
+            </div>
+            <div>
+                <div class="flex flex-row gap-[14px]">
+                    <input type="text" class="inputTextoDialog focusCampo" [formControl]="ctrlSearch" placeholder="Buscar servicios">
+                    <ul class="flex flex-row">
+                        <li>
+                            <input type="radio" id="hosting-small" name="hosting" value="hosting-small" class="hidden peer" required />
+                            <label for="hosting-small" class="flex items-center justify-center w-10 h-10 border-y border-x border-[#D4D4D4] rounded cursor-pointer peer-checked:bg-[#057EC933] hover:bg-[#057EC933]">
+                                <img src="assets/svg/icon-vista-cuadricular.svg">
+                            </label>
+                        </li>
+                        <li>
+                            <input type="radio" id="hosting-big" name="hosting" value="hosting-big" class="hidden peer">
+                            <label for="hosting-big" class="flex items-center justify-center w-10 h-10 border-y border-r border-[#D4D4D4] rounded cursor-pointer peer-checked:bg-[#057EC933] hover:bg-[#057EC933]">
+                                <img src="assets/svg/icon-vista-lista.svg">
+                            </label>
+                        </li>
+                    </ul>
+                </div>                
+            </div>
+        </div>
+        <div class="flex flex-col gap-[2px] shrink-0">
+            <div class="flex flex-row gap-2 py-[2px]">
+                <div class="flex items-center justify-center w-6">
+                    <img class="select-none" src="assets/svg/icon-class-lesson.svg">
+                </div>
+                <div class="flex flex-col text-[#64748B]">
+                    <span class="leading-4">{{comienzoSesiones}} de {{datoProgramacion.numSesiones}}</span>
+                    <span class="font-light leading-2.5 text-[10px]">{{datoProgramacion.numSesiones > 1 ? 'Sesiones' : 'Sesión'}}</span>
+                </div>
+            </div>
+            <div class="flex flex-row gap-2 py-[2px]">
+                <div class="flex items-center justify-center w-6">
+                    <img class="iconoEscalaGris select-none w-[14px]" src="assets/svg/icon-control-time.svg">
+                </div>
+                <div class="flex flex-col text-[#64748B]">
+                    <span class="leading-4">{{datoProgramacion.margenHorario}}</span>
+                    <span class="font-light leading-2.5 text-[10px]">Tiempo</span>
+                </div>
+            </div>
+            <div class="flex flex-row gap-2 py-[2px]">
+                <div class="flex items-center justify-center w-6">
+                    <img class="iconoEscalaGris select-none" src="assets/svg/icon-person-group.svg">
+                </div>
+                <div class="flex flex-col">
+                    <span class="leading-4 text-[var(--color-black-alt)]">{{0}}</span>
+                    <span class="font-light leading-2.5 text-[10px] text-[#64748B]">Participantes</span>
+                </div>
+            </div>
+            <app-btn class="botonApariencia flex" color="mezclado" [disabled]="true">
+                <div class="flex flex-row gap-[5px]">
+                    <img class="h-5 self-center" src="assets/svg/icon-list-assignments.svg">
+                    <span>{{datoProgramacion.numSesiones - comienzoSesiones + 1}} Hora</span>
+                </div>
+            </app-btn>
+
+        </div>
     </div>
 </div>

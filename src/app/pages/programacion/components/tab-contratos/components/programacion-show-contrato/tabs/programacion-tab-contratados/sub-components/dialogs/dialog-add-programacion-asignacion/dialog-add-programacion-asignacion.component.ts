@@ -248,6 +248,9 @@ export class DialogAddProgramacionAsignacionComponent {
         }
         this.ctrlTipo.setValue(this.listParamTipo.find((datos)=> datos.nombre === data.tipoServicio).idParametros);
         this.dataTipo = this.listParamTipo.find((datos)=> datos.nombre === data.tipoServicio);
+        if (!this.dataTipo.valor1) {
+          this.dataTipo.valor1 = 60;
+        }
         this.comprobarLimiteSesiones(data.idServicio)
       }
       else{
