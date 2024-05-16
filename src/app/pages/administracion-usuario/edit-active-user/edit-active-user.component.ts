@@ -51,7 +51,7 @@ export class EditActiveUserComponent {
 
   public formDatosPersonales = this.fb.nonNullable.group({
     frmNombres: [''],
-    frmApellidos: ['', [Validators.pattern('^[a-zA-Z ]*$')]],
+    frmApellidos: ['', [Validators.pattern('^[a-zA-ZñÑáéíóúÁÉÍÓÚ ]*$')]],
     frmCelular: [''],
     frmCorreo: [''],
     frmDireccion: [''],
