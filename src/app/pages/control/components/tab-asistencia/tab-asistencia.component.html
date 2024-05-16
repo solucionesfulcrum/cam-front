@@ -7,7 +7,7 @@
     </div>
 </div>
 <div class="flex flex-col gap-3" *ngIf="datoProgramacion">
-    <div class="flex flex-row gap-3 px-3 botonApariencia bg-white">
+    <div class="flex flex-row gap-3 px-3 botonApariencia bg-white py-1.5">
         <div class="flex flex-col justify-between grow">
             <div class="py-3">
                 <div class="flex flex-row gap-2.5">
@@ -23,28 +23,42 @@
             </div>
             <div>
                 <div class="flex flex-row gap-[14px]">
-                    <ul class="flex flex-row">
+                    <ul class="flex flex-row gap-1.5">
                         <li>
-                            <input type="radio" id="hosting-small" name="hosting" value="hosting-small" class="hidden peer" required />
-                            <label for="hosting-small" class="flex items-center justify-center w-10 h-10 border-y border-x border-[#D4D4D4] rounded cursor-pointer peer-checked:bg-[#057EC933] hover:bg-[#057EC933]">
-                                <img src="assets/svg/icon-vista-cuadricular.svg">
+                            <input type="radio" id="search-typing" [formControl]="ctrlTypeSearch" [value]="1" class="hidden peer" required />
+                            <label for="search-typing" class="flex items-center justify-center w-10 h-10 border border-[#D4D4D4] rounded cursor-pointer peer-checked:bg-cam peer-checked:colorWhite hover:bg-[#057EC933]">
+                                <img src="assets/svg/icon-search-typing.svg">
                             </label>
                         </li>
                         <li>
-                            <input type="radio" id="hosting-big" name="hosting" value="hosting-big" class="hidden peer">
-                            <label for="hosting-big" class="flex items-center justify-center w-10 h-10 border-y border-r border-[#D4D4D4] rounded cursor-pointer peer-checked:bg-[#057EC933] hover:bg-[#057EC933]">
-                                <img src="assets/svg/icon-vista-lista.svg">
+                            <input type="radio" id="search-bar-code" [formControl]="ctrlTypeSearch" [value]="2" class="hidden peer">
+                            <label for="search-bar-code" class="flex items-center justify-center w-10 h-10 border border-[#D4D4D4] rounded cursor-pointer peer-checked:bg-cam peer-checked:colorWhite hover:bg-[#057EC933]">
+                                <img src="assets/svg/icon-search-bar-code.svg">
                             </label>
                         </li>
                         <li>
-                            <input type="radio" id="hosting-big" name="hosting" value="hosting-big" class="hidden peer">
-                            <label for="hosting-big" class="flex items-center justify-center w-10 h-10 border-y border-r border-[#D4D4D4] rounded cursor-pointer peer-checked:bg-[#057EC933] hover:bg-[#057EC933]">
-                                <img src="assets/svg/icon-vista-lista.svg">
+                            <input type="radio" id="search-special" [formControl]="ctrlTypeSearch" [value]="3" class="hidden peer">
+                            <label for="search-special" class="flex items-center justify-center w-10 h-10 border border-[#D4D4D4] rounded cursor-pointer peer-checked:bg-cam peer-checked:colorWhite hover:bg-[#057EC933]">
+                                <img src="assets/svg/icon-search-special.svg">
                             </label>
                         </li>
                     </ul>
-                    <div class="flex flex-row gap-3">
-                        <input type="text" class="inputTextoDialog focusCampo" [formControl]="ctrlSearch" placeholder="Buscador">
+                    <div class="flex flex-row gap-3 grow">
+                        <input type="text" class="inputTextoDialog focusCampo" *ngIf="ctrlTypeSearch.value == 1" [formControl]="ctrlSearch" placeholder="Buscador">
+                        <div class="flex flex-row gap-3 grow" *ngIf="ctrlTypeSearch.value == 2" [formGroup]="formNewContrato">
+                            <div class="shrink-0">
+                              <div class="relative rounded-md shadow-sm">
+                                <select id="searchDoc" formControlName="frmSelectDoc"
+                                  class="space-x-5 bg-slate-50 border border-gray-300 text-gray-900 text-sm rounded-lg focusCampo block w-full">
+                                  <option value="" disabled selected>Seleccione su tipo de documento</option>
+                                  <option *ngFor="let documento of opciones" [value]='documento.valor1'>{{documento.nombre | titlecase}}
+                                  </option>
+                                  <!-- <option value="1">Registrado</option> -->
+                                </select>
+                              </div>
+                            </div>
+                            <input formControlName="frmDoc" placeholder="Buscador" type="text" name="doc" class="w-full text-sm rounded bg-white border-gray-400 border-1 px-4 py-2 font-light focusCampo grow"/>
+                        </div>
                         <div
                           class="w-[34px] h-10 flex items-center justify-center border border-gray-400 rounded cursor-pointer hover:bg-slate-200 shrink-0">
                           <img src="assets/svg/icon-contrato-confirm.svg">
@@ -60,7 +74,7 @@
                 </div>
                 <div class="flex flex-col text-[#64748B]">
                     <span class="leading-4">{{comienzoSesiones}} de {{datoProgramacion.numSesiones}}</span>
-                    <span class="font-light leading-2.5 text-[10px]">{{datoProgramacion.numSesiones > 1 ? 'Sesiones' : 'Sesión'}}</span>
+                    <span class="font-light leading-[10px] text-[10px]">{{datoProgramacion.numSesiones > 1 ? 'Sesiones' : 'Sesión'}}</span>
                 </div>
             </div>
             <div class="flex flex-row gap-2 py-[2px]">
@@ -69,7 +83,7 @@
                 </div>
                 <div class="flex flex-col text-[#64748B]">
                     <span class="leading-4">{{datoProgramacion.margenHorario}}</span>
-                    <span class="font-light leading-2.5 text-[10px]">Tiempo</span>
+                    <span class="font-light leading-[10px] text-[10px]">Tiempo</span>
                 </div>
             </div>
             <div class="flex flex-row gap-2 py-[2px]">
@@ -78,16 +92,18 @@
                 </div>
                 <div class="flex flex-col">
                     <span class="leading-4 text-[var(--color-black-alt)]">{{0}}</span>
-                    <span class="font-light leading-2.5 text-[10px] text-[#64748B]">Participantes</span>
+                    <span class="font-light leading-[10px] text-[10px] text-[#64748B]">Participantes</span>
                 </div>
             </div>
             <app-btn class="botonApariencia flex h-10" color="mezclado" [disabled]="true">
-                <div class="flex flex-row gap-[5px]">
-                    <img class="h-5 self-center" src="assets/svg/icon-list-assignments.svg">
-                    <span>{{datoProgramacion.numSesiones - comienzoSesiones + 1}} Hora</span>
+                <div class="flex flex-row items-center gap-[5px]">
+                    <img class="self-center" src="assets/svg/icon-list-assignments.svg">
+                    <span>{{comienzoSesiones}} Hora</span>
                 </div>
             </app-btn>
-
         </div>
+    </div>
+    <div class="flex flex-col py-2 px-3 botonApariencia bg-white">
+
     </div>
 </div>

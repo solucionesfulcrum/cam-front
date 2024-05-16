@@ -105,9 +105,10 @@ export class ProgramadosComponent {
     this.datosService.getlistaProgramacion(idUsuario, this.ctrlInit.value!, this.ctrlFin.value!, this.ctrlSearch.value!.toUpperCase()).subscribe((data) => {
       if (data.code == 0) {
         this.status = 'success';
-        console.log("data", data.data);
-        console.log("data", new Date);
         this.ListaProgramacines = data.data
+        if (data.data.length > 0) {
+          this.selectedProgramacion = data.data[0];
+        }
       }
       else{
         this.status = 'failed';
