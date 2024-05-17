@@ -17,6 +17,15 @@ export class ControlComponent {
         {url: `/app/control/control-asistencia`, title: 'Asistencias'},
       ];
     }
+    else if(this.userInfo.rol == "PROFESIONAL CAM"){
+      this.links = [
+        {url: `/app/control`, title: 'Programados'},
+        {url: `/app/control/mis-talleres-1`, title: 'En Calendario'},
+        {url: `/app/control/mis-talleres-2`, title: 'Talleristas'},
+        {url: `/app/control/mis-talleres-3`, title: 'Talleres'},
+        {url: `/app/control/asistencias-profesional-cam`, title: 'Asistencias'},
+      ];
+    }
     else{
       this.links = [
         {url: `/app/control`, title: 'Programados'},

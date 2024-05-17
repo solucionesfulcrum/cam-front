@@ -66,7 +66,7 @@
                         <span>Reprogramar</span>
                     </div>
                 </app-btn>
-                <app-btn class="botonApariencia flex" color="bordeado">Inscripción</app-btn>
+                <app-btn class="botonApariencia flex" color="bordeado" (click)="levantarModalInscripcion()">Inscripción</app-btn>
                 <app-btn class="botonApariencia flex" color="mezclado" [disabled]="true">Asistencia</app-btn>
             </div>
             <div class="p-2.5">
@@ -130,6 +130,19 @@
                             <img class="self-center select-none" src="assets/svg/icon-control-site.svg">
                         </div>
                         <span class="text-[14px] leading-5 font-light">{{selectedProgramacion.modalidad | titlecase}}</span>
+                    </div>
+                </div>
+                <div class="py-1 flex flex-row justify-between items-center">
+                    <div class="flex flex-row gap-2.5 items-center">
+                    </div>
+                    <div class="flex flex-row gap-2.5 items-center pr-4">
+
+                        <button (click)="goAsistencia()"
+                        class="w-full font-medium rounded text-sm px-5 py-2 select-none bg-white hover:bg-gray-100 ring-gray-50 text-gray-700 border border-[var(--color-black-alt)]" 
+                        type="button" ng-reflect-ng-class="[object Object]"><!--bindings={
+                            "ng-reflect-ng-if": "false"
+                          }--> Ver Inscripciones </button>
+                        
                     </div>
                 </div>
             </div>

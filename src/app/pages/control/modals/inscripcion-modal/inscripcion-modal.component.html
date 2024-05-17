@@ -1,0 +1,72 @@
+
+<div class="px-4 py-3 bg-primary-700 flex justify-between text-white font-semibold">
+  <span>Nueva Inscripción</span>
+  <button (click)="onClose()">
+    <esp-icon icon="faClose"></esp-icon>
+  </button>
+</div>
+<div class="px-4 py-3 bg-white">
+  <div class="grid grid-cols-3 gap-3 mt-4 mb-2" [formGroup]="formDatosAdicionales" [style.grid-template-columns]="columnWidths">
+    <div class="relative mt-2 rounded-md shadow-sm">
+      <select formControlName="frmTipoDoc"
+        class="space-x-5 bg-slate-50 border border-gray-300 text-gray-900 text-sm rounded-lg focusCampo block w-full">
+        <!-- <option [selected]="true" disabled>Tipo de documento</option> -->
+        <option value="" disabled selected>Tipo de Documento</option>
+        <option value="1">DNI</option>
+        <!--<option *ngFor="let rol of listRoles" [value]='rol.idRol'>{{rol.nombre | titlecase}}</option>-->
+      </select>
+      <div *ngIf="formDatosAdicionales.controls.frmTipoDoc.touched && formDatosAdicionales.controls.frmTipoDoc.invalid">
+          <p *ngIf="formDatosAdicionales.controls.frmTipoDoc.hasError('required')" class="font-medium text-red-500 text-xs mt-1 ml-1">
+              Seleccione un tipo de documento
+          </p>
+      </div>
+    </div>
+    <div class="relative mt-2 rounded-md shadow-sm">
+      <div class="pointer-events-none absolute inset-y-0 right-0 flex !h-9 items-center pr-3">
+        <span class="text-gray-500 sm:text-sm">
+          <esp-icon icon="faSearch"></esp-icon>
+        </span>
+      </div>
+      <input type="text" name="search" [formControl]="frmNombre" [matAutocomplete]="uniOper"
+        class="inputTextoDialog focusCampo !h-9 pr-7"
+        placeholder="Numero de documento">
+        
+      <mat-autocomplete #uniOper="matAutocomplete" [displayWith]="displayFnUnidadOperativa" (optionSelected)="onSelectionChangeUnidadOperativa($event)">
+          <mat-option *ngFor="let option of listUnidadOperativa" [value]="option">
+              {{option.nombre}}
+          </mat-option>
+      </mat-autocomplete>
+      <div *ngIf="frmNombre.touched && frmNombre.invalid">
+          <p *ngIf="frmNombre.hasError('required')" class="font-medium text-red-500 text-xs mt-1 ml-1">
+              Seleccione el numero de documento
+          </p>
+      </div>
+    </div>
+    <div class="relative mt-2 rounded-md shadow-sm" *ngIf="statusLoadContacto">
+    <button _ngcontent-giu-c18="" (click)="limpiarDatos()" class="font-medium rounded text-sm px-2 py-2 select-none 0 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 21 bg-transparent text-red-500 border-red-500 border-[0.0125rem] hover:bg-gray-100 focus:ring-gray-100" 
+    type="button" ng-reflect-ng-class="[object Object]">
+    <esp-icon [icon]="'faTrashCan'"></esp-icon>
+  </button>
+    </div>
+  </div>
+</div>
+<div class="px-4 py-1 bg-white" *ngIf="statusLoadContacto">
+  <div class="grid grid-cols-1 gap-3 mb-2" [formGroup]="formDatosAdicionales">
+    <div class="relative rounded-md  flex justify-center">
+      <img class="my-2 imagen" src="data:image/jpeg;base64,{{srcAsegurado}}" alt="Imagen Asegurado">
+    </div>
+    <div class="flex justify-center">
+      <div class="fila-content">{{nombreContacto}}</div>
+    </div>
+    <div class="flex justify-center shadow-sm pb-4">
+      <div class="fila-content">DNI {{numdocContacto}} </div>
+    </div>
+  </div>
+</div>
+<div class="flex justify-center bg-white py-3">
+  <div class="flex gap-1">
+    <app-btn (click)="onClose()" color="none" [style]="{'bg-white':true,'hover:bg-gray-100':true,'text-black':true,'shadow-sm':true}">Cancelar</app-btn>
+    <app-btn *ngIf="!statusLoadContacto" (click)="buscarInscripcion()" [loading]="status === 'loading'">Buscar</app-btn>
+    <app-btn *ngIf="statusLoadContacto" (click)="registrar()" [loading]="status === 'loading'">Registrar</app-btn>
+  </div>
+</div>

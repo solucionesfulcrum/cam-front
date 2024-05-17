@@ -7,6 +7,9 @@ import { RequestStatus } from '@models/request-status.model';
 import { NotificationService } from '@services/notification.service';
 import { debounceTime } from 'rxjs';
 import { DatosGeneralesService } from 'src/app/data/services/datos-generales.service';
+import { InscripcionModalComponent } from '../../modals/inscripcion-modal/inscripcion-modal.component';
+import { Dialog } from '@angular/cdk/dialog';
+import { Router } from '@angular/router';
 
 registerLocaleData(localeEs, 'es');
 
@@ -40,7 +43,9 @@ export class ProgramadosComponent {
   
   constructor(private datosService                      : DatosGeneralesService,
               @Inject(LOCALE_ID) private locale         : string,
-              private notificacionService               : NotificationService,
+              private notificacionService               : NotificationService,            
+              private dialog : Dialog,
+              private router                            : Router,
               ) { }
 
   setActive(index: number) {
@@ -118,6 +123,7 @@ export class ProgramadosComponent {
   }
 
   ngOnInit() {
+
     this.getFiltrosFecha(1);
     this.ctrlSearch?.valueChanges.pipe(debounceTime(1000)).subscribe(key => {
       this.getListaProgramaciones();
@@ -127,4 +133,23 @@ export class ProgramadosComponent {
   selectProg(prog: any): void {
     this.selectedProgramacion = prog;
   }
+
+
+  levantarModalInscripcion(){
+    const dialogRef = this.dialog.open(InscripcionModalComponent,{
+      minWidth:'800px',
+      maxWidth:'50%',
+      width:'800px',
+    })
+    dialogRef.closed.subscribe(out =>{
+      //this.onLoadData();
+    })
+  }
+
+  
+  goAsistencia(){
+    localStorage.setItem('idProgramElegida', JSON.stringify(this.selectedProgramacion.idProgDet));    
+    this.router.navigate(['/app/control/asistencias-profesional-cam'])
+  }
+
 }

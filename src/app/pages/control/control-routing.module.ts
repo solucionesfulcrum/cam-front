@@ -5,6 +5,7 @@ import { ProgramadosComponent } from './components/programados/programados.compo
 import { TabMisTalleresComponent } from './components/tab-mis-talleres/tab-mis-talleres.component';
 import { TabAsistenciaComponent } from './components/tab-asistencia/tab-asistencia.component';
 import { ControlAsistenciaGuard } from '@guards/control-asistencia.guard';
+import { TabAsistenciaProfCamComponent } from './components/tab-asistencia-prof-cam/tab-asistencia-prof-cam.component';
 
 const routes: Routes = [
   {
@@ -25,6 +26,12 @@ const routes: Routes = [
         path: 'control-asistencia',
         canActivate:[ControlAsistenciaGuard],
         component: TabAsistenciaComponent,
+        title: 'Control de Asistencia'
+      },
+      {
+        path: 'asistencias-profesional-cam',
+        canActivate:[ControlAsistenciaGuard],
+        component: TabAsistenciaProfCamComponent,
         title: 'Control de Asistencia'
       }
     ]
