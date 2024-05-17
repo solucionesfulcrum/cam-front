@@ -6,6 +6,8 @@ import { ControlComponent } from './control/control.component';
 import { ProgramadosComponent } from './components/programados/programados.component';
 import { TabMisTalleresComponent } from './components/tab-mis-talleres/tab-mis-talleres.component';
 import { TabAsistenciaComponent } from './components/tab-asistencia/tab-asistencia.component';
+import { DialogConfirmDataAsistenciaComponent } from './components/tab-asistencia/dialog/dialog-confirm-data-asistencia/dialog-confirm-data-asistencia.component';
+import { MatAutocompleteModule } from '@angular/material/autocomplete';
 
 
 @NgModule({
@@ -13,12 +15,14 @@ import { TabAsistenciaComponent } from './components/tab-asistencia/tab-asistenc
     ControlComponent,
     ProgramadosComponent,
     TabMisTalleresComponent,
-    TabAsistenciaComponent
+    TabAsistenciaComponent,
+    DialogConfirmDataAsistenciaComponent
   ],
   imports: [
     CommonModule,
     ControlRoutingModule,
-    SharedModule
+    SharedModule,
+    MatAutocompleteModule
   ]
 })
 export class ControlModule { }

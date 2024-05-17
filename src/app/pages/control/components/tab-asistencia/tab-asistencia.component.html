@@ -44,8 +44,19 @@
                         </li>
                     </ul>
                     <div class="flex flex-row gap-3 grow">
-                        <input type="text" class="inputTextoDialog focusCampo" *ngIf="ctrlTypeSearch.value == 1" [formControl]="ctrlSearch" placeholder="Buscador">
-                        <div class="flex flex-row gap-3 grow" *ngIf="ctrlTypeSearch.value == 2" [formGroup]="formNewContrato">
+                        <input type="text" class="inputTextoDialog focusCampo" *ngIf="ctrlTypeSearch.value == 1" [formControl]="ctrlSearch" [matAutocomplete]="asegurados" placeholder="Buscador">
+                        <mat-autocomplete #asegurados="matAutocomplete" [displayWith]="displayAseguradoFiltered" (optionSelected)="onAseguradoSelect($event)">
+                            <mat-option *ngFor="let option of listFilteredBusqueda" [value]="option">
+                                <div class="flex flex-row gap-2 items-center">
+                                    <img class="h-10 rounded" src='data:image/jpeg;base64,{{option.foto}}'>
+                                    <div class="flex flex-col gap-1 text-[##64748B]">
+                                        <span class="text-[14px] font-medium">{{option.nombreCompleto | titlecase}}</span>
+                                        <span class="text-[10px] leading-[10px] font-light"> <span class="!font-normal">{{option.tipoDoc === 'DNI' ? option.tipoDoc : option.tipoDoc | titlecase}}</span> {{option.numDoc}}</span>
+                                    </div>
+                                </div>                                
+                            </mat-option>
+                        </mat-autocomplete>
+                        <div class="flex flex-row gap-3 grow" *ngIf="ctrlTypeSearch.value == 2" [formGroup]="formBuscarPersona">
                             <div class="shrink-0">
                               <div class="relative rounded-md shadow-sm">
                                 <select id="searchDoc" formControlName="frmSelectDoc"
@@ -59,9 +70,9 @@
                             </div>
                             <input formControlName="frmDoc" placeholder="Buscador" type="text" name="doc" class="w-full text-sm rounded bg-white border-gray-400 border-1 px-4 py-2 font-light focusCampo grow"/>
                         </div>
-                        <div
-                          class="w-[34px] h-10 flex items-center justify-center border border-gray-400 rounded cursor-pointer hover:bg-slate-200 shrink-0">
-                          <img src="assets/svg/icon-contrato-confirm.svg">
+                        <div class="w-[34px] h-10 flex items-center justify-center border border-gray-400 rounded shrink-0" [ngClass]="esperaBusqueda ? 'relative' : 'cursor-pointer hover:bg-slate-200'" (click)="!esperaBusqueda ? searchSiApto(formBuscarPersona.controls.frmSelectDoc.value!, formBuscarPersona.controls.frmDoc.value!) : null">
+                          <img src="assets/svg/icon-contrato-confirm.svg" class="select-none" [ngClass]="esperaBusqueda ? 'opacity-50' : null">
+                          <fa-icon *ngIf="esperaBusqueda" class="absolute" [icon]="faSpinner" [pulse]="true"></fa-icon>
                         </div>
                     </div>
                 </div>                
@@ -88,11 +99,11 @@
             </div>
             <div class="flex flex-row gap-2 py-[2px]">
                 <div class="flex items-center justify-center w-6">
-                    <img class="iconoEscalaGris select-none" src="assets/svg/icon-person-group.svg">
+                    <img class="iconoEscalaGris select-none opacity-50" src="assets/svg/icon-person-group.svg">
                 </div>
-                <div class="flex flex-col">
-                    <span class="leading-4 text-[var(--color-black-alt)]">{{0}}</span>
-                    <span class="font-light leading-[10px] text-[10px] text-[#64748B]">Participantes</span>
+                <div class="flex flex-col text-[#64748B]">
+                    <span class="leading-4">{{0}}</span>
+                    <span class="font-light leading-[10px] text-[10px]">Participantes</span>
                 </div>
             </div>
             <app-btn class="botonApariencia flex h-10" color="mezclado" [disabled]="true">
@@ -103,7 +114,13 @@
             </app-btn>
         </div>
     </div>
-    <div class="flex flex-col py-2 px-3 botonApariencia bg-white">
+    <div *ngIf="listAsistentes.length == 0" class="w-full flex items-center bg-white botonApariencia py-2">
+      <div class="m-auto w-fit text-center">
+        <img class="m-auto" src="assets/svg/empty-data.svg" alt="">
+        <h3 class="text-gray-500 mt-2 font-light">No existen registros aun.</h3>
+      </div>
+    </div>
+    <div *ngIf="listAsistentes.length > 0" class="flex flex-col py-2 px-3 botonApariencia bg-white">
 
     </div>
 </div>

@@ -1,6 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { environment } from '@environments/environment';
+import { RequestBuscarApto } from '@models/control/asistencia/crud-asistencia.model';
 
 const URL_BASE = `${environment.API}/control`;
 
@@ -19,5 +20,19 @@ export class ControlProgramacionService {
   getCabeceraProgramacion(idProgDet: number) {
     const url = `${URL_BASE}/obtener/cabecera/asistencia/${idProgDet}`;
     return this._httpClient.get<any>(url);
+  }
+
+  getSiEsApto(model: RequestBuscarApto) {
+    const url = `${environment.API}/asegurado/buscar/aptos`;
+    return this._httpClient.post<any>(url, model);
+  }
+
+  getListAsegurados() {
+    const payload = {
+      idUnidadOperativa: (JSON.parse(localStorage.getItem('UnidElegida')!)).idUnidOperativa,
+      texto : ''
+    }
+    const url = `${environment.API}/asegurado/buscar/nombres`;
+    return this._httpClient.post<any>(url, payload);
   }
 }
