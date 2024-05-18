@@ -9,6 +9,7 @@ import { ActivateUserSSO, ActivateUserSigps } from '@models/usuario/user.model';
 import { NotificationService } from '@services/notification.service';
 import { RolService } from '@services/rol.service';
 import { UsersService } from '@services/users.service';
+import { ToastrService } from 'ngx-toastr';
 import { startWith, map } from 'rxjs';
 import { ControlAptosService } from 'src/app/data/services/control/control-aptos.service';
 import { ControlProgramacionService } from 'src/app/data/services/control/control-programacion.service';
@@ -28,7 +29,11 @@ export class InscripcionModalComponent {
   // rolSeleccionadoTmp!: RolData;
   idUser: any;
   listUnidadOperativa: any[] = [];
-  frmNombre = new FormControl();
+  frmNombre = new FormControl('',[
+    Validators.required,
+    Validators.minLength(3),
+    Validators.maxLength(50)
+  ]);
   unidOperaSeleccionadaTmp!: any;
 
   showMsg = false;
@@ -41,14 +46,13 @@ export class InscripcionModalComponent {
   numdocContacto = "";
   idAsegurado = "";
 
-  public formVigencia = this.fb.nonNullable.group({
-    frmInicioVigencia: [null, [Validators.required]],
-    frmFinVigencia: [null, [Validators.required]],
+
+  public form = this.fb.nonNullable.group({
+    frmTipoDoc: ['', [Validators.required]],
+    frmNumdoc: ['', [Validators.required]],
   });
 
-  public formDatosAdicionales = this.fb.nonNullable.group({
-    frmTipoDoc: ['', [Validators.required]],
-  });
+  
 
   columnWidths: string = '50% 50% 0%';
   
@@ -61,38 +65,36 @@ export class InscripcionModalComponent {
     private fb: FormBuilder,
     private route: ActivatedRoute,
   private inscripcionService: ControlAptosService,
-  private controlProgramacionService : ControlProgramacionService){
+  private controlProgramacionService : ControlProgramacionService,
+  private toastrService: ToastrService){
+
+    
   }
 
+  
+
   ngOnInit(): void {
-   /* if (localStorage.getItem('camUser') != 'null') {
-      this.idUserSession = (JSON.parse(localStorage.getItem('camUser')!)).idUsuario;
-    }
-    else {
-      this.idUserSession = '1';
-    }
-    this.formVigencia.controls.frmInicioVigencia.valueChanges.subscribe((data) => {
-      const dataStr = String(data)
-      this.minDate = new Date(parseInt(dataStr.split('/')[2]), parseInt(dataStr.split('/')[1]) - 1, parseInt(dataStr.split('/')[0]))
+    this.form.get('frmTipoDoc')!.valueChanges.subscribe(value => {
+      this.setDocumentValidators(value);
     })
-    this.formDatosAdicionales.get('frmRol')!.valueChanges.subscribe(selectedRoleId => {
-      this.frmCtrlUnidadOperativa.valueChanges.pipe(startWith(''), map(value => typeof value === 'string' ? value : value.nombre)).subscribe((data) => {
-        let idRolNum = parseInt(selectedRoleId);
-        this.datosService.getUnidadesOperativasRol(data, idRolNum).subscribe((datos) => {
-          this.listUnidadOperativa = datos.data;
-        })
-      })
-      this.frmCtrlUnidadOperativa.setValue('')
-    });
+  }
 
-
-    this.cargaServiciosParametros();
-    // this.formVigencia.controls.frmInicioVigencia.disable()
-    // this.formVigencia.controls.frmFinVigencia.disable()
-    this.userData = this.data.user;
-    this.frmCtrlUnidadOperativa.addValidators([Validators.required])*/
-    //console.log("local");
-    //console.log(localStorage);
+  setDocumentValidators(documentType: string) {
+    const documentNumberControl = this.form.get('frmNumdoc')!;
+    if (documentType === '1') {
+      documentNumberControl.setValidators([
+        Validators.required,
+        Validators.pattern(/^\d{8}$/)
+      ]);
+    } else if (documentType === '2') {
+      documentNumberControl.setValidators([
+        Validators.required,
+        Validators.pattern(/^[a-zA-Z0-9]{9}$/)
+      ]);
+    } else {
+      documentNumberControl.setValidators(Validators.required);
+    }
+    documentNumberControl.updateValueAndValidity();
   }
 
   cargaServiciosParametros() {
@@ -118,96 +120,36 @@ export class InscripcionModalComponent {
     this._dialogRef.close();
   }
 
-  actualizarDate(input: any, opt: number) {
-    if (input == '') {
-      input = null;
-    }
-    switch (opt) {
-      case 1:
-        this.formVigencia.controls.frmInicioVigencia.setValue(input)
-        break;
-      case 2:
-        this.formVigencia.controls.frmFinVigencia.setValue(input)
-        break;
-    }
-  }
-
  
 
-  getActivacionSIGPS(): ActivateUserSigps {
-    let fechaInicio: string, fechaFin: string;
-    fechaInicio = this.formVigencia.value.frmInicioVigencia!;
-    fechaFin = this.formVigencia.value.frmFinVigencia!;
 
-    return {
-      usuarioId: Number(localStorage.getItem("userId")),
-      rolId: parseInt(this.formDatosAdicionales.value.frmTipoDoc!),
-      fechInicio: "123",
-      fechFin:  "123",
-      unidOperativaId: this.unidOperaSeleccionadaTmp,
-      usuarioRegId: this.idUserSession
-    }
-  }
-
-  saveActivacion() {
-    if (this.validForm()) {
-      // console.log(this.getActivacionSIGPS())
-      this.status = 'loading';
-      this.userService.activateUserSigps(this.getActivacionSIGPS()).subscribe((data) => {
-        this._notification.success('Se ha activado correctamente');
-        this.status = 'success';
-        this._dialogRef.close();
-      })
-    }
-    else {
-      this.formDatosAdicionales.markAllAsTouched();
-      this.formVigencia.markAllAsTouched();
-      this.frmNombre.markAllAsTouched()
-    }
-  }
-
-  validForm(): boolean {
-    if (this.frmNombre.valid && this.formDatosAdicionales.valid){
-      
-      this.showMsg = true;
-      
-      return true;
-    }
-    else {
-      this.showMsg = true;
-      return false;
-    }
-  }
-
-  getFilaStyle() {
-    return {
-      width: this.statusLoadContacto ? '80%' : '100%'
-    };
-  }
-
-  
+//05110811
   //06077426 TEST
   buscarInscripcion(){
-    //this.saveActivacion();
-    //console.log((JSON.parse(localStorage.getItem('UnidElegida')!)).idUnidOperativa);
-    this.status = 'loading';
-    this.inscripcionService.buscarApto(
-      (JSON.parse(localStorage.getItem('UnidElegida')!)).idUnidOperativa,
-      this.formDatosAdicionales.get("frmTipoDoc")!.value,
-      this.frmNombre.value,
-    //  38,
-     // 1,
-    //  '08290906'
-    )
-    .subscribe(data => {
-      this.status = 'success';
-      this.statusLoadContacto = true;
-      console.log(data);
-      this.srcAsegurado = data.data[0].foto;
-      this.nombreContacto = data.data[0].nombreCompleto;
-      this.idAsegurado = data.data[0].idFichaAsegurado;
-      this.columnWidths = "50% 44% 6%";
-    })
+
+    if(this.form.valid){
+      this.status = 'loading';
+      this.inscripcionService.buscarApto(
+        (JSON.parse(localStorage.getItem('UnidElegida')!)).idUnidOperativa,
+        this.form.get("frmTipoDoc")!.value,
+        this.form.get("frmNumdoc")!.value,
+      )
+      .subscribe(data => {
+        this.status = 'success';
+        if(data.data.length > 0){
+          this.statusLoadContacto = true;
+          console.log(data);
+          this.srcAsegurado = data.data[0].foto;
+          this.nombreContacto = data.data[0].nombreCompleto;
+          this.idAsegurado = data.data[0].idFichaAsegurado;
+          this.columnWidths = "50% 44% 6%";
+        }
+        else{
+          this.toastrService.warning("La persona buscada no existe en la lista de contactos")
+        }
+      })
+    }
+   
   }
 
   resetColumnWidths(){
@@ -215,6 +157,11 @@ export class InscripcionModalComponent {
   }
 
   limpiarDatos(){
+    this.form.patchValue({
+      frmTipoDoc : "",
+      frmNumdoc: ""
+    })
+    this.form.markAsUntouched();
     this.statusLoadContacto = false;
   }
 

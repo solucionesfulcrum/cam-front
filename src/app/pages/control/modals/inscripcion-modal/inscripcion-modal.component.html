@@ -6,7 +6,7 @@
   </button>
 </div>
 <div class="px-4 py-3 bg-white">
-  <div class="grid grid-cols-3 gap-3 mt-4 mb-2" [formGroup]="formDatosAdicionales" [style.grid-template-columns]="columnWidths">
+  <div class="grid grid-cols-3 gap-3 mt-4 mb-2" [formGroup]="form" [style.grid-template-columns]="columnWidths">
     <div class="relative mt-2 rounded-md shadow-sm">
       <select formControlName="frmTipoDoc"
         class="space-x-5 bg-slate-50 border border-gray-300 text-gray-900 text-sm rounded-lg focusCampo block w-full">
@@ -15,8 +15,8 @@
         <option value="1">DNI</option>
         <!--<option *ngFor="let rol of listRoles" [value]='rol.idRol'>{{rol.nombre | titlecase}}</option>-->
       </select>
-      <div *ngIf="formDatosAdicionales.controls.frmTipoDoc.touched && formDatosAdicionales.controls.frmTipoDoc.invalid">
-          <p *ngIf="formDatosAdicionales.controls.frmTipoDoc.hasError('required')" class="font-medium text-red-500 text-xs mt-1 ml-1">
+      <div *ngIf="form.controls.frmTipoDoc.touched && form.controls.frmTipoDoc.invalid">
+          <p *ngIf="form.controls.frmTipoDoc.hasError('required')" class="font-medium text-red-500 text-xs mt-1 ml-1">
               Seleccione un tipo de documento
           </p>
       </div>
@@ -27,19 +27,22 @@
           <esp-icon icon="faSearch"></esp-icon>
         </span>
       </div>
-      <input type="text" name="search" [formControl]="frmNombre" [matAutocomplete]="uniOper"
+      <input type="text" name="search"  formControlName="frmNumdoc"
         class="inputTextoDialog focusCampo !h-9 pr-7"
-        placeholder="Numero de documento">
+        placeholder="Numero de documento"
+        [readonly]="!form.controls.frmTipoDoc.value"
+        >
         
-      <mat-autocomplete #uniOper="matAutocomplete" [displayWith]="displayFnUnidadOperativa" (optionSelected)="onSelectionChangeUnidadOperativa($event)">
-          <mat-option *ngFor="let option of listUnidadOperativa" [value]="option">
-              {{option.nombre}}
-          </mat-option>
-      </mat-autocomplete>
-      <div *ngIf="frmNombre.touched && frmNombre.invalid">
-          <p *ngIf="frmNombre.hasError('required')" class="font-medium text-red-500 text-xs mt-1 ml-1">
-              Seleccione el numero de documento
+        <p  class="font-medium text-red-500 text-xs mt-1 ml-1">
+        
+      </p>
+      <div *ngIf="form.get('frmNumdoc')?.touched && form.controls.frmNumdoc.dirty">
+          <p *ngIf="form.controls.frmNumdoc.hasError('required')" class="font-medium text-red-500 text-xs mt-1 ml-1">
+            Ingrese el numero de documento
           </p>
+          <p *ngIf="form.controls.frmNumdoc.invalid && !form.controls.frmNumdoc.hasError('required')" class="font-medium text-red-500 text-xs mt-1 ml-1">
+            El formato de numero de documento no corresponde al tipo documento seleccionado
+        </p>
       </div>
     </div>
     <div class="relative mt-2 rounded-md shadow-sm" *ngIf="statusLoadContacto">
@@ -51,7 +54,7 @@
   </div>
 </div>
 <div class="px-4 py-1 bg-white" *ngIf="statusLoadContacto">
-  <div class="grid grid-cols-1 gap-3 mb-2" [formGroup]="formDatosAdicionales">
+  <div class="grid grid-cols-1 gap-3 mb-2">
     <div class="relative rounded-md  flex justify-center">
       <img class="my-2 imagen" src="data:image/jpeg;base64,{{srcAsegurado}}" alt="Imagen Asegurado">
     </div>
