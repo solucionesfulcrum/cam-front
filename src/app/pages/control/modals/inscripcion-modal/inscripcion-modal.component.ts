@@ -119,6 +119,13 @@ export class InscripcionModalComponent {
   onClose() {
     this._dialogRef.close();
   }
+  
+  markAllAsTouchedAndDirty() {
+    this.form.markAllAsTouched(); // Marca todos los controles como tocados
+    Object.values(this.form.controls).forEach(control => {
+      control.markAsDirty(); // Marca cada control como sucio
+    });
+  }
 
  
 
@@ -126,7 +133,7 @@ export class InscripcionModalComponent {
 //05110811
   //06077426 TEST
   buscarInscripcion(){
-
+    this.markAllAsTouchedAndDirty();
     if(this.form.valid){
       this.status = 'loading';
       this.inscripcionService.buscarApto(
