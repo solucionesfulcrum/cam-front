@@ -35,4 +35,9 @@ export class ControlProgramacionService {
     const url = `${environment.API}/asegurado/buscar/nombres`;
     return this._httpClient.post<any>(url, payload);
   }
+
+  registrarAsistencia(model: {idAsegurado: string, idProgramacionSubDet: string} ) {
+    const url = `${environment.API}/registrar/asistencia`;
+    return this._httpClient.post<any>(url, model);
+  }
 }

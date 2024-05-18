@@ -2,7 +2,7 @@ import { formatDate, registerLocaleData } from '@angular/common';
 import localeEs from '@angular/common/locales/es';
 import { Component, Inject, LOCALE_ID } from '@angular/core';
 import { FormControl } from '@angular/forms';
-import { faSpinner } from '@fortawesome/free-solid-svg-icons';
+import { faSpinner, faWarning } from '@fortawesome/free-solid-svg-icons';
 import { RequestStatus } from '@models/request-status.model';
 import { NotificationService } from '@services/notification.service';
 import { debounceTime } from 'rxjs';
@@ -10,6 +10,7 @@ import { DatosGeneralesService } from 'src/app/data/services/datos-generales.ser
 import { InscripcionModalComponent } from '../../modals/inscripcion-modal/inscripcion-modal.component';
 import { Dialog } from '@angular/cdk/dialog';
 import { Router } from '@angular/router';
+import { ToastrService } from 'ngx-toastr';
 
 registerLocaleData(localeEs, 'es');
 
@@ -23,6 +24,7 @@ export class ProgramadosComponent {
   status: RequestStatus = 'init';
   ListaProgramacines: any[] = [];
   faSpinner = faSpinner;
+  faWarning = faWarning;
   ctrlSearch = new FormControl('');
   ctrlInit = new FormControl('');
   ctrlFin = new FormControl('');
@@ -31,6 +33,8 @@ export class ProgramadosComponent {
   select: any = null;
   activeButton: number | null = null;
   selectedProgramacion: any;
+
+  indexSelectedButton: number = 1;
 
   buttons = [
     { label: 'Hoy', method: () => this.getFiltrosFecha(1) },
@@ -46,15 +50,22 @@ export class ProgramadosComponent {
               private notificacionService               : NotificationService,            
               private dialog : Dialog,
               private router                            : Router,
+              private toastrService: ToastrService
               ) { }
 
   setActive(index: number) {
+
+
     this.activeButton = index;
     console.log("index", index)
     this.buttons[index].method();
   }
 
   getFiltrosFecha(opt: number){
+
+    //SETEAMOS EL BOTON
+    this.indexSelectedButton = opt - 1;
+
     let fechaInit = '';
     let fechaFin = '';
     // Dias Comprobación -------------------------------------------
@@ -113,6 +124,10 @@ export class ProgramadosComponent {
         this.ListaProgramacines = data.data
         if (data.data.length > 0) {
           this.selectedProgramacion = data.data[0];
+          localStorage.setItem('idProgramElegida', JSON.stringify(this.selectedProgramacion.idProgDet));    
+        }
+        else{
+          this.toastrService.warning("No existen programaciones en el periodo escogido")
         }
       }
       else{
@@ -148,7 +163,7 @@ export class ProgramadosComponent {
 
   
   goAsistencia(){
-    localStorage.setItem('idProgramElegida', JSON.stringify(this.selectedProgramacion.idProgDet));    
+   
     this.router.navigate(['/app/control/asistencias-profesional-cam'])
   }
 

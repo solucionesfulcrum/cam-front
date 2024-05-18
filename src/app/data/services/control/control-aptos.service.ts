@@ -13,7 +13,7 @@ export class ControlAptosService {
   constructor(private _httpClient: HttpClient) { }
 
   
-  buscarApto(idUnidadOpe: number,tipoDoc: number, numdoc: string){
+  buscarApto(idUnidadOpe: number,tipoDoc: string, numdoc: string){
     const url = `${URL_BASE}/buscar/aptos`;
     return this._httpClient.post<any>(url, { 
     "idUnidadOperativa":idUnidadOpe,

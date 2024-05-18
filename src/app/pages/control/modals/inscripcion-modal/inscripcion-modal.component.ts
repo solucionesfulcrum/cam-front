@@ -11,6 +11,7 @@ import { RolService } from '@services/rol.service';
 import { UsersService } from '@services/users.service';
 import { startWith, map } from 'rxjs';
 import { ControlAptosService } from 'src/app/data/services/control/control-aptos.service';
+import { ControlProgramacionService } from 'src/app/data/services/control/control-programacion.service';
 import { DatosGeneralesService } from 'src/app/data/services/datos-generales.service';
 
 @Component({
@@ -38,6 +39,7 @@ export class InscripcionModalComponent {
   statusLoadContacto = false;
   nombreContacto = "";
   numdocContacto = "";
+  idAsegurado = "";
 
   public formVigencia = this.fb.nonNullable.group({
     frmInicioVigencia: [null, [Validators.required]],
@@ -58,7 +60,8 @@ export class InscripcionModalComponent {
     private userService: UsersService,
     private fb: FormBuilder,
     private route: ActivatedRoute,
-  private inscripcionService: ControlAptosService){
+  private inscripcionService: ControlAptosService,
+  private controlProgramacionService : ControlProgramacionService){
   }
 
   ngOnInit(): void {
@@ -186,15 +189,15 @@ export class InscripcionModalComponent {
   //06077426 TEST
   buscarInscripcion(){
     //this.saveActivacion();
-    
+    //console.log((JSON.parse(localStorage.getItem('UnidElegida')!)).idUnidOperativa);
     this.status = 'loading';
     this.inscripcionService.buscarApto(
-      /*(JSON.parse(localStorage.getItem('UnidElegida')!)).idUnidOperativa,
+      (JSON.parse(localStorage.getItem('UnidElegida')!)).idUnidOperativa,
+      this.formDatosAdicionales.get("frmTipoDoc")!.value,
       this.frmNombre.value,
-      this.formDatosAdicionales.get("frmTipoDoc")!.value,*/
-      38,
-      1,
-      '08290906'
+    //  38,
+     // 1,
+    //  '08290906'
     )
     .subscribe(data => {
       this.status = 'success';
@@ -202,7 +205,7 @@ export class InscripcionModalComponent {
       console.log(data);
       this.srcAsegurado = data.data[0].foto;
       this.nombreContacto = data.data[0].nombreCompleto;
-      this.numdocContacto = data.data[0].numDoc;
+      this.idAsegurado = data.data[0].idFichaAsegurado;
       this.columnWidths = "50% 44% 6%";
     })
   }
@@ -216,7 +219,14 @@ export class InscripcionModalComponent {
   }
 
   registrar(){
-    alert("en desarrollo");
+    let selectedProgramacion : string = String(localStorage.getItem('idProgramElegida'));
+    this.controlProgramacionService.registrarAsistencia({
+      idAsegurado : this.idAsegurado,
+      idProgramacionSubDet: selectedProgramacion
+    }).subscribe(data => {
+      console.log(data);
+    })
+ 
   }
 
 }
