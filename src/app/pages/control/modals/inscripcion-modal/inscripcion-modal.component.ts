@@ -3,6 +3,7 @@ import { DatePipe } from '@angular/common';
 import { Component, Inject } from '@angular/core';
 import { FormBuilder, FormControl, Validators } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
+import { Parametro } from '@models/parametros-busqueda.model';
 import { RequestStatus } from '@models/request-status.model';
 import { RolData } from '@models/rol/rol-data.model';
 import { ActivateUserSSO, ActivateUserSigps } from '@models/usuario/user.model';
@@ -48,9 +49,12 @@ export class InscripcionModalComponent {
 
 
   public form = this.fb.nonNullable.group({
-    frmTipoDoc: ['', [Validators.required]],
+    frmTipoDoc: ['1', [Validators.required]],
     frmNumdoc: ['', [Validators.required]],
   });
+
+  
+  opciones: Parametro[] = [];
 
   
 
@@ -71,12 +75,11 @@ export class InscripcionModalComponent {
     
   }
 
-  
-
   ngOnInit(): void {
     this.form.get('frmTipoDoc')!.valueChanges.subscribe(value => {
       this.setDocumentValidators(value);
     })
+    this.getParametros();
   }
 
   setDocumentValidators(documentType: string) {
@@ -86,7 +89,7 @@ export class InscripcionModalComponent {
         Validators.required,
         Validators.pattern(/^\d{8}$/)
       ]);
-    } else if (documentType === '2') {
+    } else if (documentType === '4') {
       documentNumberControl.setValidators([
         Validators.required,
         Validators.pattern(/^[a-zA-Z0-9]{9}$/)
@@ -165,7 +168,7 @@ export class InscripcionModalComponent {
 
   limpiarDatos(){
     this.form.patchValue({
-      frmTipoDoc : "",
+      frmTipoDoc : "1",
       frmNumdoc: ""
     })
     this.form.markAsUntouched();
@@ -173,13 +176,6 @@ export class InscripcionModalComponent {
   }
 
   registrar(){
-    /*
-     idFichaAdmision: string,
-    idUnidadOperativa: string,
-    idProgramacionDet: string,
-    acreditado: boolean,
-    idUsuarioReg: string
-    */
     let unidadOperativa : string = (JSON.parse(localStorage.getItem('UnidElegida')!)).idUnidOperativa;
     let selectedProgramacion : string = String(localStorage.getItem('idProgramElegida'));
     this.controlProgramacionService.registrarInscripcion({
@@ -189,9 +185,22 @@ export class InscripcionModalComponent {
       acreditado: false,
       idUsuarioReg: "1"
     }).subscribe(data => {
-      console.log(data);
+      if(data.code == "0"){
+        this.toastrService.success("Registro Exitoso");
+        this.limpiarDatos();
+      }
+      else{
+        this.toastrService.error("No se pudo registrar");
+      }
     })
  
+  }
+
+  getParametros(){
+    this.datosService.getTipoParametros('TIPO_DOCUMENTO_IDENTIDAD').subscribe((data) =>{
+      console.log(data);
+      this.opciones = data.data;
+    });
   }
 
 }

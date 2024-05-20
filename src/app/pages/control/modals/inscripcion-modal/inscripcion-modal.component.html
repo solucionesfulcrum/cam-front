@@ -9,10 +9,14 @@
   <div class="grid grid-cols-3 gap-3 mt-4 mb-2" [formGroup]="form" [style.grid-template-columns]="columnWidths">
     <div class="relative mt-2 rounded-md shadow-sm">
       <select formControlName="frmTipoDoc" 
-        class="space-x-5 bg-slate-50 border border-gray-300 text-gray-900 text-sm rounded-lg focusCampo block w-full">
+        class="space-x-5 bg-slate-50 border border-gray-300 text-gray-900 text-sm rounded-lg focusCampo block w-full"
+        
+        >
         <!-- <option [selected]="true" disabled>Tipo de documento</option> -->
-        <option value="" disabled selected>Tipo de Documento</option>
-        <option value="1" [disabled]="statusLoadContacto">DNI</option>
+        <option value="" disabled [selected]="statusLoadContacto" >Tipo de Documento</option>
+        <option *ngFor="let opcion of opciones" [value]="opcion.valor1" [selected]="statusLoadContacto && opcion.valor1 == '1'" [disabled]="statusLoadContacto">
+          {{opcion.nombre}}
+        </option>
         <!--<option *ngFor="let rol of listRoles" [value]='rol.idRol'>{{rol.nombre | titlecase}}</option>-->
       </select>
       <div *ngIf="form.controls.frmTipoDoc.touched && form.controls.frmTipoDoc.invalid">

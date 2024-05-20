@@ -91,7 +91,6 @@ export class TabAsistenciaProfCamComponent {
     this.getDataCabecera();
     this.getParametros();
     this.getListAsegurados();
-    this.getListTablaAsegurados();
     this.setListeners();
   }
 
@@ -99,6 +98,7 @@ export class TabAsistenciaProfCamComponent {
     this.datosService.getTipoParametros('TIPO_DOCUMENTO_IDENTIDAD').subscribe((data) =>{
       console.log(data);
       this.opciones = data.data;
+      this.getListTablaAsegurados();
     });
   }
 
@@ -158,9 +158,13 @@ export class TabAsistenciaProfCamComponent {
     })
     .subscribe(data => {
       let dataAsistentes = (data.data as AsistenciaLista[]).map((asistente : AsistenciaLista, index: number)=>{
-        return {...asistente, orden: index, marcar: false}
+  
+        return {...asistente, 
+          orden: index + 1, 
+          marcar: false,
+          tipoDoc : this.opciones.filter(e=>e.valor1 == asistente.tipoDoc)[0].nombre
+        }
       });
-
       this.llenarDatosTabla({
         data: {
           list: dataAsistentes,
@@ -200,7 +204,7 @@ export class TabAsistenciaProfCamComponent {
     this.esperaBusqueda = true;
     this.controlService.getSiEsApto(payload).subscribe((data)=>{
       if (data.code == 0) {
-        console.log(data.data);
+        //console.log(data.data);
         const dialogRef = this.dialog.open(DialogConfirmDataAsistenciaComponent,{
           minWidth:'850px',
           maxWidth:'50%',
@@ -209,7 +213,7 @@ export class TabAsistenciaProfCamComponent {
           }
         })
         dialogRef.closed.subscribe(result => {
-          console.log(result);
+          //console.log(result);
           if (result == 1) {
           }
         });
@@ -226,13 +230,14 @@ export class TabAsistenciaProfCamComponent {
       if (data.code == 0) {
         this.listBusqueda = data.data;
         this.ctrlSearch.setValue('');
-        console.log(data.data)
+        //console.log(data.data)
       }
       else{
         this.notificacionService.warning(data.message);
       }
     })
   }
+  
 
 
 }
