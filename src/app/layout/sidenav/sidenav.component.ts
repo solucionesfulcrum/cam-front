@@ -82,4 +82,7 @@ export class SidenavComponent {
   administrarCiram(){
     this.router.navigate(['/app/adm-uo']);
   }
+  vistaTallerista(){
+    this.router.navigate(['/app/control/mis-talleres']);
+  }
 }

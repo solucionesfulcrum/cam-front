@@ -7,7 +7,7 @@
     </div>
 </div>
 <div class="flex flex-col gap-3" *ngIf="datoProgramacion">
-    <div class="flex flex-row gap-3 px-3 botonApariencia bg-white py-1.5">
+    <div class="flex flex-row gap-3 px-3 mt-3 botonApariencia bg-white py-1.5">
         <div class="flex flex-col justify-between grow">
             <div class="py-3">
                 <div class="flex flex-row gap-2.5">
@@ -102,7 +102,7 @@
                     <img class="iconoEscalaGris select-none opacity-50" src="assets/svg/icon-person-group.svg">
                 </div>
                 <div class="flex flex-col text-[#64748B]">
-                    <span class="leading-4">{{0}}</span>
+                    <span class="leading-4">{{listAsistentes.length}}</span>
                     <span class="font-light leading-[10px] text-[10px]">Participantes</span>
                 </div>
             </div>
@@ -121,6 +121,61 @@
       </div>
     </div>
     <div *ngIf="listAsistentes.length > 0" class="flex flex-col py-2 px-3 botonApariencia bg-white">
-
+        <div class="grid gap-1 border-b border-[#0000001F] py-2 text-[14px] filasPseudoTabla">
+            <div class="content-center text-center">
+                <!-- <input type="checkbox" [value]="0" [formControl]="ctrlSeleccionados"> -->
+                <mat-checkbox class="example-margin" color="primary" [formControl]="ctrlSeleccionados"></mat-checkbox>
+            </div>
+            <span>N°</span>
+            <div class="col-span-4 content-center flex gap-2">
+                <span>{{getSeleccionadosCheck().length == 0 ? 'Apellidos y Nombres' : getSeleccionadosCheck().length + ' Seleccionado(s)'}}</span>
+                <app-btn *ngIf="getSeleccionadosCheck().length > 0" class="botonApariencia flex" color="mezclado" [cdkMenuTriggerFor]="optionsTable">
+                    <div class="flex flex-row items-center gap-[5px]">
+                        <p>Acciones</p>
+                        <img src="assets/svg/icon-dropdown-white.svg">
+                    </div>
+                </app-btn>
+                <ng-template #optionsTable>
+                  <div class="botonApariencia bg-white text-[var(--color-black-alt)] py-2" cdkMenu>
+                    <div class="flex flex-col gap-2.5" cdkMenuGroup>
+                        <div class="leading-5 py-[5px] font-medium px-2.5 cursor-pointer hover:bg-slate-200" cdkMenuItem>
+                            <span>Editar</span>
+                        </div>
+                        <div class="leading-5 py-[5px] font-medium px-2.5 cursor-pointer hover:bg-slate-200" cdkMenuItem (click)="deleteSelected()">
+                            <span>Eliminar seleccionado</span>
+                        </div>
+                    </div>
+                  </div>
+                </ng-template>
+            </div>
+            <span class="col-span-2">Documento</span>
+            <span class="col-span-2">N° de Documento</span>
+            <span class="col-span-2">Hora Asistencia</span>
+        </div>
+        <div class="max-h-[52vh] contenedorDatos">
+            <!-- <div *ngFor="let activacion of activaciones, index as i" class="dataPseudoTabla">
+              <span class="text-[#008BD2]">{{activacion.responsable}}</span>
+              <span>{{activacion.fechInicio | date:'dd/MM/yyyy'}}</span>
+              <span>{{activacion.fechFin | date:'dd/MM/yyyy'}}</span>
+              <span>{{activacion.unidadOperativa}}</span>
+              <span>{{activacion.nombreRol}}</span>
+              <span [ngClass]="activacion.estado === 'ACTIVO' ? 'text-green-500':'text-red-500'">{{activacion.estado}}</span>
+            </div>
+          </div> -->
+          <div class="dataPseudoTabla py-2" *ngFor="let asistente of listAsistentes, index as i">
+            <div class="content-center text-center">
+                <mat-checkbox class="example-margin" color="primary" [formControl]="asistente.formCheck"></mat-checkbox>
+            </div>
+            <span>{{listAsistentes.length - i}}</span>
+            <span class="col-span-4 text-[var(--color-CAM)]">{{asistente.nombreCompleto}}</span>
+            <span class="col-span-2">{{asistente.tipoDoc === '1' ? 'DNI' : 'CE'}}</span>
+            <span class="col-span-2">{{asistente.numDoc}}</span>
+            <span class="col-span-2">{{asistente.horaAsistencia | date:'hh:mm aa'}}</span>
+            <div class="flex flex-row gap-2">
+                <img *ngIf="asistente.cumpleanios" src="assets/svg/icon-asistencia-birthday.svg">
+                <img *ngIf="asistente.aseguradoNuevo" src="assets/svg/icon-asistencia-smiley-face.svg">
+            </div>
+          </div>
+        </div>
     </div>
 </div>

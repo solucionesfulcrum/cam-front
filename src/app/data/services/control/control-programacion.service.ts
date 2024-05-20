@@ -26,6 +26,17 @@ export class ControlProgramacionService {
     const url = `${environment.API}/asegurado/buscar/aptos`;
     return this._httpClient.post<any>(url, model);
   }
+  
+  getListAsistencia() {
+    const payload = {
+      idProgDet: JSON.parse(localStorage.getItem('idProgramElegida')!),
+      pageNum : 1,
+      pageSize: 100
+    }
+    const url = `${URL_BASE}/listar/AsistenciaIncripcion`;
+    return this._httpClient.post<any>(url, payload);
+  }
+
 
   getListAsegurados() {
     const payload = {
