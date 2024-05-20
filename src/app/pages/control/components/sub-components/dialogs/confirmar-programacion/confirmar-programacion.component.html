@@ -1,0 +1,17 @@
+<div class="px-8 py-5 bg-white rounded-md text-[#344563] botonApariencia">
+    <div class="flex flex-col gap-4 items-center max-w-[400px] text-center">
+        <img class="w-20" src="assets/svg/alert-confirmation.svg">
+        <h3 class="text-xl">{{ data.title }}</h3>
+        <span class="text-sm">{{ data.message }}</span>
+        <div class="flex flex-row gap-4">
+            <div class="relative rounded-md shadow-sm botonApariencia">
+                <app-btn color="white" (click)="onClose()">Cancelar
+                </app-btn>
+            </div>
+            <div class="relative rounded-md shadow-sm botonApariencia">
+                <app-btn [color]="'mezclado'" (click)="data.type == 1 ? onConfirm() : limpiarHorario()" [loading]="status === 'loading'">{{'Confirmar'}}
+                </app-btn>
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,45 @@
+.iconoCita{
+    display: flex;
+    gap: 8px;
+    padding: 6px 8px 6px 8px;
+    border-radius: 4px;
+    background: #BEEDFF;
+}
+
+input.contadorNumber::-webkit-outer-spin-button,
+input.contadorNumber::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+.contadorNumber{
+    width: 30px;
+    height: 20px;
+    font-size: 14px;
+    padding: 0;
+    text-align: center;    
+}
+
+::-webkit-scrollbar {
+    display: none;
+}
+
+.peer:checked ~ .peer-checked\:bg-cam{
+    background: var(--color-CAM-Mezclado);
+}
+
+.selectSmall{
+    height: 30px;
+    font-size: 14px;
+    padding: 0;
+    padding-right: 5px;
+    padding-left: 5px;
+    background-image: none;
+    border: 0;
+}
+
+.invalido{    
+    border-color: red;
+    border-style: solid;
+    border-width: 1px;
+}

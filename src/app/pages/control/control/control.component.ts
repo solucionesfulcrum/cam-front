@@ -20,8 +20,8 @@ export class ControlComponent {
     else if(this.userInfo.rol == "PROFESIONAL CAM"){
       this.links = [
         {url: `/app/control`, title: 'Programados'},
-        {url: `/app/control/mis-talleres-1`, title: 'En Calendario'},
-        {url: `/app/control/mis-talleres-2`, title: 'Talleristas'},
+        {url: `/app/control/en-calendario`, title: 'Calendario'},
+        {url: `/app/control/mis-talleres-2`, title: 'Externos'},
         {url: `/app/control/mis-talleres-3`, title: 'Talleres'},
         {url: `/app/control/asistencias-profesional-cam`, title: 'Asistencias'},
       ];

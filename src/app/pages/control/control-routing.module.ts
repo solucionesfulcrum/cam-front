@@ -6,6 +6,7 @@ import { TabMisTalleresComponent } from './components/tab-mis-talleres/tab-mis-t
 import { TabAsistenciaComponent } from './components/tab-asistencia/tab-asistencia.component';
 import { ControlAsistenciaGuard } from '@guards/control-asistencia.guard';
 import { TabAsistenciaProfCamComponent } from './components/tab-asistencia-prof-cam/tab-asistencia-prof-cam.component';
+import { CalendarioProgramacionComponent } from './components/calendario-programacion/calendario-programacion.component';
 
 const routes: Routes = [
   {
@@ -26,6 +27,12 @@ const routes: Routes = [
         path: 'control-asistencia',
         canActivate:[ControlAsistenciaGuard],
         component: TabAsistenciaComponent,
+        title: 'Control de Asistencia'
+      },
+      {
+        path: 'en-calendario',
+        //canActivate:[ControlAsistenciaGuard],
+        component: CalendarioProgramacionComponent,
         title: 'Control de Asistencia'
       },
       {

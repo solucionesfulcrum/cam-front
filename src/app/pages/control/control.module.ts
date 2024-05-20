@@ -15,7 +15,10 @@ import { MatPaginatorModule } from '@angular/material/paginator';
 import { MatTableModule } from '@angular/material/table';
 import { MatTabsModule } from '@angular/material/tabs';
 import { CdkTableModule } from '@angular/cdk/table';
-
+import { CalendarioProgramacionComponent } from './components/calendario-programacion/calendario-programacion.component';
+import { ConfirmarProgramacionComponent } from './components/sub-components/dialogs/confirmar-programacion/confirmar-programacion.component';
+import { DialogAddProgramacionAsignacionComponent } from './components/sub-components/dialogs/dialog-add-programacion-asignacion/dialog-add-programacion-asignacion.component';
+import { CdkMenuModule } from '@angular/cdk/menu';
 
 
 @NgModule({
@@ -26,7 +29,10 @@ import { CdkTableModule } from '@angular/cdk/table';
     TabAsistenciaComponent,
     InscripcionModalComponent,
     TabAsistenciaProfCamComponent,
-    DialogConfirmDataAsistenciaComponent
+    DialogConfirmDataAsistenciaComponent,
+    CalendarioProgramacionComponent,
+    ConfirmarProgramacionComponent,
+    DialogAddProgramacionAsignacionComponent
   ],
   imports: [
     CommonModule,
@@ -38,6 +44,8 @@ import { CdkTableModule } from '@angular/cdk/table';
     MatTabsModule,
     MatPaginatorModule,
     CdkTableModule,
+    CdkMenuModule
+    
   ]
 })
 export class ControlModule { }

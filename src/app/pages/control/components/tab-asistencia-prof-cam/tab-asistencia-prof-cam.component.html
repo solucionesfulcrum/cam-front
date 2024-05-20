@@ -115,7 +115,7 @@
         
               <ng-container cdkColumnDef="orden">
                 <th cdk-header-cell class="py-[1.25rem] px-6" *cdkHeaderCellDef>N°</th>
-                <td cdk-cell class="py-[1rem] px-6 text-[#057EC9]" *cdkCellDef="let row, index as i"><span class="text-Name cursor-pointer" [routerLink]="['show/' + row.idSolicitud]">{{ row.orden }}</span></td>
+                <td cdk-cell class="py-[1rem] px-6 font-semibold" *cdkCellDef="let row, index as i">{{ row.orden }}</td>
               </ng-container>
         
               <ng-container cdkColumnDef="nombres">
@@ -140,7 +140,7 @@
         
               <ng-container cdkColumnDef="estadoAsistente">
                 <th cdk-header-cell class="py-[1.25rem] px-6" *cdkHeaderCellDef></th>
-                <td cdk-cell class="py-[1rem] px-6" *cdkCellDef="let row"> () </td>
+                <td cdk-cell class="py-[1rem] px-6" *cdkCellDef="let row">  </td>
               </ng-container>
         
             </table>
