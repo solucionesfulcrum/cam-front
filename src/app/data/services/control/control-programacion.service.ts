@@ -36,8 +36,34 @@ export class ControlProgramacionService {
     return this._httpClient.post<any>(url, payload);
   }
 
-  registrarAsistencia(model: {idAsegurado: string, idProgramacionSubDet: string} ) {
-    const url = `${environment.API}/registrar/asistencia`;
-    return this._httpClient.post<any>(url, model);
+  registrarAsistencia(payload: {idAsegurado: string, idProgramacionSubDet: string} ) {
+    const url = `${URL_BASE}/registrar/asistencia`;
+    return this._httpClient.post<any>(url, payload);
   }
+
+  registrarInscripcion(payload: {
+    idFichaAdmision: string,
+    idUnidadOperativa: string,
+    idProgramacionDet: string,
+    acreditado: boolean,
+    idUsuarioReg: string
+  }) 
+  {
+    const url = `${URL_BASE}/inscripcion/registrar`;
+    return this._httpClient.post<any>(url, payload);
+  }
+
+  listarAsistencia(payload: {
+    idProgDet: string,
+    pageNum: number,
+    pageSize: number
+  }
+   ){
+
+    const url = `${URL_BASE}/listar/AsistenciaIncripcion`;
+    return this._httpClient.post<any>(url, payload);
+
+  }
+
+  //control/inscripcion/registrar
 }

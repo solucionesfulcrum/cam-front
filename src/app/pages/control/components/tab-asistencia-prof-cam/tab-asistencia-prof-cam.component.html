@@ -44,8 +44,19 @@
                         </li>
                     </ul>
                     <div class="flex flex-row gap-3 grow">
-                        <input type="text" class="inputTextoDialog focusCampo" *ngIf="ctrlTypeSearch.value == 1" [formControl]="ctrlSearch" placeholder="Buscador">
-                        <div class="flex flex-row gap-3 grow" *ngIf="ctrlTypeSearch.value == 2" [formGroup]="formNewContrato">
+                        <input type="text" class="inputTextoDialog focusCampo" *ngIf="ctrlTypeSearch.value == 1" [formControl]="ctrlSearch" [matAutocomplete]="asegurados" placeholder="Buscador">
+                        <mat-autocomplete #asegurados="matAutocomplete" [displayWith]="displayAseguradoFiltered" (optionSelected)="onAseguradoSelect($event)">
+                            <mat-option *ngFor="let option of listFilteredBusqueda" [value]="option">
+                                <div class="flex flex-row gap-2 items-center">
+                                    <img class="h-10 rounded" src='data:image/jpeg;base64,{{option.foto}}'>
+                                    <div class="flex flex-col gap-1 text-[##64748B]">
+                                        <span class="text-[14px] font-medium">{{option.nombreCompleto | titlecase}}</span>
+                                        <span class="text-[10px] leading-[10px] font-light"> <span class="!font-normal">{{option.tipoDoc === 'DNI' ? option.tipoDoc : option.tipoDoc | titlecase}}</span> {{option.numDoc}}</span>
+                                    </div>
+                                </div>                                
+                            </mat-option>
+                        </mat-autocomplete>
+                        <div class="flex flex-row gap-3 grow" *ngIf="ctrlTypeSearch.value == 2" [formGroup]="formBuscarPersona">
                             <div class="shrink-0">
                               <div class="relative rounded-md shadow-sm">
                                 <select id="searchDoc" formControlName="frmSelectDoc"
@@ -59,9 +70,9 @@
                             </div>
                             <input formControlName="frmDoc" placeholder="Buscador" type="text" name="doc" class="w-full text-sm rounded bg-white border-gray-400 border-1 px-4 py-2 font-light focusCampo grow"/>
                         </div>
-                        <div
-                          class="w-[34px] h-10 flex items-center justify-center border border-gray-400 rounded cursor-pointer hover:bg-slate-200 shrink-0">
-                          <img src="assets/svg/icon-contrato-confirm.svg">
+                        <div class="w-[34px] h-10 flex items-center justify-center border border-gray-400 rounded shrink-0" [ngClass]="esperaBusqueda ? 'relative' : 'cursor-pointer hover:bg-slate-200'" (click)="!esperaBusqueda ? searchSiApto(formBuscarPersona.controls.frmSelectDoc.value!, formBuscarPersona.controls.frmDoc.value!) : null">
+                          <img src="assets/svg/icon-contrato-confirm.svg" class="select-none" [ngClass]="esperaBusqueda ? 'opacity-50' : null">
+                          <fa-icon *ngIf="esperaBusqueda" class="absolute" [icon]="faSpinner" [pulse]="true"></fa-icon>
                         </div>
                     </div>
                 </div>                
@@ -103,6 +114,15 @@
             </app-btn>
         </div>
     </div>
+    <!--
+        nombreCompleto: string;
+    horaAsis: string;
+    birthday : false;
+    horaAsistencia: Date;
+    aseguradoNuevo: false;
+    tipoDoc: string;
+    numDoc: string;
+    -->
     <div class="flex flex-col py-2 px-3 botonApariencia bg-white">
         <div>
             <table cdk-table class="w-full text-sm text-left text-gray-500 tablaDatos" [dataSource]="dataSource" >
@@ -118,14 +138,14 @@
                 <td cdk-cell class="py-[1rem] px-6 font-semibold" *cdkCellDef="let row, index as i">{{ row.orden }}</td>
               </ng-container>
         
-              <ng-container cdkColumnDef="nombres">
+              <ng-container cdkColumnDef="nombreCompleto">
                 <th cdk-header-cell class="py-[1.25rem] px-6" *cdkHeaderCellDef>Apellidos y Nombres</th>
-                <td cdk-cell class="py-[1rem] px-6 font-semibold" *cdkCellDef="let row">{{ row.nombres }}</td>
+                <td cdk-cell class="py-[1rem] px-6 font-semibold" *cdkCellDef="let row">{{ row.nombreCompleto }}</td>
               </ng-container>
         
-              <ng-container cdkColumnDef="tipDoc">
+              <ng-container cdkColumnDef="tipoDoc">
                 <th cdk-header-cell class="py-[1.25rem] px-6" *cdkHeaderCellDef>Documento</th>
-                <td cdk-cell class="py-[1rem] px-6" *cdkCellDef="let row">{{row.tipDoc }}</td>
+                <td cdk-cell class="py-[1rem] px-6" *cdkCellDef="let row">{{row.tippDoc }}</td>
               </ng-container>
         
               <ng-container cdkColumnDef="numDoc">
@@ -133,12 +153,12 @@
                 <td cdk-cell class="py-[1rem] px-6" *cdkCellDef="let row">{{ row.numDoc }}</td>
               </ng-container>
         
-              <ng-container cdkColumnDef="horaAsis">
+              <ng-container cdkColumnDef="horaAsistencia">
                 <th cdk-header-cell class="py-[1.25rem] px-6" *cdkHeaderCellDef>Hora Asistencia</th>
-                <td cdk-cell class="py-[1rem] px-6" *cdkCellDef="let row">{{ row.horaAsis }}</td>
+                <td cdk-cell class="py-[1rem] px-6" *cdkCellDef="let row">{{ row.horaAsistencia }}</td>
               </ng-container>
         
-              <ng-container cdkColumnDef="estadoAsistente">
+              <ng-container cdkColumnDef="birthday">
                 <th cdk-header-cell class="py-[1.25rem] px-6" *cdkHeaderCellDef></th>
                 <td cdk-cell class="py-[1rem] px-6" *cdkCellDef="let row">  </td>
               </ng-container>

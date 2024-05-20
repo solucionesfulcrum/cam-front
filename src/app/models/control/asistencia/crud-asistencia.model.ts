@@ -20,9 +20,11 @@ interface Data {
   export interface AsistenciaLista {
     marcar: boolean;
     orden: number;
-    nombres: string;
-    tipDoc: string;
+    
+    nombreCompleto: string;
+    birthday : false;
+    horaAsistencia: string;
+    aseguradoNuevo: false;
+    tipoDoc: string;
     numDoc: string;
-    horaAsis: string;
-    estadoAsistente: string;
   }

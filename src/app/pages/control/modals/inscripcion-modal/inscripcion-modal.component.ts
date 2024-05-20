@@ -173,10 +173,21 @@ export class InscripcionModalComponent {
   }
 
   registrar(){
+    /*
+     idFichaAdmision: string,
+    idUnidadOperativa: string,
+    idProgramacionDet: string,
+    acreditado: boolean,
+    idUsuarioReg: string
+    */
+    let unidadOperativa : string = (JSON.parse(localStorage.getItem('UnidElegida')!)).idUnidOperativa;
     let selectedProgramacion : string = String(localStorage.getItem('idProgramElegida'));
-    this.controlProgramacionService.registrarAsistencia({
-      idAsegurado : this.idAsegurado,
-      idProgramacionSubDet: selectedProgramacion
+    this.controlProgramacionService.registrarInscripcion({
+      idFichaAdmision: "2",
+      idUnidadOperativa: unidadOperativa,
+      idProgramacionDet: selectedProgramacion,
+      acreditado: false,
+      idUsuarioReg: "1"
     }).subscribe(data => {
       console.log(data);
     })
