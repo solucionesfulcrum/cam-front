@@ -1,12 +1,18 @@
 import { Component, Inject, LOCALE_ID } from '@angular/core';
 import { FormControl, Validators, FormBuilder } from '@angular/forms';
+import { PageEvent } from '@angular/material/paginator';
 import { Router } from '@angular/router';
 import { faSpinner } from '@fortawesome/free-solid-svg-icons';
+import { AsistenciaLista, DataResponse } from '@models/control/asistencia/crud-asistencia.model';
 import { Parametro } from '@models/parametros-busqueda.model';
 import { RequestStatus } from '@models/request-status.model';
 import { NotificationService } from '@services/notification.service';
 import { ControlProgramacionService } from 'src/app/data/services/control/control-programacion.service';
 import { DatosGeneralesService } from 'src/app/data/services/datos-generales.service';
+import { DataSourceList } from './data-source';
+
+import { dataFicticia } from './data-ficticia';
+import { data } from 'autoprefixer';
 
 @Component({
   selector: 'esp-tab-asistencia-prof-cam',
@@ -27,6 +33,36 @@ export class TabAsistenciaProfCamComponent {
   comienzoSesiones = 1;
   datoProgramacion: any;
 
+  dataSourceList = new DataSourceList();
+
+  dataResponse: DataResponse<AsistenciaLista> = {
+    data:{
+      list: dataFicticia,
+      pageNum: 1,
+      pageSize: 5,
+      total: dataFicticia.length
+    }
+    
+  };
+
+
+  //DATA PRUEBA
+  dataPrueba: AsistenciaLista[] = [];
+  dataSource: AsistenciaLista[] = [];
+  pageIndex = 0;
+  pageNum = 1;
+  pageSize = 10;
+  pageSizeOptions:  number[] = [5,10,20];
+  total = 0;
+  columns: string[] = ['marcar',
+    'orden',
+    'nombres',
+    'tipDoc',
+    'numDoc',
+    'horaAsis',
+    'estadoAsistente'
+  ];
+
   constructor(private fb                                : FormBuilder,
               private router                            : Router,
               private datosService                      : DatosGeneralesService,
@@ -39,6 +75,7 @@ export class TabAsistenciaProfCamComponent {
     console.log(JSON.parse(localStorage.getItem('idProgramElegida')!))
     this.getDataCabecera();
     this.getParametros();
+    this.llenarDatosTabla(this.dataResponse);
   }
 
   getParametros(){
@@ -47,6 +84,9 @@ export class TabAsistenciaProfCamComponent {
       this.opciones = data.data;
     });
   }
+
+  
+ 
 
   getDataCabecera(){
     this.controlService.getCabeceraProgramacion(JSON.parse(localStorage.getItem('idProgramElegida')!)).subscribe((data)=>{
@@ -63,5 +103,34 @@ export class TabAsistenciaProfCamComponent {
         this.notificacionService.warning(data.message);
       }
     })
+  }
+
+  differenceInDays(date1: string): number {
+    const oneDay = 24 * 60 * 60 * 1000; // hours*minutes*seconds*milliseconds
+    const diffInTime = (new Date().getTime()) - (new Date(date1)).getTime();
+    return Math.round(diffInTime / oneDay) - 1;
+  }
+
+  handlePageEvent(event: PageEvent) {
+    // console.log(this.pageSizeOptions);
+    this.pageSize = event.pageSize;
+    this.pageIndex = event.pageIndex;
+    this.pageNum = event.pageIndex + 1;
+    //this.onLoadData();
+  }
+
+  afectarTodo(evento: Event): void{
+    let element = evento.target as HTMLInputElement;
+    this.dataSource = this.dataSource.map(data => { return {...data, marcar: Boolean(element.checked)}});
+  }
+
+ 
+  llenarDatosTabla(data : DataResponse<AsistenciaLista>){
+    this.dataSource = data.data.list;
+    this.dataSourceList.init(data.data.list)
+
+    this.pageNum = data.data.pageNum;
+    this.pageSize = data.data.pageSize;
+    this.total = data.data.total;
   }
 }

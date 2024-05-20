@@ -104,6 +104,55 @@
         </div>
     </div>
     <div class="flex flex-col py-2 px-3 botonApariencia bg-white">
-
+        <div>
+            <table cdk-table class="w-full text-sm text-left text-gray-500 tablaDatos" [dataSource]="dataSource" >
+              <tr cdk-header-row class="text-xs text-gray-700 bg-gray-50" *cdkHeaderRowDef="columns"></tr>
+              <tr cdk-row class="bg-white border-b" *cdkRowDef="let row; columns: columns"></tr>
+              <ng-container cdkColumnDef="marcar">
+                <th cdk-header-cell class="py-[1.25rem] px-6" *cdkHeaderCellDef> <input type="checkbox" value="false" (change)="afectarTodo($event)"/> </th>
+                <td cdk-cell class="py-[1rem] px-6" *cdkCellDef="let row"> <input type="checkbox" [checked]="row.marcar"/> </td>
+              </ng-container>
+        
+              <ng-container cdkColumnDef="orden">
+                <th cdk-header-cell class="py-[1.25rem] px-6" *cdkHeaderCellDef>N°</th>
+                <td cdk-cell class="py-[1rem] px-6 text-[#057EC9]" *cdkCellDef="let row, index as i"><span class="text-Name cursor-pointer" [routerLink]="['show/' + row.idSolicitud]">{{ row.orden }}</span></td>
+              </ng-container>
+        
+              <ng-container cdkColumnDef="nombres">
+                <th cdk-header-cell class="py-[1.25rem] px-6" *cdkHeaderCellDef>Apellidos y Nombres</th>
+                <td cdk-cell class="py-[1rem] px-6 font-semibold" *cdkCellDef="let row">{{ row.nombres }}</td>
+              </ng-container>
+        
+              <ng-container cdkColumnDef="tipDoc">
+                <th cdk-header-cell class="py-[1.25rem] px-6" *cdkHeaderCellDef>Documento</th>
+                <td cdk-cell class="py-[1rem] px-6" *cdkCellDef="let row">{{row.tipDoc }}</td>
+              </ng-container>
+        
+              <ng-container cdkColumnDef="numDoc">
+                <th cdk-header-cell class="py-[1.25rem] px-6" *cdkHeaderCellDef>N° de Documento</th>
+                <td cdk-cell class="py-[1rem] px-6" *cdkCellDef="let row">{{ row.numDoc }}</td>
+              </ng-container>
+        
+              <ng-container cdkColumnDef="horaAsis">
+                <th cdk-header-cell class="py-[1.25rem] px-6" *cdkHeaderCellDef>Hora Asistencia</th>
+                <td cdk-cell class="py-[1rem] px-6" *cdkCellDef="let row">{{ row.horaAsis }}</td>
+              </ng-container>
+        
+              <ng-container cdkColumnDef="estadoAsistente">
+                <th cdk-header-cell class="py-[1.25rem] px-6" *cdkHeaderCellDef></th>
+                <td cdk-cell class="py-[1rem] px-6" *cdkCellDef="let row"> () </td>
+              </ng-container>
+        
+            </table>
+            <mat-paginator #paginator class="demo-paginator paginatorDatos" 
+            (page)="handlePageEvent($event)"
+            [length]="total"
+            [pageSize]="pageSize"
+            showFirstLastButtons="true"
+            [pageSizeOptions]="pageSizeOptions.length > 0 ? pageSizeOptions : []"
+            [pageIndex]="pageIndex"
+            aria-label="Select page">
+            </mat-paginator>
+        </div>      
     </div>
 </div>

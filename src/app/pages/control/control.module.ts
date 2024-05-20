@@ -11,6 +11,10 @@ import { MaterialModule } from 'src/app/material/material.module';
 import { TabAsistenciaProfCamComponent } from './components/tab-asistencia-prof-cam/tab-asistencia-prof-cam.component';
 import { DialogConfirmDataAsistenciaComponent } from './components/tab-asistencia/dialog/dialog-confirm-data-asistencia/dialog-confirm-data-asistencia.component';
 import { MatAutocompleteModule } from '@angular/material/autocomplete';
+import { MatPaginatorModule } from '@angular/material/paginator';
+import { MatTableModule } from '@angular/material/table';
+import { MatTabsModule } from '@angular/material/tabs';
+import { CdkTableModule } from '@angular/cdk/table';
 
 
 
@@ -29,7 +33,11 @@ import { MatAutocompleteModule } from '@angular/material/autocomplete';
     ControlRoutingModule,
     SharedModule,
     MaterialModule,
-    MatAutocompleteModule
+    MatAutocompleteModule,
+    MatTableModule,
+    MatTabsModule,
+    MatPaginatorModule,
+    CdkTableModule,
   ]
 })
 export class ControlModule { }
