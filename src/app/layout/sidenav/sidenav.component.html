@@ -49,7 +49,7 @@
         </a>
       </li>
       <li *ngIf="unid.rol === 'PROFESIONAL CAM' || unid.rol === 'TALLERISTA'">
-        <a [routerLink]="unid.rol === 'PROFESIONAL CAM' ? '/app/control' : '/app/control/mis-talleres'" routerLinkActive="list-item-activo">
+        <a [routerLink]="'/app/control'" routerLinkActive="list-item-activo" (click)="unid.rol === 'PROFESIONAL CAM' ? null : vistaTallerista()">
           <img class="" src="assets/svg/nav-icon-control.svg"/>
           <span>Control</span>
         </a>
