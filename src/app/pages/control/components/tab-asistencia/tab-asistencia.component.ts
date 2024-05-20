@@ -23,7 +23,10 @@ registerLocaleData(localeEs, 'es');
 })
 export class TabAsistenciaComponent {
   status: RequestStatus = 'init';
+  // Lista de Asistentes ----------------------------------------------------------
   listAsistentes: any[] = [];
+  ctrlSeleccionados = new FormControl();
+  // ------------------------------------------------------------------------------
   // Lista de Asegurados para Búsqueda --------------------------------------------
   listBusqueda: any[] = [];
   listFilteredBusqueda: any[] = [];
@@ -55,17 +58,39 @@ export class TabAsistenciaComponent {
     this.setListeners();
     this.getListAsegurados();
     this.getDataCabecera();
+    this.getListAsistencia();
     this.getParametros();
   }
 
   setListeners(){
     this.ctrlSearch.valueChanges.subscribe((data)=>{
-      console.log(data)
       if (typeof data !== 'object') {
         this.listFilteredBusqueda = this.listBusqueda.filter((item)=> item.nombreCompleto.toLowerCase().includes(data!.toLowerCase()) || item.numDoc.includes(data));
       }
     })
+    this.ctrlSeleccionados.valueChanges.subscribe((data)=>{
+      if (data) {
+        this.listAsistentes.forEach((x)=>{
+          x.formCheck.setValue(true);
+        })
+      }
+      else{
+        this.listAsistentes.forEach((x)=>{
+          x.formCheck.setValue(false);
+        })
+      }
+      console.log(data)
+    })
   }
+  // Lista de Asistentes ------------------------------------------------------------------------
+  getSeleccionadosCheck(): any[]{
+    return this.listAsistentes.filter((x)=> x.formCheck.value)
+  }
+
+  deleteSelected(){
+    console.log(this.getSeleccionadosCheck())
+  }
+  // --------------------------------------------------------------------------------------------
 
   // Busqueda y Tipeo de Asegurado --------------------------------------------------------------
   onAseguradoSelect(event: any){
@@ -122,7 +147,23 @@ export class TabAsistenciaComponent {
       if (data.code == 0) {
         this.listBusqueda = data.data;
         this.ctrlSearch.setValue('');
-        console.log(data.data)
+      }
+      else{
+        this.notificacionService.warning(data.message);
+      }
+    })
+  }
+
+  getListAsistencia(){
+    this.controlService.getListAsistencia().subscribe((data)=>{
+      if (data.code == 0) {
+        data.data.forEach((element: any) => {
+          if (!this.listAsistentes.find((x)=> x.numDoc == element.numDoc)) {
+            element.formCheck = new FormControl(false);
+            this.listAsistentes.push(element);
+          }
+        });
+        console.log(this.listAsistentes)
       }
       else{
         this.notificacionService.warning(data.message);
@@ -134,12 +175,10 @@ export class TabAsistenciaComponent {
     this.controlService.getCabeceraProgramacion(JSON.parse(localStorage.getItem('idProgramElegida')!)).subscribe((data)=>{
       if (data.code == 0) {
         this.datoProgramacion = data.data;
-        console.log(this.datoProgramacion)
         let seconds = Math.floor((new Date(this.datoProgramacion.fechaServicio + ' ' + this.datoProgramacion.horaFin).getTime() - new Date(this.datoProgramacion.fechaServicio + ' ' + this.datoProgramacion.horaInicio).getTime())/1000);
         let horas = Math.floor(seconds/(60*60));
         let minutos = Math.floor(seconds/60) - horas*60;
         this.datoProgramacion.margenHorario = horas + 'h ' +  minutos + ' m';
-        console.log(Math.floor(seconds/(60*60)) + 'h ' +  Math.floor(seconds/60) + ' m')
       }
       else{
         this.notificacionService.warning(data.message);

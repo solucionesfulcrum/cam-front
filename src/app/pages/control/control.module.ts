@@ -44,8 +44,7 @@ import { CdkMenuModule } from '@angular/cdk/menu';
     MatTabsModule,
     MatPaginatorModule,
     CdkTableModule,
-    CdkMenuModule
-    
+    CdkMenuModule    
   ]
 })
 export class ControlModule { }
