@@ -151,6 +151,7 @@ export class InscripcionModalComponent {
           console.log(data);
           this.srcAsegurado = data.data[0].foto;
           this.nombreContacto = data.data[0].nombreCompleto;
+          this.numdocContacto = data.data[0].numDoc;
           this.idAsegurado = data.data[0].idFichaAsegurado;
           this.columnWidths = "50% 44% 6%";
         }
@@ -179,11 +180,11 @@ export class InscripcionModalComponent {
     let unidadOperativa : string = (JSON.parse(localStorage.getItem('UnidElegida')!)).idUnidOperativa;
     let selectedProgramacion : string = String(localStorage.getItem('idProgramElegida'));
     this.controlProgramacionService.registrarInscripcion({
-      idFichaAdmision: "2",
+      idFichaAdmision: this.idAsegurado,
       idUnidadOperativa: unidadOperativa,
       idProgramacionDet: selectedProgramacion,
       acreditado: false,
-      idUsuarioReg: this.idAsegurado
+      idUsuarioReg: "1"
     }).subscribe(data => {
       if(data.code == "0"){
         this.toastrService.success("Registro Exitoso");

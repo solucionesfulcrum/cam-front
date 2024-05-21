@@ -14,7 +14,7 @@
         >
         <!-- <option [selected]="true" disabled>Tipo de documento</option> -->
         <option value="" disabled [selected]="statusLoadContacto" >Tipo de Documento</option>
-        <option *ngFor="let opcion of opciones" [value]="opcion.valor1" [selected]="statusLoadContacto && opcion.valor1 == '1'" [disabled]="statusLoadContacto">
+        <option *ngFor="let opcion of opciones" [value]="opcion.valor1" [selected]="statusLoadContacto && opcion.valor1 == '1'">
           {{opcion.nombre}}
         </option>
         <!--<option *ngFor="let rol of listRoles" [value]='rol.idRol'>{{rol.nombre | titlecase}}</option>-->
