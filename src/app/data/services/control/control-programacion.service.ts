@@ -1,4 +1,4 @@
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { environment } from '@environments/environment';
 import { RequestBuscarApto } from '@models/control/asistencia/crud-asistencia.model';
@@ -74,6 +74,18 @@ export class ControlProgramacionService {
     const url = `${URL_BASE}/listar/AsistenciaIncripcion`;
     return this._httpClient.post<any>(url, payload);
 
+  }
+
+  eliminarRegistrados(lista : number[]){
+    const url = `${URL_BASE}/inscripcion/eliminar`;
+    const httpOptions = {
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json'
+      }),
+      body: JSON.stringify(lista) // Convertimos el array de números en formato JSON
+    };
+
+    return this._httpClient.delete<any>(url, httpOptions);
   }
 
   //control/inscripcion/registrar

@@ -19,6 +19,8 @@ import { CalendarioProgramacionComponent } from './components/calendario-program
 import { ConfirmarProgramacionComponent } from './components/sub-components/dialogs/confirmar-programacion/confirmar-programacion.component';
 import { DialogAddProgramacionAsignacionComponent } from './components/sub-components/dialogs/dialog-add-programacion-asignacion/dialog-add-programacion-asignacion.component';
 import { CdkMenuModule } from '@angular/cdk/menu';
+import { ModalConfirmarComponent } from './components/sub-components/dialogs/modal-confirmar/modal-confirmar.component';
+import { ModalEditarComponent } from './components/sub-components/dialogs/modal-editar/modal-editar.component';
 
 
 @NgModule({
@@ -32,7 +34,9 @@ import { CdkMenuModule } from '@angular/cdk/menu';
     DialogConfirmDataAsistenciaComponent,
     CalendarioProgramacionComponent,
     ConfirmarProgramacionComponent,
-    DialogAddProgramacionAsignacionComponent
+    DialogAddProgramacionAsignacionComponent,
+    ModalConfirmarComponent,
+    ModalEditarComponent
   ],
   imports: [
     CommonModule,

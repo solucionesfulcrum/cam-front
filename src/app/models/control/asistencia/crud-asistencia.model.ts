@@ -18,6 +18,7 @@ interface Data {
 
   
   export interface AsistenciaLista {
+    idInscripcion: number;
     marcar: boolean;
     orden: number;
     

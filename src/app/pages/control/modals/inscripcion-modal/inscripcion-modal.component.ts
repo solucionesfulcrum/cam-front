@@ -183,7 +183,7 @@ export class InscripcionModalComponent {
       idUnidadOperativa: unidadOperativa,
       idProgramacionDet: selectedProgramacion,
       acreditado: false,
-      idUsuarioReg: "1"
+      idUsuarioReg: this.idAsegurado
     }).subscribe(data => {
       if(data.code == "0"){
         this.toastrService.success("Registro Exitoso");

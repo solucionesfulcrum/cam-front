@@ -1,8 +1,8 @@
-import { Component, Inject, LOCALE_ID } from '@angular/core';
+import { ChangeDetectorRef, Component, HostListener, Inject, LOCALE_ID } from '@angular/core';
 import { FormControl, Validators, FormBuilder } from '@angular/forms';
 import { PageEvent } from '@angular/material/paginator';
 import { Router } from '@angular/router';
-import { faSpinner } from '@fortawesome/free-solid-svg-icons';
+import { faArrowsUpToLine, faIcons, faSpinner } from '@fortawesome/free-solid-svg-icons';
 import { AsistenciaLista, DataResponse, RequestBuscarApto } from '@models/control/asistencia/crud-asistencia.model';
 import { Parametro } from '@models/parametros-busqueda.model';
 import { RequestStatus } from '@models/request-status.model';
@@ -15,6 +15,10 @@ import { DataSourceList } from './data-source';
 import { data } from 'autoprefixer';
 import { Dialog } from '@angular/cdk/dialog';
 import { DialogConfirmDataAsistenciaComponent } from '../tab-asistencia/dialog/dialog-confirm-data-asistencia/dialog-confirm-data-asistencia.component';
+import { Toast, ToastrService } from 'ngx-toastr';
+import { ModalConfirmarComponent } from '../sub-components/dialogs/modal-confirmar/modal-confirmar.component';
+import { MatDialog } from '@angular/material/dialog';
+import { ModalEditarComponent } from '../sub-components/dialogs/modal-editar/modal-editar.component';
 
 @Component({
   selector: 'esp-tab-asistencia-prof-cam',
@@ -22,6 +26,9 @@ import { DialogConfirmDataAsistenciaComponent } from '../tab-asistencia/dialog/d
   styleUrls: ['./tab-asistencia-prof-cam.component.scss']
 })
 export class TabAsistenciaProfCamComponent {
+
+  svgDir = faArrowsUpToLine;
+  
   status: RequestStatus = 'init';
   listAsistentes: any[] = [];
   opciones: Parametro[] = [];
@@ -46,6 +53,11 @@ export class TabAsistenciaProfCamComponent {
   esperaBusqueda: boolean = false;
 
   dataSourceList = new DataSourceList();
+
+  seleccionados : number[] = [];
+
+  dropdownOpen: boolean = false;
+  chkHeader: boolean = false;
 
 
   //DATA PRUEBA
@@ -83,7 +95,9 @@ export class TabAsistenciaProfCamComponent {
               private controlService                    : ControlProgramacionService,
               @Inject(LOCALE_ID) private locale         : string,
               private notificacionService               : NotificationService,
-              private dialog                            : Dialog,
+              private dialog                            : MatDialog,
+              private toast                             : ToastrService,
+              private cdr: ChangeDetectorRef
               ) { }
 
   ngOnInit(){
@@ -96,7 +110,6 @@ export class TabAsistenciaProfCamComponent {
 
   getParametros(){
     this.datosService.getTipoParametros('TIPO_DOCUMENTO_IDENTIDAD').subscribe((data) =>{
-      console.log(data);
       this.opciones = data.data;
       this.getListTablaAsegurados();
     });
@@ -104,7 +117,6 @@ export class TabAsistenciaProfCamComponent {
 
   setListeners(){
     this.ctrlSearch.valueChanges.subscribe((data)=>{
-      console.log(data)
       if (typeof data !== 'object') {
         this.listFilteredBusqueda = this.listBusqueda.filter((item)=> item.nombreCompleto.toLowerCase().includes(data!.toLowerCase()) || item.numDoc.includes(data));
       }
@@ -148,6 +160,10 @@ export class TabAsistenciaProfCamComponent {
   afectarTodo(evento: Event): void{
     let element = evento.target as HTMLInputElement;
     this.dataSource = this.dataSource.map(data => { return {...data, marcar: Boolean(element.checked)}});
+    if(element.checked)
+      this.seleccionados =  this.dataSource.map(data => { return data.idInscripcion});
+    else
+      this.seleccionados = [];
   }
 
   getListTablaAsegurados() : void{
@@ -212,7 +228,7 @@ export class TabAsistenciaProfCamComponent {
             infoAsegurado: data.data[0],
           }
         })
-        dialogRef.closed.subscribe(result => {
+        dialogRef.afterClosed().subscribe((result : any) => {
           //console.log(result);
           if (result == 1) {
           }
@@ -222,6 +238,33 @@ export class TabAsistenciaProfCamComponent {
         this.notificacionService.warning(data.message);
       }
       this.esperaBusqueda = false;
+    })
+  }
+
+  seleccionarFila(evento: Event) {
+    let element = evento.target as HTMLInputElement;
+    if(element.checked)
+      this.seleccionados.push(parseInt(element.value))
+    else
+      this.seleccionados = this.seleccionados.filter(item => item != parseInt(element.value));
+
+  }
+
+  eliminarAsegurados(){
+    let asistentesEliminar: number[] = this.dataSource
+    .filter((asistente: AsistenciaLista) => this.seleccionados.includes(asistente.idInscripcion))
+    .map((asistente: AsistenciaLista) => asistente.idInscripcion as number);
+
+    console.log(asistentesEliminar);
+    this.controlService.eliminarRegistrados(asistentesEliminar).subscribe(data=>{
+      if(data.code == 0){
+        this.toast.success("Los registros han sido eliminados");
+        this.getListTablaAsegurados();
+        this.seleccionados = [];
+      }
+      else{
+        this.toast.error("Ocurrió un error eliminando los registros");
+      }
     })
   }
 
@@ -237,7 +280,42 @@ export class TabAsistenciaProfCamComponent {
       }
     })
   }
-  
 
+  toggleDropdown() {
+    this.dropdownOpen = !this.dropdownOpen;
+  }
 
+  onOptionSelected(option: number) {
+    console.log('Opción seleccionada:', option);
+    // Realiza la acción deseada con la opción seleccionada
+    this.dropdownOpen = false; // Cierra el dropdown después de seleccionar una opción
+  }
+
+  @HostListener('document:click', ['$event'])
+  onClick(event: MouseEvent) {
+    const target = event.target as HTMLElement;
+    if (!target.closest('.dropdown-container, .checkbox-select')) {
+      this.dropdownOpen = false; // Cierra el dropdown si se hace clic fuera de él
+    }
+  }
+
+  editaSeleccionado(evento : Event) : void{
+    evento.preventDefault();
+    const dialog = this.dialog.open(ModalEditarComponent,{
+      width: "30%"
+    });
+
+  }
+
+  eliminaSeleccionados(evento : Event) : void{
+    const dialog = this.dialog.open(ModalConfirmarComponent,{
+      width: "30%"
+    });
+
+    dialog.afterClosed().subscribe((result : {success: boolean}) => {
+      if(result.success){
+        this.eliminarAsegurados();
+      }
+    });
+  }
 }
