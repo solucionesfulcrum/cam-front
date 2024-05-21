@@ -58,13 +58,18 @@ export class ContratosListadoComponent {
         this.dataListCams = data.data[0];
         this.dataListCams.listarCam.forEach((x: any)=> x.activo = false);
         this.filteredList = this.dataListCams.listarCam;
-
         this.ctrlSearchCam.valueChanges.subscribe((data)=>{
-          this.filteredList = this.dataListCams.listarCam.filter((x: any)=> {
-            
+          this.filteredList = this.dataListCams.listarCam.filter((x: any)=> {            
             return (x.listaCiram.length > 0 ? (x.nombreCam.toLowerCase().includes(data.toLowerCase())  || x.listaCiram.some((value: any)=> value.nombre.toLowerCase().includes(data.toLowerCase()))): x.nombreCam.toLowerCase().includes(data.toLowerCase()));
           })
         })
+        // this.formBuscar.controls['frmSearchDate'].valueChanges.subscribe((datos)=>{
+        //   if (!this.formBuscar.value.frmSearchDate) {
+        //     this.setDataSelected(this.filteredList[0], 1)
+        //   }
+        // });
+        this.camElegido = this.filteredList[0];
+        this.camElegido.opt = 1;
       }
       else{
         this.notificationService.warning(data.message);
@@ -88,8 +93,10 @@ export class ContratosListadoComponent {
     }
   }
 
-  setDataSelected(obj: any, opt: number, event: MouseEvent){
-    event.stopPropagation();
+  setDataSelected(obj: any, opt: number, event?: MouseEvent){
+    if (event) {
+      event.stopPropagation();
+    }
     if (opt != 0) {
       if (this.camElegido) {
         if (this.camElegido.idUnidadOperativa != obj.idUnidadOperativa) {
@@ -118,7 +125,6 @@ export class ContratosListadoComponent {
     if (payload){
       this.contratosService.getListContratos(payload).subscribe((data)=>{
         if (data.code == 0) {
-          console.log(data.data.list)
           this.listContratos = data.data.list;
         }
         else {
@@ -131,11 +137,10 @@ export class ContratosListadoComponent {
   getPayloadList(optId: number): RequestListContracts{
     var fecInicio: any;
     var fecFin: any;
-    var fechaSinFormatInit = this.formBuscar.value.frmSearchDate.split(' - ')[0];
-    var fechaSinFormatFin = this.formBuscar.value.frmSearchDate.split(' - ')[1];
+    var fechaSinFormatInit = this.formBuscar.controls['frmSearchDate'].value.split(' - ')[0];
+    var fechaSinFormatFin = this.formBuscar.controls['frmSearchDate'].value.split(' - ')[1];
     fecInicio = `${fechaSinFormatInit.split('/')[2]}-${fechaSinFormatInit.split('/')[1]}-${fechaSinFormatInit.split('/')[0]}`;
     fecFin = `${fechaSinFormatFin.split('/')[2]}-${fechaSinFormatFin.split('/')[1]}-${fechaSinFormatFin.split('/')[0]}`;
-
     return {
       idUnidOpe: optId,
       texto: this.formBuscar.controls['frmSearch'].value,

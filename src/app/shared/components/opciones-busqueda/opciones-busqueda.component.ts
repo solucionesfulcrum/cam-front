@@ -1,6 +1,6 @@
 import { CdkMenuModule } from '@angular/cdk/menu';
 import { CommonModule } from '@angular/common';
-import { AfterViewInit, Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { AfterViewInit, Component, ElementRef, EventEmitter, Input, OnInit, Output, ViewChild } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { ParamMenu, Parametro } from './parametros-busqueda.model';
 import { FiltroFechaComponent } from '../filtro-fecha/filtro-fecha.component';
@@ -131,6 +131,7 @@ export class OpcionesBusquedaComponent{
     frmSearchDate:new FormControl(""),
     frmSearch:new FormControl("")
   });
+  @ViewChild('preSelected') nameInput!: ElementRef;
   
   public get searchForm(){
     return this.form.get("frmSearch");
@@ -144,6 +145,12 @@ export class OpcionesBusquedaComponent{
       document.documentElement.style.setProperty('--color-boton',this.buttonBg);
     }
     this.onFilter();
+  }
+
+  ngAfterViewInit(){
+    if (this.nameInput) {
+      this.nameInput.nativeElement.focus();
+    }
   }
 
   setDateFilter(value: any){

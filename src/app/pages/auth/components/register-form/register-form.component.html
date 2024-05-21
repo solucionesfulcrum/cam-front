@@ -40,7 +40,7 @@
               </div>
               <div class="w-1/2">
                 <div class="relative">
-                  <input formControlName="doc" placeholder="Número de documento" type="text" name="doc"
+                  <input formControlName="doc" placeholder="Número de documento" type="text" name="doc" #preSelected
                     class="w-full text-sm rounded bg-white border-gray-400 border-1 px-4 py-2 font-light focus:border-blue-200 focus:border-1" />
                 </div>
                 <div *ngIf="form.controls.doc.touched && form.controls.doc.invalid">

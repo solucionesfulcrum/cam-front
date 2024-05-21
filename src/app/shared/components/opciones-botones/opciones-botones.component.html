@@ -2,7 +2,7 @@
     <div class="flex cursor-pointer" [routerLink]="[rutaRegreso ? rutaRegreso : '..']">
         <img class="h-6 self-center" src="assets/svg/circle-arrow-left.svg"> <span class="self-center ml-2">Regresar</span>
     </div>
-    <div class="flex space-x-3">
+    <div class="flex space-x-3 items-center">
         <app-btn typeBtn="submit" class="flex flex-row botonApariencia botonOpciones" *ngFor="let opcion of listOpciones, index as i" [color]="opcion.colorBtn ? opcion.colorBtn : 'white'" [disabled]="opcion.deshabilitado!" [loading]="opcion.loading!" [matTooltipClass]="'tooltipEleccion'" [matTooltip]= "opcion.tooltip!" matTooltipPosition="above"
         (click)="emitirFuncionesEstaticas(i)">
             <div class="flex gap-[5px]"><img *ngIf="opcion.esImagen && opcion.rutaIcono" class="h-5 self-center" [src]="opcion.rutaIcono">{{opcion.texto}}</div>

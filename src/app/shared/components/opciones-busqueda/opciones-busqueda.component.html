@@ -23,17 +23,17 @@
     </div>
     <div *ngIf="showSearch">
         <div class="relative rounded-md shadow-sm">
-        <input *ngIf="!searchInputAdjustWidth" type="text" name="search" id="search" formControlName="frmSearch" 
-        class="inputTextoDialog focusCampo !h-10 pr-7"
-        [placeholder] = 'searchInputPlaceHolder'>
-        <input *ngIf="searchInputAdjustWidth" type="text" name="search" id="search" formControlName="frmSearch" 
-        class="inputTextoDialog focusCampo !h-10 pr-7"
-        [placeholder] = 'searchInputPlaceHolder' [size]="searchInputPlaceHolder.length">
-        <div class="pointer-events-none right-0 absolute inset-y-0 flex items-center pr-3 opacity-50">
-        <span class="text-gray-500 sm:text-sm">
-            <esp-icon icon="faSearch"></esp-icon>
-        </span>
-        </div>
+          <input *ngIf="!searchInputAdjustWidth" type="text" name="search" id="search" formControlName="frmSearch" #preSelected
+          class="inputTextoDialog focusCampo !h-10 pr-7"
+          [placeholder] = 'searchInputPlaceHolder'>
+          <input *ngIf="searchInputAdjustWidth" type="text" name="search" id="search" formControlName="frmSearch" #preSelected
+          class="inputTextoDialog focusCampo !h-10 pr-7"
+          [placeholder] = 'searchInputPlaceHolder' [size]="searchInputPlaceHolder.length">
+          <div class="pointer-events-none right-0 absolute inset-y-0 flex items-center pr-3 opacity-50">
+            <span class="text-gray-500 sm:text-sm">
+                <esp-icon icon="faSearch"></esp-icon>
+            </span>
+          </div>
         </div>
     </div>
 
