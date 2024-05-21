@@ -94,7 +94,19 @@ export class InscripcionModalComponent {
         Validators.required,
         Validators.pattern(/^[a-zA-Z0-9]{9}$/)
       ]);
-    } else {
+    }
+    else if (documentType === '23') { // Suponiendo que 'X' es el tipo de documento para el permiso temporal de permanencia
+    documentNumberControl.setValidators([
+      Validators.required,
+      Validators.pattern(/^\d{9}$/) // Ajusta el patrón según el formato del permiso temporal de permanencia
+    ]);
+  } else if (documentType === '7') { // Suponiendo que 'P' es el tipo de documento para el pasaporte
+    documentNumberControl.setValidators([
+      Validators.required,
+      Validators.pattern(/^[a-zA-Z0-9]{9}$/) // Ajusta el patrón según el formato del pasaporte
+    ]);
+  }
+    else {
       documentNumberControl.setValidators(Validators.required);
     }
     documentNumberControl.updateValueAndValidity();
