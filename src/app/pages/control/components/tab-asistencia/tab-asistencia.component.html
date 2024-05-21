@@ -106,10 +106,10 @@
                     <span class="font-light leading-[10px] text-[10px]">Participantes</span>
                 </div>
             </div>
-            <app-btn class="botonApariencia flex h-10" color="mezclado" [disabled]="true">
+            <app-btn class="botonApariencia flex h-10" color="mezclado" (click)="tomarAsistencia()">
                 <div class="flex flex-row items-center gap-[5px]">
                     <img class="self-center" src="assets/svg/icon-list-assignments.svg">
-                    <span>{{comienzoSesiones}} Hora</span>
+                    <span>{{ctrlMarcarAsistencia.value ? 'Guardar' : comienzoSesiones + ' Hora'}}</span>
                 </div>
             </app-btn>
         </div>
@@ -121,12 +121,12 @@
       </div>
     </div>
     <div *ngIf="listAsistentes.length > 0" class="flex flex-col py-2 px-3 botonApariencia bg-white">
-        <div class="grid gap-1 border-b border-[#0000001F] py-2 text-[14px] filasPseudoTabla">
+        <div class="grid gap-1 border-b border-[#0000001F] py-2 text-[14px] filasPseudoTabla" [ngClass]="ctrlMarcarAsistencia.value ? 'grid-cols-14' : 'grid-cols-13'">
             <div class="content-center text-center">
                 <!-- <input type="checkbox" [value]="0" [formControl]="ctrlSeleccionados"> -->
                 <mat-checkbox class="example-margin" color="primary" [formControl]="ctrlSeleccionados"></mat-checkbox>
             </div>
-            <span>N°</span>
+            <span *ngIf="!ctrlMarcarAsistencia.value">N°</span>
             <div class="col-span-4 content-center flex gap-2">
                 <span>{{getSeleccionadosCheck().length == 0 ? 'Apellidos y Nombres' : getSeleccionadosCheck().length + ' Seleccionado(s)'}}</span>
                 <app-btn *ngIf="getSeleccionadosCheck().length > 0" class="botonApariencia flex" color="mezclado" [cdkMenuTriggerFor]="optionsTable">
@@ -148,6 +148,7 @@
                   </div>
                 </ng-template>
             </div>
+            <span class="col-span-2" *ngIf="ctrlMarcarAsistencia.value">Continuación Taller</span>
             <span class="col-span-2">Documento</span>
             <span class="col-span-2">N° de Documento</span>
             <span class="col-span-2">Hora Asistencia</span>
@@ -162,12 +163,22 @@
               <span [ngClass]="activacion.estado === 'ACTIVO' ? 'text-green-500':'text-red-500'">{{activacion.estado}}</span>
             </div>
           </div> -->
-          <div class="dataPseudoTabla py-2" *ngFor="let asistente of listAsistentes, index as i">
+          <div class="dataPseudoTabla py-2" *ngFor="let asistente of listAsistentes, index as i" [ngClass]="ctrlMarcarAsistencia.value ? 'grid-cols-14' : 'grid-cols-13'">
             <div class="content-center text-center">
                 <mat-checkbox class="example-margin" color="primary" [formControl]="asistente.formCheck"></mat-checkbox>
             </div>
-            <span>{{listAsistentes.length - i}}</span>
+            <span *ngIf="!ctrlMarcarAsistencia.value">{{listAsistentes.length - i}}</span>
             <span class="col-span-4 text-[var(--color-CAM)]">{{asistente.nombreCompleto}}</span>
+            <div class="col-span-2 flex flex-row gap-2 pl-4" *ngIf="ctrlMarcarAsistencia.value">
+                <div class="flex items-center">
+                    <input [id]="asistente.numDoc + '_' + 1" type="radio" [value]="'SI'" [name]="asistente.numDoc+'_form'" [formControl]="asistente.formAsistido" class="bordColorEstablecido w-4 h-4 focusCampo dark:focusCampo">
+                    <label [for]="asistente.numDoc + '_' + 1" class="ml-2 text-sm font-medium">Si</label>
+                </div>
+                <div class="flex items-center">
+                    <input [id]="asistente.numDoc + '_' + 2" type="radio" [value]="'NO'" [name]="asistente.numDoc+'_form'" [formControl]="asistente.formAsistido" class="bordColorEstablecido w-4 h-4 focusCampo dark:focusCampo">
+                    <label [for]="asistente.numDoc + '_' + 2" class="ml-2 text-sm font-medium">No</label>
+                </div>             
+            </div>
             <span class="col-span-2">{{asistente.tipoDoc === '1' ? 'DNI' : 'CE'}}</span>
             <span class="col-span-2">{{asistente.numDoc}}</span>
             <span class="col-span-2">{{asistente.horaAsistencia | date:'hh:mm aa'}}</span>

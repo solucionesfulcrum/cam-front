@@ -26,6 +26,7 @@ export class TabAsistenciaComponent {
   // Lista de Asistentes ----------------------------------------------------------
   listAsistentes: any[] = [];
   ctrlSeleccionados = new FormControl();
+  ctrlMarcarAsistencia = new FormControl(false);
   // ------------------------------------------------------------------------------
   // Lista de Asegurados para Búsqueda --------------------------------------------
   listBusqueda: any[] = [];
@@ -89,6 +90,10 @@ export class TabAsistenciaComponent {
 
   deleteSelected(){
     console.log(this.getSeleccionadosCheck())
+  }
+
+  tomarAsistencia(){
+    this.ctrlMarcarAsistencia.setValue(!this.ctrlMarcarAsistencia.value);
   }
   // --------------------------------------------------------------------------------------------
 
@@ -160,6 +165,7 @@ export class TabAsistenciaComponent {
         data.data.forEach((element: any) => {
           if (!this.listAsistentes.find((x)=> x.numDoc == element.numDoc)) {
             element.formCheck = new FormControl(false);
+            element.formAsistido = new FormControl(null);
             this.listAsistentes.push(element);
           }
         });
