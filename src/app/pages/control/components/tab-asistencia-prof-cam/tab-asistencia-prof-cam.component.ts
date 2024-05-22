@@ -255,7 +255,7 @@ export class TabAsistenciaProfCamComponent {
     .filter((asistente: AsistenciaLista) => this.seleccionados.includes(asistente.idInscripcion))
     .map((asistente: AsistenciaLista) => asistente.idInscripcion as number);
 
-    console.log(asistentesEliminar);
+    //console.log(asistentesEliminar);
     this.controlService.eliminarRegistrados(asistentesEliminar).subscribe(data=>{
       if(data.code == 0){
         this.toast.success("Los registros han sido eliminados");

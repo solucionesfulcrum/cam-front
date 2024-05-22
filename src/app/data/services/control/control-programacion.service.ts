@@ -18,7 +18,7 @@ export class ControlProgramacionService {
   }
 
   getCabeceraProgramacion(idProgDet: number) {
-    const url = `${URL_BASE}/obtener/cabecera/asistencia/${idProgDet}`;
+    const url = `${URL_BASE}/obtener/cabecera/inscripcion/${idProgDet}`;
     return this._httpClient.get<any>(url);
   }
 
@@ -71,7 +71,7 @@ export class ControlProgramacionService {
   }
    ){
 
-    const url = `${URL_BASE}/listar/AsistenciaIncripcion`;
+    const url = `${URL_BASE}/listar/inscripcion`;
     return this._httpClient.post<any>(url, payload);
 
   }

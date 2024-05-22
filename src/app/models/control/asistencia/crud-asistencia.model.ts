@@ -24,7 +24,7 @@ interface Data {
     
     nombreCompleto: string;
     birthday : false;
-    horaAsistencia: string;
+    fechaReg: string;
     aseguradoNuevo: false;
     tipoDoc: string;
     numDoc: string;

@@ -252,4 +252,10 @@ export class AuthService {
     const url = `${environment.API}/unidad-operativa/obtener/perfil/ciram/${idUndiadOperativa}`;
     return this.http.get<any>(url);
   }
+
+  dataExists(dni: String){
+    //https://appsqa.essalud.gob.pe/sso-main/api/usuario/data/exists/10130151?g=1ddd7536-e95e-479e-9571-d820dc583d89 //ESTATICO DE MOMENTO
+    const url = `https://appsqa.essalud.gob.pe/sso-main/api/usuario/data/exists/${dni}?g=1ddd7536-e95e-479e-9571-d820dc583d89`;
+    return this.http.get<any>(url);
+  }
 }

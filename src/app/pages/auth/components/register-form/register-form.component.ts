@@ -43,6 +43,9 @@ export class RegisterFormComponent {
   msgErrorTerminos!: string;
   msgErrorPassWord!: string;
 
+  buscaUsuario: boolean = true;
+  usuarioExiste: boolean = false;
+
   formCodeEmail = this.formBuilder.nonNullable.group({
     code: ['', [Validators.required]],
   });
@@ -66,6 +69,8 @@ export class RegisterFormComponent {
       ],
     }
   );
+
+  
 
   showMsg = false;
   status: RequestStatus = 'init';
@@ -106,6 +111,14 @@ export class RegisterFormComponent {
     })
     this.frmCtrlUnidadOperativa.setValue('')
     this.frmCtrlUnidadOperativa.addValidators([Validators.required])
+
+    this.form.get('doc')?.valueChanges.subscribe((doc) => {
+      this.handleDoc(doc);
+    })
+
+    this.form.get('tipoDoc')?.valueChanges.subscribe((doc) => {
+      this.setDocumentValidators(doc);
+    })
   }
   //Unidad Operativa --------------------------------------------------------------------------------------------------------------------------------------------------
 
@@ -255,6 +268,45 @@ export class RegisterFormComponent {
     else {
       this.showMsg = true;
       return false;
+    }
+  }
+
+  setDocumentValidators(documentType: string) {
+    const documentNumberControl = this.form.get('doc')!;
+    if (documentType === '1') {
+      documentNumberControl.setValidators([
+        Validators.required,
+        Validators.pattern(/^\d{8}$/)
+      ]);
+    } else if (documentType === '4') {
+      documentNumberControl.setValidators([
+        Validators.required,
+        Validators.pattern(/^[a-zA-Z0-9]{9}$/)
+      ]);
+    }
+    else if (documentType === '23') { // Suponiendo que 'X' es el tipo de documento para el permiso temporal de permanencia
+    documentNumberControl.setValidators([
+      Validators.required,
+      Validators.pattern(/^\d{9}$/) // Ajusta el patrón según el formato del permiso temporal de permanencia
+    ]);
+  } else if (documentType === '7') { // Suponiendo que 'P' es el tipo de documento para el pasaporte
+    documentNumberControl.setValidators([
+      Validators.required,
+      Validators.pattern(/^[a-zA-Z0-9]{9}$/) // Ajusta el patrón según el formato del pasaporte
+    ]);
+  }
+    else {
+      documentNumberControl.setValidators(Validators.required);
+    }
+    documentNumberControl.updateValueAndValidity();
+  }
+
+
+  handleDoc(doc : string): void {
+    if(this.form.get('doc')?.valid){
+        this.authService.dataExists(doc).subscribe(data => {
+          console.log(data);
+        })
     }
   }
 }
