@@ -43,9 +43,10 @@ export class RegisterFormComponent {
   msgError!: string;
   msgErrorTerminos!: string;
   msgErrorPassWord!: string;
+  guiid : string = "";
 
-  buscaUsuario: boolean = true;
-  usuarioExiste: boolean = false;
+  buscaUsuario: boolean = false;
+  loadingBuscaUsuario: boolean = false;
 
   formCodeEmail = this.formBuilder.nonNullable.group({
     code: ['', [Validators.required]],
@@ -308,9 +309,28 @@ export class RegisterFormComponent {
 
   handleDoc(doc : string): void {
     if(this.form.get('doc')?.valid){
-        this.authService.dataExists(doc).subscribe(data => {
-          console.log(data);
+      this.loadingBuscaUsuario = true;
+      this.authService.dataExists(doc).subscribe(data => {
+        this.loadingBuscaUsuario = false;
+        this.form.patchValue({
+          names: data.nombres,
+          codigoPlanilla: data.codPlanilla,
+          email: data.email,
+          apellidos: data.nombres
         })
+        this.guiid = data.guiid;
+        this.buscaUsuario = true;
+      })
+    }
+    else{
+      this.form.patchValue({
+        names: '',
+        codigoPlanilla: '',
+        email: '',
+        apellidos: ''
+      })
+      this.guiid = '';
+      this.buscaUsuario = false;
     }
   }
 }

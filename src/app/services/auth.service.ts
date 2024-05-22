@@ -5,7 +5,9 @@ import {
   BehaviorSubject,
   Observable,
   catchError,
+  delay,
   map,
+  of,
   switchMap,
   tap,
   throwError,
@@ -253,9 +255,39 @@ export class AuthService {
     return this.http.get<any>(url);
   }
 
-  dataExists(dni: String){
-    //https://appsqa.essalud.gob.pe/sso-main/api/usuario/data/exists/10130151?g=1ddd7536-e95e-479e-9571-d820dc583d89 //ESTATICO DE MOMENTO
-    const url = `https://appsqa.essalud.gob.pe/sso-main/api/usuario/data/exists/${dni}?g=1ddd7536-e95e-479e-9571-d820dc583d89`;
-    return this.http.get<any>(url);
+  dataExists(dni: String) {
+    // Comenta la solicitud HTTP real
+    // return this.http.get<any>(url);
+
+    // Retorna un objeto JSON simulado como Observable
+    const mockResponse = {
+      "idUsuario": null,
+      "guiid": "0o01T302dh-4729b036-3537-423e-b315-52c05ed05c85-Py24wm106o-MN53M602qR",
+      "tipoDoc": "1",
+      "numDoc": "10130151",
+      "nombres": "CCCCC",
+      "email": "henryccopa@gmail.com",
+      "codPlanilla": "001",
+      "roles": null,
+      "aplicacion": "VIVA"
+    };
+
+    // Usar 'of' para crear un Observable con el JSON simulado
+    return of(mockResponse).pipe(delay(2000));
+  }
+
+  vincular(dni: String) {
+    // Comenta la solicitud HTTP real
+    // return this.http.get<any>(url);
+
+    // Retorna un objeto JSON simulado como Observable
+    const mockResponse = {
+      "code": 2,
+      "message": "no se encontro información con ese codigo",
+      "data": null
+    }
+
+    // Usar 'of' para crear un Observable con el JSON simulado
+    return of(mockResponse);
   }
 }
