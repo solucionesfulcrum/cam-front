@@ -1,4 +1,4 @@
-import { Component, VERSION, ViewChild } from '@angular/core';
+import { Component, ElementRef, VERSION, ViewChild } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormBuilder, FormControl, ReactiveFormsModule, Validators } from '@angular/forms';
 import { Router, RouterModule } from '@angular/router';
@@ -32,6 +32,7 @@ import { map, startWith } from 'rxjs';
   templateUrl: './register-form.component.html',
 })
 export class RegisterFormComponent {
+  @ViewChild('preSelected') nameInput!: ElementRef;
   @ViewChild('cdkStepper')
   cdkStepper!: CdkStepper;
 
@@ -129,6 +130,9 @@ export class RegisterFormComponent {
   onSelectionChangeUnidadOperativa(event: any) {
 
     this.unidOperaSeleccionadaTmp = event.option.value.idUnidadOperativa;
+  }
+  ngAfterViewInit(){
+    this.nameInput.nativeElement.focus();
   }
 
   getParametros() {

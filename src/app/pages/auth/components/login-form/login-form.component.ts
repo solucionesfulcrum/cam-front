@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, ElementRef, ViewChild } from '@angular/core';
 import { FormBuilder, Validators } from '@angular/forms';
 import { Router, ActivatedRoute } from '@angular/router';
 import { AuthService } from '@services/auth.service';
@@ -14,6 +14,7 @@ const helperJWT = new JwtHelperService();
   templateUrl: './login-form.component.html',
 })
 export class LoginFormComponent {
+  @ViewChild('nameInput') nameInput!: ElementRef;
   form = this.formBuilder.nonNullable.group({
     username: ['', [Validators.required]],
     password: ['', [Validators.required, Validators.minLength(8)]],
@@ -35,6 +36,9 @@ export class LoginFormComponent {
       const username = params.get('username');
       if (username) this.form.controls.username.setValue(username);
     });
+  }
+  ngAfterViewInit(){
+    this.nameInput.nativeElement.focus();
   }
 
   doLogin() {

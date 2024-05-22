@@ -165,7 +165,7 @@ export class TabAsistenciaComponent {
         data.data.forEach((element: any) => {
           if (!this.listAsistentes.find((x)=> x.numDoc == element.numDoc)) {
             element.formCheck = new FormControl(false);
-            element.formAsistido = new FormControl(null);
+            element.formAsistido = new FormControl('SI');
             this.listAsistentes.push(element);
           }
         });
