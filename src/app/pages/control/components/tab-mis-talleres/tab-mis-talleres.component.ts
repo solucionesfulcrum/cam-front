@@ -4,6 +4,7 @@ import { Component, Inject, LOCALE_ID } from '@angular/core';
 import { FormControl } from '@angular/forms';
 import { Router } from '@angular/router';
 import { faSpinner } from '@fortawesome/free-solid-svg-icons';
+import { RequestRegisterCabecera } from '@models/control/asistencia/service-asistencia.model';
 import { RequestStatus } from '@models/request-status.model';
 import { NotificationService } from '@services/notification.service';
 import { debounceTime } from 'rxjs';
@@ -19,6 +20,7 @@ registerLocaleData(localeEs, 'es');
 })
 export class TabMisTalleresComponent {
   status: RequestStatus = 'init';
+  statusAsistencia: RequestStatus = 'init';
   ListaProgramacines: any[] = [];
   faSpinner = faSpinner;
   ctrlSearch = new FormControl('');
@@ -38,6 +40,7 @@ export class TabMisTalleresComponent {
     { label: 'Este Mes', method: () => this.getFiltrosFecha(5) },
     { label: 'El proximo mes', method: () => this.getFiltrosFecha(6) }
   ];
+  indexSelectedButton!: number;
   
   constructor(private datosService                      : DatosGeneralesService,
               private router                            : Router,
@@ -53,6 +56,7 @@ export class TabMisTalleresComponent {
   }
 
   getFiltrosFecha(opt: number){
+    this.indexSelectedButton = opt - 1;
     let fechaInit = '';
     let fechaFin = '';
     // Dias Comprobación -------------------------------------------
@@ -104,11 +108,11 @@ export class TabMisTalleresComponent {
 
   getListaProgramaciones() {
     this.status = 'loading';
+    this.selectedProgramacion = null;
     const idUsuario = (JSON.parse(localStorage.getItem('UnidElegida')!)).idUnidOperativa
     this.controlService.getlistaProgramacion(idUsuario, this.ctrlInit.value!, this.ctrlFin.value!, this.ctrlSearch.value!.toUpperCase()).subscribe((data) => {
       if (data.code == 0) {
-        this.status = 'success';        
-        console.log("data", data.data);
+        this.status = 'success';
         this.ListaProgramacines = data.data;
         if (data.data.length > 0) {
           this.selectedProgramacion = data.data[0];
@@ -133,8 +137,22 @@ export class TabMisTalleresComponent {
   }
 
   goAsistencia(){
-    localStorage.setItem('idProgramElegida', JSON.stringify(this.selectedProgramacion.idProgDet));    
-    this.router.navigate(['/app/control/control-asistencia'])
+    this.statusAsistencia = 'loading';
+    let payload: RequestRegisterCabecera = {
+      idProgramacionDet: this.selectedProgramacion.idProgDet,
+      userCreacion: (JSON.parse(localStorage.getItem('camUser')!)).idUsuario,
+    };
+    this.controlService.registerDataAsistenciaCabecera(payload).subscribe((data)=>{
+      if (data.code == 0) {
+        this.statusAsistencia = 'success';
+        localStorage.setItem('idProgramElegida', JSON.stringify(this.selectedProgramacion.idProgDet));    
+        this.router.navigate(['/app/control/control-asistencia'])
+      }
+      else{
+        this.statusAsistencia = 'failed';
+        this.notificacionService.warning(data.message);
+      }
+    })
   }
 
 }

@@ -2,6 +2,7 @@ import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { environment } from '@environments/environment';
 import { RequestBuscarApto } from '@models/control/asistencia/crud-asistencia.model';
+import { RequestRegisterCabecera } from '@models/control/asistencia/service-asistencia.model';
 
 const URL_BASE = `${environment.API}/control`;
 
@@ -24,6 +25,11 @@ export class ControlProgramacionService {
 
   getSiEsApto(model: RequestBuscarApto) {
     const url = `${environment.API}/asegurado/buscar/aptos`;
+    return this._httpClient.post<any>(url, model);
+  }
+  
+  registerDataAsistenciaCabecera(model: RequestRegisterCabecera) {
+    const url = `${URL_BASE}/asistencia/cab/registrar`;
     return this._httpClient.post<any>(url, model);
   }
   
