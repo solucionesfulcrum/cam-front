@@ -10,6 +10,7 @@ export class ContratosLayoutComponent {
 
   enlaces=[
     {url:`/app/${AppRoute.CONTRATOS}`, title:'Contratos'},
+    {url:`/app/${AppRoute.CONTRATOS}/contratos-red`, title:'Contratos RED'},
     // {url:'/app/afiliados/evaluacion', title:'Evaluación', tituloOpcional: 'Evaluaciones'},
     
     // {url:'/afiliados/analisis', title:'Análisis'},

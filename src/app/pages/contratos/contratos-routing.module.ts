@@ -5,6 +5,7 @@ import { ContratosListadoComponent } from './contratos-layout/components/contrat
 import { AppRoute } from 'src/app/data/constants/app-route.constant';
 import { ContratosAsignarServiciosComponent } from './contratos-layout/components/contratos-asignar-servicios/contratos-asignar-servicios.component';
 import { ContratosResumenAsignacionComponent } from './contratos-layout/components/contratos-resumen-asignacion/contratos-resumen-asignacion.component';
+import { ContratosRedListadoComponent } from './contratos-layout/components/contratos-red-listado/contratos-red-listado.component';
 
 const routes: Routes = [
   {
@@ -14,6 +15,11 @@ const routes: Routes = [
       {
         path: '',
         component: ContratosListadoComponent,
+        title: 'Contratos - Listado'
+      },
+      {
+        path: 'contratos-red',
+        component: ContratosRedListadoComponent,
         title: 'Contratos - Listado'
       },
       {

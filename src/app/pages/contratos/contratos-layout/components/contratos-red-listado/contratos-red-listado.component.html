@@ -1,0 +1,89 @@
+
+<div >
+  <div>
+    <esp-opciones-busqueda 
+      [showDateFilter]="true"
+      [setFilterDateOptionSelected]="'var(--color-CAM-Mezclado)'" 
+      [setFilterDateTextColour]="'#057EC9'"
+      [filterDateAppearance]="2"
+      (sendDateFilterWithCeros)="getDataFecha($event)"
+      [setFilterDateSelectionBg]="'#008BD2'"
+      [setFilterDateButtonBg]="'#008BD2'"
+      [setDateSelectedDefault]="9"
+      [showSearch]="true"
+      (searchInputValue)="formBuscar.get('frmSearch')?.setValue($event.toUpperCase()); onLoadData()"
+      [searchInputPlaceHolder]="'Busqueda de texto'"
+      [showFirstDisplayFilter]="true"
+      [firstDisplayFilterPlaceholder]="{'indicador': true, 'placeholder': 'Todos los CAM'}"
+      [firstDisplayFilterData]="opciones"
+      (firstDisplayFilterSendValue)="firstDisplayValue($event)"
+      (firstDisplaySelectedValue)="false"
+      [showSecondDisplayFilter]="true"
+      [secDisplayFilterPlaceholder]="{'indicador': true, 'placeholder': 'Todos los estados'}"
+      [secDisplayFilterData]="opciones"
+      (secDisplayFilterSendValue)="firstDisplayValue($event)"
+      [menuOpt]="dataAcciones"
+      (primerActionMenu)="imprimirLista()"
+    ></esp-opciones-busqueda>
+</div>
+<div>
+    <table cdk-table class="w-full text-sm text-left text-gray-500 tablaDatos" [dataSource]="dataSource" >
+      <tr cdk-header-row class="text-xs text-gray-700 bg-gray-50" *cdkHeaderRowDef="columns"></tr>
+      <tr cdk-row class="bg-white border-b" *cdkRowDef="let row; columns: columns"></tr>
+      <ng-container cdkColumnDef="marcar">
+        <th cdk-header-cell class="py-[1.25rem] px-6" *cdkHeaderCellDef> <input type="checkbox" value="false"/> </th>
+        <td cdk-cell class="py-[1rem] px-6" *cdkCellDef="let row"> <input type="checkbox" value="false"/> </td>
+      </ng-container>
+
+      <ng-container cdkColumnDef="nombres">
+        <th cdk-header-cell class="py-[1.25rem] px-6" *cdkHeaderCellDef>Contrato</th>
+        <td cdk-cell class="py-[1rem] px-6 text-[#057EC9]" *cdkCellDef="let row, index as i"><span class="text-Name cursor-pointer" [routerLink]="['show/' + row.id]">{{ row.apePaterno + " " + row.apeMaterno + " " +row.nombres| uppercase}}</span></td>
+      </ng-container>
+
+      <ng-container cdkColumnDef="tipoDoc">
+        <th cdk-header-cell class="py-[1.25rem] px-6" *cdkHeaderCellDef>Confirmado</th>
+        <td cdk-cell class="py-[1rem] px-6 font-semibold" *cdkCellDef="let row">{{ row.tipDocIdent == "01" || row.tipDocIdent == "1" ? 'DNI' : row.descTipDocIdent}}</td>
+      </ng-container>
+
+      <ng-container cdkColumnDef="numDoc">
+        <th cdk-header-cell class="py-[1.25rem] px-6" *cdkHeaderCellDef>Nombre del Proveedor</th>
+        <td cdk-cell class="py-[1rem] px-6" *cdkCellDef="let row">{{row.numDocIdent }}</td>
+      </ng-container>
+
+      <ng-container cdkColumnDef="edad">
+        <th cdk-header-cell class="py-[1.25rem] px-6" *cdkHeaderCellDef>Tipo</th>
+        <td cdk-cell class="py-[1rem] px-6" *cdkCellDef="let row">{{row.edad}} Años</td>
+      </ng-container>
+
+      <ng-container cdkColumnDef="estadoCivil">
+        <th cdk-header-cell class="py-[1.25rem] px-6" *cdkHeaderCellDef>N° Documento</th>
+        <td cdk-cell class="py-[1rem] px-6 font-semibold" *cdkCellDef="let row">{{row.estadoCivil }}</td>
+      </ng-container>
+
+      <ng-container cdkColumnDef="ipress">
+        <th cdk-header-cell class="py-[1.25rem] px-6" *cdkHeaderCellDef>Desde</th>
+        <td cdk-cell class="py-[1rem] px-6" *cdkCellDef="let row">{{row.nomIpressAdscrip }}</td>
+      </ng-container>
+
+      <ng-container cdkColumnDef="hasta">
+        <th cdk-header-cell class="py-[1.25rem] px-6" *cdkHeaderCellDef>Hasta</th>
+        <td cdk-cell class="py-[1rem] px-6" *cdkCellDef="let row">{{row.nomIpressAdscrip }}</td>
+      </ng-container>
+
+      <ng-container cdkColumnDef="fecha">
+        <th cdk-header-cell class="py-[1.25rem] px-6" *cdkHeaderCellDef>Estado</th>
+        <td cdk-cell class="py-[1rem] px-6 flex justify-center items-center select-none" *cdkCellDef="let row"><img [src]="row.estado == 'REGISTRADO' ? 'assets/svg/userReg.svg' : (row.estado == 'NO APTO' ? 'assets/svg/userNonAct.svg' : (row.estado == 'ACTIVO' ? 'assets/svg/userAct.svg' : ''))" [matTooltip]= "row.estado | titlecase" matTooltipPosition="above"></td>
+      </ng-container>
+    </table>
+    <mat-paginator #paginator class="demo-paginator paginatorDatos" 
+    (page)="handlePageEvent($event)"
+    [length]="total"
+    [pageSize]="pageSize"
+    showFirstLastButtons="true"
+    [pageSizeOptions]="pageSizeOptions.length > 0 ? pageSizeOptions : []"
+    [pageIndex]="pageIndex"
+    aria-label="Select page">
+    </mat-paginator>
+</div>    
+</div>
+  

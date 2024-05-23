@@ -14,6 +14,8 @@ import { DialogNewContratoComponent } from './contratos-layout/components/dialog
 import { CdkMenuModule } from '@angular/cdk/menu';
 import { MatAutocompleteModule } from '@angular/material/autocomplete';
 import { DialogConfirmSelectionComponent } from './contratos-layout/components/dialog/dialog-confirm-selection/dialog-confirm-selection.component';
+import { ContratosRedListadoComponent } from './contratos-layout/components/contratos-red-listado/contratos-red-listado.component';
+import { CdkTableModule } from '@angular/cdk/table';
 
 
 @NgModule({
@@ -23,7 +25,8 @@ import { DialogConfirmSelectionComponent } from './contratos-layout/components/d
     ContratosAsignarServiciosComponent,
     ContratosResumenAsignacionComponent,
     DialogNewContratoComponent,
-    DialogConfirmSelectionComponent
+    DialogConfirmSelectionComponent,
+    ContratosRedListadoComponent
   ],
   imports: [
     CommonModule,
@@ -33,7 +36,8 @@ import { DialogConfirmSelectionComponent } from './contratos-layout/components/d
     MaterialModule,
     DialogModule,
     CdkMenuModule,
-    MatAutocompleteModule
+    MatAutocompleteModule,
+    CdkTableModule
   ]
 })
 export class ContratosModule { }
