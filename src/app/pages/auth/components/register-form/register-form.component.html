@@ -69,15 +69,17 @@
               <div class="w-1/2">
                 <input formControlName="codigoPlanilla" placeholder="Código de planilla" type="text"
                   name="codigoPlanilla"
-                  class="w-full text-sm rounded bg-white border-gray-400 border-1 px-4 py-2 font-light focus:border-blue-200 focus:border-1"
-                  [readOnly]="!buscaUsuario"
+                  [class.bg-slate-200]="guiid != ''"
+                  class="w-full text-sm rounded bg-white bg-gray border-gray-400 border-1 px-4 py-2 font-light focus:border-blue-200 focus:border-1"
+                  [readOnly]="!buscaUsuario || guiid != ''"
                   />
               </div>
               <div class="w-1/2">
                 <div class="relative">
                   <input #nameInput formControlName="email" placeholder="Correo electrónico" type="email" name="email"
+                   [class.bg-slate-200]="guiid != ''"
                     class="w-full text-sm rounded bg-white border-gray-400 border-1 px-4 py-2 font-light focus:border-blue-200 focus:border-1"
-                    [readOnly]="!buscaUsuario"
+                    [readOnly]="!buscaUsuario || guiid != ''"
                     />
                 </div>
                 <div *ngIf="form.controls.email.touched && form.controls.email.invalid && buscaUsuario">
@@ -96,7 +98,8 @@
               <div class="w-1/2">
                 <input formControlName="names" placeholder="Nombres" type="text" name="names"
                   class="w-full text-sm rounded bg-white border-gray-400 border-1 px-4 py-2 font-light focus:border-blue-200 focus:border-1" 
-                  [readOnly]="!buscaUsuario"
+                  [readOnly]="!buscaUsuario || guiid != ''" 
+                  [class.bg-slate-200]="guiid != ''"
                   />
                 <div *ngIf="form.controls.names.touched && form.controls.names.invalid && buscaUsuario">
                   <p *ngIf="form.controls.names.hasError('required')"
@@ -108,7 +111,8 @@
               <div class="w-1/2">
                 <input formControlName="apellidos" placeholder="Apellidos" type="text" name="names"
                   class="w-full text-sm rounded bg-white border-gray-400 border-1 px-4 py-2 font-light focus:border-blue-200 focus:border-1"
-                  [readOnly]="!buscaUsuario"
+                  [readOnly]="!buscaUsuario || guiid != ''"
+                  [class.bg-slate-200]="guiid != ''"
                   />
                 <div *ngIf="form.controls.apellidos.touched && form.controls.apellidos.invalid && buscaUsuario">
                   <p *ngIf="form.controls.apellidos.hasError('required')"
@@ -118,11 +122,11 @@
                 </div>
               </div>
             </div>
-            <div class="flex space-x-2">
+            <div class="flex space-x-2" *ngIf="guiid == ''">
               <div class="w-1/2">
                 <div>
                   <div class="relative">
-                    <input formControlName="password" placeholder="Contraseña"
+                    <input formControlName="password" placeholder="Contraseña" 
                       [type]="showPassword ? 'text' : 'password'"
                       class="w-full text-sm rounded bg-white border-gray-400 border-1 px-4 py-2 font-light focus:border-blue-200 focus:border-1"
                       [readOnly]="!buscaUsuario"

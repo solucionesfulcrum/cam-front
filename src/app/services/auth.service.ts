@@ -256,38 +256,22 @@ export class AuthService {
   }
 
   dataExists(dni: String) {
-    // Comenta la solicitud HTTP real
-    // return this.http.get<any>(url);
 
-    // Retorna un objeto JSON simulado como Observable
-    const mockResponse = {
-      "idUsuario": null,
-      "guiid": "0o01T302dh-4729b036-3537-423e-b315-52c05ed05c85-Py24wm106o-MN53M602qR",
-      "tipoDoc": "1",
-      "numDoc": "10130151",
-      "nombres": "CCCCC",
-      "email": "henryccopa@gmail.com",
-      "codPlanilla": "001",
-      "roles": null,
-      "aplicacion": "VIVA"
-    };
-
-    // Usar 'of' para crear un Observable con el JSON simulado
-    return of(mockResponse).pipe(delay(2000));
+    const url = `${environment.API}/auth/usuario/data/exists/${dni}`;
+    return this.http.get<any>(url);
   }
 
-  vincular(dni: String) {
-    // Comenta la solicitud HTTP real
-    // return this.http.get<any>(url);
-
-    // Retorna un objeto JSON simulado como Observable
-    const mockResponse = {
-      "code": 2,
-      "message": "no se encontro información con ese codigo",
-      "data": null
-    }
-
-    // Usar 'of' para crear un Observable con el JSON simulado
-    return of(mockResponse);
+  registrarAsignacion( model : { categoria : string,
+    correo : string,
+    tipoDoc : string,
+    numDoc : string,
+    nombres : string,
+    apellidos : string,
+    codPlanilla: string,
+    unidOperativaId: number,
+    guiidSso : string}) {
+    
+    const url = `${environment.API}/usuario/registrar/asignacion`;
+    return this.http.post<any>(url, model);
   }
 }

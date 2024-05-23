@@ -26,6 +26,12 @@ import { Parametro } from '@models/parametros-busqueda.model';
 import { RequestRegisterSIGPS } from '@models/auth/register.model';
 import { NotificationService } from '@services/notification.service';
 import { map, startWith } from 'rxjs';
+import { ToastrService } from 'ngx-toastr';
+import { UsersService } from '@services/users.service';
+import { TokenService } from '@services/token.service';
+import { JwtHelperService } from '@auth0/angular-jwt';
+
+const helperJWT = new JwtHelperService();
 
 @Component({
   selector: 'app-register-form',
@@ -96,6 +102,10 @@ export class RegisterFormComponent {
     private authService: AuthService,
     private datosService: DatosGeneralesService,
     private dialog: Dialog,
+    private toast: ToastrService,
+    private userService: UsersService,
+    private tokenService: TokenService,
+    private router: Router,
   ) { }
 
   ngOnInit(): void {
@@ -153,8 +163,9 @@ export class RegisterFormComponent {
         this.status = 'loading';
         const { tipoDoc, doc, names, apellidos, email, password, codigoPlanilla } =
           this.form.getRawValue();
-        //this.authService.register(name, email, password)
-        this.authService
+
+        if(this.guiid == ''){
+          this.authService
           .register(tipoDoc, doc, names, apellidos , email, password, codigoPlanilla)
           .subscribe({
             next: (rta: any) => {
@@ -192,14 +203,64 @@ export class RegisterFormComponent {
               this.status = 'failed';
             },
           });
+        }
       }
 
-    } else if (this.form.value.password != this.form.value.confirmPassword) {
+    } 
+    else if(this.frmCtrlUnidadOperativa.valid && this.guiid != ""){
+      if(this.form.value.terminos != true){
+        this.msgErrorTerminos = 'Debe Ud. Aceptar los terminos y condiciones'
+      }
+      else{
+        const { tipoDoc, doc, names, apellidos, email, password, codigoPlanilla } =
+        this.form.getRawValue();
+        this.asociarUsuarioSistema({
+          categoria: "CAM", // SSO, CAM 
+          correo: email,
+          tipoDoc: tipoDoc,
+          numDoc: doc,
+          nombres: names,
+          apellidos: apellidos,
+          codPlanilla: codigoPlanilla,
+          unidOperativaId: this.frmCtrlUnidadOperativa.value.idUnidadOperativa,
+          guiidSso: this.guiid
+        })
+      }
+    }
+    else if (this.form.value.password != this.form.value.confirmPassword) {
       this.msgErrorPassWord = 'Las contraseñas son distintas'
     } else {
       this.form.markAllAsTouched();
       this.frmCtrlUnidadOperativa.markAllAsTouched();
     }
+  }
+
+  asociarUsuarioSistema(data : {
+    categoria : string,
+    correo : string,
+    tipoDoc : string,
+    numDoc : string,
+    nombres : string,
+    apellidos : string,
+    codPlanilla: string,
+    unidOperativaId: number,
+    guiidSso : string,
+
+  }) : void {
+
+    this.authService.registrarAsignacion(data).subscribe(res => {
+      if(res.code == '0'){
+          this.toast.success("Se ha asignado correctamente al sistema")
+          this.router.navigate(['/login']);
+        }
+        else{
+          this.msgError = "El usuario ya se encuentra registrado en el Modulo PAM";
+          this.status = 'failed';
+        }
+     
+      })
+
+
   }
 
   getModelRequestRegisterSigps(guiidSso: string): RequestRegisterSIGPS {
@@ -311,15 +372,23 @@ export class RegisterFormComponent {
     if(this.form.get('doc')?.valid){
       this.loadingBuscaUsuario = true;
       this.authService.dataExists(doc).subscribe(data => {
+        
         this.loadingBuscaUsuario = false;
-        this.form.patchValue({
-          names: data.nombres,
-          codigoPlanilla: data.codPlanilla,
-          email: data.email,
-          apellidos: data.nombres
-        })
-        this.guiid = data.guiid;
         this.buscaUsuario = true;
+
+        if(data.code == 0){
+          let result = data.data;
+          this.form.patchValue({
+            names: result.nombres,
+            codigoPlanilla: result.codPlanilla,
+            email: result.email,
+            apellidos: result.nombres
+          })
+          
+          this.guiid = result.guiid;
+
+        }
+       
       })
     }
     else{
@@ -334,6 +403,20 @@ export class RegisterFormComponent {
     }
   }
 }
+
+
+/* const mockResponse = {
+      "idUsuario": null,
+      "guiid": "0o01T302dh-4729b036-3537-423e-b315-52c05ed05c85-Py24wm106o-MN53M602qR",
+      "tipoDoc": "1",
+      "numDoc": "10130151",
+      "nombres": "CCCCC",
+      "email": "henryccopa@gmail.com",
+      "codPlanilla": "001",
+      "roles": null,
+      "aplicacion": "VIVA"
+    };
+*/
 
 //this.router.navigate(['/login'], {
 //              queryParams: { code},
