@@ -2,7 +2,7 @@ import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { environment } from '@environments/environment';
 import { RequestBuscarApto } from '@models/control/asistencia/crud-asistencia.model';
-import { RequestRegisterCabecera } from '@models/control/asistencia/service-asistencia.model';
+import { RequestRegisterAsegurado, RequestRegisterCabecera, RequestRegisterDet } from '@models/control/asistencia/service-asistencia.model';
 
 const URL_BASE = `${environment.API}/control`;
 
@@ -23,26 +23,38 @@ export class ControlProgramacionService {
     return this._httpClient.get<any>(url);
   }
 
-  getSiEsApto(model: RequestBuscarApto) {
-    const url = `${environment.API}/asegurado/buscar/aptos`;
-    return this._httpClient.post<any>(url, model);
-  }
+  // Servicios Asistencia -----------------------------------------------------------
   
   registerDataAsistenciaCabecera(model: RequestRegisterCabecera) {
     const url = `${URL_BASE}/asistencia/cab/registrar`;
     return this._httpClient.post<any>(url, model);
   }
-  
-  getListAsistencia() {
-    const payload = {
-      idProgDet: JSON.parse(localStorage.getItem('idProgramElegida')!),
-      pageNum : 1,
-      pageSize: 100
-    }
-    const url = `${URL_BASE}/listar/AsistenciaIncripcion`;
-    return this._httpClient.post<any>(url, payload);
+
+  registerAseguradoDetalle(model: RequestRegisterAsegurado){
+    const url = `${URL_BASE}/asistencia/sub-det/registrar`;
+    return this._httpClient.post<any>(url, model);
   }
 
+  getCabeceraAsistencia(idProgDet: number) {
+    const url = `${URL_BASE}/obtener/cabecera/asistencia/${idProgDet}`;
+    return this._httpClient.get<any>(url);
+  }
+  
+  getListAsistencia(idProgDet: number) {
+    const url = `${URL_BASE}/asistencia/listar/participantes?id-asistencia-det=${idProgDet}`;
+    return this._httpClient.get<any>(url);
+  }
+  
+  registerAsistenciaDet(model: RequestRegisterDet) {
+    const url = `${URL_BASE}/asistencia/det/registrar`;
+    return this._httpClient.post<any>(url, model);
+  }
+  // --------------------------------------------------------------------------------
+
+  getSiEsApto(model: RequestBuscarApto) {
+    const url = `${environment.API}/asegurado/buscar/aptos`;
+    return this._httpClient.post<any>(url, model);
+  }
 
   getListAsegurados() {
     const payload = {

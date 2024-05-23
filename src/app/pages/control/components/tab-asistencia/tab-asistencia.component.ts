@@ -12,6 +12,7 @@ import { Parametro } from '@shared/components/opciones-busqueda/parametros-busqu
 import { ControlProgramacionService } from 'src/app/data/services/control/control-programacion.service';
 import { DatosGeneralesService } from 'src/app/data/services/datos-generales.service';
 import { DialogConfirmDataAsistenciaComponent } from './dialog/dialog-confirm-data-asistencia/dialog-confirm-data-asistencia.component';
+import { RequestRegisterDet } from '@models/control/asistencia/service-asistencia.model';
 
 registerLocaleData(localeEs, 'es');
 
@@ -31,6 +32,9 @@ export class TabAsistenciaComponent {
   // Lista de Asegurados para Búsqueda --------------------------------------------
   listBusqueda: any[] = [];
   listFilteredBusqueda: any[] = [];
+  // ------------------------------------------------------------------------------
+  // Información Intermedia--------------------------------------------------------
+  detalleAsistenciaActual: any;
   // ------------------------------------------------------------------------------
   opciones: Parametro[] = [];
   ctrlSearch = new FormControl('');
@@ -56,10 +60,11 @@ export class TabAsistenciaComponent {
               ) { }
 
   ngOnInit(){
+    console.log(new Date('2024-05-22 21:00'))
+    console.log((new Date('2024-05-22 21:00').getTime() - new Date().getTime())/(1000*60))
     this.setListeners();
     this.getListAsegurados();
     this.getDataCabecera();
-    this.getListAsistencia();
     this.getParametros();
   }
 
@@ -99,6 +104,31 @@ export class TabAsistenciaComponent {
 
   // Busqueda y Tipeo de Asegurado --------------------------------------------------------------
   onAseguradoSelect(event: any){
+    let payload: RequestBuscarApto = {
+      idUnidadOperativa: (JSON.parse(localStorage.getItem('UnidElegida')!)).idUnidOperativa,
+      tipDoc: event.option.value.tipoDoc === 'DNI' ? '1' : '4',
+      numDoc: event.option.value.numDoc
+    }
+    this.controlService.getSiEsApto(payload).subscribe((data)=>{
+      if (data.code == 0) {
+        if (!data.data[0].acreditacion) {
+          this.notificacionService.warning(data.message);
+        }
+        this.controlService.registerAseguradoDetalle({idControlAsistenciaDet: this.detalleAsistenciaActual.idControlAsistenciaDet, idFichaAdmision: data.data[0].idFichaAsegurado}).subscribe((datos)=>{
+          if (datos.code == 0) {
+            console.log(datos.data);
+            this.getListAsistencia();
+          }
+          else{
+            this.notificacionService.warning(datos.message);
+          }
+        })
+      }
+      else{
+        this.notificacionService.warning(data.message);
+      }
+      this.esperaBusqueda = false;
+    })
     this.ctrlSearch.setValue(event.option.value, {emitEvent: false});
   }
   displayAseguradoFiltered(selectedoption: any) {
@@ -119,7 +149,7 @@ export class TabAsistenciaComponent {
           minWidth:'850px',
           maxWidth:'50%',
           data:{
-            infoAsegurado: data.data[0],
+            infoAsegurado: data,
           }
         })
         dialogRef.closed.subscribe(result => {
@@ -160,15 +190,16 @@ export class TabAsistenciaComponent {
   }
 
   getListAsistencia(){
-    this.controlService.getListAsistencia().subscribe((data)=>{
+    this.controlService.getListAsistencia(this.detalleAsistenciaActual.idControlAsistenciaDet).subscribe((data)=>{
       if (data.code == 0) {
         data.data.forEach((element: any) => {
-          if (!this.listAsistentes.find((x)=> x.numDoc == element.numDoc)) {
+          if (!this.listAsistentes.find((x)=> x.nroDocumento == element.nroDocumento)) {
             element.formCheck = new FormControl(false);
             element.formAsistido = new FormControl('SI');
             this.listAsistentes.push(element);
           }
         });
+        this.listAsistentes.sort((a: any, b: any) => {return new Date(b.fechaHoraAsistencia).getTime()  - new Date(a.fechaHoraAsistencia).getTime()})
         console.log(this.listAsistentes)
       }
       else{
@@ -178,18 +209,41 @@ export class TabAsistenciaComponent {
   }
 
   getDataCabecera(){
-    this.controlService.getCabeceraProgramacion(JSON.parse(localStorage.getItem('idProgramElegida')!)).subscribe((data)=>{
+    this.controlService.getCabeceraAsistencia(JSON.parse(localStorage.getItem('idProgramElegida')!)).subscribe((data)=>{
       if (data.code == 0) {
+        console.log(data.data)
         this.datoProgramacion = data.data;
         let seconds = Math.floor((new Date(this.datoProgramacion.fechaServicio + ' ' + this.datoProgramacion.horaFin).getTime() - new Date(this.datoProgramacion.fechaServicio + ' ' + this.datoProgramacion.horaInicio).getTime())/1000);
         let horas = Math.floor(seconds/(60*60));
         let minutos = Math.floor(seconds/60) - horas*60;
         this.datoProgramacion.margenHorario = horas + 'h ' +  minutos + ' m';
+        this.registerHoraActiva()
       }
       else{
         this.notificacionService.warning(data.message);
       }
     })
+  }
+
+  registerHoraActiva(){
+    let sesionActiva = this.datoProgramacion.listaProgSubDet[0];
+    let payload: RequestRegisterDet = {
+      idControlAsistenciaCab: this.datoProgramacion.idControlAsistenciaCab,
+      idProgramacionSubDet: sesionActiva.idProgSubDet,
+      numeracion: sesionActiva.numeracion
+    }
+
+    this.controlService.registerAsistenciaDet(payload).subscribe((data)=>{
+      if (data.code == 0) {
+        this.detalleAsistenciaActual = data.data;
+        this.getListAsistencia();
+        console.log(data.data)
+      }
+      else{
+        this.notificacionService.warning(data.message);
+      }
+    })
+
   }
 
 }

@@ -24,7 +24,7 @@
             <p class="font-semibold text-lg">{{infoReniec.txtNombres | titlecase}}</p>
             <!-- <p class="py-1 bordColorEstablecido font-bold text-2xl">{{dataPersona.persona.datosBasicos.nombres | titlecase}}</p>
             <p class="font-semibold text-lg">{{dataPersona.persona.datosBasicos.apellidoPaterno | titlecase}} {{dataPersona.persona.datosBasicos.apellidoMaterno | titlecase}}</p> -->
-            <p class="">{{parametroDocumento.idParametros == 6 ? 'DNI' : parametroDocumento.nombre | titlecase}} {{numDoc}}</p>
+            <p class="" *ngIf="parametroDocumento">{{parametroDocumento.idParametros == 6 ? 'DNI' : parametroDocumento.nombre | titlecase}} {{numDoc}}</p>
         </div>
         <div class="border-t-2 mt-3">
             <p class="py-1 bordColorEstablecido font-bold">Datos Generales</p>
