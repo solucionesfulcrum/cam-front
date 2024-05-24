@@ -48,7 +48,9 @@ export class ContratosRedListadoComponent {
 
   ngOnInit(): void {
     this.datosService.getTipoParametros('ESTADO_CONTRATO').subscribe((data)=>{
-      this.opciones = data.data;
+      this.opciones = data.data.map(e=>{
+        return {...e, valor1: String(e.idParametros)}
+      });
     });
   }
 
@@ -134,7 +136,6 @@ export class ContratosRedListadoComponent {
   }
 
   firstDisplayValue(value: any){
-    alert(value);
     this.formBuscar.get('frmSearchEstado')?.setValue(value);
     this.onLoadData();
   }
