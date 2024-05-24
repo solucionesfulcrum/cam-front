@@ -37,17 +37,17 @@
 
       <ng-container cdkColumnDef="nombres">
         <th cdk-header-cell class="py-[1.25rem] px-6" *cdkHeaderCellDef>Contrato</th>
-        <td cdk-cell class="py-[1rem] px-6 text-[#057EC9]" *cdkCellDef="let row, index as i">-</td>
+        <td cdk-cell class="py-[1rem] px-6 text-[#057EC9]" *cdkCellDef="let row, index as i">{{row.numOc}}</td>
       </ng-container>
 
       <ng-container cdkColumnDef="tipoDoc">
         <th cdk-header-cell class="py-[1.25rem] px-6" *cdkHeaderCellDef>Confirmado</th>
-        <td cdk-cell class="py-[1rem] px-6 font-semibold" *cdkCellDef="let row">-</td>
+        <td cdk-cell class="py-[1rem] px-6 font-semibold" *cdkCellDef="let row">{{row.fechaContrato}}</td>
       </ng-container>
 
       <ng-container cdkColumnDef="numDoc">
         <th cdk-header-cell class="py-[1.25rem] px-6" *cdkHeaderCellDef>Nombre del Proveedor</th>
-        <td cdk-cell class="py-[1rem] px-6" *cdkCellDef="let row">-</td>
+        <td cdk-cell class="py-[1rem] px-6" *cdkCellDef="let row">{{row.tallerista}}</td>
       </ng-container>
 
       <ng-container cdkColumnDef="edad">
@@ -57,7 +57,7 @@
 
       <ng-container cdkColumnDef="estadoCivil">
         <th cdk-header-cell class="py-[1.25rem] px-6" *cdkHeaderCellDef>N° Documento</th>
-        <td cdk-cell class="py-[1rem] px-6 font-semibold" *cdkCellDef="let row">{{row.numOc }}</td>
+        <td cdk-cell class="py-[1rem] px-6 font-semibold" *cdkCellDef="let row">{{row.numDoc}} </td>
       </ng-container>
 
       <ng-container cdkColumnDef="ipress">

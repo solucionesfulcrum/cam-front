@@ -121,12 +121,12 @@ export class ContratosRedListadoComponent {
       fecFin: fecFin
     };
 
-    this.afiliacionesService.getExcelAsegurados(payload).subscribe((data)=>{
+    this.contrato.getExcelAsegurados(payload).subscribe((data)=>{
       this.notificationService.success('Se esta descargando el reporte');
       const blob: Blob = new Blob([data], { type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet' });
       const url = window.URL.createObjectURL(blob);
       const anchor = document.createElement('a');
-      anchor.download = 'Reporte_Asegurados.xlsx';
+      anchor.download = 'Reporte_Contratos_Red.xlsx';
       anchor.href = url;
       anchor.click();
       window.URL.revokeObjectURL(url);
@@ -134,6 +134,7 @@ export class ContratosRedListadoComponent {
   }
 
   firstDisplayValue(value: any){
+    alert(value);
     this.formBuscar.get('frmSearchEstado')?.setValue(value);
     this.onLoadData();
   }
