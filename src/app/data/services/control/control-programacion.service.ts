@@ -2,7 +2,7 @@ import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { environment } from '@environments/environment';
 import { RequestBuscarApto } from '@models/control/asistencia/crud-asistencia.model';
-import { RequestRegisterAsegurado, RequestRegisterCabecera, RequestRegisterDet } from '@models/control/asistencia/service-asistencia.model';
+import { RequestCambioHorario, RequestRegisterAsegurado, RequestRegisterCabecera, RequestRegisterDet } from '@models/control/asistencia/service-asistencia.model';
 
 const URL_BASE = `${environment.API}/control`;
 
@@ -48,6 +48,26 @@ export class ControlProgramacionService {
   registerAsistenciaDet(model: RequestRegisterDet) {
     const url = `${URL_BASE}/asistencia/det/registrar`;
     return this._httpClient.post<any>(url, model);
+  }
+
+  registerCambioHorario(model: RequestCambioHorario){
+    const url = `${URL_BASE}/asistencia/cambio-de-hora`;
+    return this._httpClient.post<any>(url, model);
+  }
+
+  registerFijarCursor(idControlAsistenciaCab: number, idControlAsistenciaDet: number){
+    const url = `${URL_BASE}/asistencia/asistencia-det/fijar-cursor?id-asistencia-cab=${idControlAsistenciaCab}&id-asistencia-det=${idControlAsistenciaDet}`;
+    return this._httpClient.post<any>(url, null);
+  }
+
+  registerCierreDetalle(idControlAsistenciaDet: number){
+    const url = `${URL_BASE}/asistencia/cerrar-det/${idControlAsistenciaDet}`;
+    return this._httpClient.post<any>(url, null);
+  }
+
+  registerContinuacionAsistencia(idControlAsistenciaSubDet: number, continua: boolean){
+    const url = `${URL_BASE}/asistencia/continuar-taller?id-asistencia-sub-det=${idControlAsistenciaSubDet}&continua=${continua}`;
+    return this._httpClient.post<any>(url, null);
   }
   // --------------------------------------------------------------------------------
 

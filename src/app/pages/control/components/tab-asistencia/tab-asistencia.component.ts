@@ -12,7 +12,7 @@ import { Parametro } from '@shared/components/opciones-busqueda/parametros-busqu
 import { ControlProgramacionService } from 'src/app/data/services/control/control-programacion.service';
 import { DatosGeneralesService } from 'src/app/data/services/datos-generales.service';
 import { DialogConfirmDataAsistenciaComponent } from './dialog/dialog-confirm-data-asistencia/dialog-confirm-data-asistencia.component';
-import { RequestRegisterDet } from '@models/control/asistencia/service-asistencia.model';
+import { RequestCambioHorario, RequestRegisterDet } from '@models/control/asistencia/service-asistencia.model';
 
 registerLocaleData(localeEs, 'es');
 
@@ -129,7 +129,8 @@ export class TabAsistenciaComponent {
       }
       this.esperaBusqueda = false;
     })
-    this.ctrlSearch.setValue(event.option.value, {emitEvent: false});
+
+    this.ctrlSearch.setValue('');
   }
   displayAseguradoFiltered(selectedoption: any) {
     return selectedoption ? selectedoption.nombreCompleto : undefined;
@@ -144,17 +145,17 @@ export class TabAsistenciaComponent {
     this.esperaBusqueda = true;
     this.controlService.getSiEsApto(payload).subscribe((data)=>{
       if (data.code == 0) {
-        console.log(data.data);
         const dialogRef = this.dialog.open(DialogConfirmDataAsistenciaComponent,{
           minWidth:'850px',
           maxWidth:'50%',
           data:{
             infoAsegurado: data,
+            detalleAsistenciaActual: this.detalleAsistenciaActual
           }
         })
         dialogRef.closed.subscribe(result => {
-          console.log(result);
           if (result == 1) {
+            this.getListAsistencia();
           }
         });
       }
@@ -193,16 +194,26 @@ export class TabAsistenciaComponent {
     this.controlService.getListAsistencia(this.detalleAsistenciaActual.idControlAsistenciaDet).subscribe((data)=>{
       if (data.code == 0) {
         data.data.forEach((element: any) => {
-          if (!this.listAsistentes.find((x)=> x.nroDocumento == element.nroDocumento)) {
-            element.formCheck = new FormControl(false);
-            element.formAsistido = new FormControl('SI');
-            this.listAsistentes.push(element);
-          }
+          element.formCheck = new FormControl(false);
+          element.formAsistido = new FormControl(element.continuaTaller);
+          element.formAsistido.valueChanges.subscribe((x: any)=>{
+            this.controlService.registerContinuacionAsistencia(element.idControlAsistenciaSubDet, x).subscribe((dataContinuacion)=>{
+              if (dataContinuacion.code == 0) {
+                console.log(element, x)
+              }
+              else{
+                this.notificacionService.warning(dataContinuacion.message);
+              }
+            })
+          })
         });
+        this.listAsistentes = data.data;
         this.listAsistentes.sort((a: any, b: any) => {return new Date(b.fechaHoraAsistencia).getTime()  - new Date(a.fechaHoraAsistencia).getTime()})
+        this.status = 'success';
         console.log(this.listAsistentes)
       }
       else{
+        this.status = 'failed';
         this.notificacionService.warning(data.message);
       }
     })
@@ -211,8 +222,8 @@ export class TabAsistenciaComponent {
   getDataCabecera(){
     this.controlService.getCabeceraAsistencia(JSON.parse(localStorage.getItem('idProgramElegida')!)).subscribe((data)=>{
       if (data.code == 0) {
-        console.log(data.data)
         this.datoProgramacion = data.data;
+        console.log(data.data)
         let seconds = Math.floor((new Date(this.datoProgramacion.fechaServicio + ' ' + this.datoProgramacion.horaFin).getTime() - new Date(this.datoProgramacion.fechaServicio + ' ' + this.datoProgramacion.horaInicio).getTime())/1000);
         let horas = Math.floor(seconds/(60*60));
         let minutos = Math.floor(seconds/60) - horas*60;
@@ -226,7 +237,17 @@ export class TabAsistenciaComponent {
   }
 
   registerHoraActiva(){
-    let sesionActiva = this.datoProgramacion.listaProgSubDet[0];
+    let subActivo = this.datoProgramacion.listaProgSubDet.find((item: any)=> item.cursor == true);
+    let sinSesion = false;
+    let sesionActiva;
+    if (subActivo) {
+      sesionActiva = subActivo;
+    }
+    else{
+      sesionActiva = this.datoProgramacion.listaProgSubDet[0];
+      sinSesion = true;
+    }
+    this.comienzoSesiones = sesionActiva.numeracion;
     let payload: RequestRegisterDet = {
       idControlAsistenciaCab: this.datoProgramacion.idControlAsistenciaCab,
       idProgramacionSubDet: sesionActiva.idProgSubDet,
@@ -236,14 +257,74 @@ export class TabAsistenciaComponent {
     this.controlService.registerAsistenciaDet(payload).subscribe((data)=>{
       if (data.code == 0) {
         this.detalleAsistenciaActual = data.data;
+        console.log(this.detalleAsistenciaActual)
         this.getListAsistencia();
-        console.log(data.data)
+        if (sinSesion) {
+          this.controlService.registerFijarCursor(this.datoProgramacion.idControlAsistenciaCab, this.detalleAsistenciaActual.idControlAsistenciaDet).subscribe((dataCursor)=>{
+            if (dataCursor.code == 0) {
+              this.controlService.registerCierreDetalle(this.detalleAsistenciaActual.idControlAsistenciaDet).subscribe((dataCierre)=>{
+                if (dataCierre.code == 0) {
+                }
+                else{
+                  this.notificacionService.warning(dataCierre.message);
+                }
+              })
+            }
+            else{
+              this.notificacionService.warning(dataCursor.message);
+            }
+          })
+        }
       }
       else{
         this.notificacionService.warning(data.message);
       }
     })
+  }
+
+  cambioHora(){
+    if (this.detalleAsistenciaActual.numeracion < this.datoProgramacion.numSesiones) {
+      this.status = 'loading';
+      let sgteProgramSubDet = this.datoProgramacion.listaProgSubDet[this.datoProgramacion.listaProgSubDet.findIndex((element: any) => element.numeracion == this.detalleAsistenciaActual.numeracion) + 1];
+
+      let payloadCambioHorario: RequestCambioHorario = {
+        idControlAsistenciaDetActual: this.detalleAsistenciaActual.idControlAsistenciaDet,
+        numeracionActual: this.detalleAsistenciaActual.numeracion,
+        idControlAsistenciaCabActual: this.datoProgramacion.idControlAsistenciaCab,
+        idProgramacionSubDetSiguiente: sgteProgramSubDet.idProgSubDet,
+        numeracionSiguiente: sgteProgramSubDet.numeracion
+      }
+      console.log(sgteProgramSubDet)
+      console.log(payloadCambioHorario)
+      this.controlService.registerCambioHorario(payloadCambioHorario).subscribe((data)=>{
+        if (data.code == 0) {
+          this.controlService.registerFijarCursor(this.datoProgramacion.idControlAsistenciaCab, data.data.idControlAsistenciaDet).subscribe((dataCursor)=>{
+            if (dataCursor.code == 0) {
+              this.getDataCabecera();
+            }
+            else{
+              this.notificacionService.warning(dataCursor.message);
+            }
+          })
+
+        }
+        else {
+          this.notificacionService.warning(data.message);
+        }
+      })
+    }
 
   }
 
+  cerrarAsistencia(){
+    this.status = 'loading';
+    this.controlService.registerCierreDetalle(this.detalleAsistenciaActual.idControlAsistenciaDet).subscribe((dataCierre)=>{
+      if (dataCierre.code == 0) {
+        this.registerHoraActiva();
+      }
+      else{
+        this.notificacionService.warning(dataCierre.message);
+      }
+    })
+  }
 }
