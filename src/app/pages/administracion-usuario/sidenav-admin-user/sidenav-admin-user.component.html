@@ -1,0 +1,19 @@
+<div class="flex h-screen">
+    <!-- Menú Lateral -->
+    <div class="bg-opacity-50 text-black p-4"  style="width: 30rem;">
+        <div class="ml-2"  style="margin-left: 15rem; margin-top: 2rem;">
+            <h2 class="font-bold mb-4" style="font-family: Poppins; font-weight: 400;" >MI CUENTA</h2>
+            <ul class="nav-list-item w-full flex flex-col font-medium text-gray-700">
+              <li *ngFor="let link of links">
+                <a [routerLink]="link.url" routerLinkActive="list-item-activo" class="link" style="padding: 0.3rem;">
+                  <span>{{link.title}}</span>
+                </a>
+              </li>
+            </ul>
+        </div>
+    </div>
+    <!-- Contenido de la Página -->
+    <div class="flex-1 p-4 m-2 p-2">
+        <router-outlet class="m-0"></router-outlet>
+    </div>
+</div>
