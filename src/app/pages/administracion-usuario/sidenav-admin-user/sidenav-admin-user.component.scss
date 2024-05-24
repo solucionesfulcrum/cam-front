@@ -1,0 +1,21 @@
+/* styles.css o global styles */
+.link:hover {
+    background-color: rgba(52, 69, 99, 0.1); /* Celeste transparente */
+    color: black; /* Asegúrate de que el texto sea visible sobre el fondo celeste */
+}
+
+/* styles.css o global styles */
+.active {
+    background-color: rgba(52, 69, 99, 0.1); /* Celeste transparente */
+    color: black; /* Asegúrate de que el texto sea visible sobre el fondo celeste */
+    position: relative; /* Posición relativa para el pseudo-elemento */
+    ::before{
+        content: ''; /* Contenido del pseudo-elemento */
+        position: absolute; /* Posición absoluta para el pseudo-elemento */
+        top: 0; /* Alineación arriba */
+        left: -4px; /* Desplazamiento a la izquierda (ajustable según necesites) */
+        bottom: 0; /* Alineación abajo */
+        width: 4px; /* Ancho de la línea vertical */
+        background-color: #057ec9; /* Color azul de la línea vertical */
+    }
+}

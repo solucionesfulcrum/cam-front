@@ -9,6 +9,7 @@ import { PageEvent } from '@angular/material/paginator';
 import { ParamMenu } from '@shared/components/opciones-busqueda/parametros-busqueda.model';
 import { AfiliacionesSolicitudesService } from 'src/app/data/services/afiliaciones/afiliaciones-solicitudes.service';
 import { faSpinner } from '@fortawesome/free-solid-svg-icons';
+import { ContratosAdministracionService } from 'src/app/data/services/contratos/contratos-administracion.service';
 
 @Component({
   selector: 'esp-contratos-red-listado',
@@ -41,16 +42,20 @@ export class ContratosRedListadoComponent {
               private dialog                  : Dialog,
               private notificationService     : NotificationService,
               private datosService            : DatosGeneralesService,
-              private afiliacionesService     : AfiliacionesSolicitudesService,) { }
+              private afiliacionesService     : AfiliacionesSolicitudesService,
+              private contrato                : ContratosAdministracionService
+            ) { }
 
   ngOnInit(): void {
-    this.datosService.getTipoParametros('ESTADO_FICHA_ADMISION').subscribe((data)=>{
-      this.opciones = data.data;
+    this.datosService.getTipoParametros('ESTADO_CONTRATO').subscribe((data)=>{
+      this.opciones = data.data.map(e=>{
+        return {...e, valor1: String(e.idParametros)}
+      });
     });
   }
 
   onLoadData(){
-    this.afiliacionesService.getListaContacto(this.getContactos()).subscribe((data)=>{
+    this.contrato.contratoListarRed(this.getContactos()).subscribe((data)=>{
       if (data.code == 0) {
       this.dataSource = data.data.list;
       this.pageNum = data.data.pageNum;
@@ -118,12 +123,12 @@ export class ContratosRedListadoComponent {
       fecFin: fecFin
     };
 
-    this.afiliacionesService.getExcelAsegurados(payload).subscribe((data)=>{
+    this.contrato.getExcelAsegurados(payload).subscribe((data)=>{
       this.notificationService.success('Se esta descargando el reporte');
       const blob: Blob = new Blob([data], { type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet' });
       const url = window.URL.createObjectURL(blob);
       const anchor = document.createElement('a');
-      anchor.download = 'Reporte_Asegurados.xlsx';
+      anchor.download = 'Reporte_Contratos_Red.xlsx';
       anchor.href = url;
       anchor.click();
       window.URL.revokeObjectURL(url);

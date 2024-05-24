@@ -7,11 +7,17 @@ import { EditActiveUserComponent } from './edit-active-user/edit-active-user.com
 import { SharedModule } from '@shared/shared.module';
 import { MatAutocompleteModule } from '@angular/material/autocomplete';
 import { MaterialModule } from 'src/app/material/material.module';
+import { SidenavAdminUserComponent } from './sidenav-admin-user/sidenav-admin-user.component';
+import { NivelEducativoComponent } from './nivel-educativo/nivel-educativo.component';
+import { SeguridadComponent } from './seguridad/seguridad.component';
 
 @NgModule({
   declarations: [
     SelectUnidOperativaComponent,
-    EditActiveUserComponent
+    EditActiveUserComponent,
+    SidenavAdminUserComponent,
+    NivelEducativoComponent,
+    SeguridadComponent
   ],
   imports: [
     CommonModule,
