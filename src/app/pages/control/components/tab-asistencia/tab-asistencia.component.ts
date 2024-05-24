@@ -35,6 +35,7 @@ export class TabAsistenciaComponent {
   // ------------------------------------------------------------------------------
   // Información Intermedia--------------------------------------------------------
   detalleAsistenciaActual: any;
+  controlBloqueo: boolean = false;
   // ------------------------------------------------------------------------------
   opciones: Parametro[] = [];
   ctrlSearch = new FormControl('');
@@ -60,8 +61,6 @@ export class TabAsistenciaComponent {
               ) { }
 
   ngOnInit(){
-    console.log(new Date('2024-05-22 21:00'))
-    console.log((new Date('2024-05-22 21:00').getTime() - new Date().getTime())/(1000*60))
     this.setListeners();
     this.getListAsegurados();
     this.getDataCabecera();
@@ -210,7 +209,6 @@ export class TabAsistenciaComponent {
         this.listAsistentes = data.data;
         this.listAsistentes.sort((a: any, b: any) => {return new Date(b.fechaHoraAsistencia).getTime()  - new Date(a.fechaHoraAsistencia).getTime()})
         this.status = 'success';
-        console.log(this.listAsistentes)
       }
       else{
         this.status = 'failed';
@@ -239,7 +237,7 @@ export class TabAsistenciaComponent {
   registerHoraActiva(){
     let subActivo = this.datoProgramacion.listaProgSubDet.find((item: any)=> item.cursor == true);
     let sinSesion = false;
-    let sesionActiva;
+    let sesionActiva: any;
     if (subActivo) {
       sesionActiva = subActivo;
     }
@@ -257,7 +255,7 @@ export class TabAsistenciaComponent {
     this.controlService.registerAsistenciaDet(payload).subscribe((data)=>{
       if (data.code == 0) {
         this.detalleAsistenciaActual = data.data;
-        console.log(this.detalleAsistenciaActual)
+        this.calculoDistanciaTiempo(sesionActiva);
         this.getListAsistencia();
         if (sinSesion) {
           this.controlService.registerFijarCursor(this.datoProgramacion.idControlAsistenciaCab, this.detalleAsistenciaActual.idControlAsistenciaDet).subscribe((dataCursor)=>{
@@ -280,6 +278,19 @@ export class TabAsistenciaComponent {
         this.notificacionService.warning(data.message);
       }
     })
+  }
+
+  calculoDistanciaTiempo(sesionActiva: any){
+    console.log(sesionActiva)
+    let tiempoFinSesion = (new Date(this.datoProgramacion.fechaServicio + ' ' + sesionActiva.horaFin).getTime() - new Date().getTime())/(1000*60*60*24);
+    console.log(tiempoFinSesion)
+    if (!sesionActiva.cerradoAsistencia) {
+      this.controlBloqueo = false;
+    }
+    else{
+
+    }
+
   }
 
   cambioHora(){
