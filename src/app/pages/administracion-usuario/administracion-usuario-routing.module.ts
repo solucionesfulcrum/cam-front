@@ -19,8 +19,8 @@ const routes: Routes = [
     children:  [
       {
         path: '',
-        component: EditActiveUserComponent,
-        title: 'Información Personal'
+        redirectTo: 'informacion-personal',
+        pathMatch: 'full'
       },
       {
         path: 'informacion-personal',

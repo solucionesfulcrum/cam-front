@@ -1,7 +1,7 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { environment } from '@environments/environment';
-import { imprimirRequest, listaConstactosRequest } from '@models/afiliados/ficha-solicitud.model';
+import { imprimirRequest, imprimirRequestCam, listaConstactosRequest } from '@models/afiliados/ficha-solicitud.model';
 import { RequestContratoDetalle, RequestEditCabecera, RequestListContracts, RequestSearchUser, RequestSendCabeceraContrato } from '@models/contratos/contratos-administracion.model';
 import { Observable } from 'rxjs';
 
@@ -79,7 +79,7 @@ export class ContratosAdministracionService {
     return this._httpClient.post<any>(url, model);
   }
 
-  getExcelAsegurados(model: imprimirRequest): Observable<Blob>{
+  getExcelContratadosRed(model: imprimirRequestCam): Observable<Blob>{
     const url = `${environment.API}/report/contrato/excel/lista-contratos`;
     return this._httpClient.post(url, model, {responseType:'blob', headers: new HttpHeaders({'Accept': 'application/octet-stream'})});
   }

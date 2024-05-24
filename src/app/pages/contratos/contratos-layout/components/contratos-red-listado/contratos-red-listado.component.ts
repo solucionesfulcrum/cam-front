@@ -4,12 +4,14 @@ import { FormGroup, FormControl, FormBuilder } from '@angular/forms';
 import { Parametro } from '@models/parametros-busqueda.model';
 import { NotificationService } from '@services/notification.service';
 import { DatosGeneralesService } from 'src/app/data/services/datos-generales.service';
-import { imprimirRequest, listaConstactosRequest, listaContratosRedRequest } from '@models/afiliados/ficha-solicitud.model';
+import { imprimirRequestCam, listaConstactosRequest, listaContratosRedRequest } from '@models/afiliados/ficha-solicitud.model';
 import { PageEvent } from '@angular/material/paginator';
 import { ParamMenu } from '@shared/components/opciones-busqueda/parametros-busqueda.model';
 import { AfiliacionesSolicitudesService } from 'src/app/data/services/afiliaciones/afiliaciones-solicitudes.service';
 import { faSpinner } from '@fortawesome/free-solid-svg-icons';
 import { ContratosAdministracionService } from 'src/app/data/services/contratos/contratos-administracion.service';
+
+
 
 @Component({
   selector: 'esp-contratos-red-listado',
@@ -124,16 +126,16 @@ export class ContratosRedListadoComponent {
     fecInicio = `${fechaSinFormatInit.split('/')[2]}-${fechaSinFormatInit.split('/')[1]}-${fechaSinFormatInit.split('/')[0]}`;
     fecFin = `${fechaSinFormatFin.split('/')[2]}-${fechaSinFormatFin.split('/')[1]}-${fechaSinFormatFin.split('/')[0]}`;
     var idUnidOpe = JSON.parse(localStorage.getItem("UnidElegida")!);
-    let payload: imprimirRequest = {
+    let payload: imprimirRequestCam = {
       idUnidOpe: idUnidOpe.idUnidOperativa,
       texto: this.formBuscar.controls['frmSearch'].value,
       estado: parseInt(this.formBuscar.get('frmSearchEstado')?.value),
-      estado2: parseInt(this.formBuscar.get('frmSearchCam')?.value),
+      codigoCam: String(this.formBuscar.get('frmSearchCam')?.value),
       fecInicio: fecInicio,
       fecFin: fecFin
     };
 
-    this.contrato.getExcelAsegurados(payload).subscribe((data)=>{
+    this.contrato.getExcelContratadosRed(payload).subscribe((data)=>{
       this.notificationService.success('Se esta descargando el reporte');
       const blob: Blob = new Blob([data], { type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet' });
       const url = window.URL.createObjectURL(blob);

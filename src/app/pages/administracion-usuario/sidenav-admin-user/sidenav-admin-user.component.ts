@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { ActivatedRoute, Router } from '@angular/router';
 import { FormatoTab } from '@shared/components/menu-opciones/formato-tab.model';
 
 const ruta_base = "/app/admin/edit-user";
@@ -9,6 +10,7 @@ const ruta_base = "/app/admin/edit-user";
   styleUrls: ['./sidenav-admin-user.component.scss']
 })
 export class SidenavAdminUserComponent {
+
   links: FormatoTab[] = [
     {url: `${ruta_base}/informacion-personal`, title:'Información Personal'},
     {url: `${ruta_base}/nivel-educativo`, title:'Nivel Educativo'},
@@ -16,10 +18,11 @@ export class SidenavAdminUserComponent {
   ];
 
 
-  constructor() {
+  constructor(private router: Router, private activatedRoute: ActivatedRoute) {
     
    }
 
   ngOnInit(): void {
+   
   }
 }

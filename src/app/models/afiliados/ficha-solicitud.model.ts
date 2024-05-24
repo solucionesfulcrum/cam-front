@@ -74,7 +74,16 @@ export interface imprimirRequest{
     estado: number,
     fecInicio: string,
     fecFin: string,
-    estado2?: number
 }
+
+export interface imprimirRequestCam{
+    idUnidOpe: number,
+    texto: string,
+    estado: number,
+    fecInicio: string,
+    fecFin: string,
+    codigoCam: string
+  }
+  
 
 
