@@ -17,10 +17,11 @@
       [firstDisplayFilterPlaceholder]="{'indicador': true, 'placeholder': 'Todos los CAM'}"
       (firstDisplayFilterSendValue)="firstDisplayValue($event)"
       (firstDisplaySelectedValue)="false"
+      [firstDisplayFilterData]="opciones_cam"
       [showSecondDisplayFilter]="true"
       [secDisplayFilterPlaceholder]="{'indicador': true, 'placeholder': 'Todos los estados'}"
       [secDisplayFilterData]="opciones"
-      (secDisplayFilterSendValue)="firstDisplayValue($event)"
+      (secDisplayFilterSendValue)="secDisplayValue($event)"
       [menuOpt]="dataAcciones"
       (primerActionMenu)="imprimirLista()"
     ></esp-opciones-busqueda>

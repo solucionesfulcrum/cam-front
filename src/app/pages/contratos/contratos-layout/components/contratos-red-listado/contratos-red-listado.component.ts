@@ -4,7 +4,7 @@ import { FormGroup, FormControl, FormBuilder } from '@angular/forms';
 import { Parametro } from '@models/parametros-busqueda.model';
 import { NotificationService } from '@services/notification.service';
 import { DatosGeneralesService } from 'src/app/data/services/datos-generales.service';
-import { imprimirRequest, listaConstactosRequest } from '@models/afiliados/ficha-solicitud.model';
+import { imprimirRequest, listaConstactosRequest, listaContratosRedRequest } from '@models/afiliados/ficha-solicitud.model';
 import { PageEvent } from '@angular/material/paginator';
 import { ParamMenu } from '@shared/components/opciones-busqueda/parametros-busqueda.model';
 import { AfiliacionesSolicitudesService } from 'src/app/data/services/afiliaciones/afiliaciones-solicitudes.service';
@@ -21,6 +21,7 @@ export class ContratosRedListadoComponent {
     frmSearch:new FormControl(""),
     frmSearchDate:new FormControl(""),
     frmSearchEstado:new FormControl(),
+    frmSearchCam:new FormControl(""),
   });
 
   
@@ -30,6 +31,7 @@ export class ContratosRedListadoComponent {
     {texto: 'Descargar Excel', svgDir: 'assets/svg/icon-excel.svg'}
   ];
   opciones: Parametro[] = [];
+  opciones_cam: Parametro[] = [];
   dataSource: any[] = [];
   pageIndex = 0;
   pageNum = 1;
@@ -50,6 +52,12 @@ export class ContratosRedListadoComponent {
     this.datosService.getTipoParametros('ESTADO_CONTRATO').subscribe((data)=>{
       this.opciones = data.data.map(e=>{
         return {...e, valor1: String(e.idParametros)}
+      });
+    });
+
+    this.datosService.getCams(JSON.parse(localStorage.getItem("UnidElegida")!).idUnidOperativa).subscribe((data)=>{
+      this.opciones_cam = data.data.map((e : any)=>{ //No había más solución
+        return {...e, idParametros: e.codigo} as Parametro
       });
     });
   }
@@ -80,7 +88,7 @@ export class ContratosRedListadoComponent {
     this.onLoadData();
   }
 
-  getContactos(): listaConstactosRequest{
+  getContactos(): listaContratosRedRequest{
     var fecInicio: any;
     var fecFin: any;
     var idUnidOpe = JSON.parse(localStorage.getItem("UnidElegida")!);
@@ -103,6 +111,7 @@ export class ContratosRedListadoComponent {
       fecFin: fecFin,
       pageNum: this.pageNum.toString(),
       pageSize: this.pageSize.toString(),
+      codigoCam: this.formBuscar.get('frmSearchCam')?.value,
       estado: this.formBuscar.get('frmSearchEstado')?.value
     }
   }
@@ -119,6 +128,7 @@ export class ContratosRedListadoComponent {
       idUnidOpe: idUnidOpe.idUnidOperativa,
       texto: this.formBuscar.controls['frmSearch'].value,
       estado: parseInt(this.formBuscar.get('frmSearchEstado')?.value),
+      estado2: parseInt(this.formBuscar.get('frmSearchCam')?.value),
       fecInicio: fecInicio,
       fecFin: fecFin
     };
@@ -136,6 +146,12 @@ export class ContratosRedListadoComponent {
   }
 
   firstDisplayValue(value: any){
+    value = value == "null" ? "" : value;
+    this.formBuscar.get('frmSearchCam')?.setValue(value);
+    this.onLoadData();
+  }
+
+  secDisplayValue(value: any){
     this.formBuscar.get('frmSearchEstado')?.setValue(value);
     this.onLoadData();
   }

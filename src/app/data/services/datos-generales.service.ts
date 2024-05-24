@@ -27,6 +27,12 @@ export class DatosGeneralesService {
     return this._httpClient.get<TipoParametro>(url);
   }
 
+  getCams(codigo: string) {
+    const url = `${environment.API}/unidad-operativa/listar/cam/red?id-uo-red=${codigo}`;
+    return this._httpClient.get<TipoParametro>(url);
+  }
+  
+
   getDepartamentosReniec() {
     const url = `${URL_BASE}/client/essi/ubigeo/departamento-reniec/listar`;
     return this._httpClient.get<any>(url);

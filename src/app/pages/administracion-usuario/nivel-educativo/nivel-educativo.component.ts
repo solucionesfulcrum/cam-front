@@ -207,31 +207,9 @@ export class NivelEducativoComponent {
     const idUsuarioTemp = (JSON.parse(localStorage.getItem('camUser')!)).idUsuario
 
     this.datosService.getObtenerDatos(idUsuarioTemp).subscribe((data) => {
-      console.log("datos personales", data.data)
-      this.imagenFirma = data.data.datosPersonales.firmaImg
-      this.imagenFoto = data.data.datosPersonales.fotoPerfilImg
-      console.log("imagenFirma", this.imagenFirma)
-      this.numDocumento = data.data.datosPersonales.numeroDocumento;
-      this.nombreCompleto = data.data.datosPersonales.nombres + " " + data.data.datosPersonales.apellidos;
-      this.formDatosPersonales.controls.frmNombres.setValue(data.data.datosPersonales.nombres)
-      this.formDatosPersonales.controls.frmApellidos.setValue(data.data.datosPersonales.apellidos)
-      this.formDatosPersonales.controls.frmCelular.setValue(data.data.datosPersonales.celular)
-      this.formDatosPersonales.controls.frmCorreo.setValue(data.data.datosPersonales.email)
-      this.formDatosPersonales.controls.frmDireccion.setValue(data.data.datosPersonales.direccion)
-      this.formDatosPersonales.controls.frmTipoDoc.setValue(data.data.datosPersonales.tipoDocumento)
-      this.formDatosPersonales.controls.frmEstadoCivil.setValue(data.data.datosPersonales.paramEstadoCivilId)
-      this.formDatosPersonales.controls.frmGenero.setValue(data.data.datosPersonales.paramGeneroId)
-      this.formDatosPersonales.controls.frmNumDoc.setValue(data.data.datosPersonales.numeroDocumento)
-      this.formDatosPersonales.controls.frmFechNacimiento.setValue(data.data.datosPersonales.fechaNacimiento)
       this.formDatosFormacion.controls.frmNivelEstudio.setValue(data.data.datosFormacionProf.paramNivelEducativoId)
       this.formDatosFormacion.controls.frmInstEduca.setValue(data.data.datosFormacionProf.nombreInstitucion)
       this.formDatosFormacion.controls.frmAnioGraduacion.setValue(data.data.datosFormacionProf.anioGraduacion)
-      this.formDatosPersonales.controls.frmProfesion.setValue(data.data.datosPersonales.idProfesion)
-      this.formDatosPersonales.controls.frmColegiatura.setValue(data.data.datosPersonales.cmp)
-      this.formDatosPersonales.controls.frmEspecialidad.setValue(data.data.datosPersonales.rne)
-      this.frmCtrlNacionalidad.setValue({ descripcion: data.data.datosPersonales.descNacionalidad })
-      this.nacionalidadSeleccionadaTmp = data.data.datosPersonales.descNacionalidad
-      this.distrControl.setValue({ nombreUbicacion: data.data.datosPersonales.descUbigeo, codUbigeo: data.data.datosPersonales.codUbiDep + data.data.datosPersonales.codUbiProv + data.data.datosPersonales.codUbiDist, codUbiDep: data.data.datosPersonales.codUbiDep, codUbiProv: data.data.datosPersonales.codUbiProv, codUbiDistr: data.data.datosPersonales.codUbiDist })
     })
 
 

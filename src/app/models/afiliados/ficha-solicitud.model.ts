@@ -8,6 +8,17 @@ export interface listaConstactosRequest {
     pageSize: string;
 }
 
+export interface listaContratosRedRequest {
+    idUnidOpe: string;
+    estado: number;
+    texto: string;
+    fecInicio: string;
+    fecFin: string;
+    pageNum: string;
+    pageSize: string;
+    codigoCam: string;
+}
+
 export interface RequestListaSolicitudesAfiliados{
     idUnidOpeCam: number,
     texto: string,
@@ -62,6 +73,8 @@ export interface imprimirRequest{
     texto: string,
     estado: number,
     fecInicio: string,
-    fecFin: string
+    fecFin: string,
+    estado2?: number
 }
+
 
