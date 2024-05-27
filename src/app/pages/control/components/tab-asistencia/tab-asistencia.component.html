@@ -106,7 +106,7 @@
                     <span class="font-light leading-[10px] text-[10px]">Participantes</span>
                 </div>
             </div>
-            <app-btn class="botonApariencia flex flex-row h-10" color="mezclado" (click)="detalleAsistenciaActual.cerrado ?  cambioHora() : cerrarAsistencia()" [loading]="status === 'loading'" [disabled]="controlBloqueo">
+            <app-btn class="botonApariencia flex flex-row h-10" color="mezclado" (click)="detalleAsistenciaActual.cerrado ?  cambioHora() : cerrarAsistencia()" [loading]="status === 'loading'" [disabled]="bloqueo">
                 <div class="flex flex-row items-center gap-[5px]">
                     <img *ngIf="detalleAsistenciaActual.cerrado" class="self-center" src="assets/svg/icon-list-assignments.svg">
                     <span>{{!detalleAsistenciaActual.cerrado ? 'Cerrar Asistencia' : (comienzoSesiones == datoProgramacion.numSesiones ? 'Finalizar Taller' : (comienzoSesiones + 1) + ' Hora' )}}</span>

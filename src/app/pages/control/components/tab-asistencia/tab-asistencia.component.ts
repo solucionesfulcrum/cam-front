@@ -13,6 +13,7 @@ import { ControlProgramacionService } from 'src/app/data/services/control/contro
 import { DatosGeneralesService } from 'src/app/data/services/datos-generales.service';
 import { DialogConfirmDataAsistenciaComponent } from './dialog/dialog-confirm-data-asistencia/dialog-confirm-data-asistencia.component';
 import { RequestCambioHorario, RequestRegisterDet } from '@models/control/asistencia/service-asistencia.model';
+import { debounceTime } from 'rxjs';
 
 registerLocaleData(localeEs, 'es');
 
@@ -33,9 +34,13 @@ export class TabAsistenciaComponent {
   listBusqueda: any[] = [];
   listFilteredBusqueda: any[] = [];
   // ------------------------------------------------------------------------------
+  // Control del Tiempo -------------------------------------------------------------
+  ctrlTiempo = new FormControl();
+  ctrlFinSesion = new FormControl();
+  bloqueo: boolean = true;
+  // --------------------------------------------------------------------------------
   // Información Intermedia--------------------------------------------------------
   detalleAsistenciaActual: any;
-  controlBloqueo: boolean = false;
   // ------------------------------------------------------------------------------
   opciones: Parametro[] = [];
   ctrlSearch = new FormControl('');
@@ -251,7 +256,6 @@ export class TabAsistenciaComponent {
       idProgramacionSubDet: sesionActiva.idProgSubDet,
       numeracion: sesionActiva.numeracion
     }
-
     this.controlService.registerAsistenciaDet(payload).subscribe((data)=>{
       if (data.code == 0) {
         this.detalleAsistenciaActual = data.data;
@@ -281,14 +285,26 @@ export class TabAsistenciaComponent {
   }
 
   calculoDistanciaTiempo(sesionActiva: any){
-    console.log(sesionActiva)
-    let tiempoFinSesion = (new Date(this.datoProgramacion.fechaServicio + ' ' + sesionActiva.horaFin).getTime() - new Date().getTime())/(1000*60*60*24);
-    console.log(tiempoFinSesion)
+    this.ctrlFinSesion.setValue(null, {emitEvent: false});
     if (!sesionActiva.cerradoAsistencia) {
-      this.controlBloqueo = false;
+      this.bloqueo = false;      
     }
     else{
-
+      let thisTime = new Date();
+      let finTaller = new Date(this.datoProgramacion.fechaServicio + ' ' + sesionActiva.horaFin);
+      console.log(this.datoProgramacion.fechaServicio + ' ' + sesionActiva.horaFin)
+      if (finTaller.getTime() <= thisTime.getTime()) {
+        this.bloqueo = false;
+      }
+      else{
+        let timerFinal = finTaller.getTime() - new Date().getTime();
+        this.ctrlFinSesion?.valueChanges.pipe(debounceTime(timerFinal)).subscribe(key => {
+          if (timerFinal == this.ctrlFinSesion.value) {
+            this.bloqueo = false;
+          }
+        })
+        this.ctrlFinSesion.setValue(timerFinal);        
+      }
     }
 
   }
@@ -323,6 +339,21 @@ export class TabAsistenciaComponent {
           this.notificacionService.warning(data.message);
         }
       })
+    }
+    else if (this.detalleAsistenciaActual.numeracion == this.datoProgramacion.numSesiones){
+      this.status = 'loading';
+      this.controlService.registerCierreTaller(this.datoProgramacion.idControlAsistenciaCab).subscribe((dataCierre)=>{
+        if (dataCierre.code == 0) {
+          this.router.navigate(['/app/control/mis-talleres']);
+          this.notificacionService.success('¡Se ha registrado las asistencias en el taller!');
+          this.status = 'success';          
+        }
+        else {
+          this.status = 'failed';
+          this.notificacionService.warning(dataCierre.message);
+        }
+      })
+
     }
 
   }

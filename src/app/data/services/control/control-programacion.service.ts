@@ -65,6 +65,11 @@ export class ControlProgramacionService {
     return this._httpClient.post<any>(url, null);
   }
 
+  registerCierreTaller(idControlAsistenciaCab: number){
+    const url = `${URL_BASE}/asistencia/cerrar-cab/${idControlAsistenciaCab}`;
+    return this._httpClient.post<any>(url, null);
+  }
+
   registerContinuacionAsistencia(idControlAsistenciaSubDet: number, continua: boolean){
     const url = `${URL_BASE}/asistencia/continuar-taller?id-asistencia-sub-det=${idControlAsistenciaSubDet}&continua=${continua}`;
     return this._httpClient.post<any>(url, null);

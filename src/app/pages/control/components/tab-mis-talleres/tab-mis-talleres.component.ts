@@ -24,6 +24,11 @@ export class TabMisTalleresComponent {
   ListaProgramacines: any[] = [];
   faSpinner = faSpinner;
   ctrlSearch = new FormControl('');
+  // Control del Tiempo -------------------------------------------------------------
+  ctrlTiempo = new FormControl();
+  ctrlFinTaller = new FormControl();
+  bloqueo: boolean = true;
+  // --------------------------------------------------------------------------------
   ctrlInit = new FormControl('');
   ctrlFin = new FormControl('');
   imagenFoto: any = null;
@@ -115,7 +120,7 @@ export class TabMisTalleresComponent {
         this.status = 'success';
         this.ListaProgramacines = data.data;
         if (data.data.length > 0) {
-          this.selectedProgramacion = data.data[0];
+          this.selectProg(data.data[0]);
         }
       }
       else{
@@ -134,6 +139,7 @@ export class TabMisTalleresComponent {
 
   selectProg(prog: any): void {
     this.selectedProgramacion = prog;
+    this.getIsTime()
   }
 
   goAsistencia(){
@@ -153,6 +159,51 @@ export class TabMisTalleresComponent {
         this.notificacionService.warning(data.message);
       }
     })
+  }
+
+  getIsTime(){
+    this.ctrlFinTaller.setValue(null, {emitEvent: false});
+    let thisTime = new Date();
+    let finTaller = new Date(this.selectedProgramacion.fecha + ' ' + this.selectedProgramacion.horaFin);
+    if (finTaller.getTime() < thisTime.getTime()) {
+      this.bloqueo = true;
+    }
+    else{
+      let inicioTaller = new Date(new Date(this.selectedProgramacion.fecha + ' ' + this.selectedProgramacion.horaInicio).getTime() - 20*60*1000);
+      let timer: number = 0;
+      if (inicioTaller.getTime() <= new Date().getTime()) {
+        this.bloqueo = false;
+        timer = finTaller.getTime() - new Date().getTime();
+        this.ctrlTiempo?.valueChanges.pipe(debounceTime(timer)).subscribe(key => {
+          if (timer == this.ctrlTiempo.value) {
+            this.bloqueo = true;
+          }
+        })
+        this.ctrlTiempo.setValue(timer)
+      }
+      else{
+        timer = inicioTaller.getTime() - new Date().getTime();
+        if (timer >= (1000*60*60*14)) {
+          this.bloqueo = true;
+        }
+        else{
+          this.ctrlTiempo?.valueChanges.pipe(debounceTime(timer)).subscribe(key => {
+            if (timer == this.ctrlTiempo.value) {
+              this.bloqueo = false;
+            }
+          })
+          this.ctrlTiempo.setValue(timer);
+
+          let timerFinal = finTaller.getTime() - new Date().getTime();
+          this.ctrlFinTaller?.valueChanges.pipe(debounceTime(timerFinal)).subscribe(key => {
+            if (timerFinal == this.ctrlFinTaller.value) {
+              this.bloqueo = true;
+            }
+          })
+          this.ctrlFinTaller.setValue(timerFinal);
+        }
+      }
+    }
   }
 
 }
