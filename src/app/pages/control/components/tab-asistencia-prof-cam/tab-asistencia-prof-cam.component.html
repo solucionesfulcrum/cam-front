@@ -191,7 +191,7 @@
         
               <ng-container cdkColumnDef="horaAsistencia">
                 <th cdk-header-cell class="py-[1.25rem] px-6" *cdkHeaderCellDef>Fecha de Inscripción</th>
-                <td cdk-cell class="py-[1rem] px-6" *cdkCellDef="let row">{{ row.fechaReg |  date:'yyyy-MM-dd hh:mm a' }}</td>
+                <td cdk-cell class="py-[1rem] px-6" *cdkCellDef="let row">{{ row.fechaReg |  date:'dd/MM/yyyy - h:mm a' }}</td>
               </ng-container>
         
               <ng-container cdkColumnDef="birthday">
