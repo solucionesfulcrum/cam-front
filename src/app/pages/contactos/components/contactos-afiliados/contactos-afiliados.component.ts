@@ -21,6 +21,7 @@ export class ContactosAfiliadosComponent implements OnInit {
     frmSearch:new FormControl(""),
     frmSearchDate:new FormControl(""),
     frmSearchEstado:new FormControl(),
+    frmSearchCam:new FormControl(""),
   });
 
   dataAcciones: ParamMenu[] = [
@@ -35,6 +36,11 @@ export class ContactosAfiliadosComponent implements OnInit {
   total = 0;
   columns: string[] = ['marcar','nombres','tipoDoc','numDoc', 'edad', 'estadoCivil','ipress','fecha'];
 
+  rol: string = '';
+
+  
+  opciones_cam: Parametro[] = [];
+
   constructor(private fb                      : FormBuilder, 
               private dialog                  : Dialog,
               private notificationService     : NotificationService,
@@ -45,6 +51,14 @@ export class ContactosAfiliadosComponent implements OnInit {
     this.datosService.getTipoParametros('ESTADO_FICHA_ADMISION').subscribe((data)=>{
       this.opciones = data.data;
     });
+
+    this.datosService.getCams(JSON.parse(localStorage.getItem("UnidElegida")!).idUnidOperativa).subscribe((data)=>{
+      this.opciones_cam = data.data.map((e : any)=>{ //No había más solución
+        return {...e, idParametros: e.codigo} as Parametro
+      });
+    });
+    
+    this.rol = JSON.parse(localStorage.getItem('UnidElegida')!).rol;
   }
 
   onLoadData(){
@@ -130,6 +144,12 @@ export class ContactosAfiliadosComponent implements OnInit {
 
   firstDisplayValue(value: any){
     this.formBuscar.get('frmSearchEstado')?.setValue(value);
+    this.onLoadData();
+  }
+
+  
+  secDisplayValue(value: any){
+    this.formBuscar.get('frmSearchCam')?.setValue(value);
     this.onLoadData();
   }
 }
