@@ -7,6 +7,13 @@
       [firstDisplayFilterPlaceholder]="{'indicador': false, 'placeholder': 'Acciones'}"
       [showSecondDisplayFilter]="true"
       [secDisplayFilterPlaceholder]="{'indicador': true, 'placeholder': 'Todos los estados'}"
+      [secDisplayFilterData]="opciones"
+
+      [showFirstDisplayFilter]="rol == 'COORDINADOR RED'"
+      [firstDisplayFilterPlaceholder]="{'indicador': true, 'placeholder': 'Todos los CAM'}"
+      [firstDisplayFilterData]="opciones_cam"
+      (firstDisplayFilterSendValue)="secDisplayValue($event)"
+
     ></esp-opciones-busqueda>
 </div>
     

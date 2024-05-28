@@ -16,10 +16,12 @@
       [firstDisplayFilterData]="opciones"
       (firstDisplayFilterSendValue)="firstDisplayValue($event)"
       (firstDisplaySelectedValue)="false"
+
       [showSecondDisplayFilter]="rol == 'COORDINADOR RED'"
       [secDisplayFilterPlaceholder]="{'indicador': true, 'placeholder': 'Todos los CAM'}"
       [secDisplayFilterData]="opciones_cam"
       (secDisplayFilterSendValue)="secDisplayValue($event)"
+      
       [menuOpt]="dataAcciones"
       (primerActionMenu)="imprimirLista()"
     ></esp-opciones-busqueda>
