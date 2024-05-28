@@ -111,27 +111,32 @@ export class CalendarioProgramacionComponent {
         break;
       case 1:
         if (this.validacionHorariosCompletos()) {
-          const dialogRef = this.dialog.open(ConfirmarProgramacionComponent,{
-            data:{
-              title: '¿Está seguro de publicar esta programación?',
-              message: `De confirmarse, no se podrá volver a editar`,
-              dataRequired: this.idProgramacion,
-              type: 1
-            }
-          })
-      
-          dialogRef.closed.subscribe(result => {
-            if (result == 1) {
-              this.router.navigate([`app/${AppRoute.PROGRAMACION}/show/${this.idProgramacion}/programados`]);
-            }
-          });
+          if (this.dataResumenContrato.totalSesiones == this.dataResumenContrato.sesionesProgramados && this.dataResumenContrato.sesionesPorProgramar == 0) {
+            const dialogRef = this.dialog.open(ConfirmarProgramacionComponent,{
+              data:{
+                title: '¿Está seguro de publicar esta programación?',
+                message: `De confirmarse, no se podrá volver a editar`,
+                dataRequired: this.idProgramacion,
+                type: 1
+              }
+            })
+        
+            dialogRef.closed.subscribe(result => {
+              if (result == 1) {
+                this.router.navigate([`app/${AppRoute.PROGRAMACION}/show/${this.idProgramacion}/programados`]);
+              }
+            });
+          }
+        }
+        else{
+          this.notificationService.warning('Las sesiones programadas ha superado las sesiones por contrato');
         }
         break;
     }
   }
 
   validacionHorariosCompletos(): boolean{
-    let valueReturned: boolean = true;console.log(this.listServiciosCiram)
+    let valueReturned: boolean = true;
     this.listServicios.servicios.forEach((x: any)=>{
       if (valueReturned) {
         let totalAsignaciones = 0;

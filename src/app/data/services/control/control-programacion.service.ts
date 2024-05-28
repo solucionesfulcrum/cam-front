@@ -74,6 +74,18 @@ export class ControlProgramacionService {
     const url = `${URL_BASE}/asistencia/continuar-taller?id-asistencia-sub-det=${idControlAsistenciaSubDet}&continua=${continua}`;
     return this._httpClient.post<any>(url, null);
   }
+
+  deleteElegidos(model: number[]){
+    const url = `${URL_BASE}/asistencia/eliminar-participante`;
+    const httpOptions = {
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json'
+      }),
+      body: JSON.stringify(model)
+    };
+
+    return this._httpClient.delete<any>(url, httpOptions);
+  }
   // --------------------------------------------------------------------------------
 
   getSiEsApto(model: RequestBuscarApto) {

@@ -98,7 +98,20 @@ export class TabAsistenciaComponent {
   }
 
   deleteSelected(){
-    console.log(this.getSeleccionadosCheck())
+    let listEliminar = this.listAsistentes.filter((x)=> x.formCheck.value);
+    if (listEliminar.length > 0) {
+      let idEliminar = listEliminar.map(item => item.idControlAsistenciaSubDet);
+      this.controlService.deleteElegidos(idEliminar).subscribe((data)=>{
+        if (data.code == 0) {
+          this.notificacionService.success('Se eliminaron los registros seleccionados');
+          this.getListAsistencia();
+        }
+        else{
+          this.notificacionService.warning(data.message);
+        }
+      })
+      console.log()
+    }
   }
 
   tomarAsistencia(){
@@ -259,6 +272,7 @@ export class TabAsistenciaComponent {
     this.controlService.registerAsistenciaDet(payload).subscribe((data)=>{
       if (data.code == 0) {
         this.detalleAsistenciaActual = data.data;
+        console.log(this.detalleAsistenciaActual)
         this.calculoDistanciaTiempo(sesionActiva);
         this.getListAsistencia();
         if (sinSesion) {
@@ -321,8 +335,6 @@ export class TabAsistenciaComponent {
         idProgramacionSubDetSiguiente: sgteProgramSubDet.idProgSubDet,
         numeracionSiguiente: sgteProgramSubDet.numeracion
       }
-      console.log(sgteProgramSubDet)
-      console.log(payloadCambioHorario)
       this.controlService.registerCambioHorario(payloadCambioHorario).subscribe((data)=>{
         if (data.code == 0) {
           this.controlService.registerFijarCursor(this.datoProgramacion.idControlAsistenciaCab, data.data.idControlAsistenciaDet).subscribe((dataCursor)=>{
@@ -362,7 +374,7 @@ export class TabAsistenciaComponent {
     this.status = 'loading';
     this.controlService.registerCierreDetalle(this.detalleAsistenciaActual.idControlAsistenciaDet).subscribe((dataCierre)=>{
       if (dataCierre.code == 0) {
-        this.registerHoraActiva();
+        this.getDataCabecera();
       }
       else{
         this.notificacionService.warning(dataCierre.message);

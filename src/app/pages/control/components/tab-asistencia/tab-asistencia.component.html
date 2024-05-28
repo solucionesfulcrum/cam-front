@@ -138,10 +138,10 @@
                 <ng-template #optionsTable>
                   <div class="botonApariencia bg-white text-[var(--color-black-alt)] py-2" cdkMenu>
                     <div class="flex flex-col gap-2.5" cdkMenuGroup>
-                        <div class="leading-5 py-[5px] font-medium px-2.5 hover:bg-slate-200 opacity-50">
+                        <div class="leading-5 py-[5px] font-medium px-2.5 opacity-50" cdkMenuItem>
                             <span>Editar</span>
                         </div>
-                        <div class="leading-5 py-[5px] font-medium px-2.5 cursor-pointer hover:bg-slate-200" cdkMenuItem (click)="deleteSelected()">
+                        <div class="leading-5 py-[5px] font-medium px-2.5" [ngClass]="detalleAsistenciaActual.cerrado ? 'cursor-pointer hover:bg-slate-200' : 'opacity-50'" cdkMenuItem (click)="detalleAsistenciaActual.cerrado ? deleteSelected() : null">
                             <span>Eliminar seleccionado</span>
                         </div>
                     </div>
