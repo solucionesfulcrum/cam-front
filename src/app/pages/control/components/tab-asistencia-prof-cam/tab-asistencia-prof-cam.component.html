@@ -176,7 +176,9 @@
                       </div>
                     </ng-container>
                     </th>
-                <td cdk-cell class="py-[1rem] px-6 font-semibold" *cdkCellDef="let row">{{ row.nombreCompleto }}</td>
+                <td cdk-cell class="py-[1rem] px-6 font-semibold" *cdkCellDef="let row" style="color: rgba(0, 139, 210, 1);">
+                    {{ row.nombreCompleto }}
+                </td>
               </ng-container>
         
               <ng-container cdkColumnDef="tipoDoc">
