@@ -1,4 +1,4 @@
-import { NgModule } from '@angular/core';
+import { LOCALE_ID, NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { SharedModule } from '@shared/shared.module';
 import { ControlRoutingModule } from './control-routing.module';
@@ -21,6 +21,9 @@ import { DialogAddProgramacionAsignacionComponent } from './components/sub-compo
 import { CdkMenuModule } from '@angular/cdk/menu';
 import { ModalConfirmarComponent } from './components/sub-components/dialogs/modal-confirmar/modal-confirmar.component';
 import { ModalEditarComponent } from './components/sub-components/dialogs/modal-editar/modal-editar.component';
+
+import { registerLocaleData } from '@angular/common';
+import localeEs from '@angular/common/locales/es';
 
 
 @NgModule({
@@ -49,6 +52,9 @@ import { ModalEditarComponent } from './components/sub-components/dialogs/modal-
     MatPaginatorModule,
     CdkTableModule,
     CdkMenuModule    
-  ]
+  ],
+  providers: [
+    { provide: LOCALE_ID, useValue: 'es' }
+  ],
 })
 export class ControlModule { }
