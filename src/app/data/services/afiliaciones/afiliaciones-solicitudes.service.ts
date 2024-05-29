@@ -50,6 +50,12 @@ export class AfiliacionesSolicitudesService {
     return this._httpClient.post<any>(url, model);
   }
 
+  getListaContactoRed(model: listaConstactosRequest){
+    const url = `${api_URL}/ficha-admision/listar/red`;
+    return this._httpClient.post<any>(url, model);
+  }
+
+
   getExcelAsegurados(model: imprimirRequest): Observable<Blob>{
     const url = `${api_URL}/report/contactos/excel/lista-asegurados`;
     return this._httpClient.post(url, model, {responseType:'blob', headers: new HttpHeaders({'Accept': 'application/octet-stream'})});

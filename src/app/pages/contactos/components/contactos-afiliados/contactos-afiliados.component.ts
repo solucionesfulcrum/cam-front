@@ -2,7 +2,7 @@ import { Dialog } from '@angular/cdk/dialog';
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup } from '@angular/forms';
 import { PageEvent } from '@angular/material/paginator';
-import { RequestListaSAfiliadosContacto,imprimirRequest,listaConstactosRequest } from '@models/afiliados/ficha-solicitud.model';
+import { RequestListaSAfiliadosContacto,imprimirRequest,imprimirRequestCam,listaConstactosRequest, listaContratosRedRequest } from '@models/afiliados/ficha-solicitud.model';
 import { FormatoBoton } from '@shared/components/opciones-botones/formato-boton.model';
 import { AfiliacionesSolicitudesService } from 'src/app/data/services/afiliaciones/afiliaciones-solicitudes.service';
 import { DialogNewAseguradoComponent } from './sub-components/dialog/dialog-new-asegurado/dialog-new-asegurado.component';
@@ -54,7 +54,7 @@ export class ContactosAfiliadosComponent implements OnInit {
 
     this.datosService.getCams(JSON.parse(localStorage.getItem("UnidElegida")!).idUnidOperativa).subscribe((data)=>{
       this.opciones_cam = data.data.map((e : any)=>{ //No había más solución
-        return {...e, idParametros: e.codigo} as Parametro
+        return {...e, valor1: e.codigo} as Parametro
       });
     });
     
@@ -62,7 +62,12 @@ export class ContactosAfiliadosComponent implements OnInit {
   }
 
   onLoadData(){
-    this.afiliacionesService.getListaContacto(this.getContactos()).subscribe((data)=>{
+    //DEFINIENDO CUAL SERVICIO USAR
+    let servicioMetodo = this.rol == 'COORDINADOR RED' ? 
+    this.afiliacionesService.getListaContactoRed(this.getContactos()) :
+    this.afiliacionesService.getListaContacto(this.getContactos());
+
+    servicioMetodo.subscribe((data)=>{
       if (data.code == 0) {
       this.dataSource = data.data.list;
       this.pageNum = data.data.pageNum;
@@ -87,7 +92,7 @@ export class ContactosAfiliadosComponent implements OnInit {
     this.onLoadData();
   }
 
-  getContactos(): listaConstactosRequest{
+  getContactos(): listaContratosRedRequest{
     var fecInicio: any;
     var fecFin: any;
     var idUnidOpe = JSON.parse(localStorage.getItem("UnidElegida")!);
@@ -110,7 +115,8 @@ export class ContactosAfiliadosComponent implements OnInit {
       fecFin: fecFin,
       pageNum: this.pageNum.toString(),
       pageSize: this.pageSize.toString(),
-      estado: this.formBuscar.get('frmSearchEstado')?.value
+      estado: this.formBuscar.get('frmSearchEstado')?.value,
+      codigoCam : this.formBuscar.get('frmSearchCam')?.value
     }
   }
 
@@ -122,12 +128,14 @@ export class ContactosAfiliadosComponent implements OnInit {
     fecInicio = `${fechaSinFormatInit.split('/')[2]}-${fechaSinFormatInit.split('/')[1]}-${fechaSinFormatInit.split('/')[0]}`;
     fecFin = `${fechaSinFormatFin.split('/')[2]}-${fechaSinFormatFin.split('/')[1]}-${fechaSinFormatFin.split('/')[0]}`;
     var idUnidOpe = JSON.parse(localStorage.getItem("UnidElegida")!);
-    let payload: imprimirRequest = {
+
+    let payload: imprimirRequestCam = {
       idUnidOpe: idUnidOpe.idUnidOperativa,
       texto: this.formBuscar.controls['frmSearch'].value,
       estado: parseInt(this.formBuscar.get('frmSearchEstado')?.value),
       fecInicio: fecInicio,
-      fecFin: fecFin
+      fecFin: fecFin,
+      codigoCam : this.formBuscar.get('frmCam')?.value
     };
 
     this.afiliacionesService.getExcelAsegurados(payload).subscribe((data)=>{
@@ -149,7 +157,7 @@ export class ContactosAfiliadosComponent implements OnInit {
 
   
   secDisplayValue(value: any){
-    this.formBuscar.get('frmSearchCam')?.setValue(value);
+    this.formBuscar.get('frmSearchCam')?.setValue(value == "null" ? "" : value);
     this.onLoadData();
   }
 }
