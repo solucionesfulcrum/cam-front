@@ -21,8 +21,8 @@ export class ControlComponent {
       this.links = [
         {url: `/app/control`, title: 'Programados'},
         {url: `/app/control/en-calendario`, title: 'Calendario'},
-        {url: `/app/control/mis-talleres-2`, title: 'Externos'},
-        {url: `/app/control/mis-talleres-3`, title: 'Talleres'},
+        /*{url: `/app/control/mis-talleres-2`, title: 'Externos'},
+        {url: `/app/control/mis-talleres-3`, title: 'Talleres'},*/
         {url: `/app/control/asistencias-profesional-cam`, title: 'Asistencias'},
       ];
     }
