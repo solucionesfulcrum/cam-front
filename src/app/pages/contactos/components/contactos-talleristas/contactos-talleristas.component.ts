@@ -5,6 +5,7 @@ import { imprimirRequestCam } from '@models/afiliados/ficha-solicitud.model';
 import { RequestListTallerista, RequestListTalleristaRed } from '@models/contactos/talleristas/contactos-talleristas.model';
 import { Parametro } from '@models/parametros-busqueda.model';
 import { NotificationService } from '@services/notification.service';
+import { ParamMenu } from '@shared/components/opciones-busqueda/parametros-busqueda.model';
 import { ContactosTalleristasService } from 'src/app/data/services/contactos/contactos-talleristas.service';
 import { DatosGeneralesService } from 'src/app/data/services/datos-generales.service';
 
@@ -22,6 +23,10 @@ export class ContactosTalleristasComponent implements OnInit {
     frmSearchCam:new FormControl(""),
   });
   columns: string[] = ['marcar','nombres','tipoDoc','numDoc', 'telefono', 'correo','perfil'];
+
+  dataAcciones: ParamMenu[] = [
+    {texto: 'Descargar Excel', svgDir: 'assets/svg/icon-excel.svg'}
+  ];
   
   dataSource: any[] = [];
   pageIndex = 0;
@@ -60,7 +65,7 @@ export class ContactosTalleristasComponent implements OnInit {
   onLoadData(){
     
     this.rol = JSON.parse(localStorage.getItem('UnidElegida')!).rol;
-    
+
     let servicioMetodo = this.rol == 'COORDINADOR RED' ? 
     this.talleristaService.getTalleristaListRed(this.getPayloadList()) :
     this.talleristaService.getTalleristaList(this.getPayloadList());
