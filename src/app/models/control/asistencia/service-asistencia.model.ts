@@ -11,7 +11,8 @@ export interface RequestRegisterDet {
 
 export interface RequestRegisterAsegurado {
     idControlAsistenciaDet: number,
-    idFichaAdmision: number
+    idFichaAdmision: number,
+    conConexion: boolean
 }
 
 export interface RequestCambioHorario {

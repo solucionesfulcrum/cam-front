@@ -127,11 +127,18 @@ export class TabAsistenciaComponent {
       numDoc: event.option.value.numDoc
     }
     this.controlService.getSiEsApto(payload).subscribe((data)=>{
-      if (data.code == 0) {
+      if (data.code == 0 || data.code == 2) {
+        let conexion: boolean;
+        if (data.code == 2) {
+          conexion = false;
+        }
+        else{
+          conexion = true;
+        }
         if (!data.data[0].acreditacion) {
           this.notificacionService.warning(data.message);
         }
-        this.controlService.registerAseguradoDetalle({idControlAsistenciaDet: this.detalleAsistenciaActual.idControlAsistenciaDet, idFichaAdmision: data.data[0].idFichaAsegurado}).subscribe((datos)=>{
+        this.controlService.registerAseguradoDetalle({idControlAsistenciaDet: this.detalleAsistenciaActual.idControlAsistenciaDet, idFichaAdmision: data.data[0].idFichaAsegurado, conConexion: conexion}).subscribe((datos)=>{
           if (datos.code == 0) {
             console.log(datos.data);
             this.getListAsistencia();
@@ -161,13 +168,22 @@ export class TabAsistenciaComponent {
     }
     this.esperaBusqueda = true;
     this.controlService.getSiEsApto(payload).subscribe((data)=>{
-      if (data.code == 0) {
+      if (data.code == 0 || data.code == 2) {
+        let conexion: boolean;
+        if (data.code == 2) {
+          this.notificacionService.warning(data.message);
+          conexion = false;
+        }
+        else{
+          conexion = true;
+        }
         const dialogRef = this.dialog.open(DialogConfirmDataAsistenciaComponent,{
           minWidth:'850px',
           maxWidth:'50%',
           data:{
             infoAsegurado: data,
-            detalleAsistenciaActual: this.detalleAsistenciaActual
+            detalleAsistenciaActual: this.detalleAsistenciaActual,
+            conConexion: conexion
           }
         })
         dialogRef.closed.subscribe(result => {

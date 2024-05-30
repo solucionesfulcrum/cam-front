@@ -33,7 +33,7 @@ export class DialogConfirmDataAsistenciaComponent {
 
   registrar(){    
     this.status = 'loading';
-    this.controlService.registerAseguradoDetalle({idControlAsistenciaDet: this.data.detalleAsistenciaActual.idControlAsistenciaDet, idFichaAdmision: this.dataAsegurado.idFichaAsegurado}).subscribe((datos)=>{
+    this.controlService.registerAseguradoDetalle({idControlAsistenciaDet: this.data.detalleAsistenciaActual.idControlAsistenciaDet, idFichaAdmision: this.dataAsegurado.idFichaAsegurado, conConexion: this.data.conConexion}).subscribe((datos)=>{
       if (datos.code == 0) {
         this.status = 'success';
         this.notificacionService.success('Se ha registrado la asistencia');

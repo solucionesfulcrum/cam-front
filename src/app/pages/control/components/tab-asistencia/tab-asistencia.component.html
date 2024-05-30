@@ -183,8 +183,9 @@
             <span class="col-span-2">{{asistente.nroDocumento}}</span>
             <span class="col-span-2">{{asistente.fechaHoraAsistencia | date:'hh:mm aa'}}</span>
             <div class="flex flex-row gap-2">
-                <img class="w-5" *ngIf="asistente.cumpleAnio" src="assets/svg/icon-asistencia-birthday.svg">
-                <img class="w-5" *ngIf="asistente.nuevo" src="assets/svg/icon-asistencia-smiley-face.svg">
+                <img class="w-5" *ngIf="asistente.cumpleAnio" matTooltip= "¡Hoy es su cumpleaños!" matTooltipPosition="above" src="assets/svg/icon-asistencia-birthday.svg">
+                <img class="w-5" *ngIf="!asistente.conConexion" matTooltip= "No fue validado por error de red" matTooltipPosition="above" src="assets/svg/icon-asistencia-conexion.svg">
+                <img class="w-5" *ngIf="asistente.nuevo" matTooltip= "¡Es su primer taller!" matTooltipPosition="above" src="assets/svg/icon-asistencia-smiley-face.svg">
             </div>
           </div>
         </div>
