@@ -39,21 +39,33 @@
         <th cdk-header-cell class="py-[1.25rem] px-6" *cdkHeaderCellDef>Contrato</th>
         <td cdk-cell class="py-[1rem] px-6 text-[#057EC9]" *cdkCellDef="let row, index as i">
           <a [routerLink]="['/estado']">
-            {{row.numOc}}
+            <ng-container *ngIf="row.estado == 'REGISTRADO'">
+            
+              <a [routerLink]="['/app/contratos/asignar-servicios/'+row.numOc]" class="estado-link">
+                <strong>{{row.numOc}}</strong>
+                </a>
+            </ng-container>
+  
+            <ng-container *ngIf="row.estado == 'CONFIRMADO'">
+              
+            <a [routerLink]="['/app/contratos/confirm-servicios/'+row.numOc]" class="estado-link">
+              <strong>{{row.numOc}}</strong>
+              </a>
+            </ng-container>
           </a>
         </td>
       </ng-container>
 
       <ng-container cdkColumnDef="fechaContrato">
         <th cdk-header-cell class="py-[1.25rem] px-6" *cdkHeaderCellDef>Publicado</th>
-        <td cdk-cell class="py-[1rem] px-6 font-semibold" *cdkCellDef="let row">{{row.fechaContrato}}</td>
+        <td cdk-cell class="py-[1rem] px-6" *cdkCellDef="let row">{{row.fechaContrato | date : 'dd/MM/yyyy'}}</td>
       </ng-container>
 
       <ng-container cdkColumnDef="tallerista">
         <th cdk-header-cell class="py-[1.25rem] px-6" *cdkHeaderCellDef>Nombres del Proveedor</th>
         <td cdk-cell class="py-[1rem] px-6" *cdkCellDef="let row">
           <a [routerLink]="['/app/contactos/talleristas/show/'+row.idTallerista]" class="estado-link">
-            {{row.tallerista}}
+            <strong>{{row.tallerista}}</strong>
           </a>
         </td>
       </ng-container>
@@ -80,20 +92,8 @@
         <th cdk-header-cell class="py-[1.25rem] px-6" *cdkHeaderCellDef>
           Estado
         </th>
-        <td cdk-cell class="py-[1rem] px-6 flex justify-center items-center select-none" *cdkCellDef="let row">
-          <ng-container *ngIf="row.estado == 'REGISTRADO'">
-            
-            <a [routerLink]="['/app/contratos/asignar-servicios/'+row.numOc]" class="estado-link">
-              {{row.estado }}
-              </a>
-          </ng-container>
-
-          <ng-container *ngIf="row.estado == 'CONFIRMADO'">
-            
-          <a [routerLink]="['/app/contratos/confirm-servicios/'+row.numOc]" class="estado-link">
-            {{row.estado }}
-            </a>
-          </ng-container>
+        <td cdk-cell class="py-[1rem] px-6 flex justify-center items-center select-none estado" *cdkCellDef="let row">
+          {{row.estado }}
         </td>
       </ng-container>
     </table>
