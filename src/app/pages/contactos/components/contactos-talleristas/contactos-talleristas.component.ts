@@ -1,7 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup } from '@angular/forms';
 import { PageEvent } from '@angular/material/paginator';
-import { RequestListTallerista } from '@models/contactos/talleristas/contactos-talleristas.model';
+import { imprimirRequestCam } from '@models/afiliados/ficha-solicitud.model';
+import { RequestListTallerista, RequestListTalleristaRed } from '@models/contactos/talleristas/contactos-talleristas.model';
 import { Parametro } from '@models/parametros-busqueda.model';
 import { NotificationService } from '@services/notification.service';
 import { ContactosTalleristasService } from 'src/app/data/services/contactos/contactos-talleristas.service';
@@ -44,7 +45,7 @@ export class ContactosTalleristasComponent implements OnInit {
     this.onLoadData();
 
     this.datosService.getTipoParametros('ESTADO_FICHA_ADMISION').subscribe((data)=>{
-      this.opciones = data.data;
+      this.opciones = data.data.map(opcion=> { return {...opcion, valor1: String(opcion.idParametros)}});
     });
 
     
@@ -54,11 +55,17 @@ export class ContactosTalleristasComponent implements OnInit {
       });
     });
     
-    this.rol = JSON.parse(localStorage.getItem('UnidElegida')!).rol;
   }
 
   onLoadData(){
-    this.talleristaService.getTalleristaList(this.getPayloadList()).subscribe((data)=>{
+    
+    this.rol = JSON.parse(localStorage.getItem('UnidElegida')!).rol;
+    
+    let servicioMetodo = this.rol == 'COORDINADOR RED' ? 
+    this.talleristaService.getTalleristaListRed(this.getPayloadList()) :
+    this.talleristaService.getTalleristaList(this.getPayloadList());
+
+    servicioMetodo.subscribe((data)=>{
       if (data.code == 0) {
         console.log(data.data.list)
         this.dataSource = data.data.list;
@@ -72,13 +79,45 @@ export class ContactosTalleristasComponent implements OnInit {
     })
   }
 
-  getPayloadList(): RequestListTallerista{
+  getPayloadList(): RequestListTalleristaRed{
     return {
       idUnidOpe: JSON.parse(localStorage.getItem("UnidElegida")!).idUnidOperativa,
       texto: this.formBuscar.controls['frmSearch'].value,
       pageNum: this.pageNum,
-      pageSize: this.pageSize
+      pageSize: this.pageSize,
+      estado: this.formBuscar.get('frmSearchEstado')?.value,
+      codigoCam : this.formBuscar.get('frmSearchCam')?.value
     }
+  }
+
+  imprimirLista(){
+    var fecInicio: any;
+    var fecFin: any;
+    var fechaSinFormatInit = this.formBuscar.value.frmSearchDate.split(' - ')[0];
+    var fechaSinFormatFin = this.formBuscar.value.frmSearchDate.split(' - ')[1];
+    fecInicio = `${fechaSinFormatInit.split('/')[2]}-${fechaSinFormatInit.split('/')[1]}-${fechaSinFormatInit.split('/')[0]}`;
+    fecFin = `${fechaSinFormatFin.split('/')[2]}-${fechaSinFormatFin.split('/')[1]}-${fechaSinFormatFin.split('/')[0]}`;
+    var idUnidOpe = JSON.parse(localStorage.getItem("UnidElegida")!);
+
+    let payload: imprimirRequestCam = {
+      idUnidOpe: idUnidOpe.idUnidOperativa,
+      texto: this.formBuscar.controls['frmSearch'].value,
+      estado: parseInt(this.formBuscar.get('frmSearchEstado')?.value),
+      fecInicio: fecInicio,
+      fecFin: fecFin,
+      codigoCam : this.formBuscar.get('frmCam')?.value
+    };
+
+    this.talleristaService.getExcelTalleristas(payload).subscribe((data)=>{
+      this.notificationService.success('Se esta descargando el reporte');
+      const blob: Blob = new Blob([data], { type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet' });
+      const url = window.URL.createObjectURL(blob);
+      const anchor = document.createElement('a');
+      anchor.download = 'Reporte_Asegurados.xlsx';
+      anchor.href = url;
+      anchor.click();
+      window.URL.revokeObjectURL(url);
+    })
   }
   
   handlePageEvent(event: PageEvent) {
@@ -91,8 +130,14 @@ export class ContactosTalleristasComponent implements OnInit {
   }
 
     
+  firstDisplayValue(value: any){
+    this.formBuscar.get('frmSearchEstado')?.setValue(value);
+    this.onLoadData();
+  }
+
+  
   secDisplayValue(value: any){
-    this.formBuscar.get('frmSearchCam')?.setValue(value);
+    this.formBuscar.get('frmSearchCam')?.setValue(value == "null" ? "" : value);
     this.onLoadData();
   }
 }

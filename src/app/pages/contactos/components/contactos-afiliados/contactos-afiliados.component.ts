@@ -58,10 +58,12 @@ export class ContactosAfiliadosComponent implements OnInit {
       });
     });
     
-    this.rol = JSON.parse(localStorage.getItem('UnidElegida')!).rol;
   }
 
   onLoadData(){
+    
+    this.rol = JSON.parse(localStorage.getItem('UnidElegida')!).rol;
+    
     //DEFINIENDO CUAL SERVICIO USAR
     let servicioMetodo = this.rol == 'COORDINADOR RED' ? 
     this.afiliacionesService.getListaContactoRed(this.getContactos()) :

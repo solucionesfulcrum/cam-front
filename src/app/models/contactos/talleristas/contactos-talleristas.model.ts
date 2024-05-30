@@ -14,3 +14,12 @@ export interface RequestListTalleristaContrato{
     pageNum: number,
     pageSize: number
 }
+
+export interface RequestListTalleristaRed{
+    idUnidOpe: number,
+    texto: string,
+    pageNum: number,
+    pageSize: number,
+    estado: string,
+    codigoCam : string
+}

@@ -1,7 +1,9 @@
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { environment } from '@environments/environment';
+import { imprimirRequest } from '@models/afiliados/ficha-solicitud.model';
 import { RequestListTallerista, RequestListTalleristaContrato } from '@models/contactos/talleristas/contactos-talleristas.model';
+import { Observable } from 'rxjs';
 
 const URL_BASE = `${environment.API}/tallerista`;
 
@@ -30,5 +32,17 @@ export class ContactosTalleristasService {
   getTalleristaActivacion(idUsuario: number){
     const url = `${URL_BASE}/activaciones/vigentes?idUsuario=${idUsuario}`;
     return this._httpClient.get<any>(url);
+  }
+
+  getTalleristaListRed(model: RequestListTallerista){
+    const url = `${URL_BASE}/listar/red`;
+    return this._httpClient.post<any>(url,model);
+  }
+
+  getExcelTalleristas(model: imprimirRequest): Observable<Blob>{
+                                          //ESTO DE ASEGURADOS => /report/contactos/excel/lista-asegurados
+
+    const url = `${URL_BASE}/listar/red`; //https://appsqa.essalud.gob.pe/dev/cam-service/tallerista/listar/red
+    return this._httpClient.post(url, model, {responseType:'blob', headers: new HttpHeaders({'Accept': 'application/octet-stream'})});
   }
 }
