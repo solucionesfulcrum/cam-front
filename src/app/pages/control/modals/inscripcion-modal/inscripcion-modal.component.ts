@@ -46,6 +46,7 @@ export class InscripcionModalComponent {
   nombreContacto = "";
   numdocContacto = "";
   idAsegurado = "";
+  conConexion! : boolean;
 
 
   public form = this.fb.nonNullable.group({
@@ -165,6 +166,7 @@ export class InscripcionModalComponent {
           this.nombreContacto = data.data[0].nombreCompleto;
           this.numdocContacto = data.data[0].numDoc;
           this.idAsegurado = data.data[0].idFichaAsegurado;
+          this.conConexion = data.code == 0 ? true : false;
           this.columnWidths = "50% 44% 6%";
         }
         else{
@@ -196,14 +198,15 @@ export class InscripcionModalComponent {
       idUnidadOperativa: unidadOperativa,
       idProgramacionDet: selectedProgramacion,
       acreditado: false,
-      idUsuarioReg: "1"
+      idUsuarioReg: "1",
+      conConexion: this.conConexion
     }).subscribe(data => {
       if(data.code == "0"){
         this.toastrService.success("Registro Exitoso");
         this.limpiarDatos();
       }
       else{
-        this.toastrService.error("No se pudo registrar");
+        this.toastrService.warning(data.message);
       }
     })
  

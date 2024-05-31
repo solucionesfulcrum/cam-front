@@ -112,7 +112,8 @@ export class ControlProgramacionService {
     idUnidadOperativa: string,
     idProgramacionDet: string,
     acreditado: boolean,
-    idUsuarioReg: string
+    idUsuarioReg: string,
+    conConexion: boolean
   }) 
   {
     const url = `${URL_BASE}/inscripcion/registrar`;
