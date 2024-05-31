@@ -42,7 +42,7 @@ export class ContactosTalleristasService {
   getExcelTalleristas(model: imprimirRequest): Observable<Blob>{
                                           //ESTO DE ASEGURADOS => /report/contactos/excel/lista-asegurados
 
-    const url = `${URL_BASE}/listar/red`; //https://appsqa.essalud.gob.pe/dev/cam-service/tallerista/listar/red
+    const url = `${environment.API}/report/tallerista/excel/lista-tallerista`; //https://appsqa.essalud.gob.pe/dev/cam-service/tallerista/listar/red
     return this._httpClient.post(url, model, {responseType:'blob', headers: new HttpHeaders({'Accept': 'application/octet-stream'})});
   }
 }

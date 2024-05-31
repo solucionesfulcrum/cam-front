@@ -96,21 +96,15 @@ export class ContactosTalleristasComponent implements OnInit {
   }
 
   imprimirLista(){
-    var fecInicio: any;
-    var fecFin: any;
-    var fechaSinFormatInit = this.formBuscar.value.frmSearchDate.split(' - ')[0];
-    var fechaSinFormatFin = this.formBuscar.value.frmSearchDate.split(' - ')[1];
-    fecInicio = `${fechaSinFormatInit.split('/')[2]}-${fechaSinFormatInit.split('/')[1]}-${fechaSinFormatInit.split('/')[0]}`;
-    fecFin = `${fechaSinFormatFin.split('/')[2]}-${fechaSinFormatFin.split('/')[1]}-${fechaSinFormatFin.split('/')[0]}`;
     var idUnidOpe = JSON.parse(localStorage.getItem("UnidElegida")!);
 
     let payload: imprimirRequestCam = {
       idUnidOpe: idUnidOpe.idUnidOperativa,
       texto: this.formBuscar.controls['frmSearch'].value,
       estado: parseInt(this.formBuscar.get('frmSearchEstado')?.value),
-      fecInicio: fecInicio,
-      fecFin: fecFin,
-      codigoCam : this.formBuscar.get('frmCam')?.value
+      fecInicio: '',
+      fecFin: '',
+      codigoCam : this.formBuscar.get('frmSearchCam')?.value
     };
 
     this.talleristaService.getExcelTalleristas(payload).subscribe((data)=>{
