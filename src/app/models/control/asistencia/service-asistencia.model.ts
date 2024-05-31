@@ -22,3 +22,8 @@ export interface RequestCambioHorario {
     idProgramacionSubDetSiguiente: number,
     numeracionSiguiente: number
 }
+
+export interface RequestRegisterAsistio {
+    idProgramacionDet: number,
+    idFichaAdmision: number
+}

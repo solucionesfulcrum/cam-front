@@ -11,7 +11,7 @@
                     <img class="h-[150px]" src='data:image/jpeg;base64,{{dataAsegurado.foto}}'>
                     <span>{{dataAsegurado.nombreCompleto | titlecase}}</span>
                     <span>{{dataAsegurado.tipoDoc === 'DNI' ? dataAsegurado.tipoDoc : dataAsegurado.tipoDoc | titlecase}} {{dataAsegurado.numDoc}}</span>
-                    <span *ngIf="!dataAsegurado.acreditacion" class="text-red-500 text-center whitespace-pre-line">{{data.message | titlecase}}</span>
+                    <span *ngIf="!dataAsegurado.acreditacion" class="text-red-500 text-center whitespace-pre-line">{{data.infoAsegurado.message | titlecase}}</span>
                 </div>
             </div>
         </div>

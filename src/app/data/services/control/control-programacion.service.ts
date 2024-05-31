@@ -2,7 +2,7 @@ import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { environment } from '@environments/environment';
 import { RequestBuscarApto } from '@models/control/asistencia/crud-asistencia.model';
-import { RequestCambioHorario, RequestRegisterAsegurado, RequestRegisterCabecera, RequestRegisterDet } from '@models/control/asistencia/service-asistencia.model';
+import { RequestCambioHorario, RequestRegisterAsegurado, RequestRegisterAsistio, RequestRegisterCabecera, RequestRegisterDet } from '@models/control/asistencia/service-asistencia.model';
 
 const URL_BASE = `${environment.API}/control`;
 
@@ -85,6 +85,16 @@ export class ControlProgramacionService {
     };
 
     return this._httpClient.delete<any>(url, httpOptions);
+  }
+
+  getListaPreInscritos(idProgDet: number){
+    const url = `${URL_BASE}/inscripcion/asegurados-por-participar?id-programacion-det=${idProgDet}`;
+    return this._httpClient.get<any>(url);
+  }
+
+  registerAsistenciaAsistira(model: RequestRegisterAsistio){
+    const url = `${URL_BASE}/inscripcion/asistira`;
+    return this._httpClient.post<any>(url, model);
   }
   // --------------------------------------------------------------------------------
 

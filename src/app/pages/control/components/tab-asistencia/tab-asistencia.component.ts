@@ -26,6 +26,7 @@ registerLocaleData(localeEs, 'es');
 export class TabAsistenciaComponent {
   status: RequestStatus = 'init';
   // Lista de Asistentes ----------------------------------------------------------
+  listPreInscritos: any[] = [];
   listAsistentes: any[] = [];
   ctrlSeleccionados = new FormControl();
   ctrlMarcarAsistencia = new FormControl(false);
@@ -140,8 +141,28 @@ export class TabAsistenciaComponent {
         }
         this.controlService.registerAseguradoDetalle({idControlAsistenciaDet: this.detalleAsistenciaActual.idControlAsistenciaDet, idFichaAdmision: data.data[0].idFichaAsegurado, conConexion: conexion}).subscribe((datos)=>{
           if (datos.code == 0) {
-            console.log(datos.data);
-            this.getListAsistencia();
+            if (this.detalleAsistenciaActual.numeracion == 1) {
+              if (this.listPreInscritos.some((x: any)=> x.numDoc == data.data[0].numDoc)) {
+                this.controlService.registerAsistenciaAsistira({idProgramacionDet: JSON.parse(localStorage.getItem('idProgramElegida')!), idFichaAdmision: data.data[0].idFichaAsegurado}).subscribe((dataAsistira)=>{
+                  if (dataAsistira.code == 0) {
+                    this.getListAsistencia();
+                    this.getListPreInscritos();
+                    this.notificacionService.success('Se ha registrado la asistencia');
+                  }
+                  else{
+                    this.notificacionService.warning(dataAsistira.message);                
+                  }
+                })
+              }
+              else{     
+                this.getListAsistencia();       
+                this.notificacionService.success('Se ha registrado la asistencia');
+              }
+            }
+            else{
+              this.getListAsistencia();
+              this.notificacionService.success('Se ha registrado la asistencia');
+            }            
           }
           else{
             this.notificacionService.warning(datos.message);
@@ -183,12 +204,17 @@ export class TabAsistenciaComponent {
           data:{
             infoAsegurado: data,
             detalleAsistenciaActual: this.detalleAsistenciaActual,
-            conConexion: conexion
+            conConexion: conexion,
+            listPreInscritos: this.listPreInscritos
           }
         })
         dialogRef.closed.subscribe(result => {
           if (result == 1) {
             this.getListAsistencia();
+          }
+          else if (result == 2) {
+            this.getListAsistencia();
+            this.getListPreInscritos();
           }
         });
       }
@@ -251,6 +277,18 @@ export class TabAsistenciaComponent {
     })
   }
 
+  getListPreInscritos(){
+    this.listPreInscritos = [];
+    this.controlService.getListaPreInscritos(JSON.parse(localStorage.getItem('idProgramElegida')!)).subscribe((data)=>{
+      if (data.code == 0) {
+        this.listPreInscritos = data.data;
+      }
+      else {
+        this.notificacionService.warning(data.message);
+      }
+    })
+  }
+
   getDataCabecera(){
     this.controlService.getCabeceraAsistencia(JSON.parse(localStorage.getItem('idProgramElegida')!)).subscribe((data)=>{
       if (data.code == 0) {
@@ -288,6 +326,9 @@ export class TabAsistenciaComponent {
     this.controlService.registerAsistenciaDet(payload).subscribe((data)=>{
       if (data.code == 0) {
         this.detalleAsistenciaActual = data.data;
+        if (this.detalleAsistenciaActual.numeracion == 1) {
+          this.getListPreInscritos();
+        }
         console.log(this.detalleAsistenciaActual)
         this.calculoDistanciaTiempo(sesionActiva);
         this.getListAsistencia();
@@ -316,6 +357,7 @@ export class TabAsistenciaComponent {
 
   calculoDistanciaTiempo(sesionActiva: any){
     this.ctrlFinSesion.setValue(null, {emitEvent: false});
+    this.bloqueo = true;
     if (!sesionActiva.cerradoAsistencia) {
       this.bloqueo = false;      
     }

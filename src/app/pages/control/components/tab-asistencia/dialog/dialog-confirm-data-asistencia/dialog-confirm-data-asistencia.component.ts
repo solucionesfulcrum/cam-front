@@ -24,6 +24,7 @@ export class DialogConfirmDataAsistenciaComponent {
   }
   
   ngOnInit(){
+    console.log(this.data)
     this.dataAsegurado = this.data.infoAsegurado.data[0];
   }
 
@@ -35,9 +36,31 @@ export class DialogConfirmDataAsistenciaComponent {
     this.status = 'loading';
     this.controlService.registerAseguradoDetalle({idControlAsistenciaDet: this.data.detalleAsistenciaActual.idControlAsistenciaDet, idFichaAdmision: this.dataAsegurado.idFichaAsegurado, conConexion: this.data.conConexion}).subscribe((datos)=>{
       if (datos.code == 0) {
-        this.status = 'success';
-        this.notificacionService.success('Se ha registrado la asistencia');
-        this._dialogRef.close(1);
+        if (this.data.detalleAsistenciaActual.numeracion == 1) {
+          if (this.data.listPreInscritos.some((x: any)=> x.numDoc == this.dataAsegurado.numDoc)) {
+            this.controlService.registerAsistenciaAsistira({idProgramacionDet: JSON.parse(localStorage.getItem('idProgramElegida')!), idFichaAdmision: this.dataAsegurado.idFichaAsegurado}).subscribe((dataAsistira)=>{
+              if (dataAsistira.code == 0) {
+                this.status = 'success';
+                this.notificacionService.success('Se ha registrado la asistencia');
+                this._dialogRef.close(2);
+              }
+              else{
+                this.status = 'failed';
+                this.notificacionService.warning(dataAsistira.message);                
+              }
+            })
+          }
+          else{            
+            this.status = 'success';
+            this.notificacionService.success('Se ha registrado la asistencia');
+            this._dialogRef.close(1);
+          }
+        }
+        else{
+          this.status = 'success';
+          this.notificacionService.success('Se ha registrado la asistencia');
+          this._dialogRef.close(1);
+        }
       }
       else{
         this.status = 'failed';
