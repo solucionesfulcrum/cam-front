@@ -62,25 +62,27 @@
       </li> -->
     </ul>
   </div>
-  <div *ngIf="showUnidOpe" class="h-[55px] p-[8px] flex justify-between mb-4 select-none hover:bg-[#F0FCFE]"
-    [cdkMenuTriggerFor]="optionsSidenav">
-    <div class="flex gap-2">
-      <div
-        class=" bg-cam w-[40px] h-full rounded-[5px] flex justify-center items-center text-white font-bold text-[20px]">
-        <span>{{unidOpeUserSession[0]}}</span>
+  <div *ngIf="showUnidOpe" class="flex flex-col gap-4">
+    <div class="h-[55px] p-[8px] flex justify-between select-none hover:bg-[#F0FCFE] cursor-pointer" (click)="executable.click()">
+      <div class="flex gap-2">
+        <div
+          class=" bg-cam w-[40px] h-full rounded-[5px] flex justify-center items-center text-white font-bold text-[20px]">
+          <span>{{unidOpeUserSession[0]}}</span>
+        </div>
+        <div class="flex flex-col text-[14px]">
+          <span>Unidad Operativa</span>
+          <span class="text-Name !font-normal max-w-[168px] whitespace-nowrap text-ellipsis overflow-hidden">{{unidOpeUserSession}}</span>
+        </div>
       </div>
-      <div class="flex flex-col text-[14px]">
-        <span>Unidad Operativa</span>
-        <span class="text-Name !font-normal max-w-[168px] whitespace-nowrap text-ellipsis overflow-hidden">{{unidOpeUserSession}}</span>
+      <div class="flex items-center opacity-60">
+        <esp-icon icon="faChevronRight"></esp-icon>
       </div>
     </div>
-    <div class="flex items-center opacity-60">
-      <esp-icon icon="faChevronRight"></esp-icon>
-    </div>
+    <div #executable [cdkMenuTriggerFor]="optionsSidenav"></div>
   </div>
 
   <ng-template #optionsSidenav>
-    <div class="botonApariencia bg-white !text-[#344563] text-sm ml-[250px] mb-[-70px]" cdkMenu>
+    <div class="botonApariencia bg-white !text-[#344563] text-sm ml-[250px]" cdkMenu>
       <div class="flex flex-col" cdkMenuGroup>
         <div class="flex flex-col gap-[7.5px] px-3 py-2.5 ">
           <span class="font-bold">USUARIO</span>

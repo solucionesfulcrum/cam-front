@@ -1,4 +1,4 @@
-<div class="px-4 py-3 bg-white w-full mt-3 grid botonApariencia" *ngIf="!detalleAsistenciaActual">
+<div class="px-4 py-3 bg-white w-full mt-3 grid botonApariencia" *ngIf="!dataPaginada">
     <div class="text-gray-600 w-full text-center">
         <p class="py-1 font-semibold text-2xl">
             <fa-icon class="mr-2" [icon]="faSpinner" [pulse]="true"></fa-icon>
@@ -6,7 +6,7 @@
         </p>
     </div>
 </div>
-<div class="flex flex-col gap-3" *ngIf="detalleAsistenciaActual">
+<div class="flex flex-col gap-3" *ngIf="dataPaginada">
     <div class="flex flex-row gap-3 px-3 mt-3 botonApariencia bg-white py-1.5">
         <div class="flex flex-col justify-between grow">
             <div class="py-3">
@@ -44,7 +44,7 @@
                         </li>
                     </ul>
                     <div class="flex flex-row gap-3 grow">
-                        <input type="text" class="inputTextoDialog focusCampo" *ngIf="ctrlTypeSearch.value == 1" [formControl]="ctrlSearch" [matAutocomplete]="asegurados" placeholder="Buscador" [readonly]="!detalleAsistenciaActual.cerrado">
+                        <input type="text" class="inputTextoDialog focusCampo" *ngIf="ctrlTypeSearch.value == 1" [formControl]="ctrlSearch" [matAutocomplete]="asegurados" placeholder="Buscador" [readonly]="!dataPaginada.cerrado">
                         <mat-autocomplete #asegurados="matAutocomplete" [displayWith]="displayAseguradoFiltered" (optionSelected)="onAseguradoSelect($event)">
                             <mat-option *ngFor="let option of listFilteredBusqueda" [value]="option">
                                 <div class="flex flex-row gap-2 items-center">
@@ -68,7 +68,7 @@
                                 </select>
                               </div>
                             </div>
-                            <input formControlName="frmDoc" placeholder="Buscador" type="text" name="doc" class="w-full text-sm rounded bg-white border-gray-400 border-1 px-4 py-2 font-light focusCampo grow" [readonly]="!detalleAsistenciaActual.cerrado"/>
+                            <input formControlName="frmDoc" placeholder="Buscador" type="text" name="doc" class="w-full text-sm rounded bg-white border-gray-400 border-1 px-4 py-2 font-light focusCampo grow" [readonly]="!dataPaginada.cerrado"/>
                         </div>
                         <div class="w-[34px] h-10 flex items-center justify-center border border-gray-400 rounded shrink-0" [ngClass]="esperaBusqueda ? 'relative' : 'cursor-pointer hover:bg-slate-200'" (click)="!esperaBusqueda ? searchSiApto(formBuscarPersona.controls.frmSelectDoc.value!, formBuscarPersona.controls.frmDoc.value!) : null">
                           <img src="assets/svg/icon-contrato-confirm.svg" class="select-none" [ngClass]="esperaBusqueda ? 'opacity-50' : null">
@@ -106,12 +106,22 @@
                     <span class="font-light leading-[10px] text-[10px]">Participantes</span>
                 </div>
             </div>
-            <app-btn class="botonApariencia flex flex-row h-10" color="mezclado" (click)="detalleAsistenciaActual.cerrado ?  cambioHora() : cerrarAsistencia()" [loading]="status === 'loading'" [disabled]="bloqueo">
-                <div class="flex flex-row items-center gap-[5px]">
-                    <img *ngIf="detalleAsistenciaActual.cerrado" class="self-center" src="assets/svg/icon-list-assignments.svg">
-                    <span>{{!detalleAsistenciaActual.cerrado ? 'Cerrar Asistencia' : (comienzoSesiones == datoProgramacion.numSesiones ? 'Finalizar Taller' : (comienzoSesiones + 1) + ' Hora' )}}</span>
+            <div class="flex flex-row gap-2.5">
+                <div class="w-[34px] h-10 flex items-center justify-center border border-gray-400 rounded shrink-0" [ngClass]="validateActivo(0) ? (flagListas ? 'relative' : 'cursor-pointer hover:bg-slate-200') : 'relative'" (click)="validateActivo(0) ? (!flagListas ? getDataPaginada(0) : null) : null">
+                    <img src="assets/svg/icon-asistencia-preview.svg" class="select-none" [ngClass]="validateActivo(0) ? (flagListas ? 'opacity-50' : null) : 'opacity-50'">
+                    <fa-icon *ngIf="flagListas" class="absolute" [icon]="faSpinner" [pulse]="true"></fa-icon>
                 </div>
-            </app-btn>
+                <app-btn class="botonApariencia flex flex-row h-10" color="mezclado" (click)="detalleAsistenciaActual.cerrado ?  cambioHora() : cerrarAsistencia()" [loading]="status === 'loading'" [disabled]="bloqueo">
+                    <div class="flex flex-row items-center gap-[5px]">
+                        <img *ngIf="detalleAsistenciaActual.cerrado" class="self-center" src="assets/svg/icon-list-assignments.svg">
+                        <span>{{!detalleAsistenciaActual.cerrado ? 'Cerrar Asistencia' : (comienzoSesiones == datoProgramacion.numSesiones ? 'Finalizar Taller' : (comienzoSesiones + 1) + ' Hora' )}}</span>
+                    </div>
+                </app-btn>
+                <div class="w-[34px] h-10 flex items-center justify-center border border-gray-400 rounded shrink-0" [ngClass]="validateActivo(1) ? (flagListas ? 'relative' : 'cursor-pointer hover:bg-slate-200') : 'relative'" (click)="validateActivo(1) ? (!flagListas ? getDataPaginada(1) : null) : null">
+                    <img src="assets/svg/icon-asistencia-next.svg" class="select-none" [ngClass]="validateActivo(1) ? (flagListas ? 'opacity-50' : null) : 'opacity-50'">
+                    <fa-icon *ngIf="flagListas" class="absolute" [icon]="faSpinner" [pulse]="true"></fa-icon>
+                </div>
+            </div>
         </div>
     </div>
     <div class="flex flex-col gap-2.5 py-2 px-3 bg-white botonApariencia">
@@ -122,12 +132,12 @@
           </div>
         </div>
         <div *ngIf="listAsistentes.length > 0" class="flex flex-col">
-            <div class="grid gap-1 border-b border-[#0000001F] py-2 text-[14px] filasPseudoTabla" [ngClass]="!detalleAsistenciaActual.cerrado ? 'grid-cols-14' : 'grid-cols-13'">
+            <div class="grid gap-1 border-b border-[#0000001F] py-2 text-[14px] filasPseudoTabla" [ngClass]="!dataPaginada.cerrado ? 'grid-cols-14' : 'grid-cols-13'">
                 <div class="content-center text-center">
                     <!-- <input type="checkbox" [value]="0" [formControl]="ctrlSeleccionados"> -->
                     <mat-checkbox class="example-margin" color="primary" [formControl]="ctrlSeleccionados"></mat-checkbox>
                 </div>
-                <span *ngIf="detalleAsistenciaActual.cerrado">N°</span>
+                <span *ngIf="dataPaginada.cerrado">N°</span>
                 <div class="col-span-4 content-center flex gap-2">
                     <span>{{getSeleccionadosCheck().length == 0 ? 'Apellidos y Nombres' : getSeleccionadosCheck().length + ' Seleccionado(s)'}}</span>
                     <app-btn *ngIf="getSeleccionadosCheck().length > 0" class="botonApariencia flex" color="mezclado" [cdkMenuTriggerFor]="optionsTable">
@@ -142,14 +152,14 @@
                             <div class="leading-5 py-[5px] font-medium px-2.5 opacity-50" cdkMenuItem>
                                 <span>Editar</span>
                             </div>
-                            <div class="leading-5 py-[5px] font-medium px-2.5" [ngClass]="detalleAsistenciaActual.cerrado ? 'cursor-pointer hover:bg-slate-200' : 'opacity-50'" cdkMenuItem (click)="detalleAsistenciaActual.cerrado ? deleteSelected() : null">
+                            <div class="leading-5 py-[5px] font-medium px-2.5" [ngClass]="dataPaginada.cerrado ? 'cursor-pointer hover:bg-slate-200' : 'opacity-50'" cdkMenuItem (click)="dataPaginada.cerrado ? deleteSelected() : null">
                                 <span>Eliminar seleccionado</span>
                             </div>
                         </div>
                       </div>
                     </ng-template>
                 </div>
-                <span class="col-span-2" *ngIf="!detalleAsistenciaActual.cerrado">Continuación Taller</span>
+                <span class="col-span-2" *ngIf="!dataPaginada.cerrado">Continuación Taller</span>
                 <span class="col-span-2">Documento</span>
                 <span class="col-span-2">N° de Documento</span>
                 <span class="col-span-2">Hora Asistencia</span>
@@ -164,13 +174,13 @@
                   <span [ngClass]="activacion.estado === 'ACTIVO' ? 'text-green-500':'text-red-500'">{{activacion.estado}}</span>
                 </div>
               </div> -->
-              <div class="dataPseudoTabla py-2" *ngFor="let asistente of listAsistentes, index as i" [ngClass]="!detalleAsistenciaActual.cerrado ? 'grid-cols-14' : 'grid-cols-13'">
+              <div class="dataPseudoTabla py-2" *ngFor="let asistente of listAsistentes, index as i" [ngClass]="!dataPaginada.cerrado ? 'grid-cols-14' : 'grid-cols-13'">
                 <div class="content-center text-center">
                     <mat-checkbox class="example-margin" color="primary" [formControl]="asistente.formCheck"></mat-checkbox>
                 </div>
-                <span *ngIf="detalleAsistenciaActual.cerrado">{{listAsistentes.length - i}}</span>
+                <span *ngIf="dataPaginada.cerrado">{{listAsistentes.length - i}}</span>
                 <span class="col-span-4 text-[var(--color-CAM)]">{{asistente.asegurado}}</span>
-                <div class="col-span-2 flex flex-row gap-2 pl-4" *ngIf="!detalleAsistenciaActual.cerrado">
+                <div class="col-span-2 flex flex-row gap-2 pl-4" *ngIf="!dataPaginada.cerrado">
                     <div class="flex items-center">
                         <input [id]="asistente.idControlAsistenciaSubDet + '_' + 1" type="radio" [value]="true" [name]="asistente.idControlAsistenciaSubDet+'_form'" [formControl]="asistente.formAsistido" class="bordColorEstablecido w-4 h-4 focusCampo dark:focusCampo">
                         <label [for]="asistente.idControlAsistenciaSubDet + '_' + 1" class="ml-2 text-sm font-medium">Si</label>
@@ -191,7 +201,7 @@
               </div>
             </div>
         </div>
-        <div *ngIf="detalleAsistenciaActual.numeracion == 1" class="flex flex-col gap-2.5">
+        <div *ngIf="dataPaginada.numeracion == 1" class="flex flex-col gap-2.5">
             <div class="flex flex-row justify-between py-1">
                 <span class="font-semibold text-[18px]">Pre Inscritos</span>
                 <div class="flex flex-row gap-2 w-[168px]">

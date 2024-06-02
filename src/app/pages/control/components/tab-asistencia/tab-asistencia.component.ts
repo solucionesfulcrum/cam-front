@@ -34,12 +34,16 @@ export class TabAsistenciaComponent {
   // Lista de Asegurados para Búsqueda --------------------------------------------
   listBusqueda: any[] = [];
   listFilteredBusqueda: any[] = [];
+  flagListas: boolean = false;
   // ------------------------------------------------------------------------------
-  // Control del Tiempo -------------------------------------------------------------
+  // Control de Paginación --------------------------------------------------------
+  dataPaginada: any;
+  // ------------------------------------------------------------------------------
+  // Control del Tiempo -----------------------------------------------------------
   ctrlTiempo = new FormControl();
   ctrlFinSesion = new FormControl();
   bloqueo: boolean = true;
-  // --------------------------------------------------------------------------------
+  // ------------------------------------------------------------------------------
   // Información Intermedia--------------------------------------------------------
   detalleAsistenciaActual: any;
   // ------------------------------------------------------------------------------
@@ -139,9 +143,9 @@ export class TabAsistenciaComponent {
         if (!data.data[0].acreditacion) {
           this.notificacionService.warning(data.message);
         }
-        this.controlService.registerAseguradoDetalle({idControlAsistenciaDet: this.detalleAsistenciaActual.idControlAsistenciaDet, idFichaAdmision: data.data[0].idFichaAsegurado, conConexion: conexion}).subscribe((datos)=>{
+        this.controlService.registerAseguradoDetalle({idControlAsistenciaDet: this.dataPaginada.idControlAsistenciaDet, idFichaAdmision: data.data[0].idFichaAsegurado, conConexion: conexion}).subscribe((datos)=>{
           if (datos.code == 0) {
-            if (this.detalleAsistenciaActual.numeracion == 1) {
+            if (this.dataPaginada.numeracion == 1) {
               if (this.listPreInscritos.some((x: any)=> x.numDoc == data.data[0].numDoc)) {
                 this.controlService.registerAsistenciaAsistira({idProgramacionDet: JSON.parse(localStorage.getItem('idProgramElegida')!), idFichaAdmision: data.data[0].idFichaAsegurado}).subscribe((dataAsistira)=>{
                   if (dataAsistira.code == 0) {
@@ -203,7 +207,7 @@ export class TabAsistenciaComponent {
           maxWidth:'50%',
           data:{
             infoAsegurado: data,
-            detalleAsistenciaActual: this.detalleAsistenciaActual,
+            detalleAsistenciaActual: this.dataPaginada,
             conConexion: conexion,
             listPreInscritos: this.listPreInscritos
           }
@@ -223,6 +227,59 @@ export class TabAsistenciaComponent {
       }
       this.esperaBusqueda = false;
     })
+  }
+  // --------------------------------------------------------------------------------------------
+  // Control de Paginación ----------------------------------------------------------------------
+  validateActivo(direccion: number): boolean{ // 0: Izquierda - 1: Derecha
+    let validator: boolean = false;
+    if (this.datoProgramacion.numSesiones > 1) {
+      if (direccion == 0) {
+        if (this.dataPaginada.numeracion > 1) {
+          let getSesionPrevia = this.datoProgramacion.listaProgSubDet.find((x: any) => x.numeracion == (this.dataPaginada.numeracion - 1));
+          if (getSesionPrevia.cerradoAsistencia){
+            validator = true;
+          }
+        }
+      }
+      else if (direccion == 1){
+        if (this.dataPaginada.numeracion < this.datoProgramacion.numSesiones) {
+          let getSesionSiguiente = this.datoProgramacion.listaProgSubDet.find((x: any) => x.numeracion == (this.dataPaginada.numeracion + 1));
+          if (getSesionSiguiente.cerradoAsistencia) {
+            validator = true;
+          }
+        }
+      }
+    }
+    return validator
+  }
+
+  getDataPaginada(direccion: number){
+    this.flagListas = true;
+    let sesionCambiar: any;
+    if (direccion == 0) {
+      sesionCambiar = this.datoProgramacion.listaProgSubDet.find((x: any) => x.numeracion == (this.dataPaginada.numeracion - 1));
+    }
+    else if (direccion == 1) {
+      sesionCambiar = this.datoProgramacion.listaProgSubDet.find((x: any) => x.numeracion == (this.dataPaginada.numeracion + 1));
+    }
+    let payload: RequestRegisterDet = {
+      idControlAsistenciaCab: this.datoProgramacion.idControlAsistenciaCab,
+      idProgramacionSubDet: sesionCambiar.idProgSubDet,
+      numeracion: sesionCambiar.numeracion
+    }
+    this.controlService.registerAsistenciaDet(payload).subscribe((data)=>{
+      if (data.code == 0) {
+        this.dataPaginada = data.data;
+        if (this.dataPaginada.numeracion == 1) {
+          this.getListPreInscritos();
+        }
+        this.getListAsistencia();
+      }
+      else{
+        this.flagListas = false;
+        this.notificacionService.warning(data.message);
+      }
+    });
   }
   // --------------------------------------------------------------------------------------------
 
@@ -250,7 +307,7 @@ export class TabAsistenciaComponent {
   }
 
   getListAsistencia(){
-    this.controlService.getListAsistencia(this.detalleAsistenciaActual.idControlAsistenciaDet).subscribe((data)=>{
+    this.controlService.getListAsistencia(this.dataPaginada.idControlAsistenciaDet).subscribe((data)=>{
       if (data.code == 0) {
         data.data.forEach((element: any) => {
           element.formCheck = new FormControl(false);
@@ -267,7 +324,8 @@ export class TabAsistenciaComponent {
           })
         });
         this.listAsistentes = data.data;
-        this.listAsistentes.sort((a: any, b: any) => {return new Date(b.fechaHoraAsistencia).getTime()  - new Date(a.fechaHoraAsistencia).getTime()})
+        this.listAsistentes.sort((a: any, b: any) => {return new Date(b.fechaHoraAsistencia).getTime()  - new Date(a.fechaHoraAsistencia).getTime()});
+        this.flagListas = false;
         this.status = 'success';
       }
       else{
@@ -281,6 +339,7 @@ export class TabAsistenciaComponent {
     this.listPreInscritos = [];
     this.controlService.getListaPreInscritos(JSON.parse(localStorage.getItem('idProgramElegida')!)).subscribe((data)=>{
       if (data.code == 0) {
+        this.flagListas = false;
         this.listPreInscritos = data.data;
       }
       else {
@@ -326,6 +385,7 @@ export class TabAsistenciaComponent {
     this.controlService.registerAsistenciaDet(payload).subscribe((data)=>{
       if (data.code == 0) {
         this.detalleAsistenciaActual = data.data;
+        this.dataPaginada = data.data;
         if (this.detalleAsistenciaActual.numeracion == 1) {
           this.getListPreInscritos();
         }
@@ -337,6 +397,7 @@ export class TabAsistenciaComponent {
             if (dataCursor.code == 0) {
               this.controlService.registerCierreDetalle(this.detalleAsistenciaActual.idControlAsistenciaDet).subscribe((dataCierre)=>{
                 if (dataCierre.code == 0) {
+                  this.getDataCabecera()
                 }
                 else{
                   this.notificacionService.warning(dataCierre.message);
@@ -430,7 +491,7 @@ export class TabAsistenciaComponent {
 
   cerrarAsistencia(){
     this.status = 'loading';
-    this.controlService.registerCierreDetalle(this.detalleAsistenciaActual.idControlAsistenciaDet).subscribe((dataCierre)=>{
+    this.controlService.registerCierreDetalle(this.dataPaginada.idControlAsistenciaDet).subscribe((dataCierre)=>{
       if (dataCierre.code == 0) {
         this.getDataCabecera();
       }
@@ -439,4 +500,5 @@ export class TabAsistenciaComponent {
       }
     })
   }
+  
 }
