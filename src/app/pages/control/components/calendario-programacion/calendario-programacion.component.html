@@ -42,16 +42,12 @@
                         <div class="flex-1 flex items-center justify-start gap-2">
                             <div class="flex">
                                 <div class="relative rounded-md shadow-sm">
-                                   <select id="docs" #firstSelect class="bg-slate-50 border border-gray-300 text-gray-600 text-sm rounded-lg focusCampo !h-10 block w-full">
-                                        <option [value]="">Talleristas</option> 
+                                   <select id="docs" #firstSelect class="bg-slate-50 border border-gray-300 text-gray-600 text-sm rounded-lg focusCampo !h-10 block w-full"
+                                   (change)="getFiltroPorTallerista($event)"
+                                   >
+                                        <option [value]="'X'">Talleristas</option> 
                                         <option [value]="" disabled>Proveedores</option> 
-                                        <option [value]="">   
-                                            <fa-icon class="flex" [icon]="faSquare" [classes]="['h-6', 'w-6', 'text-[#64748B]']"></fa-icon> 
-                                            Nestor Fernando Sosaya Sa...</option> 
-                                        <option [value]="">Marco Antonio Camero Mor...</option> 
-                                        <option [value]="">Nancy Maria Arrunategui Al...</option> 
-                                        <option [value]="">Nancy Maria Arrunategui Al...</option> 
-                                        <option [value]="">Nancy Maria Arrunategui Al...</option> 
+                                        <option [value]="tallerista.value" *ngFor="let tallerista of dropdownOptions" > {{tallerista.label}} </option> 
                                       
                                     </select>
 

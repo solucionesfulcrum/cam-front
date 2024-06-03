@@ -34,7 +34,7 @@ interface SelectOption {
 export class CalendarioProgramacionComponent {
   visualizacion: boolean = false;
   
-
+/*
   dropdownOptions: SelectOption[] = [
     { icon: null, label: 'Talleristas', value: 'talleristas' },
     { icon: fonts.faSquare, label: 'Proveedores', value: 'proveedores' },
@@ -43,7 +43,9 @@ export class CalendarioProgramacionComponent {
     { icon: null, label: 'Nancy Maria Arrunategui Al...', value: 'nancy1' },
     { icon: null, label: 'Nancy Maria Arrunategui Al...', value: 'nancy2' },
     { icon: null, label: 'Nancy Maria Arrunategui Al...', value: 'nancy3' }
-  ];
+  ];*/
+
+  dropdownOptions: SelectOption[] = [];
 
   idProgramacion!: string;
   faSpinner = faSpinner;
@@ -53,6 +55,8 @@ export class CalendarioProgramacionComponent {
   listParamTipo: any[] = [];
   listServiciosCiram!: any[];
   dataResumenContrato: any;
+
+  talleristaSeleccionado: string = "";
   
   faClose = fonts.faClose;
   faSquare = fonts.faSquare;
@@ -86,19 +90,15 @@ export class CalendarioProgramacionComponent {
     this.datosService.getTipoParametros('TIPO_SERVICIO').subscribe((data)=>{
       this.listParamTipo = data.data;
       if (data.code == 0) {
-          let payload = {
-            "idUnidOpe": 132,
-            "texto": "",
-            "pageNum": 1,
-            "pageSize": 10
-        }
-
+        
         this.programacionService.listContratosProgramacion(this.getPayloadContratos()).subscribe((programaciones)=>{
+
+          this.llenarTablaTalleristas(programaciones.data.list);
+
           programaciones.data.list.map((programacion : any) => {
 
-
             this.programacionService.getDatosContrato(programacion.idProgramacion).subscribe((data)=>{
-              console.log(data)
+     
               if (data.code == 0) {
                 if (data.data.datosContrato.estadoProgramacionId == 37) {
                   this.visualizacion = true;
@@ -134,6 +134,68 @@ export class CalendarioProgramacionComponent {
     })
   }
   
+  llenarTablaTalleristas(data: []){
+    data.forEach((programacion : {tallerista : string}) => {
+      const exists = this.dropdownOptions.some(option => option.value === programacion.tallerista);
+      if (!exists) {
+          this.dropdownOptions.push({
+              'icon': null,
+              label: programacion.tallerista,
+              value: programacion.tallerista
+          });
+      }
+  });
+  }
+
+  getFiltroPorTallerista(evento: Event) {
+    const target = evento.target as HTMLInputElement | HTMLSelectElement;
+    const valor = target.value;
+    
+    this.filtrarPorTalleristas(valor);
+  }
+
+  filtrarPorTalleristas(filtro: string){
+    this.programacionService.listContratosProgramacion(this.getPayloadContratos()).subscribe((programaciones)=>{
+
+      this.serviciosAsignados = [];
+      this.listServicios.servicios = [];
+
+      programaciones.data.list.map((programacion : any) : void => {
+
+        if(filtro != "X"){
+          if(programacion.tallerista != filtro){
+            return
+          }
+        }
+
+        this.programacionService.getDatosContrato(programacion.idProgramacion).subscribe((data)=>{
+          if (data.code == 0) {
+            if (data.data.datosContrato.estadoProgramacionId == 37) {
+              this.visualizacion = true;
+            }
+            this.limitesHorario.push(new Date(data.data.datosContrato.fechInicio.replace(/-/g, '\/')));
+            this.limitesHorario.push(new Date(data.data.datosContrato.fechFin.replace(/-/g, '\/')));
+            this.periodoCalendario.setMonth(this.limitesHorario[0].getMonth());
+            this.periodoCalendario.setFullYear(this.limitesHorario[0].getFullYear());
+            this.getFechasSemana(new Date(this.limitesHorario[0].getFullYear(), this.limitesHorario[0].getMonth(), this.limitesHorario[0].getDate()));
+
+
+            this.dataContrato = data.data.datosContrato; //SEGUIR AGREGANDO HORARIOS
+
+            this.getDataResumenContrato();
+            this.getServiciosContrato()
+            this.getDataServiciosAsignados();
+            this.ctrlProfesionales.setValue(1);
+          }
+          else {
+            this.notificationService.warning(data.message);
+          }
+        })
+
+
+      })
+    })
+  }
 
   funcionesExtra(opt: number){
     switch (opt) {
@@ -185,15 +247,9 @@ export class CalendarioProgramacionComponent {
     }
   }
 
-  getProgramaciones(): void{
-    this.controlProgramacion.getlistaProgramacionCalendario(132,"2024-04-01", "2024-07-30","").subscribe(programas=>{
-      console.log(programas)
-    })
-
-  }
 
   validacionHorariosCompletos(): boolean{
-    let valueReturned: boolean = true;console.log(this.listServiciosCiram)
+    let valueReturned: boolean = true;
     this.listServicios.servicios.forEach((x: any)=>{
       if (valueReturned) {
         let totalAsignaciones = 0;
