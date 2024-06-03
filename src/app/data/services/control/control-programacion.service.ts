@@ -18,6 +18,11 @@ export class ControlProgramacionService {
     return this._httpClient.get<any>(url);
   }
 
+  getlistaProgramacionCalendario(idUnidadOpe: number,fechInicio: string, fechFin: string, texto: string) {
+    const url = `${environment.API}/programacion/obtener/lista/programacion/?idUnidadOperativa=${idUnidadOpe}&fechInicio=${fechInicio}&fechFin=${fechFin}&texto=${texto}`;
+    return this._httpClient.get<any>(url);
+  }
+
   getCabeceraProgramacion(idProgDet: number) {
     const url = `${URL_BASE}/obtener/cabecera/inscripcion/${idProgDet}`;
     return this._httpClient.get<any>(url);

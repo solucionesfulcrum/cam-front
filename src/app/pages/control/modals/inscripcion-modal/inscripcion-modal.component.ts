@@ -47,6 +47,7 @@ export class InscripcionModalComponent {
   numdocContacto = "";
   idAsegurado = "";
   conConexion! : boolean;
+  acreditado!: boolean;
 
 
   public form = this.fb.nonNullable.group({
@@ -165,6 +166,7 @@ export class InscripcionModalComponent {
           this.srcAsegurado = data.data[0].foto;
           this.nombreContacto = data.data[0].nombreCompleto;
           this.numdocContacto = data.data[0].numDoc;
+          this.acreditado = data.data[0].acreditacion;
           this.idAsegurado = data.data[0].idFichaAsegurado;
           this.conConexion = data.code == 0 ? true : false;
           this.columnWidths = "50% 44% 6%";
@@ -197,7 +199,7 @@ export class InscripcionModalComponent {
       idFichaAdmision: this.idAsegurado,
       idUnidadOperativa: unidadOperativa,
       idProgramacionDet: selectedProgramacion,
-      acreditado: false,
+      acreditado: this.acreditado,
       idUsuarioReg: "1",
       conConexion: this.conConexion
     }).subscribe(data => {

@@ -13,6 +13,9 @@ import { ConfirmarProgramacionComponent } from '../sub-components/dialogs/confir
 import { AppRoute } from 'src/app/data/constants/app-route.constant';
 import { DialogAddProgramacionAsignacionComponent } from '../sub-components/dialogs/dialog-add-programacion-asignacion/dialog-add-programacion-asignacion.component';
 import { DatosGeneralesService } from 'src/app/data/services/datos-generales.service';
+import { ContactosTalleristasService } from 'src/app/data/services/contactos/contactos-talleristas.service';
+import { ControlProgramacionService } from 'src/app/data/services/control/control-programacion.service';
+import { ProgramacionRequestListContratos } from '@models/programacion/programacion-contratos/programacion-contrato-lista.model';
 
 registerLocaleData(localeEs, 'es');
 
@@ -46,7 +49,7 @@ export class CalendarioProgramacionComponent {
   faSpinner = faSpinner;
   dataContrato: any;
   dataAsignacionSelected: any;
-  listServicios: any;
+  listServicios: {cam: string, idUnidOpeCam: string, servicios: any[]} = {cam: "", idUnidOpeCam: "", servicios: []};
   listParamTipo: any[] = [];
   listServiciosCiram!: any[];
   dataResumenContrato: any;
@@ -69,7 +72,10 @@ export class CalendarioProgramacionComponent {
               @Inject(LOCALE_ID) private locale             : string,
               private dialog                                : Dialog,
               private router                                : Router,
-              private notificationService                   : NotificationService
+              private notificationService                   : NotificationService,
+              private contratosTalleristas                  : ContactosTalleristasService,
+              private controlProgramacion                   : ControlProgramacionService
+
   ) { 
     //this.idProgramacion = this.activeRoute.snapshot.paramMap.get('idProgramacion')!;
     this.idProgramacion = "2";
@@ -78,36 +84,56 @@ export class CalendarioProgramacionComponent {
   ngOnInit(){
     this.visualizacion = true;
     this.datosService.getTipoParametros('TIPO_SERVICIO').subscribe((data)=>{
+      this.listParamTipo = data.data;
       if (data.code == 0) {
-        this.listParamTipo = data.data;
-        this.programacionService.getDatosContrato(this.idProgramacion).subscribe((data)=>{
-          if (data.code == 0) {
-            if (data.data.datosContrato.estadoProgramacionId == 37) {
-              this.visualizacion = true;
-              //this.opcionesBotones.forEach((x)=> x.deshabilitado = true)
-            }
-            console.log(data.data)
-            this.limitesHorario.push(new Date(data.data.datosContrato.fechInicio.replace(/-/g, '\/')));
-            this.limitesHorario.push(new Date(data.data.datosContrato.fechFin.replace(/-/g, '\/')));
-            this.periodoCalendario.setMonth(this.limitesHorario[0].getMonth());
-            this.periodoCalendario.setFullYear(this.limitesHorario[0].getFullYear());
-            this.getFechasSemana(new Date(this.limitesHorario[0].getFullYear(), this.limitesHorario[0].getMonth(), this.limitesHorario[0].getDate()));
-            this.dataContrato = data.data.datosContrato;
-            this.getDataResumenContrato();
-            this.getServiciosContrato()
-            this.getDataServiciosAsignados();
-            this.ctrlProfesionales.setValue(1);
-          }
-          else {
-            this.notificationService.warning(data.message);
-          }
+          let payload = {
+            "idUnidOpe": 132,
+            "texto": "",
+            "pageNum": 1,
+            "pageSize": 10
+        }
+
+        this.programacionService.listContratosProgramacion(this.getPayloadContratos()).subscribe((programaciones)=>{
+          programaciones.data.list.map((programacion : any) => {
+
+
+            this.programacionService.getDatosContrato(programacion.idProgramacion).subscribe((data)=>{
+              console.log(data)
+              if (data.code == 0) {
+                if (data.data.datosContrato.estadoProgramacionId == 37) {
+                  this.visualizacion = true;
+                }
+                this.limitesHorario.push(new Date(data.data.datosContrato.fechInicio.replace(/-/g, '\/')));
+                this.limitesHorario.push(new Date(data.data.datosContrato.fechFin.replace(/-/g, '\/')));
+                this.periodoCalendario.setMonth(this.limitesHorario[0].getMonth());
+                this.periodoCalendario.setFullYear(this.limitesHorario[0].getFullYear());
+                this.getFechasSemana(new Date(this.limitesHorario[0].getFullYear(), this.limitesHorario[0].getMonth(), this.limitesHorario[0].getDate()));
+    
+    
+                this.dataContrato = data.data.datosContrato; //SEGUIR AGREGANDO HORARIOS
+    
+                this.getDataResumenContrato();
+                this.getServiciosContrato()
+                this.getDataServiciosAsignados();
+                this.ctrlProfesionales.setValue(1);
+              }
+              else {
+                this.notificationService.warning(data.message);
+              }
+            })
+
+
+          })
         })
+        
+       
       }
       else {
         this.notificationService.warning(data.message);
       }
     })
   }
+  
 
   funcionesExtra(opt: number){
     switch (opt) {
@@ -145,6 +171,25 @@ export class CalendarioProgramacionComponent {
         }
         break;
     }
+  }
+
+  getPayloadContratos() : ProgramacionRequestListContratos{
+      return {
+        "idUnidOpe": 132,
+        "texto": "",
+        "fecInicio": "2024-01-01",
+        "fecFin": "2024-06-03",
+        "estado": 0,
+        "pageNum": 1,
+        "pageSize": 10
+    }
+  }
+
+  getProgramaciones(): void{
+    this.controlProgramacion.getlistaProgramacionCalendario(132,"2024-04-01", "2024-07-30","").subscribe(programas=>{
+      console.log(programas)
+    })
+
   }
 
   validacionHorariosCompletos(): boolean{
@@ -196,7 +241,10 @@ export class CalendarioProgramacionComponent {
   getDataServiciosAsignados(){
     this.programacionService.getServiciosProgramadosContrato(this.dataContrato.idProgramacion).subscribe((data)=>{
       if (data.code == 0) {
-        this.serviciosAsignados = data.data;
+
+        data.data.forEach((servicio : any) => {
+          this.serviciosAsignados.push(servicio);
+        });
       }
       else {
         this.notificationService.warning(data.message);
@@ -207,9 +255,17 @@ export class CalendarioProgramacionComponent {
   getServiciosContrato(){
     this.programacionService.getDatosServicioContrato(this.dataContrato.idProgramacion).subscribe((data)=>{
       if (data.code == 0) {
-        this.listServicios = data.data.serviciosCam;
-        this.listServiciosCiram = data.data.serviciosCirams;
+
+      data.data.serviciosCam.servicios.forEach((servicio : any)=> {
+          this.listServicios.servicios.push(servicio);
+      });
+
+      this.listServicios.cam = data.data.serviciosCam.cam;
+      this.listServicios.idUnidOpeCam = data.data.serviciosCam.idUnidOpeCam;
+
+      this.listServiciosCiram = data.data.serviciosCirams;
       }
+
       else {
         this.notificationService.warning(data.message);
       }
