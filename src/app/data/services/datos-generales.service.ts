@@ -31,6 +31,18 @@ export class DatosGeneralesService {
     const url = `${environment.API}/unidad-operativa/listar/cam/red?id-uo-red=${codigo}`;
     return this._httpClient.get<TipoParametro>(url);
   }
+
+  getCamsCiram(codigo: string, texto: string) {
+    const url = `${environment.API}/unidad-operativa/listar/ciram?texto=${codigo}&codigo-cam=${texto}`;
+    return this._httpClient.get<TipoParametro>(url);
+  }
+
+
+  getReds() {
+    const url = `${environment.API}/unidad-operativa/listar/red`;
+    return this._httpClient.get<TipoParametro>(url);
+  }
+  
   
 
   getDepartamentosReniec() {
@@ -75,6 +87,11 @@ export class DatosGeneralesService {
 
   getUnidadesOperativas(texto: string) {
     const url = `${URL_BASE}/unidad-operativa/listar/cam?texto=${texto}`;
+    return this._httpClient.get<any>(url);
+  }
+
+  getUnidadesOperativasRed(texto: string, red: string) {
+    const url = `${URL_BASE}/unidad-operativa/listar/cam?texto=${texto}&codigo-red=${red}`;
     return this._httpClient.get<any>(url);
   }
 

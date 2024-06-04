@@ -1,99 +1,99 @@
 <div class="w-full h-full grow bg-white-600">
-    <esp-opciones-busqueda class="w-full"
-    [setFilterDateOptionSelected]="'var(--color-CAM-Mezclado)'"
-    [setFilterDateTextColour]="'#008BD2'"
-    [filterDateAppearance]="2"
-    [setDateSelectedDefault]="9"
-    (sendDateFilterWithCeros)="AsignarFiltro($event)"
-    [showSearch]="true"
-    (searchInputValue)="form.get('frmSearch')?.setValue($event); onLoadData()"
-    [searchInputPlaceHolder]="'Búsqueda de Unidad'"
-    [showFirstDisplayFilter]="true"
-    [firstDisplayFilterPlaceholder]="{'indicador': true, 'placeholder': 'Todos los estados'}"
-    [firstDisplayFilterData]="opcionesEstado"
-    (firstDisplayFilterSendValue)="firstDisplayValue($event)"
-    [showSecondDisplayFilter]="true"
-    [secDisplayFilterPlaceholder]="{'indicador': false, 'placeholder': 'Todas las redes'}"
-    ></esp-opciones-busqueda>
-    <table
-    class="w-full text-sm text-left text-gray-500 tablaDatos"
-    cdk-table
-    [dataSource]="dataCompleted"
-  >
-    <tr
-      cdk-header-row
-      class="text-xs text-gray-700 bg-gray-50"
-      *cdkHeaderRowDef="columns"
-    ></tr>
-    <tr
-      cdk-row
-      class="bg-white border-b"
-      [ngClass]="{ 'bg-red-200': row.price < 100 }"
-      *cdkRowDef="let row; columns: columns"
-    ></tr>
-    <!-- Nombres Column -->
-    <ng-container cdkColumnDef="id">
-      <th cdk-header-cell class="py-5 px-6" *cdkHeaderCellDef>
-        <input type="checkbox" value="false"
-        />
-      </th>
-      <td cdk-cell class="py-4 px-6" *cdkCellDef="let row">
-        <input type="checkbox" value="false" />
-      </td>
-    </ng-container>
-  
-    <!-- Nombres Column -->
-    <ng-container cdkColumnDef="unidad">
-      <th cdk-header-cell class="py-5 px-6" *cdkHeaderCellDef>Unidad</th>
-      <td cdk-cell class="py-4 px-6 font-semibold" *cdkCellDef="let row">
-        <a class="text-success-500 hover:text-success-700" [routerLink]="[row.usuarioId]">{{ row.unidad }}</a>
-      </td>
-    </ng-container>
-  
-    <!-- DNI Column -->
-    <ng-container cdkColumnDef="categoria">
-      <th cdk-header-cell class="py-5 px-6" *cdkHeaderCellDef>Categoria</th>
-      <td cdk-cell class="py-4 px-6" *cdkCellDef="let row">{{ row.categoria }}</td>
-    </ng-container>
-  
-    <!-- Fecha de Registro Column -->
-    <ng-container cdkColumnDef="telefono">
-      <th cdk-header-cell class="py-5 px-6" *cdkHeaderCellDef>Telefono</th>
-      <td cdk-cell class="py-4 px-6" *cdkCellDef="let row">{{row.telefono}}</td>
-    </ng-container>
-  
-    <!-- Rol Column -->
-    <ng-container cdkColumnDef="distrito">
-      <th cdk-header-cell class="py-5 px-6" *cdkHeaderCellDef>Distrito</th>
-      <td cdk-cell class="py-4 px-6 font-semibold" *cdkCellDef="let row">
-        {{ row.distrito  }}
-      </td>
-    </ng-container>
-    <!-- Unidad Operativa Column -->
-    <ng-container cdkColumnDef="red">
-      <th cdk-header-cell class="py-5 px-6" *cdkHeaderCellDef>Red</th>
-      <td cdk-cell class="py-4 px-6" *cdkCellDef="let row">
-        {{ row.red }}
-      </td>
-    </ng-container>
+  <esp-opciones-busqueda class="w-full"
+  [setFilterDateOptionSelected]="'var(--color-CAM-Mezclado)'"
+  [setFilterDateTextColour]="'#008BD2'"
+  [filterDateAppearance]="2"
+  [setDateSelectedDefault]="9"
+  (sendDateFilterWithCeros)="AsignarFiltro($event)"
+  [showSearch]="true"
+  (searchInputValue)="form.get('frmSearch')?.setValue($event); onLoadData()"
+  [searchInputPlaceHolder]="'Búsqueda de Unidad'"
+  [showFirstDisplayFilter]="true"
+  [firstDisplayFilterPlaceholder]="{'indicador': true, 'placeholder': 'Todos los estados'}"
+  [firstDisplayFilterData]="opcionesEstado"
+  (firstDisplayFilterSendValue)="firstDisplayValue($event)"
+  [showSecondDisplayFilter]="true"
+  [secDisplayFilterPlaceholder]="{'indicador': true, 'placeholder': 'Todas las redes'}"
+  [secDisplayFilterData]="opcionesRed"
+  (secDisplayFilterSendValue)="secDisplayValue($event)"
+  ></esp-opciones-busqueda>
+  <table
+  class="w-full text-sm text-left text-gray-500 tablaDatos"
+  cdk-table
+  [dataSource]="dataSource"
+>
+  <tr
+    cdk-header-row
+    class="text-xs text-gray-700 bg-gray-50"
+    *cdkHeaderRowDef="columns"
+  ></tr>
+  <tr
+    cdk-row
+    class="bg-white border-b"
+    [ngClass]="{ 'bg-red-200': row.price < 100 }"
+    *cdkRowDef="let row; columns: columns"
+  ></tr>
+  <!-- Nombres Column -->
+  <ng-container cdkColumnDef="id">
+-  <th cdk-header-cell class="py-5 px-6" *cdkHeaderCellDef>
+       <input type="checkbox" value="false"/>
+      
+    </th>
+    <td cdk-cell class="py-4 px-6" *cdkCellDef="let row">
+      <input type="checkbox" value="false" />
+    </td>
+  </ng-container>
 
-    <ng-container cdkColumnDef="fechaRegistro">
-        <th cdk-header-cell class="py-5 px-6" *cdkHeaderCellDef>Fecha de Registro</th>
-        <td cdk-cell class="py-4 px-6" *cdkCellDef="let row">
-          {{ row.fechaRegistro | date:'dd/MM/yyyy' }}
-        </td>
-      </ng-container>
-    
-  </table>
-  <mat-paginator #paginator
-                 class="demo-paginator paginatorDatos"
-                 (page)="handlePageEvent($event)"
-                 [length]="total"
-                 [pageSize]="pageSize"
-                 showFirstLastButtons="true"
-                 [pageSizeOptions]="pageSizeOptions.length > 0 ? pageSizeOptions : []"
-                 [pageIndex]="pageIndex"
-                 aria-label="Select page">
-  </mat-paginator>
-  </div>
+  <!-- Nombres Column -->
+  <ng-container cdkColumnDef="unidad">
+    <th cdk-header-cell class="py-5 px-6" *cdkHeaderCellDef>Unidad</th>
+    <td cdk-cell class="py-4 px-6 font-semibold" *cdkCellDef="let row">
+      <a class="text-success-500 hover:text-success-700" >{{ row.nombre }}</a>
+    </td>
+  </ng-container>
+
+  <!-- DNI Column -->
+  <ng-container cdkColumnDef="categoria">
+    <th cdk-header-cell class="py-5 px-6" *cdkHeaderCellDef>Categoria</th>
+    <td cdk-cell class="py-4 px-6" *cdkCellDef="let row">{{ row.categoria || 'CATEGORIA' }}</td>
+  </ng-container>
+
+  <!-- Fecha de Registro Column -->
+  <ng-container cdkColumnDef="telefono">
+    <th cdk-header-cell class="py-5 px-6" *cdkHeaderCellDef>Telefono</th>
+    <td cdk-cell class="py-4 px-6" *cdkCellDef="let row">{{row.telefono || 'TELEFONO' }}</td>
+  </ng-container>
+
+  <!-- Rol Column -->
+  <ng-container cdkColumnDef="distrito">
+    <th cdk-header-cell class="py-5 px-6" *cdkHeaderCellDef>Distrito</th>
+    <td cdk-cell class="py-4 px-6 font-semibold" *cdkCellDef="let row">
+      {{ row.distrito  || 'DISTRITO' }}
+    </td>
+  </ng-container>
+  <!-- Unidad Operativa Column -->
+  <ng-container cdkColumnDef="red">
+    <th cdk-header-cell class="py-5 px-6" *cdkHeaderCellDef>Red</th>
+    <td cdk-cell class="py-4 px-6" *cdkCellDef="let row">
+      {{ row.red || 'RED'}}
+    </td>
+  </ng-container>
+
+  <ng-container cdkColumnDef="fechaRegistro">
+      <th cdk-header-cell class="py-5 px-6" *cdkHeaderCellDef>Fecha de Registro</th>
+      <td cdk-cell class="py-4 px-6" *cdkCellDef="let row">
+        {{ (row.fechaRegistro | date:'dd/MM/yyyy') || '12/02/2024' }}
+      </td>
+    </ng-container>
   
+</table>
+<mat-paginator #paginator
+               class="demo-paginator paginatorDatos"
+               [length]="total"
+               [pageSize]="10"
+               showFirstLastButtons="true"
+               [pageSizeOptions]="pageSizeOptions.length > 0 ? pageSizeOptions : []"
+               [pageIndex]="1"
+               aria-label="Select page">
+</mat-paginator>
+</div>

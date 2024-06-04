@@ -5,6 +5,9 @@ import { Parametro } from '@models/parametros-busqueda.model';
 import { UsersService } from '@services/users.service';
 import { DataResponse, UnidadOperativa, UnidadOperativaCiram } from 'src/app/interfaces/unit.op.interface';
 import { DataSourceList } from '../list/data-source';
+import { NotificationService } from '@services/notification.service';
+import { DatosGeneralesService } from 'src/app/data/services/datos-generales.service';
+import { MatTableDataSource } from '@angular/material/table';
 
 @Component({
   selector: 'esp-list-ciram',
@@ -14,9 +17,9 @@ import { DataSourceList } from '../list/data-source';
 export class ListCiramComponent {
   today = new Date();
 
-  @ViewChild(MatPaginator, { static: true }) paginator: MatPaginator = {} as MatPaginator;
+  @ViewChild("paginator") paginator!: MatPaginator;
   dataCompleted:any[] = [];
-  dataSource = new DataSourceList();
+  dataSource = new MatTableDataSource<any>();
 
   columns: string[] = ['id','unidad', 'categoria', 'telefono', 'distrito','red','fechaRegistro'];
   pageIndex = 0;
@@ -25,89 +28,61 @@ export class ListCiramComponent {
   pageSizeOptions:number[] = [5,10,20];
   total = 0;
   nombreFilter = '';
-  opcionesEstado: Parametro[] = [{ idParametros: 1, tipo: "", idPradre: 1, nombre: "CREADO", valor1: "CREADO", valor2: "", descripcion: "", fechaRegistro: "", fechaModificacion: "", activo: true },
-  { idParametros: 2, tipo: "", idPradre: 1, nombre: "CONFIRMADO", valor1: "CONFIRMADO", valor2: "", descripcion: "", fechaRegistro: "", fechaModificacion: "", activo: true },
-  { idParametros: 3, tipo: "", idPradre: 1, nombre: "ACTIVADO", valor1: "ACTIVADO", valor2: "", descripcion: "", fechaRegistro: "", fechaModificacion: "", activo: true },
-  { idParametros: 4, tipo: "", idPradre: 1, nombre: "INACTIVO", valor1: "INACTIVO", valor2: "", descripcion: "", fechaRegistro: "", fechaModificacion: "", activo: true },];
+  opcionesEstado: Parametro[] = [];
+  opcionesRed: Parametro[] = [];
 
   form:FormGroup = this.fb.group({
     frmSearch:new FormControl(""),
     frmSearchDate:new FormControl(""),
     frmSearchEstado:new FormControl(""),
+    frmSearchRed: new FormControl(""),
   });
   filtroFecInit!: string;
   filtroFecFin!: string;
 
-  //DATOS ESTATICOS:
-  dataResponse: DataResponse<UnidadOperativaCiram> = {
-    data:{
-      list: [
-        {
-          id: 1,
-          unidad: 'CAM la Victoria',
-          categoria: 'Nivel 1',
-          telefono: '323-9331',
-          distrito: 'La Victoria',
-          red: 'RED ASISTENCIAL ALMENARA',
-          fechaRegistro: new Date('2024-02-12')
-        },
-        {
-          id: 2,
-          unidad: 'CAM Callao',
-          categoria: 'Nivel 1',
-          telefono: '465-8102',
-          distrito: 'La Bellavista',
-          red: 'RED ASISTENCIAL SABOGAL',
-          fechaRegistro: new Date('2024-02-12')
-        },
-        {
-          id: 3,
-          unidad: 'CAM Piura',
-          categoria: 'Nivel 1',
-          telefono: '073-3366755',
-          distrito: 'Piura',
-          red: 'RED ASISTENCIAL PIURA',
-          fechaRegistro: new Date('2024-02-12')
-        },
-        {
-          id: 4,
-          unidad: 'CAM Arequipa',
-          categoria: 'Nivel 1',
-          telefono: '054-259546',
-          distrito: 'Zamácola',
-          red: 'RED ASISTENCIAL AREQUIPA',
-          fechaRegistro: new Date('2024-02-12')
-        }
-      ],
-      pageNum: 1,
-      pageSize: 5,
-      total: 4
-    }
-    
-  };
 
   public get searchForm(){
     return this.form.get("search");
   }
-  constructor(private usersService:UsersService,
-    private fb:FormBuilder){
+  constructor(
+    private usersService:UsersService,
+    private fb:FormBuilder,
+    public notificationService     : NotificationService,
+    private datosGeneralesService:DatosGeneralesService
+  ){
   }
 
   ngOnInit(): void {
-    this.paginator._intl.itemsPerPageLabel="Registros por página";
-    this.onFilter('');
+    this.datosGeneralesService.getTipoParametros('ESTADO_CONTRATO').subscribe((data)=>{
+      if (data.code == 0) {
+        this.opcionesEstado = data.data;
+      }
+      else{
+        this.notificationService.warning(data.message);
+      }
+    })
 
-    //MOMENTANEO
-    this.llenarDatosTabla(this.dataResponse);
+    this.datosGeneralesService.getUnidadesOperativas("").subscribe((data)=>{
+      console.log(data)
+      if (data.code == 0) {
+        this.opcionesRed = data.data.map((cam : any)=> {
+          return {...cam, valor1: cam.codigo}
+        });
+      }
+      else{
+        this.notificationService.warning(data.message);
+      }
+    })
+    //this.paginator._intl.itemsPerPageLabel="Registros por página";
+    this.onFilter('');
+    this.onLoadData();
+
   }
   onLoadData(){
     var fecInicio: any;
     var fecFin: any;
 
-    //MAQUETA
-    //this.llenarDatosTabla(this.dataResponse);
-
-    /*if (this.form.value.frmSearchDate == '') {
+    if (this.form.value.frmSearchDate == '') {
       fecInicio = new Date();
       fecInicio.setMonth(fecInicio.getMonth()-24);
       fecInicio = fecInicio.toJSON().split('T')[0];
@@ -118,32 +93,18 @@ export class ListCiramComponent {
       fecFin = this.filtroFecFin;
     }
     this.nombreFilter = String(this.form.value.frmSearch).toUpperCase()
-    this.usersService.listUsersSigps({
-      texto:  this.nombreFilter,
-      fecInicio: fecInicio,
-      fecFin: fecFin,
-      estado: this.form.value.frmSearchEstado,
-      pageNum: this.pageNum,
-      pageSize: this.pageSize
-    }).subscribe((data)=>{
-      console.log(data);
-      this.dataCompleted = data.data.list;
-      this.dataSource.init(data.data.list)
+    this.datosGeneralesService.getCamsCiram(
+      this.form.get('frmSearch')?.value,
+      this.form.get('frmSearchRed')?.value
+  ).subscribe((data)=>{
 
-      this.pageNum = data.data.pageNum;
-      this.pageSize = data.data.pageSize;
-      this.total = data.data.total;
-    })*/
+      this.dataCompleted = data.data;
+      this.dataSource.data = data.data;
+      this.dataSource.paginator = this.paginator;
+
+    })
   }
 
-  llenarDatosTabla(data : DataResponse<UnidadOperativa>){
-    this.dataCompleted = data.data.list;
-    this.dataSource.init(data.data.list)
-
-    this.pageNum = data.data.pageNum;
-    this.pageSize = data.data.pageSize;
-    this.total = data.data.total;
-  }
 
   onFilter(value: string){ //Momentaneo hasta que se tenga como campo en el servicio "Nombre a filtrar"
   }
@@ -175,6 +136,11 @@ export class ListCiramComponent {
     }
     this.pageIndex = 0;
     this.pageNum=1;
+    this.onLoadData();
+  }
+  
+  secDisplayValue(value: any){
+    this.form.get('frmSearchRed')?.setValue(value == 'null' ? '' : value);
     this.onLoadData();
   }
 
