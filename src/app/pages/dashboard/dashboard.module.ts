@@ -9,11 +9,13 @@ import { CdkTableModule } from '@angular/cdk/table';
 import { MaterialModule } from 'src/app/material/material.module';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { NgApexchartsModule } from 'ng-apexcharts';
+import { DashboardAsistenciasComponent } from './component/dashboard-asistencias/dashboard-asistencias.component';
 
 @NgModule({
   declarations: [
     DashboardComponent,
-    DashboardAfiliadosComponent
+    DashboardAfiliadosComponent,
+    DashboardAsistenciasComponent
   ],
   imports: [
     CommonModule,

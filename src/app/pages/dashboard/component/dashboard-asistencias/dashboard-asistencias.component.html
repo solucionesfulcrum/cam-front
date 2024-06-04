@@ -1,0 +1,131 @@
+<esp-opciones-busqueda [showDateFilter]="true" [setFilterDateOptionSelected]="'var(--color-CAM-Mezclado)'"
+    [setFilterDateTextColour]="'var(--color-CAM-Mezclado)'" [filterDateAppearance]="2"
+    (sendDateFilterWithCeros)="getDataFecha($event)" [setFilterDateSelectionBg]="'var(--color-CAM-Claro)'"
+    [setFilterDateButtonBg]="'var(--color-CAM-Claro)'" [setDateSelectedDefault]="9"></esp-opciones-busqueda>
+<div class="px-4 py-3 bg-white w-full mt-3 grid botonApariencia" *ngIf="!dataServicio">
+    <div class="text-gray-600 w-full text-center">
+        <span class="py-1 font-bold text-2xl">
+            <fa-icon class="mr-2" [icon]="faSpinner" [pulse]="true"></fa-icon>
+            Obteniendo datos...
+        </span>
+    </div>
+</div>
+<div *ngIf="dataServicio">
+    
+    
+    <div class="infoGeneral text-[var(--color-black-alt)] font-semibold">
+        <div class="datosAnaliticos botonApariencia mt-5">
+            <div>
+                <div class="text-[12px]">Servicio en Cartera</div>
+                <div class="text-[18px]">{{totalAfiliados}}</div>
+            </div>
+            <div class="icono">
+                <img class="self-center" src="assets/svg/iconTotalAfiliados.svg">
+            </div>
+        </div>
+        <div class="datosAnaliticos botonApariencia mt-5">
+            <div>
+                <div class="text-[12px]">Redes</div>
+                <div class="text-[18px]">{{totalAfiliadosActivos}}</div>
+            </div>
+            <div class="icono">
+                <img class="self-center" src="assets/svg/iconNuevosAfiliados.svg">
+            </div>
+        </div>
+        <div class="datosAnaliticos botonApariencia mt-5">
+            <div>
+                <div class="text-[12px]">Unidades CAM</div>
+                <div class="text-[18px]">{{totalAfiliadosActivos}}</div>
+            </div>
+            <div class="icono">
+                <img class="self-center" src="assets/svg/iconNuevosAfiliados.svg">
+            </div>
+        </div>
+        <div class="datosAnaliticos botonApariencia mt-5">
+            <div>
+                <div class="text-[12px]">CIRAM</div>
+                <div class="text-[18px]">{{totalAfiliadosActivos}}</div>
+            </div>
+            <div class="icono">
+                <img class="self-center" src="assets/svg/iconNuevosAfiliados.svg">
+            </div>
+        </div>
+        <!--<div class="datosAnaliticos botonApariencia">
+            <div>
+                <div class="text-[12px]">Activos</div>
+                <div class="text-[18px]">3200</div>
+            </div>
+            <div class="icono">
+                <img class="self-center" src="assets/svg/iconActivos.svg">
+            </div>
+        </div>
+        <div class="datosAnaliticos botonApariencia">
+            <div>
+                <div class="colorDivRojo text-[12px]">Bajas</div>
+                <div class="text-[18px]">11</div>
+            </div>
+            <div class="icono">
+                <img class="self-center" src="assets/svg/iconBajas.svg">
+            </div>
+        </div>-->
+        
+    </div>
+    <div class="flex flex-col gap-3 mt-5 botonApariencia" >
+            
+        <div class="flex flex-row gap-3 px-3  bg-white py-1.5">
+
+            <div class="flex flex-col justify-between grow">
+                <div class="py-3">
+                    <div class="flex flex-row gap-2.5">
+                        <div class="flex flex-col gap-[5px] shrink-0">
+                            <span class="font-semibold text-[20px] leading-[20px]">Monitoreo de asistencias a talleres</span>
+                            <span class="font-light" [style.font-size]="'1rem'">
+                                <strong>354,056 Asistencias</strong> este año
+                            </span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="flex flex-row gap-[2px] shrink-0">
+                <div class="flex flex-row gap-2 py-[2px] cursor-pointer hover:bg-gray-100 mr-4">
+
+                  <div class="flex items-center justify-start w-6 mr-2">
+                    <span class="inline-flex items-center transform rotate-90">
+                      <span class="h-2 w-2 bg-gray-500 rounded-full mr-1"></span>
+                      <span class="h-2 w-2 bg-gray-500 rounded-full mr-1"></span>
+                      <span class="h-2 w-2 bg-gray-500 rounded-full"></span>
+                    </span>
+                  </div>
+                </div>
+              </div>
+        </div>
+        <div class="w-full overflow-auto rounded bg-white">
+            <table class="w-full min-w-full bg-white ">
+              <thead>
+                <tr>
+                  <th class="px-5 py-3 border-b-2 border-gray-200 text-left text-xs font-semibold text-gray-700 uppercase tracking-wider">
+                    Servicios
+                  </th>
+                  <th class="px-5 py-3 border-b-2 border-gray-200 text-left text-xs font-semibold text-gray-700 uppercase tracking-wider">
+                    Asistencias
+                  </th>
+                  <th class="px-5 py-3 border-b-2 border-gray-200 text-left text-xs font-semibold text-gray-700 uppercase tracking-wider">
+                    Porcentaje%
+                  </th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td class="px-5 py-5 border-b border-gray-200 bg-white text-sm">Servicio 1</td>
+                  <td class="px-5 py-5 border-b border-gray-200 bg-white text-sm">123</td>
+                  <td class="px-5 py-5 border-b border-gray-200 bg-white text-sm">35.7%</td>
+                </tr>
+                </tbody>
+            </table>
+          </div>
+        
+    </div>
+
+  
+
+</div>

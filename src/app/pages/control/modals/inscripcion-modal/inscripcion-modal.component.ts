@@ -200,7 +200,7 @@ export class InscripcionModalComponent {
       idUnidadOperativa: unidadOperativa,
       idProgramacionDet: selectedProgramacion,
       acreditado: this.acreditado,
-      idUsuarioReg: "1",
+      idUsuarioReg: (JSON.parse(localStorage.getItem('camUser')!)).idUsuario,
       conConexion: this.conConexion
     }).subscribe(data => {
       if(data.code == "0"){

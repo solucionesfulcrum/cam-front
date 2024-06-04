@@ -9,7 +9,8 @@ import { FormatoTab } from '@shared/components/menu-opciones/formato-tab.model';
 export class DashboardComponent implements OnInit{
  
   links: FormatoTab[] = [
-    {url: `/app/dashboard`, title:'Afiliados'}
+    {url: `/app/dashboard`, title:'Afiliados'},
+    {url: `/app/dashboard/asistencias`, title:'Asistencias'},
   ];
 
   constructor() { }
