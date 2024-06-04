@@ -42,19 +42,22 @@
                         <div class="flex-1 flex items-center justify-start gap-2">
                             <div class="flex">
                                 <div class="relative rounded-md shadow-sm">
-                                   <select id="docs" #firstSelect class="bg-slate-50 border border-gray-300 text-gray-600 text-sm rounded-lg focusCampo !h-10 block w-full"
+                                  <!-- <select id="docs" #firstSelect class="bg-slate-50 border border-gray-300 text-gray-600 text-sm rounded-lg focusCampo !h-10 block w-full"
                                    (change)="getFiltroPorTallerista($event)"
                                    >
-                                        <option [value]="'X'">Talleristas</option> 
+                                        <option [value]="'X'">
+                                            
+                                            Talleristas
+                                        </option> 
                                         <option [value]="" disabled>Proveedores</option> 
                                         <option [value]="tallerista.value" *ngFor="let tallerista of dropdownOptions" > {{tallerista.label}} </option> 
                                       
-                                    </select>
-
-                                    <!--
-                                    <app-custom-select [options]="dropdownOptions" 
-                                    placeholder="Talleristas"
-                                     (optionSelected)="onOptionSelected($event)"></app-custom-select>-->
+                                    </select>-->
+                                    <esp-select-personalizado 
+                                    [options]="dropdownOptions"
+                                    placeholder="PROVEEDORES"
+                                    (optionSelected)="onOptionSelected($event)">
+                                    </esp-select-personalizado>
                                   </div>
                             </div>
                         </div>
@@ -107,11 +110,12 @@
                                         </div>
                                     </div> -->
                                     <div *ngFor="let actividad of getDataAsignacion(horario, espacios), index as i">
-                                        <div class="absolute left-0 top-0 z-10 flex flex-row w-full" *ngIf="validarActividadRegistrada(horario, espacios)" [ngStyle]="{'height': (validarActividadRegistrada(horario, espacios) ? actividad.longitud + 'px': null), 'margin-top': (validarActividadRegistrada(horario, espacios) ? actividad.controlarInicio + 'px': null)}" [cdkMenuTriggerFor]="actividad ? accountOptions : null" (click)="getDataServiceAsignadoSelected(actividad.idProgramacionDet, $event)">
-                                            <div class="barraTarea">
+                                        <div class="absolute left-0 top-0 z-10 flex flex-row w-full" *ngIf="validarActividadRegistrada(horario, espacios)" [ngStyle]="{'height': (validarActividadRegistrada(horario, espacios) ? actividad.longitud + 'px': null), 'margin-top': (validarActividadRegistrada(horario, espacios) ? actividad.controlarInicio + 'px': null)}" [cdkMenuTriggerFor]="actividad ? accountOptions : null" (click)="getDataServiceAsignadoSelected(actividad.idProgramacionDet, $event, actividad.indice)">
+                                            <div class="barraTarea-{{actividad.indice}}">
                                                 <img src="assets/svg/icon-task-small.svg">
                                             </div>
                                             <div class="flex items-start w-full">
+                                               
                                                 <span class="text-[10px] bg-white px-1 h-[99%] text-[#333333] overflow-auto w-full">{{actividad.nombreServicio | titlecase}}, <span class="text-[var(--color-CAM)]">{{actividad.fechaHorarioInicio | date:'h:mm aa'}}</span></span>
                                             </div>
                                         </div>
@@ -139,7 +143,8 @@
                                                 <div class="flex flex-col" *ngIf="dataAsignacionSelected">
                                                     <span class="text-[14px] leading-[14px]">Programación de:</span>
                                                     <div class="flex flex-row gap-2.5 items-center py-2">
-                                                        <div class="w-5 h-5 bg-[var(--color-CAM)] rounded"></div>
+
+                                                        <div class="square-{{indiceSeleccionado}}"></div>
                                                         <div class="flex flex-col gap-1">
                                                             <span class="text-[18px] leading-5">{{dataAsignacionSelected.servicio | titlecase}}</span>
                                                             <span class="text-[14px] leading-[14px] text-[#64748B]">Taller de {{dataAsignacionSelected.duracion}} min</span>

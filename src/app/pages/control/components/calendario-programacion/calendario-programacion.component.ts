@@ -16,6 +16,7 @@ import { DatosGeneralesService } from 'src/app/data/services/datos-generales.ser
 import { ContactosTalleristasService } from 'src/app/data/services/contactos/contactos-talleristas.service';
 import { ControlProgramacionService } from 'src/app/data/services/control/control-programacion.service';
 import { ProgramacionRequestListContratos } from '@models/programacion/programacion-contratos/programacion-contrato-lista.model';
+import { data } from 'autoprefixer';
 
 registerLocaleData(localeEs, 'es');
 
@@ -23,6 +24,7 @@ interface SelectOption {
   icon: IconDefinition | null;
   label: string;
   value: any;
+  indice?: string;
 }
 
 @Component({
@@ -57,6 +59,7 @@ export class CalendarioProgramacionComponent {
   dataResumenContrato: any;
 
   talleristaSeleccionado: string = "";
+  indiceSeleccionado : string = "";
   
   faClose = fonts.faClose;
   faSquare = fonts.faSquare;
@@ -109,9 +112,10 @@ export class CalendarioProgramacionComponent {
                 this.periodoCalendario.setFullYear(this.limitesHorario[0].getFullYear());
                 this.getFechasSemana(new Date(this.limitesHorario[0].getFullYear(), this.limitesHorario[0].getMonth(), this.limitesHorario[0].getDate()));
     
-    
+
                 this.dataContrato = data.data.datosContrato; //SEGUIR AGREGANDO HORARIOS
-    
+                
+
                 this.getDataResumenContrato();
                 this.getServiciosContrato()
                 this.getDataServiciosAsignados();
@@ -140,6 +144,7 @@ export class CalendarioProgramacionComponent {
       if (!exists) {
           this.dropdownOptions.push({
               'icon': null,
+              indice: String(this.dropdownOptions.length + 1),
               label: programacion.tallerista,
               value: programacion.tallerista
           });
@@ -152,6 +157,13 @@ export class CalendarioProgramacionComponent {
     const valor = target.value;
     
     this.filtrarPorTalleristas(valor);
+  }
+
+  
+
+  onOptionSelected(option: {value: string}) {
+    
+    this.filtrarPorTalleristas(option.value);
   }
 
   filtrarPorTalleristas(filtro: string){
@@ -179,12 +191,11 @@ export class CalendarioProgramacionComponent {
             this.periodoCalendario.setFullYear(this.limitesHorario[0].getFullYear());
             this.getFechasSemana(new Date(this.limitesHorario[0].getFullYear(), this.limitesHorario[0].getMonth(), this.limitesHorario[0].getDate()));
 
-
             this.dataContrato = data.data.datosContrato; //SEGUIR AGREGANDO HORARIOS
 
             this.getDataResumenContrato();
             this.getServiciosContrato()
-            this.getDataServiciosAsignados();
+            this.getDataServiciosAsignados(this.dataContrato);
             this.ctrlProfesionales.setValue(1);
           }
           else {
@@ -237,13 +248,13 @@ export class CalendarioProgramacionComponent {
 
   getPayloadContratos() : ProgramacionRequestListContratos{
       return {
-        "idUnidOpe": 132,
+        "idUnidOpe": (JSON.parse(localStorage.getItem('UnidElegida')!)).idUnidOperativa,
         "texto": "",
-        "fecInicio": "2024-01-01",
-        "fecFin": "2024-06-03",
+        "fecInicio": new Date(new Date().getFullYear(), 0, 1).toISOString().split('T')[0], // Fecha de inicio del año
+        "fecFin": new Date().toISOString().split('T')[0], // Fecha actual
         "estado": 0,
         "pageNum": 1,
-        "pageSize": 10
+        "pageSize": 50
     }
   }
 
@@ -294,11 +305,15 @@ export class CalendarioProgramacionComponent {
     })
   }
 
-  getDataServiciosAsignados(){
-    this.programacionService.getServiciosProgramadosContrato(this.dataContrato.idProgramacion).subscribe((data)=>{
-      if (data.code == 0) {
+  getDataServiciosAsignados(dataContrato?: any){
+    if(!dataContrato){
+      dataContrato = this.dataContrato;
+    }
 
+    this.programacionService.getServiciosProgramadosContrato(dataContrato.idProgramacion).subscribe((data)=>{
+      if (data.code == 0) {
         data.data.forEach((servicio : any) => {
+          servicio.indice = this.dropdownOptions.filter(e => e.value == dataContrato.nombreProveedor)[0].indice;
           this.serviciosAsignados.push(servicio);
         });
       }
@@ -329,7 +344,8 @@ export class CalendarioProgramacionComponent {
   }
 
   comprobacionBloqueo(dateElegido: any): boolean{
-    if (dateElegido.getDay() == 0 || dateElegido.getDay() == 6 || dateElegido.getTime() < this.limitesHorario[0].getTime() || dateElegido.getTime() > this.limitesHorario[1].getTime()) {
+    //if (dateElegido.getDay() == 0 || dateElegido.getDay() == 6 || dateElegido.getTime() < this.limitesHorario[0].getTime() || dateElegido.getTime() > this.limitesHorario[1].getTime()) {
+    if (dateElegido.getDay() == 0 || dateElegido.getDay() == 6 ) {
       return true
     }
     return false
@@ -405,8 +421,9 @@ export class CalendarioProgramacionComponent {
     }
   }
   
-  getDataServiceAsignadoSelected(idProgramacionDet: any, event: MouseEvent){
+  getDataServiceAsignadoSelected(idProgramacionDet: any, event: MouseEvent, indice: string){
     event.stopPropagation();
+    this.indiceSeleccionado = indice;
     this.dataAsignacionSelected = null;
     this.programacionService.getDataAsignacionServicioSelected(idProgramacionDet).subscribe((data)=>{
       if (data.code == 0) {
@@ -493,4 +510,5 @@ export class CalendarioProgramacionComponent {
       }
     })
   }
+
 }

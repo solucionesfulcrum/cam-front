@@ -1,0 +1,44 @@
+// Colores de fondo
+$bg-colors: (
+  1: #5579f1, // Oro
+  2: #eb8787, // Azul cielo
+  3: #FFA07A, // Salmón claro
+  4: #08da2b, // Turquesa medio
+  5: #ff2290, // Rosa fuerte
+  6: #f57d14, // Melocotón
+  7: #C0C0C0, // Plata
+  8: #7FFFD4, // Turquesa
+  9: #778899, // Gris pizarra
+  10: #FF6347 // Tomate
+);
+
+
+// Bucle para generar las clases .barraTarea
+@for $i from 1 through 10 {
+    .barraTarea-#{$i} {
+      display: flex;
+      flex-shrink: 0;
+      align-content: flex-start;
+      flex-wrap: wrap;
+      justify-content: center;
+      padding: 1px;
+      $bg-color: map-get($bg-colors, $i); // Obtener el color del mapa
+        background: linear-gradient(to right, lighten($bg-color, 10%), $bg-color, darken($bg-color, 10%));
+      width: 9px;
+    }
+  }
+
+// Bucle para generar las clases .barraTarea
+@for $i from 1 through 10 {
+    .square-#{$i} {
+        width: 12px;
+        height: 12px;
+      $bg-color: map-get($bg-colors, $i); // Obtener el color del mapa
+        background: linear-gradient(to right, lighten($bg-color, 10%), $bg-color, darken($bg-color, 10%));
+        margin: 4px; /* Margen exterior alrededor del cuadrado */
+        margin-right: 0.5rem; /* Espaciado a la derecha del cuadrado */
+        outline: 2px solid rgb(255, 255, 255); /* Grosor y color del borde sin afectar el tamaño del cuadrado */
+        border-radius: 1px; /* Redondear las esquinas del cuadrado */
+        box-shadow: 0 0 0 3px rgba(128, 128, 128, 0.5); /* Borde exterior redondo y semi-transparente */
+    }
+  }

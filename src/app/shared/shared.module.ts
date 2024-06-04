@@ -15,6 +15,7 @@ import { CartillaInfoComponent } from './components/cartilla-info/cartilla-info.
 import { TablaAdaptableComponent } from './components/tabla-adaptable/tabla-adaptable.component';
 import { PreguntasComponent } from './components/preguntas/preguntas.component';
 import { Pregunt1opcComponent } from './components/pregunt1opc/pregunt1opc.component';
+import { SelectPersonalizadoComponent } from './components/select-personalizado/select-personalizado.component';
 
 const modules:any[] = [
   CommonModule,
