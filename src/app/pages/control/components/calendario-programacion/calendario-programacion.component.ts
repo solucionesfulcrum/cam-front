@@ -68,6 +68,8 @@ export class CalendarioProgramacionComponent {
   limitesHorario: Date[] = [];
   serviciosAsignados: any[] = [];
   horarios = ['7 AM', '8 AM', '9 AM', '10 AM', '11 AM', '12 PM', '1 PM', '2 PM', '3 PM', '4 PM', '5 PM', '6 PM', '7 PM']
+
+  totalProgramaciones : number = -1;
   
   periodoCalendario: Date = new Date();
   
@@ -97,6 +99,8 @@ export class CalendarioProgramacionComponent {
         this.programacionService.listContratosProgramacion(this.getPayloadContratos()).subscribe((programaciones)=>{
 
           this.llenarTablaTalleristas(programaciones.data.list);
+
+          this.totalProgramaciones = programaciones.data.list.length;
 
           programaciones.data.list.map((programacion : any) => {
 

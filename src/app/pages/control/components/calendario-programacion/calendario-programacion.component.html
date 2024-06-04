@@ -1,10 +1,16 @@
-<div class="px-4 py-3 bg-white w-full mt-3 grid botonApariencia" *ngIf="!dataContrato">
+<div class="px-4 py-3 bg-white w-full mt-3 grid botonApariencia" *ngIf="!dataContrato && totalProgramaciones <= -1">
     <div class="text-gray-600 w-full text-center">
         <p class="py-1 font-semibold text-2xl">
             <fa-icon class="mr-2" [icon]="faSpinner" [pulse]="true"></fa-icon>
             Obteniendo datos...
         </p>
     </div>
+</div>
+<div class="px-4 py-3 bg-white w-full mt-3 grid botonApariencia" *ngIf="totalProgramaciones == 0">
+    <div class="m-auto w-fit text-center py-6">
+        <img class="m-auto" src="assets/svg/empty-data.svg" alt="">
+        <h3 class="text-gray-500 mt-2 font-light">No existen registros.</h3>
+      </div>
 </div>
 <div *ngIf="dataContrato">
     
