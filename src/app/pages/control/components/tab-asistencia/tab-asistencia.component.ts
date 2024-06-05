@@ -475,6 +475,7 @@ export class TabAsistenciaComponent {
       this.status = 'loading';
       this.controlService.registerCierreTaller(this.datoProgramacion.idControlAsistenciaCab).subscribe((dataCierre)=>{
         if (dataCierre.code == 0) {
+          localStorage.removeItem('idProgramElegida');
           this.router.navigate(['/app/control/mis-talleres']);
           this.notificacionService.success('¡Se ha registrado las asistencias en el taller!');
           this.status = 'success';          
