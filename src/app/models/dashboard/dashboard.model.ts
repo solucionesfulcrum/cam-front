@@ -71,3 +71,9 @@ export interface changePassword {
     newPwd: string,
     confirmNewPwd: string
 }
+
+export interface AsistenciasTalleres{
+    servicios: string,
+    asistencias: string,
+    porcentaje: string
+}

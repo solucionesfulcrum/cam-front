@@ -51,3 +51,29 @@ mat-icon{
 .colorDivRojo{
     color: red; 
 }
+
+/* Aplica un fondo transparente a la tabla */
+table.cdk-table {
+    background-color: white;
+  }
+  
+  /* Aplica un fondo transparente a las filas de la cabecera */
+  table.cdk-table .cdk-header-row {
+    background-color: white;
+  }
+  
+  /* Aplica un fondo transparente a las celdas de la cabecera */
+  table.cdk-table .cdk-header-cell {
+    background-color: white;
+    color: gray; /* Establece el color del texto de la cabecera a gris */
+  }
+  
+  /* Aplica un fondo transparente a las filas del cuerpo */
+  table.cdk-table .cdk-row {
+    background-color: white;
+  }
+  
+  /* Aplica un fondo transparente a las celdas del cuerpo */
+  table.cdk-table .cdk-cell {
+    background-color: white;
+  }
