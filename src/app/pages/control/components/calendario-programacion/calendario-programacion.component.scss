@@ -210,3 +210,16 @@ $bg-colors: (
         text-align: center !important;
     }
 }
+
+.programacion:hover{
+    z-index: 9999 !important;
+    transform: scale(1.1);
+    transition: transform 0.3s ease, z-index 0.3s ease;
+}
+
+.menu-layout-up{
+    position: absolute;
+    bottom: 50%;
+    transform: translateY(-50%); /* Desplaza el contenedor hacia arriba */
+    transform: translateX(-25%); /* Desplaza el contenedor hacia arriba */
+}

@@ -116,17 +116,35 @@
                                         </div>
                                     </div> -->
                                     <div *ngFor="let actividad of getDataAsignacion(horario, espacios), index as i">
-                                        <div class="absolute left-0 top-0 z-10 flex flex-row w-full" *ngIf="validarActividadRegistrada(horario, espacios)" [ngStyle]="{'height': (validarActividadRegistrada(horario, espacios) ? actividad.longitud + 'px': null), 'margin-top': (validarActividadRegistrada(horario, espacios) ? actividad.controlarInicio + 'px': null)}" [cdkMenuTriggerFor]="actividad ? accountOptions : null" (click)="getDataServiceAsignadoSelected(actividad.idProgramacionDet, $event, actividad.indice)">
-                                            <div class="barraTarea-{{actividad.indice}}">
+                                        <div class="absolute left-0 top-0 flex flex-row w-full programacion" 
+                                        [style.left]="((actividad.indice - 1) * 1) + 'vw'"   
+                                        [style.width]="((10.4) - actividad.indice) + 'vw'"   
+                                        *ngIf="validarActividadRegistrada(horario, espacios)" 
+                                        [ngStyle]="{
+                                            'height': (validarActividadRegistrada(horario, espacios) ? actividad.longitud + 'px': null), 
+                                            'margin-top': (validarActividadRegistrada(horario, espacios) ? actividad.controlarInicio + 'px': null), 
+                                            'z-index': (10 * actividad.indice)}" 
+                                            [cdkMenuTriggerFor]="actividad ? accountOptions : null" (click)="getDataServiceAsignadoSelected(actividad.idProgramacionDet, $event, actividad.indice)"
+                                            >
+                                            
+                                            <div class="barraTarea-{{actividad.indice}}" >
                                                 <img src="assets/svg/icon-task-small.svg">
                                             </div>
                                             <div class="flex items-start w-full">
-                                               
-                                                <span class="text-[10px] bg-white px-1 h-[99%] text-[#333333] overflow-auto w-full">{{actividad.nombreServicio | titlecase}}, <span class="text-[var(--color-CAM)]">{{actividad.fechaHorarioInicio | date:'h:mm aa'}}</span></span>
+                                                <span class="text-[10px] bg-white px-1 h-[99%] text-[#333333] overflow-auto w-full">
+                                                    {{actividad.nombreServicio | titlecase}}, <span class="text-[var(--color-CAM)]">
+                                                    {{actividad.fechaHorarioInicio | date:'h:mm aa'}}
+                                                </span></span>
                                             </div>
                                         </div>
                                         <ng-template #accountOptions>
-                                            <div class="menu-layout botonApariencia min-w-[600px]" cdkMenu>
+                                            <div 
+                                            class="menu-layout botonApariencia min-w-[600px]"
+                                            [class]="{'menu-layout-up' : horarioTarde(actividad.fechaHorarioInicio)}"
+                                            cdkMenu 
+                                            [style.left]="((actividad.indice - 1) * 1) + 'vw'"
+                                            [style.top]="'vw'"
+                                            >
                                                 <div class="px-4 py-3 w-full grid" *ngIf="!dataAsignacionSelected">
                                                     <div class="text-gray-600 w-full text-center">
                                                         <p class="py-1 font-semibold text-2xl">

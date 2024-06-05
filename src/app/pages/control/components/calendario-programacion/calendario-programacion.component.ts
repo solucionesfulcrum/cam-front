@@ -411,6 +411,13 @@ export class CalendarioProgramacionComponent {
     })
     return listAct;
   }
+
+  horarioTarde(date: Date): boolean {
+    const horaLimite = 14; // 14 representa las 2 de la tarde
+    const horaFecha = date.getHours(); // Obtiene la hora de la fecha
+
+    return horaFecha >= horaLimite;
+}
   //______________________________________________________________________________________________________________________________________________________________________________________________ TERMINAR
 
   verifyData(dataRangoElegido: any, dataFechaElegida: any, event: MouseEvent){
