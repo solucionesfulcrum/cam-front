@@ -1,9 +1,10 @@
-import { Component } from '@angular/core';
+import { ChangeDetectorRef, Component, NgZone } from '@angular/core';
 import { FormatoBoton } from '@shared/components/opciones-botones/formato-boton.model';
 import { faSpinner } from '@fortawesome/free-solid-svg-icons';
 import { ActivatedRoute, Router } from '@angular/router';
 import { AuthService } from '@services/auth.service';
 import { DatosPerfilCiram } from '@models/adm-uo/adm-uo';
+import { FormatoTab } from '@shared/components/menu-opciones/formato-tab.model';
 
 @Component({
   selector: 'esp-edit',
@@ -14,40 +15,48 @@ export class EditComponent {
   dataShow = false;
   faSpinner = faSpinner;
   id = 1;
-  idUnidadOperativa: any;
+  idUnidadOperativa: any = -1;
   datosPerfilCiram: DatosPerfilCiram = {
-    nombre: '',
-    idCentro: '',
-    tipo: '',
-    fechaIncripcion: '',
+    nombre: 'Centro de Salud CAM Norte',
+    idCentro: '23835688',
+    tipo: 'CIRAM',
+    fechaIncripcion: '14/04/1997',
+    direccion: 'Andres Avelino Caceres Dorregaray/Huamanga/Ayacucho',
     distrito: '',
-    nombreCam: '',
-    nombreRed: '',
-    lider: '',
-    celular: '',
-    estado: 0,
-    correo: '',
+    nombreCam: 'CUSCO',
+    nombreRed: 'CUSCO',
+    lider: 'Juan José Silva Montalvo',
+    celular: '949484895',
+    estado: 1,
+    correo: 'correo@gmail.com',
   };
 
   opcionesBotones: FormatoBoton[] = [
     { texto: 'Cancelar' },
     { texto: 'Editar', esImagen: true, rutaIcono: 'assets/svg/iconFileEdit.svg' },
   ];
-  links = [
-    { url: `/app/adm-uo/edit/show/${this.id}`, title: 'Afilidados' },
-    { url: `/app/adm-uo/edit/show/${this.id}`, title: 'Talleres' },
-    { url: `/app/adm-uo/edit/show/${this.id}`, title: 'Talleristas' },
-  ]
+  links : FormatoTab[] = [];
 
   constructor(
     private activeRoute: ActivatedRoute,
     private authService: AuthService,
-    private router: Router
+    private router: Router,
   ) {
-    this.idUnidadOperativa = this.activeRoute.snapshot.paramMap.get('idUnidadOperativa');
+   
   }
 
   ngOnInit() {
+    
+    
+    this.idUnidadOperativa = this.activeRoute.snapshot.paramMap.get('idUnidadOperativa');
+
+    this.links = [
+      { url: `/app/adm-uo/edit/${this.idUnidadOperativa}/afiliados`, title: 'Afilidados' },
+      { url: `/app/adm-uo/edit/${this.idUnidadOperativa}/talleres`, title: 'Talleres' },
+      { url: `/app/adm-uo/edit/${this.idUnidadOperativa}/talleristas`, title: 'Talleristas' },
+    ]
+
+    
     this.authService.getPerfilCiram(this.idUnidadOperativa).subscribe((data) => {
       console.log('hola', data.data)
       if(data.data){

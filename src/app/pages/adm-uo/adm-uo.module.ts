@@ -9,6 +9,10 @@ import { EditComponent } from './component/edit/edit.component';
 import { MaterialModule } from 'src/app/material/material.module';
 import { EditCiramComponent } from './component/edit-ciram/edit-ciram.component';
 import { MenuOpcionesComponent } from '@shared/components/menu-opciones/menu-opciones.component';
+import { AfiliadosComponent } from './component/sub-component/afiliados/afiliados.component';
+import { TalleresComponent } from './component/sub-component/talleres/talleres.component';
+import { TalleristasComponent } from './component/sub-component/talleristas/talleristas.component';
+import { CdkTableModule } from '@angular/cdk/table';
 
 @NgModule({
   declarations: [
@@ -16,14 +20,18 @@ import { MenuOpcionesComponent } from '@shared/components/menu-opciones/menu-opc
     AdmCiramComponent,
     RegistroComponent,
     EditComponent,
-    EditCiramComponent
+    EditCiramComponent,
+    AfiliadosComponent,
+    TalleresComponent,
+    TalleristasComponent
   ],
   imports: [
     CommonModule,
     AdmOuRoutingModule,
     SharedModule,
     MaterialModule,
-    MenuOpcionesComponent
+    MenuOpcionesComponent,
+    CdkTableModule,
   ]
 })
 export class AdmUoModule { }

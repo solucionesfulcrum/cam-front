@@ -7,6 +7,9 @@ import { RegistroComponent } from './component/registro/registro.component';
 import { EditComponent } from './component/edit/edit.component'
 import { AppRoute } from 'src/app/data/constants/app-route.constant';
 import { EditCiramComponent } from './component/edit-ciram/edit-ciram.component'
+import { AfiliadosComponent } from './component/sub-component/afiliados/afiliados.component';
+import { TalleresComponent } from './component/sub-component/talleres/talleres.component';
+import { TalleristasComponent } from './component/sub-component/talleristas/talleristas.component';
 
 const routes: Routes = [
   {path: '',
@@ -25,7 +28,21 @@ const routes: Routes = [
       {
         path: `${AppRoute.EDIT_UO}/:idUnidadOperativa`,
         component: EditComponent,
-        title: 'Editar - CIRAM'
+        title: 'Editar - CAM',
+        children:[
+            {
+              path: 'afiliados',
+              component: AfiliadosComponent,
+            },
+            {
+              path: 'talleres',
+              component: TalleresComponent,
+            },
+            {
+              path: 'talleristas',
+              component: TalleristasComponent,
+            }
+        ]
       },
       {
         path: `${AppRoute.EDIT_CIRAM}/:idUnidadOperativa`,

@@ -1,0 +1,57 @@
+<div class="px-4 py-3 bg-white w-full mt-3 grid botonApariencia" *ngIf="loading">
+    <div class="text-gray-600 w-full text-center">
+        <span class="py-1 font-bold text-2xl">
+            <fa-icon class="mr-2" [icon]="faSpinner" [pulse]="true"></fa-icon>
+            Obteniendo datos...
+        </span>
+    </div>
+</div>
+<div *ngIf="!loading" [style.height]="'85%'">
+    <table cdk-table class="w-full text-sm text-left text-gray-500 " [dataSource]="dataSource" >
+      <tr cdk-header-row class="text-xs text-gray-700 border-b" *cdkHeaderRowDef="columns"></tr>
+      <tr cdk-row class="bg-white border-b" *cdkRowDef="let row; columns: columns"></tr>
+      <ng-container cdkColumnDef="numero">
+        <th cdk-header-cell class="py-[1.25rem] px-6" *cdkHeaderCellDef [ngStyle]="{width: '10%', color:'rgba(128, 128, 128, 0.6)'}">N°</th>
+        <td cdk-cell class="py-[1rem] px-6" *cdkCellDef="let row; let i = index">
+            {{ i + 1}}
+        </td>
+      </ng-container>
+      <ng-container cdkColumnDef="nombreUsuario">
+        <th cdk-header-cell class="py-[1.25rem] px-6" *cdkHeaderCellDef [ngStyle]="{width: '30%', color:'rgba(128, 128, 128, 0.6)'}">Nombre Usuario</th>
+        <td cdk-cell class="py-[1rem] px-6" *cdkCellDef="let row">
+            {{ row.nombreUsuario }}
+        </td>
+      </ng-container>
+      <ng-container cdkColumnDef="fechaInicio">
+        <th cdk-header-cell class="py-[1.25rem] px-6" *cdkHeaderCellDef [ngStyle]="{width: '20%', color:'rgba(128, 128, 128, 0.6)'}">Fecha Inicio</th>
+        <td cdk-cell class="py-[1rem] px-6" *cdkCellDef="let row">
+            {{ row.fechaInicio }}
+        </td>
+      </ng-container>
+      <ng-container cdkColumnDef="fechaFin">
+        <th cdk-header-cell class="py-[1.25rem] px-6" *cdkHeaderCellDef [ngStyle]="{width: '20%', color:'rgba(128, 128, 128, 0.6)'}">Fecha Fin</th>
+        <td cdk-cell class="py-[1rem] px-6" *cdkCellDef="let row">
+            {{ row.fechaFin }}
+        </td>
+      </ng-container>
+      <ng-container cdkColumnDef="rol">
+        <th cdk-header-cell class="py-[1.25rem] px-6" *cdkHeaderCellDef [ngStyle]="{width: '10%', color:'rgba(128, 128, 128, 0.6)'}">Rol</th>
+        <td cdk-cell class="py-[1rem] px-6" *cdkCellDef="let row">
+            {{ row.rol }}
+        </td>
+      </ng-container>
+      <ng-container cdkColumnDef="estado">
+        <th cdk-header-cell class="py-[1.25rem] px-6" *cdkHeaderCellDef [ngStyle]="{width: '10%', color:'rgba(128, 128, 128, 0.6)'}">Estado</th>
+        <td cdk-cell class="py-[1rem] px-6" *cdkCellDef="let row">
+           
+        </td>
+      </ng-container>
+    </table>
+    <div *ngIf="dataSource.data.length == 0" class="w-full h-full flex items-center bg-white mt-2">
+        <div class="m-auto w-fit text-center py-6">
+          <img class="m-auto" src="assets/svg/empty-data.svg" alt="">
+          <h3 class="text-gray-500 mt-2 font-light">No existen registros aún!</h3>
+        </div>
+      </div>
+
+</div>  

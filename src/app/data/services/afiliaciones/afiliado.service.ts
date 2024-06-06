@@ -2,8 +2,10 @@ import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { environment } from 'src/environments/environment';
 import { TipoParametro } from '@models/parametros-busqueda.model';
-import { Observable } from 'rxjs';
+import { Observable, delay, of } from 'rxjs';
 import { dataRequest, listaFichaSolicitudRequest } from '@models/afiliados/ficha-solicitud.model';
+import { Afiliados } from '@models/adm-uo/adm-uo';
+import { Http } from '@models/generico/http';
 
 
 const URL_BASE = `${environment.API}/ficha-solicitud`;
@@ -37,6 +39,19 @@ export class AfiliadoService {
   getTipoParametros(tipo: string){
     const url = `${environment.API}/parametros/listarPorTipo?tipo=${tipo}`;
     return this._httpClient.get<TipoParametro>(url);
+  }
+
+  getAfiliadosEditCiram(idciram: string) : Observable<Http<Afiliados>>{
+    let response = {
+      data: [
+       
+     ]
+     
+    }
+
+    return of(response).pipe(
+      delay(500)
+    );
   }
 }
 

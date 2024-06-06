@@ -3,6 +3,7 @@ export interface DatosPerfilCiram {
     idCentro: string,
     tipo: string,
     fechaIncripcion: string,
+    direccion: string,
     distrito: string,
     nombreCam: string,
     nombreRed : string,
@@ -10,4 +11,12 @@ export interface DatosPerfilCiram {
     celular: string,
     estado: number,
     correo: string,
+}
+
+export interface Afiliados{
+    nombreUsuario: string,
+    fechaInicio: string,
+    fechaFin: string,
+    rol: string,
+    estado: number,
 }
