@@ -31,6 +31,10 @@ const routes: Routes = [
         title: 'Editar - CAM',
         children:[
             {
+              path: '',
+              component: AfiliadosComponent,
+            },
+            {
               path: 'afiliados',
               component: AfiliadosComponent,
             },
@@ -47,7 +51,8 @@ const routes: Routes = [
       {
         path: `${AppRoute.EDIT_CIRAM}/:idUnidadOperativa`,
         component: EditCiramComponent,
-        title: 'Editar - CIRAM'
+        title: 'Editar - CIRAM',
+        
       }
     ]
   }
