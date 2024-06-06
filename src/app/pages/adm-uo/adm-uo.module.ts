@@ -8,6 +8,7 @@ import { RegistroComponent } from './component/registro/registro.component';
 import { EditComponent } from './component/edit/edit.component';
 import { MaterialModule } from 'src/app/material/material.module';
 import { EditCiramComponent } from './component/edit-ciram/edit-ciram.component';
+import { MenuOpcionesComponent } from '@shared/components/menu-opciones/menu-opciones.component';
 
 @NgModule({
   declarations: [
@@ -21,7 +22,8 @@ import { EditCiramComponent } from './component/edit-ciram/edit-ciram.component'
     CommonModule,
     AdmOuRoutingModule,
     SharedModule,
-    MaterialModule
+    MaterialModule,
+    MenuOpcionesComponent
   ]
 })
 export class AdmUoModule { }

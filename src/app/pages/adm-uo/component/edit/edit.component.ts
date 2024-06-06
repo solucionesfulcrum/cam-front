@@ -3,6 +3,7 @@ import { FormatoBoton } from '@shared/components/opciones-botones/formato-boton.
 import { faSpinner } from '@fortawesome/free-solid-svg-icons';
 import { ActivatedRoute, Router } from '@angular/router';
 import { AuthService } from '@services/auth.service';
+import { DatosPerfilCiram } from '@models/adm-uo/adm-uo';
 
 @Component({
   selector: 'esp-edit',
@@ -14,7 +15,19 @@ export class EditComponent {
   faSpinner = faSpinner;
   id = 1;
   idUnidadOperativa: any;
-  datosPerfilCiram: any;
+  datosPerfilCiram: DatosPerfilCiram = {
+    nombre: '',
+    idCentro: '',
+    tipo: '',
+    fechaIncripcion: '',
+    distrito: '',
+    nombreCam: '',
+    nombreRed: '',
+    lider: '',
+    celular: '',
+    estado: 0,
+    correo: '',
+  };
 
   opcionesBotones: FormatoBoton[] = [
     { texto: 'Cancelar' },
@@ -37,7 +50,10 @@ export class EditComponent {
   ngOnInit() {
     this.authService.getPerfilCiram(this.idUnidadOperativa).subscribe((data) => {
       console.log('hola', data.data)
-      this.datosPerfilCiram = data.data
+      if(data.data){
+        this.datosPerfilCiram = data.data
+      }
+     
     })
   }
 
