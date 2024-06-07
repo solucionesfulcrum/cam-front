@@ -25,6 +25,7 @@ import { ModalEditarComponent } from './components/sub-components/dialogs/modal-
 import { registerLocaleData } from '@angular/common';
 import localeEs from '@angular/common/locales/es';
 import { SelectPersonalizadoComponent } from '@shared/components/select-personalizado/select-personalizado.component';
+import { MenuOpcionesV2Component } from '@shared/components/menu-opciones-v2/menu-opciones-v2.component';
 
 
 @NgModule({
@@ -53,7 +54,8 @@ import { SelectPersonalizadoComponent } from '@shared/components/select-personal
     MatPaginatorModule,
     CdkTableModule,
     CdkMenuModule,
-    SelectPersonalizadoComponent
+    SelectPersonalizadoComponent,
+    MenuOpcionesV2Component
   ],
   providers: [
     { provide: LOCALE_ID, useValue: 'es' }

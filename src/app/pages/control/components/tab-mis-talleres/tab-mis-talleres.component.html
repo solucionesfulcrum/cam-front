@@ -53,7 +53,7 @@
                     </div>
                     <div class="flex flex-col gap-[5px] leading-[20px]">
                         <span class="text-[18px] font-medium"> {{prog.nombre[0] + (prog.nombre.substring(1) | lowercase)}}</span>
-                        <span class="text-[14px] font-light"> {{(prog.fecha | date: 'EEEE, dd') | titlecase}} de {{prog.fecha | date: 'MMMM'}} de {{((prog.fecha + ' ' + prog.horaInicio) | date:'hh -') +  ' ' + ((prog.fecha + ' ' + prog.horaFin) | date:'hh aa')}}</span>
+                        <span class="text-[14px] font-light"> {{(prog.fecha | date: 'EEEE, dd') | titlecase}} de {{prog.fecha | date: 'MMMM'}} de {{((prog.fecha + ' ' + prog.horaInicio) | date:'hh:mm a -') +  ' ' + ((prog.fecha + ' ' + prog.horaFin) | date:'hh:mm a')}}</span>
                         <span class="text-[14px] font-light">CAM {{prog.nombreCam | titlecase}}</span>
                         <span class="text-[14px] font-light">{{prog.distrito}}</span>
                     </div>
@@ -106,7 +106,7 @@
                     <div class="w-[35px] h-10 flex items-center justify-center">
                         <img class="self-center iconoEscalaGris select-none" src="assets/svg/icon-control-time.svg">
                     </div>
-                    <span class="text-[14px] leading-5 font-light"> {{(selectedProgramacion.fecha | date: 'EEEE, dd') | titlecase}} de {{selectedProgramacion.fecha | date: 'MMMM'}} de {{((selectedProgramacion.fecha + ' ' + selectedProgramacion.horaInicio) | date:'hh -') +  ' ' + ((selectedProgramacion.fecha + ' ' + selectedProgramacion.horaFin) | date:'hh aa')}}</span>
+                    <span class="text-[14px] leading-5 font-light"> {{(selectedProgramacion.fecha | date: 'EEEE, dd') | titlecase}} de {{selectedProgramacion.fecha | date: 'MMMM'}} de {{((selectedProgramacion.fecha + ' ' + selectedProgramacion.horaInicio) | date:'hh:mm a -') +  ' ' + ((selectedProgramacion.fecha + ' ' + selectedProgramacion.horaFin) | date:'hh:mm a')}}</span>
                 </div>
                 <!-- <div class="py-1 flex flex-row gap-2.5 items-center">
                     <div class="w-[35px] h-[32px] flex items-center justify-center">

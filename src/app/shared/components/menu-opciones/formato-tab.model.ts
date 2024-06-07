@@ -3,4 +3,5 @@ export interface FormatoTab{
     title: string,
     tituloOpcional?: string
     active?: boolean
+    disabled?: boolean
 }

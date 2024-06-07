@@ -14,7 +14,7 @@ export class ControlComponent {
     if (this.userInfo.rol === 'TALLERISTA') {
       this.links = [
         {url: `/app/control/mis-talleres`, title: 'Mis Talleres'},
-        {url: `/app/control/control-asistencia`, title: 'Asistencias'},
+        {url: `/app/control/control-asistencia`, title: 'Asistencias', disabled: true},
       ];
     }
     else if(this.userInfo.rol == "PROFESIONAL CAM"){
@@ -23,7 +23,7 @@ export class ControlComponent {
         {url: `/app/control/en-calendario`, title: 'Calendario'},
         /*{url: `/app/control/mis-talleres-2`, title: 'Externos'},
         {url: `/app/control/mis-talleres-3`, title: 'Talleres'},*/
-        {url: `/app/control/asistencias-profesional-cam`, title: 'Asistencias'},
+        {url: `/app/control/asistencias-profesional-cam`, title: 'Asistencias', disabled: true},
       ];
     }
     else{

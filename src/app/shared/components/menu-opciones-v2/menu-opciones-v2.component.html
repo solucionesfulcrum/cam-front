@@ -1,0 +1,16 @@
+<div class="flex flex-col gap-[15px]">
+    <span *ngIf="titulo" class="titulo">{{tituloReflejado.tituloOpcional ? tituloReflejado.tituloOpcional : titulo}}</span>
+    <nav mat-tab-nav-bar class="border-b" [tabPanel]="tabPanel" [mat-stretch-tabs]="false" [ngStyle]="{'border-bottom-style': (showBottomLine ? 'solid' : 'none')}">
+      <a class="tabsSubTemas"
+        mat-tab-link
+        *ngFor="let link of links"
+        (click)=" setClickDinamic(link.url, link, link.disabled)"
+        [routerLink]="getRouterLink(link.url, link.disabled)"
+        [active]="activeTab == link.url"
+        [disabled]="!setEnabledLabel(link.url, link.disabled)"
+      >
+        {{ link.title }}
+      </a>
+    </nav>
+  </div>
+  <mat-tab-nav-panel #tabPanel> </mat-tab-nav-panel>
