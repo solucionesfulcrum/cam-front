@@ -77,3 +77,9 @@ export interface AsistenciasTalleres{
     asistencias: string,
     porcentaje: string
 }
+
+export interface PayloadReportes{
+    idUnidadOperativa: number,
+    fecInicio: string
+    fecFin: string
+}

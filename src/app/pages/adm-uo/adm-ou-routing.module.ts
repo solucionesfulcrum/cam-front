@@ -4,7 +4,7 @@ import { RouterModule, Routes } from '@angular/router';
 import { AdmUoComponent } from './adm-uo/adm-uo.component';
 import { AdmCiramComponent } from './component/adm-ciram/adm-ciram.component';
 import { RegistroComponent } from './component/registro/registro.component';
-import { EditComponent } from './component/edit/edit.component'
+import { ShowComponent } from './component/show/show.component'
 import { AppRoute } from 'src/app/data/constants/app-route.constant';
 import { EditCiramComponent } from './component/edit-ciram/edit-ciram.component'
 import { AfiliadosComponent } from './component/sub-component/afiliados/afiliados.component';
@@ -26,8 +26,8 @@ const routes: Routes = [
         title: 'Registro - CIRAM'
       },
       {
-        path: `${AppRoute.EDIT_UO}/:idUnidadOperativa`,
-        component: EditComponent,
+        path: `show/:idUnidadOperativa`,
+        component: ShowComponent,
         title: 'Editar - CAM',
         children:[
             {

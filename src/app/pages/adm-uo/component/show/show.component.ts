@@ -7,17 +7,17 @@ import { DatosPerfilCiram } from '@models/adm-uo/adm-uo';
 import { FormatoTab } from '@shared/components/menu-opciones/formato-tab.model';
 
 @Component({
-  selector: 'esp-edit',
-  templateUrl: './edit.component.html',
-  styleUrls: ['./edit.component.scss']
+  selector: 'esp-show',
+  templateUrl: './show.component.html',
+  styleUrls: ['./show.component.scss']
 })
-export class EditComponent {
+export class ShowComponent {
   dataShow = false;
   faSpinner = faSpinner;
   id = 1;
   idUnidadOperativa: any = -1;
   datosPerfilCiram: DatosPerfilCiram = {
-    nombre: 'Centro de Salud CAM Norte',
+    nombre: 'Centro de Salud CIRAM Norte',
     idCentro: '23835688',
     tipo: 'CIRAM',
     fechaIncripcion: '14/04/1997',

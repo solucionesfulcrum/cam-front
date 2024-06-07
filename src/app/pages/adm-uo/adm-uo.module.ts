@@ -5,7 +5,7 @@ import { AdmOuRoutingModule } from './adm-ou-routing.module';
 import { AdmCiramComponent } from './component/adm-ciram/adm-ciram.component';
 import { SharedModule } from '@shared/shared.module';
 import { RegistroComponent } from './component/registro/registro.component';
-import { EditComponent } from './component/edit/edit.component';
+import { ShowComponent } from './component/show/show.component';
 import { MaterialModule } from 'src/app/material/material.module';
 import { EditCiramComponent } from './component/edit-ciram/edit-ciram.component';
 import { MenuOpcionesComponent } from '@shared/components/menu-opciones/menu-opciones.component';
@@ -19,7 +19,7 @@ import { CdkTableModule } from '@angular/cdk/table';
     AdmUoComponent,
     AdmCiramComponent,
     RegistroComponent,
-    EditComponent,
+    ShowComponent,
     EditCiramComponent,
     AfiliadosComponent,
     TalleresComponent,

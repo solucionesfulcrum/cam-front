@@ -42,6 +42,9 @@ export class AdmCiramComponent {
       this.listCiramInactivos = data.data.ciramInactivos
     })
   }
+  showUoCiram(idUnidadOperativa:any){
+    this.router.navigate([`app/adm-uo/show/${idUnidadOperativa}`])
+  }
   editUoCiram(idUnidadOperativa:any){
     this.router.navigate([`app/adm-uo/edit/${idUnidadOperativa}`])
   }

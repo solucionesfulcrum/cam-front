@@ -9,7 +9,7 @@ import { AfiliacionesSolicitudesService } from 'src/app/data/services/afiliacion
 import { ChartOptions } from '../dashboard-afiliados/dashboard-afiliados.component';
 import { ReportesService } from 'src/app/data/services/reportes/reportes.service';
 import { MatTableDataSource } from '@angular/material/table';
-import { AsistenciasTalleres } from '@models/dashboard/dashboard.model';
+import { AsistenciasTalleres, PayloadReportes } from '@models/dashboard/dashboard.model';
 
 @Component({
   selector: 'esp-dashboard-asistencias',
@@ -24,6 +24,7 @@ export class DashboardAsistenciasComponent {
   respuestaServicio=1000;
   totalAfiliadosActivos: number = 0;
   dataServicio: any;
+  rol = JSON.parse(localStorage.getItem('UnidElegida')!).rol;
   idUnidadOperativaUser = (JSON.parse(localStorage.getItem('UnidElegida')!)).idUnidOperativa;
 
   formBuscar: FormGroup = this.fb.group({
@@ -53,15 +54,26 @@ export class DashboardAsistenciasComponent {
   }
 
   ngOnInit(): void {
-    this.reportesService.getDataAsistenciaTalleres().subscribe(data => {
+    this.reportesService.getDataAsistenciaTalleres(this.getPayload()).subscribe(data => {
       this.loading = false;
       this.dataSource.data = data.data
     })
   }
 
+  getDataReporte(): void {
+    
+  }
+
+  getPayload() : PayloadReportes{
+    return {
+      "idUnidadOperativa": 132,
+      "fecInicio": "2024-03-01",
+      "fecFin": "2025-04-31"
+    }
+  }
+
   onLoadData() {
    
-
   }
 
   getDataFecha(value: any) {
