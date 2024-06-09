@@ -7,3 +7,9 @@ export interface RolData{
   fechMod: string,
   activo: number
 }
+
+export interface RolPemisos {
+  descripcion: string;
+  estado: boolean;
+  children?: {descripcion: string, estado: boolean}[]
+}

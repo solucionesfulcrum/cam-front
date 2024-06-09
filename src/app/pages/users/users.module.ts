@@ -15,6 +15,7 @@ import { CdkMenuModule } from '@angular/cdk/menu';
 import { ActiveUserModalComponent } from './active-user-modal/active-user-modal.component';
 import { MaterialModule } from 'src/app/material/material.module';
 import { MatAutocompleteModule } from '@angular/material/autocomplete';
+import { ShowRoleComponent } from './show-role/show-role.component';
 
 
 @NgModule({
@@ -23,6 +24,7 @@ import { MatAutocompleteModule } from '@angular/material/autocomplete';
     UsersComponent,
     RolesComponent,
     ShowComponent,
+    ShowRoleComponent,
     ActiveUserModalComponent
   ],
   imports: [
