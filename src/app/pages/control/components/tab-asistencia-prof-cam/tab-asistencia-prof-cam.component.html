@@ -30,21 +30,25 @@
                                 <img src="assets/svg/icon-search-typing.svg">
                             </label>
                         </li>
-                        <li>
+                       <li>
                             <input type="radio" id="search-bar-code" [formControl]="ctrlTypeSearch" [value]="2" class="hidden peer">
                             <label for="search-bar-code" class="flex items-center justify-center w-10 h-10 border border-[#D4D4D4] rounded cursor-pointer peer-checked:bg-cam peer-checked:colorWhite hover:bg-[#057EC933]">
                                 <img src="assets/svg/icon-search-bar-code.svg">
                             </label>
                         </li>
-                        <li>
+                     <!--   <li>
                             <input type="radio" id="search-special" [formControl]="ctrlTypeSearch" [value]="3" class="hidden peer">
                             <label for="search-special" class="flex items-center justify-center w-10 h-10 border border-[#D4D4D4] rounded cursor-pointer peer-checked:bg-cam peer-checked:colorWhite hover:bg-[#057EC933]">
                                 <img src="assets/svg/icon-search-special.svg">
                             </label>
-                        </li>
+                        </li>-->
                     </ul>
                     <div class="flex flex-row gap-3 grow">
-                        <input type="text" class="inputTextoDialog focusCampo" *ngIf="ctrlTypeSearch.value == 1" [formControl]="ctrlSearch" [matAutocomplete]="asegurados" placeholder="Buscador">
+                        <input type="text" 
+                        class="inputTextoDialog focusCampo" *ngIf="ctrlTypeSearch.value == 1" [formControl]="ctrlSearch" 
+                        [readonly]="esperaBusqueda" [matAutocomplete]="asegurados" placeholder="Buscador"
+                        [ngClass]="{'bg-gray-100': esperaBusqueda}"
+                        >
                         <mat-autocomplete #asegurados="matAutocomplete" [displayWith]="displayAseguradoFiltered" (optionSelected)="onAseguradoSelect($event)">
                             <mat-option *ngFor="let option of listFilteredBusqueda" [value]="option">
                                 <div class="flex flex-row gap-2 items-center">
@@ -68,12 +72,26 @@
                                 </select>
                               </div>
                             </div>
-                            <input formControlName="frmDoc" placeholder="Buscador" type="text" name="doc" class="w-full text-sm rounded bg-white border-gray-400 border-1 px-4 py-2 font-light focusCampo grow"/>
+                            <input 
+                            formControlName="frmDoc" 
+                            placeholder="Buscador" 
+                            type="text" 
+                            name="doc" 
+                            class="w-full text-sm rounded bg-white border-gray-400 border-1 px-4 py-2 font-light focusCampo grow"
+                            [readOnly]="formBuscarPersona.get('frmSelectDoc')?.value == ''"
+                            [ngClass]="{'bg-slate-50': formBuscarPersona.get('frmSelectDoc')?.value == ''}"
+                            (change)="onAseguradoSelectCodigoBarra($event)"
+                            />
                         </div>
-                        <div class="w-[34px] h-10 flex items-center justify-center border border-gray-400 rounded shrink-0" [ngClass]="esperaBusqueda ? 'relative' : 'cursor-pointer hover:bg-slate-200'" (click)="!esperaBusqueda ? searchSiApto(formBuscarPersona.controls.frmSelectDoc.value!, formBuscarPersona.controls.frmDoc.value!) : null">
-                          <img src="assets/svg/icon-contrato-confirm.svg" class="select-none" [ngClass]="esperaBusqueda ? 'opacity-50' : null">
+
+                        <div class="w-[34px] h-10 flex items-center justify-center border border-gray-400 rounded shrink-0" *ngIf="(!esperaBusqueda && ctrlTypeSearch.value == 1) || ctrlTypeSearch.value == 2" (click)="!esperaBusqueda ? searchSiApto(formBuscarPersona.controls.frmSelectDoc.value!, formBuscarPersona.controls.frmDoc.value!) : null">
+                            <img src="assets/svg/icon-contrato-confirm.svg" class="select-none">
+                          </div>
+                        <div class="w-[34px] h-10 flex items-center justify-center border border-gray-400 rounded shrink-0" *ngIf="ctrlTypeSearch.value == 1" [ngClass]="esperaBusqueda ? 'relative' : 'cursor-pointer hover:bg-slate-200'" (click)="!esperaBusqueda ? getListAsegurados() : null">
+                          <img src="assets/svg/icons8-refresh-2.svg" class="select-none" [ngClass]="esperaBusqueda ? 'opacity-0' : null">
                           <fa-icon *ngIf="esperaBusqueda" class="absolute" [icon]="faSpinner" [pulse]="true"></fa-icon>
                         </div>
+
                     </div>
                 </div>                
             </div>

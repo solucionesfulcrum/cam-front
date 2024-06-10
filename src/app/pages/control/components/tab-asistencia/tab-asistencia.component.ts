@@ -56,6 +56,7 @@ export class TabAsistenciaComponent {
     frmDoc: ['', [Validators.required, Validators.minLength(8)]],
   });
   esperaBusqueda: boolean = false;
+  esperaBusquedaAsegurados: boolean = true;
   // ------------------------------------------------------------------------------
   faSpinner = faSpinner;
   comienzoSesiones = 1;
@@ -295,8 +296,10 @@ export class TabAsistenciaComponent {
   }
 
   getListAsegurados(){
+    this.esperaBusquedaAsegurados = true;
     this.controlService.getListAsegurados().subscribe((data)=>{
       if (data.code == 0) {
+        this.esperaBusquedaAsegurados = false;
         this.listBusqueda = data.data;
         this.ctrlSearch.setValue('');
       }

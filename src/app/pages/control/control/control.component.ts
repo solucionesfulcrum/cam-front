@@ -23,7 +23,7 @@ export class ControlComponent {
         {url: `/app/control/en-calendario`, title: 'Calendario'},
         /*{url: `/app/control/mis-talleres-2`, title: 'Externos'},
         {url: `/app/control/mis-talleres-3`, title: 'Talleres'},*/
-        {url: `/app/control/asistencias-profesional-cam`, title: 'Asistencias', disabled: true},
+        {url: `/app/control/asistencias-profesional-cam`, title: 'Pre-Registro', disabled: true},
       ];
     }
     else{

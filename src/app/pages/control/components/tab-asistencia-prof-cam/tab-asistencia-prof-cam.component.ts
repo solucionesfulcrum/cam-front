@@ -47,10 +47,10 @@ export class TabAsistenciaProfCamComponent {
 
   public formBuscarPersona = this.fb.nonNullable.group({
     frmSelectDoc: new FormControl(''),
-    frmDoc: ['', [Validators.required, Validators.minLength(8)]],
+    frmDoc: ['', [Validators.required]],
   });
 
-  esperaBusqueda: boolean = false;
+  esperaBusqueda: boolean = true;
 
   dataSourceList = new DataSourceList();
 
@@ -97,11 +97,19 @@ export class TabAsistenciaProfCamComponent {
               private notificacionService               : NotificationService,
               private dialog                            : MatDialog,
               private toast                             : ToastrService,
-              private cdr: ChangeDetectorRef
+              private cdr: ChangeDetectorRef,
+              
+              private controlProgramacionService : ControlProgramacionService
               ) { }
 
   ngOnInit(){
-    console.log(JSON.parse(localStorage.getItem('idProgramElegida')!))
+
+    this.formBuscarPersona.get('frmSelectDoc')!.valueChanges.subscribe(value => {
+      this.formBuscarPersona.get('frmDoc')?.setValue("");
+      this.setDocumentValidators(value!);
+    })
+
+    
     this.getDataCabecera();
     this.getParametros();
     this.getListAsegurados();
@@ -130,12 +138,12 @@ export class TabAsistenciaProfCamComponent {
     this.controlService.getCabeceraProgramacion(JSON.parse(localStorage.getItem('idProgramElegida')!)).subscribe((data)=>{
       if (data.code == 0) {
         this.datoProgramacion = data.data;
-        console.log(this.datoProgramacion)
+        //console.log(this.datoProgramacion)
         let seconds = Math.floor((new Date(this.datoProgramacion.fechaServicio + ' ' + this.datoProgramacion.horaFin).getTime() - new Date(this.datoProgramacion.fechaServicio + ' ' + this.datoProgramacion.horaInicio).getTime())/1000);
         let horas = Math.floor(seconds/(60*60));
         let minutos = Math.floor(seconds/60) - horas*60;
         this.datoProgramacion.margenHorario = horas + 'h ' +  minutos + ' m';
-        console.log(Math.floor(seconds/(60*60)) + 'h ' +  Math.floor(seconds/60) + ' m')
+        //console.log(Math.floor(seconds/(60*60)) + 'h ' +  Math.floor(seconds/60) + ' m')
       }
       else{
         this.notificacionService.warning(data.message);
@@ -205,7 +213,49 @@ export class TabAsistenciaProfCamComponent {
 
    // Busqueda y Tipeo de Asegurado --------------------------------------------------------------
    onAseguradoSelect(event: any){
-    this.ctrlSearch.setValue(event.option.value, {emitEvent: false});
+    let payload: RequestBuscarApto = {
+      idUnidadOperativa: (JSON.parse(localStorage.getItem('UnidElegida')!)).idUnidOperativa,
+      tipDoc: event.option.value.tipoDoc === 'DNI' ? '1' : '4',
+      numDoc: event.option.value.numDoc
+    }
+    this.controlService.getSiEsApto(payload).subscribe((data)=>{
+      if (data.code == 0 || data.code == 2) {
+        let conexion: boolean;
+        if (data.code == 2) {
+          conexion = false;
+        }
+        else{
+          conexion = true;
+        }
+        if (!data.data[0].acreditacion) {
+          this.notificacionService.warning(data.message);
+        }
+
+        let unidadOperativa : string = (JSON.parse(localStorage.getItem('UnidElegida')!)).idUnidOperativa;
+        let selectedProgramacion : string = String(localStorage.getItem('idProgramElegida'));
+        this.controlProgramacionService.registrarInscripcion({
+          idFichaAdmision: data.data[0].idFichaAsegurado,
+          idUnidadOperativa: unidadOperativa,
+          idProgramacionDet: selectedProgramacion,
+          acreditado: data.data[0].acreditacion,
+          idUsuarioReg: (JSON.parse(localStorage.getItem('camUser')!)).idUsuario,
+          conConexion: conexion
+        }).subscribe(data => {
+          if(data.code == "0"){
+            this.getListTablaAsegurados();
+          }
+          else{
+            this.toast.warning(data.message);
+          }
+        })
+      }
+      else{
+        this.notificacionService.warning(data.message);
+      }
+      this.esperaBusqueda = false;
+    })
+
+    this.ctrlSearch.setValue('');
   }
   displayAseguradoFiltered(selectedoption: any) {
     return selectedoption ? selectedoption.nombreCompleto : undefined;
@@ -269,11 +319,12 @@ export class TabAsistenciaProfCamComponent {
   }
 
   getListAsegurados(){
+    this.esperaBusqueda = true;
     this.controlService.getListAsegurados().subscribe((data)=>{
+      this.esperaBusqueda = false;
       if (data.code == 0) {
         this.listBusqueda = data.data;
         this.ctrlSearch.setValue('');
-        //console.log(data.data)
       }
       else{
         this.notificacionService.warning(data.message);
@@ -317,5 +368,84 @@ export class TabAsistenciaProfCamComponent {
         this.eliminarAsegurados();
       }
     });
+  }
+
+  setDocumentValidators(documentType: string) {
+    const documentNumberControl = this.formBuscarPersona.get('frmDoc')!;
+    if (documentType === '1') {
+      documentNumberControl.setValidators([
+        Validators.required,
+        Validators.pattern(/^\d{8}$/)
+      ]);
+    } else if (documentType === '4') {
+      documentNumberControl.setValidators([
+        Validators.required,
+        Validators.pattern(/^[a-zA-Z0-9]{9}$/)
+      ]);
+    }
+    else if (documentType === '23') { // Suponiendo que 'X' es el tipo de documento para el permiso temporal de permanencia
+    documentNumberControl.setValidators([
+      Validators.required,
+      Validators.pattern(/^\d{9}$/) // Ajusta el patrón según el formato del permiso temporal de permanencia
+    ]);
+  } else if (documentType === '7') { // Suponiendo que 'P' es el tipo de documento para el pasaporte
+    documentNumberControl.setValidators([
+      Validators.required,
+      Validators.pattern(/^[a-zA-Z0-9]{9}$/) // Ajusta el patrón según el formato del pasaporte
+    ]);
+  }
+    else {
+      documentNumberControl.setValidators(Validators.required);
+    }
+    documentNumberControl.updateValueAndValidity();
+  }
+
+  onAseguradoSelectCodigoBarra(event: any) : void{
+    if(!this.formBuscarPersona.get("frmDoc")?.valid){
+      return ;
+    }
+    let payload: RequestBuscarApto = {
+      idUnidadOperativa: (JSON.parse(localStorage.getItem('UnidElegida')!)).idUnidOperativa,
+      tipDoc:  String(this.formBuscarPersona.get("frmSelectDoc")?.value),
+      numDoc: String(this.formBuscarPersona.get("frmDoc")?.value)
+    }
+    this.controlService.getSiEsApto(payload).subscribe((data)=>{
+      if (data.code == 0 || data.code == 2) {
+        let conexion: boolean;
+        if (data.code == 2) {
+          conexion = false;
+        }
+        else{
+          conexion = true;
+        }
+        if (!data.data[0].acreditacion) {
+          this.notificacionService.warning(data.message);
+        }
+
+        let unidadOperativa : string = (JSON.parse(localStorage.getItem('UnidElegida')!)).idUnidOperativa;
+        let selectedProgramacion : string = String(localStorage.getItem('idProgramElegida'));
+        this.controlProgramacionService.registrarInscripcion({
+          idFichaAdmision: data.data[0].idFichaAsegurado,
+          idUnidadOperativa: unidadOperativa,
+          idProgramacionDet: selectedProgramacion,
+          acreditado: data.data[0].acreditacion,
+          idUsuarioReg: (JSON.parse(localStorage.getItem('camUser')!)).idUsuario,
+          conConexion: conexion
+        }).subscribe(data => {
+          if(data.code == "0"){
+            this.getListTablaAsegurados();
+          }
+          else{
+            this.toast.warning(data.message);
+          }
+        })
+      }
+      else{
+        this.notificacionService.warning(data.message);
+      }
+      this.esperaBusqueda = false;
+    })
+
+    this.ctrlSearch.setValue('');
   }
 }
