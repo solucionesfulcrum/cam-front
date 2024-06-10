@@ -72,10 +72,24 @@ export interface changePassword {
     confirmNewPwd: string
 }
 
+export interface ResponseAsistencia{
+    code: number,
+    data: dataReporteAsistencia,
+    message: string
+}
+
+export interface dataReporteAsistencia{
+    cantidadCam: number,
+    cantidadCiram: number,
+    cantidadRedes: number,
+    cantidadServicioCartera: number,
+    listaCantidadAsistencia: AsistenciasTalleres[]
+
+}
+
 export interface AsistenciasTalleres{
-    servicios: string,
-    asistencias: string,
-    porcentaje: string
+    cantidadAsistencia: number,
+    nombreServicio: string
 }
 
 export interface PayloadReportes{

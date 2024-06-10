@@ -26,6 +26,9 @@ export class DashboardAsistenciasComponent {
   dataServicio: any;
   rol = JSON.parse(localStorage.getItem('UnidElegida')!).rol;
   idUnidadOperativaUser = (JSON.parse(localStorage.getItem('UnidElegida')!)).idUnidOperativa;
+  fechaDesde: string = "";
+  fechaHasta: string = "";
+  labelFecha: string = "";
 
   formBuscar: FormGroup = this.fb.group({
     frmSearch: new FormControl(""),
@@ -41,6 +44,10 @@ export class DashboardAsistenciasComponent {
   total = 0;
   columns: string[] = ['servicios', 'asistencias', 'porcentaje'];
 
+  totalAsistencia : number = 0;
+  cantidadServicioCartera: number = 0;
+  cantidadCiram: number = 0;
+
   loading : boolean = true;
 
   constructor(
@@ -54,31 +61,38 @@ export class DashboardAsistenciasComponent {
   }
 
   ngOnInit(): void {
-    this.reportesService.getDataAsistenciaTalleres(this.getPayload()).subscribe(data => {
-      this.loading = false;
-      this.dataSource.data = data.data
-    })
   }
 
   getDataReporte(): void {
-    
+    this.loading = true;
+    this.reportesService.getDataAsistenciaTalleres(this.getPayload()).subscribe(data => {
+      this.loading = false;
+      this.cantidadServicioCartera = data.data.cantidadServicioCartera;
+      this.cantidadCiram = data.data.cantidadCiram;
+      const sortedArray = data.data.listaCantidadAsistencia.sort((a, b) => b.cantidadAsistencia - a.cantidadAsistencia);
+      this.totalAsistencia = sortedArray.reduce((sum, item) => sum + item.cantidadAsistencia, 0);
+      this.dataSource.data = sortedArray;
+    })
   }
 
   getPayload() : PayloadReportes{
     return {
-      "idUnidadOperativa": 132,
-      "fecInicio": "2024-03-01",
-      "fecFin": "2025-04-31"
+      "idUnidadOperativa": (JSON.parse(localStorage.getItem('UnidElegida')!)).idUnidOperativa,
+      "fecInicio": this.fechaDesde,
+      "fecFin": this.fechaHasta
     }
   }
 
-  onLoadData() {
-   
-  }
+  getDataFecha(value: string) {
+    const parts = value.split(" - ");
+    this.labelFecha = value;
 
-  getDataFecha(value: any) {
-    this.formBuscar.get('frmSearchDate')?.setValue(value);
-    // console.log("fecha?",value)
-    this.onLoadData();
+    const desdeSplit = parts[0].split("/");
+    const hastaSplit = parts[1].split("/");
+
+    this.fechaDesde= desdeSplit[2] + "-" + desdeSplit[1] + "-" + desdeSplit[0];
+    this.fechaHasta= hastaSplit[2] + "-" + hastaSplit[1] + "-" + hastaSplit[0];
+
+    this.getDataReporte();
   }
 }
