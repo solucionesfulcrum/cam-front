@@ -16,7 +16,7 @@ export class ReportesService {
 
 
   getDataAsistenciaTalleres(payload: PayloadReportes){
-    const url = `${URL_BASE}/dashboard/asistencia-cam`;
+    const url = `${URL_BASE}/dashboard/asistencia-cam`; 
     return this._httpClient.post<ResponseAsistencia>(url,payload);
   }
 }

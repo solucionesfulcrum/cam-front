@@ -59,7 +59,7 @@ export class DashboardAsistenciasComponent {
   ) {
 
   }
-
+ 
   ngOnInit(): void {
   }
 

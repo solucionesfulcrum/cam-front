@@ -76,7 +76,7 @@ export interface ResponseAsistencia{
     code: number,
     data: dataReporteAsistencia,
     message: string
-}
+} 
 
 export interface dataReporteAsistencia{
     cantidadCam: number,
