@@ -84,7 +84,7 @@
                             />
                         </div>
 
-                        <div class="w-[34px] h-10 flex items-center justify-center border border-gray-400 rounded shrink-0" *ngIf="(!esperaBusqueda && ctrlTypeSearch.value == 1) || ctrlTypeSearch.value == 2" (click)="!esperaBusqueda ? searchSiApto(formBuscarPersona.controls.frmSelectDoc.value!, formBuscarPersona.controls.frmDoc.value!) : null">
+                        <div class="w-[34px] h-10 flex items-center justify-center border border-gray-400 rounded shrink-0" *ngIf="!esperaBusqueda && ctrlTypeSearch.value == 2" (click)="!esperaBusqueda ? onAseguradoSelectCodigoBarra($event) : null">
                             <img src="assets/svg/icon-contrato-confirm.svg" class="select-none">
                           </div>
                         <div class="w-[34px] h-10 flex items-center justify-center border border-gray-400 rounded shrink-0" *ngIf="ctrlTypeSearch.value == 1" [ngClass]="esperaBusqueda ? 'relative' : 'cursor-pointer hover:bg-slate-200'" (click)="!esperaBusqueda ? getListAsegurados() : null">
