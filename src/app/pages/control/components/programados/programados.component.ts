@@ -164,6 +164,7 @@ export class ProgramadosComponent {
 
   selectProg(prog: any): void {
     this.selectedProgramacion = prog;
+    this.getIsTime();
   }
 
 
