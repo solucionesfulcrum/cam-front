@@ -9,6 +9,15 @@ import { User } from '@models/user.model';
 import { List } from '../interfaces/list.interface';
 import { iUserTable } from '../interfaces/user-table.interface';
 import { ActivateUserSSO, ActivateUserSigps, RequestListUsers } from '@models/usuario/user.model';
+import { authKey } from '@environments/auth.keys';
+
+interface Environment {
+  API: string;
+}
+
+interface AuthKey {
+  [key: string]: string;
+}
 
 @Injectable({
   providedIn: 'root'
@@ -16,9 +25,12 @@ import { ActivateUserSSO, ActivateUserSigps, RequestListUsers } from '@models/us
 export class UsersService {
 
   private _authBasic() {
+    let environment_ : Environment = environment;
+    let authKey_ : AuthKey = authKey;
+
     const params = new HttpParams().set(
       'g',
-      '1fd720df-c793-4039-8be7-44351edd7820'
+      authKey_[(environment_.API)]
     );
     return params;
   }

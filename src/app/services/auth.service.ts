@@ -21,7 +21,16 @@ import { UserService } from '@shared/stores/user.service';
 import { RequestRegisterSIGPS } from '@models/auth/register.model';
 import { PreRecoverPassword, RecoverPassword } from '@models/auth/recover-pass.model';
 import { listCiramActivosInactivos, listardashboardRequest,listardashboardRequestActivos } from '@models/dashboard/dashboard.model'
+import { authKey } from '@environments/auth.keys';
 const helperJWT = new JwtHelperService();
+
+interface Environment {
+  API: string;
+}
+
+interface AuthKey {
+  [key: string]: string;
+}
 
 @Injectable({
   providedIn: 'root',
@@ -42,9 +51,13 @@ export class AuthService {
     private _userService:UserService) {}
 
   private _authBasic() {
+    let environment_ : Environment = environment;
+    let authKey_ : AuthKey = authKey;
+    
     const params = new HttpParams().set(
       'g',
-      '4440d2e2-1eae-4617-a0c2-0e3824a5e875'
+      authKey_[(environment_.API)]
+     // '4440d2e2-1eae-4617-a0c2-0e3824a5e875'
     );
     return params;
   }
