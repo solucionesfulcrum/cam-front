@@ -34,7 +34,12 @@ export class DialogConfirmDataAsistenciaComponent {
 
   registrar(){    
     this.status = 'loading';
-    this.controlService.registerAseguradoDetalle({idControlAsistenciaDet: this.data.detalleAsistenciaActual.idControlAsistenciaDet, idFichaAdmision: this.dataAsegurado.idFichaAsegurado, conConexion: this.data.conConexion}).subscribe((datos)=>{
+    this.controlService.registerAseguradoDetalle(
+      {idControlAsistenciaDet: this.data.detalleAsistenciaActual.idControlAsistenciaDet, 
+        idFichaAdmision: this.dataAsegurado.idFichaAsegurado, 
+        conConexion: this.data.conConexion,
+        acreditado: this.data.acreditacion
+      }).subscribe((datos)=>{
       if (datos.code == 0) {
         if (this.data.detalleAsistenciaActual.numeracion == 1) {
           if (this.data.listPreInscritos.some((x: any)=> x.numDoc == this.dataAsegurado.numDoc)) {

@@ -144,7 +144,12 @@ export class TabAsistenciaComponent {
         if (!data.data[0].acreditacion) {
           this.notificacionService.warning(data.message);
         }
-        this.controlService.registerAseguradoDetalle({idControlAsistenciaDet: this.dataPaginada.idControlAsistenciaDet, idFichaAdmision: data.data[0].idFichaAsegurado, conConexion: conexion}).subscribe((datos)=>{
+        this.controlService.registerAseguradoDetalle(
+          {idControlAsistenciaDet: this.dataPaginada.idControlAsistenciaDet, 
+            idFichaAdmision: data.data[0].idFichaAsegurado, 
+            conConexion: conexion,
+            acreditado: data.data[0].acreditacion
+          }).subscribe((datos)=>{
           if (datos.code == 0) {
             if (this.dataPaginada.numeracion == 1) {
               if (this.listPreInscritos.some((x: any)=> x.numDoc == data.data[0].numDoc)) {
@@ -210,7 +215,8 @@ export class TabAsistenciaComponent {
             infoAsegurado: data,
             detalleAsistenciaActual: this.dataPaginada,
             conConexion: conexion,
-            listPreInscritos: this.listPreInscritos
+            listPreInscritos: this.listPreInscritos,
+            acreditacion: data.data[0].acreditacion
           }
         })
         dialogRef.closed.subscribe(result => {
@@ -503,6 +509,11 @@ export class TabAsistenciaComponent {
         this.notificacionService.warning(dataCierre.message);
       }
     })
+  }
+
+
+  esBoolean(data: any): boolean {
+    return typeof data === 'boolean'
   }
   
 }
