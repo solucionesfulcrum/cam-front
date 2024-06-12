@@ -199,4 +199,9 @@ export class DatosGeneralesService {
     const url = `${URL_BASE}/programacion/obtener/lista/programacion/?idUnidadOperativa=${idUnidadOpe}&fechInicio=${fechInicio}&fechFin=${fechFin}&texto=${texto}`;
     return this._httpClient.get<any>(url);
   }
+
+  getFechaServidor(){
+    const url = `${URL_BASE}/auditoria/obtener/fecha-hora-actual`;
+    return this._httpClient.get<any>(url);
+  }
 }

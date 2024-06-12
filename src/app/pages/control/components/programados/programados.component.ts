@@ -33,8 +33,17 @@ export class ProgramadosComponent {
   select: any = null;
   activeButton: number | null = null;
   selectedProgramacion: any;
-
+  statusAsistencia: RequestStatus = 'init';
+  
   indexSelectedButton: number = 1;
+
+   // Control del Tiempo -------------------------------------------------------------
+   ctrlTiempo = new FormControl();
+   ctrlFinTaller = new FormControl();
+   bloqueo: boolean = true;
+   // --------------------------------------------------------------------------------
+
+  fechaActualServidor!: Date;
 
   buttons = [
     { label: 'Hoy', method: () => this.getFiltrosFecha(1) },
@@ -138,12 +147,20 @@ export class ProgramadosComponent {
   }
 
   ngOnInit() {
-
     this.getFiltrosFecha(1);
     this.ctrlSearch?.valueChanges.pipe(debounceTime(1000)).subscribe(key => {
       this.getListaProgramaciones();
     })
+    this.getFechaServidor();
   }
+
+  
+  getFechaServidor(){
+    this.datosService.getFechaServidor().subscribe(fechaData=>{
+      this.fechaActualServidor = new Date(fechaData.data.fechaHoraActual);
+    })
+  }
+
 
   selectProg(prog: any): void {
     this.selectedProgramacion = prog;
@@ -165,6 +182,51 @@ export class ProgramadosComponent {
   goAsistencia(){
    
     this.router.navigate(['/app/control/asistencias-profesional-cam'])
+  }
+
+  getIsTime(){
+    this.ctrlFinTaller.setValue(null, {emitEvent: false});
+    let thisTime = this.fechaActualServidor;
+    let finTaller = new Date(this.selectedProgramacion.fecha + ' ' + this.selectedProgramacion.horaFin);
+    if (finTaller.getTime() < thisTime.getTime()) {
+      this.bloqueo = true;
+    }
+    else{
+      let inicioTaller = new Date(new Date(this.selectedProgramacion.fecha + ' ' + this.selectedProgramacion.horaInicio).getTime() - 20*60*1000);
+      let timer: number = 0;
+      if (inicioTaller.getTime() <= this.fechaActualServidor.getTime()) {
+        this.bloqueo = false;
+        timer = finTaller.getTime() - this.fechaActualServidor.getTime();
+        this.ctrlTiempo?.valueChanges.pipe(debounceTime(timer)).subscribe(key => {
+          if (timer == this.ctrlTiempo.value) {
+            this.bloqueo = true;
+          }
+        })
+        this.ctrlTiempo.setValue(timer)
+      }
+      else{
+        timer = inicioTaller.getTime() - this.fechaActualServidor.getTime();
+        if (timer >= (1000*60*60*14)) {
+          this.bloqueo = true;
+        }
+        else{
+          this.ctrlTiempo?.valueChanges.pipe(debounceTime(timer)).subscribe(key => {
+            if (timer == this.ctrlTiempo.value) {
+              this.bloqueo = false;
+            }
+          })
+          this.ctrlTiempo.setValue(timer);
+
+          let timerFinal = finTaller.getTime() - this.fechaActualServidor.getTime();
+          this.ctrlFinTaller?.valueChanges.pipe(debounceTime(timerFinal)).subscribe(key => {
+            if (timerFinal == this.ctrlFinTaller.value) {
+              this.bloqueo = true;
+            }
+          })
+          this.ctrlFinTaller.setValue(timerFinal);
+        }
+      }
+    }
   }
 
 }

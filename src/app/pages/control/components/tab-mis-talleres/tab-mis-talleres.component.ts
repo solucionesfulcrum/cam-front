@@ -37,6 +37,8 @@ export class TabMisTalleresComponent {
   activeButton: number | null = null;
   selectedProgramacion: any;
 
+  fechaActualServidor!: Date;
+
   buttons = [
     { label: 'Hoy', method: () => this.getFiltrosFecha(1) },
     { label: 'Mañana', method: () => this.getFiltrosFecha(2) },
@@ -135,6 +137,13 @@ export class TabMisTalleresComponent {
     this.ctrlSearch?.valueChanges.pipe(debounceTime(1000)).subscribe(key => {
       this.getListaProgramaciones();
     })
+    this.getFechaServidor();
+  }
+
+  getFechaServidor(){
+    this.datosService.getFechaServidor().subscribe(fechaData=>{
+      this.fechaActualServidor = new Date(fechaData.data.fechaHoraActual);
+    })
   }
 
   selectProg(prog: any): void {
@@ -163,7 +172,7 @@ export class TabMisTalleresComponent {
 
   getIsTime(){
     this.ctrlFinTaller.setValue(null, {emitEvent: false});
-    let thisTime = new Date();
+    let thisTime = this.fechaActualServidor;
     let finTaller = new Date(this.selectedProgramacion.fecha + ' ' + this.selectedProgramacion.horaFin);
     if (finTaller.getTime() < thisTime.getTime()) {
       this.bloqueo = true;
@@ -171,9 +180,9 @@ export class TabMisTalleresComponent {
     else{
       let inicioTaller = new Date(new Date(this.selectedProgramacion.fecha + ' ' + this.selectedProgramacion.horaInicio).getTime() - 20*60*1000);
       let timer: number = 0;
-      if (inicioTaller.getTime() <= new Date().getTime()) {
+      if (inicioTaller.getTime() <= this.fechaActualServidor.getTime()) {
         this.bloqueo = false;
-        timer = finTaller.getTime() - new Date().getTime();
+        timer = finTaller.getTime() - this.fechaActualServidor.getTime();
         this.ctrlTiempo?.valueChanges.pipe(debounceTime(timer)).subscribe(key => {
           if (timer == this.ctrlTiempo.value) {
             this.bloqueo = true;
@@ -182,7 +191,7 @@ export class TabMisTalleresComponent {
         this.ctrlTiempo.setValue(timer)
       }
       else{
-        timer = inicioTaller.getTime() - new Date().getTime();
+        timer = inicioTaller.getTime() - this.fechaActualServidor.getTime();
         if (timer >= (1000*60*60*14)) {
           this.bloqueo = true;
         }
@@ -194,7 +203,7 @@ export class TabMisTalleresComponent {
           })
           this.ctrlTiempo.setValue(timer);
 
-          let timerFinal = finTaller.getTime() - new Date().getTime();
+          let timerFinal = finTaller.getTime() - this.fechaActualServidor.getTime();
           this.ctrlFinTaller?.valueChanges.pipe(debounceTime(timerFinal)).subscribe(key => {
             if (timerFinal == this.ctrlFinTaller.value) {
               this.bloqueo = true;
