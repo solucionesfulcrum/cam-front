@@ -51,4 +51,8 @@ export class ToolbarAdminComponent {
     this.authService.logout()
     this.router.navigate(['/login'])
   }
+  
+  config(){
+    location.href = '/app/admin/edit-user'
+  }
 }
