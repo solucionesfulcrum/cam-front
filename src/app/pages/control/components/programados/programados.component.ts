@@ -46,6 +46,8 @@ export class ProgramadosComponent {
    bloqueo: boolean = true;
    // --------------------------------------------------------------------------------
 
+   statusLoadingAsistencia : boolean = false;
+
   fechaActualServidor!: Date;
 
   buttons = [
@@ -70,7 +72,6 @@ export class ProgramadosComponent {
 
 
     this.activeButton = index;
-    console.log("index", index)
     this.buttons[index].method();
   }
 
@@ -189,10 +190,51 @@ export class ProgramadosComponent {
     this.router.navigate(['/app/control/asistencias-profesional-cam'])
   }
 
+  getTimeAndAsistir(){
+    let fechaServidor : Date = this.fechaActualServidor;
+    let fechaFinTaller : Date = new Date(this.selectedProgramacion.fecha + ' ' + this.selectedProgramacion.horaFin);
+    let fechaInicioTaller : Date = new Date(new Date(this.selectedProgramacion.fecha + ' ' + this.selectedProgramacion.horaInicio).getTime() - 20*60*1000);
+
+    if(fechaServidor > fechaFinTaller){
+      this.bloqueo = true;
+    }
+    else{
+      if(fechaServidor >= fechaInicioTaller){
+        this.bloqueo = false;
+      }
+      else{
+        this.bloqueo = true;
+      }
+    }
+
+    this.goAsistenciaInscritos();
+  }
+
+
+  consultarDataPrograma(){
+    this.statusLoadingAsistencia = true;
+    const idUsuario = (JSON.parse(localStorage.getItem('UnidElegida')!)).idUnidOperativa
+    this.datosService.getlistaProgramacion(idUsuario, this.ctrlInit.value!, this.ctrlFin.value!, this.ctrlSearch.value!.toUpperCase()).subscribe((data) => {
+      this.statusLoadingAsistencia = false;
+      if (data.code == 0) {
+        let programaciones = data.data as [];
+        this.selectedProgramacion = programaciones.filter((programacion : any) => programacion.idProgDet == this.selectedProgramacion.idProgDet)[0];
+        this.datosService.getFechaServidor().subscribe(fechaData=>{
+          this.statusLoadingAsistencia = false;
+          this.fechaActualServidor = new Date(fechaData.data.fechaHoraActual);
+          this.getTimeAndAsistir();
+        })
+      }
+      else{
+        this.status = 'failed';
+        this.notificacionService.warning(data.message);
+      }
+    });
+  }
+
   
   goAsistenciaInscritos(){
     localStorage.setItem('profCamListaAsistencias', 'registro');
-    //this.bloqueo
     if(this.bloqueo){
       const dialogRef = this.dialog.open(ModalAsistenciaRestringidaComponent,{
         minWidth:'500px',
@@ -200,8 +242,8 @@ export class ProgramadosComponent {
         width:'500px',
         data:{
           fechaServidor: this.fechaActualServidor,
-          fechaInicioTaller: new Date(this.selectedProgramacion.fecha + ' ' + this.selectedProgramacion.horaFin),
-          fechaFinTaller: new Date(new Date(this.selectedProgramacion.fecha + ' ' + this.selectedProgramacion.horaInicio).getTime() - 20*60*1000),
+          fechaInicioTaller: new Date(new Date(this.selectedProgramacion.fecha + ' ' + this.selectedProgramacion.horaInicio).getTime() - 20*60*1000),
+          fechaFinTaller: new Date(this.selectedProgramacion.fecha + ' ' + this.selectedProgramacion.horaFin),
         }
       })
       dialogRef.closed.subscribe(out =>{

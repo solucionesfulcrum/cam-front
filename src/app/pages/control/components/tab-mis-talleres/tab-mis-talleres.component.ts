@@ -41,6 +41,8 @@ export class TabMisTalleresComponent {
 
   fechaActualServidor!: Date;
 
+  statusLoadingAsistencia: boolean = false;
+
   buttons = [
     { label: 'Hoy', method: () => this.getFiltrosFecha(1) },
     { label: 'Mañana', method: () => this.getFiltrosFecha(2) },
@@ -61,7 +63,6 @@ export class TabMisTalleresComponent {
 
   setActive(index: number) {
     this.activeButton = index;
-    console.log("index", index)
     this.buttons[index].method();
   }
 
@@ -154,6 +155,26 @@ export class TabMisTalleresComponent {
     this.getIsTime()
   }
 
+  consultarDataPrograma(){
+    this.statusLoadingAsistencia = true;
+    const idUsuario = (JSON.parse(localStorage.getItem('UnidElegida')!)).idUnidOperativa
+    this.datosService.getlistaProgramacion(idUsuario, this.ctrlInit.value!, this.ctrlFin.value!, this.ctrlSearch.value!.toUpperCase()).subscribe((data) => {
+      if (data.code == 0) {
+        let programaciones = data.data as [];
+        this.selectedProgramacion = programaciones.filter((programacion : any) => programacion.idProgDet == this.selectedProgramacion.idProgDet)[0];
+        this.datosService.getFechaServidor().subscribe(fechaData=>{
+          this.statusLoadingAsistencia = false;
+          this.fechaActualServidor = new Date(fechaData.data.fechaHoraActual);
+          this.getTimeAndAsistir();
+        })
+      }
+      else{
+        this.status = 'failed';
+        this.notificacionService.warning(data.message);
+      }
+    });
+  }
+
   goAsistencia(){
     if(this.bloqueo){
       const dialogRef = this.dialog.open(ModalAsistenciaRestringidaComponent,{
@@ -162,8 +183,8 @@ export class TabMisTalleresComponent {
         width:'500px',
         data:{
           fechaServidor: this.fechaActualServidor,
-          fechaInicioTaller: new Date(this.selectedProgramacion.fecha + ' ' + this.selectedProgramacion.horaFin),
-          fechaFinTaller: new Date(new Date(this.selectedProgramacion.fecha + ' ' + this.selectedProgramacion.horaInicio).getTime() - 20*60*1000),
+          fechaFinTaller: new Date(this.selectedProgramacion.fecha + ' ' + this.selectedProgramacion.horaFin),
+          fechaInicioTaller: new Date(new Date(this.selectedProgramacion.fecha + ' ' + this.selectedProgramacion.horaInicio).getTime() - 20*60*1000),
         }
       })
       dialogRef.closed.subscribe(out =>{
@@ -190,24 +211,25 @@ export class TabMisTalleresComponent {
     }
   }
 
-  /*goAsistencia(){
-    this.statusAsistencia = 'loading';
-    let payload: RequestRegisterCabecera = {
-      idProgramacionDet: this.selectedProgramacion.idProgDet,
-      userCreacion: (JSON.parse(localStorage.getItem('camUser')!)).idUsuario,
-    };
-    this.controlService.registerDataAsistenciaCabecera(payload).subscribe((data)=>{
-      if (data.code == 0) {
-        this.statusAsistencia = 'success';
-        localStorage.setItem('idProgramElegida', JSON.stringify(this.selectedProgramacion.idProgDet));    
-        this.router.navigate(['/app/control/control-asistencia'])
+  getTimeAndAsistir(){
+    let fechaServidor : Date = this.fechaActualServidor;
+    let fechaFinTaller : Date = new Date(this.selectedProgramacion.fecha + ' ' + this.selectedProgramacion.horaFin);
+    let fechaInicioTaller : Date = new Date(new Date(this.selectedProgramacion.fecha + ' ' + this.selectedProgramacion.horaInicio).getTime() - 20*60*1000);
+
+    if(fechaServidor > fechaFinTaller){
+      this.bloqueo = true;
+    }
+    else{
+      if(fechaServidor >= fechaInicioTaller){
+        this.bloqueo = false;
       }
       else{
-        this.statusAsistencia = 'failed';
-        this.notificacionService.warning(data.message);
+        this.bloqueo = true;
       }
-    })
-  }*/
+    }
+
+    this.goAsistencia();
+  }
 
   getIsTime(){
     this.ctrlFinTaller.setValue(null, {emitEvent: false});

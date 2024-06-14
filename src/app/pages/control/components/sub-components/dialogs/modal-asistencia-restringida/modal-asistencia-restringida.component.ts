@@ -61,9 +61,6 @@ export class ModalAsistenciaRestringidaComponent implements OnInit {
   }
 
   ngOnInit() {
-    console.log(this.data);
-
-    
     this.fechaActualContando = new Date(this.fechaActualContando.getTime() + 1000); 
     this.calcularDiferencias();
     this.EvalHoras();

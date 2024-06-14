@@ -33,7 +33,7 @@ export class DialogNewContratoComponent {
   talleristaInfo: any;
   
   public formNewContrato = this.fb.nonNullable.group({
-    frmSelectDoc: new FormControl(''),
+    frmSelectDoc: new FormControl('1'),
     frmDoc: ['', [Validators.required, Validators.minLength(8)]],
   });
   public formVigencia = this.fb.nonNullable.group({
