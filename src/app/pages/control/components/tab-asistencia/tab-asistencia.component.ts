@@ -14,6 +14,7 @@ import { DatosGeneralesService } from 'src/app/data/services/datos-generales.ser
 import { DialogConfirmDataAsistenciaComponent } from './dialog/dialog-confirm-data-asistencia/dialog-confirm-data-asistencia.component';
 import { RequestCambioHorario, RequestRegisterDet } from '@models/control/asistencia/service-asistencia.model';
 import { debounceTime } from 'rxjs';
+import { ModalAsistenciaRepetidaComponent } from '../sub-components/dialogs/modal-asistencia-repetida/modal-asistencia-repetida.component';
 
 registerLocaleData(localeEs, 'es');
 
@@ -174,8 +175,22 @@ export class TabAsistenciaComponent {
               this.notificacionService.success('Se ha registrado la asistencia');
             }            
           }
+          else if(datos.code == 1){
+          
+            this.notificacionService.error(datos.message);
+          }
           else{
-            this.notificacionService.warning(datos.message);
+            this.dialog.open(ModalAsistenciaRepetidaComponent, {
+              minWidth:'500px',
+              maxWidth:'30%',
+              width:'500px',
+              data:{
+                msg: datos.message
+              }
+            }
+              
+            )
+           // this.notificacionService.warning(datos.message);
           }
         })
       }

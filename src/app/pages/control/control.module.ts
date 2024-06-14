@@ -27,6 +27,7 @@ import localeEs from '@angular/common/locales/es';
 import { SelectPersonalizadoComponent } from '@shared/components/select-personalizado/select-personalizado.component';
 import { MenuOpcionesV2Component } from '@shared/components/menu-opciones-v2/menu-opciones-v2.component';
 import { ModalAsistenciaRestringidaComponent } from './components/sub-components/dialogs/modal-asistencia-restringida/modal-asistencia-restringida.component';
+import { ModalAsistenciaRepetidaComponent } from './components/sub-components/dialogs/modal-asistencia-repetida/modal-asistencia-repetida.component';
 
 
 @NgModule({
@@ -43,7 +44,8 @@ import { ModalAsistenciaRestringidaComponent } from './components/sub-components
     DialogAddProgramacionAsignacionComponent,
     ModalConfirmarComponent,
     ModalEditarComponent,
-    ModalAsistenciaRestringidaComponent
+    ModalAsistenciaRestringidaComponent,
+    ModalAsistenciaRepetidaComponent
   ],
   imports: [
     CommonModule,

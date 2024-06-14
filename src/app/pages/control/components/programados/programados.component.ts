@@ -185,12 +185,14 @@ export class ProgramadosComponent {
 
   
   goAsistencia(){
-   
+    localStorage.setItem('profCamListaAsistencias', 'preRegistro');
     this.router.navigate(['/app/control/asistencias-profesional-cam'])
   }
 
   
   goAsistenciaInscritos(){
+    localStorage.setItem('profCamListaAsistencias', 'registro');
+    //this.bloqueo
     if(this.bloqueo){
       const dialogRef = this.dialog.open(ModalAsistenciaRestringidaComponent,{
         minWidth:'500px',
