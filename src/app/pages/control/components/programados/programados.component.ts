@@ -50,6 +50,8 @@ export class ProgramadosComponent {
 
   fechaActualServidor!: Date;
 
+  idProgramacionElegida: string = String(JSON.parse(localStorage.getItem('idProgramElegida')!));
+
   buttons = [
     { label: 'Hoy', method: () => this.getFiltrosFecha(1) },
     { label: 'Mañana', method: () => this.getFiltrosFecha(2) },
@@ -128,6 +130,8 @@ export class ProgramadosComponent {
     this.getListaProgramaciones()
     this.selectedProgramacion = null;    
   }
+  
+  
 
   getListaProgramaciones() {
     this.status = 'loading';
@@ -137,8 +141,17 @@ export class ProgramadosComponent {
         this.status = 'success';
         this.ListaProgramacines = data.data
         if (data.data.length > 0) {
-          this.selectedProgramacion = data.data[0];
-          localStorage.setItem('idProgramElegida', JSON.stringify(this.selectedProgramacion.idProgDet));    
+          if(this.idProgramacionElegida.length > 0){
+            if(data.data.filter((programacion : any) => programacion.idProgDet == this.idProgramacionElegida).length > 0){
+              this.selectProg(data.data.filter((programacion : any) => programacion.idProgDet == this.idProgramacionElegida)[0])
+            }
+            else{
+              this.selectProg(data.data[0]);
+            }
+           
+          }else{
+            this.selectProg(data.data[0]);
+          }
         }
         else{
           this.toastrService.warning("No existen programaciones en el periodo escogido")
