@@ -27,6 +27,7 @@ export class ToolbarAdminComponent {
               private router:Router) { }
 
   ngOnInit(){
+   // alert(this.userRol);
     if(localStorage.getItem('camUser') != 'null'){
       this.userInfo = JSON.parse(localStorage.getItem('camUser')!);
       // let idUnid: string;
@@ -53,6 +54,6 @@ export class ToolbarAdminComponent {
   }
   
   config(){
-    location.href = '/app/admin/edit-user'
+    this.router.navigate(['/app/admin/edit-user'])
   }
 }
