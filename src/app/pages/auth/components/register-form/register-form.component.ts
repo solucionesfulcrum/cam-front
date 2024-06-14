@@ -382,7 +382,7 @@ export class RegisterFormComponent {
             names: result.nombres,
             codigoPlanilla: result.codPlanilla,
             email: result.email,
-            apellidos: result.nombres
+            apellidos: ''
           })
           
           this.guiid = result.guiid;
