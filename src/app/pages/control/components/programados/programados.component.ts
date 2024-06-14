@@ -11,6 +11,9 @@ import { InscripcionModalComponent } from '../../modals/inscripcion-modal/inscri
 import { Dialog } from '@angular/cdk/dialog';
 import { Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
+import { RequestRegisterCabecera } from '@models/control/asistencia/service-asistencia.model';
+import { ControlProgramacionService } from 'src/app/data/services/control/control-programacion.service';
+import { ModalAsistenciaRestringidaComponent } from '../sub-components/dialogs/modal-asistencia-restringida/modal-asistencia-restringida.component';
 
 registerLocaleData(localeEs, 'es');
 
@@ -59,7 +62,8 @@ export class ProgramadosComponent {
               private notificacionService               : NotificationService,            
               private dialog : Dialog,
               private router                            : Router,
-              private toastrService: ToastrService
+              private toastrService: ToastrService,
+              private controlService                    : ControlProgramacionService,
               ) { }
 
   setActive(index: number) {
@@ -183,6 +187,43 @@ export class ProgramadosComponent {
   goAsistencia(){
    
     this.router.navigate(['/app/control/asistencias-profesional-cam'])
+  }
+
+  
+  goAsistenciaInscritos(){
+    if(this.bloqueo){
+      const dialogRef = this.dialog.open(ModalAsistenciaRestringidaComponent,{
+        minWidth:'500px',
+        maxWidth:'30%',
+        width:'500px',
+        data:{
+          fechaServidor: this.fechaActualServidor,
+          fechaInicioTaller: new Date(this.selectedProgramacion.fecha + ' ' + this.selectedProgramacion.horaFin),
+          fechaFinTaller: new Date(new Date(this.selectedProgramacion.fecha + ' ' + this.selectedProgramacion.horaInicio).getTime() - 20*60*1000),
+        }
+      })
+      dialogRef.closed.subscribe(out =>{
+        //this.onLoadData();
+      })
+    }
+    else{
+      this.statusAsistencia = 'loading';
+      let payload: RequestRegisterCabecera = {
+        idProgramacionDet: this.selectedProgramacion.idProgDet,
+        userCreacion: (JSON.parse(localStorage.getItem('camUser')!)).idUsuario,
+      };
+      this.controlService.registerDataAsistenciaCabecera(payload).subscribe((data)=>{
+        if (data.code == 0) {
+          this.statusAsistencia = 'success';
+          localStorage.setItem('idProgramElegida', JSON.stringify(this.selectedProgramacion.idProgDet));    
+          this.router.navigate(['/app/control/control-asistencia'])
+        }
+        else{
+          this.statusAsistencia = 'failed';
+          this.notificacionService.warning(data.message);
+        }
+      })
+    }
   }
 
   getIsTime(){

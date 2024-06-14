@@ -10,6 +10,8 @@ import { NotificationService } from '@services/notification.service';
 import { debounceTime } from 'rxjs';
 import { ControlProgramacionService } from 'src/app/data/services/control/control-programacion.service';
 import { DatosGeneralesService } from 'src/app/data/services/datos-generales.service';
+import { ModalAsistenciaRestringidaComponent } from '../sub-components/dialogs/modal-asistencia-restringida/modal-asistencia-restringida.component';
+import { Dialog } from '@angular/cdk/dialog';
 
 registerLocaleData(localeEs, 'es');
 @Component({
@@ -54,6 +56,7 @@ export class TabMisTalleresComponent {
               private controlService                    : ControlProgramacionService,
               @Inject(LOCALE_ID) private locale         : string,
               private notificacionService               : NotificationService,
+              private dialog : Dialog,
               ) { }
 
   setActive(index: number) {
@@ -152,6 +155,42 @@ export class TabMisTalleresComponent {
   }
 
   goAsistencia(){
+    if(this.bloqueo){
+      const dialogRef = this.dialog.open(ModalAsistenciaRestringidaComponent,{
+        minWidth:'500px',
+        maxWidth:'30%',
+        width:'500px',
+        data:{
+          fechaServidor: this.fechaActualServidor,
+          fechaInicioTaller: new Date(this.selectedProgramacion.fecha + ' ' + this.selectedProgramacion.horaFin),
+          fechaFinTaller: new Date(new Date(this.selectedProgramacion.fecha + ' ' + this.selectedProgramacion.horaInicio).getTime() - 20*60*1000),
+        }
+      })
+      dialogRef.closed.subscribe(out =>{
+        //this.onLoadData();
+      })
+    }
+    else{
+      this.statusAsistencia = 'loading';
+      let payload: RequestRegisterCabecera = {
+        idProgramacionDet: this.selectedProgramacion.idProgDet,
+        userCreacion: (JSON.parse(localStorage.getItem('camUser')!)).idUsuario,
+      };
+      this.controlService.registerDataAsistenciaCabecera(payload).subscribe((data)=>{
+        if (data.code == 0) {
+          this.statusAsistencia = 'success';
+          localStorage.setItem('idProgramElegida', JSON.stringify(this.selectedProgramacion.idProgDet));    
+          this.router.navigate(['/app/control/control-asistencia'])
+        }
+        else{
+          this.statusAsistencia = 'failed';
+          this.notificacionService.warning(data.message);
+        }
+      })
+    }
+  }
+
+  /*goAsistencia(){
     this.statusAsistencia = 'loading';
     let payload: RequestRegisterCabecera = {
       idProgramacionDet: this.selectedProgramacion.idProgDet,
@@ -168,7 +207,7 @@ export class TabMisTalleresComponent {
         this.notificacionService.warning(data.message);
       }
     })
-  }
+  }*/
 
   getIsTime(){
     this.ctrlFinTaller.setValue(null, {emitEvent: false});
