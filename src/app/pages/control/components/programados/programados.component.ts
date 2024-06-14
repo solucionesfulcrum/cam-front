@@ -186,7 +186,7 @@ export class ProgramadosComponent {
 
   
   goAsistencia(){
-    localStorage.setItem('profCamListaAsistencias', 'preRegistro');
+    localStorage.setItem('idProgramElegida', this.selectedProgramacion.idProgDet);
     this.router.navigate(['/app/control/asistencias-profesional-cam'])
   }
 
