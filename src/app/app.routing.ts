@@ -2,6 +2,7 @@ import { Route } from '@angular/router';
 import { AuthGuard } from '@guards/auth.guard';
 import { RedirectGuard } from '@guards/redirect.guard';
 import { AppRoute } from './data/constants/app-route.constant';
+import { InternetGuard } from '@guards/internet.guard';
 
 export const routes: Route[] = [
    {
@@ -12,7 +13,7 @@ export const routes: Route[] = [
   },
   {
     path: AppRoute.APP,
-    canActivate:[AuthGuard],
+    canActivate:[AuthGuard, InternetGuard],
     children:[
       {
         path: `${AppRoute.ADMIN}`,
