@@ -17,7 +17,10 @@ import { MaterialModule } from './material/material.module';
 })
 
 export class AppComponent {
-  constructor(private connectionService: ConnectionService, private dialog: MatDialog) {}
+  constructor(
+    private connectionService: ConnectionService, 
+    private dialog: MatDialog
+  ) {}
 
   ngOnInit(): void {
     this.connectionService.connectionStatus$.subscribe(isConnected => {
