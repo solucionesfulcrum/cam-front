@@ -16,6 +16,9 @@ import { TablaAdaptableComponent } from './components/tabla-adaptable/tabla-adap
 import { PreguntasComponent } from './components/preguntas/preguntas.component';
 import { Pregunt1opcComponent } from './components/pregunt1opc/pregunt1opc.component';
 import { SelectPersonalizadoComponent } from './components/select-personalizado/select-personalizado.component';
+import { ModalSinInternetComponent } from './components/modal-sin-internet/modal-sin-internet.component';
+import { MatIcon, MatIconModule } from '@angular/material/icon';
+
 
 const modules:any[] = [
   CommonModule,
@@ -35,12 +38,13 @@ const modules:any[] = [
    CartillaInfoComponent,
    TablaAdaptableComponent,
    PreguntasComponent,
-   Pregunt1opcComponent
+   Pregunt1opcComponent,
+   MatIconModule
 ]
 
 @NgModule({
   imports: [
     ...modules
-  ],exports:[...modules]
+  ],exports:[...modules], declarations: [ModalSinInternetComponent]
 })
 export class SharedModule { }

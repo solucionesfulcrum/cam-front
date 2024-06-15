@@ -1,0 +1,28 @@
+
+    <div class="bg-white flex flex-col text-[#37474F my-2">
+
+         <!-- Icono de cierre -->
+         <div class="flex justify-end m-2">
+            <a (click)="onClose()" class="cursor-pointer">
+                <fa-icon class="mr-2" [icon]="faClose"></fa-icon>
+            </a>
+        </div>
+          <!-- Icono -->
+        <!-- Icono -->
+    <div class="flex justify-center">
+        <div class="border-[#37474F]  w-[100px] h-[100px] flex items-center justify-center select-none">
+            <img src="assets/svg/wifi-slash-svgrepo-com.svg" class="w-[70px]">
+        </div>
+    </div>
+
+    <!-- Título -->
+    <div class="text-2xl mb-4 text-center">
+         Verifique su conexión a internet
+    </div>
+
+    <!-- Botón -->
+    <div class="flex justify-center mb-10">
+        <app-btn class="botonApariencia flex" color="mezclado" (click)="onClose()">Aceptar</app-btn>
+    </div>
+
+    </div>

@@ -16,6 +16,7 @@ import { environment } from '@environments/environment';
 import { NotifierInterceptor } from '@interceptors/notifier.interceptor';
 import { ToastrModule } from 'ngx-toastr';
 import { AppConfig } from './app/core/app.config';
+import { NoInternetInterceptor } from '@interceptors/internet';
 
 // if (environment.production) {
 //   enableProdMode();
@@ -39,6 +40,7 @@ bootstrapApplication(AppComponent, {
       useValue: { appearance: 'outline' },
     },
     provideRouter(routes),
+     { provide: HTTP_INTERCEPTORS, useClass: NoInternetInterceptor, multi: true },
   ],
 }).catch((error) => {
   console.error(error);
