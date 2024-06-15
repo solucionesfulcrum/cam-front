@@ -15,6 +15,14 @@ export class NoInternetInterceptor implements HttpInterceptor {
         if (!navigator.onLine || error.status === 0) {
          this.connectionService.updateConnectionStatus(false);
         }
+
+         // Verificar si el error es "chunk loading failed"
+        if (error.message && error.message.includes('chunk loading failed')) {
+          // Tomar medidas específicas, como recargar la página
+          this.connectionService.updateConnectionStatus(false);
+          window.location.reload();
+        }
+
         return throwError(error);
       })
     );
