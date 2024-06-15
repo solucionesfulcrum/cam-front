@@ -12,8 +12,7 @@ export class ModalSinInternetComponent implements OnInit  {
 
   faClose = faClose
   constructor(@Inject(MAT_DIALOG_DATA) public data: any,
-  private _dialogRef                    : DialogRef<any>,
-  private imageCache : CacheImageService
+  private _dialogRef                    : DialogRef<any>
 ) {}
 
   onClose(){
@@ -21,9 +20,6 @@ export class ModalSinInternetComponent implements OnInit  {
     }
 
     async ngOnInit(): Promise<void> {
-      const cachedUrl = await this.imageCache.getCachedImage("assets/svg/wifi-slash-svgrepo-com.svg");
-        if (cachedUrl) {
-          //this.imageUrls.push(cachedUrl);
-        }
+     
     }
 }
