@@ -17,7 +17,6 @@ import { NotifierInterceptor } from '@interceptors/notifier.interceptor';
 import { ToastrModule } from 'ngx-toastr';
 import { AppConfig } from './app/core/app.config';
 import { NoInternetInterceptor } from '@interceptors/internet';
-import { CacheImageService } from '@shared/utils/no-internet-cache-img';
 
 // if (environment.production) {
 //   enableProdMode();
@@ -42,7 +41,6 @@ bootstrapApplication(AppComponent, {
     },
     provideRouter(routes),
      { provide: HTTP_INTERCEPTORS, useClass: NoInternetInterceptor, multi: true },
-     CacheImageService,
   ],
 }).catch((error) => {
   console.error(error);
