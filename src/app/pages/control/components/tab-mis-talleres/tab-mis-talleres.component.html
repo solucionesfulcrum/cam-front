@@ -45,7 +45,15 @@
     </div>
     <div class="flex flex-row gap-[30px] text-[#37474F] items-start" *ngIf="status !== 'loading'">
         <div *ngIf="ListaProgramacines.length > 0" class="flex flex-col w-[435px] shrink-0 botonApariencia overflow-auto max-h-[68vh]">
-            <div *ngFor="let prog of ListaProgramacines, index as i" class="py-2.5 border-x border-t border-[#979797] bg-white hover:bg-[#F0FCFE] cursor-pointer" [ngClass]="{'rounded-t': i == 0, 'rounded-b border-b': i == ListaProgramacines.length - 1, '!bg-[#F0FCFE]': (selectedProgramacion ? prog.idProgDet == selectedProgramacion.idProgDet : null)}" (click)="selectProg(prog)">
+            <div *ngFor="let prog of ListaProgramacines, index as i" 
+            class="py-2.5 border-x border-t border-[#979797]   cursor-pointer" 
+            [ngClass]="{
+            'rounded-t': i == 0, 
+            'rounded-b border-b': i == ListaProgramacines.length - 1, 
+            'programacionSelected': (selectedProgramacion ? prog.idProgDet == selectedProgramacion.idProgDet : null),
+            'bg-white': (selectedProgramacion ? prog.idProgDet != selectedProgramacion.idProgDet : null ),
+            'hover:bg-[#F0FCFE]': (selectedProgramacion ? prog.idProgDet != selectedProgramacion.idProgDet : null ),
+            }" (click)="selectProg(prog)">
                 <div class="px-2.5 py-[14px] flex flex-row">
                     <div class="flex flex-col items-end gap-[5px] pt-[2px] px-2.5 shrink-0 w-[65px]">
                         <span class="font-semibold text-[40px] leading-[30px]">{{prog.fecha | date:'dd'}}</span>
@@ -85,13 +93,13 @@
             <div class="p-2.5">
                 <div class="p-2.5 flex flex-row gap-2.5">
                     <div class="border-[#37474F] border w-[150px] h-[150px] flex items-center justify-center select-none">
-                        <img src="assets/svg/icon-picture.svg">
+                        <img class="w-full h-full" src="assets/images/control-img/img-control-muestra-1.png">
                     </div>
                     <div class="border-[#37474F] border w-[150px] h-[150px] flex items-center justify-center select-none">
-                        <img src="assets/svg/icon-picture.svg">
+                        <img class="w-full h-full" src="assets/images/control-img/img-control-muestra-1.png">
                     </div>
                     <div class="border-[#37474F] border w-[150px] h-[150px] flex items-center justify-center select-none">
-                        <img src="assets/svg/icon-picture.svg">
+                        <img class="w-full h-full" src="assets/images/control-img/img-control-muestra-1.png">
                     </div>
                     <div class="border-[#37474F] border w-[150px] h-[150px] flex items-center justify-center">
                         <img class="w-full h-full" src="assets/images/control-img/img-control-muestra-1.png">
