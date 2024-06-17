@@ -42,6 +42,8 @@ export class ContratosRedListadoComponent {
   total = 0;
   columns: string[] = ['marcar','numOc', 'fechaContrato', 'tallerista','monto', 'periodo_contrato','desCam', 'fecha'];
 
+  loadingData: boolean = false;
+
   constructor(private fb                      : FormBuilder, 
               private dialog                  : Dialog,
               private notificationService     : NotificationService,
@@ -65,17 +67,22 @@ export class ContratosRedListadoComponent {
   }
 
   onLoadData(){
-    this.contrato.contratoListarRed(this.getContactos()).subscribe((data)=>{
-      if (data.code == 0) {
-      this.dataSource = data.data.list;
-      this.pageNum = data.data.pageNum;
-      this.pageSize = data.data.pageSize;
-      this.total = data.data.total;
-      }
-      else{
-        this.notificationService.warning(data.message);
-      }
+    setTimeout(()=>{
+        this.loadingData = true;
+        this.contrato.contratoListarRed(this.getContactos()).subscribe((data)=>{
+        this.loadingData = false;
+        if (data.code == 0) {
+        this.dataSource = data.data.list;
+        this.pageNum = data.data.pageNum;
+        this.pageSize = data.data.pageSize;
+        this.total = data.data.total;
+        }
+        else{
+          this.notificationService.warning(data.message);
+        }
+      })
     })
+   
   }
   
   getDataFecha(value: any){

@@ -16,6 +16,7 @@ import { MatAutocompleteModule } from '@angular/material/autocomplete';
 import { DialogConfirmSelectionComponent } from './contratos-layout/components/dialog/dialog-confirm-selection/dialog-confirm-selection.component';
 import { ContratosRedListadoComponent } from './contratos-layout/components/contratos-red-listado/contratos-red-listado.component';
 import { CdkTableModule } from '@angular/cdk/table';
+import { DataLoadingComponent } from '@shared/components/data-loading/data-loading.component';
 
 
 @NgModule({
@@ -37,7 +38,8 @@ import { CdkTableModule } from '@angular/cdk/table';
     DialogModule,
     CdkMenuModule,
     MatAutocompleteModule,
-    CdkTableModule
+    CdkTableModule,
+    DataLoadingComponent
   ]
 })
 export class ContratosModule { }
