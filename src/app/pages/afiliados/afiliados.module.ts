@@ -38,6 +38,7 @@ import { ContenedorEvaluacionComponent } from './components/evaluacion-layout/ev
 import { EvaluacionResultadosComponent } from './components/evaluacion-layout/evaluaciones/evaluacion-resultados/evaluacion-resultados.component';
 import { DialogNotasComponent } from './show-sol/dialog-notas/dialog-notas.component';
 import { MatAutocompleteModule } from '@angular/material/autocomplete';
+import { DataLoadingComponent } from '@shared/components/data-loading/data-loading.component';
 
 
 
@@ -64,7 +65,7 @@ import { MatAutocompleteModule } from '@angular/material/autocomplete';
     EvaluacionDYesavageComponent,
     ContenedorEvaluacionComponent,
     EvaluacionResultadosComponent,
-    DialogNotasComponent,
+    DialogNotasComponent
   
   ],
   imports: [
@@ -83,6 +84,7 @@ import { MatAutocompleteModule } from '@angular/material/autocomplete';
     MaterialModule,
     DialogModule,
     SharedModule,
+    DataLoadingComponent
   ],
   providers: [
     EvaluacionAPfeifferComponent

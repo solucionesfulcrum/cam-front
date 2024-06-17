@@ -16,7 +16,13 @@
 (firstDisplayFilterSendValue)="formBuscar.get('frmSearchEstado')?.setValue($event); loadData()"
 [firstDisplayFilterData]="opciones"
 ></esp-opciones-busqueda>
-<div>
+
+<esp-data-loading
+[dataEmpty]="dataSource.length == 0"
+[dataLoading]="loadingData"
+></esp-data-loading>
+
+<div *ngIf="!loadingData && dataSource.length > 0">
     <table cdk-table class="w-full text-sm text-left text-gray-500 tablaDatos" [dataSource]="dataSource" >
       <tr cdk-header-row class="text-xs text-gray-700 bg-gray-50" *cdkHeaderRowDef="columns"></tr>
       <tr cdk-row class="bg-white border-b" *cdkRowDef="let row; columns: columns"></tr>

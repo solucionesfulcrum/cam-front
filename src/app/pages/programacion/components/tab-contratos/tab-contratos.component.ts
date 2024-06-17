@@ -28,6 +28,8 @@ export class TabContratosComponent {
   pageSize = 10;
   pageSizeOptions:  number[] = [5,10,20];
   total = 0;
+
+  loadingData : boolean = false;
   
   constructor(private fb                      : FormBuilder,
               private programacionService     : ProgramacionContratosService,
@@ -47,17 +49,23 @@ export class TabContratosComponent {
   }
 
   loadData(){
-    this.programacionService.listContratosProgramacion(this.getPayloadList()).subscribe((data)=>{
-      if (data.code == 0) {
-        console.log(data.data.list)
-        this.dataSource = data.data.list;
-        this.pageNum = data.data.pageNum;
-        this.total = data.data.total;
-      }
-      else {
-        this.notificationService.warning(data.message);
-      }
-    })
+
+    setTimeout(() => {
+      this.loadingData = true;
+      this.programacionService.listContratosProgramacion(this.getPayloadList()).subscribe((data)=>{
+        this.loadingData = false;
+        if (data.code == 0) {
+          console.log(data.data.list)
+          this.dataSource = data.data.list;
+          this.pageNum = data.data.pageNum;
+          this.total = data.data.total;
+        }
+        else {
+          this.notificationService.warning(data.message);
+        }
+      })
+    });
+    
   }
 
   getPayloadList(): ProgramacionRequestListContratos{

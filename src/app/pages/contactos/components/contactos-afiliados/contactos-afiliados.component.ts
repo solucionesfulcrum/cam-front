@@ -10,6 +10,7 @@ import { NotificationService } from '@services/notification.service';
 import { DatosGeneralesService } from 'src/app/data/services/datos-generales.service';
 import { Parametro } from '@models/parametros-busqueda.model';
 import { ParamMenu } from '@shared/components/opciones-busqueda/parametros-busqueda.model';
+import { faSpinner } from '@fortawesome/free-solid-svg-icons';
 
 @Component({
   selector: 'app-contactos-afiliados',
@@ -24,6 +25,8 @@ export class ContactosAfiliadosComponent implements OnInit {
     frmSearchCam:new FormControl(""),
   });
 
+  faSpinner = faSpinner;
+
   dataAcciones: ParamMenu[] = [
     {texto: 'Descargar Excel', svgDir: 'assets/svg/icon-excel.svg'}
   ];
@@ -37,6 +40,8 @@ export class ContactosAfiliadosComponent implements OnInit {
   columns: string[] = ['marcar','nombres','tipoDoc','numDoc', 'edad', 'estadoCivil','ipress','fecha'];
 
   rol: string = '';
+
+  loadingData: boolean = false;
 
   
   opciones_cam: Parametro[] = [];
@@ -61,25 +66,32 @@ export class ContactosAfiliadosComponent implements OnInit {
   }
 
   onLoadData(){
-    
-    this.rol = JSON.parse(localStorage.getItem('UnidElegida')!).rol;
-    
-    //DEFINIENDO CUAL SERVICIO USAR
-    let servicioMetodo = this.rol == 'COORDINADOR RED' ? 
-    this.afiliacionesService.getListaContactoRed(this.getContactos()) :
-    this.afiliacionesService.getListaContacto(this.getContactos());
 
-    servicioMetodo.subscribe((data)=>{
-      if (data.code == 0) {
-      this.dataSource = data.data.list;
-      this.pageNum = data.data.pageNum;
-      this.pageSize = data.data.pageSize;
-      this.total = data.data.total;
-      }
-      else{
-        this.notificationService.warning(data.message);
-      }
+    setTimeout(()=>{
+      this.rol = JSON.parse(localStorage.getItem('UnidElegida')!).rol;
+    
+      //DEFINIENDO CUAL SERVICIO USAR
+      let servicioMetodo = this.rol == 'COORDINADOR RED' ? 
+      this.afiliacionesService.getListaContactoRed(this.getContactos()) :
+      this.afiliacionesService.getListaContacto(this.getContactos());
+  
+      this.loadingData = true;
+  
+      servicioMetodo.subscribe((data)=>{
+        this.loadingData = false;
+        if (data.code == 0) {
+        this.dataSource = data.data.list;
+        this.pageNum = data.data.pageNum;
+        this.pageSize = data.data.pageSize;
+        this.total = data.data.total;
+        }
+        else{
+          this.notificationService.warning(data.message);
+        }
+      })
     })
+    
+   
   }
   
   getDataFecha(value: any){

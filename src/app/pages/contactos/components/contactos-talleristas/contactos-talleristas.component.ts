@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup } from '@angular/forms';
 import { PageEvent } from '@angular/material/paginator';
+import { faSpinner } from '@fortawesome/free-solid-svg-icons';
 import { imprimirRequestCam } from '@models/afiliados/ficha-solicitud.model';
 import { RequestListTallerista, RequestListTalleristaRed } from '@models/contactos/talleristas/contactos-talleristas.model';
 import { Parametro } from '@models/parametros-busqueda.model';
@@ -38,6 +39,8 @@ export class ContactosTalleristasComponent implements OnInit {
   opciones_cam: Parametro[] = [];
   opciones: Parametro[] = [];
 
+  loadingData: boolean = false;
+  faSpinner = faSpinner;
 
   rol: string = '';
   
@@ -63,25 +66,33 @@ export class ContactosTalleristasComponent implements OnInit {
   }
 
   onLoadData(){
-    
-    this.rol = JSON.parse(localStorage.getItem('UnidElegida')!).rol;
 
-    let servicioMetodo = this.rol == 'COORDINADOR RED' ? 
-    this.talleristaService.getTalleristaListRed(this.getPayloadList()) :
-    this.talleristaService.getTalleristaList(this.getPayloadList());
 
-    servicioMetodo.subscribe((data)=>{
-      if (data.code == 0) {
-        console.log(data.data.list)
-        this.dataSource = data.data.list;
-        this.pageNum = data.data.pageNum;
-        this.pageSize = data.data.pageSize;
-        this.total = data.data.total;
-      }
-      else {
-        this.notificationService.warning(data.message);
-      }
+    setTimeout(()=>{
+      this.rol = JSON.parse(localStorage.getItem('UnidElegida')!).rol;
+
+      let servicioMetodo = this.rol == 'COORDINADOR RED' ? 
+      this.talleristaService.getTalleristaListRed(this.getPayloadList()) :
+      this.talleristaService.getTalleristaList(this.getPayloadList());
+  
+      this.loadingData = true;
+  
+      servicioMetodo.subscribe((data)=>{
+        this.loadingData = false;
+        if (data.code == 0) {
+          console.log(data.data.list)
+          this.dataSource = data.data.list;
+          this.pageNum = data.data.pageNum;
+          this.pageSize = data.data.pageSize;
+          this.total = data.data.total;
+        }
+        else {
+          this.notificationService.warning(data.message);
+        }
+      })
     })
+    
+   
   }
 
   getPayloadList(): RequestListTalleristaRed{

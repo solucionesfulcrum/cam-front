@@ -18,6 +18,7 @@ import { Pregunt1opcComponent } from './components/pregunt1opc/pregunt1opc.compo
 import { SelectPersonalizadoComponent } from './components/select-personalizado/select-personalizado.component';
 import { ModalSinInternetComponent } from './components/modal-sin-internet/modal-sin-internet.component';
 import { MatIcon, MatIconModule } from '@angular/material/icon';
+import { DataLoadingComponent } from './components/data-loading/data-loading.component';
 
 
 const modules:any[] = [

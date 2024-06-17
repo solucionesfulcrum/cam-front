@@ -12,9 +12,14 @@
           <img class="opacity-60" src="assets/svg/toolbarCalendar.svg"/>
           <img class="opacity-60" src="assets/svg/toolbarNotification.svg"/>
           <div class="flex gap-[10px] items-center">
-            <img
+            <img *ngIf="!imagenFoto"
               class="w-8 rounded-full"
               src="assets/images/iconUser.png"
+              alt="user photo"
+            />
+            <img *ngIf="imagenFoto"
+              class="w-8 rounded-full"
+              [src]="'data:image/JPEG;base64,' + imagenFoto"
               alt="user photo"
             />
             <div class="profile-content flex flex-col justify-center max-w-[8rem] cursor-pointer" (click)="isOpen = !isOpen">
@@ -77,13 +82,13 @@
             >Mi Datos personales</a
           >
         </li>
-        <li>
+       <!-- <li>
           <a
             href="#"
             class="block py-2 px-4 text-sm text-gray-700 hover:bg-gray-100 dark:hover:bg-gray-600"
             >Mi Actividad</a
           >
-        </li>
+        </li>-->
       </ul>
       <ul>
         <li>

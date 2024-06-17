@@ -22,6 +22,7 @@ import { ContactoTabContratosComponent } from './components/contactos-tallerista
 import { ContactoTabCalendarioComponent } from './components/contactos-talleristas/sub-components/show-tallerista/tabs/contacto-tab-calendario/contacto-tab-calendario.component';
 import { ContactoTabTalleresComponent } from './components/contactos-talleristas/sub-components/show-tallerista/tabs/contacto-tab-talleres/contacto-tab-talleres.component';
 import { CdkMenuModule } from '@angular/cdk/menu';
+import { DataLoadingComponent } from '@shared/components/data-loading/data-loading.component';
 
 
 @NgModule({
@@ -50,6 +51,7 @@ import { CdkMenuModule } from '@angular/cdk/menu';
     MaterialModule,
     SharedModule,
     CdkMenuModule,
+    DataLoadingComponent
   ]
 })
 export class ContactosModule { }

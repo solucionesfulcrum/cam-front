@@ -69,6 +69,9 @@ export class SolicitudesComponent implements OnInit {
 
 */ 
 
+
+  loadingData: boolean = false;
+
   constructor(
     private fb: FormBuilder, 
     private afiliacionesService: AfiliacionesSolicitudesService,
@@ -99,17 +102,23 @@ export class SolicitudesComponent implements OnInit {
     //   {nombres: 'ROXANA ESTRADA ARIAS', tipoDoc: 1, numDoc: '23835688', fecNac: '16/03/1968', estCivil: 'SOLTERA', ipress: 'EUNICE ELIZABETH', dias: 3}
     // ]
     // this.total = 1;
-    this.afiliacionesService.getListaSolicitudes(this.getPayload()).subscribe((data)=>{
-      if (data.code == 0) {
-        this.dataSource = data.data.list;
-        this.pageNum = data.data.pageNum;
-        this.pageSize = data.data.pageSize;
-        this.total = data.data.total;
-      }
-      else{
-        this.notificationService.warning(data.message);
-      }
+
+    setTimeout(()=>{
+      this.loadingData = true;
+      this.afiliacionesService.getListaSolicitudes(this.getPayload()).subscribe((data)=>{
+        this.loadingData = false;
+        if (data.code == 0) {
+          this.dataSource = data.data.list;
+          this.pageNum = data.data.pageNum;
+          this.pageSize = data.data.pageSize;
+          this.total = data.data.total;
+        }
+        else{
+          this.notificationService.warning(data.message);
+        }
+      })
     })
+    
   }
   
   getDataFecha(value: any){
