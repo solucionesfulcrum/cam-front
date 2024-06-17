@@ -134,6 +134,9 @@ export class ContratosAsignarServiciosComponent {
         ctrlDataObt: new FormControl(),
       });
       (this.dataTables as FormArray).push(controlPrueba);
+      setTimeout(() => {
+        this.addServiceToTablaUnid((this.dataTables as FormArray).length - 1);
+      });
     }
     else{
       let dataOrdenada: any[] = [];
@@ -244,6 +247,10 @@ export class ContratosAsignarServiciosComponent {
 
   deleteTablaUnid(index: number){
     this.dataTables.removeAt(index);
+  }
+
+  returnEmptyRow(){
+    return {idServicio: 1, nomServicio: '', fecInicio: formatDate(this.dataContrato.datosContrato.fechaInicio, 'd/M/yyyy', this.locale),fecFin: formatDate(this.dataContrato.datosContrato.fechaFin, 'd/M/yyyy', this.locale)};
   }
 
   optFunc(opt: number){
