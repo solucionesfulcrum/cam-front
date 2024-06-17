@@ -11,5 +11,5 @@ export function capitalizar(texto: string): string {
   
     const primeraLetra = palabra.charAt(0).toLocaleUpperCase();
     const restoLetras = palabra.slice(1).toLocaleLowerCase();
-    return primeraLetra + restoLetras;
+    return primeraLetra + restoLetras; 
   }
