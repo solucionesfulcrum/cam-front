@@ -8,7 +8,9 @@
                 <app-btn color="white" (click)="onClose()">Cancelar
                 </app-btn>
             </div>
-            <div class="relative rounded-md shadow-sm botonApariencia">
+            <div class="relative rounded-md shadow-sm botonApariencia danger"
+            [ngClass]="{'alert-div' : data.type == 0}"
+            >
                 <app-btn [color]="data.type == 0 ? 'danger' : 'mezclado'" (click)="onConfirm()" [loading]="status === 'loading'">{{data.type == 0 ? 'Eliminar':'Confirmar'}}
                 </app-btn>
             </div>
