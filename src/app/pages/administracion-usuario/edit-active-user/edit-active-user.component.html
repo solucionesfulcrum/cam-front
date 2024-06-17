@@ -40,6 +40,13 @@
                 <input type="text" name="nombres"
                     class="space-x-5 border border-gray-300 text-gray-900 text-sm rounded-lg focusCampo block w-full h-[42px]"
                     formControlName="frmNombres">
+                <div
+                    *ngIf="formDatosPersonales.controls.frmNombres.touched && formDatosPersonales.controls.frmNombres.invalid">
+                    <p *ngIf="formDatosPersonales.controls.frmNombres.hasError('required')"
+                        class="font-medium text-red-500 text-xs mt-1 ml-1">
+                        El nombre es obligatorio
+                    </p>
+                </div>
             </div>
             <div>
                 <label class="block text-gray-700">Apellidos</label>
@@ -51,6 +58,10 @@
                     <p *ngIf="formDatosPersonales.controls.frmApellidos.hasError('pattern')"
                         class="font-medium text-red-500 text-xs mt-1 ml-1">
                         Apellidos solo puede contar con Letras y Espacios
+                    </p>
+                    <p *ngIf="formDatosPersonales.controls.frmApellidos.hasError('required')"
+                        class="font-medium text-red-500 text-xs mt-1 ml-1">
+                        El Apellido es obligatorio
                     </p>
                 </div>
             </div>
