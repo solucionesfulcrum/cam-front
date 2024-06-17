@@ -19,6 +19,7 @@ import { SelectPersonalizadoComponent } from './components/select-personalizado/
 import { ModalSinInternetComponent } from './components/modal-sin-internet/modal-sin-internet.component';
 import { MatIcon, MatIconModule } from '@angular/material/icon';
 import { DataLoadingComponent } from './components/data-loading/data-loading.component';
+import { CapitalizarPipe } from '../pipes/capitalizar.pipe';
 
 
 const modules:any[] = [
@@ -40,12 +41,13 @@ const modules:any[] = [
    TablaAdaptableComponent,
    PreguntasComponent,
    Pregunt1opcComponent,
-   MatIconModule
+   MatIconModule,
+   CapitalizarPipe
 ]
 
 @NgModule({
   imports: [
-    ...modules
+    ...modules 
   ],exports:[...modules], declarations: [ModalSinInternetComponent]
 })
 export class SharedModule { }

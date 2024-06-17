@@ -11,6 +11,7 @@ import { Observable, map, startWith } from 'rxjs';
 import { RequestChangePassword, RequestDatosFormacionRegistro, RequestDatosPersonalesRegistro, changePassword } from '@models/dashboard/dashboard.model';
 import { NotificationService } from '@services/notification.service';
 import { formatDate } from '@angular/common';
+import { capitalizar } from '@utils/capitalizador';
 
 @Component({
   selector: 'esp-edit-active-user',
@@ -218,8 +219,8 @@ export class EditActiveUserComponent {
       console.log("imagenFirma", this.imagenFirma)
       this.numDocumento = data.data.datosPersonales.numeroDocumento;
       this.nombreCompleto = data.data.datosPersonales.nombres + " " + data.data.datosPersonales.apellidos;
-      this.formDatosPersonales.controls.frmNombres.setValue(data.data.datosPersonales.nombres)
-      this.formDatosPersonales.controls.frmApellidos.setValue(data.data.datosPersonales.apellidos)
+      this.formDatosPersonales.controls.frmNombres.setValue(capitalizar(data.data.datosPersonales.nombres))
+      this.formDatosPersonales.controls.frmApellidos.setValue(capitalizar(data.data.datosPersonales.apellidos))
       this.formDatosPersonales.controls.frmCelular.setValue(data.data.datosPersonales.celular)
       this.formDatosPersonales.controls.frmCorreo.setValue(data.data.datosPersonales.email)
       this.formDatosPersonales.controls.frmDireccion.setValue(data.data.datosPersonales.direccion)

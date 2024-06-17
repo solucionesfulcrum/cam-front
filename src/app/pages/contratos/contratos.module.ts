@@ -17,6 +17,7 @@ import { DialogConfirmSelectionComponent } from './contratos-layout/components/d
 import { ContratosRedListadoComponent } from './contratos-layout/components/contratos-red-listado/contratos-red-listado.component';
 import { CdkTableModule } from '@angular/cdk/table';
 import { DataLoadingComponent } from '@shared/components/data-loading/data-loading.component';
+import { CapitalizarPipe } from 'src/app/pipes/capitalizar.pipe';
 
 
 @NgModule({
@@ -27,7 +28,7 @@ import { DataLoadingComponent } from '@shared/components/data-loading/data-loadi
     ContratosResumenAsignacionComponent,
     DialogNewContratoComponent,
     DialogConfirmSelectionComponent,
-    ContratosRedListadoComponent
+    ContratosRedListadoComponent,
   ],
   imports: [
     CommonModule,
@@ -39,7 +40,7 @@ import { DataLoadingComponent } from '@shared/components/data-loading/data-loadi
     CdkMenuModule,
     MatAutocompleteModule,
     CdkTableModule,
-    DataLoadingComponent
+    DataLoadingComponent,
   ]
 })
 export class ContratosModule { }

@@ -23,7 +23,7 @@
         <img *ngIf="imagenFoto" [src]="'data:image/JPEG;base64,' + imagenFoto"
             class="my-1 imagen w-32 h-32 rounded-full">
     </div>
-    <h1 class="font-bold mt-4">{{nombreCompleto}}</h1>
+    <h1 class="font-bold mt-4">{{nombreCompleto | capitalizar}}</h1>
     <div class="flex items-center justify-start space-x-4">
         <h1>La información básica de cada usuario sirve para poder identificar las acciones dentro de SCAM.</h1>
         <h1 class="text-[#057EC9] hover:text-blue-700 cursor-pointer">Más información</h1>
