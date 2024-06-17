@@ -5,6 +5,7 @@ import { User } from '@models/user.model';
 import { UsersService } from '@services/users.service';
 import { SharedModule } from '@shared/shared.module';
 import { ActiveUserModalComponent } from '../active-user-modal/active-user-modal.component';
+import { DatosGeneralesService } from 'src/app/data/services/datos-generales.service';
 
 @Component({
   selector: 'app-show',
@@ -20,8 +21,13 @@ export class ShowComponent {
   showNuevo: boolean = false;
   activaciones: any = [];
 
+  distrito: string = ''
+  provincia: string = ''
+  region: string = ''
+
   constructor(private route: ActivatedRoute,
     private _usersService:UsersService,
+    private datosGenerales : DatosGeneralesService,
     private dialog : Dialog) {
       this.onLoadData();
   }
@@ -40,6 +46,7 @@ export class ShowComponent {
       })
       this._usersService.getUser(this.idUser).subscribe((data)=>{
         this.user = data.data;
+        this.setUbigeo(this.user.codRegion + this.user.codProvincia + this.user.codDistrito)
         
         if((Math.trunc((this.today.getTime() - (new Date(this.user.fechaRegistro)).getTime()) / (1000*60*60*24))) <= 7){
           this.showNuevo = true;
@@ -53,6 +60,14 @@ export class ShowComponent {
       // )
    });
 
+  }
+
+  setUbigeo(codUbigeo: string){
+    this.datosGenerales.searchByUbigeo(codUbigeo).subscribe((rpta)=>{
+      this.region = rpta.data.region;
+      this.provincia = rpta.data.provincia;
+      this.distrito = rpta.data.distrito;
+    });
   }
 
   openDialog(){
