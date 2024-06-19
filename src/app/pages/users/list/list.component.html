@@ -16,8 +16,10 @@
   [showSecondDisplayFilter]="false"
   [secDisplayFilterPlaceholder]="{'indicador': false, 'placeholder': 'Acciones'}"
   ></esp-opciones-busqueda>
+
+  <div class="table-container">
   <table
-  class="w-full text-sm text-left text-gray-500 tablaDatos"
+  class="w-full text-sm text-left text-gray-500"
   cdk-table
   [dataSource]="dataCompleted"
 >
@@ -86,6 +88,7 @@
     </td>
   </ng-container>
 </table>
+</div>
 <mat-paginator #paginator
                class="demo-paginator paginatorDatos"
                (page)="handlePageEvent($event)"

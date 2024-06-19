@@ -15,7 +15,7 @@ import { faSpinner } from '@fortawesome/free-solid-svg-icons';
 @Component({
   selector: 'app-contactos-afiliados',
   templateUrl: './contactos-afiliados.component.html',
-  styleUrls: ['./contactos-afiliados.component.css']
+  styleUrls: ['./contactos-afiliados.component.scss']
 })
 export class ContactosAfiliadosComponent implements OnInit {
   formBuscar: FormGroup = this.fb.group({

@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, ViewChild } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup } from '@angular/forms';
 import { PageEvent } from '@angular/material/paginator';
 import { ProgramacionRequestListContratos } from '@models/programacion/programacion-contratos/programacion-contrato-lista.model';
@@ -55,7 +55,6 @@ export class TabContratosComponent {
       this.programacionService.listContratosProgramacion(this.getPayloadList()).subscribe((data)=>{
         this.loadingData = false;
         if (data.code == 0) {
-          console.log(data.data.list)
           this.dataSource = data.data.list;
           this.pageNum = data.data.pageNum;
           this.total = data.data.total;

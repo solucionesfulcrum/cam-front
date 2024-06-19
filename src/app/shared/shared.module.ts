@@ -20,6 +20,7 @@ import { ModalSinInternetComponent } from './components/modal-sin-internet/modal
 import { MatIcon, MatIconModule } from '@angular/material/icon';
 import { DataLoadingComponent } from './components/data-loading/data-loading.component';
 import { CapitalizarPipe } from '../pipes/capitalizar.pipe';
+import { MaterialModule } from '../material/material.module';
 
 
 const modules:any[] = [
@@ -30,6 +31,7 @@ const modules:any[] = [
   ReactiveFormsModule,
   MatTabsModule,
   NgxDaterangepickerMd.forRoot(),
+  MaterialModule,
   //COMPONENTS
    ButtonComponent,
    IconComponent,

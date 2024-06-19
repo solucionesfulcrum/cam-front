@@ -27,16 +27,17 @@
 ></esp-data-loading>
 
 <div  *ngIf="!loadingData && dataSource.length > 0">
-    <table cdk-table class="w-full text-sm text-left text-gray-500 tablaDatos" [dataSource]="dataSource" >
-      <tr cdk-header-row class="text-xs text-gray-700 bg-gray-50" *cdkHeaderRowDef="columns"></tr>
+  <div class="table-container">
+    <table cdk-table class="w-full text-sm text-left text-gray-500 " [dataSource]="dataSource" >
+      <tr cdk-header-row class="text-xs text-gray-700 bg-gray-50" *cdkHeaderRowDef="columns; sticky: true"></tr>
       <tr cdk-row class="bg-white border-b" *cdkRowDef="let row; columns: columns"></tr>
       <ng-container cdkColumnDef="marcar">
-        <th cdk-header-cell class="py-[1.25rem] px-6" *cdkHeaderCellDef> <input type="checkbox" value="false"/> </th>
+        <th cdk-header-cell class="py-[0.5rem] px-6" *cdkHeaderCellDef> <input type="checkbox" value="false"/> </th>
         <td cdk-cell class="py-[1rem] px-6" *cdkCellDef="let row"> <input type="checkbox" value="false"/> </td>
       </ng-container>
 
       <ng-container cdkColumnDef="nombres">
-        <th cdk-header-cell class="py-[1.25rem] px-6" *cdkHeaderCellDef>Apellidos y Nombre</th>
+        <th cdk-header-cell class="py-[1rem] px-6" *cdkHeaderCellDef>Apellidos y Nombre</th>
         <td cdk-cell class="py-[1rem] px-6" *cdkCellDef="let row, index as i"><span class="text-Name cursor-pointer" [style.font-weight]="700" [routerLink]="['show/' + row.idTallerista]">
           <ng-container *ngIf="this.rol == 'COORDINADOR RED'">
             {{ (row.apeTalletista | titlecase) + " " + (row.tallerista | titlecase) }}
@@ -48,30 +49,31 @@
       </ng-container>
 
       <ng-container cdkColumnDef="tipoDoc">
-        <th cdk-header-cell class="py-[1.25rem] px-6" *cdkHeaderCellDef>Doc.</th>
+        <th cdk-header-cell class="py-[1rem] px-6" *cdkHeaderCellDef>Doc.</th>
         <td cdk-cell class="py-[1rem] px-6 font-medium" *cdkCellDef="let row">{{ row.tipoDoc == 1 ? 'DNI' : 'CE'}}</td>
       </ng-container>
 
       <ng-container cdkColumnDef="numDoc">
-        <th cdk-header-cell class="py-[1.25rem] px-6" *cdkHeaderCellDef>N° de Documento</th>
+        <th cdk-header-cell class="py-[1rem] px-6" *cdkHeaderCellDef>N° de Documento</th>
         <td cdk-cell class="py-[1rem] px-6 font-medium" *cdkCellDef="let row">{{row.numDoc }}</td>
       </ng-container>
 
       <ng-container cdkColumnDef="telefono">
-        <th cdk-header-cell class="py-[1.25rem] px-6" *cdkHeaderCellDef>Teléfono</th>
+        <th cdk-header-cell class="py-[1rem] px-6" *cdkHeaderCellDef>Teléfono</th>
         <td cdk-cell class="py-[1rem] px-6" *cdkCellDef="let row">{{row.celular}}</td>
       </ng-container>
 
       <ng-container cdkColumnDef="correo">
-        <th cdk-header-cell class="py-[1.25rem] px-6" *cdkHeaderCellDef>E-mail</th>
+        <th cdk-header-cell class="py-[1rem] px-6" *cdkHeaderCellDef>E-mail</th>
         <td cdk-cell class="py-[1rem] px-6 font-medium" *cdkCellDef="let row">{{row.correo }}</td>
       </ng-container>
 
       <ng-container cdkColumnDef="perfil">
-        <th cdk-header-cell class="py-[1.25rem] px-6" *cdkHeaderCellDef>Perfil Profesional</th>
+        <th cdk-header-cell class="py-[1rem] px-6" *cdkHeaderCellDef>Perfil Profesional</th>
         <td cdk-cell class="py-[1rem] px-6 font-medium" *cdkCellDef="let row">{{row.profesion }}</td>
       </ng-container>
     </table>
+  </div>
     <mat-paginator #paginator class="demo-paginator paginatorDatos" 
     (page)="handlePageEvent($event)"
     [length]="total"

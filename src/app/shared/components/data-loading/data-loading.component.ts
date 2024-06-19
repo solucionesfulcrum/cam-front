@@ -21,7 +21,7 @@ export class DataLoadingComponent {
   @Input('dataLoadingMsg') dataLoadingMsg : string = "Obteniendo datos...";
   @Input('dataEmpty') dataEmpty : boolean = false;
   @Input('dataEmptyMsg') dataEmptyMsg : string = "No existen registros.";
-  @Input('height') height : string = "70vh";
+  @Input('height') height : string = "70.5vh";
 
   faSpinner = faSpinner;
 
