@@ -32,4 +32,8 @@ export class AppRoute {
   static readonly ADM_UO = 'adm_uo';
   static readonly EDIT_UO = `edit`;
   static readonly EDIT_CIRAM = `edit-ciram`
+
+
+  //---------------------------------------------------------------------------------------------------------- RUTAS REPORTE TALLERISTA
+  static readonly REPORTES_TALLERES_TALLERISTAS = 'talleres';
 }

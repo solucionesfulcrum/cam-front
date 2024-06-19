@@ -36,6 +36,7 @@
           <span>Contactos</span>
         </a>
       </li>
+     
       <li *ngIf="unid.rol === 'PROFESIONAL CAM'">
         <a routerLink='/app/afiliados' routerLinkActive="list-item-activo">
           <img class="" src="assets/svg/nav-icon-afiliacion.svg" />
@@ -52,6 +53,12 @@
         <a [routerLink]="'/app/control'" routerLinkActive="list-item-activo" (click)="unid.rol === 'PROFESIONAL CAM' ? null : vistaTallerista()">
           <img class="" src="assets/svg/nav-icon-control.svg"/>
           <span>Control</span>
+        </a>
+      </li>
+      <li *ngIf="unid.rol === 'TALLERISTA'">
+        <a routerLink="/app/reportes-tallerista" routerLinkActive="list-item-activo">
+          <img class="" src="assets/svg/reportes.svg" />
+          <span>Reportes</span>
         </a>
       </li>
       <!-- <li>

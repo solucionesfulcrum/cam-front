@@ -92,6 +92,13 @@ export const pagesRoutes: Route[] = [
         canActivate: [AuthGuard],
         loadChildren: () => import('../pages/control/control.module').then((m) => m.ControlModule),
       },
+
+      {
+        path: 'reportes-tallerista',
+        title: 'CAM - REPORTES TALLERISTA',
+        canActivate: [AuthGuard],
+        loadChildren: () => import('../pages/reportes-tallerista/reportes-tallerista.module').then((m) => m.ReportesTalleristaModule),
+      },
       // {
       //   path: AppRoute.HORARIOS,
       //   canActivate:[AuthGuard, CerpUserGuard],
