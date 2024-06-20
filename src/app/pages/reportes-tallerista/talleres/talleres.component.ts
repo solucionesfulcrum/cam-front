@@ -4,10 +4,12 @@ import { PageEvent } from '@angular/material/paginator';
 import { imprimirRequestCam } from '@models/afiliados/ficha-solicitud.model';
 import { Parametro } from '@models/parametros-busqueda.model';
 import { ProgramacionRequestListContratos } from '@models/programacion/programacion-contratos/programacion-contrato-lista.model';
+import { ReportesTalleristaPayload } from '@models/reportes/reportes-tallerista';
 import { NotificationService } from '@services/notification.service';
 import { ParamMenu } from '@shared/components/opciones-busqueda/parametros-busqueda.model';
 import { DatosGeneralesService } from 'src/app/data/services/datos-generales.service';
 import { ProgramacionContratosService } from 'src/app/data/services/programacion/programacion-contratos.service';
+import { ReportesTalleristaService } from 'src/app/data/services/reportes/reportes-tallerista.service';
 
 @Component({
   selector: 'esp-talleres',
@@ -28,7 +30,16 @@ export class TalleresComponent {
   ];
 
   dataSource: any[] = [];
-  columns: string[] = ['marcar','numOc','fechaRegistro','tallerista', 'tipoDoc', 'numDoc','desde','hasta','estado'];
+  columns: string[] = [
+    'marcar',
+    'nombreTaller',
+    'tipo',
+    'fechaTaller',
+    'horaInicio', 
+    'horaFin', 
+    'numeroSesiones',
+    'estado',
+  ];
   pageIndex = 0;
   pageNum = 1;
   pageSize = 10;
@@ -40,7 +51,8 @@ export class TalleresComponent {
   constructor(private fb                      : FormBuilder,
     private programacionService     : ProgramacionContratosService,
     private datosService             : DatosGeneralesService,
-    private notificationService     : NotificationService
+    private notificationService     : NotificationService,
+    private reportService : ReportesTalleristaService
 ) { }
 
 ngOnInit(){
@@ -58,7 +70,7 @@ loadData(){
 
   setTimeout(() => {
     this.loadingData = true;
-    this.programacionService.listContratosProgramacion(this.getPayloadList()).subscribe((data)=>{
+    this.reportService.getDataReporteTalleristas(this.getPayloadList()).subscribe((data)=>{
       this.loadingData = false;
       if (data.code == 0) {
         this.dataSource = data.data.list;
@@ -94,7 +106,7 @@ imprimirLista(){
 }
 
 
-getPayloadList(): ProgramacionRequestListContratos{
+getPayloadList(): ReportesTalleristaPayload{
   var fecInicio: any;
   var fecFin: any;
   var fechaSinFormatInit = this.formBuscar.value.frmSearchDate.split(' - ')[0];
@@ -103,7 +115,8 @@ getPayloadList(): ProgramacionRequestListContratos{
   fecFin = `${fechaSinFormatFin.split('/')[2]}-${fechaSinFormatFin.split('/')[1]}-${fechaSinFormatFin.split('/')[0]}`;
 
   return {
-    idUnidOpe: JSON.parse(localStorage.getItem("UnidElegida")!).idUnidOperativa,
+    idUnidadOperativa: JSON.parse(localStorage.getItem("UnidElegida")!).idUnidOperativa,
+    idUsuario: (JSON.parse(localStorage.getItem('camUser')!)).idUsuario,
     texto: this.formBuscar.controls['frmSearch'].value,
     fecInicio: fecInicio,
     fecFin: fecFin,

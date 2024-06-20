@@ -1,5 +1,10 @@
+import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { environment } from '@environments/environment';
+import { PayloadReportes, ResponseAsistencia } from '@models/dashboard/dashboard.model';
+import { DtGenerico } from '@models/generico/dt-generico';
+import { itemReporteTallerista } from '@models/reportes/reportes-tallerista';
+import { ReportesTalleristaPayload } from '@models/reportes/reportes-tallerista';
 
 
 const URL_BASE = `${environment.API}`;
@@ -9,5 +14,12 @@ const URL_BASE = `${environment.API}`;
 })
 export class ReportesTalleristaService {
 
-  constructor() { }
+  constructor(private _httpClient: HttpClient) { }
+
+  
+
+  getDataReporteTalleristas(payload: ReportesTalleristaPayload){
+    const url = `${environment.API}/tallerista/listar/talleres`; 
+    return this._httpClient.post<DtGenerico<itemReporteTallerista>>(url,payload);
+  }
 }

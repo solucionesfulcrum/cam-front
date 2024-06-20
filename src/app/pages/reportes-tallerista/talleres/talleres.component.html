@@ -36,44 +36,41 @@
         <td cdk-cell class="py-[1rem] px-6" *cdkCellDef="let row"> <input type="checkbox" value="false"/> </td>
       </ng-container>
 
-      <ng-container cdkColumnDef="numOc">
-        <th cdk-header-cell class="py-[1rem] px-6" *cdkHeaderCellDef>Contrato</th>
-        <td cdk-cell class="py-[1rem] px-6 text-Name" *cdkCellDef="let row, index as i"><span class="cursor-pointer" [routerLink]="['show/' + row.idProgramacion]">{{ row.numOc }}</span></td>
+      <ng-container cdkColumnDef="nombreTaller">
+        <th cdk-header-cell class="py-[1rem] px-6" *cdkHeaderCellDef>Descripcion</th>
+        <td cdk-cell class="py-[1rem] px-6 text-Name" *cdkCellDef="let row, index as i">{{row.nombreTaller }}</td>
       </ng-container>
 
-      <ng-container cdkColumnDef="fechaRegistro">
-        <th cdk-header-cell class="py-[1rem] px-6" *cdkHeaderCellDef>Registrado</th>
-        <td cdk-cell class="py-[1rem] px-6" *cdkCellDef="let row">{{ row.fechaRegistro | date:'dd/MM/yyyy' }}</td>
+      <ng-container cdkColumnDef="tipo">
+        <th cdk-header-cell class="py-[1rem] px-6" *cdkHeaderCellDef>Tipo</th>
+        <td cdk-cell class="py-[1rem] px-6" *cdkCellDef="let row">Taller</td>
       </ng-container>
 
-      <ng-container cdkColumnDef="tallerista">
-        <th cdk-header-cell class="py-[1rem] px-6" *cdkHeaderCellDef>Nombres del Proveedor</th>
-        <td cdk-cell class="py-[1rem] px-6 text-Name" *cdkCellDef="let row">{{row.tallerista | titlecase}}</td>
+      <ng-container cdkColumnDef="fechaTaller">
+        <th cdk-header-cell class="py-[1rem] px-6" *cdkHeaderCellDef>Fecha</th>
+        <td cdk-cell class="py-[1rem] px-6 text-Name" *cdkCellDef="let row">{{row.fechaTaller }}</td>
       </ng-container>
 
-      <ng-container cdkColumnDef="tipoDoc">
-        <th cdk-header-cell class="py-[1rem] px-6" *cdkHeaderCellDef>Tipo Doc.</th>
-        <td cdk-cell class="py-[1rem] px-6 font-semibold" *cdkCellDef="let row">{{ row.tipoDoc == "01" || row.tipoDoc == "1" ? 'DNI' : 'Carnet de Extranjería'}}</td>
+      <ng-container cdkColumnDef="horaInicio">
+        <th cdk-header-cell class="py-[1rem] px-6" *cdkHeaderCellDef>Hora Inicio</th>
+        <td cdk-cell class="py-[1rem] px-6 font-semibold" *cdkCellDef="let row">{{row.horaInicio }}</td>
+      </ng-container>
+      
+      <ng-container cdkColumnDef="horaFin">
+        <th cdk-header-cell class="py-[1rem] px-6" *cdkHeaderCellDef>Hora Fin</th>
+        <td cdk-cell class="py-[1rem] px-6 font-semibold" *cdkCellDef="let row">{{row.horaFin }}</td>
       </ng-container>
 
-      <ng-container cdkColumnDef="numDoc">
-        <th cdk-header-cell class="py-[1rem] px-6" *cdkHeaderCellDef>N° de Documento</th>
-        <td cdk-cell class="py-[1rem] px-6" *cdkCellDef="let row">{{row.numDoc}}</td>
-      </ng-container>
-
-      <ng-container cdkColumnDef="desde">
-        <th cdk-header-cell class="py-[1rem] px-6" *cdkHeaderCellDef>Desde</th>
-        <td cdk-cell class="py-[1rem] px-6" *cdkCellDef="let row">{{ row.desde | date:'dd/MM/yyyy' }}</td>
-      </ng-container>
-
-      <ng-container cdkColumnDef="hasta">
-        <th cdk-header-cell class="py-[1rem] px-6" *cdkHeaderCellDef>Hasta</th>
-        <td cdk-cell class="py-[1rem] px-6" *cdkCellDef="let row">{{ row.hasta | date:'dd/MM/yyyy' }}</td>
+      <ng-container cdkColumnDef="numeroSesiones">
+        <th cdk-header-cell class="py-[1rem] px-6" *cdkHeaderCellDef>N° de Sesiones</th>
+        <td cdk-cell class="py-[1rem] px-6" *cdkCellDef="let row">{{row.numeroSesiones }}</td>
       </ng-container>
 
       <ng-container cdkColumnDef="estado">
         <th cdk-header-cell class="py-[1rem] px-6" *cdkHeaderCellDef>Estado</th>
-        <td cdk-cell class="py-[1rem] px-6" *cdkCellDef="let row" [ngClass]="row.estado === 'PROGRAMADO' ? 'text-[#0CCE6B]' : (row.estado === 'SIN PROGRAMACION' ? 'text-[#F59E0B]' : 'text-[#DC2626]')">{{row.estado | titlecase}}</td>
+        <td cdk-cell class="py-[1rem] px-6" *cdkCellDef="let row"
+         [ngClass]="row.estado === 'PENDIENTE' ? 'text-[#DC2626]' : ''">
+         {{row.estado | titlecase}}</td>
       </ng-container>
     </table>
     </div>
