@@ -44,8 +44,8 @@ export class ModalAsistenciaRestringidaComponent implements OnInit {
       "description" : "La toma de asistencia ya se encuentra disponible"
     },
     "despues": {
-      "header" : "Asistencia ya llevada a cabo",
-      "description" : "La toma de asistencia y participación ya han culminado"
+      "header" : "Asistencia ya fue llevada a cabo",
+      "description" : ""
     }
   }
 

@@ -28,6 +28,8 @@ import { SelectPersonalizadoComponent } from '@shared/components/select-personal
 import { MenuOpcionesV2Component } from '@shared/components/menu-opciones-v2/menu-opciones-v2.component';
 import { ModalAsistenciaRestringidaComponent } from './components/sub-components/dialogs/modal-asistencia-restringida/modal-asistencia-restringida.component';
 import { ModalAsistenciaRepetidaComponent } from './components/sub-components/dialogs/modal-asistencia-repetida/modal-asistencia-repetida.component';
+import { InfiniteScrollModule } from 'ngx-infinite-scroll';
+import { MatAutocompleteScrollDirective } from 'src/app/directivas/mat-autocomplete-scroll.directive';
 
 
 @NgModule({
@@ -45,7 +47,8 @@ import { ModalAsistenciaRepetidaComponent } from './components/sub-components/di
     ModalConfirmarComponent,
     ModalEditarComponent,
     ModalAsistenciaRestringidaComponent,
-    ModalAsistenciaRepetidaComponent
+    ModalAsistenciaRepetidaComponent,
+    MatAutocompleteScrollDirective
   ],
   imports: [
     CommonModule,
@@ -60,6 +63,7 @@ import { ModalAsistenciaRepetidaComponent } from './components/sub-components/di
     CdkMenuModule,
     SelectPersonalizadoComponent,
     MenuOpcionesV2Component
+    
   ],
   providers: [
     { provide: LOCALE_ID, useValue: 'es' }

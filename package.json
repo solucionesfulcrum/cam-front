@@ -31,6 +31,7 @@
     "jwt-decode": "^3.1.2",
     "ng-apexcharts": "^1.7.0",
     "ngx-daterangepicker-material": "^6.0.4",
+    "ngx-infinite-scroll": "^15.0.0",
     "ngx-toastr": "^16.0.0",
     "postcss": "^8.4.21",
     "rxjs": "~7.5.0",
