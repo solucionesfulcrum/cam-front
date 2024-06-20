@@ -48,7 +48,8 @@ export class TalleresComponent {
 
   loadingData : boolean = false;
   
-  constructor(private fb                      : FormBuilder,
+  constructor(
+    private fb                      : FormBuilder,
     private programacionService     : ProgramacionContratosService,
     private datosService             : DatosGeneralesService,
     private notificationService     : NotificationService,
@@ -58,7 +59,9 @@ export class TalleresComponent {
 ngOnInit(){
   this.datosService.getTipoParametros('ESTADO_CONTROL_ASISTENCIA').subscribe((data)=>{
     if (data.code == 0) {
-      this.opciones = data.data;
+      this.opciones = data.data.map(filtro => {
+        return {...filtro, idParametros : parseInt(filtro.valor1)}
+      });
     }
     else{
       this.notificationService.warning(data.message);
