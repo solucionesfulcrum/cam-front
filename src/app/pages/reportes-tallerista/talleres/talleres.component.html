@@ -38,17 +38,19 @@
 
       <ng-container cdkColumnDef="nombreTaller">
         <th cdk-header-cell class="py-[1rem] px-6" *cdkHeaderCellDef>Descripcion</th>
-        <td cdk-cell class="py-[1rem] px-6 text-Name" *cdkCellDef="let row, index as i">{{row.nombreTaller }}</td>
+        <td cdk-cell class="py-[1rem] px-6 text-Name" *cdkCellDef="let row, index as i">
+          <span class="text-Name cursor-pointer" [routerLink]="['detalle-taller/1']">{{ row.nombreTaller }}</span>
+        </td>
       </ng-container>
 
       <ng-container cdkColumnDef="tipo">
         <th cdk-header-cell class="py-[1rem] px-6" *cdkHeaderCellDef>Tipo</th>
-        <td cdk-cell class="py-[1rem] px-6" *cdkCellDef="let row">Taller</td>
+        <td cdk-cell class="py-[1rem] px-6 font-semibold" *cdkCellDef="let row">Taller</td>
       </ng-container>
 
       <ng-container cdkColumnDef="fechaTaller">
         <th cdk-header-cell class="py-[1rem] px-6" *cdkHeaderCellDef>Fecha</th>
-        <td cdk-cell class="py-[1rem] px-6 text-Name" *cdkCellDef="let row">{{row.fechaTaller }}</td>
+        <td cdk-cell class="py-[1rem] px-6 font-semibold" *cdkCellDef="let row">{{row.fechaTaller }}</td>
       </ng-container>
 
       <ng-container cdkColumnDef="horaInicio">

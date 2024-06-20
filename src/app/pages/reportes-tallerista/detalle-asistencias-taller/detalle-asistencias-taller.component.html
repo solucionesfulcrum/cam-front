@@ -1,0 +1,116 @@
+<esp-opciones-botones 
+[rutaRegreso]="'../..'" 
+[listOpciones]="opcionesBotones" 
+(firstFunction)="modificarAsistencia()" 
+(secondFunction)="finalizar()">
+</esp-opciones-botones>
+<div class="bg-white p-2">
+    <div class=" gap-3 px-3 bg-white py-1.5 mb-2">
+        <div class="flex justify-between grow">
+            <div class="flex flex-col gap-[5px] shrink-0">
+                <span class="font-semibold text-[20px] leading-[30px]"> TALLER DE YOGA </span>
+                <span class="font-light leading-[26px] my-2 mb-7"> Sabado, 21 de Enero de 03 - 05 pm </span>
+            </div>
+        </div>
+        <div class="flex gap-1">
+
+            <ng-container *ngFor="let sesion of sesiones; index as i">
+                <div class="flex gap-[2px] shrink-0 py-2 px-4 rounded-t-lg hover:bg-blue-100 cursor-pointer"
+                [ngClass]="{'border-t-2 border-l-2 border-r-2 border-blue-500 border-b-0': sesion.nroSesion == sessionSeleccionada}"
+                [ngStyle]="{
+                    'border-color': sesion.nroSesion == sessionSeleccionada ? 'rgba(5, 126, 201, 1)' : ''
+                    }"
+                (click)="setSesion(sesion.nroSesion)"
+                >
+                    <div class="flex flex-row gap-2 py-[2px]">
+                        <div class="flex items-center justify-center w-6">
+                            <img class="select-none" [src]="sesion.nroSesion == sessionSeleccionada ? 'assets/svg/lesson-selected.svg' : 'assets/svg/icon-class-lesson.svg'">
+                        </div>
+                        <div class="flex flex-col text-[#64748B]">
+                            <span class="leading-4">{{sesion.nroSesion}} ° </span>
+                            <span class="font-light leading-[10px] text-[10px]">Sesion</span>
+                        </div>
+                    </div>
+                    <div class="flex flex-row gap-2 py-[2px] ml-5">
+            
+                        <div class="flex flex-col text-[#64748B]">
+                            <span class="leading-4">{{sesion.participantes}} </span>
+                            <span class="font-light leading-[10px] text-[10px]">Participantes</span>
+                        </div>
+                    </div>
+                </div>
+            </ng-container>
+            
+
+          
+        </div>
+    </div>
+    
+    <esp-data-loading
+    [dataEmpty]="dataSource.length == 0"
+    [dataLoading]="loadingData"
+    [height]="'40vh'"
+    ></esp-data-loading>
+    <div *ngIf="!loadingData && dataSource.length > 0">
+        <div class="table-container">
+          
+        <table cdk-table class="w-full text-sm text-left text-gray-500" [dataSource]="dataSource" >
+          <tr cdk-header-row class="text-xs text-gray-700 bg-gray-50" *cdkHeaderRowDef="columns; sticky: true"></tr>
+          <tr cdk-row class="bg-white border-b" *cdkRowDef="let row; columns: columns"></tr>
+          <ng-container cdkColumnDef="marcar">
+            <th cdk-header-cell class="py-[1rem] px-6" *cdkHeaderCellDef [style.width.%]="3"> <input type="checkbox" value="false"/> </th>
+            <td cdk-cell class="py-[1rem] px-6" *cdkCellDef="let row" [style.width.%]="3"> <input type="checkbox" value="false"/> </td>
+          </ng-container>
+    
+          <ng-container cdkColumnDef="indice">
+            <th cdk-header-cell class="py-[1rem] px-6" *cdkHeaderCellDef [style.width.%]="3">
+                N°
+            </th>
+            <td cdk-cell class="py-[1rem] px-6" *cdkCellDef="let row, index as i">
+              <span class="py-[1rem] font-semibold" [style.width.%]="3">{{ i + 1 }}</span>
+            </td>
+          </ng-container>
+    
+          <ng-container cdkColumnDef="asegurado">
+            <th cdk-header-cell class="py-[1rem] px-6" *cdkHeaderCellDef>Asegurado</th>
+            <td cdk-cell class="py-[1rem] px-6 font-semibold" *cdkCellDef="let row">{{row.asegurado}}</td>
+          </ng-container>
+    
+          <ng-container cdkColumnDef="documento">
+            <th cdk-header-cell class="py-[1rem] px-6" *cdkHeaderCellDef>Documento</th>
+            <td cdk-cell class="py-[1rem] px-6 font-semibold" *cdkCellDef="let row">{{row.documento }}</td>
+          </ng-container>
+    
+          <ng-container cdkColumnDef="nro_documento">
+            <th cdk-header-cell class="py-[1rem] px-6" *cdkHeaderCellDef>N° de Documento</th>
+            <td cdk-cell class="py-[1rem] px-6 font-semibold" *cdkCellDef="let row">{{row.nroDocumento }}</td>
+          </ng-container>
+          
+          <ng-container cdkColumnDef="hora_asistencia">
+            <th cdk-header-cell class="py-[1rem] px-6" *cdkHeaderCellDef>Hora Asistencia</th>
+            <td cdk-cell class="py-[1rem] px-6 font-semibold" *cdkCellDef="let row">{{row.horaAsistencia }}</td>
+          </ng-container>
+
+          <ng-container cdkColumnDef="condicion">
+            <th cdk-header-cell class="py-[1rem] px-6" *cdkHeaderCellDef></th>
+            <td cdk-cell class="py-[1rem] px-6" *cdkCellDef="let row">
+                <div class="flex gap-2">
+                    <img class="w-5" *ngIf="row.cumpleAnio" matTooltip= "¡Hoy es su cumpleaños!" matTooltipPosition="above" src="assets/svg/icon-asistencia-birthday.svg">
+                    <img class="w-5" *ngIf="row.nuevo" matTooltip= "¡Es su primer taller!" matTooltipPosition="above" src="assets/svg/icon-asistencia-smiley-face.svg"> 
+                </div>
+            </td>
+          </ng-container>
+        </table>
+        </div>
+       
+        <mat-paginator #paginator class="demo-paginator paginatorDatos" 
+        (page)="handlePageEvent($event)"
+        [length]="total"
+        [pageSize]="pageSize"
+        showFirstLastButtons="true"
+        [pageSizeOptions]="pageSizeOptions.length > 0 ? pageSizeOptions : []"
+        [pageIndex]="pageIndex"
+        aria-label="Select page">
+        </mat-paginator>
+    </div>
+</div>

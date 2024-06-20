@@ -19,3 +19,15 @@ export interface itemReporteTallerista{
     idUsuario: number,
     idUnidadOperativa: number
 }
+
+export interface itemReporteAsistenciaTaller{
+    index: number,
+    asegurado: string,
+    documento: string,
+    nroDocumento: string,
+    horaAsistencia: string,
+    nuevo: boolean,
+    cumpleAnio: boolean,
+    idUsuario: number,
+    idUnidadOperativa: number
+}

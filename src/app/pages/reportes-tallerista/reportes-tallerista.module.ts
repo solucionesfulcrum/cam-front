@@ -9,13 +9,17 @@ import { DataLoadingComponent } from '@shared/components/data-loading/data-loadi
 import { MaterialModule } from 'src/app/material/material.module';
 import { CdkTableModule } from '@angular/cdk/table';
 import { MatPaginatorModule } from '@angular/material/paginator';
+import { DetalleAsistenciasTallerComponent } from './detalle-asistencias-taller/detalle-asistencias-taller.component';
+import { OpcionesBotonesComponent } from '@shared/components/opciones-botones/opciones-botones.component';
+import { MatTooltipModule } from '@angular/material/tooltip';
 
 
 
 @NgModule({
     declarations: [
         ReportesTalleristaComponent,
-        TalleresComponent
+        TalleresComponent,
+        DetalleAsistenciasTallerComponent
     ],
     imports: [
         CommonModule,
@@ -24,7 +28,9 @@ import { MatPaginatorModule } from '@angular/material/paginator';
         OpcionesBusquedaComponent,
         DataLoadingComponent,
         CdkTableModule,
-        MatPaginatorModule
+        MatPaginatorModule,
+        OpcionesBotonesComponent,
+        MatTooltipModule
     ]
 })
 export class ReportesTalleristaModule { }

@@ -3,6 +3,7 @@ import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { ReportesTalleristaComponent } from './reportes-tallerista/reportes-tallerista.component';
 import { TalleresComponent } from './talleres/talleres.component';
+import { DetalleAsistenciasTallerComponent } from './detalle-asistencias-taller/detalle-asistencias-taller.component';
 
 const routes: Routes = [
   {
@@ -16,6 +17,10 @@ const routes: Routes = [
       {
         path : 'talleres',
         component: TalleresComponent
+      },
+      {
+        path : 'detalle-taller/:idProgramacion',
+        component: DetalleAsistenciasTallerComponent
       }
     ]
   }
