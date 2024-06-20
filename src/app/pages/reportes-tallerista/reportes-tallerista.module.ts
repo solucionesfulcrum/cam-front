@@ -12,6 +12,7 @@ import { MatPaginatorModule } from '@angular/material/paginator';
 import { DetalleAsistenciasTallerComponent } from './detalle-asistencias-taller/detalle-asistencias-taller.component';
 import { OpcionesBotonesComponent } from '@shared/components/opciones-botones/opciones-botones.component';
 import { MatTooltipModule } from '@angular/material/tooltip';
+import { MatDialogModule } from '@angular/material/dialog';
 
 
 
@@ -30,7 +31,8 @@ import { MatTooltipModule } from '@angular/material/tooltip';
         CdkTableModule,
         MatPaginatorModule,
         OpcionesBotonesComponent,
-        MatTooltipModule
+        MatTooltipModule,
+        MatDialogModule
     ]
 })
 export class ReportesTalleristaModule { }

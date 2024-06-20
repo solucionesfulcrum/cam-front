@@ -2,10 +2,9 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { environment } from '@environments/environment';
 import { PayloadReportes, ResponseAsistencia } from '@models/dashboard/dashboard.model';
-import { DtGenerico } from '@models/generico/dt-generico';
-import { itemReporteAsistenciaTaller, itemReporteTallerista } from '@models/reportes/reportes-tallerista';
+import { DtGenericoPaginado, DtGenericoSinPaginar, ResponseGenerico } from '@models/generico/dt-generico';
+import { AsistenciaTaller, CabeceraAsistenciaReporte, ItemReporteAsistenciaTaller, ItemReporteTallerista } from '@models/reportes/reportes-tallerista';
 import { ReportesTalleristaPayload } from '@models/reportes/reportes-tallerista';
-import { data } from './data-test';
 import { of, delay, Observable } from 'rxjs';
 
 
@@ -20,12 +19,18 @@ export class ReportesTalleristaService {
 
   getDataReporteTalleristas(payload: ReportesTalleristaPayload){
     const url = `${environment.API}/tallerista/listar/talleres`; 
-    return this._httpClient.post<DtGenerico<itemReporteTallerista>>(url,payload);
+    return this._httpClient.post<DtGenericoPaginado<ItemReporteTallerista[]>>(url,payload);
   }
 
-  getDataReporteAsistenciaTaller(payload: ReportesTalleristaPayload) : Observable<DtGenerico<itemReporteAsistenciaTaller>>{
-    const url = `${environment.API}/tallerista/listar/talleres`; 
-    return of(data).pipe(delay(500));
-    //return this._httpClient.post<DtGenerico<itemReporteTallerista>>(url,payload);
+  getDataCabeceraAsistenciaTaller(idProgDet: string){
+    const url = `${environment.API}/control/obtener/cabecera/asistencia/reporte/${idProgDet}`; 
+    return this._httpClient.get<ResponseGenerico<CabeceraAsistenciaReporte>>(url);
   }
+
+  getDataReporteAsistenciaTaller(idAsistenciaDet: number) {
+    const url = `${environment.API}/control/asistencia/listar/participantes?id-asistencia-det=${idAsistenciaDet}`; 
+    return this._httpClient.get<DtGenericoSinPaginar<AsistenciaTaller[]>>(url);
+  }
+
+  
 }

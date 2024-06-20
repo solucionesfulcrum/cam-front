@@ -9,7 +9,7 @@ export interface ReportesTalleristaPayload {
     pageSize: number,
 }
 
-export interface itemReporteTallerista{
+export interface ItemReporteTallerista{
     nombreTaller: string,
     fechaTaller: string,
     horaInicio: string,
@@ -20,7 +20,7 @@ export interface itemReporteTallerista{
     idUnidadOperativa: number
 }
 
-export interface itemReporteAsistenciaTaller{
+export interface ItemReporteAsistenciaTaller{
     index: number,
     asegurado: string,
     documento: string,
@@ -30,4 +30,40 @@ export interface itemReporteAsistenciaTaller{
     cumpleAnio: boolean,
     idUsuario: number,
     idUnidadOperativa: number
+}
+
+export interface CabeceraAsistenciaReporte{
+    idProgDet: number,
+    fechaServicio: string,
+    nombreServicio: string,
+    numSesiones: number,
+    horaInicio: string,
+    horaFin: string,
+    idControlAsistenciaCab: number,
+    cerradoCabecera: boolean,
+    listaProgSubDet: SesionesCabecera[]
+}
+
+export interface SesionesCabecera{
+    numeracion: number,
+    idProgSubDet: number,
+    horaInicio: string,
+    horaFin: string,
+    cerradoAsistencia: boolean,
+    cursor: boolean,
+    idControlAsistenciaDet: number
+}
+
+export interface AsistenciaTaller{
+    
+    idControlAsistenciaSubDet: number,
+    asegurado: string,
+    tipDocumento: string,
+    nroDocumento: string,
+    fechaHoraAsistencia: Date
+    continuaTaller: boolean,
+    cumpleAnio: boolean,
+    nuevo: boolean,
+    conConexion: boolean,
+    acreditado: boolean
 }
