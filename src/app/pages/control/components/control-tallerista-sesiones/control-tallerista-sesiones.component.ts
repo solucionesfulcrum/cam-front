@@ -1,4 +1,3 @@
-import { Dialog } from '@angular/cdk/dialog';
 import { Component } from '@angular/core';
 import { FormGroup, FormControl, FormBuilder } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
@@ -7,7 +6,7 @@ import { ActivatedRoute } from '@angular/router';
 import { faSpinner } from '@fortawesome/free-solid-svg-icons';
 import { imprimirRequestCam } from '@models/afiliados/ficha-solicitud.model';
 import { Parametro } from '@models/parametros-busqueda.model';
-import { ReportesTalleristaPayload, SesionesCabecera } from '@models/reportes/reportes-tallerista';
+import { SesionesCabecera } from '@models/reportes/reportes-tallerista';
 import { NotificationService } from '@services/notification.service';
 import { ModalAlertComponent } from '@shared/components/modal-alert/modal-alert.component';
 import { FormatoBoton } from '@shared/components/opciones-botones/formato-boton.model';
@@ -15,22 +14,23 @@ import { ParamMenu } from '@shared/components/opciones-busqueda/parametros-busqu
 import { DatosGeneralesService } from 'src/app/data/services/datos-generales.service';
 import { ProgramacionContratosService } from 'src/app/data/services/programacion/programacion-contratos.service';
 import { ReportesTalleristaService } from 'src/app/data/services/reportes/reportes-tallerista.service';
-
-interface sesiones {
-  participantes: number;
-  nroSesion: number;
-}
+import { InscripcionModalComponent } from '../../modals/inscripcion-modal/inscripcion-modal.component';
+import { Dialog } from '@angular/cdk/dialog';
+import { InscripcionModalTalleristaComponent } from '../../modals/inscripcion-modal-tallerista/inscripcion-modal-tallerista.component';
+import { Subscription } from 'rxjs';
+import { InscripcionTalleristaControlService } from 'src/app/events/control/inscripcion-tallerista-control.service';
 
 @Component({
-  selector: 'esp-detalle-asistencias-taller',
-  templateUrl: './detalle-asistencias-taller.component.html',
-  styleUrls: ['./detalle-asistencias-taller.component.scss']
+  selector: 'esp-control-tallerista-sesiones',
+  templateUrl: './control-tallerista-sesiones.component.html',
+  styleUrls: ['./control-tallerista-sesiones.component.scss']
 })
-export class DetalleAsistenciasTallerComponent {
+export class ControlTalleristaSesionesComponent {
 
-  
+  private eventoSubscription!: Subscription;
+ 
   opcionesBotones: FormatoBoton[] = [
-    {texto: 'Modificar Asistencias', colorBtn: 'bordeado'},
+    {texto: 'Guardar', colorBtn: 'bordeado'},
     {texto: 'Finalizar', colorBtn:'mezclado'},
   ];
   idProgramacion!: string;
@@ -99,11 +99,17 @@ export class DetalleAsistenciasTallerComponent {
     private notificationService     : NotificationService,
     private reportService : ReportesTalleristaService,
     private activateRoute: ActivatedRoute,
+    private eventService : InscripcionTalleristaControlService
   ){
      
     }
 
     ngOnInit(){
+      //ESCUCHA EL EVENTO DE AGREGAR USUARIO
+      this.eventoSubscription = this.eventService.evento$.subscribe(mensaje =>{
+        this.loadData();
+      })
+
       this.datosService.getTipoParametros('ESTADO_CONTROL_ASISTENCIA').subscribe((data)=>{
         if (data.code == 0) {
           this.opciones = data.data;
@@ -249,4 +255,18 @@ export class DetalleAsistenciasTallerComponent {
   esBoolean(data: any): boolean {
     return typeof data === 'boolean'
   }
+
+  levantarModalAgregarAsegurado(){
+    const dialogRef = this.dialog.open(InscripcionModalTalleristaComponent,{
+      minWidth:'900px',
+      width:'900px',
+      data:{
+        idControlAsistenciaDet : this.idControlAsistenciaDet
+      }
+    })
+    dialogRef.afterClosed().subscribe(out =>{
+      //this.onLoadData();
+    })
+  }
+
 }

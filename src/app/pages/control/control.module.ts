@@ -29,6 +29,11 @@ import { MenuOpcionesV2Component } from '@shared/components/menu-opciones-v2/men
 import { ModalAsistenciaRestringidaComponent } from './components/sub-components/dialogs/modal-asistencia-restringida/modal-asistencia-restringida.component';
 import { ModalAsistenciaRepetidaComponent } from './components/sub-components/dialogs/modal-asistencia-repetida/modal-asistencia-repetida.component';
 import { MatAutocompleteScrollDirective } from 'src/app/directivas/mat-autocomplete-scroll.directive';
+import { ControlTalleristaComponent } from './components/control-tallerista/control-tallerista.component';
+import { DataLoadingComponent } from '@shared/components/data-loading/data-loading.component';
+import { ControlTalleristaSesionesComponent } from './components/control-tallerista-sesiones/control-tallerista-sesiones.component';
+import { InscripcionModalTalleristaComponent } from './modals/inscripcion-modal-tallerista/inscripcion-modal-tallerista.component';
+import { InscripcionTalleristaControlService } from 'src/app/events/control/inscripcion-tallerista-control.service';
 
 
 @NgModule({
@@ -47,7 +52,10 @@ import { MatAutocompleteScrollDirective } from 'src/app/directivas/mat-autocompl
     ModalEditarComponent,
     ModalAsistenciaRestringidaComponent,
     ModalAsistenciaRepetidaComponent,
-    MatAutocompleteScrollDirective
+    MatAutocompleteScrollDirective,
+    ControlTalleristaComponent,
+    ControlTalleristaSesionesComponent,
+    InscripcionModalTalleristaComponent,
   ],
   imports: [
     CommonModule,
@@ -61,11 +69,13 @@ import { MatAutocompleteScrollDirective } from 'src/app/directivas/mat-autocompl
     CdkTableModule,
     CdkMenuModule,
     SelectPersonalizadoComponent,
-    MenuOpcionesV2Component
+    MenuOpcionesV2Component,
+    DataLoadingComponent
     
   ],
   providers: [
-    { provide: LOCALE_ID, useValue: 'es' }
+    { provide: LOCALE_ID, useValue: 'es' },
+    InscripcionTalleristaControlService
   ],
 })
 export class ControlModule { }

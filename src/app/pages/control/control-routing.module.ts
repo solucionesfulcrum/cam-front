@@ -7,6 +7,8 @@ import { TabAsistenciaComponent } from './components/tab-asistencia/tab-asistenc
 import { ControlAsistenciaGuard } from '@guards/control-asistencia.guard';
 import { TabAsistenciaProfCamComponent } from './components/tab-asistencia-prof-cam/tab-asistencia-prof-cam.component';
 import { CalendarioProgramacionComponent } from './components/calendario-programacion/calendario-programacion.component';
+import { ControlTalleristaComponent } from './components/control-tallerista/control-tallerista.component';
+import { ControlTalleristaSesionesComponent } from './components/control-tallerista-sesiones/control-tallerista-sesiones.component';
 
 const routes: Routes = [
   {
@@ -33,13 +35,23 @@ const routes: Routes = [
         path: 'en-calendario',
         //canActivate:[ControlAsistenciaGuard],
         component: CalendarioProgramacionComponent,
-        title: 'Control de Asistencia'
+        title: 'Calendario'
       },
       {
         path: 'asistencias-profesional-cam',
         canActivate:[ControlAsistenciaGuard],
         component: TabAsistenciaProfCamComponent,
         title: 'Control de Asistencia'
+      },
+      {
+        path: 'control-talleres',
+        component: ControlTalleristaComponent,
+        title: 'Control de Talleres'
+      },
+      {
+        path: 'control-talleres/:idProgramacion',
+        component: ControlTalleristaSesionesComponent,
+        title: 'Control de sesiones del taller'
       }
     ]
   }

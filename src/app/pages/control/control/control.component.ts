@@ -15,6 +15,7 @@ export class ControlComponent {
       this.links = [
         {url: `/app/control/mis-talleres`, title: 'Mis Talleres'},
         {url: `/app/control/control-asistencia`, title: 'Asistencias', disabled: true},
+        {url: `/app/control/control-talleres`, title: 'Control'},
       ];
     }
     else if(this.userInfo.rol == "PROFESIONAL CAM"){

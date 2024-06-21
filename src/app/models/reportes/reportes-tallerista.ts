@@ -51,7 +51,8 @@ export interface SesionesCabecera{
     horaFin: string,
     cerradoAsistencia: boolean,
     cursor: boolean,
-    idControlAsistenciaDet: number
+    idControlAsistenciaDet: number,
+    countAsistencia: number
 }
 
 export interface AsistenciaTaller{
