@@ -220,7 +220,7 @@ export class DetalleAsistenciasTallerComponent {
       // Obtener el día de la semana, el día del mes y el mes
       const diaSemana = diasSemana[fechaObjeto.getDay()];
       const diaMes = fechaObjeto.getDate();
-      const nombreMes = fechaObjeto.toLocaleString('default', { month: 'long' });
+      const nombreMes =  fechaObjeto.toLocaleString('es-ES', { month: 'long' });
     
       // Convertir las horas de texto a objetos Date
       const horaInicioObjeto = new Date(`1970-01-01T${horaInicio}:00`);
