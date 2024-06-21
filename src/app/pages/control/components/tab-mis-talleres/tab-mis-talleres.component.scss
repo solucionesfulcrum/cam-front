@@ -2,3 +2,26 @@
     color: white;
     background: linear-gradient(52.75deg, #057EC9 34.02%, #0160AE 80.1%);
 }
+
+
+.scrollable{
+    max-height: 64vh;
+    overflow-y: auto;
+}
+
+/* Scrollbar Track */
+.scrollable::-webkit-scrollbar {
+    width: 5px;
+}
+
+/* Scrollbar Handle */
+.scrollable::-webkit-scrollbar-thumb {
+    background: linear-gradient(52.75deg, #057EC9 34.02%, #0160AE 80.1%);
+    border-radius: 10px;
+}
+
+/* Scrollbar Track Background */
+.scrollable::-webkit-scrollbar-track {
+    background: transparent;
+    border: none;
+}

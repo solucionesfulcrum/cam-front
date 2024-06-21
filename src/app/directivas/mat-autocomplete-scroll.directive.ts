@@ -36,6 +36,7 @@ export class MatAutocompleteScrollDirective {
   }
 
   private removeScrollEventListener() {
+    if(this.autoComplete.panel)
     this.autoComplete.panel.nativeElement
       .removeEventListener('scroll', this.onScroll);
   }

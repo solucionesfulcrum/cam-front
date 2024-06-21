@@ -45,7 +45,7 @@
         </div>
     </div>
     <div class="flex flex-row gap-[30px] text-[#37474F] items-start" *ngIf="status !== 'loading'">
-        <div *ngIf="ListaProgramacines.length > 0" class="flex flex-col w-[435px] shrink-0 botonApariencia">
+        <div *ngIf="ListaProgramacines.length > 0" class="flex flex-col w-[435px] shrink-0 botonApariencia scrollable">
             <div *ngFor="let prog of ListaProgramacines, index as i" 
             class="py-2.5 border-x border-t border-[#979797]   cursor-pointer" 
             [ngClass]="{
