@@ -78,8 +78,8 @@
               <tr cdk-header-row class="text-xs text-gray-700 bg-gray-50" *cdkHeaderRowDef="columns; sticky: true"></tr>
               <tr cdk-row class="bg-white border-b" *cdkRowDef="let row; columns: columns"></tr>
               <ng-container cdkColumnDef="marcar">
-                <th cdk-header-cell class="py-[1rem] px-6" *cdkHeaderCellDef [style.width.%]="3"> <input type="checkbox" value="false"/> </th>
-                <td cdk-cell class="py-[1rem] px-6" *cdkCellDef="let row" [style.width.%]="3"> <input type="checkbox" value="false"/> </td>
+                <th cdk-header-cell class="py-[1.25rem] px-6" *cdkHeaderCellDef> <input type="checkbox" [checked]="seleccionados.length == this.dataSource.length" (change)="afectarTodo($event)"/> </th>
+                <td cdk-cell class="py-[1rem] px-6" *cdkCellDef="let row"> <input type="checkbox" class="checkbox-select" (change)="seleccionarFila($event)" [value]="row.idInscripcion" [checked]="row.marcar"/> </td>
               </ng-container>
         
               <ng-container cdkColumnDef="indice">
@@ -92,7 +92,36 @@
               </ng-container>
         
               <ng-container cdkColumnDef="asegurado">
-                <th cdk-header-cell class="py-[1rem] px-6" *cdkHeaderCellDef>Asegurado</th>
+                <th cdk-header-cell class="py-[1rem] px-6" *cdkHeaderCellDef>
+                  <ng-container *ngIf="seleccionados.length == 0">
+                    Asegurado
+                </ng-container>
+                <ng-container *ngIf="seleccionados.length > 0">
+                   {{seleccionados.length + " Seleccionados(s)"}} 
+
+                   <div class="relative inline-block text-left px-2 dropdown-container">
+                    <button type="button" class="inline-flex justify-center w-full rounded-md bg-cam border border-gray-300 shadow-sm px-4 py-2 bg-white text-sm font-medium text-white hover:bg-gray-50 focus:outline-none" (click)="toggleDropdown()">
+                      Acciones
+                      <img src="assets/svg/icon-dropdown-white.svg" class="my-2 pl-2">
+                    </button>
+                    <div *ngIf="dropdownOpen" class="origin-top-right absolute right-0 mt-1 w-56 mx-2 rounded-md shadow-lg bg-white ring-1 ring-black ring-opacity-5 focus:outline-none">
+                      <div class="py-1" role="menu" aria-orientation="vertical" aria-labelledby="options-menu">
+                        <a 
+                            class="block px-4 py-2 text-sm cursor-pointer"
+                            [ngClass]="{'text-gray-700 hover:bg-gray-100': seleccionados.length == 1, 'text-gray-400 cursor-not-allowed': seleccionados.length > 1}"
+                            [style.pointer-events]="seleccionados.length > 1 ? 'none' : 'auto'"
+                            (click)="editaSeleccionado($event)"
+                            role="menuitem">
+                            Editar
+                        </a>
+                        <a class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 cursor-pointer" role="menuitem" (click)="eliminaSeleccionados($event)">
+                            Eliminar Seleccionado
+                        </a>
+                      </div>
+                    </div>
+                  </div>
+                </ng-container>
+                </th>
                 <td cdk-cell class="py-[1rem] px-6 font-semibold" *cdkCellDef="let row">{{row.asegurado}}</td>
               </ng-container>
         

@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, HostListener } from '@angular/core';
 import { FormGroup, FormControl, FormBuilder } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 import { PageEvent } from '@angular/material/paginator';
@@ -19,6 +19,8 @@ import { Dialog } from '@angular/cdk/dialog';
 import { InscripcionModalTalleristaComponent } from '../../modals/inscripcion-modal-tallerista/inscripcion-modal-tallerista.component';
 import { Subscription } from 'rxjs';
 import { InscripcionTalleristaControlService } from 'src/app/events/control/inscripcion-tallerista-control.service';
+import { ModalConfirmarComponent } from '../sub-components/dialogs/modal-confirmar/modal-confirmar.component';
+import { ModalEditarComponent } from '../sub-components/dialogs/modal-editar/modal-editar.component';
 
 @Component({
   selector: 'esp-control-tallerista-sesiones',
@@ -51,6 +53,9 @@ export class ControlTalleristaSesionesComponent {
     frmSearchDate:new FormControl(""),
     frmSearchEstado:new FormControl(),
   });
+
+  seleccionados : number[] = [];
+  dropdownOpen: boolean = false;
 
   dataAcciones: ParamMenu[] = [
     {texto: 'Descargar Excel', svgDir: 'assets/svg/icon-excel.svg'}
@@ -241,6 +246,65 @@ export class ControlTalleristaSesionesComponent {
       
       return resultado;
     }
+
+    afectarTodo(evento: Event): void{
+      let element = evento.target as HTMLInputElement;
+      this.dataSource = this.dataSource.map(data => { return {...data, marcar: Boolean(element.checked)}});
+      if(element.checked)
+        this.seleccionados =  this.dataSource.map(data => { return data.idInscripcion});
+      else
+        this.seleccionados = [];
+    }
+  
+  
+  
+    seleccionarFila(evento: Event) {
+      let element = evento.target as HTMLInputElement;
+      if(element.checked)
+        this.seleccionados.push(parseInt(element.value))
+      else
+        this.seleccionados = this.seleccionados.filter(item => item != parseInt(element.value));
+  
+    }
+
+    toggleDropdown() {
+      this.dropdownOpen = !this.dropdownOpen;
+    }
+  
+    onOptionSelected(option: number) {
+      console.log('Opción seleccionada:', option);
+      // Realiza la acción deseada con la opción seleccionada
+      this.dropdownOpen = false; // Cierra el dropdown después de seleccionar una opción
+    }
+  
+    @HostListener('document:click', ['$event'])
+    onClick(event: MouseEvent) {
+      const target = event.target as HTMLElement;
+      if (!target.closest('.dropdown-container, .checkbox-select')) {
+        this.dropdownOpen = false; // Cierra el dropdown si se hace clic fuera de él
+      }
+    }
+  
+    editaSeleccionado(evento : Event) : void{
+      evento.preventDefault();
+      const dialog = this.dialog.open(ModalEditarComponent,{
+        width: "30%"
+      });
+  
+    }
+  
+    eliminaSeleccionados(evento : Event) : void{
+      const dialog = this.dialog.open(ModalConfirmarComponent,{
+        width: "30%"
+      });
+  
+      dialog.afterClosed().subscribe((result : {success: boolean}) => {
+        if(result.success){
+          //this.eliminarAsegurados();
+        }
+      });
+    }
+  
     
 
   modificarAsistencia(){

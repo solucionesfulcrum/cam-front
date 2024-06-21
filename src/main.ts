@@ -17,6 +17,8 @@ import { NotifierInterceptor } from '@interceptors/notifier.interceptor';
 import { ToastrModule } from 'ngx-toastr';
 import { AppConfig } from './app/core/app.config';
 import { NoInternetInterceptor } from '@interceptors/internet';
+import { MatPaginatorIntl } from '@angular/material/paginator';
+import { MatPaginatorIntlEs } from './app/Intl/mat-paginator-intl-es';
 
 // if (environment.production) {
 //   enableProdMode();
@@ -41,6 +43,7 @@ bootstrapApplication(AppComponent, {
     },
     provideRouter(routes),
      { provide: HTTP_INTERCEPTORS, useClass: NoInternetInterceptor, multi: true },
+     { provide: MatPaginatorIntl, useClass: MatPaginatorIntlEs }
   ],
 }).catch((error) => {
   console.error(error);
