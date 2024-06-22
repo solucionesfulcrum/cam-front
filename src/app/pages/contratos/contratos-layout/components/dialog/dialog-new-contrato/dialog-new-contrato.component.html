@@ -47,8 +47,12 @@
             <input #input matInput [matDatepicker]="picker">
             <mat-datepicker #picker (closed)="actualizarDate(input.value, 1)"></mat-datepicker>
           </mat-form-field>
-          <input type="text" name="search" formControlName="frmInicioVigencia" readonly (click)="picker.open()"
-            class="inputTextoDialog focusCampo !h-10 pr-7" placeholder="Fecha de Inicio">
+          <div class="relative">
+            <input type="text" name="search" formControlName="frmInicioVigencia" readonly (click)="picker.open()"
+            class="inputTextoDialog focusCampo !h-10 pr-7" id="searchIni" espEstiloInput>
+            <label for="searchIni" espEstiloLabel>Fecha de Inicio</label>
+          </div>
+         
           <div class="absolute inset-y-0 right-0 flex items-center pr-3 z-10 !h-9 pointer-events-none">
             <span class="text-gray-500 sm:text-sm">
               <img src="assets/svg/icon-calendar-simple.svg">
@@ -66,8 +70,11 @@
             <input #inputFecFin matInput [matDatepicker]="pickerFecFin" [min]="minDate">
             <mat-datepicker #pickerFecFin (closed)="actualizarDate(inputFecFin.value, 2)"></mat-datepicker>
           </mat-form-field>
-          <input type="text" name="search" formControlName="frmFinVigencia" readonly (click)="pickerFecFin.open()"
-            class="inputTextoDialog focusCampo !h-10 pr-7" placeholder="Fecha de Fin">
+          <div class="relative">
+            <input type="text" name="search" formControlName="frmFinVigencia" readonly (click)="pickerFecFin.open()"
+            class="inputTextoDialog focusCampo !h-10 pr-7" espEstiloInput id="searchFin">
+            <label espEstiloLabel for="searchFin">Fecha de Fin</label>
+          </div>
           <div class="absolute inset-y-0 right-0 flex items-center pr-3 !h-9 pointer-events-none">
             <span class="text-gray-500 sm:text-sm">
               <img src="assets/svg/icon-calendar-simple.svg">
@@ -83,17 +90,27 @@
       </div>
       <div class="w-1/2 flex flex-row gap-2.5" [formGroup]="formDataOrden">
         <div class="flex flex-col">
-          <input type="text" name="order" class="inputTextoDialog focusCampo !h-10 pr-7" formControlName="frmOrden"
-            placeholder="N° Orden">
-          <div *ngIf="formDataOrden.controls.frmOrden.touched">
-            <p *ngIf="formDataOrden.controls.frmOrden.value == null" class="font-medium text-red-500 text-xs mt-1 ml-1">
-              N° de Orden requerida
-            </p>
+          <div class="relative">
+            <div class="relative">
+              <input type="text" name="order" class="inputTextoDialog focusCampo !h-10 pr-7" formControlName="frmOrden" espEstiloInput id="orden">
+              <label espEstiloLabel for="orden">N° Orden</label>
+            </div>
+
+            <div *ngIf="formDataOrden.controls.frmOrden.touched">
+              <p *ngIf="formDataOrden.controls.frmOrden.value == null" class="font-medium text-red-500 text-xs mt-1 ml-1">
+                N° de Orden requerida
+              </p>
+            </div>
           </div>
+          
+         
         </div>
         <div class="flex flex-col">
-          <input type="number" name="entregables" min="1" class="inputTextoDialog focusCampo !h-10 pr-7" formControlName="frmEntregables"
-            placeholder="N° Entregables">
+          <div class="relative">
+            <input type="number" name="entregables" min="1" class="inputTextoDialog focusCampo !h-10 pr-7" formControlName="frmEntregables"
+            espEstiloInput id="entregables">
+            <label espEstiloLabel for="entregables">N° Entregables</label>
+          </div>
           <div *ngIf="formDataOrden.controls.frmEntregables.touched">
             <p *ngIf="formDataOrden.controls.frmEntregables.value == null" class="font-medium text-red-500 text-xs mt-1 ml-1">
               N° de Entregables requerido
@@ -101,8 +118,11 @@
           </div>
         </div>
         <div class="flex flex-col">
-          <input type="number" name="quantity" class="inputTextoDialog focusCampo !h-10 pr-7" formControlName="frmMonto"
-            placeholder="Monto Total">
+          <div class="relative">
+            <input type="number" name="quantity" class="inputTextoDialog focusCampo !h-10 pr-7" formControlName="frmMonto" 
+            id="quantity" espEstiloInput>
+            <label for="quantity" espEstiloLabel>Monto Total</label>
+          </div>
           <div *ngIf="formDataOrden.controls.frmMonto.touched">
             <p *ngIf="formDataOrden.controls.frmMonto.value == null" class="font-medium text-red-500 text-xs mt-1 ml-1">
               Monto requerido

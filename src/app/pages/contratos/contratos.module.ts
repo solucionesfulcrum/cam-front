@@ -18,6 +18,8 @@ import { ContratosRedListadoComponent } from './contratos-layout/components/cont
 import { CdkTableModule } from '@angular/cdk/table';
 import { DataLoadingComponent } from '@shared/components/data-loading/data-loading.component';
 import { CapitalizarPipe } from 'src/app/pipes/capitalizar.pipe';
+import { EstiloInputDirective } from 'src/app/directivas/estilo-input.directive';
+import { EstiloLabelDirective } from 'src/app/directivas/estilo-label.directive';
 
 
 @NgModule({
@@ -29,6 +31,8 @@ import { CapitalizarPipe } from 'src/app/pipes/capitalizar.pipe';
     DialogNewContratoComponent,
     DialogConfirmSelectionComponent,
     ContratosRedListadoComponent,
+    EstiloInputDirective,
+    EstiloLabelDirective
   ],
   imports: [
     CommonModule,
