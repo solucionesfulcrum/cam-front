@@ -8,7 +8,8 @@ export interface FormatoColumna{
     oculto?: boolean,
     resaltado?: boolean,
     obligatorio?: boolean,
-    ancladoFecIni?: string
+    ancladoFecIni?: string,
+    entity?: Entity
 }
 
 export interface TablaOpciones{
@@ -21,4 +22,10 @@ export interface TablaOpciones{
 export interface FormatoTypeAndSelect{
     idOpcion: number,
     nombre: string
+}
+
+export interface Entity{
+    unique: boolean,
+    pk: string,
+    uniqueErrorMsg?: string,
 }

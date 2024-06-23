@@ -2,9 +2,10 @@ import { CommonModule } from '@angular/common';
 import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { AbstractControl, FormArray, FormBuilder, FormControl, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
 import { RouterModule } from '@angular/router';
-import { FormatoColumna, FormatoTypeAndSelect } from './formato-columna.model';
+import { Entity, FormatoColumna, FormatoTypeAndSelect } from './formato-columna.model';
 import { MaterialModule } from 'src/app/material/material.module';
 import { MatAutocompleteModule } from '@angular/material/autocomplete';
+import { Toast, ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'esp-tabla-adaptable',
@@ -33,7 +34,7 @@ export class TablaAdaptableComponent {
     data: this.fb.array([])
   });
 
-  constructor(private fb                          : FormBuilder){}
+  constructor(private fb                          : FormBuilder, private toast: ToastrService){}
 
   ngOnInit(){
     this.dataIngresante.valueChanges.subscribe((data)=>{
@@ -109,7 +110,25 @@ export class TablaAdaptableComponent {
   }
 
   onSelectedTypeSelect(index: number, nomAttribute: string, event: any){
-    this.formData.controls["data"].at(index).get(nomAttribute)?.setValue(event.option.value)
+    if(this.dataColumnas[index].entity?.unique){
+      const pk : Entity = this.dataColumnas[index].entity!;
+      const repetidos = this.formData.controls["data"].value.filter((opcion : any) => {
+        return opcion.nomServicio.nombre == event.option.value.nombre
+      });
+      if(repetidos.length > 1){
+        this.toast.warning("No se puede ingresar elementos repetidos para esta columna");
+        this.formData.controls["data"].at(index).get(nomAttribute)?.setValue('');
+        return false;
+      }
+      else{
+        this.formData.controls["data"].at(index).get(nomAttribute)?.setValue(event.option.value)
+        return true;
+      }
+    }
+    else{
+      this.formData.controls["data"].at(index).get(nomAttribute)?.setValue(event.option.value)
+      return true;
+    }
   }
 
   displayOptFiltered(selectedoption: any) {
