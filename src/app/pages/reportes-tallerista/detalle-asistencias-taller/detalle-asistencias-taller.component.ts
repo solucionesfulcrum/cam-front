@@ -30,8 +30,7 @@ export class DetalleAsistenciasTallerComponent {
 
   
   opcionesBotones: FormatoBoton[] = [
-    {texto: 'Modificar Asistencias', colorBtn: 'bordeado'},
-    {texto: 'Finalizar', colorBtn:'mezclado'},
+    {texto: 'Exportar', colorBtn:'white'},
   ];
   idProgramacion!: string;
   rutasContrato=[
@@ -133,7 +132,6 @@ export class DetalleAsistenciasTallerComponent {
         this.sesiones = rpta.data.listaProgSubDet;
 
         this.opcionesBotones[0].deshabilitado = rpta.data.cerradoCabecera
-        this.opcionesBotones[1].deshabilitado = rpta.data.cerradoCabecera
 
         this.idControlAsistenciaDet = rpta.data.listaProgSubDet.filter(e=>e.cursor)[0].idControlAsistenciaDet
         setTimeout(()=>{

@@ -56,7 +56,7 @@
                         </div>
                     </div>
                 </ng-container>
-                <div class="ml-auto">
+                <div class="ml-auto" *ngIf="modificaAsistencia">
                     <app-btn class="botonApariencia botonOpciones" color="mezclado" (click)="levantarModalAgregarAsegurado()">
                         Agregar Asegurado
                     </app-btn>
@@ -78,21 +78,21 @@
               <tr cdk-header-row class="text-xs text-gray-700 bg-gray-50" *cdkHeaderRowDef="columns; sticky: true"></tr>
               <tr cdk-row class="bg-white border-b" *cdkRowDef="let row; columns: columns"></tr>
               <ng-container cdkColumnDef="marcar">
-                <th cdk-header-cell class="py-[1.25rem] px-6" *cdkHeaderCellDef> <input type="checkbox" [checked]="seleccionados.length == this.dataSource.length" (change)="afectarTodo($event)"/> </th>
-                <td cdk-cell class="py-[1rem] px-6" *cdkCellDef="let row"> <input type="checkbox" class="checkbox-select" (change)="seleccionarFila($event)" [value]="row.idInscripcion" [checked]="row.marcar"/> </td>
+                <th cdk-header-cell class="py-[1.25rem] px-6" [style]="'width: 0%;'" *cdkHeaderCellDef> <input type="checkbox" [checked]="seleccionados.length == this.dataSource.length" (change)="afectarTodo($event)"/> </th>
+                <td cdk-cell class="py-[1rem] px-6" [style]="'width: 0%;'" *cdkCellDef="let row"> <input type="checkbox" class="checkbox-select" (change)="seleccionarFila($event)" [value]="row.idInscripcion" [checked]="row.marcar"/> </td>
               </ng-container>
         
               <ng-container cdkColumnDef="indice">
-                <th cdk-header-cell class="py-[1rem] px-6" *cdkHeaderCellDef [style.width.%]="3">
+                <th cdk-header-cell class="py-[1rem] px-6" *cdkHeaderCellDef [style.width.%]="3" [style]="'padding-left: 0px;'" >
                     N°
                 </th>
-                <td cdk-cell class="py-[1rem] px-6" *cdkCellDef="let row, index as i">
-                  <span class="py-[1rem] font-semibold" [style.width.%]="3">{{ i + 1 }}</span>
+                <td cdk-cell class="py-[1rem] px-6" *cdkCellDef="let row, index as i" [style]="'padding-left: 0px;'" >
+                  <span class="py-[1rem]" [style.width.%]="3">{{ i + 1 }}</span>
                 </td>
               </ng-container>
         
               <ng-container cdkColumnDef="asegurado">
-                <th cdk-header-cell class="py-[1rem] px-6" *cdkHeaderCellDef>
+                <th cdk-header-cell class="py-[1rem] px-6" *cdkHeaderCellDef [style]="'padding-left: 0px;'" >
                   <ng-container *ngIf="seleccionados.length == 0">
                     Asegurado
                 </ng-container>
@@ -122,22 +122,22 @@
                   </div>
                 </ng-container>
                 </th>
-                <td cdk-cell class="py-[1rem] px-6 font-semibold" *cdkCellDef="let row">{{row.asegurado}}</td>
+                <td cdk-cell class="py-[1rem] px-6" *cdkCellDef="let row" [style]="'padding-left: 0px;'" >{{row.asegurado}}</td>
               </ng-container>
         
               <ng-container cdkColumnDef="documento">
                 <th cdk-header-cell class="py-[1rem] px-6" *cdkHeaderCellDef>Documento</th>
-                <td cdk-cell class="py-[1rem] px-6 font-semibold" *cdkCellDef="let row">{{row.tipDocumento }}</td>
+                <td cdk-cell class="py-[1rem] px-6" *cdkCellDef="let row">{{row.tipDocumento }}</td>
               </ng-container>
         
               <ng-container cdkColumnDef="nro_documento">
                 <th cdk-header-cell class="py-[1rem] px-6" *cdkHeaderCellDef>N° de Documento</th>
-                <td cdk-cell class="py-[1rem] px-6 font-semibold" *cdkCellDef="let row">{{row.nroDocumento }}</td>
+                <td cdk-cell class="py-[1rem] px-6 " *cdkCellDef="let row">{{row.nroDocumento }}</td>
               </ng-container>
               
               <ng-container cdkColumnDef="hora_asistencia">
                 <th cdk-header-cell class="py-[1rem] px-6" *cdkHeaderCellDef>Hora Asistencia</th>
-                <td cdk-cell class="py-[1rem] px-6 font-semibold" *cdkCellDef="let row">{{row.fechaHoraAsistencia | date: 'h:mm a'  }}</td>
+                <td cdk-cell class="py-[1rem] px-6" *cdkCellDef="let row">{{row.fechaHoraAsistencia | date: 'h:mm a'  }}</td>
               </ng-container>
     
               <ng-container cdkColumnDef="condicion">

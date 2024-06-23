@@ -25,6 +25,8 @@ export class TalleresComponent {
     frmSearchEstado:new FormControl(),
   });
 
+  seleccionados : number[] = [];
+
   dataAcciones: ParamMenu[] = [
     {texto: 'Descargar Excel', svgDir: 'assets/svg/icon-excel.svg'}
   ];
@@ -134,6 +136,53 @@ handlePageEvent(event: PageEvent) {
   this.pageIndex = event.pageIndex;
   this.pageNum = event.pageIndex + 1;
   this.loadData();
+}
+
+afectarTodo(evento: Event): void{
+  let element = evento.target as HTMLInputElement;
+  this.dataSource = this.dataSource.map(data => { return {...data, marcar: Boolean(element.checked)}});
+  if(element.checked)
+    this.seleccionados =  this.dataSource.map(data => { return data.idInscripcion});
+  else
+    this.seleccionados = [];
+}
+
+
+
+seleccionarFila(evento: Event) {
+  let element = evento.target as HTMLInputElement;
+  if(element.checked)
+    this.seleccionados.push(parseInt(element.value))
+  else
+    this.seleccionados = this.seleccionados.filter(item => item != parseInt(element.value));
+
+}
+
+
+formatDate(dateString : string) {
+  // Divide la cadena en partes usando el separador '-'
+  const parts = dateString.split('-');
+  // Reorganiza las partes en el formato 'DD/MM/YYYY'
+  const formattedDate = `${parts[2]}/${parts[1]}/${parts[0]}`;
+  return formattedDate;
+}
+
+transformarHora(hora24 : string) {
+  // Dividimos la hora y los minutos
+  const [hora, minutos] = hora24.split(':').map(Number);
+
+  // Determinamos si es AM o PM
+  const periodo = hora >= 12 ? 'PM' : 'AM';
+
+  // Convertimos la hora al formato de 12 horas
+  const hora12 = hora % 12 || 12;
+
+  // Formateamos la hora y los minutos con dos dígitos
+  const hora12Str = hora12.toString().padStart(2, '0');
+  const minutosStr = minutos.toString().padStart(2, '0');
+
+  // Retornamos la hora en el nuevo formato
+  return `${hora12Str}:${minutosStr} ${periodo}`;
 }
 
 

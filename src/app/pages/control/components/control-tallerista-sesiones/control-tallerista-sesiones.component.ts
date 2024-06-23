@@ -32,7 +32,7 @@ export class ControlTalleristaSesionesComponent {
   private eventoSubscription!: Subscription;
  
   opcionesBotones: FormatoBoton[] = [
-    {texto: 'Guardar', colorBtn: 'bordeado'},
+    {texto: 'Modificar Asistencia', colorBtn: 'bordeado'},
     {texto: 'Finalizar', colorBtn:'mezclado'},
   ];
   idProgramacion!: string;
@@ -45,6 +45,8 @@ export class ControlTalleristaSesionesComponent {
 
   sessionSeleccionada : number = 1;
   sesiones! : SesionesCabecera[];
+
+  modificaAsistencia : boolean = false;
 
   opciones: Parametro[] = [];
 
@@ -308,7 +310,14 @@ export class ControlTalleristaSesionesComponent {
     
 
   modificarAsistencia(){
-
+    if(!this.modificaAsistencia){
+      this.modificaAsistencia = true;
+      this.opcionesBotones[0].texto = "Guardar";
+    }
+    else{
+      this.modificaAsistencia = false;
+      this.opcionesBotones[0].texto = "Modificar Asistencia";
+    }
   }
 
   finalizar(){
@@ -332,5 +341,9 @@ export class ControlTalleristaSesionesComponent {
       //this.onLoadData();
     })
   }
+
+
+
+
 
 }
