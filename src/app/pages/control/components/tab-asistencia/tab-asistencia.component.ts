@@ -15,6 +15,8 @@ import { DialogConfirmDataAsistenciaComponent } from './dialog/dialog-confirm-da
 import { RequestCambioHorario, RequestRegisterDet } from '@models/control/asistencia/service-asistencia.model';
 import { debounceTime } from 'rxjs';
 import { ModalAsistenciaRepetidaComponent } from '../sub-components/dialogs/modal-asistencia-repetida/modal-asistencia-repetida.component';
+import { ModalAlertComponent } from '@shared/components/modal-alert/modal-alert.component';
+import { MatDialog } from '@angular/material/dialog';
 
 registerLocaleData(localeEs, 'es');
 
@@ -66,6 +68,7 @@ export class TabAsistenciaComponent {
   constructor(private fb                                : FormBuilder,
               private router                            : Router,
               private dialog                            : Dialog,
+              private matDialog                            : MatDialog,
               private datosService                      : DatosGeneralesService,
               private controlService                    : ControlProgramacionService,
               @Inject(LOCALE_ID) private locale         : string,
@@ -134,7 +137,7 @@ export class TabAsistenciaComponent {
       numDoc: event.option.value.numDoc
     }
     this.controlService.getSiEsApto(payload).subscribe((data)=>{
-      if (data.code == 0 || data.code == 2) {
+      if ((data.code == 0 || data.code == 2) && data.data) {
         let conexion: boolean;
         if (data.code == 2) {
           conexion = false;
@@ -195,7 +198,13 @@ export class TabAsistenciaComponent {
         })
       }
       else{
-        this.notificacionService.warning(data.message);
+        this.matDialog.open(ModalAlertComponent, {
+          width: '20%',
+          height: '300px',
+          data: {
+            mensaje: data.message
+          }
+        })
       }
       this.esperaBusqueda = false;
     })

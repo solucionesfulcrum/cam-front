@@ -11,7 +11,7 @@ import { faClose } from '@fortawesome/free-solid-svg-icons';
 export class ModalAlertComponent implements OnInit {
   mensaje: string = "";
   faClose = faClose
-  constructor(@Inject(MAT_DIALOG_DATA) public data: any,
+  constructor(@Inject(MAT_DIALOG_DATA) public data: ModalAlertComponent,
   private _dialogRef                    : DialogRef<any>
 ) {
 

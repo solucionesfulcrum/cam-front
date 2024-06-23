@@ -19,6 +19,7 @@ import { Toast, ToastrService } from 'ngx-toastr';
 import { ModalConfirmarComponent } from '../sub-components/dialogs/modal-confirmar/modal-confirmar.component';
 import { MatDialog } from '@angular/material/dialog';
 import { ModalEditarComponent } from '../sub-components/dialogs/modal-editar/modal-editar.component';
+import { ModalAlertComponent } from '@shared/components/modal-alert/modal-alert.component';
 
 @Component({
   selector: 'esp-tab-asistencia-prof-cam',
@@ -219,7 +220,7 @@ export class TabAsistenciaProfCamComponent {
       numDoc: event.option.value.numDoc
     }
     this.controlService.getSiEsApto(payload).subscribe((data)=>{
-      if (data.code == 0 || data.code == 2) {
+      if ((data.code == 0 || data.code == 2) && data.data) {
         let conexion: boolean;
         if (data.code == 2) {
           conexion = false;
@@ -250,7 +251,14 @@ export class TabAsistenciaProfCamComponent {
         })
       }
       else{
-        this.notificacionService.warning(data.message);
+        //this.notificacionService.info(data.message);
+        this.dialog.open(ModalAlertComponent, {
+          width: '20%',
+          height: '300px',
+          data: {
+            mensaje: data.message
+          }
+        })
       }
       this.esperaBusqueda = false;
     })

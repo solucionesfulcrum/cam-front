@@ -36,11 +36,11 @@
   ></tr>
   <!-- Nombres Column -->
   <ng-container cdkColumnDef="id">
-    <th cdk-header-cell class="py-5 px-6" *cdkHeaderCellDef>
+    <th cdk-header-cell class="py-5 px-6" *cdkHeaderCellDef [style]="'width: 0%;'">
       <input type="checkbox" value="false"
       />
     </th>
-    <td cdk-cell class="py-4 px-6" *cdkCellDef="let row">
+    <td cdk-cell class="py-4 px-6" *cdkCellDef="let row" [style]="'width: 0%;'">
       <input type="checkbox" value="false" />
     </td>
   </ng-container>

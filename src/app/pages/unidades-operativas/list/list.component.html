@@ -21,6 +21,8 @@
     [secDisplayFilterData]="opcionesRed"
     (secDisplayFilterSendValue)="secDisplayValue($event)"
     ></esp-opciones-busqueda>
+    <div class="table-container">
+      
     <table
     class="w-full text-sm text-left text-gray-500 tablaDatos"
     cdk-table
@@ -29,7 +31,7 @@
     <tr
       cdk-header-row
       class="text-xs text-gray-700 bg-gray-50"
-      *cdkHeaderRowDef="columns"
+      *cdkHeaderRowDef="columns; sticky: true"
     ></tr>
     <tr
       cdk-row
@@ -39,11 +41,11 @@
     ></tr>
     <!-- Nombres Column -->
     <ng-container cdkColumnDef="id">
-      -  <th cdk-header-cell class="py-5 px-6" *cdkHeaderCellDef>
+      -  <th cdk-header-cell class="py-5 px-6" *cdkHeaderCellDef [style]="'width: 0%;'">
              <input type="checkbox" value="false"/>
             
           </th>
-          <td cdk-cell class="py-4 px-6" *cdkCellDef="let row">
+          <td cdk-cell class="py-4 px-6" *cdkCellDef="let row" [style]="'width: 0%;'">
             <input type="checkbox" value="false" />
           </td>
         </ng-container>
@@ -92,6 +94,7 @@
       </ng-container>
     
   </table>
+    </div>
   <mat-paginator #paginator
                  class="demo-paginator paginatorDatos"
                  [length]="total"

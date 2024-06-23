@@ -30,6 +30,8 @@ export class TabContratosComponent {
   total = 0;
 
   loadingData : boolean = false;
+
+  seleccionados: number[] = [];
   
   constructor(private fb                      : FormBuilder,
               private programacionService     : ProgramacionContratosService,
@@ -91,5 +93,25 @@ export class TabContratosComponent {
     this.pageIndex = event.pageIndex;
     this.pageNum = event.pageIndex + 1;
     this.loadData();
+  }
+
+  afectarTodo(evento: Event): void{
+    let element = evento.target as HTMLInputElement;
+    this.dataSource = this.dataSource.map(data => { return {...data, marcar: Boolean(element.checked)}});
+    if(element.checked)
+      this.seleccionados =  this.dataSource.map(data => { return data.idInscripcion});
+    else
+      this.seleccionados = [];
+  }
+  
+  
+  
+  seleccionarFila(evento: Event) {
+    let element = evento.target as HTMLInputElement;
+    if(element.checked)
+      this.seleccionados.push(parseInt(element.value))
+    else
+      this.seleccionados = this.seleccionados.filter(item => item != parseInt(element.value));
+  
   }
 }

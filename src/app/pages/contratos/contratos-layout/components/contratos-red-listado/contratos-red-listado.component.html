@@ -32,8 +32,9 @@
 ></esp-data-loading>
 
 <div *ngIf="!loadingData && dataSource.length > 0">
+  <div class="table-container">
     <table cdk-table class="w-full text-sm text-left text-gray-500 tablaDatos" [dataSource]="dataSource" >
-      <tr cdk-header-row class="text-xs text-gray-700 bg-gray-50" *cdkHeaderRowDef="columns"></tr>
+      <tr cdk-header-row class="text-xs text-gray-700 bg-gray-50" *cdkHeaderRowDef="columns; sticky: true"></tr>
       <tr cdk-row class="bg-white border-b" *cdkRowDef="let row; columns: columns"></tr>
       <ng-container cdkColumnDef="marcar">
         <th cdk-header-cell class="py-[1.25rem] px-6" *cdkHeaderCellDef> <input type="checkbox" value="false"/> </th>
@@ -102,6 +103,8 @@
         </td>
       </ng-container>
     </table>
+  </div>
+    
     <mat-paginator #paginator class="demo-paginator paginatorDatos" 
     (page)="handlePageEvent($event)"
     [length]="total"

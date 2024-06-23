@@ -156,17 +156,17 @@
               <tr cdk-header-row class="text-xs text-gray-700 bg-gray-50" *cdkHeaderRowDef="columns"></tr>
               <tr cdk-row class="bg-white border-b" *cdkRowDef="let row; columns: columns"></tr>
               <ng-container cdkColumnDef="marcar">
-                <th cdk-header-cell class="py-[1.25rem] px-6" *cdkHeaderCellDef> <input type="checkbox" [checked]="seleccionados.length == this.dataSource.length" (change)="afectarTodo($event)"/> </th>
-                <td cdk-cell class="py-[1rem] px-6" *cdkCellDef="let row"> <input type="checkbox" class="checkbox-select" (change)="seleccionarFila($event)" [value]="row.idInscripcion" [checked]="row.marcar"/> </td>
+                <th cdk-header-cell class="py-[1.25rem] px-6" *cdkHeaderCellDef [style]="'width: 0%;'"> <input type="checkbox" [checked]="seleccionados.length == this.dataSource.length" (change)="afectarTodo($event)"/> </th>
+                <td cdk-cell class="py-[1rem] px-6" *cdkCellDef="let row" [style]="'width: 0%;'"> <input type="checkbox" class="checkbox-select" (change)="seleccionarFila($event)" [value]="row.idInscripcion" [checked]="row.marcar"/> </td>
               </ng-container>
         
               <ng-container cdkColumnDef="orden">
-                <th cdk-header-cell class="py-[1.25rem] px-6" *cdkHeaderCellDef>N°</th>
-                <td cdk-cell class="py-[1rem] px-6 font-semibold" *cdkCellDef="let row, index as i">{{ row.orden }}</td>
+                <th cdk-header-cell class="py-[1.25rem] px-6" *cdkHeaderCellDef [style]="'padding-left: 0px; width: 3%'">N°</th>
+                <td cdk-cell class="py-[1rem] px-6 font-semibold" *cdkCellDef="let row, index as i" [style]="'padding-left: 0px; width: 3%'">{{ row.orden }}</td>
               </ng-container>
         
               <ng-container cdkColumnDef="nombreCompleto">
-                <th cdk-header-cell class="py-[0.5rem] px-6" *cdkHeaderCellDef>
+                <th cdk-header-cell class="py-[0.5rem] px-6" *cdkHeaderCellDef [style]="'padding-left: 0px;'">
                     <ng-container *ngIf="seleccionados.length == 0">
                         Apellidos y Nombres
                     </ng-container>
@@ -196,7 +196,7 @@
                       </div>
                     </ng-container>
                     </th>
-                <td cdk-cell class="py-[1rem] px-6 font-semibold" *cdkCellDef="let row" style="color: rgba(0, 139, 210, 1);">
+                <td cdk-cell class="py-[1rem] px-6 font-semibold" *cdkCellDef="let row" style="color: rgba(0, 139, 210, 1);" [style]="'padding-left: 0px;'">
                     {{ row.nombreCompleto }}
                 </td>
               </ng-container>
