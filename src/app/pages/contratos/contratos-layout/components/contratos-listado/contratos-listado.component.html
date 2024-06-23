@@ -57,7 +57,7 @@
           [filterDateAppearance]="2"
           [setFilterDateSelectionBg]="'#008BD2'"
           [setFilterDateButtonBg]="'#008BD2'"
-          [setDateSelectedDefault]="7"
+          [setDateSelectedDefault]="5"
           (sendDateFilterWithCeros)="getDataFecha($event)"
           [showSearch]="true"
           (searchInputValue)="formBuscar.get('frmSearch')?.setValue($event.toUpperCase()); getDateFromService()"
@@ -89,7 +89,10 @@
             <span class="col-span-2">{{contrato.tallerista | uppercase}}</span>
             <span class="text-[var(--color-CAM)]" [routerLink]="contrato.estado === 'CONFIRMADO' ? [appRoute.CONTRATOS_CONFIRMAR_SERVICIOS + '/' + contrato.numOc] : null" [ngClass]="contrato.estado === 'CONFIRMADO' ? 'cursor-pointer' : null">{{contrato.numOc}}</span>
             <span>{{contrato.fechaContrato | date:'dd/MM/yyyy'}}</span>
-            <span [ngClass]="true ? 'text-green-500':'text-red-500'">{{contrato.estado | titlecase}}</span>
+            <span 
+            [ngClass]="{'text-green-500' : contrato.estado == 'CONFIRMADO', 'text-red-500' : contrato.estado == 'ANULADO'}"
+            [ngStyle]="{'color': contrato.estado == 'REGISTRADO' ? '#F59E0B' : ''}">
+            {{contrato.estado | titlecase}}</span>
             <div class="text-center self-center text-[20px]">
                 <esp-icon icon="faEllipsis" class="cursor-pointer" [cdkMenuTriggerFor]="optionsSidenav"></esp-icon>
             </div>
