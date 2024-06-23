@@ -77,12 +77,12 @@
         </div>
         <div *ngIf="selectedProgramacion" class="bg-white grow botonApariencia flex flex-col">
             <div class="flex flex-row justify-end gap-[14px] px-4 pt-2">
-                <app-btn class="botonApariencia flex" color="white">
+                <!--<app-btn class="botonApariencia flex" color="white">
                     <div class="flex flex-row gap-[5px]">
                         <img class="h-5 self-center" src="assets/svg/icon-edit-data.svg">
                         <span>Reprogramar</span>
                     </div>
-                </app-btn>
+                </app-btn>-->
                 <app-btn class="botonApariencia flex" color="bordeado" (click)="levantarModalInscripcion()">Inscripción</app-btn>
                 <app-btn class="botonApariencia flex" color="mezclado" (click)="consultarDataPrograma()" [loading]="statusAsistencia === 'loading' || statusLoadingAsistencia">Asistencia</app-btn>
             </div>

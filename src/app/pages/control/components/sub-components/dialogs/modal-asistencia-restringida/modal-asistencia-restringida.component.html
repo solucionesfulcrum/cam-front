@@ -3,7 +3,7 @@
 
          <!-- Icono de cierre -->
          <div class="flex justify-end m-2">
-            <a (click)="onClose()" class="cursor-pointer">
+            <a (click)="onClose(null)" class="cursor-pointer">
                 <fa-icon class="mr-2" [icon]="faClose"></fa-icon>
             </a>
         </div>
@@ -46,7 +46,9 @@
 
     <!-- Botón -->
     <div class="flex justify-center mb-10">
-        <app-btn class="botonApariencia flex" color="mezclado" (click)="onClose()">Aceptar</app-btn>
+        <app-btn class="botonApariencia flex" color="mezclado" (click)="onClose('despues')">
+            {{estado == "despues" ? "Continuar con la asistencia" : "Aceptar"}}
+        </app-btn>
     </div>
 
     </div>

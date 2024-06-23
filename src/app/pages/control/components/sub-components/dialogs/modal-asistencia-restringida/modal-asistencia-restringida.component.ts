@@ -44,7 +44,7 @@ export class ModalAsistenciaRestringidaComponent implements OnInit {
       "description" : "La toma de asistencia ya se encuentra disponible"
     },
     "despues": {
-      "header" : "Asistencia ya fue llevada a cabo",
+      "header" : "Taller fuera de la hora programada",
       "description" : ""
     }
   }
@@ -107,9 +107,10 @@ calcularDiferencias() {
 
   
 
-  onClose(){
+  onClose(estado : EstadoTiempo | null){
+    
   this._dialogRef.close({
-    success: this.estado
+    success: estado
   });
   }
   

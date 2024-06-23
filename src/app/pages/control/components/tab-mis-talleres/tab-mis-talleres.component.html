@@ -75,8 +75,8 @@
             </div>
         </div>
         <div *ngIf="selectedProgramacion" class="bg-white grow botonApariencia flex flex-col">
-            <div class="flex flex-row justify-between gap-[14px] px-4 pt-2">
-                <app-btn class="botonApariencia flex" color="bordeado">Opciones</app-btn>
+            <div class="flex flex-row justify-end gap-[14px] px-4 pt-2">
+                <!--<app-btn class="botonApariencia flex" color="bordeado">Opciones</app-btn>-->
                 <app-btn class="botonApariencia flex" color="mezclado" (click)="consultarDataPrograma()" [loading]="statusAsistencia === 'loading' || statusLoadingAsistencia">Asistencia</app-btn>
             </div>
             <div class="p-2.5">
