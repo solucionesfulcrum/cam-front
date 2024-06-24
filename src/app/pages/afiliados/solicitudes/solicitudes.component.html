@@ -30,6 +30,7 @@
 ></esp-data-loading>
 
 <div *ngIf="dataSource.length > 0 && !loadingData" >
+  <div class="table-container">
     <table cdk-table class="w-full text-sm text-left text-gray-500 tablaDatos" [dataSource]="dataSource" >
       <tr cdk-header-row class="text-xs text-gray-700 bg-gray-50" *cdkHeaderRowDef="columns"></tr>
       <tr cdk-row class="bg-white border-b" *cdkRowDef="let row; columns: columns"></tr>
@@ -39,7 +40,7 @@
       </ng-container>
 
       <ng-container cdkColumnDef="nombres">
-        <th cdk-header-cell class="py-[1.25rem] px-6" [style]="'padding-left: 0px;'" *cdkHeaderCellDef>Nombres</th>
+        <th cdk-header-cell class="py-[1.25rem] px-6" [style]="'padding-left: 0px;'" *cdkHeaderCellDef>Apellidos y Nombres</th>
         <td cdk-cell class="py-[1rem] px-6 text-[#057EC9]" [style]="'padding-left: 0px;'" *cdkCellDef="let row, index as i"><span class="text-Name cursor-pointer" [routerLink]="['show/' + row.idSolicitud]">{{ row.nombres | uppercase }}</span></td>
       </ng-container>
 
@@ -73,6 +74,8 @@
         <td cdk-cell class="py-[1rem] px-6" *cdkCellDef="let row" [ngClass]="differenceInDays(row.fecha) <= 3 ? 'text-[#0CCE6B]' : (differenceInDays(row.fecha) < 10 ? 'text-[#F59E0B]' : 'text-[#DC2626]')">{{differenceInDays(row.fecha) == 0 ? 'Hoy' : (differenceInDays(row.fecha) == 1 ? 'Ayer' : 'Hace ' + differenceInDays(row.fecha) + ' días')}}</td>
       </ng-container>
     </table>
+  </div>
+   
     <mat-paginator #paginator class="demo-paginator paginatorDatos" 
     (page)="handlePageEvent($event)"
     [length]="total"
