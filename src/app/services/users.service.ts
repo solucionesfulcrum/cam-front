@@ -67,6 +67,11 @@ export class UsersService {
     return this.http.get<any>(url);
   }
 
+  getVigencia(dni: string){
+    const url = `${this.api_URL}/auth/usuario/data/vigencia/${dni}`;
+    return this.http.get<any>(url);
+  }
+
   getActivacionesUser(idUser: string){
     const url = `${this.api_URL}/unidad-operativa/activas/usuario/${idUser}`;
     return this.http.get<any>(url);

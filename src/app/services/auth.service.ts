@@ -248,8 +248,18 @@ export class AuthService {
     return this.http.post<any>(url, model);
   }
 
+  listarDashboardRed(model: listardashboardRequest) {
+    const url = `${environment.API}/asegurado/listar/dashboard-red`;
+    return this.http.post<any>(url, model);
+  }
+
   listarDashboardActivos(model: listardashboardRequestActivos) {
     const url = `${environment.API}/asegurado/listar/dashboard/estado`;
+    return this.http.post<any>(url, model);
+  }
+
+  listarDashboardActivosRed(model: listardashboardRequestActivos) {
+    const url = `${environment.API}/asegurado/listar/dashboard/estado-red`;
     return this.http.post<any>(url, model);
   }
 

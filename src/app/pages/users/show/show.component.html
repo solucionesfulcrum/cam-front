@@ -45,6 +45,9 @@
         <li class="mb-3"><span class="font-bold">Unidad Operativa: </span>{{user.unidadOperativaTipo}} - {{user.unidadOperativa | titlecase}}</li>
         <li class="mb-3"><span class="font-bold">Fecha Registro: </span>{{user.fechaRegistro | date:'dd/MM/yyyy'}}</li>
         <li class="mb-3"><span class="font-bold">Estado: </span> <span [ngClass]="user.estado === 'ACTIVADO' ? 'text-green-500' : 'text-blue-500'" class="text-green-500">{{user.estado | titlecase}}</span></li>
+        <li class="mb-3"><span class="font-bold">Estado Vigencia: </span> <span [ngClass]="vigencia.tieneVigencia ? 'text-green-500' : 'text-red-500'">{{(vigencia.tieneVigencia ? "TIENE VIGENCIA" : "SIN VIGENCIA" )| titlecase}}</span></li>
+        <li class="mb-3"><span class="font-bold">Fecha Inicio Vigencia: </span>{{vigencia.fecIniVigencia}}</li>
+        <li class="mb-3"><span class="font-bold">Fecha Fin Vigencia: </span>{{vigencia.fecFinVigencia}}</li>
       </ul>
     </div>
   </div>

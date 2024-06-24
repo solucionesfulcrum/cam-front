@@ -14,6 +14,7 @@ import { DatosGeneralesService } from 'src/app/data/services/datos-generales.ser
 })
 export class ShowComponent {
   user:any = Object();
+  vigencia:any = Object();
   idUser: any;
 
   rolAsignado: string = '';
@@ -46,6 +47,7 @@ export class ShowComponent {
       })
       this._usersService.getUser(this.idUser).subscribe((data)=>{
         this.user = data.data;
+        this.getVigencia();
         this.setUbigeo(this.user.codRegion + this.user.codProvincia + this.user.codDistrito)
         
         if((Math.trunc((this.today.getTime() - (new Date(this.user.fechaRegistro)).getTime()) / (1000*60*60*24))) <= 7){
@@ -60,6 +62,21 @@ export class ShowComponent {
       // )
    });
 
+  }
+
+  getVigencia(): void {
+    this._usersService.getVigencia(this.user.dni).subscribe(vigencia => {
+      if(vigencia.code == 0){
+        this.vigencia.tieneVigencia = vigencia.data.tieneVigencia;
+        this.vigencia.fecIniVigencia = vigencia.data.fecIniVigencia;
+        this.vigencia.fecFinVigencia = vigencia.data.fecFinVigencia;
+      }
+      else{
+        this.vigencia.tieneVigencia = false;
+        this.vigencia.fecIniVigencia = "-";
+        this.vigencia.fecFinVigencia = "-";
+      }
+    })
   }
 
   setUbigeo(codUbigeo: string){

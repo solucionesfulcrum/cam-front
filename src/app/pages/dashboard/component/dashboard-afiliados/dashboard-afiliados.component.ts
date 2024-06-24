@@ -49,6 +49,7 @@ export class DashboardAfiliadosComponent implements OnInit {
   totalAfiliadosActivos: number = 0;
   dataServicio: any;
   idUnidadOperativaUser = (JSON.parse(localStorage.getItem('UnidElegida')!)).idUnidOperativa;
+  rol = JSON.parse(localStorage.getItem('UnidElegida')!).rol;
 
   formBuscar: FormGroup = this.fb.group({
     frmSearch: new FormControl(""),
@@ -139,8 +140,18 @@ export class DashboardAfiliadosComponent implements OnInit {
     const fechaFinComponent = this.formBuscar.get('frmSearchDate')?.value.split("-")[1].trim()
     const fechaFin = fechaFinComponent.split("/");
     const fechaFormateadaFin= `${fechaFin[2]}-${fechaFin[1]}-${fechaFin[0]}`;
+
+    let metodo;
+
+    if(this.rol == "COORDINADOR RED"){
+      metodo =  this.authService.listarDashboardRed({ fecInicio: fechaFormateadaInicio, fecFin: fechaFormateadaFin, idUnidadOperativa: this.idUnidadOperativaUser });
+    }
+    else{
+      metodo =  this.authService.listarDashboard({ fecInicio: fechaFormateadaInicio, fecFin: fechaFormateadaFin, idUnidadOperativa: this.idUnidadOperativaUser });
+    }
     
-    this.authService.listarDashboard({ fecInicio: fechaFormateadaInicio, fecFin: fechaFormateadaFin, idUnidadOperativa: this.idUnidadOperativaUser }).subscribe((data) => {
+    
+    metodo.subscribe((data) => {
       if (data.code == 0) {
         this.respuestaServicio = data.code;
         //console.log("data.code", data.code)
@@ -195,12 +206,24 @@ export class DashboardAfiliadosComponent implements OnInit {
       }
     })
 
+    if(this.rol == "COORDINADOR RED"){
+      
+    this.authService.listarDashboardActivosRed({ fecInicio: fechaFormateadaInicio, fecFin: fechaFormateadaFin, idUnidadOperativa: this.idUnidadOperativaUser, estado: 14 }).subscribe((data) => {
+      this.totalAfiliadosActivos=0;
+      for (let i = 0; i < data.data.contAsegurados.length; i++) {
+        this.totalAfiliadosActivos += data.data.contAsegurados[i]; 
+      }
+    })
+    }
+    else{
     this.authService.listarDashboardActivos({ fecInicio: fechaFormateadaInicio, fecFin: fechaFormateadaFin, idUnidadOperativa: this.idUnidadOperativaUser, estado: 14 }).subscribe((data) => {
       this.totalAfiliadosActivos=0;
       for (let i = 0; i < data.data.contAsegurados.length; i++) {
         this.totalAfiliadosActivos += data.data.contAsegurados[i]; 
       }
     })
+    }
+
 
   }
 
