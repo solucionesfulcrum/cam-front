@@ -94,7 +94,7 @@ export class ContactoTabOperacionesComponent implements OnInit {
       fecInicio = `${fechaSinFormatInit.split('/')[2]}-${fechaSinFormatInit.split('/')[1]}-${fechaSinFormatInit.split('/')[0]}`;
       fecFin = `${fechaSinFormatFin.split('/')[2]}-${fechaSinFormatFin.split('/')[1]}-${fechaSinFormatFin.split('/')[0]}`;
     }
-    console.log(fecInicio, fecFin)
+    //console.log(fecInicio, fecFin)
     return {
       idFichaAdmision: parseInt(this.idFicha),
       fecInicio: fecInicio,

@@ -29,12 +29,12 @@ export class AdmCiramComponent {
 
   getDataFecha(value: any) {
     //this.formBuscar.get('frmSearchDate')?.setValue(value);
-    console.log("fecha?",value)
+    ////console.log("fecha?",value)
     //this.onLoadData();
 
   }
   ngOnInit() {
-    //console.log(this.formBuscar.get('frmSearch'))
+    ////console.log(this.formBuscar.get('frmSearch'))
     const fechaInicio = "2024-01-01"
     const fechaFin = "2024-12-01"
     this.authService.listarActivosInactivos({idUnidadOperativa:parseInt(this.unid.idUnidOperativa),fecFin:fechaFin,fecInicio:fechaInicio,texto:""}).subscribe((data) => {

@@ -24,7 +24,7 @@ export class ProgramacionTabProgramadosComponent {
     this.programacionService.getServiciosProgramados(this.idProgramacion).subscribe((datos)=>{
       if (datos.code == 0) {
         this.serviciosProgramados = datos.data;
-        console.log(this.serviciosProgramados)
+        //console.log(this.serviciosProgramados)
       }
       else {
         this.notificationService.warning(datos.message);

@@ -51,7 +51,7 @@ export class EvaluacionCGijonComponent {
       if (data.code == 0) {
         this.dataTestC = data.data.grupales[0];
         this.dataTestC.subCategoria = this.dataTestC.subCategoria.sort((a: any, b: any) => {return a.idCuestSubCategoria - b.idCuestSubCategoria})
-        // console.log(this.dataTestC.subCategoria)
+        // //console.log(this.dataTestC.subCategoria)
         // this.dataTestA = data.data.individuales.find((x: any)=> {return x.idCuestCategoria == 1});
         // this.preguntas = this.dataTestA.cuestionarios;
       }
@@ -66,7 +66,7 @@ export class EvaluacionCGijonComponent {
     if (this.evaluacionService.formDataTestGij.valid) {
       this.status = 'loading';
       this.evaluacionService.registerEvaluacionRespuesta(this.getAnswers()).subscribe((data)=>{
-        // console.log(this.getAnswers())  
+        // //console.log(this.getAnswers())  
         if (data.code == 0) {
           this.router.navigate(['app/afiliados/evaluacion/agregaEval/eva-yesavage']);
           this.status = 'success';

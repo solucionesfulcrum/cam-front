@@ -42,7 +42,7 @@ export class ShowTalleristaComponent implements OnInit {
   ngOnInit(): void {
     this.talleristaService.getDataTallerista(this.idTallerista).subscribe((data)=>{
       if (data.code == 0) {
-        console.log(data.data)
+        //console.log(data.data)
         this.dataTallerista = data.data;
       }
       else {

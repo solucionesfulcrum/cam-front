@@ -119,7 +119,7 @@ export class SeguridadComponent {
               formData.append('img-foto', this.applicationFile);
               const idUsuario = (JSON.parse(localStorage.getItem('camUser')!)).idUsuario
               this.datosService.saveFileImagenFoto(formData, idUsuario).subscribe((datos) => {
-                console.log(datos)
+                ////console.log(datos)
                 this.notificationService.success('¡Se guardaron los datos personales!');
               })
             }
@@ -128,7 +128,7 @@ export class SeguridadComponent {
               formDataFirma.append('img-firma', this.applicationFileFirma);
               const idUsuario = (JSON.parse(localStorage.getItem('camUser')!)).idUsuario
               this.datosService.saveFileImagenFirma(formDataFirma, idUsuario).subscribe((datos) => {
-                console.log(datos)
+                //console.log(datos)
                 this.notificationService.success('¡Se guardaron los datos personales!');
               })
             }
@@ -168,7 +168,7 @@ export class SeguridadComponent {
   }
 
   grabarDatosFormacion() {
-    console.log('datos', this.formDatosFormacion.value.frmAnioGraduacion)
+    //console.log('datos', this.formDatosFormacion.value.frmAnioGraduacion)
     this.datosService.registerDatosFormacion(this.getPayloadRegistroFormacion()).subscribe((data) => {
       if (data.code == 0) {
         this.notificationService.success('¡Se guardaron los datos personales!');
@@ -207,10 +207,10 @@ export class SeguridadComponent {
     const idUsuarioTemp = (JSON.parse(localStorage.getItem('camUser')!)).idUsuario
 
     this.datosService.getObtenerDatos(idUsuarioTemp).subscribe((data) => {
-      console.log("datos personales", data.data)
+      //console.log("datos personales", data.data)
       this.imagenFirma = data.data.datosPersonales.firmaImg
       this.imagenFoto = data.data.datosPersonales.fotoPerfilImg
-      console.log("imagenFirma", this.imagenFirma)
+      //console.log("imagenFirma", this.imagenFirma)
       this.numDocumento = data.data.datosPersonales.numeroDocumento;
       this.nombreCompleto = data.data.datosPersonales.nombres + " " + data.data.datosPersonales.apellidos;
       this.formDatosPersonales.controls.frmNombres.setValue(data.data.datosPersonales.nombres)
@@ -263,7 +263,7 @@ export class SeguridadComponent {
   }
   //Imagenes-----------
   onChangeFileFotoFirma(files: any) {
-    console.log("hola mundo", files)
+    //console.log("hola mundo", files)
     if (files.length === 0) {
       return;
     }
@@ -287,13 +287,13 @@ export class SeguridadComponent {
       }
       this.nombreFotoFirma = files[0].name;
       this.retrievedFotoFirma = reader.result;
-      console.log(this.applicationFile)
+      //console.log(this.applicationFile)
       this.isFotoUpdateFirma = true;
     };
   }
 
   onChangeFileFoto(files: any) {
-    console.log("hola mundo", files)
+    //console.log("hola mundo", files)
     if (files.length === 0) {
       return;
     }
@@ -317,7 +317,7 @@ export class SeguridadComponent {
       }
       this.nombreFoto = files[0].name;
       this.retrievedFoto = reader.result;
-      console.log(this.applicationFile)
+      //console.log(this.applicationFile)
       this.isFotoUpdate = true;
     };
   }

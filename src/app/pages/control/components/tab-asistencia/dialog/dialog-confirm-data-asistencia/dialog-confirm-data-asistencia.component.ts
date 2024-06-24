@@ -24,7 +24,7 @@ export class DialogConfirmDataAsistenciaComponent {
   }
   
   ngOnInit(){
-    console.log(this.data)
+    //console.log(this.data)
     this.dataAsegurado = this.data.infoAsegurado.data[0];
   }
 

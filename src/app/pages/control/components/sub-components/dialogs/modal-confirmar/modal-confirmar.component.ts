@@ -15,7 +15,7 @@ export class ModalConfirmarComponent {
 }
 
 ngOnInit(){
-console.log(this.data);
+//console.log(this.data);
 }
 
 onClose(){

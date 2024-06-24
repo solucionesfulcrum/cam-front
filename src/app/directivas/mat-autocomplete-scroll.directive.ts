@@ -56,9 +56,9 @@ export class MatAutocompleteScrollDirective {
      const threshold = this.thresholdPercent * 100 * (<HTMLInputElement>event.target).scrollHeight / 100;
       const current = (<HTMLInputElement>event.target).scrollTop + (<HTMLInputElement>event.target).clientHeight;
 
-      // console.log(`scroll ${current}, threshold: ${threshold}`)
+      // //console.log(`scroll ${current}, threshold: ${threshold}`)
       if (current > threshold) {
-        //console.log('load next page');
+        ////console.log('load next page');
         this.scroll.next({ autoComplete: this.autoComplete, scrollEvent: event });
       }
     }

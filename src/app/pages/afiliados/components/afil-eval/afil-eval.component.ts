@@ -91,7 +91,7 @@ export class AfilEvalComponent implements OnInit {
     dsEval.sort((one, two) => (new Date(parseInt(one.fechaEvaluac.split('/')[2]),parseInt(one.fechaEvaluac.split('/')[1]), parseInt(one.fechaEvaluac.split('/')[0])) > new Date(parseInt(two.fechaEvaluac.split('/')[2]),parseInt(two.fechaEvaluac.split('/')[1]), parseInt(two.fechaEvaluac.split('/')[0])) ? -1 : 1))
 
     dsEval.forEach((x)=>{
-      // console.log(new Date(x.fechaEvaluac))
+      // //console.log(new Date(x.fechaEvaluac))
       if(fechaActual != x.fechaEvaluac){
         fechaActual = x.fechaEvaluac;
         this.datosFormato.push({date:x.fechaEvaluac, actividades: []})
@@ -103,7 +103,7 @@ export class AfilEvalComponent implements OnInit {
         })
       }
     })
-    // console.log(this.datosFormato)
+    // //console.log(this.datosFormato)
 
   }
 

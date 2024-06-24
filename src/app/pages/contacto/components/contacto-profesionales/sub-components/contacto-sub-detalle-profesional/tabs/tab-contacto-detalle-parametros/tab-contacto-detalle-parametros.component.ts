@@ -99,7 +99,7 @@ export class TabContactoDetalleParametrosComponent {
       this.optSelected.splice(index,1);
     }
     this.ctrlProcesos.setValue(this.optSelected);
-    // if (target) console.log((target as HTMLButtonElement).id, (target as HTMLButtonElement).value, (target as HTMLInputElement).checked);
+    // if (target) //console.log((target as HTMLButtonElement).id, (target as HTMLButtonElement).value, (target as HTMLInputElement).checked);
   }
 
   sendChanges(){

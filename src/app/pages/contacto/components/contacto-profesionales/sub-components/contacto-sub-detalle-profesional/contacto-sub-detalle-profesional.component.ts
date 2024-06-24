@@ -66,7 +66,7 @@ export class ContactoSubDetalleProfesionalComponent {
     this.contactoProfesionalService.getInfoPersonal(this.idProfesional).subscribe((data)=>{
       if(data.code == 0){
         this.infoProfesional = data.data;
-        console.log(data.data)
+        //console.log(data.data)
         if (data.data.pefilProfesional.codUbigDistrito && data.data.pefilProfesional.codUbigProvincia && data.data.pefilProfesional.codUbigRegion) {
           this.datosGeneralesService.searchByUbigeo(data.data.pefilProfesional.codUbigDistrito + data.data.pefilProfesional.codUbigProvincia + data.data.pefilProfesional.codUbigRegion).subscribe((ubicacion)=>{
             if (ubicacion.code == 0) {

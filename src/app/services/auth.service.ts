@@ -76,7 +76,7 @@ export class AuthService {
           this.tokenService.saveRefreshToken(response.data.auth.refreshToken);
 
           this.user$.next(response.data.data);
-          console.log('this.user$: ', this.user$);
+          //console.log('this.user$: ', this.user$);
         })
       );
   }

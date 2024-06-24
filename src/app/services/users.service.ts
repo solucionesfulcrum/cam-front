@@ -54,7 +54,7 @@ export class UsersService {
 
   // activateUserSSO(model: ActivateUserSSO){
   //   const params = this._authBasic();
-  //   console.log(checkToken())
+  //   //console.log(checkToken())
   //   const url = `${environment.SSO_API}/vigencia/registrar`;
   //   return this.http.post<any>(url,model,{
   //     params,

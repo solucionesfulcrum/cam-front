@@ -74,9 +74,9 @@ export class HorarioAdministrarComponent {
       pageSize: this.pageSize
     }).subscribe((data)=>{
       if (data.code == 0) {
-        console.log(data)
+        //console.log(data)
         const dataObj = Object(data.data);
-        // console.log(data)
+        // //console.log(data)
         this.dataSource = dataObj.list;
 
         this.pageNum = dataObj.pageNum;
@@ -90,7 +90,7 @@ export class HorarioAdministrarComponent {
   }
   
   handlePageEvent(event: PageEvent) {
-    // console.log(this.pageSizeOptions);
+    // //console.log(this.pageSizeOptions);
     this.pageSize = event.pageSize;
     this.pageIndex = event.pageIndex;
     this.pageNum = event.pageIndex + 1;

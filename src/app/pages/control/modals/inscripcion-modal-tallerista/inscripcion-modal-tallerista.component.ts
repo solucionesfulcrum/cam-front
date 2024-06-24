@@ -162,7 +162,7 @@ export class InscripcionModalTalleristaComponent {
         this.status = 'success';
         if(data.data.length > 0){
           this.statusLoadContacto = true;
-          console.log(data);
+          //console.log(data);
           this.srcAsegurado = data.data[0].foto;
           this.nombreContacto = data.data[0].nombreCompleto;
           this.numdocContacto = data.data[0].numDoc;
@@ -215,7 +215,7 @@ export class InscripcionModalTalleristaComponent {
 
   getParametros(){
     this.datosService.getTipoParametros('TIPO_DOCUMENTO_IDENTIDAD').subscribe((data) =>{
-      console.log(data);
+      //console.log(data);
       this.opciones = data.data;
     });
   }

@@ -174,7 +174,7 @@ export class ContratosListadoComponent {
   }
 
   deleteItem(dataContrato: any){
-    console.log(dataContrato)
+    //console.log(dataContrato)
     const dialogRef = this.dialog.open(DialogConfirmSelectionComponent,{
       data:{
         title: '¿Quiere borrar el registro?',

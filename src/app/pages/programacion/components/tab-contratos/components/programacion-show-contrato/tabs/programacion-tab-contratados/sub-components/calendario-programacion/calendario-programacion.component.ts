@@ -69,7 +69,7 @@ export class CalendarioProgramacionComponent {
               this.visualizacion = true;
               this.opcionesBotones.forEach((x)=> x.deshabilitado = true)
             }
-            console.log(data.data)
+            //console.log(data.data)
             this.limitesHorario.push(new Date(data.data.datosContrato.fechInicio.replace(/-/g, '\/')));
             this.limitesHorario.push(new Date(data.data.datosContrato.fechFin.replace(/-/g, '\/')));
             this.periodoCalendario.setMonth(this.limitesHorario[0].getMonth());

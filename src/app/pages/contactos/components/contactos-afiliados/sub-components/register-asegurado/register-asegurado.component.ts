@@ -145,7 +145,7 @@ export class RegisterAseguradoComponent {
           if (datos.code == 0) {
             this.dataRed = datos.data.data.find((x: any)=> {return x.cod_CENTRO  === data.data.dataAfiliado[0].codCentro});
             this.feFallecimiento = data.data.dataPersona.fefallecid;
-            // console.log(this.dataRed)
+            // //console.log(this.dataRed)
           }
           else{
             this._notificacionService.warning(datos.message);
@@ -311,7 +311,7 @@ export class RegisterAseguradoComponent {
 
   
   showDatosProcedencia(opt: number, modalidad: string){
-    // console.log(opt)
+    // //console.log(opt)
     if (opt == 18 || opt == 19) {
       this.datosProcedenciaExtra = false;
     }
@@ -469,8 +469,8 @@ export class RegisterAseguradoComponent {
     }
   }
   showForm(){
-    console.log('Request Ficha:')
-    console.log(this.getRequestFicha())
+    //console.log('Request Ficha:')
+    //console.log(this.getRequestFicha())
   }
 
   getDatosFicha(): datosFicha{

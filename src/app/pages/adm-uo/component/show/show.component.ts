@@ -58,7 +58,7 @@ export class ShowComponent {
 
     
     this.authService.getPerfilCiram(this.idUnidadOperativa).subscribe((data) => {
-      console.log('hola', data.data)
+      ////console.log('hola', data.data)
       if(data.data){
         this.datosPerfilCiram = data.data
       }
@@ -67,7 +67,7 @@ export class ShowComponent {
   }
 
   editarCiram() {
-    console.log("editar")
+    ////console.log("editar")
     this.router.navigate([`app/adm-uo/edit-ciram/${this.idUnidadOperativa}`])
   }
 }

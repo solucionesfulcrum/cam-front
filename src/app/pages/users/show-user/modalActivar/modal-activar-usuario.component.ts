@@ -72,7 +72,7 @@ export class ModalActivarUsuarioComponent implements OnInit {
 
   ngOnInit(): void {
     this.id = Number(localStorage.getItem("userId"))
-    console.log("idddddddddd", this.id)
+    //console.log("idddddddddd", this.id)
     if (localStorage.getItem('dataLog') != 'null') {
       this.idUserSession = (JSON.parse(localStorage.getItem('dataLog')!)).idUserApp;
     }
@@ -90,13 +90,13 @@ export class ModalActivarUsuarioComponent implements OnInit {
     })
     this.frmCtrlUnidadOperativa.setValue('')
     this.cargaServiciosParametros();
-    console.log('roles...........', this.listRoles)
+    //console.log('roles...........', this.listRoles)
   }
 
   cargaServiciosParametros() {
     this.usuarioService.getListRolesActivos().subscribe((data) => {
       this.listRoles = data.data;
-      console.log("lista de roles",this.listRoles)
+      //console.log("lista de roles",this.listRoles)
     })
   }
 
@@ -113,7 +113,7 @@ export class ModalActivarUsuarioComponent implements OnInit {
         this.formVigencia.controls.frmFinVigencia.setValue(input)
         break;
     }
-    // console.log(input)
+    // //console.log(input)
   }
 
   getActivacion(): ActivateUser {
@@ -164,7 +164,7 @@ export class ModalActivarUsuarioComponent implements OnInit {
         observaciones!
       )
       .subscribe((rta: any) => {
-        console.log('rta for vigencia: ', rta);
+        //console.log('rta for vigencia: ', rta);
         rta = JSON.parse(rta as string);
         this.snackBar.open('Registro de vigencia - ' + rta.message, 'Cerrar', {
           duration: this.durationEnSegundos * 1000,
@@ -211,13 +211,13 @@ export class ModalActivarUsuarioComponent implements OnInit {
   }
 
   saveActivacion() {
-    console.log("Guardar Activación")
-    console.log(this.getActivacion())
+    //console.log("Guardar Activación")
+    //console.log(this.getActivacion())
 
     //if(this.validForm()){
     this.status = 'loading';
     this.usuarioService.activateUser(this.getActivacion()).subscribe((data) => {
-      console.log(data)
+      //console.log(data)
       this.dialogRef.close();
       this.toastrService.success("Mensaje: Unidad Operativa Activada");
       
@@ -226,13 +226,13 @@ export class ModalActivarUsuarioComponent implements OnInit {
         if(typeof data === 'object'){
             this.status = 'failed';
           this._notification.warning(data.message);
-          // console.log(data.message)
+          // //console.log(data.message)
         }
         else{
           this.userService.activateUserSigps(this.getActivacionSIGPS()).subscribe((data)=>{
             this._notification.success('Se ha activado correctamente');
             this.status = 'success';
-            // console.log(data)
+            // //console.log(data)
             this._dialogRef.close();
           })
         }

@@ -66,17 +66,17 @@ export class EvaluacionLayoutComponent {
       }
     })
     dialogRef.closed.subscribe(out =>{
-      // console.log(out)
+      // //console.log(out)
     })
   }
 
   evaluarAfiliado(){
-    console.log(this.evaluacionService.formDataTestPfi.valid)
+    //console.log(this.evaluacionService.formDataTestPfi.valid)
     this.evaluacionService.formDataTestPfi.markAllAsTouched();
     // this.compPfeiffer.validated = true;
 
     // if (this.evaluacionService.formDataTestPfi.valid) {
-    //   console.log(1)
+    //   //console.log(1)
     //   this.compPfeiffer.status = 'loading';
     //   this.evaluacionService.registerEvaluacionRespuesta(this.getAnswers()).subscribe((data)=>{
     //     if (data.code == 0) {
@@ -92,7 +92,7 @@ export class EvaluacionLayoutComponent {
     // else{
     //   this.evaluacionService.formDataTestPfi.markAllAsTouched();
     // }
-    // console.log(this.router.url)
+    // //console.log(this.router.url)
   }
 
   getAnswers(): RequestRegisterAnswersEvaluacion{
@@ -118,8 +118,8 @@ export class EvaluacionLayoutComponent {
         respuesta2: (this.evaluacionService.formDataTestPfi.get(x).value === 'MAL' ? 1 : 0)
       };
       listAnsw.push(respuesta);
-      // console.log(this.evaluacionService.formDataTestPfi.get(x).value, index)
-      // console.log(this.preguntas[index])
+      // //console.log(this.evaluacionService.formDataTestPfi.get(x).value, index)
+      // //console.log(this.preguntas[index])
     })
     
     return listAnsw;

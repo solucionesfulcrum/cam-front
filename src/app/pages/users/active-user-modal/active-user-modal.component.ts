@@ -152,7 +152,7 @@ export class ActiveUserModalComponent {
 
   saveActivacion() {
     if (this.validForm()) {
-      // console.log(this.getActivacionSIGPS())
+      // //console.log(this.getActivacionSIGPS())
       this.status = 'loading';
       this.userService.activateUserSigps(this.getActivacionSIGPS()).subscribe((data) => {
         this._notification.success('Se ha activado correctamente');

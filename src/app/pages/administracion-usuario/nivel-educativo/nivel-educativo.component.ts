@@ -119,7 +119,7 @@ export class NivelEducativoComponent {
               formData.append('img-foto', this.applicationFile);
               const idUsuario = (JSON.parse(localStorage.getItem('camUser')!)).idUsuario
               this.datosService.saveFileImagenFoto(formData, idUsuario).subscribe((datos) => {
-                console.log(datos)
+                ////console.log(datos)
                 this.notificationService.success('¡Se guardaron los datos personales!');
               })
             }
@@ -128,7 +128,7 @@ export class NivelEducativoComponent {
               formDataFirma.append('img-firma', this.applicationFileFirma);
               const idUsuario = (JSON.parse(localStorage.getItem('camUser')!)).idUsuario
               this.datosService.saveFileImagenFirma(formDataFirma, idUsuario).subscribe((datos) => {
-                console.log(datos)
+                ////console.log(datos)
                 this.notificationService.success('¡Se guardaron los datos personales!');
               })
             }
@@ -168,7 +168,7 @@ export class NivelEducativoComponent {
   }
 
   grabarDatosFormacion() {
-    console.log('datos', this.formDatosFormacion.value.frmAnioGraduacion)
+    ////console.log('datos', this.formDatosFormacion.value.frmAnioGraduacion)
     this.datosService.registerDatosFormacion(this.getPayloadRegistroFormacion()).subscribe((data) => {
       if (data.code == 0) {
         this.notificationService.success('¡Se guardaron los datos personales!');
@@ -241,7 +241,7 @@ export class NivelEducativoComponent {
   }
   //Imagenes-----------
   onChangeFileFotoFirma(files: any) {
-    console.log("hola mundo", files)
+    ////console.log("hola mundo", files)
     if (files.length === 0) {
       return;
     }
@@ -265,13 +265,13 @@ export class NivelEducativoComponent {
       }
       this.nombreFotoFirma = files[0].name;
       this.retrievedFotoFirma = reader.result;
-      console.log(this.applicationFile)
+      ////console.log(this.applicationFile)
       this.isFotoUpdateFirma = true;
     };
   }
 
   onChangeFileFoto(files: any) {
-    console.log("hola mundo", files)
+    ////console.log("hola mundo", files)
     if (files.length === 0) {
       return;
     }
@@ -295,7 +295,7 @@ export class NivelEducativoComponent {
       }
       this.nombreFoto = files[0].name;
       this.retrievedFoto = reader.result;
-      console.log(this.applicationFile)
+      ////console.log(this.applicationFile)
       this.isFotoUpdate = true;
     };
   }

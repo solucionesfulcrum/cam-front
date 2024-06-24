@@ -29,7 +29,7 @@ export class ContactoProfesionalesComponent {
   }
 
   ngOnInit(){
-    console.log(JSON.parse(localStorage.getItem('camUser')!))
+    //console.log(JSON.parse(localStorage.getItem('camUser')!))
     this.onLoad();
   }
 
@@ -43,7 +43,7 @@ export class ContactoProfesionalesComponent {
     }).subscribe((data)=>{
       if (data.code == 0) {
         const dataObj = Object(data.data);
-        console.log(dataObj)
+        //console.log(dataObj)
         this.dataSource = dataObj.list;
         this.pageNum = dataObj.pageNum;
         this.pageSize = dataObj.pageSize;
@@ -56,7 +56,7 @@ export class ContactoProfesionalesComponent {
   }
   
   handlePageEvent(event: PageEvent) {
-    // console.log(this.pageSizeOptions);
+    // //console.log(this.pageSizeOptions);
     this.pageSize = event.pageSize;
     this.pageIndex = event.pageIndex;
     this.pageNum = event.pageIndex + 1;

@@ -45,13 +45,13 @@ export class EditCiramComponent {
   }
 
   ngOnInit() {
-    console.log("idunid", this.idUnidadOperativa)
+    ////console.log("idunid", this.idUnidadOperativa)
     this.nombreCam = (JSON.parse(localStorage.getItem('UnidElegida')!)).unidOperativa
     this.formRegistroCiram.controls.frmNombreCam.setValue((JSON.parse(localStorage.getItem('UnidElegida')!)).unidOperativa)
     this.formRegistroCiram.controls.frmNombreCam.disable();
     this.formRegistroCiram.controls.frmActivo.disable();
     this.authService.getPerfilCiram(this.idUnidadOperativa).subscribe((data) => {
-      console.log('hola', data.data)
+      ////console.log('hola', data.data)
       this.datosPerfilCiram = data.data
       this.formRegistroCiram.controls.frmCodigoCentro.setValue(data.data.idCentro)
       this.formRegistroCiram.controls.frmFechCreacion.setValue(data.data.fechaIncripcion.split("T")[0])

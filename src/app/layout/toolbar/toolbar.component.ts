@@ -37,15 +37,15 @@ export class ToolbarComponent {
     private datosService: DatosGeneralesService){
     /*this.user$.subscribe(user=>{
       if (!user) {
-        console.log("user",user);
-        console.log("authService",authService.getProfile())
+        //console.log("user",user);
+        //console.log("authService",authService.getProfile())
         
       }
 
-      console.log("user2", user)
+      //console.log("user2", user)
     })
     /*this.authService.getProfile().subscribe((data)=>{
-      console.log("data usuario",data)
+      //console.log("data usuario",data)
     })*/
   }
 

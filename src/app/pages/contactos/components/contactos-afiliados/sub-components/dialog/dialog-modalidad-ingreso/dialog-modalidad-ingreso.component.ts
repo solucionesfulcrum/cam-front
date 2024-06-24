@@ -50,7 +50,7 @@ export class DialogModalidadIngresoComponent {
       this.frmCtrlRegion.valueChanges.pipe(startWith(''), map(value => typeof value === 'string' ? value : value.max_des_red)).subscribe((data)=>{
         this.filteredOptionsRegion = this.listRedes.filter(x => x.max_des_red.toLowerCase().includes(data.toLowerCase()));
         // this.contactosService.searchRegion('ESSALUD', data).subscribe((datos)=>{
-        //   console.log(data)
+        //   //console.log(data)
         //  this.filteredOptionsRegion = datos.data;
         // })
       })
@@ -103,7 +103,7 @@ export class DialogModalidadIngresoComponent {
 
   onSelectionChangeIpress(event: any) {
     this.ipressSeleccionadaTmp = event.option.value;
-    // console.log(this.ipressSeleccionadaTmp.nom_centro)
+    // //console.log(this.ipressSeleccionadaTmp.nom_centro)
     this.formModIngreso.get('frmModalidad')?.setValue(this.ipressSeleccionadaTmp.nom_centro);
   }
 

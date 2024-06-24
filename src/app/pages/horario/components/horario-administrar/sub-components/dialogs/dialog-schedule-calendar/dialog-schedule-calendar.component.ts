@@ -58,8 +58,8 @@ export class DialogScheduleCalendarComponent {
 
 
   ngOnInit(): void {
-    console.log(this.data)
-    console.log(this.horarioService.horarioRegistrado.listProfesionales.find((x)=>{return x.idProfesional == this.data.profesionalElegido.profesionalId}))
+    //console.log(this.data)
+    //console.log(this.horarioService.horarioRegistrado.listProfesionales.find((x)=>{return x.idProfesional == this.data.profesionalElegido.profesionalId}))
     this.getActividades();
     this.formSchedule.controls.frmInicioHorario.setValue(null!)
     this.setListeners();
@@ -119,7 +119,7 @@ export class DialogScheduleCalendarComponent {
         });
         this.listActividades.sort((a, b)=> a.actividad.localeCompare(b.actividad))
         this.ctrlActividad.setValue('');
-        console.log(this.listActividades)
+        //console.log(this.listActividades)
       }
       else{
         this.notificacionService.warning(data.message);
@@ -178,7 +178,7 @@ export class DialogScheduleCalendarComponent {
         count += 1;
       } while (horaAumentada.getHours() < 20);
 
-      console.log(this.listaLimitesHorarios)
+      //console.log(this.listaLimitesHorarios)
     }
   }
 
@@ -187,7 +187,7 @@ export class DialogScheduleCalendarComponent {
   }
 
   onSave(){
-    console.log(this.getFormAsignacion());
+    //console.log(this.getFormAsignacion());
     this.horarioService.horarioRegistrado.listProfesionales.find((x)=>{return x.idProfesional == this.data.profesionalElegido.profesionalId}).asignaciones.push(this.getFormAsignacion());
     this._dialogRef.close();
   }

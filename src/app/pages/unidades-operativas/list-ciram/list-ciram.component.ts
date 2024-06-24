@@ -64,7 +64,7 @@ export class ListCiramComponent {
     })
 
     this.datosGeneralesService.getUnidadesOperativas("").subscribe((data)=>{
-      console.log(data)
+      //console.log(data)
       if (data.code == 0) {
         this.opcionesRed = data.data.map((cam : any)=> {
           return {...cam, valor1: cam.codigo}
@@ -121,7 +121,7 @@ export class ListCiramComponent {
     this.onLoadData();
   }
   handlePageEvent(event: PageEvent) {
-    // console.log(this.pageSizeOptions);
+    // //console.log(this.pageSizeOptions);
     this.pageSize = event.pageSize;
     this.pageIndex = event.pageIndex;
     this.pageNum = event.pageIndex + 1;

@@ -289,7 +289,7 @@ export class RegisterFormComponent {
       }
     })
     dialogRef.closed.subscribe(out => {
-      // console.log(out)
+      // //console.log(out)
     })
   }
 
@@ -303,7 +303,7 @@ export class RegisterFormComponent {
       const { code } = this.formCodeEmail.getRawValue();
       this.authService.validateCode(code, this.genWithCode, this.numdoc).subscribe({
         next: (rta) => {
-          console.log('next for validate code: ', rta);
+          //console.log('next for validate code: ', rta);
           if (rta.data === 'true') {
             this.status = 'success';
             this.cdkStepper.next();
@@ -316,7 +316,7 @@ export class RegisterFormComponent {
           }
         },
         error: (rta) => {
-          console.log('error for validate code: ', rta);
+          //console.log('error for validate code: ', rta);
           this.status = 'failed';
         },
       });

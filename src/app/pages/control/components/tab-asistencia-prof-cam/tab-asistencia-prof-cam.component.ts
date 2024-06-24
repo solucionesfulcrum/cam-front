@@ -139,12 +139,12 @@ export class TabAsistenciaProfCamComponent {
     this.controlService.getCabeceraProgramacion(JSON.parse(localStorage.getItem('idProgramElegida')!)).subscribe((data)=>{
       if (data.code == 0) {
         this.datoProgramacion = data.data;
-        //console.log(this.datoProgramacion)
+        ////console.log(this.datoProgramacion)
         let seconds = Math.floor((new Date(this.datoProgramacion.fechaServicio + ' ' + this.datoProgramacion.horaFin).getTime() - new Date(this.datoProgramacion.fechaServicio + ' ' + this.datoProgramacion.horaInicio).getTime())/1000);
         let horas = Math.floor(seconds/(60*60));
         let minutos = Math.floor(seconds/60) - horas*60;
         this.datoProgramacion.margenHorario = horas + 'h ' +  minutos + ' m';
-        //console.log(Math.floor(seconds/(60*60)) + 'h ' +  Math.floor(seconds/60) + ' m')
+        ////console.log(Math.floor(seconds/(60*60)) + 'h ' +  Math.floor(seconds/60) + ' m')
       }
       else{
         this.notificacionService.warning(data.message);
@@ -159,7 +159,7 @@ export class TabAsistenciaProfCamComponent {
   }
 
   handlePageEvent(event: PageEvent) {
-    // console.log(this.pageSizeOptions);
+    // //console.log(this.pageSizeOptions);
     this.pageSize = event.pageSize;
     this.pageIndex = event.pageIndex;
     this.pageNum = event.pageIndex + 1;
@@ -278,7 +278,7 @@ export class TabAsistenciaProfCamComponent {
     this.esperaBusqueda = true;
     this.controlService.getSiEsApto(payload).subscribe((data)=>{
       if (data.code == 0) {
-        //console.log(data.data);
+        ////console.log(data.data);
         const dialogRef = this.dialog.open(DialogConfirmDataAsistenciaComponent,{
           minWidth:'850px',
           maxWidth:'50%',
@@ -287,7 +287,7 @@ export class TabAsistenciaProfCamComponent {
           }
         })
         dialogRef.afterClosed().subscribe((result : any) => {
-          //console.log(result);
+          ////console.log(result);
           if (result == 1) {
           }
         });
@@ -313,7 +313,7 @@ export class TabAsistenciaProfCamComponent {
     .filter((asistente: AsistenciaLista) => this.seleccionados.includes(asistente.idInscripcion))
     .map((asistente: AsistenciaLista) => asistente.idInscripcion as number);
 
-    //console.log(asistentesEliminar);
+    ////console.log(asistentesEliminar);
     this.controlService.eliminarRegistrados(asistentesEliminar).subscribe(data=>{
       if(data.code == 0){
         this.toast.success("Los registros han sido eliminados");
@@ -345,7 +345,7 @@ export class TabAsistenciaProfCamComponent {
   }
 
   onOptionSelected(option: number) {
-    console.log('Opción seleccionada:', option);
+    //console.log('Opción seleccionada:', option);
     // Realiza la acción deseada con la opción seleccionada
     this.dropdownOpen = false; // Cierra el dropdown después de seleccionar una opción
   }
@@ -458,6 +458,6 @@ export class TabAsistenciaProfCamComponent {
   }
 
   onAutocompleteScroll(){
-   console.log("data-load-dev")
+   //console.log("data-load-dev")
   }
 }

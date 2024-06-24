@@ -86,7 +86,7 @@ export class HorarioCrearComponent {
     this.ctrlUnidRehab.valueChanges.subscribe((data)=>{
       this.contactoProfesionalesService.getListProfUnidadRehab(data,this.idUnidadOperativaUser).subscribe((lista)=>{
         this.listProfesionales = Array.from(lista.data.reduce((m: any, t: any) => m.set(t.nombres, t), new Map()).values()).sort((a: any, b: any) => a.profesionalId - b.profesionalId);
-        console.log(this.listProfesionales)
+        //console.log(this.listProfesionales)
         this.ctrlProfesionalSeleccionado.reset('');
       })
     })
@@ -117,7 +117,7 @@ export class HorarioCrearComponent {
   }
   onSelectionChangeProfesional(event: any) {
     this.profesionalnSeleccionadoTmp = event.option.value;
-    console.log(this.profesionalnSeleccionadoTmp)
+    //console.log(this.profesionalnSeleccionadoTmp)
   }
   // -----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
@@ -132,7 +132,7 @@ export class HorarioCrearComponent {
     })
     this.horariosService.getListUnidadesRehab().subscribe((data)=>{
       if (data.code == 0) {
-        console.log(data)
+        //console.log(data)
         this.listUnidadesRehabilitacion = (data.data)
       }
       else{
@@ -145,7 +145,7 @@ export class HorarioCrearComponent {
         data.data.forEach((x)=>{
           this.opcionesRegimen.push({idOpcion: x.idParametros, nombre: x.nombre, value: x.idParametros})
         })
-        console.log(data.data)
+        //console.log(data.data)
       }
       else{
         this.notificationService.warning(data.message);
@@ -159,7 +159,7 @@ export class HorarioCrearComponent {
         this.router.navigate([`/app/${AppRoute.HORARIOS}`]);
         break;
       case 1:
-        // console.log(this.getHorario())
+        // //console.log(this.getHorario())
         if (this.frmHorario.valid && this.ctrlDataObtenida.value.data.length > 0) {
           if (this.ctrlDataObtenida.value.data.some((item: any)=> item.regimen == null)) {
             this.notificationService.warning("Complete los datos del régimen de los profesionales")

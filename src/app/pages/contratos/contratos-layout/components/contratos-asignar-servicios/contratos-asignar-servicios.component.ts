@@ -181,7 +181,7 @@ export class ContratosAsignarServiciosComponent {
         ctrlDataObt: new FormControl(),
       });
       (this.dataTables as FormArray).push(controlPrueba);
-      // this.dataTables.valueChanges.subscribe((data)=>{console.log(data)})
+      // this.dataTables.valueChanges.subscribe((data)=>{//console.log(data)})
     }
   }
 

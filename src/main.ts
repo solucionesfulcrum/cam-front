@@ -25,7 +25,7 @@ import { MatPaginatorIntlEs } from './app/Intl/mat-paginator-intl-es';
 // }
 
 // platformBrowserDynamic().bootstrapModule(AppModule)
-// .catch(err => console.error(err));
+// .catch(err => //console.error(err));
 
 bootstrapApplication(AppComponent, {
   
@@ -46,5 +46,5 @@ bootstrapApplication(AppComponent, {
      { provide: MatPaginatorIntl, useClass: MatPaginatorIntlEs }
   ],
 }).catch((error) => {
-  console.error(error);
+  //console.error(error);
 });

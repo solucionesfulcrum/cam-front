@@ -128,7 +128,7 @@ export class SolicitudesComponent implements OnInit {
   }
 
   handlePageEvent(event: PageEvent) {
-    // console.log(this.pageSizeOptions);
+    // //console.log(this.pageSizeOptions);
     this.pageSize = event.pageSize;
     this.pageIndex = event.pageIndex;
     this.pageNum = event.pageIndex + 1;
@@ -183,7 +183,7 @@ export class SolicitudesComponent implements OnInit {
       data:{}
     })
     dialogRef.closed.subscribe(out =>{
-      // console.log(out)
+      // //console.log(out)
     })
   }
 

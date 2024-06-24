@@ -21,7 +21,7 @@ export class ConfirmCreateHorarioComponent {
   }
 
   ngOnInit(): void {
-    console.log(this.data)
+    //console.log(this.data)
   }
 
   onClose(){

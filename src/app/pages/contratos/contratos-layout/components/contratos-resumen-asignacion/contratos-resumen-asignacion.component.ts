@@ -45,7 +45,7 @@ export class ContratosResumenAsignacionComponent {
       if (data.code == 0) {
         if (data.data.datosContrato.estado === 'CONFIRMADO') {
           this.dataContrato = data.data;
-          console.log(this.dataContrato)
+          //console.log(this.dataContrato)
         }
         else{
           this.router.navigate([`app/${this.rutas.CONTRATOS}/${this.rutas.CONTRATOS_ASIGNAR_SERVICIOS}/${this.numOc}`])

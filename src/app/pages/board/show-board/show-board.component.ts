@@ -105,7 +105,7 @@ export class ShowBoardComponent implements OnInit {
       }
     })
     dialogRef.closed.subscribe(out =>{
-      console.log(out)
+      //console.log(out)
     })
   }
 

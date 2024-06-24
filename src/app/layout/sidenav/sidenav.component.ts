@@ -39,8 +39,8 @@ export class SidenavComponent {
               private router:Router){}
 
   ngOnInit(){
-    // console.log(JSON.parse(localStorage.getItem('UnidElegida')!));
-    // console.log((JSON.parse(localStorage.getItem('camUser')!)))
+    // //console.log(JSON.parse(localStorage.getItem('UnidElegida')!));
+    // //console.log((JSON.parse(localStorage.getItem('camUser')!)))
     if(localStorage.getItem('UnidElegida') != 'null'){
       // let idUnid: string;
       // this.userCategoria = (JSON.parse(localStorage.getItem('camUser')!)).categoria;
@@ -54,7 +54,7 @@ export class SidenavComponent {
       //   this.showUnidOpe = true;
       // });
       this.authService.getListarCiram(parseInt(this.unid.idUnidOperativa)).subscribe((data) => {
-        console.log("dataciram",data)
+        ////console.log("dataciram",data)
         this.listCiram = data.data
       })
     }
@@ -71,7 +71,7 @@ export class SidenavComponent {
   }
 
   selecionarCiram(unidCiram: any){
-    console.log("selecion",unidCiram)
+    ////console.log("selecion",unidCiram)
     /*localStorage.setItem('UnidElegida', JSON.stringify(unidCiram));
     this.unidOpeUserSession = (JSON.parse(localStorage.getItem('UnidElegida')!)).nombre;
     this.showCiram = true;

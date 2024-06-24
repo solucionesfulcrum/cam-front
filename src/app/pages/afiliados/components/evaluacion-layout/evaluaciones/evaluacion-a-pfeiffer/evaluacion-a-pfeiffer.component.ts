@@ -86,8 +86,8 @@ export class EvaluacionAPfeifferComponent {
         respuesta2: (this.evaluacionService.formDataTestPfi.get(x).value === 'MAL' ? 1 : 0)
       };
       listAnsw.push(respuesta);
-      // console.log(this.evaluacionService.formDataTestPfi.get(x).value, index)
-      // console.log(this.preguntas[index])
+      // //console.log(this.evaluacionService.formDataTestPfi.get(x).value, index)
+      // //console.log(this.preguntas[index])
     })
     
     return listAnsw;

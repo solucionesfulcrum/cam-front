@@ -73,7 +73,7 @@ export class DialogNewContratoComponent {
       this.formVigencia.controls.frmFinVigencia.markAllAsTouched()
     })
     this.datosService.getTipoParametros('TIPO_DOCUMENTO_IDENTIDAD').subscribe((data) =>{
-      // console.log(data);
+      // //console.log(data);
       this.opciones = data.data;
       if (this.data.type == 2) {
         this.formNewContrato.controls.frmSelectDoc.setValue('1');

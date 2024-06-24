@@ -300,7 +300,7 @@ export class ControlTalleristaSesionesComponent {
     }
   
     onOptionSelected(option: number) {
-      console.log('Opción seleccionada:', option);
+      //console.log('Opción seleccionada:', option);
       // Realiza la acción deseada con la opción seleccionada
       this.dropdownOpen = false; // Cierra el dropdown después de seleccionar una opción
     }

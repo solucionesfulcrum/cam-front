@@ -89,8 +89,8 @@ export class EvaluacionDYesavageComponent {
         respuesta2: (this.evaluacionService.formDataTestYesa.get(x).value === 'NO' ? 1 : 0)
       };
       listAnsw.push(respuesta);
-      // console.log(this.evaluacionService.formDataTestYesa.get(x).value, index)
-      // console.log(this.preguntas[index])
+      // //console.log(this.evaluacionService.formDataTestYesa.get(x).value, index)
+      // //console.log(this.preguntas[index])
     })
     
     return listAnsw;

@@ -86,8 +86,8 @@ export class EvaluacionBKatzComponent {
         respuesta2: (this.evaluacionService.formDataTestKatz.get(x).value === 'NO' ? 1 : 0)
       };
       listAnsw.push(respuesta);
-      // console.log(this.evaluacionService.formDataTestKatz.get(x).value, index)
-      // console.log(this.preguntas[index])
+      // //console.log(this.evaluacionService.formDataTestKatz.get(x).value, index)
+      // //console.log(this.preguntas[index])
     })
     
     return listAnsw;

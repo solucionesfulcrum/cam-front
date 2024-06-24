@@ -196,9 +196,9 @@ export class FiltroFechaComponent {
   choosedDate(event : any){
     this.selectedSize = {descripcion: 'Personalizado', accion: 11};
     this.selectedPersonalizado = true;
-    console.log(event.chosenLabel)
+    //console.log(event.chosenLabel)
     this.datoFecha = event.chosenLabel.split('-')[0].trim()+' - '+event.chosenLabel.split('-')[1].trim();
-    console.log(this.datoFecha);
+    //console.log(this.datoFecha);
     this.orderDatesAsRequired(this.datoFecha, 11);
     this.sendDateFilter.emit(this.datoFecha);
   }
@@ -263,7 +263,7 @@ export class FiltroFechaComponent {
   /*
   selectRangoFecha(value: number){
     var today = new Date();
-    console.log(value);
+    //console.log(value);
     if (value == 1){
       var stringFecha = today.toLocaleDateString();
       this.form.get('frmSearchDate')?.setValue(stringFecha + ' - ' + stringFecha);
@@ -365,17 +365,17 @@ export class FiltroFechaComponent {
       var stringFecha = firstDay.toLocaleDateString()+' - '+today.toLocaleDateString();
       this.form.get('frmSearchDate')?.setValue(stringFecha);
     }
-    console.log(this.form.value);
+    //console.log(this.form.value);
   }
 
   alterDataTable(valueAccion: number, stringFecha: string){
     // this.datasource2 = this.dataSourceRespaldo;
-    // console.log(this.datasource2);
+    // //console.log(this.datasource2);
     if (valueAccion <= 2) {
       var dia = stringFecha.split('/');
       var fechaEvaluar = new Date(+dia[2], +dia[1]-1, +dia[0]);
       // this.datasource2 = this.dataSource.filter(function(x){
-      //   // console.log((new Date(x.fecRegistro)).toLocaleDateString()," ----", fechaEvaluar.toLocaleDateString());
+      //   // //console.log((new Date(x.fecRegistro)).toLocaleDateString()," ----", fechaEvaluar.toLocaleDateString());
       //   return (new Date(x.fecRegistro)).toLocaleDateString() <= fechaEvaluar.toLocaleDateString();
       // });      
     }
@@ -386,7 +386,7 @@ export class FiltroFechaComponent {
   choosedDate(event : any){
     this.form.get('frmSearchDate')?.setValue(event.chosenLabel.split('-')[0].trim()+' - '+event.chosenLabel.split('-')[1].trim());
     this.selectedSize = {descripcion: 'Personalizado', accion: 11};
-    console.log(event.chosenLabel.split(' - '));
+    //console.log(event.chosenLabel.split(' - '));
   }
   */
 }

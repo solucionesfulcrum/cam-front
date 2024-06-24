@@ -18,9 +18,9 @@ export class CacheImageService {
         try {
           const cache = await caches.open(this.cacheName);
           await cache.addAll(urls);
-          console.log(`Images cached: ${urls.join(', ')}`);
+          //console.log(`Images cached: ${urls.join(', ')}`);
         } catch (error) {
-          console.error(`Failed to cache images: ${urls.join(', ')}`, error);
+          //console.error(`Failed to cache images: ${urls.join(', ')}`, error);
         }
       }
     }
@@ -34,7 +34,7 @@ export class CacheImageService {
             return URL.createObjectURL(await response.blob());
           }
         } catch (error) {
-          console.error(`Failed to retrieve cached image: ${url}`, error);
+          //console.error(`Failed to retrieve cached image: ${url}`, error);
         }
       }
       return null;

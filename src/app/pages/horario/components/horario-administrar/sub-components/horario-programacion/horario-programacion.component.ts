@@ -66,11 +66,11 @@ export class HorarioProgramacionComponent {
       this.profesionalElegido = data;
       this.profesionalDatosResumen = null;
       this.profesionalAsignaciones = null;
-      console.log(data)
+      //console.log(data)
       this.horariosServicio.getDataResumenProfesional(this.idHorarioProgramado, data.profesionalId).subscribe((datos)=>{
         if (datos.code == 0) {
           this.profesionalDatosResumen = datos.data.datosResumen;
-          console.log(datos)
+          //console.log(datos)
         }
         else{
           this.notificationService.warning(datos.message);
@@ -90,7 +90,7 @@ export class HorarioProgramacionComponent {
             this.horariosServicio.horarioRegistrado.listProfesionales.push({idProfesional: data.profesionalId, asignaciones: datos.data});
           }
           this.profesionalAsignaciones = this.horariosServicio.horarioRegistrado.listProfesionales.find((x)=>{return x.idProfesional == data.profesionalId});
-          console.log(this.profesionalAsignaciones)
+          //console.log(this.profesionalAsignaciones)
         }
         else{
           this.notificationService.warning(datos.message);
@@ -104,7 +104,7 @@ export class HorarioProgramacionComponent {
       if (data.code == 0) {
         this.horariosServicio.horarioRegistrado.idHorario = this.idHorarioProgramado;
         this.horariosServicio.horarioRegistrado.listProfesionales = [];
-        console.log(data)
+        //console.log(data)
         this.calendarioDatos = data.data;
         this.listProfesionales = data.data.profesionales;
         this.periodoCalendario.setMonth(data.data.mesId-1);
@@ -119,7 +119,7 @@ export class HorarioProgramacionComponent {
   }
 
   printValue(value: any, value2: any){
-    console.log(value, value2)
+    //console.log(value, value2)
   }
   
   funcionesExtra(opt: number){
@@ -168,7 +168,7 @@ export class HorarioProgramacionComponent {
       let listAct = this.profesionalAsignaciones.asignaciones.find((x: any)=>{return parseInt(x.horaInicio.split(':')[0]) == horaHorario && (new Date(x.fecha+' '+x.horaInicio)).getDate() == espacios.getDate()});
       // let listAct = this.profesionalElegido.actividadesAsignadas.find((x: any)=>{return x.inicioActividad.getDate() == espacios.getDate() && x.inicioActividad.getHours() == horaHorario});
       if (listAct) {
-        console.log(listAct)
+        //console.log(listAct)
         if (!this.listHorariosAsignados.some((x)=>{return x.obj == listAct && x.horario == horario && x.fecha == espacios && x.profesional.idProf == this.profesionalElegido.idProfesional})) this.listHorariosAsignados.push({horario: horario, fecha: espacios, obj: listAct, profesional: {idProf: this.profesionalElegido.idProfesional, nomProf: this.profesionalElegido.nomProfesional}});
         return true;
       }

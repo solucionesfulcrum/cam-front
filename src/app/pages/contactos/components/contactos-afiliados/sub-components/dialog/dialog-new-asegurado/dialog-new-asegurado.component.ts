@@ -43,7 +43,7 @@ export class DialogNewAseguradoComponent {
     }
 
     this.datosService.getTipoParametros('TIPO_DOCUMENTO_IDENTIDAD').subscribe((data) =>{
-      // console.log(data);
+      // //console.log(data);
       this.opciones = data.data;
     });
   }
@@ -57,10 +57,10 @@ export class DialogNewAseguradoComponent {
       const tipoDoc=this.formNewFicha.value.frmSelectDoc!;
       const numDoc=this.formNewFicha.value.frmDoc
       const unidadOpera = this.unidOpeUserSession.idUnidOperativa
-      // console.log("data de respuesta",this.unidOpeUserSession.idUnidOperativa)
+      // //console.log("data de respuesta",this.unidOpeUserSession.idUnidOperativa)
       this.datosService.validarAdmisionIngreso(tipoDoc,numDoc!,unidadOpera, 1)
       .subscribe((data) => {
-        // console.log("data de respuesta",data.data.acreditado)
+        // //console.log("data de respuesta",data.data.acreditado)
         if(data.code == 0){
           this.status = 'success';
           this.tipoMsg = data.data.acreditado;

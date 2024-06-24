@@ -62,7 +62,7 @@ export class ShowAfiliadoComponent implements OnInit {
   getData(){
     this.aseguradoServices.obtenerFichaAsegurado(this.idFicha).subscribe((data)=>{
       if (data.code == 0) {
-        console.log(data.data)
+        //console.log(data.data)
         this.dataFichaAfiliado = data.data;
         /*if (this.dataFichaAfiliado.fichaAdmision.datosAfiliacion.estadoAfi !== 'ACTIVO') {
           this.opcionesBotones[2].deshabilitado = true;
@@ -127,7 +127,7 @@ export class ShowAfiliadoComponent implements OnInit {
       }
     })
     dialogRef.closed.subscribe(out =>{
-      // console.log(out)
+      // //console.log(out)
     })
   }
 

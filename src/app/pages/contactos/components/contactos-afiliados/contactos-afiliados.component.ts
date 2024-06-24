@@ -123,7 +123,7 @@ export class ContactosAfiliadosComponent implements OnInit {
       fecInicio = `${fechaSinFormatInit.split('/')[2]}-${fechaSinFormatInit.split('/')[1]}-${fechaSinFormatInit.split('/')[0]}`;
       fecFin = `${fechaSinFormatFin.split('/')[2]}-${fechaSinFormatFin.split('/')[1]}-${fechaSinFormatFin.split('/')[0]}`;
     }
-    // console.log(this.formBuscar.get('frmSearchEstado')?.value)
+    // //console.log(this.formBuscar.get('frmSearchEstado')?.value)
     return {
       idUnidOpe: idUnidOpe.idUnidOperativa,
       texto: this.formBuscar.controls['frmSearch'].value,

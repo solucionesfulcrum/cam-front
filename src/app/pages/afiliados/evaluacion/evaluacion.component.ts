@@ -68,7 +68,7 @@ export class EvaluacionComponent {
             this.status = 'success';
             localStorage.setItem('idFichaEvaluada', this.infoObtenida.idFichaAdmision);
             this.router.navigate(['app/afiliados/evaluacion/agregaEval']);
-            // console.log(data.data)
+            // //console.log(data.data)
           }
           else{
             this.status = 'failed';
@@ -89,7 +89,7 @@ export class EvaluacionComponent {
   //    if(this.formNewFicha.valid){
   //      this._afiliadoService.searchAndFindData(this.createRequest())
   //      .subscribe((data) => {
-  //        console.log(data);
+  //        //console.log(data);
   //        if(data.code == 0){
   //          this.seEncontro = true;
   //          const dataObj = Object(data);
@@ -102,7 +102,7 @@ export class EvaluacionComponent {
   //        else{
   //          this.hayError = true;
   //          this.msgError = data.message;
-  //          console.log(this.msgError);
+  //          //console.log(this.msgError);
   //        }
   //      });
   //    }

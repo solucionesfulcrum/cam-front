@@ -35,11 +35,11 @@ export class DialogConfirmAtencionMedicaComponent {
 
   ngOnInit(): void {this.atencionService.estadoBandeja
     this.datosActividad = this.admisionCitasService.actividadesInfo.find((x)=> {return x.nombreActividad === this.data.obj.actividadNombre})
-    console.log(this.data)
+    //console.log(this.data)
     this.formCita.controls.frmActividad.setValue(this.data.obj.actividadNombre);
     this.formCita.controls.frmPaciente.setValue(this.data.obj.nombrePersona);
     this.formCita.controls.frmFecha.setValue(this.datepipe.transform(this.data.obj.fechaProgramadaInicio, "EEEE dd \'de\' MMMM \'de\' yyyy")!);
-    console.log(this.data.obj.fechaProgramadaInicio.toTimeString())
+    //console.log(this.data.obj.fechaProgramadaInicio.toTimeString())
     this.formCita.controls.frmHora.setValue(this.datepipe.transform(this.data.obj.fechaProgramadaInicio, "hh:mm aa")! + ' - ' + this.datepipe.transform(this.data.obj.fechaProgramadaFin, "hh:mm aa")!);
   }
 
@@ -48,7 +48,7 @@ export class DialogConfirmAtencionMedicaComponent {
   }
 
   onSave(){
-    console.log(1)
+    //console.log(1)
   }
 
 }

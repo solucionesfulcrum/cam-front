@@ -67,7 +67,7 @@ export class ListComponent {
     })
 
     this.datosGeneralesService.getReds().subscribe((data)=>{
-      console.log(data)
+      //console.log(data)
       if (data.code == 0) {
         this.opcionesRed = data.data.map((red : any)=> {
           return {...red, valor1: red.codigo}
@@ -124,7 +124,7 @@ export class ListComponent {
     this.onLoadData();
   }
   handlePageEvent(event: PageEvent) {
-    // console.log(this.pageSizeOptions);
+    // //console.log(this.pageSizeOptions);
     this.pageSize = event.pageSize;
     this.pageIndex = event.pageIndex;
     this.pageNum = event.pageIndex + 1;

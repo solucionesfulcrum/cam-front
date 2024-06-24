@@ -99,7 +99,7 @@ export class TabAsistenciaComponent {
           x.formCheck.setValue(false);
         })
       }
-      console.log(data)
+      //console.log(data)
     })
   }
   // Lista de Asistentes ------------------------------------------------------------------------
@@ -120,7 +120,7 @@ export class TabAsistenciaComponent {
           this.notificacionService.warning(data.message);
         }
       })
-      console.log()
+      //console.log()
     }
   }
 
@@ -348,7 +348,7 @@ export class TabAsistenciaComponent {
           element.formAsistido.valueChanges.subscribe((x: any)=>{
             this.controlService.registerContinuacionAsistencia(element.idControlAsistenciaSubDet, x).subscribe((dataContinuacion)=>{
               if (dataContinuacion.code == 0) {
-                console.log(element, x)
+                //console.log(element, x)
               }
               else{
                 this.notificacionService.warning(dataContinuacion.message);
@@ -385,7 +385,7 @@ export class TabAsistenciaComponent {
     this.controlService.getCabeceraAsistencia(JSON.parse(localStorage.getItem('idProgramElegida')!)).subscribe((data)=>{
       if (data.code == 0) {
         this.datoProgramacion = data.data;
-        console.log(data.data)
+        //console.log(data.data)
         let seconds = Math.floor((new Date(this.datoProgramacion.fechaServicio + ' ' + this.datoProgramacion.horaFin).getTime() - new Date(this.datoProgramacion.fechaServicio + ' ' + this.datoProgramacion.horaInicio).getTime())/1000);
         let horas = Math.floor(seconds/(60*60));
         let minutos = Math.floor(seconds/60) - horas*60;
@@ -422,7 +422,7 @@ export class TabAsistenciaComponent {
         if (this.detalleAsistenciaActual.numeracion == 1) {
           this.getListPreInscritos();
         }
-        console.log(this.detalleAsistenciaActual)
+        //console.log(this.detalleAsistenciaActual)
         this.calculoDistanciaTiempo(sesionActiva);
         this.getListAsistencia();
         if (sinSesion) {
@@ -458,7 +458,7 @@ export class TabAsistenciaComponent {
     else{
       let thisTime = new Date();
       let finTaller = new Date(this.datoProgramacion.fechaServicio + ' ' + sesionActiva.horaFin);
-      console.log(this.datoProgramacion.fechaServicio + ' ' + sesionActiva.horaFin)
+      //console.log(this.datoProgramacion.fechaServicio + ' ' + sesionActiva.horaFin)
       if (finTaller.getTime() <= thisTime.getTime()) {
         this.bloqueo = false;
       }

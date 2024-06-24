@@ -43,7 +43,7 @@ export class DialogNewDireccionComponent {
   ngOnInit(): void {
     this.getTiposDireccion();
     if (this.data.edicion) {
-      // console.log(this.data.dataForm)
+      // //console.log(this.data.dataForm)
       this.formDireccion.setValue({frmNombreDireccion:this.data.dataForm.nomParametro,frmDireccion: this.data.dataForm.direccion,frmPiso: this.data.dataForm.pisoNumDep})
       this.distrControl.setValue({nombreUbicacion: this.data.dataForm.nomDist + ' - ' + this.data.dataForm.nomProv + ' - ' + this.data.dataForm.nomDep});
       this.ubicacionSeleccionadaTmp = {

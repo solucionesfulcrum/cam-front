@@ -82,7 +82,7 @@ export class ContactosTalleristasComponent implements OnInit {
       servicioMetodo.subscribe((data)=>{
         this.loadingData = false;
         if (data.code == 0) {
-          console.log(data.data.list)
+          //console.log(data.data.list)
           this.dataSource = data.data.list;
           this.pageNum = data.data.pageNum;
           this.pageSize = data.data.pageSize;
@@ -133,8 +133,8 @@ export class ContactosTalleristasComponent implements OnInit {
   }
   
   handlePageEvent(event: PageEvent) {
-    // console.log(this.pageSizeOptions);
-    console.log(event)
+    // //console.log(this.pageSizeOptions);
+    //console.log(event)
     this.pageSize = event.pageSize;
     this.pageIndex = event.pageIndex;
     this.pageNum = event.pageIndex + 1;

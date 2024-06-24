@@ -73,7 +73,7 @@ export class DialogAddProgramacionAsignacionComponent {
   ngOnInit(): void {
     this.ctrlAvanzado.disable()
     this.ctrlTipo.disable();
-    // console.log(new Date(this.data.dataContrato.fechInicio.replace(/-/g, '\/')))
+    // //console.log(new Date(this.data.dataContrato.fechInicio.replace(/-/g, '\/')))
     // this.getActividades();
     this.formSchedule.controls.frmInicioHorario.setValue(null!)
     this.setListeners();
@@ -163,7 +163,7 @@ export class DialogAddProgramacionAsignacionComponent {
   }
 
   getDataEdicion(){
-    console.log(this.data.datoEdicion)
+    //console.log(this.data.datoEdicion)
     let fechaEstablecido = new Date(`${this.data.datoEdicion.fecha} ${this.data.datoEdicion.horaInicio}`);
     this.formSchedule.controls.frmInicioHorario.setValue(fechaEstablecido.toString());
     this.listServicios.forEach((serv)=>{
@@ -171,13 +171,13 @@ export class DialogAddProgramacionAsignacionComponent {
       if (infoServ) {
         this.ctrlServicio.setValue((infoServ as any));
       }
-    });console.log(this.data.infoServiciosContratados)
+    });//console.log(this.data.infoServiciosContratados)
     this.formSchedule.controls.frmFinHorario.setValue((new Date(`${this.data.datoEdicion.fecha} ${this.data.datoEdicion.horaFin}`)).toString());
     this.ctrlDireccion.setValue(this.data.datoEdicion.ubicacion);
     if (this.data.datoEdicion.idUoCiram) {
       this.ctrlPersonalizado.setValue(true);
       this.ctrlCiram.setValue(this.listCirams.find((cir: any)=> cir.idUnidadOperativa == this.data.datoEdicion.idUoCiram))
-      // console.log(this.listCirams)
+      // //console.log(this.listCirams)
     }
   }
 
@@ -303,7 +303,7 @@ export class DialogAddProgramacionAsignacionComponent {
         this.ctrlRepeticiones.setValue((this.data.dataContrato.nroEntregables*4 as any), {emitEvent: false})
         this.notificacionService.warning(`En este contrato, las repeticiones no pueden exceder a ${this.data.dataContrato.nroEntregables*4}`);
       }
-      console.log(this.data.dataContrato.nroEntregables*12)
+      //console.log(this.data.dataContrato.nroEntregables*12)
     });
 
     this.ctrlCiram.valueChanges.subscribe((data)=>{
@@ -590,7 +590,7 @@ export class DialogAddProgramacionAsignacionComponent {
       filaForm.controls.horaFin.setValue(null, {emitEvent: false})
       filaForm.controls.cantCupos.setValue(0, {emitEvent: false})
       filaForm.controls.listFin.setValue(this.getFinList(new Date(data)))
-      console.log(this.formSemanaDias.value)
+      //console.log(this.formSemanaDias.value)
     })
     this.getControlDia(value.getDay()).push(filaForm);
   }

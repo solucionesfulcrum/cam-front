@@ -94,7 +94,7 @@ export class MenuOpcionesV2Component {
     }
     else if(disabled && url == this.activeTab){
       urlRouter = url; 
-      //console.log(urlRouter);
+      ////console.log(urlRouter);
     }
     else{
       urlRouter = null;

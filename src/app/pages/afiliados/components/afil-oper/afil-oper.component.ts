@@ -102,7 +102,7 @@ export class AfilOperComponent implements OnInit {
       dsOper.sort((one, two) => (new Date(parseInt(one.fechaOperac.split('/')[2]),parseInt(one.fechaOperac.split('/')[1]), parseInt(one.fechaOperac.split('/')[0])) > new Date(parseInt(two.fechaOperac.split('/')[2]),parseInt(two.fechaOperac.split('/')[1]), parseInt(two.fechaOperac.split('/')[0])) ? -1 : 1))
 
       dsOper.forEach((x)=>{
-        // console.log(new Date(x.fechaOperac))
+        // //console.log(new Date(x.fechaOperac))
         if(fechaActual != x.fechaOperac){
           fechaActual = x.fechaOperac;
           this.datosFormato.push({date:x.fechaOperac, actividades: []})
@@ -114,7 +114,7 @@ export class AfilOperComponent implements OnInit {
           })
         }
       })
-      // console.log(this.datosFormato)
+      // //console.log(this.datosFormato)
 
     }
    
