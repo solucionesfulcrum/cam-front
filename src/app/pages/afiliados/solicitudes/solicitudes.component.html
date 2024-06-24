@@ -34,13 +34,13 @@
       <tr cdk-header-row class="text-xs text-gray-700 bg-gray-50" *cdkHeaderRowDef="columns"></tr>
       <tr cdk-row class="bg-white border-b" *cdkRowDef="let row; columns: columns"></tr>
       <ng-container cdkColumnDef="marcar">
-        <th cdk-header-cell class="py-[1.25rem] px-6" *cdkHeaderCellDef> <input type="checkbox" value="false"/> </th>
-        <td cdk-cell class="py-[1rem] px-6" *cdkCellDef="let row"> <input type="checkbox" value="false"/> </td>
+        <th cdk-header-cell class="py-[1.25rem] px-6" [style]="'width: 0%;'" *cdkHeaderCellDef> <input type="checkbox" [checked]="seleccionados.length == this.dataSource.length" (change)="afectarTodo($event)"/> </th>
+                <td cdk-cell class="py-[1rem] px-6" [style]="'width: 0%;'" *cdkCellDef="let row"> <input type="checkbox" class="checkbox-select" (change)="seleccionarFila($event)" [value]="row.idInscripcion" [checked]="row.marcar"/> </td>
       </ng-container>
 
       <ng-container cdkColumnDef="nombres">
-        <th cdk-header-cell class="py-[1.25rem] px-6" *cdkHeaderCellDef>Nombres</th>
-        <td cdk-cell class="py-[1rem] px-6 text-[#057EC9]" *cdkCellDef="let row, index as i"><span class="text-Name cursor-pointer" [routerLink]="['show/' + row.idSolicitud]">{{ row.nombres | uppercase }}</span></td>
+        <th cdk-header-cell class="py-[1.25rem] px-6" [style]="'padding-left: 0px;'" *cdkHeaderCellDef>Nombres</th>
+        <td cdk-cell class="py-[1rem] px-6 text-[#057EC9]" [style]="'padding-left: 0px;'" *cdkCellDef="let row, index as i"><span class="text-Name cursor-pointer" [routerLink]="['show/' + row.idSolicitud]">{{ row.nombres | uppercase }}</span></td>
       </ng-container>
 
       <ng-container cdkColumnDef="tipoDoc">
