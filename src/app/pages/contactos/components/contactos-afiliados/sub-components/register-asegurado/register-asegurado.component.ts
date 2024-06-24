@@ -498,7 +498,7 @@ export class RegisterAseguradoComponent {
       numDocIdent: this.numDoc,
       nombres: this.infoReniec.txtNombres,
       apePaterno: this.infoReniec.txtApepaterno,
-      apeMaterno: this.infoReniec.txtApematerno,
+      apeMaterno: (this.infoReniec.txtApematcasada? this.infoReniec.txtApematcasada : this.infoReniec.txtApematerno),
       departNacim: this.infoReniec.desNacubiDepa,
       provinNacim: this.infoReniec.desNacubiProv,
       distriNacim: this.infoReniec.desNacubiDist,
@@ -547,11 +547,12 @@ export class RegisterAseguradoComponent {
       }
     })
 
+
     return{
       appOrigen: 'WEB_CAM',
       nombres: this.infoReniec.txtNombres,
       apePaterno: this.infoReniec.txtApepaterno,
-      apeMaterno: this.infoReniec.txtApematerno,
+      apeMaterno: (this.infoReniec.txtApematcasada? this.infoReniec.txtApematcasada : this.infoReniec.txtApematerno),
       tipoDoc: this.parametroDocumento.valor1,
       tipoDocDesc: this.parametroDocumento.nombre,
       numDoc: this.numDoc,

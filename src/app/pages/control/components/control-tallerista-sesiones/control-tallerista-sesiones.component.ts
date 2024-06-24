@@ -230,7 +230,6 @@ export class ControlTalleristaSesionesComponent {
             numeracion: nroSesion
           }
           this.controlService.registerAsistenciaDet(payloadSesion).subscribe(dataResponseSesion=>{
-            //this.idControlAsistenciaDet = dataResponseSesion.data.idControlAsistenciaDet;
             this.getDetalleTaller(this.idProgDet)
           })
         }

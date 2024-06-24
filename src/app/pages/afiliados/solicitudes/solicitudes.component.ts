@@ -41,6 +41,7 @@ export class SolicitudesComponent implements OnInit {
   columns: string[] = ['marcar','nombres','tipoDoc','numDoc', 'edad', 'estadoCivil','ipress','fecha'];
   // -----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
+  seleccionados : number[] = [];
  /* 
   filtroFecInit!: string;
   filtroFecFin!: string;
@@ -189,6 +190,27 @@ export class SolicitudesComponent implements OnInit {
   firstDisplayValue(value: any){
     this.formBuscar.get('frmSearchEstado')?.setValue(value);
     this.onLoadData();
+  }
+
+  
+  afectarTodo(evento: Event): void{
+    let element = evento.target as HTMLInputElement;
+    this.dataSource = this.dataSource.map(data => { return {...data, marcar: Boolean(element.checked)}});
+    if(element.checked)
+      this.seleccionados =  this.dataSource.map(data => { return data.idInscripcion});
+    else
+      this.seleccionados = [];
+  }
+  
+  
+  
+  seleccionarFila(evento: Event) {
+    let element = evento.target as HTMLInputElement;
+    if(element.checked)
+      this.seleccionados.push(parseInt(element.value))
+    else
+      this.seleccionados = this.seleccionados.filter(item => item != parseInt(element.value));
+  
   }
   /*
   AsignarFiltro(filtro: string){
