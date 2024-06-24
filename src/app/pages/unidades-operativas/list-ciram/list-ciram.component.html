@@ -23,17 +23,8 @@
     cdk-table
     [dataSource]="dataSource"
   >
-    <tr
-      cdk-header-row
-      class="text-xs text-gray-700 bg-gray-50"
-      *cdkHeaderRowDef="columns; sticky: true"
-    ></tr>
-    <tr
-      cdk-row
-      class="bg-white border-b"
-      [ngClass]="{ 'bg-red-200': row.price < 100 }"
-      *cdkRowDef="let row; columns: columns"
-    ></tr>
+    <tr cdk-header-row class="text-xs text-gray-700 bg-gray-50" *cdkHeaderRowDef="columns; sticky: true"></tr>
+    <tr cdk-row class="bg-white border-b" [ngClass]="{ 'bg-red-200': row.price < 100 }" *cdkRowDef="let row; columns: columns"></tr>
     <!-- Nombres Column -->
     <ng-container cdkColumnDef="id">
   -  <th cdk-header-cell class="py-5 px-6" *cdkHeaderCellDef [style]="'width: 0%;'">

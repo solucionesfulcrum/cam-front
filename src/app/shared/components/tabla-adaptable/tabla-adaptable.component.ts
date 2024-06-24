@@ -110,7 +110,8 @@ export class TablaAdaptableComponent {
   }
 
   onSelectedTypeSelect(index: number, nomAttribute: string, event: any){
-    if(this.dataColumnas[index].entity?.unique){
+    const data = this.dataColumnas.filter(e => e.nomAttribute == nomAttribute)[0];
+    if(data.entity?.unique){
       const pk : Entity = this.dataColumnas[index].entity!;
       const repetidos = this.formData.controls["data"].value.filter((opcion : any) => {
         return opcion.nomServicio.nombre == event.option.value.nombre

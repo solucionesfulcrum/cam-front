@@ -40,6 +40,7 @@ export class ListCiramComponent {
   filtroFecInit!: string;
   filtroFecFin!: string;
 
+  seleccionados: number[] = [];
 
   public get searchForm(){
     return this.form.get("search");
@@ -143,5 +144,6 @@ export class ListCiramComponent {
     this.form.get('frmSearchRed')?.setValue(value == 'null' ? '' : value);
     this.onLoadData();
   }
+
 
 }
