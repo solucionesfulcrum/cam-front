@@ -21,6 +21,8 @@ import { Subscription } from 'rxjs';
 import { InscripcionTalleristaControlService } from 'src/app/events/control/inscripcion-tallerista-control.service';
 import { ModalConfirmarComponent } from '../sub-components/dialogs/modal-confirmar/modal-confirmar.component';
 import { ModalEditarComponent } from '../sub-components/dialogs/modal-editar/modal-editar.component';
+import { RequestRegisterCabecera, RequestRegisterDet } from '@models/control/asistencia/service-asistencia.model';
+import { ControlProgramacionService } from 'src/app/data/services/control/control-programacion.service';
 
 @Component({
   selector: 'esp-control-tallerista-sesiones',
@@ -42,6 +44,8 @@ export class ControlTalleristaSesionesComponent {
   ];
   faSpinner = faSpinner;
   dataContrato: any;
+
+  idProgSubDetActual! : {idProgSubDet: number, nroSesion: number};
 
   sessionSeleccionada : number = 1;
   sesiones! : SesionesCabecera[];
@@ -106,15 +110,18 @@ export class ControlTalleristaSesionesComponent {
     private notificationService     : NotificationService,
     private reportService : ReportesTalleristaService,
     private activateRoute: ActivatedRoute,
-    private eventService : InscripcionTalleristaControlService
+    private eventService : InscripcionTalleristaControlService,
+    private controlService                    : ControlProgramacionService,
   ){
-     
+      /*if(localStorage.getItem('idProgSubDetActual')){
+        this.idProgSubDetActual = JSON.parse(localStorage.getItem('idProgSubDetActual')!);
+      }*/
     }
 
     ngOnInit(){
       //ESCUCHA EL EVENTO DE AGREGAR USUARIO
       this.eventoSubscription = this.eventService.evento$.subscribe(mensaje =>{
-        this.loadData();
+        this.getDetalleTaller(this.idProgDet)
       })
 
       this.datosService.getTipoParametros('ESTADO_CONTROL_ASISTENCIA').subscribe((data)=>{
@@ -146,7 +153,7 @@ export class ControlTalleristaSesionesComponent {
         this.opcionesBotones[0].deshabilitado = rpta.data.cerradoCabecera
         this.opcionesBotones[1].deshabilitado = rpta.data.cerradoCabecera
 
-        this.idControlAsistenciaDet = rpta.data.listaProgSubDet.filter(e=>e.cursor)[0].idControlAsistenciaDet
+        this.idControlAsistenciaDet = rpta.data.listaProgSubDet.filter(e=>e.numeracion == this.sessionSeleccionada)[0].idControlAsistenciaDet
         setTimeout(()=>{
           this.loadData();
         })
@@ -198,24 +205,44 @@ export class ControlTalleristaSesionesComponent {
       this.loadData();
     }
 
-    setSesion(nroSesion: number, idControlAsistenciaDet: number, countAsistencia: number){
-      if(countAsistencia > 0){
-        this.sessionSeleccionada = nroSesion;
+    setSesion(nroSesion: number, idControlAsistenciaDet: number, countAsistencia: number, idProgSubDet: number){
+      this.sessionSeleccionada = nroSesion;
+      if(idControlAsistenciaDet){
         this.idControlAsistenciaDet = idControlAsistenciaDet
         this.loadData();
       }
       else{
-        this.dialog.open(ModalAlertComponent,
-          {
-            minWidth:'400px',
-            maxWidth:'50%',
-            width:'400px',
-            data: {
-              mensaje: "No hay participantes \n en la sesión"
-            }
-          }
-        )
+        this.crearCabecera(nroSesion, idProgSubDet);
       }
+      
+    }
+
+    crearCabecera(nroSesion: number, idProgSubDet: number): void {
+      let payload: RequestRegisterCabecera = {
+        idProgramacionDet: parseInt(this.idProgDet),
+        userCreacion: (JSON.parse(localStorage.getItem('camUser')!)).idUsuario,
+      };
+      this.controlService.registerDataAsistenciaCabecera(payload).subscribe((data)=>{
+        if (data.code == 0) {
+          const payloadSesion : RequestRegisterDet= {
+            idControlAsistenciaCab: data.data.idControlAsistenciaCab,
+            idProgramacionSubDet: idProgSubDet,
+            numeracion: nroSesion
+          }
+          this.controlService.registerAsistenciaDet(payloadSesion).subscribe(dataResponseSesion=>{
+            //this.idControlAsistenciaDet = dataResponseSesion.data.idControlAsistenciaDet;
+            this.getDetalleTaller(this.idProgDet)
+          })
+        }
+        else{
+          //this.statusAsistencia = 'failed';
+          //this.notificacionService.warning(data.message);
+        }
+      })
+    }
+
+    cabeceraSesion(): void{
+
     }
 
     formatearFechaHora(fecha :string, horaInicio :string, horaFin :string) {

@@ -201,7 +201,7 @@ export class InscripcionModalTalleristaComponent {
       conConexion: this.conConexion
     }).subscribe(data => {
       if(data.code == "0"){
-        this.eventService.emitirEvento("Registro Exitoso")
+        this.eventService.emitirEvento(data.data.idControlAsistenciaSubDet)
 
         this.toastrService.success("Registro Exitoso");
         this.limpiarDatos();

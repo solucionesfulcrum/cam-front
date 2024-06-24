@@ -32,7 +32,7 @@
                 <ng-container *ngFor="let sesion of sesiones; index as i">
                     <div class="flex gap-[2px] shrink-0 py-2 px-4 rounded-t-lg hover:bg-blue-100 cursor-pointer"
   
-                    (click)="setSesion(sesion.numeracion, sesion.idControlAsistenciaDet, sesion.countAsistencia)"
+                    (click)="setSesion(sesion.numeracion, sesion.idControlAsistenciaDet, sesion.countAsistencia, sesion.idProgSubDet)"
   
                     [ngClass]="{'border-t-2 border-l-2 border-r-2 border-blue-500 border-b-0': sesion.numeracion == sessionSeleccionada}"
                     [ngStyle]="{
