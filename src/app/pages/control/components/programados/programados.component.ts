@@ -182,6 +182,7 @@ export class ProgramadosComponent {
 
   selectProg(prog: any): void {
     this.selectedProgramacion = prog;
+    localStorage.setItem('idProgramElegida', prog.idProgDet);
     this.getIsTime();
   }
 
