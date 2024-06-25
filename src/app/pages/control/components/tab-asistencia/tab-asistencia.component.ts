@@ -65,6 +65,14 @@ export class TabAsistenciaComponent {
   comienzoSesiones = 1;
   datoProgramacion: any;
 
+  loadingPaginacion : boolean = false;
+  txtBusca : string = '';
+
+  private searchTimeout: any;
+  isMaxScroll: boolean = false;
+  txtScroll: string = '';
+  pageScroll: number = 1;
+
   constructor(private fb                                : FormBuilder,
               private router                            : Router,
               private dialog                            : Dialog,
@@ -84,9 +92,15 @@ export class TabAsistenciaComponent {
 
   setListeners(){
     this.ctrlSearch.valueChanges.subscribe((data)=>{
-      if (typeof data !== 'object') {
-        this.listFilteredBusqueda = this.listBusqueda.filter((item)=> item.nombreCompleto.toLowerCase().includes(data!.toLowerCase()) || item.numDoc.includes(data));
+      if (this.searchTimeout) {
+        clearTimeout(this.searchTimeout); 
       }
+      this.searchTimeout = setTimeout(() => {
+        if (typeof data !== 'object') {
+          this.listBusqueda = [];
+          this.getListAseguradosFindByText(data.toLocaleUpperCase());
+        }
+      }, 500); 
     })
     this.ctrlSeleccionados.valueChanges.subscribe((data)=>{
       if (data) {
@@ -325,13 +339,66 @@ export class TabAsistenciaComponent {
     });
   }
 
+  getListAseguradosFindByText(texto: string){
+    this.pageScroll = 1;
+    this.txtScroll = texto;
+    this.isMaxScroll = false;
+    this.esperaBusqueda = true;
+    this.esperaBusquedaAsegurados = true;
+    this.controlService.getListAseguradosFindByText(texto, 1, 10).subscribe((data)=>{
+      this.esperaBusqueda = false;
+      this.loadingPaginacion = false;
+      this.esperaBusquedaAsegurados = false;
+      if (data.code == 0) {
+        setTimeout(()=>{
+          this.listBusqueda = [];
+          this.listFilteredBusqueda = [];
+          setTimeout(() => {
+            
+          this.listBusqueda = data.data.list;
+          this.listFilteredBusqueda = this.listBusqueda;
+          }, 50);
+        })
+      }
+      else{
+        this.notificacionService.warning(data.message);
+      }
+    })
+  }
+
+  getListAseguradosScroll(){
+    this.esperaBusqueda = true;
+    this.esperaBusquedaAsegurados = true;
+    this.controlService.getListAseguradosFindByText(this.txtScroll, this.pageScroll, 10).subscribe((data)=>{
+      this.esperaBusqueda = false;
+      this.loadingPaginacion = false;
+      this.esperaBusquedaAsegurados = false;
+      if (data.code == 0) {
+        data.data.list.map((item : any)=>{
+          this.listBusqueda.push(item)
+        })
+        this.listFilteredBusqueda = this.listBusqueda;
+        if(this.listFilteredBusqueda.length == data.data.navigatePages){
+          this.isMaxScroll = true;
+        }
+      }
+      else{
+        this.notificacionService.warning(data.message);
+      }
+    })
+  }
+
   getListAsegurados(){
+    this.esperaBusqueda = true;
     this.esperaBusquedaAsegurados = true;
     this.controlService.getListAsegurados().subscribe((data)=>{
+      this.esperaBusqueda = false;
+      this.esperaBusquedaAsegurados = false;
       if (data.code == 0) {
-        this.esperaBusquedaAsegurados = false;
-        this.listBusqueda = data.data;
-        this.ctrlSearch.setValue('');
+        this.listBusqueda = [];
+        this.listFilteredBusqueda =  [];
+        this.listBusqueda = data.data.list;
+        this.listFilteredBusqueda = this.listBusqueda;
       }
       else{
         this.notificacionService.warning(data.message);
@@ -538,6 +605,14 @@ export class TabAsistenciaComponent {
 
   esBoolean(data: any): boolean {
     return typeof data === 'boolean'
+  }
+
+  onAutocompleteScroll(){
+    if(!this.loadingPaginacion && !this.isMaxScroll && this.listFilteredBusqueda.length > 5){
+      this.pageScroll++;
+      this.loadingPaginacion = true;
+      this.getListAseguradosScroll();
+    }
   }
   
 }

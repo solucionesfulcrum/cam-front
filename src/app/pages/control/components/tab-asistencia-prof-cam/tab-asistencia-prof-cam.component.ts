@@ -51,7 +51,7 @@ export class TabAsistenciaProfCamComponent {
     frmDoc: ['', [Validators.required]],
   });
 
-  esperaBusqueda: boolean = true;
+  esperaBusqueda: boolean = false;
 
   dataSourceList = new DataSourceList();
 
@@ -77,6 +77,15 @@ export class TabAsistenciaProfCamComponent {
     'horaAsistencia',
     'birthday'
   ];
+
+  loadingPaginacion : boolean = false;
+
+  txtBusca : string = '';
+
+  private searchTimeout: any;
+  isMaxScroll: boolean = false;
+  txtScroll: string = '';
+  pageScroll: number = 1;
 
   /*
   marcar: boolean;
@@ -126,9 +135,15 @@ export class TabAsistenciaProfCamComponent {
 
   setListeners(){
     this.ctrlSearch.valueChanges.subscribe((data)=>{
-      if (typeof data !== 'object') {
-        this.listFilteredBusqueda = this.listBusqueda.filter((item)=> item.nombreCompleto.toLowerCase().includes(data!.toLowerCase()) || item.numDoc.includes(data));
+      if (this.searchTimeout) {
+        clearTimeout(this.searchTimeout); 
       }
+      this.searchTimeout = setTimeout(() => {
+        if (typeof data !== 'object') {
+          this.listBusqueda = [];
+          this.getListAseguradosFindByText(data.toLocaleUpperCase());
+        }
+      }, 500); 
     })
   }
 
@@ -326,13 +341,60 @@ export class TabAsistenciaProfCamComponent {
     })
   }
 
+  getListAseguradosFindByText(texto: string){
+    this.pageScroll = 1;
+    this.txtScroll = texto;
+    this.isMaxScroll = false;
+    this.esperaBusqueda = true;
+    this.controlService.getListAseguradosFindByText(texto, 1, 10).subscribe((data)=>{
+      this.esperaBusqueda = false;
+      this.loadingPaginacion = false;
+      if (data.code == 0) {
+        setTimeout(()=>{
+          this.listBusqueda = [];
+          this.listFilteredBusqueda = [];
+          setTimeout(() => {
+            
+          this.listBusqueda = data.data.list;
+          this.listFilteredBusqueda = this.listBusqueda;
+          }, 50);
+        })
+      }
+      else{
+        this.notificacionService.warning(data.message);
+      }
+    })
+  }
+
+  getListAseguradosScroll(){
+    this.esperaBusqueda = true;
+    this.controlService.getListAseguradosFindByText(this.txtScroll, this.pageScroll, 10).subscribe((data)=>{
+      this.esperaBusqueda = false;
+      this.loadingPaginacion = false;
+      if (data.code == 0) {
+        data.data.list.map((item : any)=>{
+          this.listBusqueda.push(item)
+        })
+        this.listFilteredBusqueda = this.listBusqueda;
+        if(this.listFilteredBusqueda.length == data.data.navigatePages){
+          this.isMaxScroll = true;
+        }
+      }
+      else{
+        this.notificacionService.warning(data.message);
+      }
+    })
+  }
+
   getListAsegurados(){
     this.esperaBusqueda = true;
     this.controlService.getListAsegurados().subscribe((data)=>{
       this.esperaBusqueda = false;
       if (data.code == 0) {
-        this.listBusqueda = data.data;
-        this.ctrlSearch.setValue('');
+        this.listBusqueda = [];
+        this.listFilteredBusqueda =  [];
+        this.listBusqueda = data.data.list;
+        this.listFilteredBusqueda = this.listBusqueda;
       }
       else{
         this.notificacionService.warning(data.message);
@@ -458,6 +520,10 @@ export class TabAsistenciaProfCamComponent {
   }
 
   onAutocompleteScroll(){
-   //console.log("data-load-dev")
+    if(!this.loadingPaginacion && !this.isMaxScroll && this.listFilteredBusqueda.length > 5){
+      this.pageScroll++;
+      this.loadingPaginacion = true;
+      this.getListAseguradosScroll();
+    }
   }
 }

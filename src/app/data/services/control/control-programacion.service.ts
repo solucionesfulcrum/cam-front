@@ -111,7 +111,20 @@ export class ControlProgramacionService {
   getListAsegurados() {
     const payload = {
       idUnidadOperativa: (JSON.parse(localStorage.getItem('UnidElegida')!)).idUnidOperativa,
-      texto : ''
+      texto : '',
+      pageNum : 1,
+      pageSize : 10
+    }
+    const url = `${environment.API}/asegurado/buscar/nombres`;
+    return this._httpClient.post<any>(url, payload);
+  }
+
+  getListAseguradosFindByText(texto: string, pageNum: number, pageSize: number) {
+    const payload = {
+      idUnidadOperativa: (JSON.parse(localStorage.getItem('UnidElegida')!)).idUnidOperativa,
+      texto,
+      pageNum,
+      pageSize
     }
     const url = `${environment.API}/asegurado/buscar/nombres`;
     return this._httpClient.post<any>(url, payload);
