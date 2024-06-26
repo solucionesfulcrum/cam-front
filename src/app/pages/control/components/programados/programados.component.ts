@@ -101,8 +101,11 @@ export class ProgramadosComponent {
         fechaFin = formatDate(dateDos, 'yyyy-MM-dd', this.locale);
         break;
       case 3:
-        dateUno = new Date(new Date().getTime() - 1000*60*60*24*(new Date().getDay()));
-        dateDos = new Date(dateUno.getTime() + 1000*60*60*24*6);
+        //dateUno = new Date(new Date().getTime() - 1000*60*60*24*(new Date().getDay()));
+        //dateDos = new Date(dateUno.getTime() + 1000*60*60*24*6);
+
+        dateUno = new Date();
+        dateDos = new Date(dateUno.getTime() + 1000 * 60 * 60 * 24 * (6 - dateUno.getDay()));
         fechaInit = formatDate(dateUno, 'yyyy-MM-dd', this.locale);
         fechaFin = formatDate(dateDos, 'yyyy-MM-dd', this.locale);
         break;
