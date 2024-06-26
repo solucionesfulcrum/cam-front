@@ -142,6 +142,7 @@ export class DetalleAsistenciasTallerComponent {
     
     loadData(){
       setTimeout(() => {
+        this.seleccionados = [];
         this.loadingData = true;
         this.reportService.getDataReporteAsistenciaTaller(this.idControlAsistenciaDet).subscribe((data)=>{
           this.loadingData = false;

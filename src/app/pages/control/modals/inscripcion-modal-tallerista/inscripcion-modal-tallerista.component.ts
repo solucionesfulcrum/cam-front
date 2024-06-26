@@ -160,19 +160,24 @@ export class InscripcionModalTalleristaComponent {
       )
       .subscribe(data => {
         this.status = 'success';
-        if(data.data.length > 0){
-          this.statusLoadContacto = true;
-          //console.log(data);
-          this.srcAsegurado = data.data[0].foto;
-          this.nombreContacto = data.data[0].nombreCompleto;
-          this.numdocContacto = data.data[0].numDoc;
-          this.acreditado = data.data[0].acreditacion;
-          this.idAsegurado = data.data[0].idFichaAsegurado;
-          this.conConexion = data.code == 0 ? true : false;
-          this.columnWidths = "50% 44% 4%";
+        if(data.code == 0){
+          if(data.data.length > 0){
+            this.statusLoadContacto = true;
+            //console.log(data);
+            this.srcAsegurado = data.data[0].foto;
+            this.nombreContacto = data.data[0].nombreCompleto;
+            this.numdocContacto = data.data[0].numDoc;
+            this.acreditado = data.data[0].acreditacion;
+            this.idAsegurado = data.data[0].idFichaAsegurado;
+            this.conConexion = data.code == 0 ? true : false;
+            this.columnWidths = "50% 44% 4%";
+          }
+          else{
+            this.toastrService.warning("La persona buscada no existe en la lista de contactos")
+          }
         }
         else{
-          this.toastrService.warning("La persona buscada no existe en la lista de contactos")
+          this.toastrService.warning(data.message)
         }
       })
     }
