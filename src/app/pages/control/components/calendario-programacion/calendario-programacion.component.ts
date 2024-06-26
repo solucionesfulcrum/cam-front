@@ -114,7 +114,8 @@ export class CalendarioProgramacionComponent {
                 this.limitesHorario.push(new Date(data.data.datosContrato.fechFin.replace(/-/g, '\/')));
                 this.periodoCalendario.setMonth(this.limitesHorario[0].getMonth());
                 this.periodoCalendario.setFullYear(this.limitesHorario[0].getFullYear());
-                this.getFechasSemana(new Date(this.limitesHorario[0].getFullYear(), this.limitesHorario[0].getMonth(), this.limitesHorario[0].getDate()));
+                //this.getFechasSemana(new Date(this.limitesHorario[0].getFullYear(), this.limitesHorario[0].getMonth(), this.limitesHorario[0].getDate()));
+                this.getFechasSemana(new Date());
     
 
                 this.dataContrato = data.data.datosContrato; //SEGUIR AGREGANDO HORARIOS
@@ -363,6 +364,17 @@ export class CalendarioProgramacionComponent {
       this.getFechasSemana(new Date(this.fechasSemana[0].valueOf() - 1000*60*60*24));
     }
   }
+
+ /* getFechasSemana(fechaEvaluar: Date){
+    this.fechasSemana = [];
+
+    let diaInicio = new Date(fechaEvaluar.getTime() - 1000*60*60*24*fechaEvaluar.getDay());
+    for (let i = 0; i < 7; i++) {
+      this.fechasSemana.push(diaInicio);
+      diaInicio = new Date(diaInicio.getTime() + 1000*60*60*24);
+    }
+  }*/
+
 
   getFechasSemana(fechaEvaluar: Date){
     this.fechasSemana = [];

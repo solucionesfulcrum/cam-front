@@ -31,7 +31,7 @@ export class ShowAfiliadoComponent implements OnInit {
 
   links=[
     {url:`/app/contactos/show/${this.idFicha}`, title:'Operaciones'},
-    {url:`/app/contactos/show/${this.idFicha}/evaluaciones`, title:'Test'}
+    {url:`/app/contactos/show/${this.idFicha}/evaluaciones`, title:'Evaluaciones'}
   ]
 
   constructor(private router                        : Router,

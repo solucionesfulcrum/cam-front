@@ -1,1 +1,44 @@
-<p>contacto-tab-evaluaciones works!</p>
+<esp-opciones-busqueda 
+[showDateFilter]="true"
+[setFilterDateOptionSelected]="'var(--color-CAM-Mezclado)'" 
+[setFilterDateTextColour]="'var(--color-CAM)'"
+[filterDateAppearance]="2"
+[setFilterDateSelectionBg]="'var(--color-CAM-Claro)'"
+[setFilterDateButtonBg]="'var(--color-CAM-Claro)'"
+[setDateSelectedDefault]="7"
+(sendDateFilterWithCeros)="getDataFecha($event)"
+></esp-opciones-busqueda>
+
+<div>
+    <div class="px-4 py-3 w-full mt-3 grid" *ngIf="!dataShow">
+        <div class="text-gray-600 w-full text-center">
+            <span class="py-1 font-bold text-2xl">
+                <fa-icon class="mr-2" [icon]="faSpinner" [pulse]="true"></fa-icon>
+                Obteniendo datos...
+            </span>
+        </div>
+    </div>
+    <div *ngIf="dataShow">
+        <div *ngIf="listaOperaciones.length > 0">
+            <div *ngFor="let dia of listaOperaciones, index as i">
+                <div class="encabezadoDia">
+                    <span>Lista de Test Realizados</span>
+                </div>
+                <div *ngFor="let fecha of dia.operaciones, index as j" class="operacionCuadro">
+                    <div class="horaAtencion text-primary-cam">
+                        <span> {{(fecha.fecha | date: 'hh:mm aa') | lowercase}} </span>
+                    </div>
+                    <span class="descripcion"> {{fecha.descripcion}} </span>
+                    <span _ngcontent-eca-c121="" class="text-end text-success-cam" style="margin-left: auto;width: 20%;"> 
+                        APTO
+                    </span>
+                </div>
+            </div>
+        </div>
+        <div class="px-4 py-3 w-full mt-3 grid" *ngIf="listaOperaciones.length == 0">
+            <div class="text-gray-600 w-full text-center">
+                <span class="py-1 font-bold text-2xl"> No se obtuvo resultados para este periodo </span>
+            </div>
+        </div>
+    </div>
+</div>

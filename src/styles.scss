@@ -316,3 +316,16 @@ body {
   z-index: 2;
   box-shadow: inset 0 0px 0 #e5e7eb, inset 0 -1px 0 #e5e7eb;
 }
+
+
+//CODIGO DE COLORES
+$success-cam : #0CCE6B;
+$primary-cam : #057EC9;
+
+.text-success-cam{
+  color: $success-cam !important
+}
+
+.text-primary-cam{
+  color: $primary-cam !important
+}

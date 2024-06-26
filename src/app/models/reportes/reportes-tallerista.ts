@@ -61,10 +61,11 @@ export interface AsistenciaTaller{
     asegurado: string,
     tipDocumento: string,
     nroDocumento: string,
-    fechaHoraAsistencia: Date
+    fechaHoraAsistencia: string
     continuaTaller: boolean,
     cumpleAnio: boolean,
     nuevo: boolean,
     conConexion: boolean,
-    acreditado: boolean
+    acreditado: boolean,
+    agregadoFueraDeFecha: boolean
 }
