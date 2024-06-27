@@ -71,7 +71,7 @@
         <th cdk-header-cell class="py-[1.25rem] px-6" *cdkHeaderCellDef>Nombres del Proveedor</th>
         <td cdk-cell class="py-[1rem] px-6" *cdkCellDef="let row">
           <a [routerLink]="['/app/contactos/talleristas/show/'+row.idTalllerista]" class="estado-link">
-            <strong>{{row.tallerista}}</strong>
+            <strong>{{row.tallerista | titlecase}}</strong>
           </a>
         </td>
       </ng-container>
