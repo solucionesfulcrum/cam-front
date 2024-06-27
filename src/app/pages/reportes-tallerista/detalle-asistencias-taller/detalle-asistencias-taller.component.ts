@@ -147,7 +147,9 @@ export class DetalleAsistenciasTallerComponent {
         this.reportService.getDataReporteAsistenciaTaller(this.idControlAsistenciaDet).subscribe((data)=>{
           this.loadingData = false;
           if (data.code == 0) {
-            this.dataSource = data.data;
+            this.dataSource = data.data.map(data => {
+              return {...data, agregadoFueraDeFecha: this.fechaServicio != data.fechaHoraAsistencia.split("T")[0]}
+            });
             this.total= data.data.length;
           }
           else {

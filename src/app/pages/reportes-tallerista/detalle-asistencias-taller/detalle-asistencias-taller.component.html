@@ -104,13 +104,21 @@
             
             <ng-container cdkColumnDef="hora_asistencia">
               <th cdk-header-cell class="py-[1rem] px-6" *cdkHeaderCellDef>Hora Asistencia</th>
-              <td cdk-cell class="py-[1rem] px-6 " *cdkCellDef="let row">{{row.fechaHoraAsistencia | date: 'h:mm a'  }}</td>
+              <td cdk-cell class="py-[1rem] px-6" *cdkCellDef="let row">
+                <p>
+                 {{ row.fechaHoraAsistencia | date: 'h:mm a' }}
+                </p>
+                <p *ngIf="row.agregadoFueraDeFecha" class="text-xs text-gray-500" [style]="'font-size: 10px'">
+                  {{ row.fechaHoraAsistencia | date: 'dd/MM/yyyy' }}
+                </p>
+                </td>
             </ng-container>
   
             <ng-container cdkColumnDef="condicion">
               <th cdk-header-cell class="py-[1rem] px-6" *cdkHeaderCellDef></th>
               <td cdk-cell class="py-[1rem] px-6" *cdkCellDef="let row">
                   <div class="flex gap-2">
+                    <img class="w-5" *ngIf="row.agregadoFueraDeFecha" matTooltip= "¡Agregado fuera de fecha!" matTooltipPosition="above" src="assets/svg/fuera-de-fecha.svg">
                       <img class="w-5" *ngIf="row.cumpleAnio" matTooltip= "¡Hoy es su cumpleaños!" matTooltipPosition="above" src="assets/svg/icon-asistencia-birthday.svg">
                       <img class="w-5" *ngIf="row.nuevo" matTooltip= "¡Es su primer taller!" matTooltipPosition="above" src="assets/svg/icon-asistencia-smiley-face.svg"> 
                       <img class="w-5" *ngIf="!row.conConexion" matTooltip= "No fue validado por error de red" matTooltipPosition="above" src="assets/svg/icon-asistencia-conexion.svg">
