@@ -23,6 +23,7 @@ import { ModalConfirmarComponent } from '../sub-components/dialogs/modal-confirm
 import { ModalEditarComponent } from '../sub-components/dialogs/modal-editar/modal-editar.component';
 import { RequestRegisterCabecera, RequestRegisterDet } from '@models/control/asistencia/service-asistencia.model';
 import { ControlProgramacionService } from 'src/app/data/services/control/control-programacion.service';
+import { ModalConfirmarGenericoComponent } from '@shared/components/modal-confirmar-generico/modal-confirmar-generico.component';
 
 @Component({
   selector: 'esp-control-tallerista-sesiones',
@@ -60,8 +61,11 @@ export class ControlTalleristaSesionesComponent {
     frmSearchEstado:new FormControl(),
   });
 
+  statusCierreLoading: boolean = false
+
   seleccionados : number[] = [];
   dropdownOpen: boolean = false;
+  idControlAsistenciaCab! : number;
 
   dataAcciones: ParamMenu[] = [
     {texto: 'Descargar Excel', svgDir: 'assets/svg/icon-excel.svg'}
@@ -149,6 +153,7 @@ export class ControlTalleristaSesionesComponent {
         this.horaInicio = rpta.data.horaInicio;
         this.horaFin = rpta.data.horaFin;
         this.sesiones = rpta.data.listaProgSubDet;
+        this.idControlAsistenciaCab = rpta.data.idControlAsistenciaCab;
 
         this.opcionesBotones[0].deshabilitado = rpta.data.cerradoCabecera
         this.opcionesBotones[1].deshabilitado = rpta.data.cerradoCabecera
@@ -356,6 +361,40 @@ export class ControlTalleristaSesionesComponent {
   
   esBoolean(data: any): boolean {
     return typeof data === 'boolean'
+  }
+
+  
+  cerrarAsistencia(){
+    
+    let dialog = this.dialog.open(ModalConfirmarGenericoComponent, {
+      width: "30%",
+     data:{
+       message: "¿Está seguro de finalizar el taller?"
+     }
+   })
+
+   dialog.afterClosed().subscribe(response=>{
+     if(response.success){
+      this.statusCierreLoading = true;
+      this.controlService.registerCierreDetalle(this.idControlAsistenciaCab).subscribe((dataCierre)=>{
+        this.statusCierreLoading = false;
+        if (dataCierre.code == 0) {
+          this.opcionesBotones[0].deshabilitado = true;
+          this.opcionesBotones[1].deshabilitado = true;
+   
+          this.modificaAsistencia = false;
+          this.notificationService.warning("Se ha finalizado al taller exitósamente");
+          
+        }
+        else{
+          this.notificationService.warning(dataCierre.message);
+        }
+      })
+     
+       
+     }
+   })
+   
   }
 
   levantarModalAgregarAsegurado(){

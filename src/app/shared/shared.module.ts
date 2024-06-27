@@ -20,6 +20,7 @@ import { MatIconModule } from '@angular/material/icon';
 import { CapitalizarPipe } from '../pipes/capitalizar.pipe';
 import { MaterialModule } from '../material/material.module';
 import { ModalAlertComponent } from './components/modal-alert/modal-alert.component';
+import { ModalConfirmarGenericoComponent } from './components/modal-confirmar-generico/modal-confirmar-generico.component';
 
 
 const modules:any[] = [
@@ -49,6 +50,6 @@ const modules:any[] = [
 @NgModule({
   imports: [
     ...modules 
-  ],exports:[...modules], declarations: [ModalSinInternetComponent, ModalAlertComponent]
+  ],exports:[...modules], declarations: [ModalSinInternetComponent, ModalAlertComponent, ModalConfirmarGenericoComponent]
 })
 export class SharedModule { }

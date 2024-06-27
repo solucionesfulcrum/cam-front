@@ -1,0 +1,50 @@
+<div class="px-4 py-3 bg-[var(--color-CAM)] flex justify-between text-white rounded-t-lg">
+    <span><b>Dar de Baja</b></span>
+    <button (click)="onClose()"><esp-icon icon="faClose"></esp-icon></button>
+</div>
+<div class="px-[22px] pt-[22px] bg-white flex flex-col gap-2.5 rounded-b-lg">
+    <div >
+        <p  class="font-medium text-l mt-1 ml-1">
+        Motivo:
+        </p>
+    </div>
+    <div class="flex flex-row gap-[30px] items-center">
+        <div class="grow">
+            <select class="inputTextoDialog focusCampo" [formControl]="frmCtrlMotivo" placeholder="Selecciona una opción">
+                <option value="" disabled>Selecciona una opción</option>
+                <option value="1">Traslado de Centro</option>
+                <option value="2">Retiro Voluntario</option>
+                <option value="3">Indisciplina</option>
+                <option value="4">Ausencia mayor a 8 Meses</option>
+                <option value="5">Fallecimiento</option>
+            </select>
+        </div>
+    </div>
+    <div *ngIf="frmCtrlMotivo.touched && frmCtrlMotivo.invalid">
+        <p *ngIf="frmCtrlMotivo.hasError('required')" class="font-medium text-red-500 text-xs mt-1 ml-1">
+        Debe ingresar un motivo
+        </p>
+    </div>
+    <div >
+        <p  class="text-sm mt-1 ml-1">
+        Descripción del motivo de baja:
+        </p>
+    </div>
+    <div class="flex flex-row gap-[30px] items-center">
+        <div class="grow">
+            <textarea class="inputTextoDialog focusCampo" [formControl]="frmCtrlDescMotivo" placeholder="Agrega nueva nota - Max 200 Caracteres" maxlength="200"></textarea>
+        </div>
+    </div>
+    <div *ngIf="frmCtrlDescMotivo.touched && frmCtrlDescMotivo.invalid">
+        <p *ngIf="frmCtrlDescMotivo.hasError('required')" class="font-medium text-red-500 text-xs mt-1 ml-1">
+        Debe ingresar una descripción del motivo
+        </p>
+    </div>
+    <hr class="my-4">
+    <div class="flex justify-center gap-3 py-2 max-h-[45vh] text-center">
+        <app-btn color="none" class="botonApariencia shrink-0" (click)="onClose()" [loading]="status === 'loading'">Cancelar
+        </app-btn>
+        <app-btn color="mezclado" class="botonApariencia bg-cam shrink-0" (click)="darDeBaja()" [loading]="status === 'loading'">Dar de Baja
+        </app-btn>
+      </div>
+</div>

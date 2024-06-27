@@ -39,6 +39,8 @@ import { EvaluacionResultadosComponent } from './components/evaluacion-layout/ev
 import { DialogNotasComponent } from './show-sol/dialog-notas/dialog-notas.component';
 import { MatAutocompleteModule } from '@angular/material/autocomplete';
 import { DataLoadingComponent } from '@shared/components/data-loading/data-loading.component';
+import { FormularioBajaComponent } from './dar-de-baja/formulario-baja/formulario-baja.component';
+import { RespuestaDarDeBajaComponent } from './dar-de-baja/respuesta-dar-de-baja/respuesta-dar-de-baja.component';
 
 
 
@@ -65,7 +67,9 @@ import { DataLoadingComponent } from '@shared/components/data-loading/data-loadi
     EvaluacionDYesavageComponent,
     ContenedorEvaluacionComponent,
     EvaluacionResultadosComponent,
-    DialogNotasComponent
+    DialogNotasComponent,
+    FormularioBajaComponent,
+    RespuestaDarDeBajaComponent
   
   ],
   imports: [

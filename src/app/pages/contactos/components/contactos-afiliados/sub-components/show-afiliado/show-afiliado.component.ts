@@ -1,12 +1,16 @@
 import { Dialog } from '@angular/cdk/dialog';
 import { Component, OnInit } from '@angular/core';
+import { MatDialog } from '@angular/material/dialog';
 import { ActivatedRoute, Router } from '@angular/router';
 import { faSpinner } from '@fortawesome/free-solid-svg-icons';
 import { NotificationService } from '@services/notification.service';
 import { FormatoBoton } from '@shared/components/opciones-botones/formato-boton.model';
+import { capitalizar } from '@utils/capitalizador';
 import { AfiliacionesSolicitudesService } from 'src/app/data/services/afiliaciones/afiliaciones-solicitudes.service';
 import { ContactosAfiliadosService } from 'src/app/data/services/contactos/contactos-afiliados.service';
 import { DatosGeneralesService } from 'src/app/data/services/datos-generales.service';
+import { FormularioBajaComponent } from 'src/app/pages/afiliados/dar-de-baja/formulario-baja/formulario-baja.component';
+import { RespuestaDarDeBajaComponent } from 'src/app/pages/afiliados/dar-de-baja/respuesta-dar-de-baja/respuesta-dar-de-baja.component';
 import { DialogNotasComponent } from 'src/app/pages/afiliados/show-sol/dialog-notas/dialog-notas.component';
 
 @Component({
@@ -16,9 +20,9 @@ import { DialogNotasComponent } from 'src/app/pages/afiliados/show-sol/dialog-no
 })
 export class ShowAfiliadoComponent implements OnInit {
   opcionesBotones: FormatoBoton[] = [
-    {texto: 'Dar de Baja'},
     {texto: 'Notas', esImagen: true, rutaIcono: 'assets/svg/iconFileEdit.svg'},
     {texto: 'Actualizar Datos', esImagen: true, rutaIcono: 'assets/svg/icon-edit-data.svg'},
+    {texto: 'Dar de Baja', esImagen: true, rutaIcono: 'assets/svg/dar-de-baja.svg', colorBtn: 'bordeado'},
   ];
   idUnidadOperativaUser = (JSON.parse(localStorage.getItem('UnidElegida')!)).idUnidOperativa;
 
@@ -39,6 +43,7 @@ export class ShowAfiliadoComponent implements OnInit {
               private aseguradoServices             : ContactosAfiliadosService,
               private datosGeneralesServices        : DatosGeneralesService,
               private dialog                        : Dialog,
+              private matDialog                        : MatDialog,
               private notificationService           : NotificationService,
               private afiliadoServices              : AfiliacionesSolicitudesService) { 
       this.idFicha = this.activeRoute.snapshot.paramMap.get('idFicha')!;
@@ -128,6 +133,40 @@ export class ShowAfiliadoComponent implements OnInit {
     })
     dialogRef.closed.subscribe(out =>{
       // //console.log(out)
+    })
+  }
+
+
+  levantarModalDarDeBaja(){
+    const dialogRef = this.matDialog.open(FormularioBajaComponent,{
+      minWidth:'800px',
+      maxWidth:'50%',        
+      data:{
+        idSolicitud: this.dataFichaAfiliado.fichaAdmision.idFichaAdmision,
+      }
+    })
+    dialogRef.afterClosed().subscribe(response=>{
+      if(response.success){
+        const nombreAfiliado: string =  this.dataFichaAfiliado.asegurado.nombres + " " + this.dataFichaAfiliado.asegurado.apePaterno + ' ' + this.dataFichaAfiliado.asegurado.apeMaterno;
+        this.levantarModalConfirmacionBaja(capitalizar(nombreAfiliado), response.data.motivo, response.data.descripcion);
+      }
+    })
+  }
+
+  levantarModalConfirmacionBaja(afiliado: string, motivo: number, observacion: string){
+    const dialogRef = this.matDialog.open(RespuestaDarDeBajaComponent,{
+      width:'25%',    
+      data:{
+        afiliado,
+        motivo,
+        observacion,
+      }
+    })
+    dialogRef.afterClosed().subscribe(response=>{
+      setTimeout(()=>{
+      
+      })
+    
     })
   }
 
