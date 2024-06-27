@@ -81,7 +81,7 @@
       <ng-container cdkColumnDef="fecha">
         <th cdk-header-cell class="py-[1rem] px-6" *cdkHeaderCellDef>Estado</th>
         <td cdk-cell class="py-[1rem] px-6 flex justify-center items-center select-none" *cdkCellDef="let row">
-          <img [src]="row.estado == 'REGISTRADO' ? 'assets/svg/userReg.svg' : (row.estado == 'NO APTO' ? 'assets/svg/userNonAct.svg' : (row.estado == 'ACTIVO' ? 'assets/svg/userAct.svg' : ''))" [matTooltip]= "row.estado | titlecase" matTooltipPosition="above">
+          <img [src]="row.estado == 'REGISTRADO' ? 'assets/svg/userReg.svg' : (row.estado == 'NO APTO' ? 'assets/svg/userNonAct.svg' : (row.estado == 'ACTIVO' ? 'assets/svg/userAct.svg' : ''))" [matTooltip]= "row.estado | titlecase">
           <img *ngIf="row.estado == 'BAJA'" src="assets/svg/dado-baja.svg" matTooltip= "baja">
         </td>
       </ng-container>
