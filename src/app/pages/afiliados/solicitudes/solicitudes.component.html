@@ -69,6 +69,16 @@
         <td cdk-cell class="py-[1rem] px-6" *cdkCellDef="let row">{{ row.ipress }}</td>
       </ng-container>
 
+      <ng-container cdkColumnDef="origen">
+        <th cdk-header-cell class="py-[1.25rem] px-6" *cdkHeaderCellDef></th>
+        <td cdk-cell class="py-[1rem] px-6" *cdkCellDef="let row">
+          <img class="w-5" *ngIf="row.appOrigen == 'WEB_CAM' || row.appOrigen == 'MOVIL_CAM'" matTooltip= "MiConsulta" src="assets/svg/mi-consulta.svg">
+          <img class="w-5" *ngIf="row.appOrigen == 'ESSI'" matTooltip= "ESSI" src="assets/svg/essi.svg">
+        </td>
+      </ng-container>
+
+
+
       <ng-container cdkColumnDef="fecha">
         <th cdk-header-cell class="py-[1.25rem] px-6" *cdkHeaderCellDef>Fecha</th>
         <td cdk-cell class="py-[1rem] px-6" *cdkCellDef="let row" [ngClass]="differenceInDays(row.fecha) <= 3 ? 'text-[#0CCE6B]' : (differenceInDays(row.fecha) < 10 ? 'text-[#F59E0B]' : 'text-[#DC2626]')">{{differenceInDays(row.fecha) == 0 ? 'Hoy' : (differenceInDays(row.fecha) == 1 ? 'Ayer' : 'Hace ' + differenceInDays(row.fecha) + ' días')}}</td>
