@@ -35,7 +35,7 @@
                     <td class="font-bold bg-gray-200">Motivo:</td>
                     <td>
                         <span class="ml-2">
-                           {{motivos[motivo]}}
+                           {{txtMotivo}}
                         </span>
                     </td>
                 </tr>
@@ -55,7 +55,7 @@
     <!-- Botón -->
     <div class="flex justify-center mb-5 gap-3">
         <app-btn class="botonApariencia flex" color="bordeado" (click)="onClose()">Cancelar</app-btn>
-        <app-btn class="botonApariencia flex" color="mezclado" (click)="onClose()">Confirma</app-btn>
+        <app-btn class="botonApariencia flex" color="mezclado" (click)="ok()">Confirma</app-btn>
     </div>
 
     </div>

@@ -8,6 +8,8 @@ import { AfiliacionesSolicitudesService } from 'src/app/data/services/afiliacion
 import { DialogNotasComponent } from '../../show-sol/dialog-notas/dialog-notas.component';
 import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { ModalConfirmarGenericoComponent } from '@shared/components/modal-confirmar-generico/modal-confirmar-generico.component';
+import { DatosGeneralesService } from 'src/app/data/services/datos-generales.service';
+import { Parametro } from '@models/parametros-busqueda.model';
 
 @Component({
   selector: 'esp-formulario-baja',
@@ -15,9 +17,11 @@ import { ModalConfirmarGenericoComponent } from '@shared/components/modal-confir
   styleUrls: ['./formulario-baja.component.scss']
 })
 export class FormularioBajaComponent {
+  opciones: Parametro[] = [];
   status: RequestStatus = 'init';
   frmCtrlMotivo = new FormControl('');
   frmCtrlDescMotivo = new FormControl('');
+  txtMotivo : string = '';
   registrosNotas: any[] = [];
   idUserSession = (JSON.parse(localStorage.getItem('camUser')!)).idUsuario;
 
@@ -26,25 +30,29 @@ export class FormularioBajaComponent {
               private notificationService                     : NotificationService,
               private fb                                      : FormBuilder,
               private dialog: MatDialog,
-              private _dialogRef                              : MatDialogRef<DialogNotasComponent>,) {
+              private _dialogRef                              : MatDialogRef<DialogNotasComponent>,
+              private datosService             : DatosGeneralesService,) {
 
   }
 
   ngOnInit(){
     this.frmCtrlMotivo.addValidators([Validators.required]);
     this.frmCtrlDescMotivo.addValidators([Validators.required]);
+    this.frmCtrlMotivo.valueChanges.subscribe(()=>{
+      this.txtMotivo = this.opciones.filter(e => String(e.idParametros) == this.frmCtrlMotivo.value)[0].nombre;
+    })
     this.loadData();
   }
 
   loadData(){
-    this.solicitudServicio.listarNotaSolicitud(this.data.idSolicitud).subscribe((data)=>{
+    this.datosService.getTipoParametros('MOTIVO_BAJA_FICHA_ADMISION').subscribe((data)=>{
       if (data.code == 0) {
-        this.registrosNotas = data.data;
+        this.opciones = data.data
       }
       else{
         this.notificationService.warning(data.message);
       }
-    })
+    });
   }
 
   onClose(){
@@ -59,7 +67,8 @@ export class FormularioBajaComponent {
         success: true,
         data:{
           motivo: this.frmCtrlMotivo.value,
-          descripcion: this.frmCtrlDescMotivo.value
+          txtMotivo: this.txtMotivo,
+          descripcion: this.frmCtrlDescMotivo.value,
         }
       });
     }

@@ -40,6 +40,11 @@ export class AfiliacionesSolicitudesService {
     return this._httpClient.get<any>(url);
   }
 
+  listarMotivoBaja(){
+    const url = `${environment.API}/ficha-admision/baja`;
+    return this._httpClient.get<any>(url);
+  }
+
   getListaAfiliados(model: RequestListaSAfiliadosContacto){
     const url = `${URL_BASE}/lista-afiliados`;
     return this._httpClient.post<any>(url, model);

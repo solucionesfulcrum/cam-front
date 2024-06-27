@@ -48,6 +48,11 @@ export class ContactosAfiliadosService {
     return this._httpClient.get<any>(url);
   }
 
+  darDeBajaAsegurado(data : {idFichaAdmision: string, idMotivoBaja: number, descMotivoBaja: string, idUsuarioReg: string} ){
+    const url = `${environment.API}/ficha-admision/baja`;
+    return this._httpClient.post<any>(url,data);
+  }
+
   //Servicios SIGPS -------------------------------------------------------------------------------------------------------
 
   searchUnidadOperativa(tipo: string, text: string){ //Obtener lista de CERPS

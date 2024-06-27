@@ -10,13 +10,9 @@
     </div>
     <div class="flex flex-row gap-[30px] items-center">
         <div class="grow">
-            <select class="inputTextoDialog focusCampo" [formControl]="frmCtrlMotivo" placeholder="Selecciona una opción">
+            <select class="inputTextoDialog focusCampo" [disabled]="opciones.length == 0" [formControl]="frmCtrlMotivo" placeholder="Selecciona una opción">
                 <option value="" disabled>Selecciona una opción</option>
-                <option value="1">Traslado de Centro</option>
-                <option value="2">Retiro Voluntario</option>
-                <option value="3">Indisciplina</option>
-                <option value="4">Ausencia mayor a 8 Meses</option>
-                <option value="5">Fallecimiento</option>
+                <option *ngFor="let opcion of opciones" [value]="opcion.idParametros" >{{opcion.nombre}} </option>
             </select>
         </div>
     </div>

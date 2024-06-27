@@ -6,6 +6,7 @@ import { faSpinner } from '@fortawesome/free-solid-svg-icons';
 import { NotificationService } from '@services/notification.service';
 import { FormatoBoton } from '@shared/components/opciones-botones/formato-boton.model';
 import { capitalizar } from '@utils/capitalizador';
+import { ToastrService } from 'ngx-toastr';
 import { AfiliacionesSolicitudesService } from 'src/app/data/services/afiliaciones/afiliaciones-solicitudes.service';
 import { ContactosAfiliadosService } from 'src/app/data/services/contactos/contactos-afiliados.service';
 import { DatosGeneralesService } from 'src/app/data/services/datos-generales.service';
@@ -45,7 +46,8 @@ export class ShowAfiliadoComponent implements OnInit {
               private dialog                        : Dialog,
               private matDialog                        : MatDialog,
               private notificationService           : NotificationService,
-              private afiliadoServices              : AfiliacionesSolicitudesService) { 
+              private afiliadoServices              : AfiliacionesSolicitudesService,
+              private toastService : ToastrService) { 
       this.idFicha = this.activeRoute.snapshot.paramMap.get('idFicha')!;
       this.links[0].url = `/app/contactos/show/${this.idFicha}`;
       this.links[1].url = `/app/contactos/show/${this.idFicha}/evaluaciones`;
@@ -140,31 +142,44 @@ export class ShowAfiliadoComponent implements OnInit {
   levantarModalDarDeBaja(){
     const dialogRef = this.matDialog.open(FormularioBajaComponent,{
       minWidth:'800px',
-      maxWidth:'50%',        
-      data:{
-        idSolicitud: this.dataFichaAfiliado.fichaAdmision.idFichaAdmision,
-      }
+      maxWidth:'50%',     
     })
     dialogRef.afterClosed().subscribe(response=>{
       if(response.success){
         const nombreAfiliado: string =  this.dataFichaAfiliado.asegurado.nombres + " " + this.dataFichaAfiliado.asegurado.apePaterno + ' ' + this.dataFichaAfiliado.asegurado.apeMaterno;
-        this.levantarModalConfirmacionBaja(capitalizar(nombreAfiliado), response.data.motivo, response.data.descripcion);
+        this.levantarModalConfirmacionBaja(capitalizar(nombreAfiliado), response.data.motivo,response.data.txtMotivo, response.data.descripcion);
       }
     })
   }
 
-  levantarModalConfirmacionBaja(afiliado: string, motivo: number, observacion: string){
+  levantarModalConfirmacionBaja(afiliado: string, motivo: number, txtMotivo: string, observacion: string){
     const dialogRef = this.matDialog.open(RespuestaDarDeBajaComponent,{
-      width:'25%',    
+      minWidth:'500px',    
+      maxWidth:'45%',    
       data:{
         afiliado,
         motivo,
+        txtMotivo,
         observacion,
       }
     })
     dialogRef.afterClosed().subscribe(response=>{
       setTimeout(()=>{
-      
+        //aseguradoServices
+        if(response.success){
+          this.aseguradoServices.darDeBajaAsegurado({
+            idFichaAdmision: this.dataFichaAfiliado.fichaAdmision.idFichaAdmision,
+            idMotivoBaja: motivo,
+            descMotivoBaja: observacion,
+            idUsuarioReg: JSON.parse(localStorage.getItem('camUser')!).idUsuario
+          }).subscribe(response=>{
+            if(response.code == 0){
+              this.toastService.success("Se ha dado de baja al afiliado")
+            }else{
+              this.toastService.warning(response.message)
+            }
+          })
+        }
       })
     
     })
