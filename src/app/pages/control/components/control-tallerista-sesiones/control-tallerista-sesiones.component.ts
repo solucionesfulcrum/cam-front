@@ -17,7 +17,7 @@ import { ReportesTalleristaService } from 'src/app/data/services/reportes/report
 import { InscripcionModalComponent } from '../../modals/inscripcion-modal/inscripcion-modal.component';
 import { Dialog } from '@angular/cdk/dialog';
 import { InscripcionModalTalleristaComponent } from '../../modals/inscripcion-modal-tallerista/inscripcion-modal-tallerista.component';
-import { Subscription } from 'rxjs';
+import { Subscription, forkJoin } from 'rxjs';
 import { InscripcionTalleristaControlService } from 'src/app/events/control/inscripcion-tallerista-control.service';
 import { ModalConfirmarComponent } from '../sub-components/dialogs/modal-confirmar/modal-confirmar.component';
 import { ModalEditarComponent } from '../sub-components/dialogs/modal-editar/modal-editar.component';
@@ -73,6 +73,7 @@ export class ControlTalleristaSesionesComponent {
   ];
 
   dataSource: any[] = [];
+  dataSourceEliminados: any[] = [];
   columns: string[] = [
     'marcar',
     'indice',
@@ -85,8 +86,12 @@ export class ControlTalleristaSesionesComponent {
   pageIndex = 0;
   pageNum = 1;
   pageSize = 10;
+  pageIndexEliminados = 0;
+  pageNumEliminados = 1;
+  pageSizeEliminados = 10;
   pageSizeOptions:  number[] = [5,10,20];
   total = 0;
+  totalEliminados = 0;
 
   //DETALLES DEL TALLER
   nombreServicio: string = "";
@@ -172,16 +177,27 @@ export class ControlTalleristaSesionesComponent {
       setTimeout(() => {
         this.seleccionados = [];
         this.loadingData = true;
-        this.reportService.getDataReporteAsistenciaTaller(this.idControlAsistenciaDet).subscribe((data)=>{
+        forkJoin(this.reportService.getDataReporteAsistenciaTaller(this.idControlAsistenciaDet), 
+        this.reportService.getDataReporteAsistenciaTallerEliminados(this.idControlAsistenciaDet)).subscribe((response)=>{
           this.loadingData = false;
-          if (data.code == 0) {
-            this.dataSource = data.data.map(data => {
+          if (response[0].code == 0) {
+            this.dataSource = response[0].data.map(data => {
               return {...data, agregadoFueraDeFecha: this.fechaServicio != data.fechaHoraAsistencia.split("T")[0]}
             });
-            this.total= data.data.length;
+            this.total= response[0].data.length;
           }
           else {
-            this.notificationService.warning(data.message);
+            this.notificationService.warning(response[0].message);
+          }
+
+          if (response[1].code == 0) {
+            this.dataSourceEliminados = response[1].data.map(data => {
+              return {...data, agregadoFueraDeFecha: this.fechaServicio != data.fechaHoraAsistencia.split("T")[0]}
+            });
+            this.totalEliminados= response[1].data.length;
+          }
+          else {
+            this.notificationService.warning(response[1].message);
           }
         })
       });
@@ -213,6 +229,13 @@ export class ControlTalleristaSesionesComponent {
       this.pageSize = event.pageSize;
       this.pageIndex = event.pageIndex;
       this.pageNum = event.pageIndex + 1;
+      this.loadData();
+    }
+
+    handlePageEventEliminados(event: PageEvent) {
+      this.pageSizeEliminados = event.pageSize;
+      this.pageIndexEliminados = event.pageIndex;
+      this.pageNumEliminados = event.pageIndex + 1;
       this.loadData();
     }
 

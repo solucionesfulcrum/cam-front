@@ -12,6 +12,7 @@ import { NotificationService } from '@services/notification.service';
 import { ModalAlertComponent } from '@shared/components/modal-alert/modal-alert.component';
 import { FormatoBoton } from '@shared/components/opciones-botones/formato-boton.model';
 import { ParamMenu } from '@shared/components/opciones-busqueda/parametros-busqueda.model';
+import { forkJoin } from 'rxjs';
 import { DatosGeneralesService } from 'src/app/data/services/datos-generales.service';
 import { ProgramacionContratosService } from 'src/app/data/services/programacion/programacion-contratos.service';
 import { ReportesTalleristaService } from 'src/app/data/services/reportes/reportes-tallerista.service';
@@ -58,6 +59,7 @@ export class DetalleAsistenciasTallerComponent {
   ];
 
   dataSource: any[] = [];
+  dataSourceEliminados: any[] = [];
   columns: string[] = [
     'marcar',
     'indice',
@@ -70,8 +72,12 @@ export class DetalleAsistenciasTallerComponent {
   pageIndex = 0;
   pageNum = 1;
   pageSize = 10;
+  pageIndexEliminados = 0;
+  pageNumEliminados = 1;
+  pageSizeEliminados = 10;
   pageSizeOptions:  number[] = [5,10,20];
   total = 0;
+  totalEliminados = 0;
 
   //DETALLES DEL TALLER
   nombreServicio: string = "";
@@ -144,16 +150,27 @@ export class DetalleAsistenciasTallerComponent {
       setTimeout(() => {
         this.seleccionados = [];
         this.loadingData = true;
-        this.reportService.getDataReporteAsistenciaTaller(this.idControlAsistenciaDet).subscribe((data)=>{
+        forkJoin(this.reportService.getDataReporteAsistenciaTaller(this.idControlAsistenciaDet), 
+        this.reportService.getDataReporteAsistenciaTallerEliminados(this.idControlAsistenciaDet)).subscribe((response)=>{
           this.loadingData = false;
-          if (data.code == 0) {
-            this.dataSource = data.data.map(data => {
+          if (response[0].code == 0) {
+            this.dataSource = response[0].data.map(data => {
               return {...data, agregadoFueraDeFecha: this.fechaServicio != data.fechaHoraAsistencia.split("T")[0]}
             });
-            this.total= data.data.length;
+            this.total= response[0].data.length;
           }
           else {
-            this.notificationService.warning(data.message);
+            this.notificationService.warning(response[0].message);
+          }
+
+          if (response[1].code == 0) {
+            this.dataSourceEliminados = response[1].data.map(data => {
+              return {...data, agregadoFueraDeFecha: this.fechaServicio != data.fechaHoraAsistencia.split("T")[0]}
+            });
+            this.totalEliminados= response[1].data.length;
+          }
+          else {
+            this.notificationService.warning(response[1].message);
           }
         })
       });

@@ -32,5 +32,10 @@ export class ReportesTalleristaService {
     return this._httpClient.get<DtGenericoSinPaginar<AsistenciaTaller[]>>(url);
   }
 
+  getDataReporteAsistenciaTallerEliminados(idAsistenciaDet: number) {
+    const url = `${environment.API}/control/asistencia/listar/participantes-eliminados?id-asistencia-det=${idAsistenciaDet}`; 
+    return this._httpClient.get<DtGenericoSinPaginar<AsistenciaTaller[]>>(url);
+  }
+
   
 }

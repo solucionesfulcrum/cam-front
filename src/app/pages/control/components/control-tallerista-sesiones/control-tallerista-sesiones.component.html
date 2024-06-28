@@ -20,11 +20,11 @@
     (secondFunction)="cerrarAsistencia()">
     </esp-opciones-botones>
     <div class="bg-white p-2">
-        <div class=" gap-3 px-3 bg-white py-1.5 mb-2">
+        <div class=" gap-3 px-3 bg-white py-1.5">
             <div class="flex justify-between items-start gap-5">
                 <div class="grid grid-cols-3 gap-4 w-[100%]">
                     <span class="font-semibold text-[20px] leading-[30px] col-start-1"> {{nombreServicio}} </span>
-                    <span class="font-light leading-[26px] my-2 mb-5 col-start-3 text-end"> {{formatearFechaHora(fechaServicio, horaInicio, horaFin)}} </span>
+                    <span class="font-light leading-[26px] my-2 col-start-3 text-end"> {{formatearFechaHora(fechaServicio, horaInicio, horaFin)}} </span>
                 </div>
             </div>
             <div class="flex gap-1">
@@ -69,10 +69,10 @@
         <esp-data-loading
         [dataEmpty]="dataSource.length == 0"
         [dataLoading]="loadingData"
-        [height]="'40vh'"
+        [height]="'50vh'"
         ></esp-data-loading>
         <div *ngIf="!loadingData && dataSource.length > 0">
-            <div class="table-container">
+            <div class="table-container" [style]="'height: 30vh !important'">
               
             <table cdk-table class="w-full text-sm text-left text-gray-500" [dataSource]="dataSource" >
               <tr cdk-header-row class="text-xs text-gray-700 bg-gray-50" *cdkHeaderRowDef="columns; sticky: true"></tr>
@@ -92,7 +92,7 @@
               </ng-container>
         
               <ng-container cdkColumnDef="asegurado">
-                <th cdk-header-cell class="py-[1rem] px-6" *cdkHeaderCellDef [style]="'padding-left: 0px;'" >
+                <th cdk-header-cell class="py-[1rem] px-6" *cdkHeaderCellDef [style]="'padding-left: 0px; width: 35%'" >
                   <ng-container *ngIf="seleccionados.length == 0">
                     Asegurado
                 </ng-container>
@@ -153,7 +153,6 @@
               </ng-container>
             </table>
             </div>
-           
             <mat-paginator #paginator class="demo-paginator paginatorDatos" 
             (page)="handlePageEvent($event)"
             [length]="total"
@@ -163,6 +162,78 @@
             [pageIndex]="pageIndex"
             aria-label="Select page">
             </mat-paginator>
+
+            <div class="table-container" [style]="'height: 20vh !important'">
+                
+              <table cdk-table class="w-full text-sm text-left text-gray-500" [dataSource]="dataSourceEliminados" >
+                <tr cdk-header-row class="text-xs text-gray-700 bg-gray-50" *cdkHeaderRowDef="columns; sticky: true"></tr>
+                <tr cdk-row class="bg-white border-b" *cdkRowDef="let row; columns: columns"></tr>
+                <ng-container cdkColumnDef="marcar">
+                  <th cdk-header-cell class="py-[1.25rem] px-6" [style]="'width: 5%;'" *cdkHeaderCellDef> </th>
+                  <td cdk-cell class="py-[1rem] px-6" [style]="'width: 5%;'" *cdkCellDef="let row"></td>
+                </ng-container>
+          
+                <ng-container cdkColumnDef="indice">
+                  <th cdk-header-cell class="py-[1rem] px-6" *cdkHeaderCellDef [style.width.%]="3" [style]="'padding-left: 0px;'" >
+                      N°
+                  </th>
+                  <td cdk-cell class="py-[1rem] px-6" *cdkCellDef="let row, index as i" [style]="'padding-left: 0px;'" >
+                    <span class="py-[1rem]" [style.width.%]="3">{{ i + 1 }}</span>
+                  </td>
+                </ng-container>
+          
+                <ng-container cdkColumnDef="asegurado">
+                  <th cdk-header-cell class="py-[1rem] px-6" *cdkHeaderCellDef [style]="'padding-left: 0px; width: 35%'" >
+                    Asegurados Eliminados
+                  </th>
+                  <td cdk-cell class="py-[1rem] px-6" *cdkCellDef="let row" [style]="'padding-left: 0px;'" >{{row.asegurado}}</td>
+                </ng-container>
+          
+                <ng-container cdkColumnDef="documento">
+                  <th cdk-header-cell class="py-[1rem] px-6" *cdkHeaderCellDef>Documento</th>
+                  <td cdk-cell class="py-[1rem] px-6" *cdkCellDef="let row">{{row.tipDocumento }}</td>
+                </ng-container>
+          
+                <ng-container cdkColumnDef="nro_documento">
+                  <th cdk-header-cell class="py-[1rem] px-6" *cdkHeaderCellDef>N° de Documento</th>
+                  <td cdk-cell class="py-[1rem] px-6 " *cdkCellDef="let row">{{row.nroDocumento }}</td>
+                </ng-container>
+                
+                <ng-container cdkColumnDef="hora_asistencia">
+                  <th cdk-header-cell class="py-[1rem] px-6" *cdkHeaderCellDef>Hora Asistencia</th>
+                  <td cdk-cell class="py-[1rem] px-6" *cdkCellDef="let row">
+                    <p>
+                     {{ row.fechaHoraAsistencia | date: 'h:mm a' }}
+                    </p>
+                    <p *ngIf="row.agregadoFueraDeFecha" class="text-xs text-gray-500" [style]="'font-size: 10px'">
+                      {{ row.fechaHoraAsistencia | date: 'dd/MM/yyyy' }}
+                    </p>
+                    </td>
+                </ng-container>
+      
+                <ng-container cdkColumnDef="condicion">
+                  <th cdk-header-cell class="py-[1rem] px-6" *cdkHeaderCellDef></th>
+                  <td cdk-cell class="py-[1rem] px-6" *cdkCellDef="let row">
+                      <div class="flex gap-2">
+                          <img class="w-5" *ngIf="row.agregadoFueraDeFecha" matTooltip= "¡Agregado fuera de fecha!" matTooltipPosition="above" src="assets/svg/fuera-de-fecha.svg">
+                          <img class="w-5" *ngIf="row.cumpleAnio" matTooltip= "¡Hoy es su cumpleaños!" matTooltipPosition="above" src="assets/svg/icon-asistencia-birthday.svg">
+                          <img class="w-5" *ngIf="row.nuevo" matTooltip= "¡Es su primer taller!" matTooltipPosition="above" src="assets/svg/icon-asistencia-smiley-face.svg"> 
+                          <img class="w-5" *ngIf="!row.conConexion" matTooltip= "No fue validado por error de red" matTooltipPosition="above" src="assets/svg/icon-asistencia-conexion.svg">
+                          <img class="w-5" *ngIf="!row.acreditado && esBoolean(row.acreditado)" matTooltip= "¡No está acreditado!" matTooltipPosition="above" src="assets/svg/mingcute_alert-line.svg">
+                      </div>
+                  </td>
+                </ng-container>
+              </table>
+              </div>
+              <mat-paginator #paginator class="demo-paginator paginatorDatos" 
+              (page)="handlePageEvent($event)"
+              [length]="totalEliminados"
+              [pageSize]="pageSizeEliminados"
+              showFirstLastButtons="true"
+              [pageSizeOptions]="pageSizeOptions.length > 0 ? pageSizeOptions : []"
+              [pageIndex]="pageIndexEliminados"
+              aria-label="Select page">
+              </mat-paginator>
         </div>
     </div>
     
