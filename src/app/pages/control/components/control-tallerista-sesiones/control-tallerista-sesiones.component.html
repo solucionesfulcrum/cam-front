@@ -67,7 +67,7 @@
         </div>
         
         <esp-data-loading
-        [dataEmpty]="dataSource.length == 0"
+        [dataEmpty]="dataSource.length == 0 && dataSourceEliminados.length == 0"
         [dataLoading]="loadingData"
         [height]="'50vh'"
         ></esp-data-loading>

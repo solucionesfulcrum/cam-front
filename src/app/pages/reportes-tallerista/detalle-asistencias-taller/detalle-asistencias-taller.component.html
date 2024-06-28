@@ -63,9 +63,9 @@
       </div>
       
       <esp-data-loading
-      [dataEmpty]="dataSource.length == 0"
+      [dataEmpty]="dataSource.length == 0 && dataSourceEliminados.length == 0"
       [dataLoading]="loadingData"
-      [height]="'40vh'"
+      [height]="'50vh'"
       ></esp-data-loading>
       <div *ngIf="!loadingData && dataSource.length > 0">
           <div class="table-container" [style]="'height: 30vh !important'">
