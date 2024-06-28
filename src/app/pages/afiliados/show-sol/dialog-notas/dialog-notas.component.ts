@@ -13,6 +13,7 @@ import { AfiliacionesSolicitudesService } from 'src/app/data/services/afiliacion
 })
 export class DialogNotasComponent {
   status: RequestStatus = 'init';
+  estadoAfi: string = '';
   frmCtrlNota = new FormControl();
   registrosNotas: any[] = [];
   idUserSession = (JSON.parse(localStorage.getItem('camUser')!)).idUsuario;
@@ -22,6 +23,7 @@ export class DialogNotasComponent {
               private notificationService                     : NotificationService,
               private fb                                      : FormBuilder,
               private _dialogRef                              : DialogRef<DialogNotasComponent>,) {
+    this.estadoAfi = data.estadoAfi;
 
   }
 

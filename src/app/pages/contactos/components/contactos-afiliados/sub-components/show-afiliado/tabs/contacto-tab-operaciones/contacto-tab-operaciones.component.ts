@@ -7,6 +7,8 @@ import { ActivatedRoute } from '@angular/router';
 import { NotificationService } from '@services/notification.service';
 import { FormBuilder, FormControl, FormGroup } from '@angular/forms';
 import { faSpinner } from '@fortawesome/free-solid-svg-icons';
+import { Subscription } from 'rxjs';
+import { DarDeBajaService } from 'src/app/events/control/dar-de-baja.service';
 
 registerLocaleData(localeEs, 'es');
 
@@ -17,6 +19,8 @@ registerLocaleData(localeEs, 'es');
   providers: [{provide: LOCALE_ID, useValue: 'es'}]
 })
 export class ContactoTabOperacionesComponent implements OnInit {
+  private eventoSubscription!: Subscription;
+  
   formBuscar: FormGroup = this.fb.group({
     frmSearchDate:new FormControl(""),
     // frmSearchEstado:new FormControl(), //  Mantener para el caso del select
@@ -39,16 +43,25 @@ export class ContactoTabOperacionesComponent implements OnInit {
               private operacionesService                    : AfiliacionesOperacionesService,
               private activeRoute                           : ActivatedRoute,
               @Inject(LOCALE_ID) private locale             : string,
-              private notificationService                   : NotificationService) {
+              private notificationService                   : NotificationService,
+              private eventoDarDeBaja: DarDeBajaService
+            ) {
       this.idFicha = this.activeRoute.snapshot.paramMap.get('idFicha')!; }
 
   ngOnInit(): void {
+
+    this.eventoSubscription = this.eventoDarDeBaja.evento$.subscribe(mensaje =>{
+      this.getData();
+    })
+
   }
   
   getDataFecha(value: any){
     this.formBuscar.get('frmSearchDate')?.setValue(value);
     this.getData();
   }
+
+  
 
 
   getData(){

@@ -10,6 +10,7 @@ import { ToastrService } from 'ngx-toastr';
 import { AfiliacionesSolicitudesService } from 'src/app/data/services/afiliaciones/afiliaciones-solicitudes.service';
 import { ContactosAfiliadosService } from 'src/app/data/services/contactos/contactos-afiliados.service';
 import { DatosGeneralesService } from 'src/app/data/services/datos-generales.service';
+import { DarDeBajaService } from 'src/app/events/control/dar-de-baja.service';
 import { FormularioBajaComponent } from 'src/app/pages/afiliados/dar-de-baja/formulario-baja/formulario-baja.component';
 import { RespuestaDarDeBajaComponent } from 'src/app/pages/afiliados/dar-de-baja/respuesta-dar-de-baja/respuesta-dar-de-baja.component';
 import { DialogNotasComponent } from 'src/app/pages/afiliados/show-sol/dialog-notas/dialog-notas.component';
@@ -47,7 +48,8 @@ export class ShowAfiliadoComponent implements OnInit {
               private matDialog                        : MatDialog,
               private notificationService           : NotificationService,
               private afiliadoServices              : AfiliacionesSolicitudesService,
-              private toastService : ToastrService) { 
+              private toastService : ToastrService,
+              private eventoDarDeBaja: DarDeBajaService) { 
       this.idFicha = this.activeRoute.snapshot.paramMap.get('idFicha')!;
       this.links[0].url = `/app/contactos/show/${this.idFicha}`;
       this.links[1].url = `/app/contactos/show/${this.idFicha}/evaluaciones`;
@@ -72,7 +74,7 @@ export class ShowAfiliadoComponent implements OnInit {
         //console.log(data.data)
         this.dataFichaAfiliado = data.data;
         if(this.dataFichaAfiliado.fichaAdmision.datosAfiliacion.estadoAfi == "BAJA"){
-          this.opcionesBotones[0].deshabilitado = true;
+          //this.opcionesBotones[0].deshabilitado = true;
           this.opcionesBotones[1].deshabilitado = true;
           this.opcionesBotones[2].deshabilitado = true;
         }
@@ -136,6 +138,7 @@ export class ShowAfiliadoComponent implements OnInit {
       maxWidth:'50%',        
       data:{
         idSolicitud: this.dataFichaAfiliado.fichaAdmision.idFichaAdmision,
+        estadoAfi: this.dataFichaAfiliado.fichaAdmision.datosAfiliacion.estadoAfi
       }
     })
     dialogRef.closed.subscribe(out =>{
@@ -180,9 +183,11 @@ export class ShowAfiliadoComponent implements OnInit {
           }).subscribe(response=>{
             if(response.code == 0){
               this.toastService.success("Se ha dado de baja al afiliado")
-              this.opcionesBotones[0].deshabilitado = true;
+              //this.opcionesBotones[0].deshabilitado = true;
               this.opcionesBotones[1].deshabilitado = true;
               this.opcionesBotones[2].deshabilitado = true;
+              this.dataFichaAfiliado.fichaAdmision.datosAfiliacion.estadoAfi = 'BAJA';
+              this.eventoDarDeBaja.emitirEvento("ok");
             }else{
               this.toastService.warning(response.message)
             }
