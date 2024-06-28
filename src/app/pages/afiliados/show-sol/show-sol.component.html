@@ -11,7 +11,18 @@
 </div>
 <div *ngIf="ready" class="bg-white botonApariencia">
   <div class="flex flex-row justify-between py-1.5 px-2.5"> 
-      <p class="text-[26px] text-[var(--color-CAM-black-alt)]"><b>Ficha de Solicitud</b></p>
+      <p ><b class="text-[26px] text-[var(--color-CAM-black-alt)]">Ficha de Solicitud</b>
+        <br>
+        <span *ngIf="this.dataSolicitud.solicitud.appOrigen == 'WEB_ESSI'" class="text-md text-essi">
+            Derivacion ESSI
+        </span>  
+        <span *ngIf="this.dataSolicitud.solicitud.appOrigen == 'WEB_CAM'" class="text-md text-essi">
+            Registrado desde el módulo PAM
+        </span>  
+        <span *ngIf="this.dataSolicitud.solicitud.appOrigen == 'MOVIL_CAM'" class="text-md text-essi">
+            Derivacion MiConsulta
+        </span>  
+      </p>
       <p class="text-end text-sm text-[#64748B]">N° de Solicitud 
           <br><span class="text-[20px] text-[var(--color-CAM)]">{{dataSolicitud.fichaAdmision.numHistoria}}</span>  <!--{{this.user.numHistoria}}     o   {{dataFicha.numHistoria}}-->
       </p>
@@ -75,8 +86,12 @@
     
     <div class="grow">
       <!-- DATOS DE DIRECCION -->
-        <p class="subTitulo mb-2.5 text-[18px]"> Datos de Dirección</p>
-        
+      <p class="subTitulo mb-2.5 text-[18px] flex justify-between">
+        Datos de Dirección
+        <span class="ml-auto text-[16px] text-gray-500 font-normal">
+            Fecha {{this.dataSolicitud.solicitud.fechReg | date: "dd/MM/yyyy hh:mm a" }}
+        </span>
+    </p>
         <ul class="grupoDirecciones">
           <li class="elementoSeleccionable" *ngFor="let item of direcciones, index as i">
               <input type="radio" [id]="'direccion'+i" name="direccion" [checked]="item.activo == 1" [disabled]="true" class="peer right-0 mt-2 mr-2 focusCampo">
@@ -153,6 +168,57 @@
               </div>
           </div>
         </div>
+        <ng-container *ngIf="this.dataSolicitud.solicitud.appOrigen == 'WEB_ESSI'">
+            <p class="subTitulo my-2.5 text-[18px]"> Datos de Derivación EsSI</p>
+        <div class="flex flex-col gap-[10px]">
+          <div class="flex space-x-2 items-center h-[42px]">
+              <div class="w-1/6 bg-slate-100 justify-end pr-2 flex items-center h-full">
+                  <span>IPRESS</span>
+              </div>
+              <div class="w-5/6">
+                <span>{{this.dataSolicitud.solicitud.descIpress}}</span>
+              </div>
+          </div>
+          <div class="flex space-x-2 items-center h-[42px]">
+            <div class="w-1/6 bg-slate-100 justify-end pr-2 flex items-center h-full">
+                <span>PROFESIONAL</span>
+            </div>
+            <div class="w-5/6">
+              <span>Diego Markez Delgado de la Cruz (Medico Rehabilitador)</span>
+            </div>
+        </div>
+        <div class="flex space-x-2 items-center h-[42px]">
+            <div class="w-1/6 bg-slate-100 justify-end pr-2 flex items-center h-full">
+                <span>FECHA</span>
+            </div>
+            <div class="w-5/6">
+              <span>10-05-2024</span>
+            </div>
+        </div>
+
+        </div>
+        </ng-container>
+        <ng-container *ngIf="this.dataSolicitud.solicitud.appOrigen == 'WEB_ESSI'">
+            <p class="subTitulo my-2.5 text-[18px]">Sobre el Diagnostico</p>
+        <div class="flex flex-col gap-[10px]">
+          <div class="flex space-x-2 items-center h-[42px]">
+              <div class="w-1/6 bg-slate-100 justify-end pr-2 flex items-center h-full">
+                  <span>CIE10-1</span>
+              </div>
+              <div class="w-5/6">
+                <span>R41.81 - Este código puede usarse para pacientes que muestran signos iniciales de deterioro cognitivo, lo cual es común en personas mayores</span>
+              </div>
+          </div>
+          <div class="flex space-x-2 items-center h-[42px]">
+            <div class="w-1/6 bg-slate-100 justify-end pr-2 flex items-center h-full">
+                <span>CIE10-2</span>
+            </div>
+            <div class="w-5/6">
+              <span>B27.8 - Hipertensión esencial (primaria): Este es un código general para hipertensión, una condición prevalente en la población mayor.</span>
+            </div>
+        </div>
+        </div>
+        </ng-container>
             <!-- SOLICITUD -->
           <p class="subTitulo my-2.5 text-[18px]">Solicitud</p>
           <!--<textarea id="message" formControlName="frmObservacion"  class="my-2 block p-2.5 w-full text-gray-600 border border-gray-300 focusCampo placeholder-gray-300 text-s-16r" placeholder="Descripción" >

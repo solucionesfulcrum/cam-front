@@ -71,6 +71,11 @@ export class ShowAfiliadoComponent implements OnInit {
       if (data.code == 0) {
         //console.log(data.data)
         this.dataFichaAfiliado = data.data;
+        if(this.dataFichaAfiliado.fichaAdmision.datosAfiliacion.estadoAfi){
+          this.opcionesBotones[0].deshabilitado = true;
+          this.opcionesBotones[1].deshabilitado = true;
+          this.opcionesBotones[2].deshabilitado = true;
+        }
         /*if (this.dataFichaAfiliado.fichaAdmision.datosAfiliacion.estadoAfi !== 'ACTIVO') {
           this.opcionesBotones[2].deshabilitado = true;
         }*/
@@ -175,6 +180,9 @@ export class ShowAfiliadoComponent implements OnInit {
           }).subscribe(response=>{
             if(response.code == 0){
               this.toastService.success("Se ha dado de baja al afiliado")
+              this.opcionesBotones[0].deshabilitado = true;
+              this.opcionesBotones[1].deshabilitado = true;
+              this.opcionesBotones[2].deshabilitado = true;
             }else{
               this.toastService.warning(response.message)
             }

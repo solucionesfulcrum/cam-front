@@ -72,8 +72,8 @@
       <ng-container cdkColumnDef="origen">
         <th cdk-header-cell class="py-[1.25rem] px-6" *cdkHeaderCellDef></th>
         <td cdk-cell class="py-[1rem] px-6" *cdkCellDef="let row">
-          <img class="w-5" *ngIf="row.appOrigen == 'WEB_CAM' || row.appOrigen == 'MOVIL_CAM'" matTooltip= "MiConsulta" src="assets/svg/mi-consulta.svg">
-          <img class="w-5" *ngIf="row.appOrigen == 'ESSI'" matTooltip= "ESSI" src="assets/svg/essi.svg">
+          <img class="w-5" *ngIf="row.appOrigen == 'MOVIL_CAM'" matTooltip= "MiConsulta" src="assets/svg/mi-consulta.svg">
+          <img class="w-5" *ngIf="row.appOrigen == 'WEB_ESSI'" matTooltip= "ESSI" src="assets/svg/essi.svg">
         </td>
       </ng-container>
 

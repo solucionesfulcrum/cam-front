@@ -322,6 +322,9 @@ body {
 $success-cam : #0CCE6B;
 $primary-cam : #057EC9;
 
+//SISTEMAS EXTERNOS
+$essi-color: #00CFE8;
+
 .text-success-cam{
   color: $success-cam !important
 }
@@ -329,3 +332,8 @@ $primary-cam : #057EC9;
 .text-primary-cam{
   color: $primary-cam !important
 }
+
+.text-essi{
+  color: $essi-color !important
+}
+
