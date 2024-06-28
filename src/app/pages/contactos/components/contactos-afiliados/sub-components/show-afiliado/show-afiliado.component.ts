@@ -71,7 +71,7 @@ export class ShowAfiliadoComponent implements OnInit {
       if (data.code == 0) {
         //console.log(data.data)
         this.dataFichaAfiliado = data.data;
-        if(this.dataFichaAfiliado.fichaAdmision.datosAfiliacion.estadoAfi){
+        if(this.dataFichaAfiliado.fichaAdmision.datosAfiliacion.estadoAfi == "BAJA"){
           this.opcionesBotones[0].deshabilitado = true;
           this.opcionesBotones[1].deshabilitado = true;
           this.opcionesBotones[2].deshabilitado = true;
