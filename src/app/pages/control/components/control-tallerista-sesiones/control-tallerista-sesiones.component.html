@@ -79,7 +79,7 @@
               <tr cdk-row class="bg-white border-b" *cdkRowDef="let row; columns: columns"></tr>
               <ng-container cdkColumnDef="marcar">
                 <th cdk-header-cell class="py-[1.25rem] px-6" [style]="'width: 0%;'" *cdkHeaderCellDef> <input type="checkbox" [checked]="seleccionados.length == this.dataSource.length" (change)="afectarTodo($event)"/> </th>
-                <td cdk-cell class="py-[1rem] px-6" [style]="'width: 0%;'" *cdkCellDef="let row"> <input type="checkbox" class="checkbox-select" (change)="seleccionarFila($event)" [value]="row.idInscripcion" [checked]="row.marcar"/> </td>
+                <td cdk-cell class="py-[1rem] px-6" [style]="'width: 0%;'" *cdkCellDef="let row"> <input type="checkbox" class="checkbox-select" (change)="seleccionarFila($event)" [value]="row.idControlAsistenciaSubDet" [checked]="row.marcar"/> </td>
               </ng-container>
         
               <ng-container cdkColumnDef="indice">

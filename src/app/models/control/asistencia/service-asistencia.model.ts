@@ -28,3 +28,7 @@ export interface RequestRegisterAsistio {
     idProgramacionDet: number,
     idFichaAdmision: number
 }
+
+export interface AsistenciaSesion{
+    idControlAsistenciaSubDet: number
+}

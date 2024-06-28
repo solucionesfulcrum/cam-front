@@ -172,5 +172,12 @@ export class ControlProgramacionService {
     return this._httpClient.delete<any>(url, httpOptions);
   }
 
+  actualizarEstadoEliminadoRegistradosHistorico(lista : number[]){
+    console.log(lista);
+    const url = `${URL_BASE}/asistencia/eliminar-asegurado`;
+  
+    return this._httpClient.post<any>(url, lista);
+  }
+
   //control/inscripcion/registrar
 }

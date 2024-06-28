@@ -21,9 +21,10 @@ import { Subscription } from 'rxjs';
 import { InscripcionTalleristaControlService } from 'src/app/events/control/inscripcion-tallerista-control.service';
 import { ModalConfirmarComponent } from '../sub-components/dialogs/modal-confirmar/modal-confirmar.component';
 import { ModalEditarComponent } from '../sub-components/dialogs/modal-editar/modal-editar.component';
-import { RequestRegisterCabecera, RequestRegisterDet } from '@models/control/asistencia/service-asistencia.model';
+import { AsistenciaSesion, RequestRegisterCabecera, RequestRegisterDet } from '@models/control/asistencia/service-asistencia.model';
 import { ControlProgramacionService } from 'src/app/data/services/control/control-programacion.service';
 import { ModalConfirmarGenericoComponent } from '@shared/components/modal-confirmar-generico/modal-confirmar-generico.component';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'esp-control-tallerista-sesiones',
@@ -116,6 +117,7 @@ export class ControlTalleristaSesionesComponent {
     private activateRoute: ActivatedRoute,
     private eventService : InscripcionTalleristaControlService,
     private controlService                    : ControlProgramacionService,
+    private toast: ToastrService
   ){
       /*if(localStorage.getItem('idProgSubDetActual')){
         this.idProgSubDetActual = JSON.parse(localStorage.getItem('idProgSubDetActual')!);
@@ -125,7 +127,8 @@ export class ControlTalleristaSesionesComponent {
     ngOnInit(){
       //ESCUCHA EL EVENTO DE AGREGAR USUARIO
       this.eventoSubscription = this.eventService.evento$.subscribe(mensaje =>{
-        this.getDetalleTaller(this.idProgDet)
+        this.modificarCabeceraSesion(this.sessionSeleccionada, 1);
+        this.loadData();
       })
 
       this.datosService.getTipoParametros('ESTADO_CONTROL_ASISTENCIA').subscribe((data)=>{
@@ -336,10 +339,33 @@ export class ControlTalleristaSesionesComponent {
   
       dialog.afterClosed().subscribe((result : {success: boolean}) => {
         if(result.success){
-          //this.eliminarAsegurados();
+          this.eliminarAsegurados();
         }
       });
     }
+
+    eliminarAsegurados(){
+     let asistentesEliminar: number[] = this.dataSource
+      .filter((asistente: AsistenciaSesion) => this.seleccionados.includes(asistente.idControlAsistenciaSubDet))
+      .map((asistente: AsistenciaSesion) => asistente.idControlAsistenciaSubDet as number);
+  
+      ////console.log(asistentesEliminar);
+      this.controlService.actualizarEstadoEliminadoRegistradosHistorico(asistentesEliminar).subscribe(data=>{
+        if(data.code == 0){
+          this.toast.success("Los registros han sido eliminados");
+          this.loadData();
+          this.modificarCabeceraSesion(this.sessionSeleccionada,asistentesEliminar.length*(-1))
+          this.seleccionados = [];
+        }
+        else{
+          this.toast.error("Ocurrió un error eliminando los registros");
+        }
+      })
+    }
+
+  modificarCabeceraSesion(numeracion: number, cambio: number){
+    this.sesiones[numeracion-1].countAsistencia += cambio;
+  }
   
     
 
