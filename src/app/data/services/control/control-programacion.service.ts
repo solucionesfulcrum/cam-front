@@ -70,6 +70,16 @@ export class ControlProgramacionService {
     return this._httpClient.post<any>(url, null);
   }
 
+  registerCierreDetalleControl(idControlAsistenciaDet: number){
+    const url = `${URL_BASE}/asistencia/cerrar-det/${idControlAsistenciaDet}`;
+    return this._httpClient.post<any>(url, null);
+  }
+
+  registerCierreCabeceraControl(idControlAsistenciaDet: number){
+    const url = `${URL_BASE}/asistencia/cerrar-cab/${idControlAsistenciaDet}`;
+    return this._httpClient.post<any>(url, null);
+  }
+
   registerCierreTaller(idControlAsistenciaCab: number){
     const url = `${URL_BASE}/asistencia/cerrar-cab/${idControlAsistenciaCab}`;
     return this._httpClient.post<any>(url, null);

@@ -17,7 +17,7 @@ import { ReportesTalleristaService } from 'src/app/data/services/reportes/report
 import { InscripcionModalComponent } from '../../modals/inscripcion-modal/inscripcion-modal.component';
 import { Dialog } from '@angular/cdk/dialog';
 import { InscripcionModalTalleristaComponent } from '../../modals/inscripcion-modal-tallerista/inscripcion-modal-tallerista.component';
-import { Subscription, forkJoin } from 'rxjs';
+import { Subscription, forkJoin, of } from 'rxjs';
 import { InscripcionTalleristaControlService } from 'src/app/events/control/inscripcion-tallerista-control.service';
 import { ModalConfirmarComponent } from '../sub-components/dialogs/modal-confirmar/modal-confirmar.component';
 import { ModalEditarComponent } from '../sub-components/dialogs/modal-editar/modal-editar.component';
@@ -423,9 +423,14 @@ export class ControlTalleristaSesionesComponent {
    })
 
    dialog.afterClosed().subscribe(response=>{
-     if(response.success){
-      this.statusCierreLoading = true;
-      this.controlService.registerCierreDetalle(this.idControlAsistenciaCab).subscribe((dataCierre)=>{
+    if(response.success){
+      forkJoin(
+        this.controlService.registerCierreDetalleControl(this.sesiones[0].idControlAsistenciaDet),
+        (this.sesiones.length > 1 ? this.controlService.registerCierreDetalleControl(this.sesiones[1].idControlAsistenciaDet) :  of(null)),
+        (this.sesiones.length > 2 ? this.controlService.registerCierreDetalleControl(this.sesiones[2].idControlAsistenciaDet) :  of(null))
+      ).subscribe(result => {
+        this.statusCierreLoading = true;
+      this.controlService.registerCierreCabeceraControl(this.idControlAsistenciaCab).subscribe((dataCierre)=>{
         this.statusCierreLoading = false;
         if (dataCierre.code == 0) {
           this.opcionesBotones[0].deshabilitado = true;
@@ -439,9 +444,14 @@ export class ControlTalleristaSesionesComponent {
           this.notificationService.warning(dataCierre.message);
         }
       })
+      })
+    }
+    
+    
+      
      
        
-     }
+     
    })
    
   }

@@ -184,7 +184,7 @@
                 <span>PROFESIONAL</span>
             </div>
             <div class="w-5/6">
-              <span>Diego Markez Delgado de la Cruz (Medico Rehabilitador)</span>
+              <span>{{this.dataSolicitud.fichaAdmision.datosProcedencia.nomProfesional}}</span>
             </div>
         </div>
         <div class="flex space-x-2 items-center h-[42px]">
@@ -192,7 +192,7 @@
                 <span>FECHA</span>
             </div>
             <div class="w-5/6">
-              <span>10-05-2024</span>
+                <span>{{this.dataSolicitud.solicitud.fechReg | date : "yyyy-MM-dd"}}</span>
             </div>
         </div>
 
@@ -201,20 +201,20 @@
         <ng-container *ngIf="this.dataSolicitud.solicitud.appOrigen == 'WEB_ESSI'">
             <p class="subTitulo my-2.5 text-[18px]">Sobre el Diagnostico</p>
         <div class="flex flex-col gap-[10px]">
-          <div class="flex space-x-2 items-center h-[42px]">
+          <div class="flex space-x-2 items-center h-[42px]" *ngIf="this.dataSolicitud.fichaAdmision.datosProcedencia.codDiag1">
               <div class="w-1/6 bg-slate-100 justify-end pr-2 flex items-center h-full">
                   <span>CIE10-1</span>
               </div>
               <div class="w-5/6">
-                <span>R41.81 - Este código puede usarse para pacientes que muestran signos iniciales de deterioro cognitivo, lo cual es común en personas mayores</span>
+                <span>{{this.dataSolicitud.fichaAdmision.datosProcedencia.codDiag1}} - {{this.dataSolicitud.fichaAdmision.datosProcedencia.descDiag1}}</span>
               </div>
           </div>
-          <div class="flex space-x-2 items-center h-[42px]">
+          <div class="flex space-x-2 items-center h-[42px]" *ngIf="this.dataSolicitud.fichaAdmision.datosProcedencia.codDiag2">
             <div class="w-1/6 bg-slate-100 justify-end pr-2 flex items-center h-full">
                 <span>CIE10-2</span>
             </div>
             <div class="w-5/6">
-              <span>B27.8 - Hipertensión esencial (primaria): Este es un código general para hipertensión, una condición prevalente en la población mayor.</span>
+              <span>{{this.dataSolicitud.fichaAdmision.datosProcedencia.codDiag2}} - {{this.dataSolicitud.fichaAdmision.datosProcedencia.descDiag2}}</span>
             </div>
         </div>
         </div>
