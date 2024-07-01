@@ -246,24 +246,27 @@ export class TabAsistenciaProfCamComponent {
         if (!data.data[0].acreditacion) {
           this.notificacionService.warning(data.message);
         }
-
-        let unidadOperativa : string = (JSON.parse(localStorage.getItem('UnidElegida')!)).idUnidOperativa;
-        let selectedProgramacion : string = String(localStorage.getItem('idProgramElegida'));
-        this.controlProgramacionService.registrarInscripcion({
-          idFichaAdmision: data.data[0].idFichaAsegurado,
-          idUnidadOperativa: unidadOperativa,
-          idProgramacionDet: selectedProgramacion,
-          acreditado: data.data[0].acreditacion,
-          idUsuarioReg: (JSON.parse(localStorage.getItem('camUser')!)).idUsuario,
-          conConexion: conexion
-        }).subscribe(data => {
-          if(data.code == "0"){
-            this.getListTablaAsegurados();
-          }
-          else{
-            this.toast.warning(data.message);
-          }
-        })
+        if(data.code == 0){
+          let unidadOperativa : string = (JSON.parse(localStorage.getItem('UnidElegida')!)).idUnidOperativa;
+          let selectedProgramacion : string = String(localStorage.getItem('idProgramElegida'));
+          this.controlProgramacionService.registrarInscripcion({
+            idFichaAdmision: data.data[0].idFichaAsegurado,
+            idUnidadOperativa: unidadOperativa,
+            idProgramacionDet: selectedProgramacion,
+            acreditado: data.data[0].acreditacion,
+            idUsuarioReg: (JSON.parse(localStorage.getItem('camUser')!)).idUsuario,
+            conConexion: conexion
+          }).subscribe(data => {
+            if(data.code == "0"){
+              this.getListTablaAsegurados();
+              this.toast.success(data.message);
+            }
+            else{
+              this.toast.warning(data.message);
+            }
+          })
+        }
+        
       }
       else{
         //this.notificacionService.info(data.message);

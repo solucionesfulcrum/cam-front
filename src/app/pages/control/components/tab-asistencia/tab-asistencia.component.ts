@@ -246,26 +246,28 @@ export class TabAsistenciaComponent {
         else{
           conexion = true;
         }
-        const dialogRef = this.dialog.open(DialogConfirmDataAsistenciaComponent,{
-          minWidth:'850px',
-          maxWidth:'50%',
-          data:{
-            infoAsegurado: data,
-            detalleAsistenciaActual: this.dataPaginada,
-            conConexion: conexion,
-            listPreInscritos: this.listPreInscritos,
-            acreditacion: data.data[0].acreditacion
-          }
-        })
-        dialogRef.closed.subscribe(result => {
-          if (result == 1) {
-            this.getListAsistencia();
-          }
-          else if (result == 2) {
-            this.getListAsistencia();
-            this.getListPreInscritos();
-          }
-        });
+        if(data.code == 0){
+          const dialogRef = this.dialog.open(DialogConfirmDataAsistenciaComponent,{
+            minWidth:'850px',
+            maxWidth:'50%',
+            data:{
+              infoAsegurado: data,
+              detalleAsistenciaActual: this.dataPaginada,
+              conConexion: conexion,
+              listPreInscritos: this.listPreInscritos,
+              acreditacion: data.data[0].acreditacion
+            }
+          })
+          dialogRef.closed.subscribe(result => {
+            if (result == 1) {
+              this.getListAsistencia();
+            }
+            else if (result == 2) {
+              this.getListAsistencia();
+              this.getListPreInscritos();
+            }
+          });
+        }
       }
       else{
         this.notificacionService.warning(data.message);
