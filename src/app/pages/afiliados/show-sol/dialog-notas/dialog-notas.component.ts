@@ -24,6 +24,9 @@ export class DialogNotasComponent {
               private fb                                      : FormBuilder,
               private _dialogRef                              : DialogRef<DialogNotasComponent>,) {
     this.estadoAfi = data.estadoAfi;
+    if(!this.estadoAfi){
+      this.estadoAfi = 'ACTIVO';
+    }
 
   }
 
