@@ -27,12 +27,14 @@
                 <div class="horaAtencion text-primary-cam">
                     <span> {{(test.fechaEvaluacion | date: 'dd/MM/yyyy') | lowercase}} </span>
                 </div>
-                <span class="descripcion"> {{test.tipoEvaluacion}} </span>
+                <span> 
+                   <span> {{test.tipoEvaluacion}}</span> <span class="descripcion"> {{test.nomUnidadOperativa}} </span> 
+                </span>
                 <span _ngcontent-eca-c121="" class="text-end " 
                 [ngClass]="test.resultadoEvaluacion == 'NO APTO' ? 'text-red-500' : 'text-gree-500'"
                 style="margin-left: auto;width: 20%;"
                 > 
-                    {{test.resultadoEvaluacion}}
+                    {{test.resultadoEvaluacion}} 
                 </span>
             </div>
         </div>
