@@ -5,3 +5,10 @@ export interface RequestListOperaciones {
   pageNum: number,
   pageSize: number
 }
+
+export interface RequestListEvaluaciones {
+  idFichaAdmision: number,
+  idUnidadOperativa: number,
+  fecInicio: string,
+  fecFin: string,
+}

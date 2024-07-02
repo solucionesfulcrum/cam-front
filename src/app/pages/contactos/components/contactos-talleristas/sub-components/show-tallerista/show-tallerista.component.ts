@@ -4,6 +4,7 @@ import { faSpinner } from '@fortawesome/free-solid-svg-icons';
 import { NotificationService } from '@services/notification.service';
 import { FormatoBoton } from '@shared/components/opciones-botones/formato-boton.model';
 import { ContactosTalleristasService } from 'src/app/data/services/contactos/contactos-talleristas.service';
+import { DatosGeneralesService } from 'src/app/data/services/datos-generales.service';
 
 @Component({
   selector: 'app-show-tallerista',
@@ -16,6 +17,10 @@ export class ShowTalleristaComponent implements OnInit {
     {texto: 'Suspender', colorBtn: 'bordeado'},
     {texto: 'Contratar', colorBtn:'mezclado'},
   ];
+
+  distrito: string = ''
+  provincia: string = ''
+  region: string = ''
 
   idTallerista: string = '';
   rutasTallerista=[
@@ -31,6 +36,7 @@ export class ShowTalleristaComponent implements OnInit {
   constructor(private activeRoute                           : ActivatedRoute,
               private talleristaService                     : ContactosTalleristasService,
               private notificationService                   : NotificationService,
+              private datosGenerales : DatosGeneralesService,
   ) { 
     this.idTallerista = this.activeRoute.snapshot.paramMap.get('idTallerista')!;
     this.rutasTallerista[0].url = `/app/contactos/talleristas/show/${this.idTallerista}`;
@@ -39,10 +45,19 @@ export class ShowTalleristaComponent implements OnInit {
     this.rutasTallerista[3].url = `/app/contactos/talleristas/show/${this.idTallerista}/evaluaciones`;
   }
 
+  setUbigeo(codUbigeo: string){
+    this.datosGenerales.searchByUbigeo(codUbigeo).subscribe((rpta)=>{
+      this.region = rpta.data.region;
+      this.provincia = rpta.data.provincia;
+      this.distrito = rpta.data.distrito;
+    });
+  }
+
   ngOnInit(): void {
     this.talleristaService.getDataTallerista(this.idTallerista).subscribe((data)=>{
       if (data.code == 0) {
         //console.log(data.data)
+        this.setUbigeo(data.data.codRegion + data.data.codProvincia + data.data.codDistrito)
         this.dataTallerista = data.data;
       }
       else {

@@ -17,7 +17,7 @@
     align-items: center;
     gap: 1.5rem;
     .horaAtencion{
-        width: 90px;
+        width: 110px;
         line-height: 1rem;
     }
     .descripcion{

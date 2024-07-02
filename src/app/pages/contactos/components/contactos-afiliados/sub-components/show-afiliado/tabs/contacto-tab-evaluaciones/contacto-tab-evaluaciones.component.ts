@@ -4,7 +4,7 @@ import { FormBuilder, FormControl, FormGroup } from '@angular/forms';
 import localeEs from '@angular/common/locales/es';
 import { ActivatedRoute, ParamMap, Router } from '@angular/router';
 import { faSpinner } from '@fortawesome/free-solid-svg-icons';
-import { RequestListOperaciones } from '@models/afiliaciones/operaciones/evaluacion-operacion.model';
+import { RequestListEvaluaciones, RequestListOperaciones } from '@models/afiliaciones/operaciones/evaluacion-operacion.model';
 import { NotificationService } from '@services/notification.service';
 import { AfiliacionesOperacionesService } from 'src/app/data/services/afiliaciones/afiliaciones-operaciones.service';
 
@@ -63,31 +63,33 @@ export class ContactoTabEvaluacionesComponent implements OnInit {
 
   getData(){
     this.dataShow = false;
-    this.operacionesService.getListOperaciones(this.getModel()).subscribe((data)=>{
+    this.operacionesService.getListEvaluaciones(this.getModel()).subscribe((data)=>{
       if (data.code == 0) {
-        this.listaOperaciones = data.data.list.reduce((groups: any, operacion: any) => {
-          const date = new Date(operacion.fecha).toDateString();
+        this.listaOperaciones = data.data
+        /*.reduce((groups: any, operacion: any) => {
+          const date = new Date(operacion.fechaEvaluacion).toDateString();
           if (!groups[date]) {
             groups[date] = [];
           }
           groups[date].push(operacion);
           return groups;
         }, {});
-        this.listaOperaciones = Object.keys(this.listaOperaciones).map((fecha: any) => {
+        this.listaOperaciones = Object.keys(this.listaOperaciones).map((fechaEvaluacion: any) => {
           return {
-            fecha,
-            operaciones: this.listaOperaciones[fecha]
+            fechaEvaluacion,
+            operaciones: this.listaOperaciones[fechaEvaluacion]
           };
-        });
+        });*/
         this.dataShow = true;
       }
       else{
         this.notificationService.warning(data.message);
       }
+        
     })
   }
 
-  getModel(): RequestListOperaciones{
+  getModel(): RequestListEvaluaciones{
     var fecInicio: any;
     var fecFin: any;
 
@@ -109,8 +111,7 @@ export class ContactoTabEvaluacionesComponent implements OnInit {
       idFichaAdmision: parseInt(this.idFicha),
       fecInicio: fecInicio,
       fecFin: fecFin,
-      pageNum: 1,
-      pageSize: 100
+      idUnidadOperativa: JSON.parse(localStorage.getItem("UnidElegida")!).idUnidOperativa
     }
   }
 

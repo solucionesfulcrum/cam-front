@@ -1,7 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { environment } from '@environments/environment';
-import { RequestListOperaciones } from '@models/afiliaciones/operaciones/evaluacion-operacion.model';
+import { RequestListEvaluaciones, RequestListOperaciones } from '@models/afiliaciones/operaciones/evaluacion-operacion.model';
 
 const URL_BASE = `${environment.API}/auditoria/operaciones`;
 
@@ -14,6 +14,11 @@ export class AfiliacionesOperacionesService {
 
   getListOperaciones(model: RequestListOperaciones){
     const url = `${URL_BASE}/listar`;
+    return this._httpClient.post<any>(url, model);
+  }
+
+  getListEvaluaciones(model: RequestListEvaluaciones){
+    const url = `${environment.API}/evaluacion/listar`;
     return this._httpClient.post<any>(url, model);
   }
 }
