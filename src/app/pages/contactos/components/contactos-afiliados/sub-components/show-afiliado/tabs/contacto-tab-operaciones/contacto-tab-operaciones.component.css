@@ -25,3 +25,28 @@
         color: #00000099;
     }
 }
+
+.scrollbarra {
+    width: 100%;
+    max-height: 54vh;
+    border-left: none;
+    border-right: none;
+    border-bottom: none;
+    padding: 5px 5px 5px 5px;
+    overflow-y: auto;
+  }
+  
+  .scrollbarra::-webkit-scrollbar {
+    width: 5px;
+}
+ 
+.scrollbarra::-webkit-scrollbar-track {
+    background: #D4D4D4;
+}
+.scrollbarra::-webkit-scrollbar-thumb {
+    background: var(--color-black-alt);
+}
+ 
+.scrollbarra::-webkit-scrollbar-thumb:hover {
+    background: #28364d;
+}

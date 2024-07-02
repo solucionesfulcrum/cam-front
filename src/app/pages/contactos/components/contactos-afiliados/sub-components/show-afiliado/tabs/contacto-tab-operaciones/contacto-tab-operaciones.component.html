@@ -5,7 +5,7 @@
 [filterDateAppearance]="2"
 [setFilterDateSelectionBg]="'var(--color-CAM-Claro)'"
 [setFilterDateButtonBg]="'var(--color-CAM-Claro)'"
-[setDateSelectedDefault]="7"
+[setDateSelectedDefault]="9"
 (sendDateFilterWithCeros)="getDataFecha($event)"
 [showFirstDisplayFilter]="true"
 ></esp-opciones-busqueda>
@@ -20,7 +20,7 @@
         </div>
     </div>
     <div *ngIf="dataShow">
-        <div *ngIf="listaOperaciones.length > 0">
+        <div *ngIf="listaOperaciones.length > 0" class="scrollbarra">
             <div *ngFor="let dia of listaOperaciones, index as i">
                 <div class="encabezadoDia">
                     <span>{{(dia.fecha | date: 'EEEE') | titlecase}}, {{dia.fecha | date: 'dd \'de\''}} {{(dia.fecha | date:'MMMM') | titlecase}} del {{dia.fecha | date:'yyyy'}}</span>

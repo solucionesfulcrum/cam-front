@@ -46,7 +46,9 @@
                     <div class="flex flex-row gap-3 grow">
                         <input type="text" 
                         class="inputTextoDialog focusCampo" *ngIf="ctrlTypeSearch.value == 1" [formControl]="ctrlSearch" 
-                        [readonly]="esperaBusqueda" [matAutocomplete]="asegurados" placeholder="Buscador"
+                        [readonly]="esperaBusqueda" [matAutocomplete]="asegurados" 
+                        [placeholder]="esperaBusqueda ? 'Cargando data...' : 'Buscador'"
+                        
                         [ngClass]="{'bg-gray-100': esperaBusqueda}"
                         >
                         <mat-autocomplete #asegurados="matAutocomplete" [displayWith]="displayAseguradoFiltered" (optionSelected)="onAseguradoSelect($event)"
@@ -87,10 +89,10 @@
                         <div class="w-[34px] h-10 flex items-center justify-center border border-gray-400 rounded shrink-0" *ngIf="!esperaBusqueda && ctrlTypeSearch.value == 2" (click)="!esperaBusqueda ? onAseguradoSelectCodigoBarra($event) : null">
                             <img src="assets/svg/icon-contrato-confirm.svg" class="select-none">
                           </div>
-                        <div class="w-[34px] h-10 flex items-center justify-center border border-gray-400 rounded shrink-0" *ngIf="ctrlTypeSearch.value == 1" [ngClass]="esperaBusqueda ? 'relative' : 'cursor-pointer hover:bg-slate-200'" (click)="!esperaBusqueda ? getListAseguradosFindByText('') : null">
+                       <!-- <div class="w-[34px] h-10 flex items-center justify-center border border-gray-400 rounded shrink-0" *ngIf="ctrlTypeSearch.value == 1" [ngClass]="esperaBusqueda ? 'relative' : 'cursor-pointer hover:bg-slate-200'" (click)="!esperaBusqueda ? getListAseguradosFindByText('') : null">
                           <img src="assets/svg/icons8-refresh-2.svg" class="select-none" [ngClass]="esperaBusqueda ? 'opacity-0' : null">
                           <fa-icon *ngIf="esperaBusqueda" class="absolute" [icon]="faSpinner" [pulse]="true"></fa-icon>
-                        </div>
+                        </div>-->
 
                     </div>
                 </div>                
