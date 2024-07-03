@@ -3,7 +3,7 @@ import { FormGroup, FormControl, FormBuilder } from '@angular/forms';
 import { PageEvent } from '@angular/material/paginator';
 import { imprimirRequestCam } from '@models/afiliados/ficha-solicitud.model';
 import { Parametro } from '@models/parametros-busqueda.model';
-import { ReportesTalleristaPayload } from '@models/reportes/reportes-tallerista';
+import { ReportesTalleristaPayload, imprimirRequestTalleresTallerista } from '@models/reportes/reportes-tallerista';
 import { NotificationService } from '@services/notification.service';
 import { ParamMenu } from '@shared/components/opciones-busqueda/parametros-busqueda.model';
 import { DatosGeneralesService } from 'src/app/data/services/datos-generales.service';
@@ -98,14 +98,27 @@ imprimirLista(){
   fecFin = `${fechaSinFormatFin.split('/')[2]}-${fechaSinFormatFin.split('/')[1]}-${fechaSinFormatFin.split('/')[0]}`;
   var idUnidOpe = JSON.parse(localStorage.getItem("UnidElegida")!);
 
-  let payload: imprimirRequestCam = {
-    idUnidOpe: idUnidOpe.idUnidOperativa,
+  let payload: imprimirRequestTalleresTallerista = {
+    idUnidadOperativa: JSON.parse(localStorage.getItem("UnidElegida")!).idUnidOperativa,
+    idUsuario: (JSON.parse(localStorage.getItem('camUser')!)).idUsuario,
     texto: this.formBuscar.controls['frmSearch'].value,
-    estado: parseInt(this.formBuscar.get('frmSearchEstado')?.value),
     fecInicio: fecInicio,
     fecFin: fecFin,
-    codigoCam : this.formBuscar.get('frmCam')?.value
+    estado: this.formBuscar.get('frmSearchEstado')?.value,
+    pageNum: this.pageNum,
+    pageSize: this.pageSize
   };
+
+  this.reportService.getExcelTalleresTallerista(payload).subscribe((data)=>{
+    this.notificationService.success('Se esta descargando el reporte');
+    const blob: Blob = new Blob([data], { type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet' });
+    const url = window.URL.createObjectURL(blob);
+    const anchor = document.createElement('a');
+    anchor.download = 'Reporte_Talleres_Del_Tallerista.xlsx';
+    anchor.href = url;
+    anchor.click();
+    window.URL.revokeObjectURL(url);
+  })
 
 }
 

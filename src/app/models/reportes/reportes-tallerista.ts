@@ -69,3 +69,18 @@ export interface AsistenciaTaller{
     acreditado: boolean,
     agregadoFueraDeFecha: boolean
 }
+
+
+export interface imprimirRequestTalleresTallerista{
+    idUsuario: number,
+    idUnidadOperativa: number,
+    texto: string,
+    fecInicio: string,
+    fecFin: string,
+    estado: string,
+    pageNum: number,
+    pageSize: number
+  }
+  
+
+
