@@ -17,7 +17,7 @@ import { ReportesTalleristaService } from 'src/app/data/services/reportes/report
 import { InscripcionModalComponent } from '../../modals/inscripcion-modal/inscripcion-modal.component';
 import { Dialog } from '@angular/cdk/dialog';
 import { InscripcionModalTalleristaComponent } from '../../modals/inscripcion-modal-tallerista/inscripcion-modal-tallerista.component';
-import { Subscription, forkJoin, of } from 'rxjs';
+import { Observable, Subscription, forkJoin, of } from 'rxjs';
 import { InscripcionTalleristaControlService } from 'src/app/events/control/inscripcion-tallerista-control.service';
 import { ModalConfirmarComponent } from '../sub-components/dialogs/modal-confirmar/modal-confirmar.component';
 import { ModalEditarComponent } from '../sub-components/dialogs/modal-editar/modal-editar.component';
@@ -426,8 +426,8 @@ export class ControlTalleristaSesionesComponent {
     if(response.success){
       forkJoin(
         this.controlService.registerCierreDetalleControl(this.sesiones[0].idControlAsistenciaDet),
-        (this.sesiones.length > 1 ? this.controlService.registerCierreDetalleControl(this.sesiones[1].idControlAsistenciaDet) :  of(null)),
-        (this.sesiones.length > 2 ? this.controlService.registerCierreDetalleControl(this.sesiones[2].idControlAsistenciaDet) :  of(null))
+        (this.sesiones.length > 1 ? this.cerrarCierreDetalle(this.sesiones[1]) :  of(null)),
+        (this.sesiones.length > 2 ? this.cerrarCierreDetalle(this.sesiones[2]) :  of(null))
       ).subscribe(result => {
         this.statusCierreLoading = true;
       this.controlService.registerCierreCabeceraControl(this.idControlAsistenciaCab).subscribe((dataCierre)=>{
@@ -437,7 +437,7 @@ export class ControlTalleristaSesionesComponent {
           this.opcionesBotones[1].deshabilitado = true;
    
           this.modificaAsistencia = false;
-          this.notificationService.warning("Se ha finalizado al taller exitósamente");
+          this.notificationService.success("Se ha finalizado al taller exitósamente");
           
         }
         else{
@@ -454,6 +454,11 @@ export class ControlTalleristaSesionesComponent {
      
    })
    
+  }
+
+
+  cerrarCierreDetalle(obj: any): Observable<any>{
+    return obj.idControlAsistenciaDet ? this.controlService.registerCierreDetalleControl(obj.idControlAsistenciaDet) : of(null)
   }
 
   levantarModalAgregarAsegurado(){

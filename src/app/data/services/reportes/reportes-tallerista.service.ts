@@ -42,5 +42,10 @@ export class ReportesTalleristaService {
     return this._httpClient.post(url, model, {responseType:'blob', headers: new HttpHeaders({'Accept': 'application/octet-stream'})});
   }
 
+  getExcelDetalleTallerTallerista(idProgDet: string): Observable<Blob>{
+    const url = `${environment.API}/report/tallerista/excel/lista/sesiones`;
+    return this._httpClient.post(url, {idProgDet}, {responseType:'blob', headers: new HttpHeaders({'Accept': 'application/octet-stream'})});
+  }
+
   
 }

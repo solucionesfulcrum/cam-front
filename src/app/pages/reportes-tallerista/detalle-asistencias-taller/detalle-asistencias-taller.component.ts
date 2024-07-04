@@ -125,6 +125,8 @@ export class DetalleAsistenciasTallerComponent {
       });
     }
 
+    
+
     getDetalleTaller(idProgDet: string){
       this.loadingDetalleTaller = true;
       this.reportService.getDataCabeceraAsistenciaTaller(idProgDet).subscribe(rpta=>{
@@ -136,8 +138,6 @@ export class DetalleAsistenciasTallerComponent {
         this.horaInicio = rpta.data.horaInicio;
         this.horaFin = rpta.data.horaFin;
         this.sesiones = rpta.data.listaProgSubDet;
-
-        this.opcionesBotones[0].deshabilitado = rpta.data.cerradoCabecera
 
         this.idControlAsistenciaDet = rpta.data.listaProgSubDet.filter(e=>e.cursor)[0].idControlAsistenciaDet
         setTimeout(()=>{
@@ -178,23 +178,16 @@ export class DetalleAsistenciasTallerComponent {
     }
     
     imprimirLista(){
-      var fecInicio: any;
-      var fecFin: any;
-      var fechaSinFormatInit = this.formBuscar.value.frmSearchDate.split(' - ')[0];
-      var fechaSinFormatFin = this.formBuscar.value.frmSearchDate.split(' - ')[1];
-      fecInicio = `${fechaSinFormatInit.split('/')[2]}-${fechaSinFormatInit.split('/')[1]}-${fechaSinFormatInit.split('/')[0]}`;
-      fecFin = `${fechaSinFormatFin.split('/')[2]}-${fechaSinFormatFin.split('/')[1]}-${fechaSinFormatFin.split('/')[0]}`;
-      var idUnidOpe = JSON.parse(localStorage.getItem("UnidElegida")!);
-    
-      let payload: imprimirRequestCam = {
-        idUnidOpe: idUnidOpe.idUnidOperativa,
-        texto: this.formBuscar.controls['frmSearch'].value,
-        estado: parseInt(this.formBuscar.get('frmSearchEstado')?.value),
-        fecInicio: fecInicio,
-        fecFin: fecFin,
-        codigoCam : this.formBuscar.get('frmCam')?.value
-      };
-    
+      this.reportService.getExcelDetalleTallerTallerista(this.idProgDet).subscribe((data)=>{
+        this.notificationService.success('Se esta descargando el reporte');
+        const blob: Blob = new Blob([data], { type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet' });
+        const url = window.URL.createObjectURL(blob);
+        const anchor = document.createElement('a');
+        anchor.download = 'Reporte_Detalle_Tallerista.xlsx';
+        anchor.href = url;
+        anchor.click();
+        window.URL.revokeObjectURL(url);
+      })
     }
 
     
@@ -255,6 +248,8 @@ export class DetalleAsistenciasTallerComponent {
       
       return resultado;
     }
+
+  
     
 
   modificarAsistencia(){
