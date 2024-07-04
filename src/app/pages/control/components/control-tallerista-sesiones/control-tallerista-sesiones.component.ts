@@ -36,6 +36,7 @@ export class ControlTalleristaSesionesComponent {
   private eventoSubscription!: Subscription;
  
   opcionesBotones: FormatoBoton[] = [
+    {texto: 'Exportar Excel', colorBtn: 'bordeado'},
     {texto: 'Modificar Asistencia', colorBtn: 'bordeado'},
     {texto: 'Finalizar', colorBtn:'mezclado'},
   ];
@@ -163,8 +164,8 @@ export class ControlTalleristaSesionesComponent {
         this.sesiones = rpta.data.listaProgSubDet;
         this.idControlAsistenciaCab = rpta.data.idControlAsistenciaCab;
 
-        this.opcionesBotones[0].deshabilitado = rpta.data.cerradoCabecera
         this.opcionesBotones[1].deshabilitado = rpta.data.cerradoCabecera
+        this.opcionesBotones[2].deshabilitado = rpta.data.cerradoCabecera
 
         this.idControlAsistenciaDet = rpta.data.listaProgSubDet.filter(e=>e.numeracion == this.sessionSeleccionada)[0].idControlAsistenciaDet
         setTimeout(()=>{
@@ -205,24 +206,18 @@ export class ControlTalleristaSesionesComponent {
     }
     
     imprimirLista(){
-      var fecInicio: any;
-      var fecFin: any;
-      var fechaSinFormatInit = this.formBuscar.value.frmSearchDate.split(' - ')[0];
-      var fechaSinFormatFin = this.formBuscar.value.frmSearchDate.split(' - ')[1];
-      fecInicio = `${fechaSinFormatInit.split('/')[2]}-${fechaSinFormatInit.split('/')[1]}-${fechaSinFormatInit.split('/')[0]}`;
-      fecFin = `${fechaSinFormatFin.split('/')[2]}-${fechaSinFormatFin.split('/')[1]}-${fechaSinFormatFin.split('/')[0]}`;
-      var idUnidOpe = JSON.parse(localStorage.getItem("UnidElegida")!);
-    
-      let payload: imprimirRequestCam = {
-        idUnidOpe: idUnidOpe.idUnidOperativa,
-        texto: this.formBuscar.controls['frmSearch'].value,
-        estado: parseInt(this.formBuscar.get('frmSearchEstado')?.value),
-        fecInicio: fecInicio,
-        fecFin: fecFin,
-        codigoCam : this.formBuscar.get('frmCam')?.value
-      };
-    
+      this.reportService.getExcelDetalleTallerTallerista(this.idProgDet).subscribe((data)=>{
+        this.notificationService.success('Se esta descargando el reporte');
+        const blob: Blob = new Blob([data], { type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet' });
+        const url = window.URL.createObjectURL(blob);
+        const anchor = document.createElement('a');
+        anchor.download = 'Reporte_Detalle_Tallerista.xlsx';
+        anchor.href = url;
+        anchor.click();
+        window.URL.revokeObjectURL(url);
+      })
     }
+
 
     
     handlePageEvent(event: PageEvent) {
@@ -395,11 +390,11 @@ export class ControlTalleristaSesionesComponent {
   modificarAsistencia(){
     if(!this.modificaAsistencia){
       this.modificaAsistencia = true;
-      this.opcionesBotones[0].texto = "Guardar";
+      this.opcionesBotones[1].texto = "Guardar";
     }
     else{
       this.modificaAsistencia = false;
-      this.opcionesBotones[0].texto = "Modificar Asistencia";
+      this.opcionesBotones[1].texto = "Modificar Asistencia";
     }
   }
 
@@ -433,8 +428,8 @@ export class ControlTalleristaSesionesComponent {
       this.controlService.registerCierreCabeceraControl(this.idControlAsistenciaCab).subscribe((dataCierre)=>{
         this.statusCierreLoading = false;
         if (dataCierre.code == 0) {
-          this.opcionesBotones[0].deshabilitado = true;
           this.opcionesBotones[1].deshabilitado = true;
+          this.opcionesBotones[2].deshabilitado = true;
    
           this.modificaAsistencia = false;
           this.notificationService.success("Se ha finalizado al taller exitósamente");

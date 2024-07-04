@@ -46,9 +46,9 @@
                     <div class="flex flex-row gap-3 grow">
                         <input type="text" class="inputTextoDialog focusCampo" *ngIf="ctrlTypeSearch.value == 1" 
                         [formControl]="ctrlSearch" [matAutocomplete]="asegurados" 
-                        [readonly]="!dataPaginada.cerrado || esperaBusquedaAsegurados"
-                        [placeholder]="!dataPaginada.cerrado ? 'Asistencia Cerrada' :  esperaBusquedaAsegurados ?  'Cargando data' : 'Buscador' "
-                        [ngClass]="{'bg-gray-100': esperaBusquedaAsegurados || !dataPaginada.cerrado}"
+                        [readonly]="!dataPaginada.cerrado || esperaBusquedaAsegurados || datoProgramacion.cerradoCabecera"
+                        [placeholder]="!dataPaginada.cerrado || datoProgramacion.cerradoCabecera ? 'Asistencia Cerrada' :  esperaBusquedaAsegurados ?  'Cargando data' : 'Buscador' "
+                        [ngClass]="{'bg-gray-100': esperaBusquedaAsegurados || !dataPaginada.cerrado || datoProgramacion.cerradoCabecera}"
                         >
                         <mat-autocomplete #asegurados="matAutocomplete" [displayWith]="displayAseguradoFiltered" (optionSelected)="onAseguradoSelect($event)"
                         (optionsScroll)="onAutocompleteScroll()">
@@ -65,7 +65,8 @@
                         <div class="flex flex-row gap-3 grow" *ngIf="ctrlTypeSearch.value == 2" [formGroup]="formBuscarPersona">
                             <div class="shrink-0">
                               <div class="relative rounded-md shadow-sm">
-                                <select id="searchDoc" formControlName="frmSelectDoc"
+                                <select id="searchDoc" formControlName="frmSelectDoc" 
+                                [disabled]="datoProgramacion.cerradoCabecera"
                                   class="space-x-5 bg-slate-50 border border-gray-300 text-gray-900 text-sm rounded-lg focusCampo block w-full">
                                   <option value="" disabled selected>Seleccione su tipo de documento</option>
                                   <option *ngFor="let documento of opciones" [value]='documento.valor1'>{{documento.nombre | titlecase}}
@@ -74,12 +75,17 @@
                                 </select>
                               </div>
                             </div>
-                            <input formControlName="frmDoc" placeholder="Buscador" type="text" name="doc" class="w-full text-sm rounded bg-white border-gray-400 border-1 px-4 py-2 font-light focusCampo grow" [readonly]="!dataPaginada.cerrado"/>
+                            <input formControlName="frmDoc" placeholder="Buscador" type="text" name="doc" 
+                            class="w-full text-sm rounded bg-white border-gray-400 border-1 px-4 py-2 font-light focusCampo grow" 
+                            [readonly]="!dataPaginada.cerrado || datoProgramacion.cerradoCabecera"/>
                         </div>
-                        <div class="w-[34px] h-10 flex items-center justify-center border border-gray-400 rounded shrink-0" [ngClass]="esperaBusqueda ? 'relative' : 'cursor-pointer hover:bg-slate-200'" (click)="!esperaBusqueda ? searchSiApto(formBuscarPersona.controls.frmSelectDoc.value!, formBuscarPersona.controls.frmDoc.value!) : null">
-                          <img src="assets/svg/icon-contrato-confirm.svg" class="select-none" [ngClass]="esperaBusqueda ? 'opacity-50' : null">
-                          <fa-icon *ngIf="esperaBusqueda" class="absolute" [icon]="faSpinner" [pulse]="true"></fa-icon>
-                        </div>
+                        <ng-container *ngIf="!datoProgramacion.cerradoCabecera">
+                            <div class="w-[34px] h-10 flex items-center justify-center border border-gray-400 rounded shrink-0" [ngClass]="esperaBusqueda ? 'relative' : 'cursor-pointer hover:bg-slate-200'" (click)="!esperaBusqueda ? searchSiApto(formBuscarPersona.controls.frmSelectDoc.value!, formBuscarPersona.controls.frmDoc.value!) : null">
+                                <img src="assets/svg/icon-contrato-confirm.svg" class="select-none" [ngClass]="esperaBusqueda ? 'opacity-50' : null">
+                                <fa-icon *ngIf="esperaBusqueda" class="absolute" [icon]="faSpinner" [pulse]="true"></fa-icon>
+                              </div>
+                        </ng-container>
+
                        <!-- <div class="w-[34px] h-10 flex items-center justify-center border border-gray-400 rounded shrink-0" *ngIf="ctrlTypeSearch.value == 1" [ngClass]="esperaBusquedaAsegurados ? 'relative' : 'cursor-pointer hover:bg-slate-200'" (click)="!esperaBusquedaAsegurados ? getListAseguradosFindByText('') : null">
                             <img src="assets/svg/icons8-refresh-2.svg" class="select-none" [ngClass]="esperaBusquedaAsegurados ? 'opacity-0' : null">
                             <fa-icon *ngIf="esperaBusquedaAsegurados" class="absolute" [icon]="faSpinner" [pulse]="true"></fa-icon>
@@ -121,7 +127,9 @@
                     <img src="assets/svg/icon-asistencia-preview.svg" class="select-none" [ngClass]="validateActivo(0) ? (flagListas ? 'opacity-50' : null) : 'opacity-50'">
                     <fa-icon *ngIf="flagListas" class="absolute" [icon]="faSpinner" [pulse]="true"></fa-icon>
                 </div>
-                <app-btn class="botonApariencia flex flex-row h-10" color="mezclado" (click)="detalleAsistenciaActual.cerrado ?  cambioHora() : cerrarAsistencia()" [loading]="status === 'loading'" [disabled]="bloqueo">
+                <app-btn class="botonApariencia flex flex-row h-10" color="mezclado" 
+                (click)="detalleAsistenciaActual.cerrado ?  cambioHora() : cerrarAsistencia()" [loading]="status === 'loading'" 
+                [disabled]="bloqueo || datoProgramacion.cerradoCabecera">
                     <div class="flex flex-row items-center gap-[5px]">
                         <img *ngIf="detalleAsistenciaActual.cerrado" class="self-center" src="assets/svg/icon-list-assignments.svg">
                         <span>{{!detalleAsistenciaActual.cerrado ? 'Cerrar Asistencia' : (comienzoSesiones == datoProgramacion.numSesiones ? 'Finalizar Taller' : (comienzoSesiones + 1) + ' Hora' )}}</span>

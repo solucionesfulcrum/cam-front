@@ -46,10 +46,10 @@
                     <div class="flex flex-row gap-3 grow">
                         <input type="text" 
                         class="inputTextoDialog focusCampo" *ngIf="ctrlTypeSearch.value == 1" [formControl]="ctrlSearch" 
-                        [readonly]="esperaBusqueda" [matAutocomplete]="asegurados" 
-                        [placeholder]="esperaBusqueda ? 'Cargando data...' : 'Buscador'"
+                        [readonly]="esperaBusqueda || datoProgramacion.cerrado" [matAutocomplete]="asegurados" 
+                        [placeholder]="datoProgramacion.cerrado ? 'Asistencia Cerrada' : esperaBusqueda ? 'Cargando data...' : 'Buscador'"
                         
-                        [ngClass]="{'bg-gray-100': esperaBusqueda}"
+                        [ngClass]="{'bg-gray-100': esperaBusqueda || datoProgramacion.cerrado}"
                         >
                         <mat-autocomplete #asegurados="matAutocomplete" [displayWith]="displayAseguradoFiltered" (optionSelected)="onAseguradoSelect($event)"
                         (optionsScroll)="onAutocompleteScroll()" >
@@ -67,6 +67,7 @@
                             <div class="shrink-0">
                               <div class="relative rounded-md shadow-sm">
                                 <select id="searchDoc" formControlName="frmSelectDoc"
+                                [disabled]="datoProgramacion.cerrado"
                                   class="space-x-5 bg-slate-50 border border-gray-300 text-gray-900 text-sm rounded-lg focusCampo block w-full">
                                   <option value="" disabled selected>Seleccione su tipo de documento</option>
                                   <option *ngFor="let documento of opciones" [value]='documento.valor1'>{{documento.nombre | titlecase}}
@@ -81,14 +82,19 @@
                             type="text" 
                             name="doc" 
                             class="w-full text-sm rounded bg-white border-gray-400 border-1 px-4 py-2 font-light focusCampo grow"
-                            [readOnly]="formBuscarPersona.get('frmSelectDoc')?.value == ''"
-                            [ngClass]="{'bg-slate-50': formBuscarPersona.get('frmSelectDoc')?.value == ''}"
+                            [readOnly]="formBuscarPersona.get('frmSelectDoc')?.value == '' || datoProgramacion.cerrado"
+                            [ngClass]="{'bg-slate-50': formBuscarPersona.get('frmSelectDoc')?.value == ''&& !datoProgramacion.cerrado,
+                                'bg-gray-100': datoProgramacion.cerrado
+                            }"
+                            [disabled]="datoProgramacion.cerrado"
                             />
                         </div>
-
-                        <div class="w-[34px] h-10 flex items-center justify-center border border-gray-400 rounded shrink-0" *ngIf="!esperaBusqueda && ctrlTypeSearch.value == 2" (click)="!esperaBusqueda ? onAseguradoSelectCodigoBarra($event) : null">
-                            <img src="assets/svg/icon-contrato-confirm.svg" class="select-none">
-                          </div>
+                        <ng-container *ngIf="!datoProgramacion.cerrado">
+                            <div class="w-[34px] h-10 flex items-center justify-center border border-gray-400 rounded shrink-0" *ngIf="!esperaBusqueda && ctrlTypeSearch.value == 2" (click)="!esperaBusqueda ? onAseguradoSelectCodigoBarra($event) : null">
+                                <img src="assets/svg/icon-contrato-confirm.svg" class="select-none">
+                              </div>
+                        </ng-container>
+                      
                        <!-- <div class="w-[34px] h-10 flex items-center justify-center border border-gray-400 rounded shrink-0" *ngIf="ctrlTypeSearch.value == 1" [ngClass]="esperaBusqueda ? 'relative' : 'cursor-pointer hover:bg-slate-200'" (click)="!esperaBusqueda ? getListAseguradosFindByText('') : null">
                           <img src="assets/svg/icons8-refresh-2.svg" class="select-none" [ngClass]="esperaBusqueda ? 'opacity-0' : null">
                           <fa-icon *ngIf="esperaBusqueda" class="absolute" [icon]="faSpinner" [pulse]="true"></fa-icon>

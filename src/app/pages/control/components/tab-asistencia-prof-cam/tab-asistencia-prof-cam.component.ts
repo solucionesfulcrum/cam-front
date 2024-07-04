@@ -246,7 +246,7 @@ export class TabAsistenciaProfCamComponent {
         if (!data.data[0].acreditacion) {
           this.notificacionService.warning(data.message);
         }
-        if(data.code == 0){
+        if(data.data){
           let unidadOperativa : string = (JSON.parse(localStorage.getItem('UnidElegida')!)).idUnidOperativa;
           let selectedProgramacion : string = String(localStorage.getItem('idProgramElegida'));
           this.controlProgramacionService.registrarInscripcion({

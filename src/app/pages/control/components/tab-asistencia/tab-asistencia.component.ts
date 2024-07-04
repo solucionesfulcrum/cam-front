@@ -596,6 +596,7 @@ export class TabAsistenciaComponent {
     this.status = 'loading';
     this.controlService.registerCierreDetalle(this.dataPaginada.idControlAsistenciaDet).subscribe((dataCierre)=>{
       if (dataCierre.code == 0) {
+        this.datoProgramacion.cerradoCabecera = true;
         this.getDataCabecera();
       }
       else{
