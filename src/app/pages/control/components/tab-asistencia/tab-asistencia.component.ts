@@ -162,6 +162,7 @@ export class TabAsistenciaComponent {
         if (!data.data[0].acreditacion) {
           this.notificacionService.warning(data.message);
         }
+        if(data.data[0].acreditacion)
         this.controlService.registerAseguradoDetalle(
           {idControlAsistenciaDet: this.dataPaginada.idControlAsistenciaDet, 
             idFichaAdmision: data.data[0].idFichaAsegurado, 
