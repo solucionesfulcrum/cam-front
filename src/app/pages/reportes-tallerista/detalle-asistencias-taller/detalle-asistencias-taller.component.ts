@@ -199,7 +199,7 @@ export class DetalleAsistenciasTallerComponent {
     }
 
     setSesion(nroSesion: number, idControlAsistenciaDet: number, countAsistencia: number){
-      if(countAsistencia > 0){
+      if(idControlAsistenciaDet){
         this.sessionSeleccionada = nroSesion;
         this.idControlAsistenciaDet = idControlAsistenciaDet
         this.loadData();

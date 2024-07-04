@@ -66,7 +66,7 @@
       [dataLoading]="loadingData"
       [height]="'50vh'"
       ></esp-data-loading>
-      <div *ngIf="!loadingData && dataSource.length > 0">
+      <div *ngIf="!loadingData && (dataSource.length > 0 || dataSourceEliminados.length > 0)">
           <div class="table-container" 
           [style]="dataSourceEliminados.length == 0 ? 'height: 50vh !important' : 'height: 30vh !important' "
           >
@@ -75,7 +75,7 @@
             <tr cdk-header-row class="text-xs text-gray-700 bg-gray-50" *cdkHeaderRowDef="columns; sticky: true"></tr>
             <tr cdk-row class="bg-white border-b" *cdkRowDef="let row; columns: columns"></tr>
             <ng-container cdkColumnDef="marcar">
-              <th cdk-header-cell class="py-[1.25rem] px-6" *cdkHeaderCellDef [style]="'width: 0%;'" > <input type="checkbox" [checked]="seleccionados.length == this.dataSource.length" (change)="afectarTodo($event)"/> </th>
+              <th cdk-header-cell class="py-[1.25rem] px-6" *cdkHeaderCellDef [style]="'width: 0%;'" > <input type="checkbox" [checked]="seleccionados.length == this.dataSource.length && this.dataSource.length != 0" (change)="afectarTodo($event)"/> </th>
                 <td cdk-cell class="py-[1rem] px-6" *cdkCellDef="let row" [style]="'width: 0%;'" > <input type="checkbox" class="checkbox-select" (change)="seleccionarFila($event)" [value]="row.idInscripcion" [checked]="row.marcar"/> </td>
             </ng-container>
       

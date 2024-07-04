@@ -56,7 +56,7 @@ export class FormularioBajaComponent {
   }
 
   onClose(){
-    
+    this._dialogRef.close();
   }
 
   darDeBaja(){
