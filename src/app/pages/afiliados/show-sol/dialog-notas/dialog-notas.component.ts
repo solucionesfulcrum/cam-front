@@ -14,6 +14,7 @@ import { AfiliacionesSolicitudesService } from 'src/app/data/services/afiliacion
 export class DialogNotasComponent {
   status: RequestStatus = 'init';
   estadoAfi: string = '';
+  estado!: number;
   frmCtrlNota = new FormControl();
   registrosNotas: any[] = [];
   idUserSession = (JSON.parse(localStorage.getItem('camUser')!)).idUsuario;
@@ -23,9 +24,17 @@ export class DialogNotasComponent {
               private notificationService                     : NotificationService,
               private fb                                      : FormBuilder,
               private _dialogRef                              : DialogRef<DialogNotasComponent>,) {
-    this.estadoAfi = data.estadoAfi;
-    if(!this.estadoAfi){
+    this.estado = data.estado;
+    if(!this.estado){
       this.estadoAfi = 'ACTIVO';
+    }
+    else{
+      if(this.estado == 13 || this.estado == 14){
+        this.estadoAfi = 'ACTIVO';
+      }
+      else{
+        this.estadoAfi = 'BAJA';
+      }
     }
 
   }

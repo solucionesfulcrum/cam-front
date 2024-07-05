@@ -73,7 +73,7 @@ export class ShowAfiliadoComponent implements OnInit {
       if (data.code == 0) {
         //console.log(data.data)
         this.dataFichaAfiliado = data.data;
-        if(this.dataFichaAfiliado.fichaAdmision.datosAfiliacion.estadoAfi == "BAJA"){
+        if(this.dataFichaAfiliado.fichaAdmision.estado != "13" && this.dataFichaAfiliado.fichaAdmision.estado != "14"){
           //this.opcionesBotones[0].deshabilitado = true;
           this.opcionesBotones[1].deshabilitado = true;
           this.opcionesBotones[2].deshabilitado = true;
@@ -138,7 +138,8 @@ export class ShowAfiliadoComponent implements OnInit {
       maxWidth:'50%',        
       data:{
         idSolicitud: this.dataFichaAfiliado.fichaAdmision.idFichaAdmision,
-        estadoAfi: this.dataFichaAfiliado.fichaAdmision.datosAfiliacion.estadoAfi
+        estadoAfi: this.dataFichaAfiliado.fichaAdmision.datosAfiliacion.estadoAfi,
+        estado: this.dataFichaAfiliado.fichaAdmision.estado
       }
     })
     dialogRef.closed.subscribe(out =>{
