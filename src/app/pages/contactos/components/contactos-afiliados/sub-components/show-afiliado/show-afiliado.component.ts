@@ -53,6 +53,12 @@ export class ShowAfiliadoComponent implements OnInit {
       this.idFicha = this.activeRoute.snapshot.paramMap.get('idFicha')!;
       this.links[0].url = `/app/contactos/show/${this.idFicha}`;
       this.links[1].url = `/app/contactos/show/${this.idFicha}/evaluaciones`;
+
+      if(this.router.getCurrentNavigation()?.extras.state){
+        if(this.router.getCurrentNavigation()?.extras.state!['esConsulta']){
+          this.opcionesBotones = [];
+        }
+      }
   }
 
   ngOnInit(): void {
