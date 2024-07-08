@@ -10,7 +10,8 @@ export class ContactosComponent implements OnInit {
 
   links: FormatoTab[] = [
     {url: `/app/contactos`, title:'Asegurados'},
-    {url: `/app/contactos/talleristas`, title:'Talleristas'}
+    {url: `/app/contactos/talleristas`, title:'Talleristas'},
+    {url: `/app/contactos/busqueda`, title:'Búsqueda'},
   ];
 
   constructor() { }

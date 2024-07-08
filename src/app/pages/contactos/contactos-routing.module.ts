@@ -11,6 +11,7 @@ import { EditAseguradoComponent } from './components/contactos-afiliados/sub-com
 import { ContactoTabContratosComponent } from './components/contactos-talleristas/sub-components/show-tallerista/tabs/contacto-tab-contratos/contacto-tab-contratos.component';
 import { ContactoTabCalendarioComponent } from './components/contactos-talleristas/sub-components/show-tallerista/tabs/contacto-tab-calendario/contacto-tab-calendario.component';
 import { ContactoTabTalleresComponent } from './components/contactos-talleristas/sub-components/show-tallerista/tabs/contacto-tab-talleres/contacto-tab-talleres.component';
+import { ContactosBusquedaComponent } from './components/contactos-busqueda/contactos-busqueda.component';
 
 const routes: Routes = [
   {
@@ -73,7 +74,12 @@ const routes: Routes = [
             title: 'Evaluaciones Afiliado'
           }
         ]
-      }
+      },
+      {
+        path: 'busqueda',
+        component: ContactosBusquedaComponent,
+        title: 'Contacto - Afiliados'
+      },
     ]
   },
   {
