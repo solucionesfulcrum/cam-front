@@ -6,6 +6,8 @@ import { UsersService } from '@services/users.service';
 import { SharedModule } from '@shared/shared.module';
 import { ActiveUserModalComponent } from '../active-user-modal/active-user-modal.component';
 import { DatosGeneralesService } from 'src/app/data/services/datos-generales.service';
+import { ModalAlertComponent } from '@shared/components/modal-alert/modal-alert.component';
+import { MatDialog } from '@angular/material/dialog';
 
 @Component({
   selector: 'app-show',
@@ -29,7 +31,9 @@ export class ShowComponent {
   constructor(private route: ActivatedRoute,
     private _usersService:UsersService,
     private datosGenerales : DatosGeneralesService,
-    private dialog : Dialog) {
+    private dialog : Dialog,
+    private matDialog: MatDialog
+  ) {
       this.onLoadData();
   }
 
@@ -88,16 +92,28 @@ export class ShowComponent {
   }
 
   openDialog(){
-    const dialogRef = this.dialog.open(ActiveUserModalComponent,{
-      minWidth:'800px',
-      maxWidth:'50%',
-      data:{
-        idUser: this.idUser,
-        user: this.user
-      }
-    })
-    dialogRef.closed.subscribe(out =>{
-      this.onLoadData();
-    })
+    if(this.user.estado == "CREADO"){
+      const dialogRef = this.matDialog.open(ModalAlertComponent,{
+        minWidth:'800px',
+        maxWidth:'50%',
+        data:{
+          mensaje : "No se puede realizar la activación porque el usuario no ha terminado con el registro"
+        }
+      })
+    }
+    else{
+      const dialogRef = this.dialog.open(ActiveUserModalComponent,{
+        minWidth:'800px',
+        maxWidth:'50%',
+        data:{
+          idUser: this.idUser,
+          user: this.user
+        }
+      })
+      dialogRef.closed.subscribe(out =>{
+        this.onLoadData();
+      })
+    }
+   
   }
 }
