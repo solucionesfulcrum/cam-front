@@ -12,6 +12,7 @@ import { RequestChangePassword, RequestDatosFormacionRegistro, RequestDatosPerso
 import { NotificationService } from '@services/notification.service';
 import { formatDate } from '@angular/common';
 import { capitalizar } from '@utils/capitalizador';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'esp-edit-active-user',
@@ -84,7 +85,10 @@ export class EditActiveUserComponent {
 
   distrControl = new FormControl();
 
-  constructor(private fb: FormBuilder, private datosService: DatosGeneralesService, private notificationService: NotificationService, @Inject(LOCALE_ID) private locale: string,) {
+  constructor(private fb: FormBuilder, private datosService: DatosGeneralesService, 
+    private notificationService: NotificationService, @Inject(LOCALE_ID) private locale: string,
+    private toast : ToastrService
+  ) {
 
   }
 
@@ -110,6 +114,25 @@ export class EditActiveUserComponent {
     if (!allowedKeys.includes(key)) {
         event.preventDefault();
     }
+  }
+
+  base64ToBlob(base64: string, contentType: string): Blob {
+    const byteCharacters = atob(base64);
+    const byteArrays = [];
+
+    for (let offset = 0; offset < byteCharacters.length; offset += 512) {
+      const slice = byteCharacters.slice(offset, offset + 512);
+
+      const byteNumbers = new Array(slice.length);
+      for (let i = 0; i < slice.length; i++) {
+        byteNumbers[i] = slice.charCodeAt(i);
+      }
+
+      const byteArray = new Uint8Array(byteNumbers);
+      byteArrays.push(byteArray);
+    }
+
+    return new Blob(byteArrays, { type: contentType });
   }
 
   grabarDatosPersonales() {
@@ -298,6 +321,32 @@ export class EditActiveUserComponent {
     };
   }
 
+  updateFirmaFoto(files: FileList | null): void {
+    if (files && files.length > 0) {
+      const file = files[0];
+      const reader = new FileReader();
+
+      reader.onload = () => {
+        // Convert image to base64 string
+        const base64String = (reader.result as string).split(',')[1];
+        this.imagenFirma = base64String;
+
+        const idUsuario = (JSON.parse(localStorage.getItem('camUser')!)).idUsuario;
+
+        this.datosService.grabarFirma(idUsuario, this.base64ToBlob(this.imagenFirma, file.type)).subscribe((data : any)=>{
+          if(data.code == 0){
+            this.toast.success("Imagen guardada");
+          }
+          else{
+            this.toast.warning("No se guardó la imagen")
+          }
+        })
+      };
+
+      reader.readAsDataURL(file);
+    }
+  }
+
   onChangeFileFoto(files: any) {
     ////console.log("hola mundo", files)
     if (files.length === 0) {
@@ -326,6 +375,31 @@ export class EditActiveUserComponent {
       ////console.log(this.applicationFile)
       this.isFotoUpdate = true;
     };
+  }
+
+  updateFileFoto(files: FileList | null): void {
+    if (files && files.length > 0) {
+      const file = files[0];
+      const reader = new FileReader();
+
+      reader.onload = () => {
+        // Convert image to base64 string
+        const base64String = (reader.result as string).split(',')[1];
+        this.imagenFoto = base64String;
+
+        const idUsuario = (JSON.parse(localStorage.getItem('camUser')!)).idUsuario;
+        this.datosService.grabarFoto(idUsuario, this.base64ToBlob(this.imagenFoto, file.type)).subscribe((data : any)=>{
+          if(data.code == 0){
+            this.toast.success("Imagen guardada");
+          }
+          else{
+            this.toast.warning("No se guardó la imagen")
+          }
+        })
+      };
+
+      reader.readAsDataURL(file);
+    }
   }
 
   actualizarDate(input: any, opt: number) {

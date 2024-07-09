@@ -20,8 +20,23 @@
 
             </div>
         </div>
-        <img *ngIf="imagenFoto" [src]="'data:image/JPEG;base64,' + imagenFoto"
+        <div *ngIf="imagenFoto" class="my-1 imagen w-32 h-32 rounded-full border-b-2">
+              <img *ngIf="imagenFoto" [src]="'data:image/JPEG;base64,' + imagenFoto"
             class="my-1 imagen w-32 h-32 rounded-full">
+        </div>
+        <div *ngIf="imagenFoto"
+            class="my-1 w-14 h-14 mt-20 -ml-12 rounded-full border-b-2 flex items-center justify-center cursor-pointer">
+            <div *ngIf="imagenFoto" (click)="isImageFotoUpdate ? null : fileImagenFotoUpdate.click()"
+                class="w-full h-full rounded-full bg-cam">
+                <input hidden #fileImagenFotoUpdate type="file" name="Upload" accept="image/jpeg,image/png"
+                    (change)="updateFileFoto(fileImagenFotoUpdate.files)">
+                <div style="width: 35px; height: 35px;"
+                    class="my-1 ml-3 mt-2 border-b-2 flex items-center justify-center"><img class="select-none"
+                        src="assets/svg/camera.svg" /></div>
+
+            </div>
+        </div>
+      
     </div>
     <h1 class="font-bold mt-4">{{nombreCompleto | titlecase}}</h1>
     <div class="flex items-center justify-start space-x-4">
@@ -227,13 +242,16 @@
                 <div *ngIf="!imagenFirma" (click)="isImageFotoUpdateFirma ? null : fileImagenFotoFirma.click()"
                     class="my-1 imagen w-32 h-16 border-b-2 bg-gray-200">
                     <input hidden #fileImagenFotoFirma type="file" name="Upload" accept="image/jpeg,image/png"
-                        (change)="onChangeFileFotoFirma(fileImagenFotoFirma.files)">
+                        (change)="updateFirmaFoto(fileImagenFotoFirma.files)">
                     <div style="width: 35px; height: 35px;"
                         class="my-1 ml-12 mt-2 border-b-2 flex items-center justify-center"><img class="select-none"
                             src="assets/svg/camera.svg" /></div>
 
                 </div>
-                <img *ngIf="imagenFirma" [src]="'data:image/JPEG;base64,' + imagenFirma" class="my-1 imagen w-32 h-32">
+                <input hidden #fileImagenFotoFirma type="file" name="Upload" accept="image/jpeg,image/png"
+                        (change)="updateFirmaFoto(fileImagenFotoFirma.files)">
+                <img *ngIf="imagenFirma" (click)="fileImagenFotoFirma.click()" (click)="updateFirmaFoto(fileImagenFotoFirma.files)" [src]="'data:image/JPEG;base64,' + imagenFirma" 
+                class="my-1 imagen w-32 h-32">
             </div>
         </div>
         <div class="flex justify-end mt-6">

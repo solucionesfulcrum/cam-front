@@ -147,6 +147,20 @@ export class DatosGeneralesService {
     return this._httpClient.get<any>(url);
   }
 
+  grabarFoto(idUser: string, foto: Blob) {
+    const formData = new FormData();
+    formData.append('img-foto', foto);
+
+    return this._httpClient.post(`${URL_BASE}/usuario/perfil/upload/img-foto/${idUser}`, formData);
+  }
+
+  grabarFirma(idUser: string, foto: Blob){
+    const formData = new FormData();
+    formData.append('img-firma', foto);
+
+    return this._httpClient.post(`${URL_BASE}/usuario/perfil/upload/img-firma/${idUser}`, formData);
+  }
+
   registerCiram(model: RequestCiramRegistro) {
     const url = `${URL_BASE}/unidad-operativa/registrar/ciram`;
     return this._httpClient.post<any>(url, model);
