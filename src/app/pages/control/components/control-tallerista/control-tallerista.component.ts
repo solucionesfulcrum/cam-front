@@ -68,6 +68,7 @@ ngOnInit(){
       this.notificationService.warning(data.message);
     }
   });
+  this.loadData();
 }
 
 loadData(){
@@ -126,8 +127,20 @@ imprimirLista(){
 getPayloadList(): ReportesTalleristaPayload{
   var fecInicio: any;
   var fecFin: any;
-  var fechaSinFormatInit = this.formBuscar.value.frmSearchDate.split(' - ')[0];
-  var fechaSinFormatFin = this.formBuscar.value.frmSearchDate.split(' - ')[1];
+
+  // var fechaSinFormatInit = this.formBuscar.value.frmSearchDate.split(' - ')[0];
+  //var fechaSinFormatFin = this.formBuscar.value.frmSearchDate.split(' - ')[1];
+
+  const today = new Date();
+  const day = String(today.getDate()).padStart(2, '0'); // Día con dos dígitos
+  const month = String(today.getMonth() + 1).padStart(2, '0'); // Mes con dos dígitos
+  const year = today.getFullYear();
+  var fechaSinFormatFin = `${day}/${month}/${year}`;
+  var fechaSinFormatInit = '01/01/2023';
+
+   // var fechaSinFormatInit = this.formBuscar.value.frmSearchDate.split(' - ')[0];
+  //var fechaSinFormatFin = this.formBuscar.value.frmSearchDate.split(' - ')[1];
+  
   fecInicio = `${fechaSinFormatInit.split('/')[2]}-${fechaSinFormatInit.split('/')[1]}-${fechaSinFormatInit.split('/')[0]}`;
   fecFin = `${fechaSinFormatFin.split('/')[2]}-${fechaSinFormatFin.split('/')[1]}-${fechaSinFormatFin.split('/')[0]}`;
 
