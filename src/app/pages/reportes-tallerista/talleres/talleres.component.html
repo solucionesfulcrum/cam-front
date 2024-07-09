@@ -7,7 +7,7 @@
 [setFilterDateButtonBg]="'var(--color-CAM-Claro)'"
 [setDateSelectedDefault]="5"
 (sendDateFilterWithCeros)="formBuscar.get('frmSearchDate')?.setValue($event); loadData()"
-[showSearch]="true"
+[showSearch]="false"
 (searchInputValue)="formBuscar.get('frmSearch')?.setValue($event.toUpperCase()); loadData()"
 [searchInputPlaceHolder]="'Buscar Talleres'"
 [searchInputAdjustWidth]="true"
