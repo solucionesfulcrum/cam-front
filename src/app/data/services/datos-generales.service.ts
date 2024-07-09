@@ -204,4 +204,9 @@ export class DatosGeneralesService {
     const url = `${URL_BASE}/auditoria/obtener/fecha-hora-actual`;
     return this._httpClient.get<any>(url);
   }
+
+  buscarActivosServicio(){
+    const url = `${URL_BASE}/servicio/buscar/activos?texto=TALLER`;
+    return this._httpClient.get<TipoParametro>(url);
+  }
 }

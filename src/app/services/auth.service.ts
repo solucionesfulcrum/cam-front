@@ -40,6 +40,11 @@ export class AuthService {
   decodedToken:string | null = '' ;
 
   private userSSO$= new BehaviorSubject<boolean>(false);
+  private SSOMessage$= new BehaviorSubject<string>("");
+
+  get getSSOMessage(): Observable<string> {
+    return this.SSOMessage$.asObservable();
+  }
 
   get isLogged(): Observable<boolean> {
     return this.userSSO$.asObservable();
@@ -119,6 +124,7 @@ export class AuthService {
       )
       .pipe(
         map(  (rta: ResponseLoginSSO) => {
+          this.SSOMessage$.next(rta.message);
           this.decodedToken = helperJWT.decodeToken(rta.data.accessToken);
           this.tokenService.saveToken(rta.data.accessToken);
           this.tokenService.saveRefreshToken(rta.data.refreshToken);

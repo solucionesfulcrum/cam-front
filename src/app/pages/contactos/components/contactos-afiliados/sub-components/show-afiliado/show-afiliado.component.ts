@@ -54,14 +54,27 @@ export class ShowAfiliadoComponent implements OnInit {
       this.links[0].url = `/app/contactos/show/${this.idFicha}`;
       this.links[1].url = `/app/contactos/show/${this.idFicha}/evaluaciones`;
 
-      if(this.router.getCurrentNavigation()?.extras.state){
+       // Verificar si la ruta contiene la palabra "busqueda"
+       /*
+        if(this.router.getCurrentNavigation()?.extras.state){
         if(this.router.getCurrentNavigation()?.extras.state!['esConsulta']){
-          this.opcionesBotones = [];
+         
         }
       }
+       */
+      if (this.router.url.includes('busqueda')) {
+        this.opcionesBotones = [];
+        this.links=[
+          {url:`/app/contactos/busqueda/${this.idFicha}`, title:'Operaciones'},
+          {url:`/app/contactos/busqueda/${this.idFicha}/evaluaciones`, title:'Evaluaciones'},
+          {url:`/app/contactos/busqueda/${this.idFicha}/notas`, title:'Notas'}
+        ]
+      }
+     
   }
 
   ngOnInit(): void {
+    
     this.getData();
 
     // this.afiliadoServices.getDataAfiliado(this.tipoDoc, this.numDoc).subscribe((data) => {

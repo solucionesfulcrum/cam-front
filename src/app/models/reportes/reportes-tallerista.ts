@@ -7,6 +7,7 @@ export interface ReportesTalleristaPayload {
     estado: string,
     pageNum: number,
     pageSize: number,
+    idServicio?: number
 }
 
 export interface ItemReporteTallerista{
@@ -79,7 +80,8 @@ export interface imprimirRequestTalleresTallerista{
     fecFin: string,
     estado: string,
     pageNum: number,
-    pageSize: number
+    pageSize: number,
+    idServicio?: number
   }
   
 

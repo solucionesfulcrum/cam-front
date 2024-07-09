@@ -156,7 +156,7 @@ export class ContactosBusquedaComponent {
       .subscribe(data => {
         this.status = 'success';
         if(data.code == 0){
-          this.router.navigate(['/app/contactos/show/'+data.data.idFichaAdmision],
+          this.router.navigate(['/app/contactos/busqueda/'+data.data.idFichaAdmision],
             {
               state: {
                 esConsulta: true

@@ -18,11 +18,13 @@ import { ReportesTalleristaService } from 'src/app/data/services/reportes/report
 })
 export class TalleresComponent {
   opciones: Parametro[] = [];
+  servicios: Parametro[] = [];
 
   formBuscar: FormGroup = this.fb.group({
     frmSearch:new FormControl(""),
     frmSearchDate:new FormControl(""),
     frmSearchEstado:new FormControl(),
+    frmSearchServicio:new FormControl(),
   });
 
   seleccionados : number[] = [];
@@ -69,6 +71,12 @@ ngOnInit(){
       this.notificationService.warning(data.message);
     }
   });
+
+  this.datosService.buscarActivosServicio().subscribe((data)=>{
+    this.servicios = data.data.map((filtro : any) => {
+      return {...filtro, valor1 : parseInt(filtro.idServicio)}
+    });
+  });
 }
 
 loadData(){
@@ -107,7 +115,8 @@ imprimirLista(){
     fecFin: fecFin,
     estado: this.formBuscar.get('frmSearchEstado')?.value,
     pageNum: this.pageNum,
-    pageSize: this.pageSize
+    pageSize: this.pageSize,
+    idServicio: this.formBuscar.get('frmSearchServicio')!.value
   };
 
   this.reportService.getExcelTalleresTallerista(payload).subscribe((data)=>{
@@ -140,7 +149,8 @@ getPayloadList(): ReportesTalleristaPayload{
     fecFin: fecFin,
     estado: this.formBuscar.get('frmSearchEstado')?.value,
     pageNum: this.pageNum,
-    pageSize: this.pageSize
+    pageSize: this.pageSize,
+    idServicio: this.formBuscar.get('frmSearchServicio')!.value
   }
 }
 
@@ -197,6 +207,12 @@ transformarHora(hora24 : string) {
   // Retornamos la hora en el nuevo formato
   return `${hora12Str}:${minutosStr} ${periodo}`;
 }
+
+secDisplayValue(value: any){
+  this.formBuscar.get('frmSearchServicio')?.setValue(value == "null" ? "" : value);
+  this.loadData();
+}
+
 
 
 

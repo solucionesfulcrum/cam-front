@@ -68,7 +68,10 @@ export class LoginFormComponent {
         error: (rta) => {
           //this._notification.error(rta.message)
           this.status = 'failed';
-          this.msgSSO ='Credenciales inválidas.'
+          this.authService.getSSOMessage.subscribe(msg=>{
+            this.msgSSO = msg;
+          })
+          //this.msgSSO ='Credenciales inválidas.'
           if ( rta?.statusText === 'Bad credentials')
             this.msgSSO = 'Credenciales incorrectas'
         },

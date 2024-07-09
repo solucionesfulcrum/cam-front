@@ -12,6 +12,7 @@ import { ContactoTabContratosComponent } from './components/contactos-tallerista
 import { ContactoTabCalendarioComponent } from './components/contactos-talleristas/sub-components/show-tallerista/tabs/contacto-tab-calendario/contacto-tab-calendario.component';
 import { ContactoTabTalleresComponent } from './components/contactos-talleristas/sub-components/show-tallerista/tabs/contacto-tab-talleres/contacto-tab-talleres.component';
 import { ContactosBusquedaComponent } from './components/contactos-busqueda/contactos-busqueda.component';
+import { ContactoTabNotasComponent } from './components/contactos-afiliados/sub-components/show-afiliado/tabs/contacto-tab-notas/contacto-tab-notas.component';
 
 const routes: Routes = [
   {
@@ -72,6 +73,32 @@ const routes: Routes = [
             path: 'evaluaciones',
             component: ContactoTabEvaluacionesComponent,
             title: 'Evaluaciones Afiliado'
+          },
+          {
+            path: 'notas',
+            component: ContactoTabNotasComponent,
+            title: 'Notas Componente'
+          }
+        ]
+      },
+      {
+        path: 'busqueda/:idFicha',
+        component: ShowAfiliadoComponent,
+        children: [
+          {
+            path: '',
+            component: ContactoTabOperacionesComponent,
+            title: 'Datos Afiliado'
+          },
+          {
+            path: 'evaluaciones',
+            component: ContactoTabEvaluacionesComponent,
+            title: 'Evaluaciones Afiliado'
+          },
+          {
+            path: 'notas',
+            component: ContactoTabNotasComponent,
+            title: 'Notas Componente'
           }
         ]
       },

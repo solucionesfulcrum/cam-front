@@ -25,6 +25,7 @@ import { CdkMenuModule } from '@angular/cdk/menu';
 import { DataLoadingComponent } from '@shared/components/data-loading/data-loading.component';
 import { DivProporcionalDirective } from 'src/app/directivas/tabla-proporcional.directive';
 import { ContactosBusquedaComponent } from './components/contactos-busqueda/contactos-busqueda.component';
+import { ContactoTabNotasComponent } from './components/contactos-afiliados/sub-components/show-afiliado/tabs/contacto-tab-notas/contacto-tab-notas.component';
 
 
 @NgModule({
@@ -45,7 +46,8 @@ import { ContactosBusquedaComponent } from './components/contactos-busqueda/cont
     ContactoTabCalendarioComponent,
     ContactoTabTalleresComponent,
     DivProporcionalDirective,
-    ContactosBusquedaComponent
+    ContactosBusquedaComponent,
+    ContactoTabNotasComponent
   ],
   imports: [
     CommonModule,
