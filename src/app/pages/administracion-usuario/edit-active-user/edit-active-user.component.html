@@ -13,7 +13,7 @@
             <div *ngIf="!imagenFoto" (click)="isImageFotoUpdate ? null : fileImagenFoto.click()"
                 class="w-full h-full rounded-full bg-cam">
                 <input hidden #fileImagenFoto type="file" name="Upload" accept="image/jpeg,image/png"
-                    (change)="onChangeFileFoto(fileImagenFoto.files)">
+                    (change)="updateFileFoto(fileImagenFoto.files)">
                 <div style="width: 35px; height: 35px;"
                     class="my-1 ml-3 mt-2 border-b-2 flex items-center justify-center"><img class="select-none"
                         src="assets/svg/camera.svg" /></div>
