@@ -220,7 +220,7 @@ export class DatosGeneralesService {
   }
 
   buscarActivosServicio(){
-    const url = `${URL_BASE}/servicio/buscar/activos?texto=TALLER`;
+    const url = `${URL_BASE}/servicio/buscar/activos?texto=`;
     return this._httpClient.get<TipoParametro>(url);
   }
 }
