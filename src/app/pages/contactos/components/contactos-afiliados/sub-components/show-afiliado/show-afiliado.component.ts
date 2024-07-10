@@ -101,14 +101,14 @@ export class ShowAfiliadoComponent implements OnInit {
         this.dataFichaAfiliado = data.data;
 
         let tipoDoc = this.dataFichaAfiliado.asegurado.tipoDoc;
-        if (parseInt(tipoDoc) < 10) {
-            tipoDoc = '0' + tipoDoc;
-        }
-        this.datosService.getDataAdmision(tipoDoc,this.dataFichaAfiliado.asegurado.numDoc, 1).subscribe(response=>{
-
-        })
+        this.aseguradoServices.servicioObtenerCodCentro({codOpcion: "1",
+          numDoc: String(this.dataFichaAfiliado.asegurado.numDoc),
+         tipoDoc}).subscribe(response=>{
+           this.fechaVigencia = response.data.dataAfiliado[0].fecVigHasta
+       })
+       
         
-        if(this.dataFichaAfiliado.fichaAdmision.estado != "13" && this.dataFichaAfiliado.fichaAdmision.estado != "14"){
+        if(this.dataFichaAfiliado.fichaAdmision.estado != "13" && this.dataFichaAfiliado.fichaAdmision.estado != "14" && !this.buscaAfiliado){
           //this.opcionesBotones[0].deshabilitado = true;
           this.opcionesBotones[1].deshabilitado = true;
           this.opcionesBotones[2].deshabilitado = true;
