@@ -21,7 +21,10 @@
                             <img class="select-none" *ngIf="unidOp.unidOperativa.split(' ')[0]=='RED'" src="assets/svg/icon-unid-red.svg" />
                             <img class="select-none" *ngIf="unidOp.unidOperativa.split(' ')[0]=='CAM'" src="assets/svg/icon-select-CERP.svg" />
                             <img class="select-none" *ngIf="unidOp.unidOperativa.split(' ')[0]=='CIRAM'" src="assets/svg/icon-unid-ciram.svg" />
-                            <span>{{unidOp.unidOperativa}}</span>
+                            <div>
+                                <div>{{unidOp.unidOperativa}}</div>
+                                <div style="color: gray; font-weight: 300; font-size: 12px;">{{unidOp.rol | titlecase }}</div>
+                            </div>
                         </div>
                         <button *ngIf="unidOp.vigente==1" class="bg-[#F4F5F7] px-2.5 h-[30px]"
                             (click)="AsignarUnidadOperativa(unidOp)">Seleccionar</button>
