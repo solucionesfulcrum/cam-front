@@ -26,6 +26,8 @@ import { DataLoadingComponent } from '@shared/components/data-loading/data-loadi
 import { DivProporcionalDirective } from 'src/app/directivas/tabla-proporcional.directive';
 import { ContactosBusquedaComponent } from './components/contactos-busqueda/contactos-busqueda.component';
 import { ContactoTabNotasComponent } from './components/contactos-afiliados/sub-components/show-afiliado/tabs/contacto-tab-notas/contacto-tab-notas.component';
+import { EstiloInputDirective } from 'src/app/directivas/estilo-input.directive';
+import { EstiloLabelDirective } from 'src/app/directivas/estilo-label.directive';
 
 
 @NgModule({
@@ -47,7 +49,9 @@ import { ContactoTabNotasComponent } from './components/contactos-afiliados/sub-
     ContactoTabTalleresComponent,
     DivProporcionalDirective,
     ContactosBusquedaComponent,
-    ContactoTabNotasComponent
+    ContactoTabNotasComponent,
+    EstiloInputDirective,
+    EstiloLabelDirective
   ],
   imports: [
     CommonModule,

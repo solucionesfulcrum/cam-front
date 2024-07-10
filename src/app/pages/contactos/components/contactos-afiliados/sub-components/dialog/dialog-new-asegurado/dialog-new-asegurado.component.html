@@ -11,11 +11,13 @@
                 id="searchDoc"
                 formControlName="frmSelectDoc"
                 class="space-x-5 bg-slate-50 border border-gray-300 text-gray-900 text-sm rounded-lg focusCampo block w-full"
+                espEstiloInput
               >
                 <option value="" disabled selected>Seleccione su tipo de documento</option>
                 <option *ngFor="let documento of opciones" [value]='documento.valor1'>{{documento.nombre | titlecase}}</option>
                 <!-- <option value="1">Registrado</option> -->
               </select>
+              <label for="searchDoc" espEstiloLabel>Tipo Documento</label>
             </div>
         </div>  
         <div class="w-1/2">
@@ -24,9 +26,12 @@
                 formControlName="frmDoc"
                 placeholder="Documento"
                 type="text"
+                id="frmDoc"
                 name="doc"
                 class="w-full text-sm rounded bg-white border-gray-400 border-1 px-4 py-2 font-light focusCampo"
+                espEstiloInput
               />
+              <label for="frmDoc" espEstiloLabel>Documento</label>
             </div>
             <div *ngIf="formNewFicha.controls.frmDoc.touched && formNewFicha.controls.frmDoc.invalid">
               <p *ngIf="formNewFicha.controls.frmDoc.hasError('required')" class="font-medium text-red-500 text-xs mt-1 ml-1">

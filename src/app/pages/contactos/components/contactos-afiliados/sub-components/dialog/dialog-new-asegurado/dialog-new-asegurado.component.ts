@@ -19,7 +19,7 @@ export class DialogNewAseguradoComponent {
   status: RequestStatus = 'init';
   
   public formNewFicha = this.fb.nonNullable.group({
-    frmSelectDoc:new FormControl(""),
+    frmSelectDoc:new FormControl("1"),
     frmDoc:['', [Validators.required, Validators.minLength(8)]],
   });
 
