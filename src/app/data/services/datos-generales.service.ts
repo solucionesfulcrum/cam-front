@@ -127,6 +127,11 @@ export class DatosGeneralesService {
     return this._httpClient.get<any>(url);
   }
 
+  getDataAdmision(tipoDoc: string, numDoc: string, tipoConsulta: number) {
+    const url = `${URL_BASE}/ficha-admision/acreditar/registro?tipoDoc=${tipoDoc}&numDoc=${numDoc}&tipoConsulta=${tipoConsulta}`;
+    return this._httpClient.get<any>(url);
+  }
+
   getRedesEssi() {
     const url = `${URL_BASE}/client/essi/redes/lista`;
     return this._httpClient.get<any>(url);

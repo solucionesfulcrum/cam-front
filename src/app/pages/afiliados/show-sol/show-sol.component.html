@@ -41,43 +41,81 @@
             <div class="scrollbarra  overflow-auto">
                 <p class="subTitulo my-2.5 text-[18px]">Datos Personales</p>
                 <div class="info-container">
-                  <p class="flex w-1/2 flex-col py-1 bg-slate-100 my-1 mx-0 font-bold"> Fecha Nacimiento </p> 
+                  <p class="flex w-1/2 flex-col py-1 bg-slate-100 my-1 mx-0 font-bold"> 
+                    <span class="ml-1">
+                        Fecha Nacimiento 
+                    </span>
+                 </p> 
                   <p class="flex w-1/2 flex-col ml-2.5 my-1"> {{dataSolicitud.asegurado.fecNacimiento | date: 'dd/MM/yyyy'}} </p>
                 </div>
       
                 <div class="info-container">
-                  <p class="flex w-1/2 flex-col py-1 bg-slate-100 my-1 mx-0 font-bold"> Sexo </p> 
+                  <p class="flex w-1/2 flex-col py-1 bg-slate-100 my-1 mx-0 font-bold"> 
+                    <span class="ml-1">
+                        Sexo
+                    </span>
+                </p> 
                   <p class="flex w-1/2 flex-col ml-2.5 my-1"> {{dataSolicitud.asegurado.descSexo | titlecase}} </p>
                   <!-- <p class="flex w-1/2 flex-col ml-2.5 my-1"> {{dataSolicitud.sexo | titlecase}} </p> -->
                 </div>          
       
                 <div class="info-container">
-                  <p class="flex w-1/2 flex-col py-1 bg-slate-100 my-1 mx-0 font-bold"> Estado Civil </p> 
+                  <p class="flex w-1/2 flex-col py-1 bg-slate-100 my-1 mx-0 font-bold"> 
+                    <span class="ml-1">
+                        Estado Civil 
+                    </span>
+                    
+                </p> 
                   <p class="flex w-1/2 flex-col ml-2.5 my-1"> {{dataSolicitud.asegurado.descEstCivil | titlecase}} </p>
                   <!-- <p class="flex w-1/2 flex-col ml-2.5 my-1"> {{dataSolicitud.estCivil | titlecase}} </p> -->
                 </div>
        
-                <p class="flex w-2/2 flex-col py-1 bg-slate-100 my-1 mx-0 font-bold">Lugar de Nacimiento</p>
-                <p class="flex w-2/2 flex-col my-0"> {{dataSolicitud.asegurado.distriNacimiento | titlecase}} - {{dataSolicitud.asegurado.provinNacimiento | titlecase}} - {{dataSolicitud.asegurado.departNacimiento | titlecase}}</p>
+                <p class="flex w-2/2 flex-col py-1 bg-slate-100 my-1 mx-0 font-bold">
+                    <span class="ml-1">
+                        Lugar de Nacimiento
+                    </span>
+                    
+                </p>
+                <p class="flex w-2/2 flex-col my-0"> 
+                    <span class="ml-1">
+                        {{dataSolicitud.asegurado.distriNacimiento | titlecase}} - {{dataSolicitud.asegurado.provinNacimiento | titlecase}} - {{dataSolicitud.asegurado.departNacimiento | titlecase}}
+                    </span>
+                </p>
                 <!-- <p class="flex w-2/2 flex-col ml-2.5 mx-1 my-0"> {{dataSolicitud.lugarNac | titlecase}}</p> -->
             
                 <p class="subTitulo my-2.5 text-[18px]">Datos del Seguro</p>
                 <div class="flex flex-col gap-[0.25rem]">
                   <div class="flex flex-col gap-[0.5rem]">
-                    <p class="py-1 my-0 bg-slate-100 font-bold">Tipo de Asegurado</p>
-                    <span>{{dataSolicitud.asegurado.descTipoAsegurado | titlecase}}</span>
+                    <p class="py-1 my-0 bg-slate-100 font-bold">
+                        <span class="ml-1">
+                            Tipo de Asegurado
+                        </span>
+                    </p>
+                    <span class="ml-1">{{dataSolicitud.asegurado.descTipoAsegurado | titlecase}}</span>
                   </div>
                   <div class="flex flex-col gap-[0.5rem]">
-                    <p class="py-1 my-0 bg-slate-100 font-bold">Nombre del Seguro</p>
-                    <span>{{dataSolicitud.asegurado.descTipoSeguro | titlecase}} </span>
+                    <p class="py-1 my-0 bg-slate-100 font-bold">
+                        <span class="ml-1">
+                            Nombre del Seguro
+                        </span>
+                    </p>
+                    <span class="ml-1">{{dataSolicitud.asegurado.descTipoSeguro | titlecase}} </span>
                   </div>
                   <div class="flex flex-col gap-[0.5rem]">
-                    <p class="py-1 my-0 bg-slate-100 font-bold">IPRESS de Adscripcion</p>
-                    <span>{{dataSolicitud.asegurado.nomIpressAdscrip | uppercase}} </span>
+                    <p class="py-1 my-0 bg-slate-100 font-bold">
+                        <span class="ml-1">
+                            IPRESS de Adscripcion
+                        </span>
+                    </p>
+                    <span class="ml-1">{{dataSolicitud.asegurado.nomIpressAdscrip | uppercase}} </span>
                   </div>
                   <div class="flex flex-col gap-[0.5rem]">
-                    <p class="py-1 my-0 bg-slate-100 font-bold">Red Asistencial</p>
-                    <span>{{dataSolicitud.asegurado.nomRedAsisten | uppercase}} </span>
+                    <p class="py-1 my-0 bg-slate-100 font-bold">
+                        <span class="ml-1">
+                            Red Asistencial
+                        </span>
+                    </p>
+                    <span class="ml-1">{{dataSolicitud.asegurado.nomRedAsisten | uppercase}} </span>
                   </div>
                 </div>
             </div>

@@ -16,8 +16,14 @@
 <!-- <div class="bg-white botonApariencia"> -->
     <div class="flex flex-row justify-between py-1.5 px-2.5"> 
       <p class="text-[26px] text-[var(--color-CAM-black-alt)]"><b>Ficha de Afiliado</b></p>
-      <p class="text-end text-sm text-[#64748B]">N° de Solicitud
-        <br><span class="text-[20px] text-[var(--color-CAM)]">{{dataFichaAfiliado.fichaAdmision.numHistoria}}</span>  <!--{{this.user.numHistoria}}     o   {{dataFicha.numHistoria}}-->
+      <p class="text-end text-sm text-[#64748B]">
+        <ng-container *ngIf="!buscaAfiliado">N° de Solicitud</ng-container>
+        <ng-container *ngIf="buscaAfiliado">N° de Historia</ng-container>
+        <br><span class="text-[20px] text-[var(--color-CAM)]">
+          <ng-container *ngIf="!buscaAfiliado">{{dataFichaAfiliado.fichaAdmision.numHistoria}}</ng-container>
+          <ng-container *ngIf="buscaAfiliado">{{dataFichaAfiliado.asegurado.numDoc}}</ng-container>
+          
+        </span>  <!--{{this.user.numHistoria}}     o   {{dataFicha.numHistoria}}-->
       </p>
     </div>
   
@@ -37,41 +43,70 @@
       <div class="scrollbarra max-h-[47vh] overflow-auto">
           <p class="subTitulo my-2.5 text-[18px]">Datos Personales</p>
           <div class="info-container">
-            <p class="flex w-1/2 flex-col py-1 bg-slate-100 my-1 mx-0 font-bold"> Fecha Nacimiento </p> 
+            <p class="flex w-1/2 flex-col py-1 bg-slate-100 my-1 mx-0" style="font-weight: 600;">
+              <span class="ml-1">
+                Fecha Nacimiento 
+              </span>
+            </p> 
             <p class="flex w-1/2 flex-col ml-2.5 my-1"> {{dataFichaAfiliado.asegurado.fecNacimiento | date: 'dd/MM/yyyy'}} </p>
           </div>
 
           <div class="info-container">
-            <p class="flex w-1/2 flex-col py-1 bg-slate-100 my-1 mx-0 font-bold"> Sexo </p> 
+            <p class="flex w-1/2 flex-col py-1 bg-slate-100 my-1 mx-0" style="font-weight: 600;"> 
+              <span class="ml-1">
+                Sexo
+              </span>
+               
+            </p> 
             <p class="flex w-1/2 flex-col ml-2.5 my-1"> {{dataFichaAfiliado.asegurado.descSexo | titlecase}} </p>
             <!-- <p class="flex w-1/2 flex-col ml-2.5 my-1"> {{dataSolicitud.sexo | titlecase}} </p> -->
           </div>          
 
           <div class="info-container">
-            <p class="flex w-1/2 flex-col py-1 bg-slate-100 my-1 mx-0 font-bold"> Estado Civil </p> 
+            <p class="flex w-1/2 flex-col py-1 bg-slate-100 my-1 mx-0" style="font-weight: 600;">
+              <span class="ml-1">
+                Estado Civil 
+              </span> 
+              </p> 
             <p class="flex w-1/2 flex-col ml-2.5 my-1"> {{dataFichaAfiliado.asegurado.descEstCivil | titlecase}} </p>
             <!-- <p class="flex w-1/2 flex-col ml-2.5 my-1"> {{dataSolicitud.estCivil | titlecase}} </p> -->
           </div>
  
-          <p class="flex w-2/2 flex-col py-1 bg-slate-100 my-1 mx-0 font-bold">Lugar de Nacimiento</p>
-          <p class="flex w-2/2 flex-col my-0"> {{dataFichaAfiliado.asegurado.distriNacimiento | titlecase}} - {{dataFichaAfiliado.asegurado.provinNacimiento | titlecase}} - {{dataFichaAfiliado.asegurado.departNacimiento | titlecase}}</p>
+          <p class="flex w-2/2 flex-col py-1 bg-slate-100 my-1 mx-0" style="font-weight: 600;">
+            <span class="ml-1">
+              Lugar de Nacimiento
+            </span> 
+            </p>
+          <p class="flex w-2/2 flex-col my-0"> 
+            <span class="ml-1">
+              {{dataFichaAfiliado.asegurado.distriNacimiento | titlecase}} - {{dataFichaAfiliado.asegurado.provinNacimiento | titlecase}} - {{dataFichaAfiliado.asegurado.departNacimiento | titlecase}}
+            </span>
+          </p>
           <!-- <p class="flex w-2/2 flex-col ml-2.5 mx-1 my-0"> {{dataSolicitud.lugarNac | titlecase}}</p> -->
 
           <p class="subTitulo my-2.5 text-[18px]">Datos De Contacto</p>
           <div class="flex flex-col gap-[0.25rem]">
             <div class="flex flex-col gap-[0.5rem]">
-              <p class="py-1 my-0 bg-slate-100 font-bold">Dirección</p>
-              <span>{{direccionActual.direccion | titlecase}}</span>
+              <p class="py-1 my-0 bg-slate-100" style="font-weight: 600;">Dirección</p>
+              <span class="ml-1">{{direccionActual.direccion | titlecase}}</span>
               <!-- <span>{{dataSolicitud.tipoAsegurado | titlecase}} </span> -->
             </div>
             <div class="flex flex-col gap-[0.5rem]">
-              <p class="py-1 my-0 bg-slate-100 font-bold">Distrito</p>
-              <span>{{direccionActual.localizacion | titlecase}} </span>
+              <p class="py-1 my-0 bg-slate-100" style="font-weight: 600;">
+                <span class="ml-1">
+                  Distrito
+                </span> 
+               </p>
+              <span class="ml-1">{{direccionActual.localizacion | titlecase}} </span>
               <!-- <span>{{dataSolicitud.nombreSeguro | titlecase}} </span> -->
             </div>
             <div class="flex flex-col gap-[0.5rem]">
-              <p class="py-1 my-0 bg-slate-100 font-bold">Correo</p>
-              <span>{{dataFichaAfiliado.fichaAdmision.datosContacto.correo | lowercase}} </span>
+              <p class="py-1 my-0 bg-slate-100" style="font-weight: 600;">
+                <span class="ml-1">
+                  Correo
+                </span> 
+                </p>
+              <span class="ml-1">{{dataFichaAfiliado.fichaAdmision.datosContacto.correo | lowercase}} </span>
               <!-- <span>{{dataSolicitud.centroAdscripcion}} </span> -->
             </div>
             <!-- <div class="info-container">
@@ -79,8 +114,17 @@
               <p class="flex w-1/2 flex-col ml-2.5 my-1"> {{dataFichaAfiliado.fichaAdmision.datosContacto.telefono}} </p>
             </div> -->
             <div class="info-container">
-              <p class="flex w-1/2 flex-col py-1 bg-slate-100 my-1 mx-0 font-bold"> Celular </p> 
-              <p class="flex w-1/2 flex-col ml-2.5 my-1"> {{dataFichaAfiliado.fichaAdmision.datosContacto.celular}} </p>
+              <p class="flex w-1/2 flex-col py-1 bg-slate-100 my-1 mx-0" style="font-weight: 600;">
+                <span class="ml-1">
+                  Celular
+                </span> 
+                 </p> 
+              <p class="flex w-1/2 flex-col ml-2.5 my-1 " >
+                <span class="ml-1">
+                  {{dataFichaAfiliado.fichaAdmision.datosContacto.celular}}
+                </span> 
+                 
+                 </p>
               <!-- <p class="flex w-1/2 flex-col ml-2.5 my-1"> {{dataSolicitud.estCivil | titlecase}} </p> -->
             </div>
           </div>
@@ -88,42 +132,82 @@
           <p class="subTitulo my-2.5 text-[18px]">Datos del Seguro</p>
           <div class="flex flex-col gap-[0.25rem]">
             <div class="flex flex-col gap-[0.5rem]">
-              <p class="py-1 my-0 bg-slate-100 font-bold">Tipo de Asegurado</p>
-              <span>{{dataFichaAfiliado.asegurado.descTipoAsegurado | titlecase}}</span>
+              <p class="py-1 my-0 bg-slate-100" style="font-weight: 600;">
+                <span class="ml-1">
+                  Tipo de Asegurado
+                </span> 
+                </p>
+              <span class="ml-1">{{dataFichaAfiliado.asegurado.descTipoAsegurado | titlecase}}</span>
             </div>
             <div class="flex flex-col gap-[0.5rem]">
-              <p class="py-1 my-0 bg-slate-100 font-bold">Nombre del Seguro</p>
-              <span>{{dataFichaAfiliado.asegurado.descTipoSeguro | titlecase}} </span>
+              <p class="py-1 my-0 bg-slate-100" style="font-weight: 600;">
+                <span class="ml-1">
+                  Nombre del Seguro
+                </span> 
+                </p>
+              <span class="ml-1">{{dataFichaAfiliado.asegurado.descTipoSeguro | titlecase}} </span>
             </div>
             <div class="flex flex-col gap-[0.5rem]">
-              <p class="py-1 my-0 bg-slate-100 font-bold">IPRESS de Adscripcion</p>
-              <span>{{dataFichaAfiliado.asegurado.nomIpressAdscrip | uppercase}} </span>
+              <p class="py-1 my-0 bg-slate-100" style="font-weight: 600;">
+                <span class="ml-1">
+                  IPRESS de Adscripcion
+                </span> 
+                </p>
+              <span class="ml-1">{{dataFichaAfiliado.asegurado.nomIpressAdscrip | uppercase}} </span>
             </div>
             <div class="flex flex-col gap-[0.5rem]">
-              <p class="py-1 my-0 bg-slate-100 font-bold">Red Asistencial</p>
-              <span>{{dataFichaAfiliado.asegurado.nomRedAsisten | uppercase}} </span>
+              <p class="py-1 my-0 bg-slate-100" style="font-weight: 600;">
+                <span class="ml-1">
+                  Red Asistencial
+                </span> 
+                </p>
+              <span class="ml-1">{{dataFichaAfiliado.asegurado.nomRedAsisten | uppercase}} </span>
+            </div>
+            <div class="flex flex-col gap-[0.5rem]" *ngIf="buscaAfiliado">
+              <p class="py-1 my-0 bg-slate-100" style="font-weight: 600;">
+                <span class="ml-1">
+                  Vigencia
+                </span> 
+                </p>
+              <span class="ml-1">{{'2024/05/01' | uppercase}} </span>
             </div>
           </div>
 
           <p class="subTitulo my-2.5 text-[18px]">Datos De afiliación CAM</p>
           <div class="flex flex-col gap-[0.25rem]">
             <div class="flex flex-col gap-[0.5rem]">
-              <p class="py-1 my-0 bg-slate-100 font-bold">Afiliado a</p>
+              <p class="py-1 my-0 bg-slate-100" style="font-weight: 600;">
+                <span class="ml-1">
+                  Afiliado a
+                </span> 
+                </p>
               <span>{{dataFichaAfiliado.fichaAdmision.datosAfiliacion.unidadOperativaAfi }}</span>
               <!-- <span>{{dataSolicitud.tipoAsegurado | titlecase}} </span> -->
             </div>
             <div class="flex flex-col gap-[0.5rem]">
-              <p class="py-1 my-0 bg-slate-100 font-bold">Usuario que lo evaluó</p>
+              <p class="py-1 my-0 bg-slate-100" style="font-weight: 600;">
+                <span class="ml-1">
+                  Usuario que lo evaluó
+                </span> 
+                </p>
               <span>{{dataFichaAfiliado.fichaAdmision.datosAfiliacion.usuarioRegAfi | titlecase}} </span>
               <!-- <span>{{dataSolicitud.nombreSeguro | titlecase}} </span> -->
             </div>
             <div class="info-container">
-              <p class="flex w-1/2 flex-col py-1 bg-slate-100 my-1 mx-0 font-bold"> Desde </p> 
+              <p class="flex w-1/2 flex-col py-1 bg-slate-100 my-1 mx-0" style="font-weight: 600;"> 
+                <span class="ml-1">
+                  Desde 
+                </span> 
+                </p> 
               <p class="flex w-1/2 flex-col ml-2.5 my-1"> {{dataFichaAfiliado.fichaAdmision.fechaIngreso | date:'dd/MM/yyyy'}} </p>
               <!-- <p class="flex w-1/2 flex-col ml-2.5 my-1"> {{dataSolicitud.estCivil | titlecase}} </p> -->
             </div>
             <div class="info-container">
-              <p class="flex w-1/2 flex-col py-1 bg-slate-100 my-1 mx-0 font-bold"> Estado </p> 
+              <p class="flex w-1/2 flex-col py-1 bg-slate-100 my-1 mx-0" style="font-weight: 600;"> 
+                <span class="ml-1">
+                  Estado 
+                </span> 
+                 </p> 
               <p class="flex w-1/2 flex-col ml-2.5 my-1" 
               [ngClass]="
               dataFichaAfiliado.fichaAdmision.datosAfiliacion.estadoAfi == 'NO APTO'  || 

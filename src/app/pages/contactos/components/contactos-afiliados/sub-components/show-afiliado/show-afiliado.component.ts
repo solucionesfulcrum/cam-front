@@ -34,6 +34,8 @@ export class ShowAfiliadoComponent implements OnInit {
   dataFichaAfiliado: any = Object();
   direccionActual: any = Object();
   dataShow = false;
+  buscaAfiliado : boolean = false;
+  fechaVigencia: string = '';
 
   links=[
     {url:`/app/contactos/show/${this.idFicha}`, title:'Operaciones'},
@@ -49,7 +51,9 @@ export class ShowAfiliadoComponent implements OnInit {
               private notificationService           : NotificationService,
               private afiliadoServices              : AfiliacionesSolicitudesService,
               private toastService : ToastrService,
-              private eventoDarDeBaja: DarDeBajaService) { 
+              private eventoDarDeBaja: DarDeBajaService,
+              private datosService: DatosGeneralesService,
+            ) { 
       this.idFicha = this.activeRoute.snapshot.paramMap.get('idFicha')!;
       this.links[0].url = `/app/contactos/show/${this.idFicha}`;
       this.links[1].url = `/app/contactos/show/${this.idFicha}/evaluaciones`;
@@ -63,6 +67,7 @@ export class ShowAfiliadoComponent implements OnInit {
       }
        */
       if (this.router.url.includes('busqueda')) {
+        this.buscaAfiliado = true;
         this.opcionesBotones = [];
         this.links=[
           {url:`/app/contactos/busqueda/${this.idFicha}`, title:'Operaciones'},
@@ -90,8 +95,19 @@ export class ShowAfiliadoComponent implements OnInit {
   getData(){
     this.aseguradoServices.obtenerFichaAsegurado(this.idFicha).subscribe((data)=>{
       if (data.code == 0) {
+
+        
         //console.log(data.data)
         this.dataFichaAfiliado = data.data;
+
+        let tipoDoc = this.dataFichaAfiliado.asegurado.tipoDoc;
+        if (parseInt(tipoDoc) < 10) {
+            tipoDoc = '0' + tipoDoc;
+        }
+        this.datosService.getDataAdmision(tipoDoc,this.dataFichaAfiliado.asegurado.numDoc, 1).subscribe(response=>{
+
+        })
+        
         if(this.dataFichaAfiliado.fichaAdmision.estado != "13" && this.dataFichaAfiliado.fichaAdmision.estado != "14"){
           //this.opcionesBotones[0].deshabilitado = true;
           this.opcionesBotones[1].deshabilitado = true;
