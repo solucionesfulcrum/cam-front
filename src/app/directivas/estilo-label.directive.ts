@@ -1,7 +1,8 @@
 import { Directive, ElementRef, Renderer2 } from '@angular/core';
 
 @Directive({
-  selector: '[espEstiloLabel]'
+  selector: '[espEstiloLabel]',
+  standalone: true
 })
 export class EstiloLabelDirective {
   constructor(private elementRef: ElementRef, private renderer: Renderer2) {}

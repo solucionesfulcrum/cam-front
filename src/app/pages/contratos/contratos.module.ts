@@ -17,9 +17,6 @@ import { DialogConfirmSelectionComponent } from './contratos-layout/components/d
 import { ContratosRedListadoComponent } from './contratos-layout/components/contratos-red-listado/contratos-red-listado.component';
 import { CdkTableModule } from '@angular/cdk/table';
 import { DataLoadingComponent } from '@shared/components/data-loading/data-loading.component';
-import { CapitalizarPipe } from 'src/app/pipes/capitalizar.pipe';
-import { EstiloInputDirective } from 'src/app/directivas/estilo-input.directive';
-import { EstiloLabelDirective } from 'src/app/directivas/estilo-label.directive';
 
 
 @NgModule({
@@ -31,8 +28,6 @@ import { EstiloLabelDirective } from 'src/app/directivas/estilo-label.directive'
     DialogNewContratoComponent,
     DialogConfirmSelectionComponent,
     ContratosRedListadoComponent,
-    EstiloInputDirective,
-    EstiloLabelDirective
   ],
   imports: [
     CommonModule,

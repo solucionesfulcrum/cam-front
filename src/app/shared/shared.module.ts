@@ -21,6 +21,8 @@ import { CapitalizarPipe } from '../pipes/capitalizar.pipe';
 import { MaterialModule } from '../material/material.module';
 import { ModalAlertComponent } from './components/modal-alert/modal-alert.component';
 import { ModalConfirmarGenericoComponent } from './components/modal-confirmar-generico/modal-confirmar-generico.component';
+import { EstiloInputDirective } from '../directivas/estilo-input.directive';
+import { EstiloLabelDirective } from '../directivas/estilo-label.directive';
 
 
 const modules:any[] = [
@@ -44,7 +46,9 @@ const modules:any[] = [
    PreguntasComponent,
    Pregunt1opcComponent,
    MatIconModule,
-   CapitalizarPipe
+   CapitalizarPipe,
+   EstiloInputDirective,
+   EstiloLabelDirective
 ]
 
 @NgModule({

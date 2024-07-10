@@ -1,7 +1,8 @@
 import { Directive, ElementRef, Renderer2 } from '@angular/core';
 
 @Directive({
-  selector: '[espEstiloInput]'
+  selector: '[espEstiloInput]',
+  standalone: true
 })
 export class EstiloInputDirective {
   constructor(private elementRef: ElementRef, private renderer: Renderer2) {}
