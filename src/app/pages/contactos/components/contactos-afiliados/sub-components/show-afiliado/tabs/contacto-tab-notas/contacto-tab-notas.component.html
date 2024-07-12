@@ -14,7 +14,7 @@
                 <div class="encabezadoDia">
                     <span>El {{nota.fechaReg | date:'dd/MM/yyyy'}}. {{nota.usuario | titlecase}} Escribió. </span>
                 </div>
-                <div *ngFor="let test of listaNotas, index as i" class="operacionCuadro">
+                <div  class="operacionCuadro">
                     <span> 
                        <span class="descripcion"> {{nota.nota }} </span> 
                     </span>
