@@ -210,8 +210,23 @@ export class ProgramadosComponent {
   
   goAsistencia(){
     localStorage.setItem('idProgramElegida', this.selectedProgramacion.idProgDet);
-    this.router.navigate(['/app/control/asistencias-profesional-cam'])
+    let payload: RequestRegisterCabecera = {
+      idProgramacionDet: this.selectedProgramacion.idProgDet,
+      userCreacion: (JSON.parse(localStorage.getItem('camUser')!)).idUsuario,
+    };
+    this.controlService.registerDataAsistenciaCabecera(payload).subscribe((data)=>{
+      if (data.code == 0) {
+        this.statusAsistencia = 'success';
+        localStorage.setItem('idProgramElegida', JSON.stringify(this.selectedProgramacion.idProgDet));    
+        this.router.navigate(['/app/control/asistencias-profesional-cam'])
+      }
+      else{
+        this.statusAsistencia = 'failed';
+        this.notificacionService.warning(data.message);
+      }
+    })
   }
+   
 
   getTimeAndAsistir(){
     let fechaServidor : Date = this.fechaActualServidor;
