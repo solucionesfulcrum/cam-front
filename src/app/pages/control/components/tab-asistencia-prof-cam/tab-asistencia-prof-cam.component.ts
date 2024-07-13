@@ -483,7 +483,7 @@ export class TabAsistenciaProfCamComponent {
       numDoc: String(this.formBuscarPersona.get("frmDoc")?.value)
     }
     this.controlService.getSiEsApto(payload).subscribe((data)=>{
-      if ((data.code == 0 || data.code == 2) && data.data.length > 0) {
+      if ((data.code == 0 || data.code == 2) && (data.data && data.data.length > 0)) {
         let conexion: boolean;
         if (data.code == 2) {
           conexion = false;
