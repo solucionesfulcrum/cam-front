@@ -54,8 +54,8 @@ export class ContactosTalleristasComponent implements OnInit {
   ngOnInit(): void {
     this.onLoadData();
 
-    this.datosService.getTipoParametros('ESTADO_FICHA_ADMISION').subscribe((data)=>{
-      this.opciones = data.data.map(opcion=> { return {...opcion, valor1: String(opcion.idParametros)}});
+    this.datosService.getTipoParametros('ESTADOS_USUARIO').subscribe((data)=>{
+      this.opciones = data.data.map(opcion=> { return {...opcion, valor1: String(opcion.valor1)}});
     });
 
     
@@ -84,6 +84,7 @@ export class ContactosTalleristasComponent implements OnInit {
         if (data.code == 0) {
           //console.log(data.data.list)
           this.dataSource = data.data.list;
+          this.filterEstado();
           this.pageNum = data.data.pageNum;
           this.pageSize = data.data.pageSize;
           this.total = data.data.total;
@@ -97,13 +98,21 @@ export class ContactosTalleristasComponent implements OnInit {
    
   }
 
+  filterEstado(){
+    if(this.formBuscar.get('frmSearchEstado')?.value != "null".trim() && this.formBuscar.get('frmSearchEstado')?.value){
+      this.dataSource = this.dataSource.filter(e=> {
+        return e['estado'] == this.formBuscar.get('frmSearchEstado')?.value;
+      });
+    }
+  }
+
   getPayloadList(): RequestListTalleristaRed{
     return {
       idUnidOpe: JSON.parse(localStorage.getItem("UnidElegida")!).idUnidOperativa,
       texto: this.formBuscar.controls['frmSearch'].value,
       pageNum: this.pageNum,
       pageSize: this.pageSize,
-      estado: this.formBuscar.get('frmSearchEstado')?.value,
+      estado: '',
       codigoCam : this.formBuscar.get('frmSearchCam')?.value
     }
   }
@@ -114,7 +123,7 @@ export class ContactosTalleristasComponent implements OnInit {
     let payload: imprimirRequestCam = {
       idUnidOpe: idUnidOpe.idUnidOperativa,
       texto: this.formBuscar.controls['frmSearch'].value,
-      estado: parseInt(this.formBuscar.get('frmSearchEstado')?.value),
+      estado: 0,
       fecInicio: '',
       fecFin: '',
       codigoCam : this.formBuscar.get('frmSearchCam')?.value
