@@ -461,7 +461,8 @@ export class ControlTalleristaSesionesComponent {
       minWidth:'900px',
       width:'900px',
       data:{
-        idControlAsistenciaDet : this.idControlAsistenciaDet
+        idControlAsistenciaDet : this.idControlAsistenciaDet,
+        dataSource: this.dataSource
       }
     })
     dialogRef.afterClosed().subscribe(out =>{

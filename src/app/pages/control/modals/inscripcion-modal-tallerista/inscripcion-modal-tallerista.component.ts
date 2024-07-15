@@ -36,6 +36,8 @@ export class InscripcionModalTalleristaComponent {
   ]);
   unidOperaSeleccionadaTmp!: any;
 
+  dataSource: any[] = [];
+
   showMsg = false;
   idUserSession: any;
   userData = Object();
@@ -75,6 +77,7 @@ export class InscripcionModalTalleristaComponent {
 ){
 
     this.idControlAsistenciaDet = data.idControlAsistenciaDet
+    this.dataSource = data.dataSource;
   }
 
   ngOnInit(): void {
@@ -149,10 +152,14 @@ export class InscripcionModalTalleristaComponent {
 
 //05110811
   //06077426 TEST
+  existeRepetido(numdoc: string){
+    return this.dataSource.filter(e => e.nroDocumento == numdoc).length > 0;
+  }
   buscarInscripcion(){
     this.markAllAsTouchedAndDirty();
     if(this.form.valid){
-      this.status = 'loading';
+      if(!this.existeRepetido(this.form.get("frmNumdoc")!.value)){
+        this.status = 'loading';
       this.inscripcionService.buscarApto(
         (JSON.parse(localStorage.getItem('UnidElegida')!)).idUnidOperativa,
         this.form.get("frmTipoDoc")!.value,
@@ -180,6 +187,11 @@ export class InscripcionModalTalleristaComponent {
           this.toastrService.warning(data.message)
         }
       })
+      } 
+      else{
+        this.toastrService.warning("La persona buscada ya está en la lista de asistencia")
+      }
+      
     }
    
   }
@@ -209,6 +221,7 @@ export class InscripcionModalTalleristaComponent {
         this.eventService.emitirEvento(data.data.idControlAsistenciaSubDet)
 
         this.toastrService.success("Registro Exitoso");
+        this.dataSource.push({nroDocumento: this.form.get("frmNumdoc")!.value})
         this.limpiarDatos();
       }
       else{
