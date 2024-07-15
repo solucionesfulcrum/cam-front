@@ -26,7 +26,7 @@
             <div class="flex flex-col gap-1 text-[#64748B]" *ngFor="let cam of filteredList, index as i">
                 <div class="flex flex-row justify-between items-center hover:bg-[#F0FCFE] cursor-pointer" (click)="setDataSelected(cam, 1, $event)" [ngClass]="camElegido ? (cam.idUnidadOperativa == camElegido.idUnidadOperativa  ? 'bg-[#F0FCFE]' : null) : null">
                     <div class="py-2.5 pl-1.5 flex flex-row items-center gap-1.5 whitespace-nowrap text-ellipsis overflow-hidden" [ngClass]="camElegido ? (cam.idUnidadOperativa == camElegido.idUnidadOperativa  ? 'text-Name' : null) : null">
-                        <img src="assets/svg/icon-house-full.svg">
+                        <img src="assets/svg/cam-icono.svg">
                         <span>{{cam.nombreCam}}</span>
                     </div>
                     <div class="w-6 h-6 flex items-center justify-center rounded hover:bg-[#C3C3CB] cursor-pointer mr-1.5" (click)="cam.activo = !cam.activo; setDataSelected(cam, 0, $event)" *ngIf="cam.listaCiram.length > 0">
@@ -86,7 +86,7 @@
         </div>
         <div *ngIf="listContratos.length > 0">
           <div class="dataPseudoTabla" *ngFor="let contrato of listContratos, index as i">
-            <span class="col-span-2">{{contrato.tallerista | uppercase}}</span>
+            <span class="col-span-2" >{{contrato.tallerista | uppercase}}</span>
             <span class="text-[var(--color-CAM)]" [routerLink]="contrato.estado === 'CONFIRMADO' ? [appRoute.CONTRATOS_CONFIRMAR_SERVICIOS + '/' + contrato.numOc] : null" [ngClass]="contrato.estado === 'CONFIRMADO' ? 'cursor-pointer' : null">{{contrato.numOc}}</span>
             <span>{{contrato.fechaContrato | date:'dd/MM/yyyy'}}</span>
             <span 
