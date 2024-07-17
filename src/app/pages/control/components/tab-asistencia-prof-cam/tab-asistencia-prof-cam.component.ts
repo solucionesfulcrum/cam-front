@@ -1,4 +1,4 @@
-import { ChangeDetectorRef, Component, HostListener, Inject, LOCALE_ID } from '@angular/core';
+import { ChangeDetectorRef, Component, ElementRef, HostListener, Inject, LOCALE_ID, Renderer2, ViewChild } from '@angular/core';
 import { FormControl, Validators, FormBuilder } from '@angular/forms';
 import { PageEvent } from '@angular/material/paginator';
 import { Router } from '@angular/router';
@@ -46,9 +46,13 @@ export class TabAsistenciaProfCamComponent {
   listBusqueda: any[] = [];
   listFilteredBusqueda: any[] = [];
 
+  statusLoadingBarra = false;
+
+  @ViewChild('frmDoc') frmDocElement!: ElementRef;
+
   public formBuscarPersona = this.fb.nonNullable.group({
-    frmSelectDoc: new FormControl(''),
-    frmDoc: ['', [Validators.required]],
+    frmSelectDoc: new FormControl('1'),
+    frmDoc: ['', [Validators.required, Validators.pattern(/^\d{8}$/)]],
   });
 
   esperaBusqueda: boolean = false;
@@ -99,7 +103,8 @@ export class TabAsistenciaProfCamComponent {
     numDoc: string;
   */
 
-  constructor(private fb                                : FormBuilder,
+  constructor(
+              private fb                                : FormBuilder,
               private router                            : Router,
               private datosService                      : DatosGeneralesService,
               private controlService                    : ControlProgramacionService,
@@ -108,11 +113,38 @@ export class TabAsistenciaProfCamComponent {
               private dialog                            : MatDialog,
               private toast                             : ToastrService,
               private cdr: ChangeDetectorRef,
-              
-              private controlProgramacionService : ControlProgramacionService
-              ) { }
+              private controlProgramacionService : ControlProgramacionService,
+              private renderer: Renderer2) 
+  { }
+
+  setFocusOnFrmDoc() {
+    setTimeout(() => {
+      const frmDocElement = this.renderer.selectRootElement('#frmDoc', true);
+      frmDocElement.focus();
+    });
+
+  }
 
   ngOnInit(){
+
+    this.setDocumentValidators("1");
+
+    this.ctrlTypeSearch.valueChanges.subscribe(ctrlType=>{
+      if(ctrlType == 3){
+        this.setFocusOnFrmDoc();
+      }
+    })
+
+    
+    this.formBuscarPersona.get('frmDoc')!.valueChanges.subscribe(ctrlType=>{
+      if(this.ctrlTypeSearch.value == 3){
+        this.setFocusOnFrmDoc();
+        if(this.formBuscarPersona.get('frmDoc')?.valid){
+          this.onAseguradoSelectCodigoBarra("");
+          this.setFocusOnFrmDoc();
+        }
+      }
+    })
 
     this.formBuscarPersona.get('frmSelectDoc')!.valueChanges.subscribe(value => {
       this.formBuscarPersona.get('frmDoc')?.setValue("");
@@ -445,35 +477,38 @@ export class TabAsistenciaProfCamComponent {
 
   setDocumentValidators(documentType: string) {
     const documentNumberControl = this.formBuscarPersona.get('frmDoc')!;
+    console.log(documentType)
+    console.log(documentNumberControl.value)
     if (documentType === '1') {
-      documentNumberControl.setValidators([
+      this.formBuscarPersona.get('frmDoc')!.setValidators([
         Validators.required,
         Validators.pattern(/^\d{8}$/)
       ]);
     } else if (documentType === '4') {
-      documentNumberControl.setValidators([
+      this.formBuscarPersona.get('frmDoc')!.setValidators([
         Validators.required,
         Validators.pattern(/^[a-zA-Z0-9]{9}$/)
       ]);
     }
     else if (documentType === '23') { // Suponiendo que 'X' es el tipo de documento para el permiso temporal de permanencia
-    documentNumberControl.setValidators([
+      this.formBuscarPersona.get('frmDoc')!.setValidators([
       Validators.required,
       Validators.pattern(/^\d{9}$/) // Ajusta el patrón según el formato del permiso temporal de permanencia
     ]);
   } else if (documentType === '7') { // Suponiendo que 'P' es el tipo de documento para el pasaporte
-    documentNumberControl.setValidators([
+    this.formBuscarPersona.get('frmDoc')!.setValidators([
       Validators.required,
       Validators.pattern(/^[a-zA-Z0-9]{9}$/) // Ajusta el patrón según el formato del pasaporte
     ]);
   }
     else {
-      documentNumberControl.setValidators(Validators.required);
+      this.formBuscarPersona.get('frmDoc')!.setValidators(Validators.required);
     }
-    documentNumberControl.updateValueAndValidity();
+    this.formBuscarPersona.get('frmDoc')!.updateValueAndValidity();
   }
 
   onAseguradoSelectCodigoBarra(event: any) : void{
+   
     if(!this.formBuscarPersona.get("frmDoc")?.valid){
       return ;
     }
@@ -482,6 +517,8 @@ export class TabAsistenciaProfCamComponent {
       tipDoc:  String(this.formBuscarPersona.get("frmSelectDoc")?.value),
       numDoc: String(this.formBuscarPersona.get("frmDoc")?.value)
     }
+    this.statusLoadingBarra = true;
+    this.formBuscarPersona.get("frmDoc")?.setValue('');
     this.controlService.getSiEsApto(payload).subscribe((data)=>{
       if ((data.code == 0 || data.code == 2) && (data.data && data.data.length > 0)) {
         let conexion: boolean;
@@ -508,6 +545,10 @@ export class TabAsistenciaProfCamComponent {
           conConexion: conexion
         }).subscribe(data => {
           if(data.code == "0"){
+            if(this.ctrlTypeSearch.value == 3){
+              this.formBuscarPersona.get('frmDoc')?.setValue("");
+              this.formBuscarPersona.get('frmDoc')?.setValue("");
+            }
             this.getListTablaAsegurados();
           }
           else{
@@ -519,6 +560,7 @@ export class TabAsistenciaProfCamComponent {
         this.notificacionService.warning(data.message);
       }
       this.esperaBusqueda = false;
+      this.statusLoadingBarra = false;
     })
 
     this.ctrlSearch.setValue('');

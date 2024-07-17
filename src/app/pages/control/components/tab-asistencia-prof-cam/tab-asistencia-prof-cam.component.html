@@ -36,12 +36,12 @@
                                 <img src="assets/svg/icon-search-bar-code.svg">
                             </label>
                         </li>
-                     <!--   <li>
+                       <li>
                             <input type="radio" id="search-special" [formControl]="ctrlTypeSearch" [value]="3" class="hidden peer">
                             <label for="search-special" class="flex items-center justify-center w-10 h-10 border border-[#D4D4D4] rounded cursor-pointer peer-checked:bg-cam peer-checked:colorWhite hover:bg-[#057EC933]">
                                 <img src="assets/svg/icon-search-special.svg">
                             </label>
-                        </li>-->
+                        </li>
                     </ul>
                     <div class="flex flex-row gap-3 grow">
                         <input type="text" 
@@ -63,7 +63,7 @@
                                 </div>                                
                             </mat-option>
                         </mat-autocomplete>
-                        <div class="flex flex-row gap-3 grow" *ngIf="ctrlTypeSearch.value == 2" [formGroup]="formBuscarPersona">
+                        <div class="flex flex-row gap-3 grow" *ngIf="ctrlTypeSearch.value == 2 || ctrlTypeSearch.value == 3" [formGroup]="formBuscarPersona">
                             <div class="shrink-0">
                               <div class="relative rounded-md shadow-sm">
                                 <select id="searchDoc" formControlName="frmSelectDoc"
@@ -78,13 +78,14 @@
                             </div>
                             <input 
                             formControlName="frmDoc" 
-                            placeholder="Buscador" 
+                            [placeholder]="statusLoadingBarra ? 'Cargando...' : 'Buscador'" 
                             type="text" 
                             name="doc" 
-                            class="w-full text-sm rounded bg-white border-gray-400 border-1 px-4 py-2 font-light focusCampo grow"
-                            [readOnly]="formBuscarPersona.get('frmSelectDoc')?.value == '' || datoProgramacion.cerrado"
-                            [ngClass]="{'bg-slate-50': formBuscarPersona.get('frmSelectDoc')?.value == ''&& !datoProgramacion.cerrado,
-                                'bg-gray-100': datoProgramacion.cerrado
+                            id="frmDoc"
+                            class="w-full text-sm rounded border-gray-400 border-1 px-4 py-2 font-light focusCampo grow"
+                            [readOnly]="formBuscarPersona.get('frmSelectDoc')?.value == '' || datoProgramacion.cerrado || statusLoadingBarra"
+                            [ngClass]="{'bg-slate-50': (formBuscarPersona.get('frmSelectDoc')?.value == ''&& !datoProgramacion.cerrado) || statusLoadingBarra,
+                                'bg-gray-100': datoProgramacion.cerrado || statusLoadingBarra
                             }"
                             [disabled]="datoProgramacion.cerrado"
                             />
