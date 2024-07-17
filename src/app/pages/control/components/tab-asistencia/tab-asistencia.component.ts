@@ -1,7 +1,7 @@
 import { Dialog } from '@angular/cdk/dialog';
 import { registerLocaleData } from '@angular/common';
 import localeEs from '@angular/common/locales/es';
-import { Component, Inject, LOCALE_ID } from '@angular/core';
+import { Component, Inject, LOCALE_ID, Renderer2 } from '@angular/core';
 import { FormBuilder, FormControl, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { faSpinner } from '@fortawesome/free-solid-svg-icons';
@@ -55,7 +55,7 @@ export class TabAsistenciaComponent {
   ctrlTypeSearch = new FormControl(1);
   // Buscar por DNI------------------- --------------------------------------------
   public formBuscarPersona = this.fb.nonNullable.group({
-    frmSelectDoc: new FormControl(''),
+    frmSelectDoc: new FormControl('1'),
     frmDoc: ['', [Validators.required, Validators.minLength(8)]],
   });
   esperaBusqueda: boolean = false;
@@ -81,9 +81,53 @@ export class TabAsistenciaComponent {
               private controlService                    : ControlProgramacionService,
               @Inject(LOCALE_ID) private locale         : string,
               private notificacionService               : NotificationService,
+              private renderer: Renderer2
               ) { }
 
+  setFocusOnFrmDoc() {
+    setTimeout(() => {
+      const frmDocElement = this.renderer.selectRootElement('#frmDoc', true);
+      frmDocElement.focus();
+    });
+
+  }
+
   ngOnInit(){
+
+    this.setDocumentValidators("1");
+
+    this.ctrlTypeSearch.valueChanges.subscribe(ctrlType=>{
+      if(ctrlType == 3){
+        this.setFocusOnFrmDoc();
+      }
+    })
+
+    
+    this.formBuscarPersona.get('frmDoc')!.valueChanges.subscribe(ctrlType=>{
+      if(this.ctrlTypeSearch.value == 3){
+        this.setFocusOnFrmDoc();
+        if(this.formBuscarPersona.get('frmDoc')?.valid){
+          let obj = {
+            option : {
+              value: {
+                tipoDoc: (this.formBuscarPersona.get('frmSelectDoc')!.value! == "1" ? "DNI" : "OTROS"),
+                numDoc: ctrlType
+              }
+            }
+          }
+          this.onAseguradoSelect(obj);
+          this.setFocusOnFrmDoc();
+        }
+      }
+    })
+
+    this.formBuscarPersona.get('frmSelectDoc')!.valueChanges.subscribe(value => {
+      this.formBuscarPersona.get('frmDoc')?.setValue("");
+      this.setDocumentValidators(value!);
+    })
+
+
+
     this.setListeners();
     this.getListAsegurados();
     this.getDataCabecera();
@@ -152,6 +196,9 @@ export class TabAsistenciaComponent {
     }
     this.controlService.getSiEsApto(payload).subscribe((data)=>{
       if ((data.code == 0 || data.code == 2) && (data.data && data.data.length > 0)) {
+        if(this.ctrlTypeSearch.value == 3){
+          this.formBuscarPersona.get('frmDoc')?.setValue('');
+        }
         let conexion: boolean;
         if (data.code == 2) {
           conexion = false;
@@ -176,6 +223,7 @@ export class TabAsistenciaComponent {
                   if (dataAsistira.code == 0) {
                     this.getListAsistencia();
                     this.getListPreInscritos();
+                    this.setFocusOnFrmDoc();
                     this.notificacionService.success('Se ha registrado la asistencia');
                   }
                   else{
@@ -214,8 +262,8 @@ export class TabAsistenciaComponent {
       }
       else{
         this.matDialog.open(ModalAlertComponent, {
-          width: '20%',
-          height: '300px',
+          width: '30%',
+          height: '320px',
           data: {
             mensaje: data.message
           }
@@ -605,6 +653,39 @@ export class TabAsistenciaComponent {
       }
     })
   }
+
+  setDocumentValidators(documentType: string) {
+    const documentNumberControl = this.formBuscarPersona.get('frmDoc')!;
+    console.log(documentType)
+    console.log(documentNumberControl.value)
+    if (documentType === '1') {
+      this.formBuscarPersona.get('frmDoc')!.setValidators([
+        Validators.required,
+        Validators.pattern(/^\d{8}$/)
+      ]);
+    } else if (documentType === '4') {
+      this.formBuscarPersona.get('frmDoc')!.setValidators([
+        Validators.required,
+        Validators.pattern(/^[a-zA-Z0-9]{9}$/)
+      ]);
+    }
+    else if (documentType === '23') { // Suponiendo que 'X' es el tipo de documento para el permiso temporal de permanencia
+      this.formBuscarPersona.get('frmDoc')!.setValidators([
+      Validators.required,
+      Validators.pattern(/^\d{9}$/) // Ajusta el patrón según el formato del permiso temporal de permanencia
+    ]);
+  } else if (documentType === '7') { // Suponiendo que 'P' es el tipo de documento para el pasaporte
+    this.formBuscarPersona.get('frmDoc')!.setValidators([
+      Validators.required,
+      Validators.pattern(/^[a-zA-Z0-9]{9}$/) // Ajusta el patrón según el formato del pasaporte
+    ]);
+  }
+    else {
+      this.formBuscarPersona.get('frmDoc')!.setValidators(Validators.required);
+    }
+    this.formBuscarPersona.get('frmDoc')!.updateValueAndValidity();
+  }
+
 
 
   esBoolean(data: any): boolean {

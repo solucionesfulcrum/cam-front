@@ -62,7 +62,7 @@
                                 </div>                                
                             </mat-option>
                         </mat-autocomplete>
-                        <div class="flex flex-row gap-3 grow" *ngIf="ctrlTypeSearch.value == 2" [formGroup]="formBuscarPersona">
+                        <div class="flex flex-row gap-3 grow" *ngIf="ctrlTypeSearch.value == 2 || ctrlTypeSearch.value == 3" [formGroup]="formBuscarPersona">
                             <div class="shrink-0">
                               <div class="relative rounded-md shadow-sm">
                                 <select id="searchDoc" formControlName="frmSelectDoc" 
@@ -75,7 +75,7 @@
                                 </select>
                               </div>
                             </div>
-                            <input formControlName="frmDoc" placeholder="Buscador" type="text" name="doc" 
+                            <input formControlName="frmDoc" placeholder="Buscador" type="text" name="doc"  id="frmDoc"
                             class="w-full text-sm rounded bg-white border-gray-400 border-1 px-4 py-2 font-light focusCampo grow" 
                             [readonly]="!dataPaginada.cerrado || datoProgramacion.cerradoCabecera"/>
                         </div>
