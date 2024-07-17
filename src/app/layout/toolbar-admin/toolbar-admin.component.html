@@ -1,11 +1,11 @@
 <mat-drawer-container class="w-full h-screen grid grid-cols-[250px_calc(100vw-250px)] overflow-x-hidden">
     <mat-drawer-content class="fondoSigps">
         <nav class="supports-backdrop-blur:bg-white/95 backdrop-blur bg-white border-gray-200 px-6 py-1 shadow-lg min-h-[55px] flex flex-row justify-between items-center">
-            <div class="flex flex-row gap-[18px]">
-                <img class="cursor-pointer" src="assets/svg/icon-menu-options-toolbar.svg" [cdkMenuTriggerFor]="toolbarOptions"/>
-                <div class="flex flex-row gap-2.5 items-center text-xl">
+            <div class="flex flex-row gap-[18px]" >
+                <img class="cursor-pointer" src="assets/svg/icon-menu-options-toolbar.svg" [cdkMenuTriggerFor]="toolbarOptions"  />
+                <div class="flex flex-row gap-2.5 items-center text-xl" >
                     <img class="w-6 h-6" src="assets/images/img-CAM-logo-pequenio.png"/>
-                    <span class="text-[#0160AE] font-bold">Modulo-PAM</span>
+                    <span class="text-[#0160AE] font-bold" routerLink="/app/admin" style="cursor: pointer;">Modulo-PAM</span>
                     <span>Administración</span>
                 </div>
             </div>
