@@ -109,10 +109,15 @@ export class TabMisTalleresComponent {
         fechaFin = formatDate(dateDos, 'yyyy-MM-dd', this.locale);
         break;
       case 5:
-        dateUno = new Date(new Date().setDate(1));
+        /*dateUno = new Date(new Date().setDate(1));
         dateDos = new Date(new Date().getFullYear(), new Date().getMonth() + 1, 0);
         fechaInit = formatDate(dateUno, 'yyyy-MM-dd', this.locale);
-        fechaFin = formatDate(dateDos, 'yyyy-MM-dd', this.locale);        
+        fechaFin = formatDate(dateDos, 'yyyy-MM-dd', this.locale);       */
+        dateUno = new Date();
+        dateDos = new Date(dateUno.getFullYear(), dateUno.getMonth() + 1, 0);
+    
+        fechaInit = formatDate(dateUno, 'yyyy-MM-dd', this.locale);
+        fechaFin = formatDate(dateDos, 'yyyy-MM-dd', this.locale); 
         break;
       case 6:
         dateUno = new Date(new Date().getFullYear(), new Date().getMonth() + 1, 1);
