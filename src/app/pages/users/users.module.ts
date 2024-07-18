@@ -16,6 +16,7 @@ import { ActiveUserModalComponent } from './active-user-modal/active-user-modal.
 import { MaterialModule } from 'src/app/material/material.module';
 import { MatAutocompleteModule } from '@angular/material/autocomplete';
 import { ShowRoleComponent } from './show-role/show-role.component';
+import { AsignarRolModalComponent } from './asignar-rol-modal/asignar-rol-modal.component';
 
 
 @NgModule({
@@ -25,7 +26,8 @@ import { ShowRoleComponent } from './show-role/show-role.component';
     RolesComponent,
     ShowComponent,
     ShowRoleComponent,
-    ActiveUserModalComponent
+    ActiveUserModalComponent,
+    AsignarRolModalComponent
   ],
   imports: [
     CommonModule,

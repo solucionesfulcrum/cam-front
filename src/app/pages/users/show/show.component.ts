@@ -8,6 +8,7 @@ import { ActiveUserModalComponent } from '../active-user-modal/active-user-modal
 import { DatosGeneralesService } from 'src/app/data/services/datos-generales.service';
 import { ModalAlertComponent } from '@shared/components/modal-alert/modal-alert.component';
 import { MatDialog } from '@angular/material/dialog';
+import { AsignarRolModalComponent } from '../asignar-rol-modal/asignar-rol-modal.component';
 
 @Component({
   selector: 'app-show',
@@ -89,6 +90,16 @@ export class ShowComponent {
       this.provincia = rpta.data.provincia;
       this.distrito = rpta.data.distrito;
     });
+  }
+
+  openDialogRol(){
+    const dialogRef = this.matDialog.open(AsignarRolModalComponent,{
+      minWidth:'800px',
+      maxWidth:'50%',
+      data:{
+        mensaje : "AsignaRol Loco"
+      }
+    })
   }
 
   openDialog(){

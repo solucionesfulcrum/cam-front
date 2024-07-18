@@ -88,6 +88,11 @@ export class UsersService {
     return this.http.get<any>(url);
   }
 
+  getRoles(model: {estado: number, pageNum: number, pageSize: number}){
+    const url = `${this.api_URL}/auth/rol-app/listar`;
+    return this.http.post<any>(url,model);
+  }
+
   //-------------------------------------------------------------------------------------------------------------
   // getUsers(body:any){
   //   //const token = this.tokenService.getToken()
