@@ -75,11 +75,13 @@ export class AsignarRolModalComponent {
     }
 
    ngOnInit(){
+    this.statusLogin = 'loading';
     this.usersService.getRoles({
       estado: 1,
       pageNum: 1,
       pageSize: 20
     }).subscribe(response =>{
+      this.statusLogin = 'success';
       this.opciones = response.data.list;
     })
    
@@ -88,6 +90,7 @@ export class AsignarRolModalComponent {
 
   
   asignarRol(){
+    this.form.markAllAsTouched();
     if (this.form.valid) {
       this.statusLogin = 'loading';
       const { username, password } = {username : String(this.tokenService.getUsername()), password: this.form.get('password')!.value};

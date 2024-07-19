@@ -52,8 +52,8 @@
             <label espEstiloLabel for="password">Contraseña</label>
           </div>
         <div *ngIf="form.controls.password.touched">
-            <p *ngIf="form.controls.password.value == null" class="font-medium text-red-500 text-xs mt-1 ml-1">
-              N° de Entregables requerido
+            <p *ngIf="form.controls.password.value == null || form.controls.password.value == ''" class="font-medium text-red-500 text-xs mt-1 ml-1">
+              Contraseña es requerida
             </p>
             <p *ngIf="msg" class="font-medium text-red-500 text-xs mt-1 ml-1">
               {{msg}}
