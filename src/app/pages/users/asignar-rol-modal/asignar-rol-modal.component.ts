@@ -104,7 +104,7 @@ export class AsignarRolModalComponent {
             if(data.code == 0){
               this.usersService.asignarRolCAM({
                 idUsuario: this.idUser,
-                rol: this.rolCam[this.form.get('rol')!.value as any]
+                rol: this.form.get('rol')!.value
               }).subscribe(response =>{
                 if(response.code == 0){
                   this.toast.success(response.message);
