@@ -97,7 +97,13 @@ export class ShowComponent {
       minWidth:'800px',
       maxWidth:'50%',
       data:{
-        mensaje : "AsignaRol Loco"
+        user: this.user,
+        idUser: this.idUser
+      }
+    })
+    dialogRef.afterClosed().subscribe((r)=>{
+      if(r.ok){
+        this.onLoadData();
       }
     })
   }

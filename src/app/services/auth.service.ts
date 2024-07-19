@@ -126,6 +126,7 @@ export class AuthService {
         map(  (rta: ResponseLoginSSO) => {
           this.SSOMessage$.next(rta.message);
           this.decodedToken = helperJWT.decodeToken(rta.data.accessToken);
+          this.tokenService.saveUsername(username);
           this.tokenService.saveToken(rta.data.accessToken);
           this.tokenService.saveRefreshToken(rta.data.refreshToken);
           this.userSSO$.next(true);

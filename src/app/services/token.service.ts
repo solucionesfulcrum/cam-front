@@ -11,8 +11,17 @@ export class TokenService {
 
   constructor() { }
 
+  saveUsername(username:string){
+    setCookie('username', username, { expires: 10, path:'/'})
+  }
+
   saveToken(token:string){
     setCookie('accessToken', token, { expires: 10, path:'/'})
+  }
+
+  getUsername() : string{
+    const token  = getCookie('username')!
+    return token
   }
 
   getToken(){
