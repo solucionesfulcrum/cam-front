@@ -93,6 +93,11 @@ export class UsersService {
     return this.http.post<any>(url,model);
   }
 
+  getRolUsuario(guiid: string){
+    const url = `${this.api_URL}/usuario/listar-roles/sso`;
+    return this.http.post<any>(url,{guiid});
+  }
+
   asignarRolSSO(model: {token: string, guiid:string, roles: string[]}){
     const url = `${this.api_URL}/auth/usuario/asignar-rol`;
     return this.http.post<any>(url,model);

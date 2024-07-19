@@ -29,6 +29,14 @@ export class ShowComponent {
   provincia: string = ''
   region: string = ''
 
+  rolesCam : any= {
+    "SUPER-ADMIN" : 'ADMIN',
+    "CAM" : 'CAM',
+    "USER" : 'CAM',
+  }
+
+  rolCam: string = '';
+
   constructor(private route: ActivatedRoute,
     private _usersService:UsersService,
     private datosGenerales : DatosGeneralesService,
@@ -52,6 +60,10 @@ export class ShowComponent {
       })
       this._usersService.getUser(this.idUser).subscribe((data)=>{
         this.user = data.data;
+
+        this._usersService.getRolUsuario(data.data.guiid).subscribe(rpta=>{
+          this.rolCam = rpta.data[0].codigo;
+        })
         this.getVigencia();
         this.setUbigeo(this.user.codRegion + this.user.codProvincia + this.user.codDistrito)
         
@@ -93,19 +105,31 @@ export class ShowComponent {
   }
 
   openDialogRol(){
-    const dialogRef = this.matDialog.open(AsignarRolModalComponent,{
-      minWidth:'800px',
-      maxWidth:'50%',
-      data:{
-        user: this.user,
-        idUser: this.idUser
-      }
-    })
-    dialogRef.afterClosed().subscribe((r)=>{
-      if(r.ok){
-        this.onLoadData();
-      }
-    })
+    if(this.user.estado == "CREADO"){
+      const dialogRef = this.matDialog.open(ModalAlertComponent,{
+        minWidth:'800px',
+        maxWidth:'50%',
+        data:{
+          mensaje : "No se puede asignar un rol porque el usuario no ha terminado con el registro"
+        }
+      })
+    }
+    else{
+      const dialogRef = this.matDialog.open(AsignarRolModalComponent,{
+        minWidth:'800px',
+        maxWidth:'50%',
+        data:{
+          user: this.user,
+          idUser: this.idUser
+        }
+      })
+      dialogRef.afterClosed().subscribe((r)=>{
+        if(r.ok){
+          this.onLoadData();
+        }
+      })
+    }
+   
   }
 
   openDialog(){

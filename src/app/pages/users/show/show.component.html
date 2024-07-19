@@ -3,9 +3,12 @@
       <img class="h-6 self-center" src="assets/svg/circle-arrow-left.svg"> <span class="self-center ml-2">Regresar</span>
   </div>
   <div class="flex space-x-3 items-center">
-    <app-btn typeBtn="submit" class="botonApariencia" color="white" (click)="openDialogRol()" >
+    <ng-container *ngIf="rolCam && rolCam == 'ADMIN'">
+      <app-btn typeBtn="submit" class="botonApariencia" color="white" (click)="openDialogRol()" >
         Asignar Rol
     </app-btn>
+    </ng-container>
+    
       <app-btn typeBtn="submit" class="botonApariencia" color="white" [routerLink]="['..']">
           Cancelar
       </app-btn>
@@ -25,7 +28,7 @@
     <div class="pt-11 px-7 pb-6">
       <h1 class="font-semibold text-xl mb-3">{{user.nombres | titlecase}}</h1>
       <div class="flex justify-between mb-4">
-        <span class="px-4 py-1 rounded-full bg-primary-50 font-light text-sm">{{(rolAsignado ? rolAsignado  : 'Sin Rol') | titlecase}}</span>
+        <span class="px-4 py-1 rounded-full bg-primary-50 font-light text-sm">{{rolCam}}</span>
         <span *ngIf="showNuevo" class="px-4 py-1 rounded-full bg-cam font-light text-sm text-white">Nuevo</span>
       </div>
       <ul class="max-h-[41vh] overflow-auto">
