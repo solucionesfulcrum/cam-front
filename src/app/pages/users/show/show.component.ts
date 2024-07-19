@@ -24,6 +24,7 @@ export class ShowComponent {
   today = new Date();
   showNuevo: boolean = false;
   activaciones: any = [];
+  rolUsuario: string = '';
 
   distrito: string = ''
   provincia: string = ''
@@ -58,11 +59,18 @@ export class ShowComponent {
           });*/
         this.activaciones = data.data;
       })
+      this._usersService.getUser(JSON.parse(localStorage.getItem('camUser')!)!.idUsuario!).subscribe(userCam=>{
+        this._usersService.getRolUsuario(userCam.data.guiid).subscribe(rpta=>{
+          this.rolCam = rpta.data[0].codigo;
+        })
+      })
+
+
       this._usersService.getUser(this.idUser).subscribe((data)=>{
         this.user = data.data;
 
         this._usersService.getRolUsuario(data.data.guiid).subscribe(rpta=>{
-          this.rolCam = rpta.data[0].codigo;
+          this.rolUsuario = rpta.data[0].codigo;
         })
         this.getVigencia();
         this.setUbigeo(this.user.codRegion + this.user.codProvincia + this.user.codDistrito)
@@ -124,9 +132,8 @@ export class ShowComponent {
         }
       })
       dialogRef.afterClosed().subscribe((r)=>{
-        if(r.ok){
-          this.onLoadData();
-        }
+        console.log(r);
+        this.onLoadData();
       })
     }
    
