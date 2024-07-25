@@ -154,7 +154,11 @@ export class ContactosAfiliadosComponent implements OnInit {
       codigoCam : this.formBuscar.get('frmCam')?.value
     };
 
-    this.afiliacionesService.getExcelAseguradosRed(payload).subscribe((data)=>{
+    let servicioMetodo = this.rol == 'COORDINADOR RED' ? 
+    this.afiliacionesService.getExcelAseguradosRed(payload) :
+    this.afiliacionesService.getExcelAsegurados(payload);
+    
+    servicioMetodo.subscribe((data)=>{
       this.notificationService.success('Se esta descargando el reporte');
       const blob: Blob = new Blob([data], { type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet' });
       const url = window.URL.createObjectURL(blob);
