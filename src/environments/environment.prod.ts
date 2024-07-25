@@ -1,4 +1,5 @@
 export const environment = {
+  environment: 'PROD',
   production: true,
   API: 'https://apps.essalud.gob.pe/cam-service',
   // API_SEGURO: 'https://apps.essalud.gob.pe/sagw/sigps/viva-apidatosmaestros',

@@ -1,4 +1,5 @@
 export const environment = {
+  environment: 'DEV',
   production: false,
   //API: 'https://appsqa.essalud.gob.pe/cam-service', //QA
   API: 'https://appsqa.essalud.gob.pe/dev/cam-service', //DEV

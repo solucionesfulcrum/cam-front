@@ -1,4 +1,5 @@
 export const environment = {
+    environment: 'Local',
     production: false,
     //API: 'https://appsqa.essalud.gob.pe/cam-service',
     API: 'https://appsqa.essalud.gob.pe/dev/cam-service',

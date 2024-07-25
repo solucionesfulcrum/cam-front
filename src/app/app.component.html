@@ -1,1 +1,7 @@
+<button class="fixed bottom-4 right-4 px-4 py-2 bg-red-500 text-white rounded-lg shadow-red-lg cursor-pointer hover:bg-red-600 z-50" 
+*ngIf="environment.environment != 'PROD'"
+>
+  <i class="fas fa-info text-xl"></i> {{environment.environment}}
+</button>
+
 <router-outlet></router-outlet>

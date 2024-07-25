@@ -5,11 +5,13 @@ import { ConnectionService } from '@services/connection.service';
 import { ModalSinInternetComponent } from '@shared/components/modal-sin-internet/modal-sin-internet.component';
 import { MatDialog } from '@angular/material/dialog';
 import { MaterialModule } from './material/material.module';
+import { environment } from '@environments/environment';
+import { CommonModule } from '@angular/common';
 
 @Component({
   standalone: true,
   selector: 'app-root',
-  imports: [RouterModule,  HttpClientModule, MaterialModule],
+  imports: [RouterModule,  HttpClientModule, MaterialModule, CommonModule],
   providers: [
   ],
   templateUrl: './app.component.html',
@@ -17,6 +19,7 @@ import { MaterialModule } from './material/material.module';
 })
 
 export class AppComponent {
+  environment = environment;
   constructor(
     private connectionService: ConnectionService, 
     private dialog: MatDialog
