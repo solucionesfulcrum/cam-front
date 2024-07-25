@@ -151,7 +151,7 @@ export class ContactosAfiliadosComponent implements OnInit {
       estado: parseInt(this.formBuscar.get('frmSearchEstado')?.value),
       fecInicio: fecInicio,
       fecFin: fecFin,
-      codigoCam : this.formBuscar.get('frmCam')?.value
+      codigoCam : this.formBuscar.get('frmSearchCam')?.value
     };
 
     let servicioMetodo = this.rol == 'COORDINADOR RED' ? 
