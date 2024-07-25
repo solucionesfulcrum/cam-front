@@ -72,10 +72,10 @@
           (buttonAccion)="nuevoContrato()"
         ></esp-opciones-busqueda>
         <div class="mt-2 grid grid-cols-6 gap-1 border-b-2 border-gray-300 pb-2 text-[14px] filasPseudoTabla">
-          <span class="col-span-2">Tallerista</span>
-          <span>Orden de Compra</span>
-          <span>Fecha Registro</span>
-          <span>Estado</span>
+          <span style="text-align: left; width: 100%; margin-left: 10%;" class="col-span-2">Tallerista</span>
+          <span  style="text-align: left; width: 100%;">Orden de Compra</span>
+          <span  style="text-align: left; width: 100%;">Fecha Registro</span>
+          <span  style="text-align: left; width: 100%;">Estado</span>
           <span>Opc</span>
         </div>
         <div *ngIf="listContratos.length == 0" class="w-full h-3/4 flex items-center">
@@ -92,9 +92,10 @@
             text-align: left !important;
         ">{{contrato.tallerista | uppercase}}</span>
             <span class="col-span-1" ></span>
-            <span class="text-[var(--color-CAM)]" [routerLink]="contrato.estado === 'CONFIRMADO' ? [appRoute.CONTRATOS_CONFIRMAR_SERVICIOS + '/' + contrato.numOc] : null" [ngClass]="contrato.estado === 'CONFIRMADO' ? 'cursor-pointer' : null">{{contrato.numOc}}</span>
-            <span>{{contrato.fechaContrato | date:'dd/MM/yyyy'}}</span>
+            <span style="text-align: left; width: 100%;" class="text-[var(--color-CAM)]" [routerLink]="contrato.estado === 'CONFIRMADO' ? [appRoute.CONTRATOS_CONFIRMAR_SERVICIOS + '/' + contrato.numOc] : null" [ngClass]="contrato.estado === 'CONFIRMADO' ? 'cursor-pointer' : null">{{contrato.numOc}}</span>
+            <span  style="text-align: left; width: 100%;">{{contrato.fechaContrato | date:'dd/MM/yyyy'}}</span>
             <span 
+            style="text-align: left; width: 100%;"
             [ngClass]="{'text-green-500' : contrato.estado == 'CONFIRMADO', 'text-red-500' : contrato.estado == 'ANULADO'}"
             [ngStyle]="{'color': contrato.estado == 'REGISTRADO' ? '#F59E0B' : ''}">
             {{contrato.estado | titlecase}}</span>
