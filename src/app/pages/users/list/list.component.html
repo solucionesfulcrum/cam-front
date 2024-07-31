@@ -83,8 +83,8 @@
   <ng-container cdkColumnDef="status">
     <th cdk-header-cell class="py-5 px-6" *cdkHeaderCellDef>Estado</th>
     <td cdk-cell class="py-4 px-6" style="text-align: -webkit-center;" *cdkCellDef="let row">
-      <img *ngIf="row.estado === 'ACTIVADO'" src="assets/svg/userAct.svg"/>
-      <img *ngIf="row.estado === 'CONFIRMADO'" src="assets/svg/userNonAct.svg"/>
+      <img *ngIf="row.estado === 'ACTIVADO'" src="assets/svg/userAct.svg" [matTooltip]="row.estado | titlecase"/>
+      <img *ngIf="row.estado === 'CONFIRMADO'" src="assets/svg/userNonAct.svg" [matTooltip]="row.estado | titlecase"/>
     </td>
   </ng-container>
 </table>
