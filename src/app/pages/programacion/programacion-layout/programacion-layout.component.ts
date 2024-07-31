@@ -10,8 +10,6 @@ import { AppRoute } from 'src/app/data/constants/app-route.constant';
 export class ProgramacionLayoutComponent {
   links: FormatoTab[] = [
     {url: `/app/${AppRoute.PROGRAMACION}`, title: 'Contratos'},
-    {url: `/app/${AppRoute.PROGRAMACION_TAB_TALLERES}`, title: 'Talleres'},
-    {url: `/app/${AppRoute.PROGRAMACION_TAB_CALENDARIOS}`, title: 'Calendario'},
   ];
 
 
