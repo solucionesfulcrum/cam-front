@@ -180,7 +180,7 @@
       <div class="w-fit">
         <app-btn class="botonApariencia flex" type="submit" color="mezclado"
           (click)="data.type == 2 ? actualizarCabecera() : generateContract()" [loading]="status === 'loading'"
-          [disabled]="!talleristaInfo">
+          [disabled]="!talleristaInfo || !okContrato">
           {{data.type == 2 ? 'Actualizar' : (talleristaInfo ? (!talleristaInfo.acreditado ? 'Continuar' : 'Generar') :
           'Generar')}}
         </app-btn>

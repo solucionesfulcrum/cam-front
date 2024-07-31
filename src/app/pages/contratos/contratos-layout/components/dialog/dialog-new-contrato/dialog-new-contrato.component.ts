@@ -30,6 +30,8 @@ export class DialogNewContratoComponent {
   bloquearPDFAusente = false;
   comprobacionPDF = '';
 
+  okContrato: boolean = false;
+
   talleristaInfo: any;
   
   public formNewContrato = this.fb.nonNullable.group({
@@ -138,33 +140,48 @@ export class DialogNewContratoComponent {
     if (opt == 1) {
       this.contratosService.searchForPerson({tipoDoc: this.formNewContrato.controls.frmSelectDoc.value!, numDoc: this.formNewContrato.controls.frmDoc.value!}).subscribe((data)=>{
         if (data.code == 0) {
-          this.talleristaInfo = data.data;
-          if (!this.talleristaInfo.acreditado) {
-            this.formVigencia.controls.frmInicioVigencia.setValue(formatDate(this.talleristaInfo.contratoVigente[0].fechaInicio, 'd/M/yyyy', this.locale))
-            this.formVigencia.controls.frmFinVigencia.setValue(formatDate(this.talleristaInfo.contratoVigente[0].fechaFin, 'd/M/yyyy', this.locale))
-            this.formDataOrden.controls.frmOrden.setValue(this.talleristaInfo.contratoVigente[0].numOC)
-            this.formDataOrden.controls.frmEntregables.setValue(this.talleristaInfo.contratoVigente[0].nroEntregables)
-            this.formDataOrden.controls.frmMonto.setValue(this.talleristaInfo.contratoVigente[0].monto)
-            if (this.data.type == 1) {
-              this.formVigencia.disable()
-              this.formDataOrden.disable()
-            }
-            else{
-              this.formDataOrden.controls.frmOrden.disable();
-              this.comprobacionPDF = this.talleristaInfo.contratoVigente[0].nombreFile;
-            }
-            if (this.talleristaInfo.contratoVigente[0].nombreFile || this.talleristaInfo.contratoVigente[0].sizeFile) {
-              this.nombrePdf = this.talleristaInfo.contratoVigente[0].nombreFile;
-              this.fileSize = this.talleristaInfo.contratoVigente[0].sizeFile;
-              this.isPdfUpdate = true;
-            }
-            else{
+          
+
+            this.talleristaInfo = data.data;
+            if (!this.talleristaInfo.acreditado ) {
+              this.formVigencia.controls.frmInicioVigencia.setValue(formatDate(this.talleristaInfo.contratoVigente[0].fechaInicio, 'd/M/yyyy', this.locale))
+              this.formVigencia.controls.frmFinVigencia.setValue(formatDate(this.talleristaInfo.contratoVigente[0].fechaFin, 'd/M/yyyy', this.locale))
+              this.formDataOrden.controls.frmOrden.setValue(this.talleristaInfo.contratoVigente[0].numOC)
+              this.formDataOrden.controls.frmEntregables.setValue(this.talleristaInfo.contratoVigente[0].nroEntregables)
+              this.formDataOrden.controls.frmMonto.setValue(this.talleristaInfo.contratoVigente[0].monto)
               if (this.data.type == 1) {
-                this.bloquearPDFAusente = true;
+                this.formVigencia.disable()
+                this.formDataOrden.disable()
+              }
+              else{
+                this.formDataOrden.controls.frmOrden.disable();
+                this.comprobacionPDF = this.talleristaInfo.contratoVigente[0].nombreFile;
+              }
+              if (this.talleristaInfo.contratoVigente[0].nombreFile || this.talleristaInfo.contratoVigente[0].sizeFile) {
+                this.nombrePdf = this.talleristaInfo.contratoVigente[0].nombreFile;
+                this.fileSize = this.talleristaInfo.contratoVigente[0].sizeFile;
+                this.isPdfUpdate = true;
+              }
+              else{
+                if (this.data.type == 1) {
+                  this.bloquearPDFAusente = true;
+                }
+              }
+              if(data.data.idUnidadOperativa == this.data.idUnid){
+                this.okContrato = true;
+                this.formNewContrato.disable()
+              }
+              else{
+                this.okContrato = false;
+                this.notificationService.warning(data.data.mensaje);
               }
             }
-          }
-          this.formNewContrato.disable()
+            else if(this.talleristaInfo.acreditado){
+              this.okContrato = true;
+              this.formNewContrato.disable()
+            }
+          
+
         }
         else{
           this.notificationService.warning(data.message);
