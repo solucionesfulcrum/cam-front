@@ -21,6 +21,7 @@ export class DialogNewContratoComponent {
   opciones: Parametro[] = [];
   status: RequestStatus = 'init';
   tipoDocSelected: any = Object();
+  camContrato: string = "";
 
   retrievedPdf: any;
   nombrePdf = null;
@@ -31,6 +32,7 @@ export class DialogNewContratoComponent {
   comprobacionPDF = '';
 
   okContrato: boolean = false;
+  buscaContrato: boolean = false;
 
   talleristaInfo: any;
   
@@ -139,9 +141,8 @@ export class DialogNewContratoComponent {
   searchDataPersona(opt: number){
     if (opt == 1) {
       this.contratosService.searchForPerson({tipoDoc: this.formNewContrato.controls.frmSelectDoc.value!, numDoc: this.formNewContrato.controls.frmDoc.value!}).subscribe((data)=>{
+        this.buscaContrato = true;
         if (data.code == 0) {
-          
-
             this.talleristaInfo = data.data;
             if (!this.talleristaInfo.acreditado ) {
               this.formVigencia.controls.frmInicioVigencia.setValue(formatDate(this.talleristaInfo.contratoVigente[0].fechaInicio, 'd/M/yyyy', this.locale))
@@ -149,6 +150,7 @@ export class DialogNewContratoComponent {
               this.formDataOrden.controls.frmOrden.setValue(this.talleristaInfo.contratoVigente[0].numOC)
               this.formDataOrden.controls.frmEntregables.setValue(this.talleristaInfo.contratoVigente[0].nroEntregables)
               this.formDataOrden.controls.frmMonto.setValue(this.talleristaInfo.contratoVigente[0].monto)
+              this.camContrato = this.talleristaInfo.contratoVigente[0].nombreUnidadOperativa
               if (this.data.type == 1) {
                 this.formVigencia.disable()
                 this.formDataOrden.disable()
@@ -192,10 +194,13 @@ export class DialogNewContratoComponent {
       this.formNewContrato.enable()
       this.formNewContrato.reset();
       this.formDataOrden.reset();
+      this.formNewContrato.get('frmSelectDoc')!.setValue("1");
       this.bloquearPDFAusente = false;
       this.formVigencia.reset();
       this.removePdf();
       this.talleristaInfo = null;
+
+      this.buscaContrato = false;
     }
   }
 
