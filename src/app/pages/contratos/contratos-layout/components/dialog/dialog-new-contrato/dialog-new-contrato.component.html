@@ -39,7 +39,7 @@
         <span>{{talleristaInfo.nombre | titlecase}} - {{talleristaInfo.numDoc}}</span>
       </div>
     </div>
-    <span class="px-2.5 pt-2.5 font-semibold">Sobre la Orden de Compra <span style="color: #ff0000ba;" *ngIf="buscaContrato && !okContrato"> - Registrado en CAM {{this.camContrato}}</span> </span>
+    <span class="px-2.5 pt-2.5 font-semibold">Sobre la Orden de Compra <span style="color: #ff0000ba;" *ngIf="buscaContrato && !okContrato && talleristaInfo"> - Registrado en CAM {{this.camContrato}}</span> </span>
     <div class="flex justify-between space-x-2 px-2.5">
       <div class="w-1/2 flex flex-row gap-2.5" [formGroup]="formVigencia">
         <div class="relative">

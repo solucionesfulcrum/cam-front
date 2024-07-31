@@ -146,7 +146,10 @@ export class DialogNewContratoComponent {
             this.talleristaInfo = data.data;
             if (!this.talleristaInfo.acreditado ) {
               this.formVigencia.controls.frmInicioVigencia.setValue(formatDate(this.talleristaInfo.contratoVigente[0].fechaInicio, 'd/M/yyyy', this.locale))
-              this.formVigencia.controls.frmFinVigencia.setValue(formatDate(this.talleristaInfo.contratoVigente[0].fechaFin, 'd/M/yyyy', this.locale))
+              setTimeout(()=>{
+                this.formVigencia.controls.frmFinVigencia.setValue(formatDate(this.talleristaInfo.contratoVigente[0].fechaFin, 'd/M/yyyy', this.locale))
+              })
+             
               this.formDataOrden.controls.frmOrden.setValue(this.talleristaInfo.contratoVigente[0].numOC)
               this.formDataOrden.controls.frmEntregables.setValue(this.talleristaInfo.contratoVigente[0].nroEntregables)
               this.formDataOrden.controls.frmMonto.setValue(this.talleristaInfo.contratoVigente[0].monto)
