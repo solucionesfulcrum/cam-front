@@ -49,12 +49,12 @@
           (firstDisplayFilterSendValue)="formBuscar.get('frmSearchEstado')?.setValue($event); getContratos()"
         ></esp-opciones-busqueda>
         <div class="pt-2">
-            <div class="grid grid-cols-6 gap-1 border-b-2 border-gray-300 pb-2 text-[14px] filasPseudoTabla">
+            <div class="grid grid-cols-5 gap-1 border-b-2 border-gray-300 pb-2 text-[14px] filasPseudoTabla">
               <span class="col-span-2">Origen del Contratado</span>
               <span>N° de Contrato</span>
               <span>Fecha Registro</span>
               <span>Estado</span>
-              <span>Opc</span>
+              <!--<span>Opc</span>-->
             </div>            
             <div *ngIf="dataContratos.length == 0" class="w-full h-3/4 flex items-center">
               <div class="m-auto w-fit text-center py-6">
@@ -68,7 +68,7 @@
                 <span class="text-[var(--color-CAM)]">{{data.numOc}}</span>
                 <span>{{data.fechaReg | date:'dd/MM/yyyy'}}</span>
                 <span [ngClass]="data.estado === 'CONFIRMADO' ? 'text-green-500':'text-red-500'">{{data.estado | titlecase}}</span>
-                <div class="text-center self-center text-[20px]">
+           <!--     <div class="text-center self-center text-[20px]">
                     <esp-icon icon="faEllipsis" class="cursor-pointer" [cdkMenuTriggerFor]="optionsSidenav"></esp-icon>
                 </div>
                 <ng-template #optionsSidenav>
@@ -80,7 +80,7 @@
                                 </div>
                                 <span>Editar</span>
                             </div>
-                            <!-- <div class="flex flex-row items-center gap-2 hover:bg-[#E9E9E9] px-2 py-1.5 outline-none cursor-pointer rounded" cdkMenuItem (click)="downloadFile(contrato)">
+                             <div class="flex flex-row items-center gap-2 hover:bg-[#E9E9E9] px-2 py-1.5 outline-none cursor-pointer rounded" cdkMenuItem (click)="downloadFile(contrato)">
                                 <div class="text-[16px]">
                                     <esp-icon [icon]="'faDownload'"></esp-icon>
                                 </div>
@@ -91,12 +91,12 @@
                                     <esp-icon [icon]="'faTrashCan'"></esp-icon>
                                 </div>
                                 <span>Eliminar</span>
-                            </div> -->
+                            </div> 
                         </div>
                     </div>
                 </ng-template>
               </div>
-            </div>
+            </div>-->
         </div>
         
     </div>

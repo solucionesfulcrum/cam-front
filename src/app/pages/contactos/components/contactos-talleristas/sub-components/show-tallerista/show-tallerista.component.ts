@@ -13,8 +13,8 @@ import { DatosGeneralesService } from 'src/app/data/services/datos-generales.ser
 })
 export class ShowTalleristaComponent implements OnInit {
   opcionesBotones: FormatoBoton[] = [
-    {texto: 'Cancelar'},
-    {texto: 'Suspender', colorBtn: 'bordeado'},
+    /*{texto: 'Cancelar'},
+    {texto: 'Suspender', colorBtn: 'bordeado'},*/
     {texto: 'Contratar', colorBtn:'mezclado'},
   ];
 
@@ -25,9 +25,9 @@ export class ShowTalleristaComponent implements OnInit {
   idTallerista: string = '';
   rutasTallerista=[
     {url:`/app/contactos/talleristas/show/${this.idTallerista}`, title:'Contratos'},
-    {url:`/app/contactos/talleristas/show/${this.idTallerista}/calendarios`, title:'Calendario'},
+    /*{url:`/app/contactos/talleristas/show/${this.idTallerista}/calendarios`, title:'Calendario'},
     {url:`/app/contactos/talleristas/show/${this.idTallerista}/talleres`, title:'Talleres'},
-    {url:`/app/contactos/talleristas/show/${this.idTallerista}/evaluaciones`, title:'Evaluaciones'}
+    {url:`/app/contactos/talleristas/show/${this.idTallerista}/evaluaciones`, title:'Evaluaciones'}*/
   ];
 
   dataTallerista: any;
@@ -40,9 +40,9 @@ export class ShowTalleristaComponent implements OnInit {
   ) { 
     this.idTallerista = this.activeRoute.snapshot.paramMap.get('idTallerista')!;
     this.rutasTallerista[0].url = `/app/contactos/talleristas/show/${this.idTallerista}`;
-    this.rutasTallerista[1].url = `/app/contactos/talleristas/show/${this.idTallerista}/calendarios`;
-    this.rutasTallerista[2].url = `/app/contactos/talleristas/show/${this.idTallerista}/talleres`;
-    this.rutasTallerista[3].url = `/app/contactos/talleristas/show/${this.idTallerista}/evaluaciones`;
+    //this.rutasTallerista[1].url = `/app/contactos/talleristas/show/${this.idTallerista}/calendarios`;
+    //this.rutasTallerista[2].url = `/app/contactos/talleristas/show/${this.idTallerista}/talleres`;
+    //this.rutasTallerista[3].url = `/app/contactos/talleristas/show/${this.idTallerista}/evaluaciones`;
   }
 
   setUbigeo(codUbigeo: string){
