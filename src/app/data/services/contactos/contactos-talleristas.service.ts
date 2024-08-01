@@ -1,7 +1,7 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { environment } from '@environments/environment';
-import { imprimirRequest } from '@models/afiliados/ficha-solicitud.model';
+import { imprimirRequest, imprimirRequestCam } from '@models/afiliados/ficha-solicitud.model';
 import { RequestListTallerista, RequestListTalleristaContrato } from '@models/contactos/talleristas/contactos-talleristas.model';
 import { Observable } from 'rxjs';
 
@@ -39,10 +39,14 @@ export class ContactosTalleristasService {
     return this._httpClient.post<any>(url,model);
   }
 
-  getExcelTalleristas(model: imprimirRequest): Observable<Blob>{
-                                          //ESTO DE ASEGURADOS => /report/contactos/excel/lista-asegurados
-
-    const url = `${environment.API}/report/tallerista/excel/lista-tallerista`; //https://appsqa.essalud.gob.pe/dev/cam-service/tallerista/listar/red
+  getExcelTalleristas(model: imprimirRequestCam): Observable<Blob>{
+    const url = `${environment.API}/report/tallerista/excel/lista-tallerista`; 
     return this._httpClient.post(url, model, {responseType:'blob', headers: new HttpHeaders({'Accept': 'application/octet-stream'})});
+  }
+
+  
+  getExcelTalleristasCam(model: imprimirRequest): Observable<Blob>{
+  const url = `${environment.API}/report/tallerista/excel/lista-tallerista-cam`; 
+  return this._httpClient.post(url, model, {responseType:'blob', headers: new HttpHeaders({'Accept': 'application/octet-stream'})});
   }
 }

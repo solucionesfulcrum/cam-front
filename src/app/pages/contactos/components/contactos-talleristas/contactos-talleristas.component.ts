@@ -123,13 +123,18 @@ export class ContactosTalleristasComponent implements OnInit {
     let payload: imprimirRequestCam = {
       idUnidOpe: idUnidOpe.idUnidOperativa,
       texto: this.formBuscar.controls['frmSearch'].value,
-      estado: 0,
+      estado:  this.formBuscar.get('frmSearchEstado')?.value,
       fecInicio: '',
       fecFin: '',
       codigoCam : this.formBuscar.get('frmSearchCam')?.value
     };
 
-    this.talleristaService.getExcelTalleristas(payload).subscribe((data)=>{
+    let servicioMetodo = this.rol == 'COORDINADOR RED' ? 
+    this.talleristaService.getExcelTalleristas(payload) :
+    this.talleristaService.getExcelTalleristasCam(payload);
+
+
+    servicioMetodo.subscribe((data)=>{
       this.notificationService.success('Se esta descargando el reporte');
       const blob: Blob = new Blob([data], { type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet' });
       const url = window.URL.createObjectURL(blob);
