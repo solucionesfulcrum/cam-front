@@ -13,7 +13,7 @@ import { DatosGeneralesService } from 'src/app/data/services/datos-generales.ser
 
 function ordenValidator(control: AbstractControl): ValidationErrors | null {
   const value = control.value;
-  const isValid = /^\d{10}$/.test(value); // Verifica que sean 10 caracteres numéricos
+  const isValid = /^[a-zA-Z0-9]{10}$/.test(value); // Verifica que sean exactamente 10 caracteres alfanuméricos
   return isValid ? null : { ordenInvalida: true };
 }
 
