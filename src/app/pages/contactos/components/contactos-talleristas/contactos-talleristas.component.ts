@@ -116,6 +116,7 @@ export class ContactosTalleristasComponent implements OnInit {
       codigoCam : this.formBuscar.get('frmSearchCam')?.value
     }
   }
+  
 
   imprimirLista(){
     var idUnidOpe = JSON.parse(localStorage.getItem("UnidElegida")!);
