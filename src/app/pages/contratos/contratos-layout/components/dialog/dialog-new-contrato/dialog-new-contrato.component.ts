@@ -51,7 +51,7 @@ export class DialogNewContratoComponent {
     frmFinVigencia: ['', [Validators.required]],
   });
   public formDataOrden = this.fb.nonNullable.group({
-    frmOrden: [null, [Validators.required]],
+    frmOrden: [null, [Validators.required, ordenValidator]],
     frmEntregables: [null, [Validators.required]],
     frmMonto: [null, [Validators.required]],
   });
