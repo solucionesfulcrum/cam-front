@@ -1,7 +1,7 @@
 import { DIALOG_DATA, DialogRef } from '@angular/cdk/dialog';
 import { formatDate } from '@angular/common';
 import { Component, Inject, LOCALE_ID } from '@angular/core';
-import { FormBuilder, FormControl, Validators } from '@angular/forms';
+import { AbstractControl, FormBuilder, FormControl, ValidationErrors, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { RequestEditCabecera, RequestSendCabeceraContrato } from '@models/contratos/contratos-administracion.model';
 import { Parametro } from '@models/parametros-busqueda.model';
@@ -10,6 +10,12 @@ import { NotificationService } from '@services/notification.service';
 import { AppRoute } from 'src/app/data/constants/app-route.constant';
 import { ContratosAdministracionService } from 'src/app/data/services/contratos/contratos-administracion.service';
 import { DatosGeneralesService } from 'src/app/data/services/datos-generales.service';
+
+function ordenValidator(control: AbstractControl): ValidationErrors | null {
+  const value = control.value;
+  const isValid = /^\d{10}$/.test(value); // Verifica que sean 10 caracteres numéricos
+  return isValid ? null : { ordenInvalida: true };
+}
 
 @Component({
   selector: 'esp-dialog-new-contrato',

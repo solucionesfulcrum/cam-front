@@ -100,6 +100,9 @@
               <p *ngIf="formDataOrden.controls.frmOrden.value == null" class="font-medium text-red-500 text-xs mt-1 ml-1">
                 N° de Orden requerida
               </p>
+              <p *ngIf="formDataOrden.controls.frmOrden.errors!['ordenInvalida']"  class="font-medium text-red-500 text-xs mt-1 ml-1">
+                La orden debe tener 10 caracteres numéricos
+              </p>
             </div>
           </div>
           
