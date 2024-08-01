@@ -40,8 +40,8 @@
                   <li><span class="font-bold">Región: </span>{{region}}</li>
                   <li><span class="font-bold">Nivel Educativo: </span>{{dataTallerista.nivelEducativo ? dataTallerista.nivelEducativo : '-'}}</li>
                   <li><span class="font-bold">Profesión: </span>{{dataTallerista.sexo ? dataTallerista.sexo : '-'}}</li>
-                  <li><span class="font-bold">RNE: </span>-</li>
-                  <li><span class="font-bold">CMP: </span>-</li>
+                  <li><span class="font-bold">RNE: </span>{{dataTallerista.rne ? (dataTallerista.rne | titlecase) : '-'}}</li>
+                  <li><span class="font-bold">CMP: </span>{{dataTallerista.cmp ? (dataTallerista.cmp |titlecase) : '-'}}</li>
                   <li><span class="font-bold">Unidad Operativa: </span>{{dataTallerista.unidadOperativaTipo ? dataTallerista.unidadOperativaTipo : '-'}} {{dataTallerista.unidadOperativa ? dataTallerista.unidadOperativa : '-'}}</li>
                   <li><span class="font-bold">Fecha Registro: </span>{{dataTallerista.fechaRegistro ? (dataTallerista.fechaRegistro | date:'dd/MM/yyyy') : '-'}}</li>
                   <li><span class="font-bold">Estado: </span> <span class="text-green-500">{{dataTallerista.estado ? (dataTallerista.estado | titlecase) : '-'}}</span></li>
