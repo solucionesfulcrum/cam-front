@@ -51,6 +51,8 @@ export class DashboardAfiliadosComponent implements OnInit {
   idUnidadOperativaUser = (JSON.parse(localStorage.getItem('UnidElegida')!)).idUnidOperativa;
   rol = JSON.parse(localStorage.getItem('UnidElegida')!).rol;
 
+  
+
   formBuscar: FormGroup = this.fb.group({
     frmSearch: new FormControl(""),
     frmSearchDate: new FormControl(""),
@@ -64,6 +66,14 @@ export class DashboardAfiliadosComponent implements OnInit {
   total = 0;
   columns: string[] = ['marcar', 'nombres', 'tipoDoc', 'numDoc', 'edad', 'estadoCivil', 'ipress', 'fecha'];
 
+
+  obtenerNombreMes(mes: number): string {
+    const meses = [
+      'ene', 'feb', 'mar', 'abr', 'may', 'jun',
+      'jul', 'ago', 'sep', 'oct', 'nov', 'dic'
+    ];
+    return meses[mes];
+  }
   constructor(
     private authService: AuthService,
     private fb: FormBuilder,
@@ -103,6 +113,15 @@ export class DashboardAfiliadosComponent implements OnInit {
       //labels: series.monthDataSeries2.dates,
       xaxis: {
         type: "datetime",
+        labels: {
+          formatter:  (value: number) => {
+            const date = new Date(value);
+            const day = date.getDate();
+            const month = this.obtenerNombreMes(date.getMonth());
+            const year = date.getFullYear();
+            return `${day} ${month} ${year}`;
+          },
+        },
         /*labels: {
           formatter: function(value: number, timestamp: number) {
             // Use any date library or native JS to format the timestamp as you wish
