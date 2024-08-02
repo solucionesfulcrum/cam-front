@@ -12,6 +12,7 @@ export class DashboardComponent implements OnInit{
     {url: `/app/dashboard`, title:'Afiliados'},
    // {url: `/app/dashboard/asistencias`, title:'Asistencias'},
   ];
+  
 
   constructor() { }
 
