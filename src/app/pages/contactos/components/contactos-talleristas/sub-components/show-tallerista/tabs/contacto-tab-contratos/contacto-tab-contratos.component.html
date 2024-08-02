@@ -44,7 +44,7 @@
           [showSearch]="true"
           (searchInputValue)="formBuscar.get('frmSearch')?.setValue($event.toUpperCase()); getContratos()"
           [searchInputPlaceHolder]="'Buscar contrato'"
-          [showFirstDisplayFilter]="true"
+          [showFirstDisplayFilter]="false"
           [firstDisplayFilterPlaceholder]="{'indicador': false, 'placeholder': 'Estado'}"
           (firstDisplayFilterSendValue)="formBuscar.get('frmSearchEstado')?.setValue($event); getContratos()"
         ></esp-opciones-busqueda>
