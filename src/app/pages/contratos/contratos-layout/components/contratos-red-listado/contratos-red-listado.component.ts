@@ -164,4 +164,13 @@ export class ContratosRedListadoComponent {
     this.formBuscar.get('frmSearchEstado')?.setValue(value);
     this.onLoadData();
   }
+
+  colorEstado(estado: any){
+    let colores : any = {
+      'CONFIRMADO': '#32cd3a',
+      'REGISTRADO': 'rgb(245, 158, 11)',
+    }
+
+    return colores[estado];
+  }
 }
