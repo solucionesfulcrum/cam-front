@@ -82,7 +82,7 @@ export interface imprimirRequestCam{
     estado: number,
     fecInicio: string,
     fecFin: string,
-    codigoCam: string
+    codigoCam: string | null
   }
   
 

@@ -137,7 +137,7 @@ export class ContratosRedListadoComponent {
       idUnidOpe: idUnidOpe.idUnidOperativa,
       texto: this.formBuscar.controls['frmSearch'].value,
       estado: parseInt(this.formBuscar.get('frmSearchEstado')?.value),
-      codigoCam: String(this.formBuscar.get('frmSearchCam')?.value),
+      codigoCam: String(this.formBuscar.get('frmSearchCam')?.value) == "" ? null : String(this.formBuscar.get('frmSearchCam')?.value),
       fecInicio: fecInicio,
       fecFin: fecFin
     };
