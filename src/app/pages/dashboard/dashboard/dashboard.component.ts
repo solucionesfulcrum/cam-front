@@ -10,7 +10,7 @@ export class DashboardComponent implements OnInit{
  
   links: FormatoTab[] = [
     {url: `/app/dashboard`, title:'Afiliados'},
-    {url: `/app/dashboard/asistencias`, title:'Asistencias'},
+   // {url: `/app/dashboard/asistencias`, title:'Asistencias'},
   ];
 
   constructor() { }
