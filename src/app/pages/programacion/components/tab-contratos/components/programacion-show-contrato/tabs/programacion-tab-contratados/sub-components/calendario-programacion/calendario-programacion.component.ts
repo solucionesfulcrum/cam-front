@@ -197,6 +197,17 @@ export class CalendarioProgramacionComponent {
       if (data.code == 0) {
         this.listServicios = data.data.serviciosCam;
         this.listServiciosCiram = data.data.serviciosCirams;
+
+        this.listServicios.servicios = this.listServicios.servicios.map((servicio : any) =>{
+          return {...servicio, idUnid: this.listServicios.idUnidOpeCam}
+        })
+        
+        this.listServiciosCiram =  this.listServiciosCiram.map((ciram : any)=>{
+          ciram.servicios = ciram.servicios.map((servicio: any)=>{
+            return {...servicio, idUnid: ciram.idUnidOpeCiram}
+          }) 
+          return ciram;
+        })
       }
       else {
         this.notificationService.warning(data.message);
@@ -298,6 +309,7 @@ export class CalendarioProgramacionComponent {
   showScheduleCalendar(dataRangoElegido: any, dataFechaElegida: any){
     if (!this.visualizacion) {
       if (this.fechasSemana.some((x)=>{ return !this.comprobacionBloqueo(x)})) {
+        console.log(this.serviciosAsignados)
         const dialogRef = this.dialog.open(DialogAddProgramacionAsignacionComponent,{
           minWidth:'400px',
           width:'60vw',

@@ -36,5 +36,6 @@ export interface Servicio{
   nombreServicio: string,
   tipoServicio: string,
   idUnid: number,
-  nomUnid: string
+  nomUnid: string,
+  esDeCiram?: boolean
 }

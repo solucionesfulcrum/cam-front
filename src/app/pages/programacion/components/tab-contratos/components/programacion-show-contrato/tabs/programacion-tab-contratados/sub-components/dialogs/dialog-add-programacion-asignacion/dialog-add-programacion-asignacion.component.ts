@@ -116,7 +116,8 @@ export class DialogAddProgramacionAsignacionComponent {
         nombreServicio: x.nombreServicio,
         tipoServicio: x.tipoServicio,
         idUnid: this.data.serviciosContrato.idUnidOpeCam,
-        nomUnid: this.data.serviciosContrato.cam
+        nomUnid: this.data.serviciosContrato.cam,
+        esDeCiram: false
       })
     })
     let dataAsigServ: ServiciosOrdenados = {
@@ -134,7 +135,8 @@ export class DialogAddProgramacionAsignacionComponent {
           nombreServicio: y.nombreServicio,
           tipoServicio: y.tipoServicio,
           idUnid: x.idUnidOpeCiram,
-          nomUnid: x.ciram          
+          nomUnid: x.ciram,
+          esDeCiram: true
         })
       });
       this.listServicios.push({
@@ -345,7 +347,15 @@ export class DialogAddProgramacionAsignacionComponent {
       let count = 1;
       let horaAumentada;
       do {
-        if ((this.comprobarCantidadSesiones((this.ctrlServicio.value as any).idServicio) + count > 3) || this.comprobarSimilaridadSemana((this.ctrlServicio.value as any).idServicio).validacion || this.comprobarLimiteSesiones((this.ctrlServicio.value as any).idServicio) >= (this.data.dataContrato.nroEntregables*12) || this.comprobarAsignacionesUnidadOper((this.ctrlServicio.value as any).idServicio).validacion) { 
+        //alert((this.comprobarCantidadSesiones((this.ctrlServicio.value as any).idServicio) + count));
+        //alert( this.comprobarSimilaridadSemana((this.ctrlServicio.value as any).idServicio).validacion);
+        //alert( this.comprobarLimiteSesiones((this.ctrlServicio.value as any).idServicio) >= (this.data.dataContrato.nroEntregables*12));
+        //alert( this.comprobarAsignacionesUnidadOper((this.ctrlServicio.value as any).idServicio).validacion)
+        if (
+          (this.comprobarCantidadSesiones((this.ctrlServicio.value as any).idServicio) + count > 3) || 
+          this.comprobarSimilaridadSemana((this.ctrlServicio.value as any).idServicio).validacion || 
+          this.comprobarLimiteSesiones((this.ctrlServicio.value as any).idServicio) >= (this.data.dataContrato.nroEntregables*12) || 
+          this.comprobarAsignacionesUnidadOper((this.ctrlServicio.value as any).idServicio).validacion) { 
           break;
         }
         horaAumentada = new Date (horaInicio.getTime() + (1000*60*this.dataTipo.valor1)*(count))
@@ -373,14 +383,34 @@ export class DialogAddProgramacionAsignacionComponent {
     let servEncontrado: any;
     this.data.semanaElegida.forEach((x: Date)=> {
       if (!servEncontrado) {
-        this.data.infoServiciosContratados.filter((y: any)=> y.idServicio == idServicio && y.fecha == formatDate(x, 'yyyy-MM-dd', this.locale)).forEach((elem: any)=>{
+        this.data.infoServiciosContratados.
+        filter((item: any) =>
+          {
+            let esDeCiram = this.asAny(this.ctrlServicio.value).esDeCiram;
+            if(esDeCiram){
+              return this.asAny(this.ctrlServicio.value).idUnid == item.idUoCiram;
+            }
+            else{
+              return !item.idUoCiram;
+            }
+          }).
+        filter((y: any)=> y.idServicio == idServicio && y.fecha == formatDate(x, 'yyyy-MM-dd', this.locale)).
+        forEach((elem: any)=>{
           servEncontrado = elem;
         })
       }
     })
     if (!servEncontrado) {
-      servEncontrado = Object();
-      servEncontrado.validacion = false;
+      if(!this.ctrlPersonalizado.value && this.asAny(this.ctrlServicio.value).esDeCiram){
+        servEncontrado = {
+          validacion : true,
+          message : 'Active la función de programación a CIRAM'
+        }
+      }
+      else{
+        servEncontrado = Object();
+        servEncontrado.validacion = false;
+      }
     }
     else{
       if (servEncontrado.idUoCiram) {
@@ -417,11 +447,33 @@ export class DialogAddProgramacionAsignacionComponent {
     return servEncontrado;
   }
 
+
   comprobarCantidadSesiones(idServicio: any): number{
+    console.log(this.asAny(this.ctrlServicio.value))
     let asignacionesSemana: any[] = [];
     let numeroSesiones: number = 0;
     this.data.semanaElegida.forEach((x: any) => {
-      this.data.infoServiciosContratados.filter((item: any)=> (this.data.datoEdicion ? item.idProgramacionDet != this.data.datoEdicion.idProgramacionDet : true)).filter((y: any) => y.fecha == formatDate(x, 'yyyy-MM-dd', this.locale)).forEach((z: any)=> {if(z.idServicio == idServicio){asignacionesSemana.push(z)}})
+    
+      this.data.infoServiciosContratados.
+      filter((item: any) =>
+      {
+        let esDeCiram = this.asAny(this.ctrlServicio.value).esDeCiram;
+        if(esDeCiram){
+          return this.asAny(this.ctrlServicio.value).idUnid == item.idUoCiram;
+        }
+        else{
+          return !item.idUoCiram;
+        }
+      }
+      ).
+      filter((item: any)=> (
+        this.data.datoEdicion ? item.idProgramacionDet != this.data.datoEdicion.idProgramacionDet : true
+      )).
+      filter((y: any) => y.fecha == formatDate(x, 'yyyy-MM-dd', this.locale)).forEach(
+        (z: any)=> {
+          if(z.idServicio == idServicio)
+            {asignacionesSemana.push(z)}
+        })
     });
     asignacionesSemana.forEach((x)=>{
       numeroSesiones = numeroSesiones + x.nroSesiones;
@@ -432,7 +484,19 @@ export class DialogAddProgramacionAsignacionComponent {
     let objRespuesta: any = Object();
     let listIdCiram: number[] = []; this.data.serviciosCiram.forEach((x: any)=>{listIdCiram.push(x.idUnidOpeCiram)});
     let sesionesServ: number = 0;
-    let listSersionesAsig = this.data.infoServiciosContratados.filter((item: any)=> (this.data.datoEdicion ? item.idProgramacionDet != this.data.datoEdicion.idProgramacionDet : true)).filter((x: any)=> {
+    let listSersionesAsig = this.data.infoServiciosContratados.
+    filter((item: any) =>
+      {
+        let esDeCiram = this.asAny(this.ctrlServicio.value).esDeCiram;
+        if(esDeCiram){
+          return this.asAny(this.ctrlServicio.value).idUnid == item.idUoCiram;
+        }
+        else{
+          return !item.idUoCiram;
+        }
+      }
+      ).
+    filter((item: any)=> (this.data.datoEdicion ? item.idProgramacionDet != this.data.datoEdicion.idProgramacionDet : true)).filter((x: any)=> {
       return x.idServicio == idServicio/* && ((this.ctrlPersonalizado.value && typeof this.ctrlCiram.value == 'object') ? (this.ctrlCiram.value as any).idUnidadOperativa == x.idUoCiram : true)*/;
     })
     listSersionesAsig.forEach((element: any) => {
@@ -538,7 +602,23 @@ export class DialogAddProgramacionAsignacionComponent {
 
   comprobarLimiteSesiones(idServicio: any): number{
     let sesionesTotales: number = 0;
-    this.data.infoServiciosContratados.filter((item: any)=> (this.data.datoEdicion ? item.idProgramacionDet != this.data.datoEdicion.idProgramacionDet : true)).forEach((x: any)=> {if (x.idServicio == idServicio) { sesionesTotales += x.nroSesiones }})
+    this.data.infoServiciosContratados.
+    filter((item: any) =>
+      {
+        let esDeCiram = this.asAny(this.ctrlServicio.value).esDeCiram;
+        if(esDeCiram){
+          return this.asAny(this.ctrlServicio.value).idUnid == item.idUoCiram;
+        }
+        else{
+          return !item.idUoCiram;
+        }
+      }
+      ).
+    filter(
+      (item: any)=> 
+        (this.data.datoEdicion ? item.idProgramacionDet != this.data.datoEdicion.idProgramacionDet : true)
+    ).forEach((x: any)=> {if (x.idServicio == idServicio) { sesionesTotales += x.nroSesiones }})
+    //console.log(sesionesTotales);
     return sesionesTotales;
   }
 
