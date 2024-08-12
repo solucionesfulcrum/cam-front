@@ -31,6 +31,10 @@ export class RegisterAseguradoComponent {
   idUserSession = (JSON.parse(localStorage.getItem('camUser')!)).idUsuario;
   numDoc: string = '';
   tipoDoc: string = '';
+
+  regionNac: string = '';
+  provNac: string = '';
+  distNac: string = '';
   
   // <!---------------------------------------------------- Primer paso:  Datos del Asegurado                     --------------------------------------------------->
 
@@ -166,6 +170,12 @@ export class RegisterAseguradoComponent {
         var dateObject = new Date(+dateParts[2], +dateParts[1] - 1, +dateParts[0]); 
         var timeDiff = Math.abs(Date.now() - dateObject.getTime());
         this.edadPersona = Math.floor(timeDiff / (1000 * 3600 * 24) / 365.25);
+
+        this._datoGeneralesService.searchByUbigeo(this.infoReniec.codUbgNac).subscribe((data)=>{
+          this.regionNac = data.data.region;
+          this.provNac = data.data.provincia;
+          this.distNac = data.data.distrito;
+        })
 
         this._datoGeneralesService.getTipoParametros('TIPO_DIRECCION').subscribe((datos)=>{
           if (datos.code == 0) {
