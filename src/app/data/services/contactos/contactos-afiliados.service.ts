@@ -40,7 +40,7 @@ export class ContactosAfiliadosService {
   }
 
   servicioObtenerDataPersona(tipoDoc: any, numDoc: any){
-    const url = `${environment.API}/client/afiliado/sagw-qa-identapi-v2/busqueda?tipodoc=${tipoDoc}&numerodocumento=${numDoc}&busqueda=2&codigo=0H2YU123&file=1`
+    const url = `${environment.API}/client/afiliado/sagw-qa-identapi-v2/busqueda?tipodoc=${tipoDoc}&numerodocumento=${numDoc}&busqueda=1&codigo=0H2YU123&file=1`
     return this._httpClient.get<any>(url);
   }
   getDatoSeguro(tipo: string, numDoc: string){
