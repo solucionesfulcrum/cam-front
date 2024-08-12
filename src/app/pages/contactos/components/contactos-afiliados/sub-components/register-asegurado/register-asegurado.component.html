@@ -54,7 +54,7 @@
         </div>
     </div>
     <div class="col-span-2">
-        <p class="border-l-4 pl-2 bordColorEstablecido font-semibold text-xl"> Verificar dirección actual</p>
+        <p class="border-l-4 pl-2 bordColorEstablecido font-semibold text-xl"> Verificar dirección actual <b class="text-red-500">*</b></p>
         <div *ngIf="frmCtrlDireccion.touched && frmCtrlDireccion.invalid">
             <p *ngIf="frmCtrlDireccion.hasError('required')" class="font-medium text-red-500 text-xs mt-1 ml-1">
                 Elija una de las direcciones.
@@ -119,7 +119,7 @@
             </div> -->
             <div class="flex space-x-2 mb-2">
                 <div class="w-1/6 bg-slate-100 justify-end pr-2 flex items-center">
-                    <span >Celular</span>
+                    <span >Celular <b class="text-red-500">*</b></span>
                 </div>
                 <div class="w-5/6">
                     <input type="text" pattern="[0-9]*" min="0" maxlength="10" formControlName="frmCelular" (input)="handleCelularInput($event)" placeholder="Numero de celular" class="block w-full p-2 text-gray-900 placeholder-gray-300 border border-gray-300 focusCampo">
@@ -137,7 +137,7 @@
             </div>
             <div class="flex space-x-2 mb-2 items-center h-[42px]">
                 <div class="w-1/6 bg-slate-100 justify-end pr-2 flex items-center h-full">
-                    <span >Whatsapp</span>
+                    <span >Whatsapp <b class="text-red-500">*</b></span>
                 </div>
                 <div class="w-5/6">
                     <div class="flex">
@@ -159,7 +159,7 @@
             </div>
             <div class="flex space-x-2 mb-2">
                 <div class="w-1/6 bg-slate-100 justify-end pr-2 flex items-center">
-                    <span >Correo</span>
+                    <span >Correo <b class="text-red-500">*</b></span>
                 </div>
                 <div class="w-5/6">
                     <input type="text" formControlName="frmCorreo" placeholder="Direccion de correo Electronico" class="block w-full p-2 text-gray-900 placeholder-gray-300 border border-gray-300 focusCampo">
@@ -214,6 +214,11 @@
                     <app-btn typeBtn="submit" color="mezclado" (click)="sendRequestFichaAdmision()" [loading]="status === 'loading'">
                         <esp-icon icon="faSave"></esp-icon> Guardar
                     </app-btn>
+                </div>
+                <div class="flex justify-end space-x-2">
+                    <p class="font-medium text-red-500 text-xs mt-1 ml-1">
+                        Los campos marcados con * son obligatorios
+                    </p>
                 </div>
                 <div class="flex justify-end space-x-2" *ngIf="msgFaltante">
                     <p class="font-medium text-red-500 text-xs mt-1 ml-1" *ngIf="!validarFicha()">

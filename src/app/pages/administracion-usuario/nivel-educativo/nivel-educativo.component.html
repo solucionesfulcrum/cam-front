@@ -9,6 +9,7 @@
     </div>
     <div [formGroup]="formDatosFormacion">
         <div class="relative rounded-md shadow-sm mt-5">
+            <label class="block text-gray-700 mb-2">Nivel de educación actual</label>
             <select id="searchNivelEstudio" formControlName="frmNivelEstudio"
                 class="space-x-5 border border-gray-300 text-gray-900 text-sm rounded-lg focusCampo block w-full h-[42px]">
                 <option [ngValue]="null" disabled [selected]="!formDatosFormacion.controls['frmNivelEstudio'].value">
@@ -18,13 +19,14 @@
                 </option>
             </select>
         </div>
-        <div class="mt-4">
+        <div class="mt-5">
             <label class="block text-gray-700 mb-1">Nombre de la institucion Educativa</label>
             <input type="text"
                 class="space-x-5 border border-gray-300 text-gray-900 text-sm rounded-lg focusCampo block w-full h-[42px]"
                 formControlName="frmInstEduca">
         </div>
         <div class="relative rounded-md shadow-sm mt-5">
+            <label class="block text-gray-700 mb-1">Año de graduación</label>
             <select id="searchAnioGraduacion" formControlName="frmAnioGraduacion"
                 class="space-x-5 border border-gray-300 text-gray-900 text-sm rounded-lg focusCampo block w-full h-[42px]">
                 <option [ngValue]="null" disabled [selected]="!formDatosFormacion.controls['frmAnioGraduacion'].value">
