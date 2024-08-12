@@ -112,6 +112,26 @@ export class RegisterAseguradoComponent {
 
   frmCtrlObservacion = new FormControl();
 
+  handleCelularInput(event: Event): void {
+    const input = event.target as HTMLInputElement;
+    let value = input.value;
+
+    // Limita a 9 dígitos y debe comenzar con 9
+    if (value.length > 9) {
+      value = value.substring(0, 9);
+    }
+
+    // Reemplaza cualquier carácter que no sea un dígito
+    value = value.replace(/[^0-9]/g, '');
+
+    // Asegúrate de que el primer dígito sea 9
+    if (value.length > 0 && value[0] !== '9') {
+      value = '9' + value.substring(1);
+    }
+
+    this.formDatosContacto.controls['frmCelular'].setValue(value, { emitEvent: false });
+  }
+
   // <!-------------------------------------------------------------------------------------------------------------------------------------------------------------->
 
   constructor(private dialog                            : Dialog,
