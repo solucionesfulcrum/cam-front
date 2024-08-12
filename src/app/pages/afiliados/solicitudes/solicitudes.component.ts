@@ -93,6 +93,8 @@ export class SolicitudesComponent implements OnInit {
         this.notificationService.warning(data.message);
       }
     });
+
+    this.onLoadData();
   }
 
   ngAfterViewInit(): void{
