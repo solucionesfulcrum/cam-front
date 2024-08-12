@@ -15,6 +15,7 @@ import { contactoFicha, datosAseguradoFicha, datosFicha, direccionFicha, modalid
 import { RegisterSolicitud } from '@models/afiliaciones/register-afiliacion.model';
 import { AfiliacionesSolicitudesService } from 'src/app/data/services/afiliaciones/afiliaciones-solicitudes.service';
 import { RequestStatus } from '@models/request-status.model';
+import { base64Img } from './data';
 
 @Component({
   selector: 'esp-register-asegurado',
@@ -35,6 +36,11 @@ export class RegisterAseguradoComponent {
   regionNac: string = '';
   provNac: string = '';
   distNac: string = '';
+
+  codRegionNac: string = '';
+  codProvNac: string = '';
+  codDistNac: string = '';
+  
   
   // <!---------------------------------------------------- Primer paso:  Datos del Asegurado                     --------------------------------------------------->
 
@@ -175,6 +181,9 @@ export class RegisterAseguradoComponent {
           this.regionNac = data.data.region;
           this.provNac = data.data.provincia;
           this.distNac = data.data.distrito;
+          this.codRegionNac = data.codUbgDom.match(/.{1,2}/g)[0];
+          this.codProvNac = data.codUbgDom.match(/.{1,2}/g)[1];
+          this.codDistNac = data.codUbgDom.match(/.{1,2}/g)[2];
         })
 
         this._datoGeneralesService.getTipoParametros('TIPO_DIRECCION').subscribe((datos)=>{
@@ -501,23 +510,22 @@ export class RegisterAseguradoComponent {
   
   getDataAsegurado(): datosAseguradoFicha{
     var dateParts = this.infoReniec.fecNacimiento.trim().split('/');
-
-    return {
+    console.log({
       tipDocIdent: this.parametroDocumento.valor1,
       descTipDocIdent: this.parametroDocumento.nombre,
       numDocIdent: this.numDoc,
       nombres: this.infoReniec.txtNombres,
       apePaterno: this.infoReniec.txtApepaterno,
       apeMaterno: (this.infoReniec.txtApematcasada? this.infoReniec.txtApematcasada : this.infoReniec.txtApematerno),
-      departNacim: this.infoReniec.desNacubiDepa,
-      provinNacim: this.infoReniec.desNacubiProv,
+      departNacim: (this.infoReniec.desNacubiDepa ? this.infoReniec.desNacubiDepa : this.codRegionNac),
+      provinNacim: (this.infoReniec.desNacubiProv ? this.infoReniec.desNacubiProv : this.codProvNac),
       distriNacim: this.infoReniec.desNacubiDist,
       ubigeoNacim: this.infoReniec.codUbgNac,
       fecNacimiento: `${dateParts[2]}-${dateParts[1]}-${dateParts[0]}`, // yyyy-mm-dd with 0
       codEstCivil: this.infoReniec.codEstcivil,
       descEstCivil: this.infoReniec.desEstadoCivil,
-      codSexo: this.infoReniec.desSexoPersona[0],
-      descSexo: this.infoReniec.desSexoPersona,
+      codSexo: this.infoReniec.desSexoPersona ? this.infoReniec.desSexoPersona : '0',
+      descSexo: this.infoReniec.desSexoPersona ? this.infoReniec.desSexoPersona : 'SIN DATOS',
       codTipoAsegurado: this.dataSeguro.CONDICION[0],
       descTipoAsegurado: this.dataSeguro.CONDICION,
       codTipoSeguro: '0',
@@ -529,6 +537,35 @@ export class RegisterAseguradoComponent {
       usuarioRegId: this.idUserSession,
       activo: 1,
       foto: this.imagenAdmision,
+      fecFallecimiento:  this.feFallecimiento
+    })
+    return {
+      tipDocIdent: this.parametroDocumento.valor1,
+      descTipDocIdent: this.parametroDocumento.nombre,
+      numDocIdent: this.numDoc,
+      nombres: this.infoReniec.txtNombres,
+      apePaterno: this.infoReniec.txtApepaterno,
+      apeMaterno: (this.infoReniec.txtApematcasada? this.infoReniec.txtApematcasada : this.infoReniec.txtApematerno),
+      departNacim: (this.infoReniec.desNacubiDepa ? this.infoReniec.desNacubiDepa : this.codRegionNac),
+      provinNacim: (this.infoReniec.desNacubiProv ? this.infoReniec.desNacubiProv : this.codProvNac),
+      distriNacim: (this.infoReniec.desNacubiDist ? this.infoReniec.desNacubiDist : this.distNac),
+      ubigeoNacim: this.infoReniec.codUbgNac,
+      fecNacimiento: `${dateParts[2]}-${dateParts[1]}-${dateParts[0]}`, // yyyy-mm-dd with 0
+      codEstCivil: this.infoReniec.codEstcivil ?  this.infoReniec.codEstcivil  : "0",
+      descEstCivil: this.infoReniec.desEstadoCivil ?  this.infoReniec.desEstadoCivil  : "SIN DATOS",
+      codSexo: this.infoReniec.desSexoPersona ? this.infoReniec.desSexoPersona : '0',
+      descSexo: this.infoReniec.desSexoPersona ? this.infoReniec.desSexoPersona : 'SIN DATOS',
+      codTipoAsegurado: this.dataSeguro.CONDICION[0],
+      descTipoAsegurado: this.dataSeguro.CONDICION,
+      codTipoSeguro: '0',
+      descTipoSeguro: 'Seguro ' + this.dataSeguro.DGACTAS,
+      codIpressAdscrip: this.dataRed.cod_CENTRO,
+      nomIpressAdscrip: this.dataRed.nom_CENTRO,
+      codRedAsisten: this.dataRed.cod_RED,
+      nomRedAsisten: this.dataRed.des_RED,
+      usuarioRegId: this.idUserSession,
+      activo: 1,
+      foto: this.imagenAdmision ? this.imagenAdmision : base64Img,
       fecFallecimiento:  this.feFallecimiento
     };
   }
