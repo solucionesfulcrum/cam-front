@@ -130,7 +130,7 @@
                     </div>
                     <div *ngIf="formDatosContacto.controls.frmCelular.touched && formDatosContacto.controls.frmCelular.invalid">
                         <p *ngIf="formDatosContacto.controls.frmCelular.hasError('pattern')" class="font-medium text-red-500 text-xs mt-1 ml-1">
-                            El número de celular debe tener solo números.
+                            El número de celular debe tener 9 números y debe empezar por 9.
                         </p>
                     </div>
                 </div>
@@ -169,7 +169,7 @@
                         </p>
                     </div>
                     <div *ngIf="formDatosContacto.controls.frmCorreo.touched && formDatosContacto.controls.frmCorreo.invalid">
-                        <p *ngIf="formDatosContacto.controls.frmCorreo.hasError('email')" class="font-medium text-red-500 text-xs mt-1 ml-1">
+                        <p *ngIf="formDatosContacto.controls.frmCorreo.hasError('pattern')" class="font-medium text-red-500 text-xs mt-1 ml-1">
                             Ingrese una dirección de correo electrónico válida.
                         </p>
                     </div>
