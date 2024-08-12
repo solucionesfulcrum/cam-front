@@ -64,7 +64,7 @@ export class ContactosAfiliadosComponent implements OnInit {
         return {...e, valor1: e.codigo} as Parametro
       });
     });
-    
+    this.onLoadData();
   }
 
   onLoadData(){
