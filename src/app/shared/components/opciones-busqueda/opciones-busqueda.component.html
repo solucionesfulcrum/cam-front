@@ -25,8 +25,10 @@
         <div class="relative rounded-md shadow-sm">
           <input *ngIf="!searchInputAdjustWidth" type="text" name="search" id="search" formControlName="frmSearch" #preSelected
           class="inputTextoDialog focusCampo !h-10 pr-7"
+          style="margin-right: 10px;"
           [placeholder] = 'searchInputPlaceHolder'>
           <input *ngIf="searchInputAdjustWidth" type="text" name="search" id="search" formControlName="frmSearch" #preSelected
+          style="margin-right: 10px;"
           class="inputTextoDialog focusCampo !h-10 pr-7"
           [placeholder] = 'searchInputPlaceHolder' [size]="searchInputPlaceHolder.length">
           <div class="pointer-events-none right-0 absolute inset-y-0 flex items-center pr-3 opacity-50">
@@ -39,6 +41,16 @@
 
   </div>
   <div class="flex space-x-3 items-center">
+    <div *ngIf="showThirdDisplayFilter">
+      <div class="relative rounded-md shadow-sm">
+        <select id="acciones" #secondSelect class="bg-slate-50 border border-gray-300 !h-10 text-gray-600 text-sm rounded-lg focusCampo block w-full" (change)='changeThirdFilter(secondSelect.value)'>
+          <option *ngIf="thirdDisplayFilterPlaceholder.indicador == true" [value]="null" selected>{{thirdDisplayFilterPlaceholder.placeholder}}</option> 
+          <option *ngIf="thirdDisplayFilterPlaceholder.indicador == false" disabled selected>{{thirdDisplayFilterPlaceholder.placeholder}}</option>
+          
+          <option *ngFor="let option of thirdDisplayFilterData" [value]='option.valor1'>{{option.nombre | titlecase}}</option>
+        </select>
+      </div>
+    </div>
     <div *ngIf="showSecondDisplayFilter">
       <div class="relative rounded-md shadow-sm">
         <select id="acciones" #secondSelect class="bg-slate-50 border border-gray-300 !h-10 text-gray-600 text-sm rounded-lg focusCampo block w-full" (change)='changeSecondFilter(secondSelect.value)'>

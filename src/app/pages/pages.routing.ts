@@ -142,12 +142,20 @@ export const pagesAdminRoutes: Route[] = [
           import('./unidades-operativas/unidades-operativas.module').then((m) => m.UnidadesOperativasModule),
       },
       {
+        path: AppRoute.CONTACTOS,
+        canActivate:[AuthGuard],
+        title:'Contactos',
+        loadChildren: () =>
+          import('./admin-contactos/admin-contactos.module').then((m) => m.AdminContactosModule),
+      },
+      {
         path: '',
         canActivate:[AuthGuard],
         title:'Administración de usuario',
         loadChildren: () =>
           import('./administracion-usuario/administracion-usuario.module').then((m) => m.AdministracionUsuarioModule),
-      }
+      },
+      
     ]
   },
 ];

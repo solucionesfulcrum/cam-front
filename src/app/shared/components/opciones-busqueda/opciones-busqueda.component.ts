@@ -31,6 +31,9 @@ export class OpcionesBusquedaComponent{
   showSecondDisplayFilter = false;
 
   @Input()
+  showThirdDisplayFilter = false;
+
+  @Input()
   showButton = false;
 
   //Filtro de Fecha----------------------------------------------------------------------------------------------------------------
@@ -102,6 +105,20 @@ export class OpcionesBusquedaComponent{
 
   @Output()
   secDisplayFilterSendValue = new EventEmitter<any>();
+
+   //Segundo Filtro Desplazable-------------------------------------------------------------------------------------------------------------
+   @Input()
+   thirdDisplayFilterPlaceholder: {
+     indicador: boolean, // Indica si es "True": Seleccionable o "False": No Seleccionable
+     placeholder: string // Nombre de la opción
+   } = {indicador: false, placeholder: 'Opciones'};
+ 
+   @Input()
+   thirdDisplayFilterData: Parametro[] = [];
+ 
+   @Output()
+   thirdDisplayFilterSendValue = new EventEmitter<any>();
+ 
 
   //Botón ejecutable-------------------------------------------------------------------------------------------------------------------------
   @Input()
@@ -193,6 +210,9 @@ export class OpcionesBusquedaComponent{
     this.firstDisplayFilterSendValue.emit(value);
   }
   changeSecondFilter(value: any){
+    this.secDisplayFilterSendValue.emit(value);
+  }
+  changeThirdFilter(value: any){
     this.secDisplayFilterSendValue.emit(value);
   }
 }
