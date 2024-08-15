@@ -27,6 +27,11 @@ export class DatosGeneralesService {
     return this._httpClient.get<TipoParametro>(url);
   }
 
+  getAllCams() {
+    const url = `${environment.API}/unidad-operativa/listar/cam`;
+    return this._httpClient.get<TipoParametro>(url);
+  }
+
   getCams(codigo: string) {
     const url = `${environment.API}/unidad-operativa/listar/cam/red?id-uo-red=${codigo}`;
     return this._httpClient.get<TipoParametro>(url);

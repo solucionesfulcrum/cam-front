@@ -60,6 +60,13 @@ export class AseguradosComponent {
       this.opciones = data.data;
     });
 
+    this.datosService.getAllCams().subscribe((data)=>{
+      this.opciones_cam = data.data.map((e : any)=>{ //No había más solución
+        return {...e, valor1: e.codigo} as Parametro
+      });
+      this.onLoadData();
+    });
+
     this.datosService.getReds().subscribe((data)=>{
       this.opciones_red = data.data.map((e : any)=>{ //No había más solución
         return {...e, valor1: e.idUnidadOperativa} as Parametro
@@ -209,8 +216,13 @@ export class AseguradosComponent {
       setTimeout(()=>{
         this.formBuscar.get('frmSearchCam')?.setValue("");
         this.formBuscar.get('frmSearchRed')?.setValue("");
-        this.opciones_cam = [];
-        this.onLoadData();
+        //this.opciones_cam = [];
+        this.datosService.getAllCams().subscribe((data)=>{
+          this.opciones_cam = data.data.map((e : any)=>{ //No había más solución
+            return {...e, valor1: e.codigo} as Parametro
+          });
+          this.onLoadData();
+        });
       })
     }
     
