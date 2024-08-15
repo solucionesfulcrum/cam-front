@@ -54,7 +54,7 @@
   
         <ng-container cdkColumnDef="nombres">
           <th cdk-header-cell class="py-[1rem] px-6" *cdkHeaderCellDef [style]="'padding-left: 0px;'">Apellidos y Nombres</th>
-          <td cdk-cell class="py-[1rem] px-6 font-semibold" *cdkCellDef="let row, index as i" [style]="'padding-left: 0px;'"><span class="text-Name cursor-pointer" >{{ row.apePaterno + " " + row.apeMaterno + " " +row.nombres| uppercase}}</span></td>
+          <td cdk-cell class="py-[1rem] px-6 font-semibold" *cdkCellDef="let row, index as i" [style]="'padding-left: 0px;'"><span class="cursor-pointer" >{{ row.apePaterno + " " + row.apeMaterno + " " +row.nombres| uppercase}}</span></td>
         </ng-container>
 
         <ng-container cdkColumnDef="tipoDoc">

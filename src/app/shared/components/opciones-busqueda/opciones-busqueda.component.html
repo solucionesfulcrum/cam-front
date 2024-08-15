@@ -3,6 +3,7 @@
   <div class="flex space-x-3">
     <div *ngIf="showDateFilter" class="relative rounded-md !h-9 shadow-sm" [cdkMenuTriggerFor]="prueba.menu">
       <input  type="text" name="searchdate" id="searchDate" readonly formControlName="frmSearchDate"
+        style="margin-right: 4.5vw;"
       class="inputTextoDialog focusCampo !h-10 pr-7" placeholder="Buscar por fecha">
       <div class="pointer-events-none right-0 absolute inset-y-0 flex items-center pr-3">
       <span datepicker class="text-gray-500 sm:text-sm">
@@ -25,10 +26,10 @@
         <div class="relative rounded-md shadow-sm">
           <input *ngIf="!searchInputAdjustWidth" type="text" name="search" id="search" formControlName="frmSearch" #preSelected
           class="inputTextoDialog focusCampo !h-10 pr-7"
-          style="margin-right: 15px;"
+          style="margin-right: 4.5vw;"
           [placeholder] = 'searchInputPlaceHolder'>
           <input *ngIf="searchInputAdjustWidth" type="text" name="search" id="search" formControlName="frmSearch" #preSelected
-          style="margin-right: 15px;"
+          style="margin-right: 4.5vw;"
           class="inputTextoDialog focusCampo !h-10 pr-7"
           [placeholder] = 'searchInputPlaceHolder' [size]="searchInputPlaceHolder.length">
           <div class="pointer-events-none right-0 absolute inset-y-0 flex items-center pr-3 opacity-50">
