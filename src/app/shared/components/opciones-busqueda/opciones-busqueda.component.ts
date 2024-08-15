@@ -17,6 +17,9 @@ import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
   styleUrls: ['./opciones-busqueda.component.scss']
 })
 export class OpcionesBusquedaComponent{
+
+
+  restartFilterDate: boolean = false;
   //Show Opciones----------------------------------------------------------------------------------------------------------------
   @Input()
   showDateFilter = false;
@@ -217,9 +220,14 @@ export class OpcionesBusquedaComponent{
   }
 
   clearDate(event: MouseEvent) {
+    
     event.stopPropagation(); // Detiene la propagación del evento de clic
+    this.restartFilterDate = true;
 
-    // Fecha en 1900
+
+    setTimeout(() => {
+    this.restartFilterDate = false;
+       // Fecha en 1900
     const startDate = new Date(1900, 0, 1); // 01/01/1900
     const startDay = ('0' + startDate.getDate()).slice(-2);
     const startMonth = ('0' + (startDate.getMonth() + 1)).slice(-2);
@@ -237,11 +245,15 @@ export class OpcionesBusquedaComponent{
     const dateRange = `${formattedStartDate} - ${formattedEndDate}`;
 
     // Establece el valor en el formulario y emite los eventos con el rango de fechas
+   // this.setDateSelectedDefault = -1;
     this.form.get('frmSearchDate')?.setValue("");
     this.sendDateFilter.emit(dateRange);
     this.sendDateFilterWithCeros.emit(dateRange);
     this.sendDateFilterWithoutCeros.emit(dateRange);
     this.sendDateFilterUSDate.emit(dateRange);
+    });
+
+   
 }
 
 clearSearch() {

@@ -208,7 +208,9 @@ export class AseguradosComponent {
     else{
       setTimeout(()=>{
         this.formBuscar.get('frmSearchCam')?.setValue("");
+        this.formBuscar.get('frmSearchRed')?.setValue("");
         this.opciones_cam = [];
+        this.onLoadData();
       })
     }
     
