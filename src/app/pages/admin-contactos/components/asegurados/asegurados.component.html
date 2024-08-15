@@ -74,7 +74,7 @@
 
         <ng-container cdkColumnDef="fecNacimiento">
             <th cdk-header-cell class="py-[1rem] px-6" *cdkHeaderCellDef>Fecha de Nacimiento</th>
-            <td cdk-cell class="py-[1rem] px-6" *cdkCellDef="let row">{{row.fecRegistro | date: 'dd/mm/yyyy' }}</td>
+            <td cdk-cell class="py-[1rem] px-6" *cdkCellDef="let row">{{row.fecNacimiento | date: 'dd/mm/yyyy' }}</td>
         </ng-container>
   
         <ng-container cdkColumnDef="edad">
