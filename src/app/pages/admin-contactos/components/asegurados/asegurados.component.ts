@@ -88,7 +88,7 @@ export class AseguradosComponent {
   onLoadData(){
 
     setTimeout(()=>{
-      this.rol = JSON.parse(localStorage.getItem('UnidElegida')!).rol;
+      //this.rol = JSON.parse(localStorage.getItem('UnidElegida')!).rol;
     
       //DEFINIENDO CUAL SERVICIO USAR
       let servicioMetodo = this.afiliacionesService.getListaContactoAdmin(this.getContactos());
@@ -274,4 +274,5 @@ export class AseguradosComponent {
       this.seleccionados = this.seleccionados.filter(item => item != parseInt(element.value));
   
   }
+
 }
