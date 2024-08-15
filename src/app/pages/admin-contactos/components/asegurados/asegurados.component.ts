@@ -61,9 +61,18 @@ export class AseguradosComponent {
     });
 
     this.datosService.getAllCams().subscribe((data)=>{
-      this.opciones_cam = data.data.map((e : any)=>{ //No había más solución
-        return {...e, valor1: e.codigo} as Parametro
+      this.opciones_cam = data.data.map((e: any) => {
+        return { ...e, valor1: e.codigo } as Parametro;
+      }).sort((a: any, b: any) => {
+        if (a.nombre < b.nombre) {
+          return -1;
+        }
+        if (a.nombre > b.nombre) {
+          return 1;
+        }
+        return 0;
       });
+    
       this.onLoadData();
     });
 
@@ -206,9 +215,18 @@ export class AseguradosComponent {
     this.formBuscar.get('frmSearchRed')?.setValue(valueRed);
     if(valueRed != ""){
       this.datosService.getCams(valueRed).subscribe((data)=>{
-        this.opciones_cam = data.data.map((e : any)=>{ //No había más solución
-          return {...e, valor1: e.codigo} as Parametro
+        this.opciones_cam = data.data.map((e: any) => {
+          return { ...e, valor1: e.codigo } as Parametro;
+        }).sort((a: any, b: any) => {
+          if (a.nombre < b.nombre) {
+            return -1;
+          }
+          if (a.nombre > b.nombre) {
+            return 1;
+          }
+          return 0;
         });
+      
         this.onLoadData();
       });
     }
@@ -218,9 +236,18 @@ export class AseguradosComponent {
         this.formBuscar.get('frmSearchRed')?.setValue("");
         //this.opciones_cam = [];
         this.datosService.getAllCams().subscribe((data)=>{
-          this.opciones_cam = data.data.map((e : any)=>{ //No había más solución
-            return {...e, valor1: e.codigo} as Parametro
+          this.opciones_cam = data.data.map((e: any) => {
+            return { ...e, valor1: e.codigo } as Parametro;
+          }).sort((a: any, b: any) => {
+            if (a.nombre < b.nombre) {
+              return -1;
+            }
+            if (a.nombre > b.nombre) {
+              return 1;
+            }
+            return 0;
           });
+        
           this.onLoadData();
         });
       })
