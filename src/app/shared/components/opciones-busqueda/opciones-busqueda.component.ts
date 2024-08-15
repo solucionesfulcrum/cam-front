@@ -215,4 +215,38 @@ export class OpcionesBusquedaComponent{
   changeThirdFilter(value: any){
     this.thirdDisplayFilterSendValue.emit(value);
   }
+
+  clearDate(event: MouseEvent) {
+    event.stopPropagation(); // Detiene la propagación del evento de clic
+
+    // Fecha en 1900
+    const startDate = new Date(1900, 0, 1); // 01/01/1900
+    const startDay = ('0' + startDate.getDate()).slice(-2);
+    const startMonth = ('0' + (startDate.getMonth() + 1)).slice(-2);
+    const startYear = startDate.getFullYear();
+    const formattedStartDate = `${startDay}/${startMonth}/${startYear}`;
+
+    // Fecha actual
+    const endDate = new Date();
+    const endDay = ('0' + endDate.getDate()).slice(-2);
+    const endMonth = ('0' + (endDate.getMonth() + 1)).slice(-2);
+    const endYear = endDate.getFullYear();
+    const formattedEndDate = `${endDay}/${endMonth}/${endYear}`;
+
+    // Rango de fechas en formato dd/mm/yyyy - dd/mm/yyyy
+    const dateRange = `${formattedStartDate} - ${formattedEndDate}`;
+
+    // Establece el valor en el formulario y emite los eventos con el rango de fechas
+    this.form.get('frmSearchDate')?.setValue("");
+    this.sendDateFilter.emit(dateRange);
+    this.sendDateFilterWithCeros.emit(dateRange);
+    this.sendDateFilterWithoutCeros.emit(dateRange);
+    this.sendDateFilterUSDate.emit(dateRange);
+}
+
+clearSearch() {
+  this.form.get('frmSearch')?.setValue('');
+}
+
+
 }

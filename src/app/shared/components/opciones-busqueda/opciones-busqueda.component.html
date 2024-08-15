@@ -2,14 +2,37 @@
 <div [formGroup]="form" class="flex justify-between my-3 space-x-2 w-full">
   <div class="flex space-x-3">
     <div *ngIf="showDateFilter" class="relative rounded-md !h-9 shadow-sm" [cdkMenuTriggerFor]="prueba.menu">
-      <input  type="text" name="searchdate" id="searchDate" readonly formControlName="frmSearchDate"
-        style="margin-right: 4.5vw;"
-      class="inputTextoDialog focusCampo !h-10 pr-7" placeholder="Buscar por fecha">
-      <div class="pointer-events-none right-0 absolute inset-y-0 flex items-center pr-3">
-      <span datepicker class="text-gray-500 sm:text-sm">
+      <div class="relative">
+        <input  type="text" name="searchdate" id="searchDate" readonly formControlName="frmSearchDate"
+        style="padding-left: 2.0rem; padding-right: 1.75rem; margin-right: 4.5vw;"
+        class="inputTextoDialog focusCampo h-10 pr-10 pl-10 w-full border border-gray-300 rounded-md" placeholder="Buscar por fecha">
+        <!--<div class="pointer-events-none right-0 absolute inset-y-0 flex items-center pr-3">
+        <span datepicker class="text-gray-500 sm:text-sm">
+            <esp-icon icon="faCalendarAlt"></esp-icon>
+        </span>
+        </div>-->
+          <!-- Icono del calendario a la izquierda -->
+    <ng-container *ngIf="form">
+      <div class="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none">
+        <span datepicker class="text-gray-500 sm:text-sm">
           <esp-icon icon="faCalendarAlt"></esp-icon>
-      </span>
+        </span>
       </div>
+    
+      <!-- Icono de cierre a la derecha, visible solo si hay valor en el input -->
+      <div class="absolute inset-y-0 right-0 flex items-center pr-3">
+        <span 
+          class="text-gray-500 sm:text-sm cursor-pointer hover:text-gray-700 focus:text-gray-700"
+          (click)="clearDate($event)"
+          *ngIf="form.get('frmSearchDate')!.value"
+        >
+          <esp-icon icon="faTimes"></esp-icon>
+        </span>
+      </div>
+    </ng-container>
+
+      </div>
+
       <esp-filtro-fecha
       [setSelectionBg]="setFilterDateSelectionBg"
       [setButtonBg]="setFilterDateButtonBg"
@@ -22,7 +45,7 @@
       (sendDateFilterUSDate)="setDateFilterUSDate($event)"
       #prueba></esp-filtro-fecha>
     </div>
-    <div *ngIf="showSearch">
+   <!-- <div *ngIf="showSearch">
         <div class="relative rounded-md shadow-sm">
           <input *ngIf="!searchInputAdjustWidth" type="text" name="search" id="search" formControlName="frmSearch" #preSelected
           class="inputTextoDialog focusCampo !h-10 pr-7"
@@ -38,6 +61,41 @@
             </span>
           </div>
         </div>
+    </div>-->
+    <div *ngIf="showSearch">
+      <div class="relative rounded-md shadow-sm">
+        <input 
+          *ngIf="!searchInputAdjustWidth" type="text" name="search" id="search" formControlName="frmSearch" 
+          class="inputTextoDialog focusCampo !h-10 pr-10 w-full border border-gray-300 rounded-md" 
+          style="margin-right: 4.5vw;"
+          [placeholder]="searchInputPlaceHolder"
+        >
+    
+        <input 
+          *ngIf="searchInputAdjustWidth" type="text" name="search" id="search" formControlName="frmSearch" 
+          class="inputTextoDialog focusCampo !h-10 pr-10 w-full border border-gray-300 rounded-md" 
+          style="margin-right: 4.5vw;"
+          [placeholder]="searchInputPlaceHolder" 
+          [size]="searchInputPlaceHolder.length"
+        >
+    
+        <div class="absolute inset-y-0 right-0 flex items-center pr-3">
+          <span 
+            class="text-gray-500 sm:text-sm pointer-events-none opacity-50" 
+            *ngIf="form && !form.get('frmSearch')!.value"
+          >
+            <esp-icon icon="faSearch"></esp-icon>
+          </span>
+    
+          <span 
+            class="text-gray-500 sm:text-sm cursor-pointer hover:text-gray-700 focus:text-gray-700" 
+            *ngIf="form && form.get('frmSearch')!.value" 
+            (click)="clearSearch()"
+          >
+            <esp-icon icon="faTimes"></esp-icon>
+          </span>
+        </div>
+      </div>
     </div>
 
   </div>
