@@ -1,5 +1,6 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
+import { RequestAdminAseguradosCam } from '@models/adm-uo/adm-uo';
 import { RegisterNota, RegisterSolicitud } from '@models/afiliaciones/register-afiliacion.model';
 import { RequestListaSAfiliadosContacto, RequestListaSolicitudesAfiliados,imprimirRequest,imprimirRequestCam,listaConstactosRequest } from '@models/afiliados/ficha-solicitud.model';
 import { Observable } from 'rxjs';
@@ -60,6 +61,11 @@ export class AfiliacionesSolicitudesService {
     return this._httpClient.post<any>(url, model);
   }
 
+  getListaContactoAdmin(model: RequestAdminAseguradosCam){
+    const url = `${api_URL}/ficha-admision/listar/nacional`;
+    return this._httpClient.post<any>(url, model);
+  }
+
 
   getExcelAsegurados(model: imprimirRequest): Observable<Blob>{
     const url = `${api_URL}/report/contactos/excel/lista-asegurados`;
@@ -68,6 +74,11 @@ export class AfiliacionesSolicitudesService {
 
   getExcelAseguradosRed(model: imprimirRequestCam): Observable<Blob>{
     const url = `${api_URL}/report/contactos/excel/lista-asegurados-red`;
+    return this._httpClient.post(url, model, {responseType:'blob', headers: new HttpHeaders({'Accept': 'application/octet-stream'})});
+  }
+
+  getExcelAseguradosAdmin(model: RequestAdminAseguradosCam): Observable<Blob>{
+    const url = `${api_URL}/report/contactos/excel/lista-asegurados-nacional`;
     return this._httpClient.post(url, model, {responseType:'blob', headers: new HttpHeaders({'Accept': 'application/octet-stream'})});
   }
 

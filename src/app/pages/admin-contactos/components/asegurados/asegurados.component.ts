@@ -3,6 +3,7 @@ import { Component } from '@angular/core';
 import { FormGroup, FormControl, FormBuilder } from '@angular/forms';
 import { PageEvent } from '@angular/material/paginator';
 import { faSpinner } from '@fortawesome/free-solid-svg-icons';
+import { RequestAdminAseguradosCam } from '@models/adm-uo/adm-uo';
 import { listaContratosRedRequest, imprimirRequestCam } from '@models/afiliados/ficha-solicitud.model';
 import { Parametro } from '@models/parametros-busqueda.model';
 import { NotificationService } from '@services/notification.service';
@@ -46,6 +47,7 @@ export class AseguradosComponent {
 
   
   opciones_cam: Parametro[] = [];
+  opciones_red: Parametro[] = [];
 
   constructor(private fb                      : FormBuilder, 
               private dialog                  : Dialog,
@@ -58,11 +60,12 @@ export class AseguradosComponent {
       this.opciones = data.data;
     });
 
-    this.datosService.getCams(JSON.parse(localStorage.getItem("UnidElegida")!).idUnidOperativa).subscribe((data)=>{
-      this.opciones_cam = data.data.map((e : any)=>{ //No había más solución
-        return {...e, valor1: e.codigo} as Parametro
+    this.datosService.getReds().subscribe((data)=>{
+      this.opciones_red = data.data.map((e : any)=>{ //No había más solución
+        return {...e, valor1: e.idUnidadOperativa} as Parametro
       });
     });
+
     this.onLoadData();
   }
 
@@ -72,9 +75,8 @@ export class AseguradosComponent {
       this.rol = JSON.parse(localStorage.getItem('UnidElegida')!).rol;
     
       //DEFINIENDO CUAL SERVICIO USAR
-      let servicioMetodo = this.rol == 'COORDINADOR RED' ? 
-      this.afiliacionesService.getListaContactoRed(this.getContactos()) :
-      this.afiliacionesService.getListaContacto(this.getContactos());
+      let servicioMetodo = this.afiliacionesService.getListaContactoAdmin(this.getContactos());
+     
   
       this.loadingData = true;
   
@@ -107,10 +109,9 @@ export class AseguradosComponent {
     this.onLoadData();
   }
 
-  getContactos(): listaContratosRedRequest{
+  getContactos(): RequestAdminAseguradosCam{
     var fecInicio: any;
     var fecFin: any;
-    var idUnidOpe = JSON.parse(localStorage.getItem("UnidElegida")!);
 
     if (this.formBuscar.value.frmSearchDate == '') {
       //fecInicio = `${new Date().getFullYear()}-1-1`;
@@ -125,7 +126,7 @@ export class AseguradosComponent {
     }
     // //console.log(this.formBuscar.get('frmSearchEstado')?.value)
     return {
-      idUnidOpe: idUnidOpe.idUnidOperativa,
+      idUnidOpe: this.formBuscar.get('frmSearchRed')?.value,
       texto: this.formBuscar.controls['frmSearch'].value,
       fecInicio: fecInicio,
       fecFin: fecFin,
@@ -139,14 +140,28 @@ export class AseguradosComponent {
   imprimirLista(){
     var fecInicio: any;
     var fecFin: any;
+
+    if (this.formBuscar.value.frmSearchDate == '') {
+      //fecInicio = `${new Date().getFullYear()}-1-1`;
+      fecInicio = `2020-1-1`;
+      fecFin = `${new Date().getFullYear()}-${new Date().getMonth()+1}-${new Date().getDate()}`;
+    }
+    else{
+      var fechaSinFormatInit = this.formBuscar.value.frmSearchDate.split(' - ')[0];
+      var fechaSinFormatFin = this.formBuscar.value.frmSearchDate.split(' - ')[1];
+      fecInicio = `${fechaSinFormatInit.split('/')[2]}-${fechaSinFormatInit.split('/')[1]}-${fechaSinFormatInit.split('/')[0]}`;
+      fecFin = `${fechaSinFormatFin.split('/')[2]}-${fechaSinFormatFin.split('/')[1]}-${fechaSinFormatFin.split('/')[0]}`;
+    }
+
+    /*
     var fechaSinFormatInit = this.formBuscar.value.frmSearchDate.split(' - ')[0];
     var fechaSinFormatFin = this.formBuscar.value.frmSearchDate.split(' - ')[1];
     fecInicio = `${fechaSinFormatInit.split('/')[2]}-${fechaSinFormatInit.split('/')[1]}-${fechaSinFormatInit.split('/')[0]}`;
     fecFin = `${fechaSinFormatFin.split('/')[2]}-${fechaSinFormatFin.split('/')[1]}-${fechaSinFormatFin.split('/')[0]}`;
-    var idUnidOpe = JSON.parse(localStorage.getItem("UnidElegida")!);
+    var idUnidOpe = JSON.parse(localStorage.getItem("UnidElegida")!);*/
 
-    let payload: imprimirRequestCam = {
-      idUnidOpe: idUnidOpe.idUnidOperativa,
+    let payload: RequestAdminAseguradosCam = {
+      idUnidOpe: this.formBuscar.get('frmSearchRed')?.value,
       texto: this.formBuscar.controls['frmSearch'].value,
       estado: parseInt(this.formBuscar.get('frmSearchEstado')?.value),
       fecInicio: fecInicio,
@@ -154,9 +169,7 @@ export class AseguradosComponent {
       codigoCam : this.formBuscar.get('frmSearchCam')?.value
     };
 
-    let servicioMetodo = this.rol == 'COORDINADOR RED' ? 
-    this.afiliacionesService.getExcelAseguradosRed(payload) :
-    this.afiliacionesService.getExcelAsegurados(payload);
+    let servicioMetodo = this.afiliacionesService.getExcelAseguradosAdmin(payload);
     
     servicioMetodo.subscribe((data)=>{
       this.notificationService.success('Se esta descargando el reporte');
@@ -182,8 +195,23 @@ export class AseguradosComponent {
   }
 
   thirdDisplayValue(value: any){
-    this.formBuscar.get('frmSearchRed')?.setValue(value == "null" ? "" : value);
-    this.onLoadData();
+    let valueRed = value == "null" ? "" : value;
+    this.formBuscar.get('frmSearchRed')?.setValue(valueRed);
+    if(valueRed != ""){
+      this.datosService.getCams(valueRed).subscribe((data)=>{
+        this.opciones_cam = data.data.map((e : any)=>{ //No había más solución
+          return {...e, valor1: e.codigo} as Parametro
+        });
+        this.onLoadData();
+      });
+    }
+    else{
+      setTimeout(()=>{
+        this.formBuscar.get('frmSearchCam')?.setValue("");
+        this.opciones_cam = [];
+      })
+    }
+    
   }
 
   afectarTodo(evento: Event): void{

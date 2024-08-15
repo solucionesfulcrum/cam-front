@@ -20,3 +20,17 @@ export interface Afiliados{
     rol: string,
     estado: number,
 }
+
+export interface RequestAdminAseguradosCam{
+    idUnidOpe: number,
+    texto: string,
+    estado: number,
+    fecInicio: string,
+    fecFin: string,
+    codigoCam: string | null,
+    pageNum? : string,
+    pageSize?: string
+  }
+  
+
+

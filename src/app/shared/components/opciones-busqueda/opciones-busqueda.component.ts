@@ -213,6 +213,6 @@ export class OpcionesBusquedaComponent{
     this.secDisplayFilterSendValue.emit(value);
   }
   changeThirdFilter(value: any){
-    this.secDisplayFilterSendValue.emit(value);
+    this.thirdDisplayFilterSendValue.emit(value);
   }
 }
