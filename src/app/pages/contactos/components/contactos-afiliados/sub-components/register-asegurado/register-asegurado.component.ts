@@ -209,9 +209,9 @@ export class RegisterAseguradoComponent {
           this.regionNac = data.data.region;
           this.provNac = data.data.provincia;
           this.distNac = data.data.distrito;
-          this.codRegionNac = data.codUbgDom.match(/.{1,2}/g)[0];
-          this.codProvNac = data.codUbgDom.match(/.{1,2}/g)[1];
-          this.codDistNac = data.codUbgDom.match(/.{1,2}/g)[2];
+          //this.codRegionNac = data.codUbgDom.match(/.{1,2}/g)[0];
+          //this.codProvNac = data.codUbgDom.match(/.{1,2}/g)[1];
+          //this.codDistNac = data.codUbgDom.match(/.{1,2}/g)[2];
         })
 
         this._datoGeneralesService.getTipoParametros('TIPO_DIRECCION').subscribe((datos)=>{
@@ -574,7 +574,7 @@ export class RegisterAseguradoComponent {
     return {
       telefono: this.formDatosContacto.value.frmTelefono!,
       celular: this.formDatosContacto.value.frmCelular!,
-      tieneWhatsapp: this.formDatosContacto.value.frmWsp!,
+      tieneWhatsapp: this.formDatosContacto.value.frmWsp ? this.formDatosContacto.value.frmWsp : "NO",
       correo: this.formDatosContacto.value.frmCorreo!
     };
   }

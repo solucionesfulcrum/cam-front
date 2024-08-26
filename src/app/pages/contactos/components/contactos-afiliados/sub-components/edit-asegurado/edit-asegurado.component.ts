@@ -398,7 +398,7 @@ export class EditAseguradoComponent {
     return {
       telefono: this.formDatosContacto.value.frmTelefono!,
       celular: this.formDatosContacto.value.frmCelular!,
-      tieneWhatsapp: this.formDatosContacto.value.frmWsp!,
+      tieneWhatsapp: this.formDatosContacto.value.frmWsp ? this.formDatosContacto.value.frmWsp : "NO",
       correo: this.formDatosContacto.value.frmCorreo!
     };
   }
