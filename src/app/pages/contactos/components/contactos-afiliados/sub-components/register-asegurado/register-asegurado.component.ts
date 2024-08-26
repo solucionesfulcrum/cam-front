@@ -68,13 +68,12 @@ export class RegisterAseguradoComponent {
   formDatosContacto = this.fb.nonNullable.group({
     frmTelefono: ['0'],
     //frmCelular: ['', [Validators.required,Validators.pattern(/^[0-9]{0,10}$/)]],
-    frmCelular: ['', [Validators.required, Validators.pattern(/^9\d{8}$/)]],
-    frmWsp: [null, Validators.required],
+    frmCelular: ['', [Validators.pattern(/^9\d{8}$/)]],
+    frmWsp: [null,/* Validators.required*/],
     //frmCorreo: ['', [Validators.required,Validators.email]]
     frmCorreo: [
       '', 
       [
-        Validators.required,
         Validators.pattern(/^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/)
       ]
     ],
@@ -199,7 +198,8 @@ export class RegisterAseguradoComponent {
     this._contactoService.servicioObtenerDataPersona((`0${this.tipoDoc}`).slice(-2), this.numDoc).subscribe((data)=>{
       if (data.code == 0) {
         this.infoReniec = data.data.data;
-        this.imagenAdmision = data.data.data.fotoBase64;
+        //this.imagenAdmision = data.data.data.fotoBase64;
+        this.imagenAdmision = base64Img;
         var dateParts = this.infoReniec.fecNacimiento.trim().split('/');
         var dateObject = new Date(+dateParts[2], +dateParts[1] - 1, +dateParts[0]); 
         var timeDiff = Math.abs(Date.now() - dateObject.getTime());
@@ -538,22 +538,22 @@ export class RegisterAseguradoComponent {
   
   getDataAsegurado(): datosAseguradoFicha{
     var dateParts = this.infoReniec.fecNacimiento.trim().split('/');
-    console.log({
+    const response = {
       tipDocIdent: this.parametroDocumento.valor1,
       descTipDocIdent: this.parametroDocumento.nombre,
       numDocIdent: this.numDoc,
       nombres: this.infoReniec.txtNombres,
       apePaterno: this.infoReniec.txtApepaterno,
       apeMaterno: (this.infoReniec.txtApematcasada? this.infoReniec.txtApematcasada : this.infoReniec.txtApematerno),
-      departNacim: (this.infoReniec.desNacubiDepa ? this.infoReniec.desNacubiDepa : this.codRegionNac),
-      provinNacim: (this.infoReniec.desNacubiProv ? this.infoReniec.desNacubiProv : this.codProvNac),
-      distriNacim: this.infoReniec.desNacubiDist,
+      departNacim: (this.infoReniec.desNacubiDepa ? this.infoReniec.desNacubiDepa : this.regionNac),
+      provinNacim: (this.infoReniec.desNacubiProv ? this.infoReniec.desNacubiProv : this.provNac),
+      distriNacim:(this.infoReniec.desNacubiDist ? this.infoReniec.desNacubiDist : this.distNac),
       ubigeoNacim: this.infoReniec.codUbgNac,
       fecNacimiento: `${dateParts[2]}-${dateParts[1]}-${dateParts[0]}`, // yyyy-mm-dd with 0
-      codEstCivil: this.infoReniec.codEstcivil,
-      descEstCivil: this.infoReniec.desEstadoCivil,
-      codSexo: this.infoReniec.desSexoPersona ? this.infoReniec.desSexoPersona : '0',
-      descSexo: this.infoReniec.desSexoPersona ? this.infoReniec.desSexoPersona : 'SIN DATOS',
+      codEstCivil: this.infoReniec.codEstcivil ?  this.infoReniec.codEstcivil : "SIN DATOS",
+      descEstCivil: this.infoReniec.desEstadoCivil ? this.infoReniec.desEstadoCivil : "SIN DATOS",
+      codSexo: this.infoReniec.GENERO == 'FEMENINO' ? "M" : "F",
+      descSexo: this.infoReniec.GENERO == 'FEMENINO' ? "Femenino" : "Masculino",
       codTipoAsegurado: this.dataSeguro.CONDICION[0],
       descTipoAsegurado: this.dataSeguro.CONDICION,
       codTipoSeguro: '0',
@@ -566,36 +566,8 @@ export class RegisterAseguradoComponent {
       activo: 1,
       foto: this.imagenAdmision,
       fecFallecimiento:  this.feFallecimiento
-    })
-    return {
-      tipDocIdent: this.parametroDocumento.valor1,
-      descTipDocIdent: this.parametroDocumento.nombre,
-      numDocIdent: this.numDoc,
-      nombres: this.infoReniec.txtNombres,
-      apePaterno: this.infoReniec.txtApepaterno,
-      apeMaterno: (this.infoReniec.txtApematcasada? this.infoReniec.txtApematcasada : this.infoReniec.txtApematerno),
-      departNacim: this.codRegionNac,
-      provinNacim: this.codProvNac,
-      distriNacim: this.distNac,
-      ubigeoNacim: this.infoReniec.codUbgNac,
-      fecNacimiento: `${dateParts[2]}-${dateParts[1]}-${dateParts[0]}`, // yyyy-mm-dd with 0
-      codEstCivil: this.infoReniec.codEstcivil ?  this.infoReniec.codEstcivil  : "0",
-      descEstCivil: this.infoReniec.desEstadoCivil ?  this.infoReniec.desEstadoCivil  : "SIN DATOS",
-      codSexo: this.infoReniec.GENERO == 'FEMENINO' ? '0' : '1',
-      descSexo: this.infoReniec.desSexoPersona ? this.infoReniec.desSexoPersona : 'SIN DATOS',
-      codTipoAsegurado: this.dataSeguro.CONDICION[0],
-      descTipoAsegurado: this.dataSeguro.CONDICION,
-      codTipoSeguro: '0',
-      descTipoSeguro: 'Seguro ' + this.dataSeguro.DGACTAS,
-      codIpressAdscrip: this.dataRed.cod_CENTRO,
-      nomIpressAdscrip: this.dataRed.nom_CENTRO,
-      codRedAsisten: this.dataRed.cod_RED,
-      nomRedAsisten: this.dataRed.des_RED,
-      usuarioRegId: this.idUserSession,
-      activo: 1,
-      foto: this.imagenAdmision ? this.imagenAdmision : base64Img,
-      fecFallecimiento:  this.feFallecimiento
-    };
+    }
+    return response;
   }
   
   getDataContacto(): contactoFicha{

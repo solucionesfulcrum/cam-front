@@ -45,10 +45,17 @@ export class EditAseguradoComponent {
   // <!---------------------------------------------------- Tercer paso:  Datos de Contacto                       --------------------------------------------------->
   
   formDatosContacto = this.fb.nonNullable.group({
-    frmTelefono: [''],
-    frmCelular: ['', [Validators.required,Validators.minLength(9)]],
-    frmWsp: [null, Validators.required],
-    frmCorreo: ['', [Validators.required,Validators.email]]
+    frmTelefono: ['0'],
+    //frmCelular: ['', [Validators.required,Validators.pattern(/^[0-9]{0,10}$/)]],
+    frmCelular: ['', [Validators.pattern(/^9\d{8}$/)]],
+    frmWsp: [null,/* Validators.required*/],
+    //frmCorreo: ['', [Validators.required,Validators.email]]
+    frmCorreo: [
+      '', 
+      [
+        Validators.pattern(/^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/)
+      ]
+    ],
   });
 
   // <!---------------------------------------------------- Cuarto paso:  Datos de Procedencia                    --------------------------------------------------->
