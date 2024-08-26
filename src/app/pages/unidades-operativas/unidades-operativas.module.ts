@@ -14,6 +14,7 @@ import { SharedModule } from '@shared/shared.module';
 import { MaterialModule } from 'src/app/material/material.module';
 import { UsersRoutingModule } from '../users/users-routing.module';
 import { ListCiramComponent } from './list-ciram/list-ciram.component';
+import { DataLoadingComponent } from '@shared/components/data-loading/data-loading.component';
 
 /*
   imports: [
@@ -48,7 +49,8 @@ import { ListCiramComponent } from './list-ciram/list-ciram.component';
       MaterialModule,
       MatAutocompleteModule,
       UnidadesOperativasRoutingModule,
-      MenuOpcionesComponent
+      MenuOpcionesComponent,
+      DataLoadingComponent
     ]
 })
 export class UnidadesOperativasModule { }

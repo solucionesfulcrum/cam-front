@@ -24,6 +24,7 @@ export class ListComponent {
   @ViewChild("paginator") paginator!: MatPaginator;
   dataCompleted:any[] = [];
   dataSource = new MatTableDataSource<any>();
+  loadingData = false;
 
   columns: string[] = ['id','unidad', 'categoria', 'telefono', 'distrito','red','fechaRegistro'];
   pageIndex = 0;
@@ -83,6 +84,7 @@ export class ListComponent {
 
   }
   onLoadData(){
+    this.loadingData = true;
     var fecInicio: any;
     var fecFin: any;
 
@@ -101,7 +103,7 @@ export class ListComponent {
       this.form.get('frmSearch')?.value,
       this.form.get('frmSearchRed')?.value
   ).subscribe((data)=>{
-
+    this.loadingData = false;
       this.dataCompleted = data.data;
       this.dataSource.data = data.data;
       this.dataSource.paginator = this.paginator;

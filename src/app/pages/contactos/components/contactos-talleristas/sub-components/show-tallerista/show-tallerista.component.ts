@@ -14,8 +14,8 @@ import { DatosGeneralesService } from 'src/app/data/services/datos-generales.ser
 export class ShowTalleristaComponent implements OnInit {
   opcionesBotones: FormatoBoton[] = [
     /*{texto: 'Cancelar'},
-    {texto: 'Suspender', colorBtn: 'bordeado'},*/
-    {texto: 'Contratar', colorBtn:'mezclado'},
+    {texto: 'Suspender', colorBtn: 'bordeado'},
+    {texto: 'Contratar', colorBtn:'mezclado'},*/
   ];
 
   distrito: string = ''

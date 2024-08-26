@@ -140,10 +140,22 @@ export class ContactosAfiliadosComponent implements OnInit {
   imprimirLista(){
     var fecInicio: any;
     var fecFin: any;
-    var fechaSinFormatInit = this.formBuscar.value.frmSearchDate.split(' - ')[0];
-    var fechaSinFormatFin = this.formBuscar.value.frmSearchDate.split(' - ')[1];
-    fecInicio = `${fechaSinFormatInit.split('/')[2]}-${fechaSinFormatInit.split('/')[1]}-${fechaSinFormatInit.split('/')[0]}`;
-    fecFin = `${fechaSinFormatFin.split('/')[2]}-${fechaSinFormatFin.split('/')[1]}-${fechaSinFormatFin.split('/')[0]}`;
+    //var fechaSinFormatInit = this.formBuscar.value.frmSearchDate.split(' - ')[0];
+    //var fechaSinFormatFin = this.formBuscar.value.frmSearchDate.split(' - ')[1];
+    //fecInicio = `${fechaSinFormatInit.split('/')[2]}-${fechaSinFormatInit.split('/')[1]}-${fechaSinFormatInit.split('/')[0]}`;
+    //fecFin = `${fechaSinFormatFin.split('/')[2]}-${fechaSinFormatFin.split('/')[1]}-${fechaSinFormatFin.split('/')[0]}`;
+
+    if (this.formBuscar.value.frmSearchDate == '') {
+      //fecInicio = `${new Date().getFullYear()}-1-1`;
+      fecInicio = `2020-1-1`;
+      fecFin = `${new Date().getFullYear()}-${new Date().getMonth()+1}-${new Date().getDate()}`;
+    }
+    else{
+      var fechaSinFormatInit = this.formBuscar.value.frmSearchDate.split(' - ')[0];
+      var fechaSinFormatFin = this.formBuscar.value.frmSearchDate.split(' - ')[1];
+      fecInicio = `${fechaSinFormatInit.split('/')[2]}-${fechaSinFormatInit.split('/')[1]}-${fechaSinFormatInit.split('/')[0]}`;
+      fecFin = `${fechaSinFormatFin.split('/')[2]}-${fechaSinFormatFin.split('/')[1]}-${fechaSinFormatFin.split('/')[0]}`;
+    }
     var idUnidOpe = JSON.parse(localStorage.getItem("UnidElegida")!);
 
     let payload: imprimirRequestCam = {

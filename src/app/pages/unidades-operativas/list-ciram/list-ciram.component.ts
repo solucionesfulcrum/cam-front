@@ -21,6 +21,8 @@ export class ListCiramComponent {
   dataCompleted:any[] = [];
   dataSource = new MatTableDataSource<any>();
 
+  loadingData = false;
+
   columns: string[] = ['id','unidad', 'categoria', 'telefono', 'distrito','red','fechaRegistro'];
   pageIndex = 0;
   pageNum = 1;
@@ -83,6 +85,8 @@ export class ListCiramComponent {
     var fecInicio: any;
     var fecFin: any;
 
+    this.loadingData = true;
+
     if (this.form.value.frmSearchDate == '') {
       fecInicio = new Date();
       fecInicio.setMonth(fecInicio.getMonth()-24);
@@ -98,7 +102,7 @@ export class ListCiramComponent {
       this.form.get('frmSearch')?.value,
       this.form.get('frmSearchRed')?.value
   ).subscribe((data)=>{
-
+      this.loadingData = false;
       this.dataCompleted = data.data;
       this.dataSource.data = data.data;
       this.dataSource.paginator = this.paginator;
