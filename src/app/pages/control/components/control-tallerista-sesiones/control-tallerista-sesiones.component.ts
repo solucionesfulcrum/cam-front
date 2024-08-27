@@ -94,6 +94,9 @@ export class ControlTalleristaSesionesComponent {
   total = 0;
   totalEliminados = 0;
 
+  //CABECERA
+  dataEmptyMsg = "No existen registros.";
+
   //DETALLES DEL TALLER
   nombreServicio: string = "";
   fechaServicio: string = "";
@@ -154,9 +157,20 @@ export class ControlTalleristaSesionesComponent {
     getDetalleTaller(idProgDet: string){
       this.loadingDetalleTaller = true;
       this.reportService.getDataCabeceraAsistenciaTaller(idProgDet).subscribe(rpta=>{
+        
         this.loadingDetalleTaller = false;
         this.completeLoadingDetalleTaller = true;
-        this.dataEmpty = rpta.code == 2;
+        //this.dataEmpty = rpta.code == 2;
+        if(rpta.code == 1 || rpta.code == 2){
+          this.dataEmpty = true;
+          if(rpta.code == 1){
+            this.dataEmptyMsg = "Hubo un error en el servicio"
+          }
+          
+          if(rpta.code == 2){
+            this.dataEmptyMsg = "No existen registros."
+          }
+        }
         this.nombreServicio = rpta.data.nombreServicio;
         this.fechaServicio = rpta.data.fechaServicio;
         this.horaInicio = rpta.data.horaInicio;
@@ -173,34 +187,43 @@ export class ControlTalleristaSesionesComponent {
         })
       })
     }
+
+
     
     loadData(){
       setTimeout(() => {
         this.seleccionados = [];
         this.loadingData = true;
-        forkJoin(this.reportService.getDataReporteAsistenciaTaller(this.idControlAsistenciaDet), 
-        this.reportService.getDataReporteAsistenciaTallerEliminados(this.idControlAsistenciaDet)).subscribe((response)=>{
+        if(this.idControlAsistenciaDet){
+          forkJoin(this.reportService.getDataReporteAsistenciaTaller(this.idControlAsistenciaDet), 
+          this.reportService.getDataReporteAsistenciaTallerEliminados(this.idControlAsistenciaDet)).subscribe((response)=>{
+            this.loadingData = false;
+            if (response[0].code == 0) {
+              this.dataSource = response[0].data.map(data => {
+                return {...data, agregadoFueraDeFecha: this.fechaServicio != data.fechaHoraAsistencia.split("T")[0]}
+              });
+              this.total= response[0].data.length;
+            }
+            else {
+              this.notificationService.warning(response[0].message);
+            }
+  
+            if (response[1].code == 0) {
+              this.dataSourceEliminados = response[1].data.map(data => {
+                return {...data, agregadoFueraDeFecha: this.fechaServicio != data.fechaHoraAsistencia.split("T")[0]}
+              });
+              this.totalEliminados= response[1].data.length;
+            }
+            else {
+              this.notificationService.warning(response[1].message);
+            }
+          })
+        }
+        else{
+          this.sessionSeleccionada = 0;
           this.loadingData = false;
-          if (response[0].code == 0) {
-            this.dataSource = response[0].data.map(data => {
-              return {...data, agregadoFueraDeFecha: this.fechaServicio != data.fechaHoraAsistencia.split("T")[0]}
-            });
-            this.total= response[0].data.length;
-          }
-          else {
-            this.notificationService.warning(response[0].message);
-          }
-
-          if (response[1].code == 0) {
-            this.dataSourceEliminados = response[1].data.map(data => {
-              return {...data, agregadoFueraDeFecha: this.fechaServicio != data.fechaHoraAsistencia.split("T")[0]}
-            });
-            this.totalEliminados= response[1].data.length;
-          }
-          else {
-            this.notificationService.warning(response[1].message);
-          }
-        })
+        }
+      
       });
       
     }
