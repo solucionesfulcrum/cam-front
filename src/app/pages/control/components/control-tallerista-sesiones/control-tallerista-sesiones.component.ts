@@ -94,6 +94,9 @@ export class ControlTalleristaSesionesComponent {
   total = 0;
   totalEliminados = 0;
 
+  //DATE SERVIDOR
+  fechaActualServidor! : Date;
+
   //CABECERA
   dataEmptyMsg = "No existen registros.";
 
@@ -150,12 +153,23 @@ export class ControlTalleristaSesionesComponent {
       });
       this.activateRoute.paramMap.subscribe(params => {
         this.idProgDet = params.get('idProgramacion')!;
-        this.getDetalleTaller(this.idProgDet);
+        this.loadingDetalleTaller = true;
+        this.datosService.getFechaServidor().subscribe(fechaData=>{
+          this.fechaActualServidor = new Date(fechaData.data.fechaHoraActual);
+          this.getDetalleTaller(this.idProgDet);
+        })
+        
       });
     }
 
+    getFechaServidor(){
+      this.datosService.getFechaServidor().subscribe(fechaData=>{
+        this.fechaActualServidor = new Date(fechaData.data.fechaHoraActual);
+      })
+    }
+
     getDetalleTaller(idProgDet: string){
-      this.loadingDetalleTaller = true;
+      
       this.reportService.getDataCabeceraAsistenciaTaller(idProgDet).subscribe(rpta=>{
         
         this.loadingDetalleTaller = false;
@@ -178,8 +192,15 @@ export class ControlTalleristaSesionesComponent {
         this.sesiones = rpta.data.listaProgSubDet;
         this.idControlAsistenciaCab = rpta.data.idControlAsistenciaCab;
 
+        let fechaInicioTaller = new Date(rpta.data.fechaServicio + " " + rpta.data.horaInicio);
+        
         this.opcionesBotones[1].deshabilitado = rpta.data.cerradoCabecera
         this.opcionesBotones[2].deshabilitado = rpta.data.cerradoCabecera
+
+        if(fechaInicioTaller > this.fechaActualServidor){
+          this.opcionesBotones[1].deshabilitado = true
+          this.opcionesBotones[2].deshabilitado = true
+        }
 
         this.idControlAsistenciaDet = rpta.data.listaProgSubDet.filter(e=>e.numeracion == this.sessionSeleccionada)[0].idControlAsistenciaDet
         setTimeout(()=>{
