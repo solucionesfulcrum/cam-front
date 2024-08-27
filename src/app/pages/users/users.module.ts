@@ -17,6 +17,7 @@ import { MaterialModule } from 'src/app/material/material.module';
 import { MatAutocompleteModule } from '@angular/material/autocomplete';
 import { ShowRoleComponent } from './show-role/show-role.component';
 import { AsignarRolModalComponent } from './asignar-rol-modal/asignar-rol-modal.component';
+import { DataLoadingComponent } from '@shared/components/data-loading/data-loading.component';
 
 
 @NgModule({
@@ -40,6 +41,7 @@ import { AsignarRolModalComponent } from './asignar-rol-modal/asignar-rol-modal.
     UsersRoutingModule,
     MaterialModule,
     MatAutocompleteModule,
+    DataLoadingComponent
   ],
   providers: [ DatePipe ] 
 })

@@ -15,14 +15,15 @@ export class RolesComponent {
   pageSizeOptions:number[] = [5,10,20];
   pageIndex = 0;
   
-
+  loadingData = true;
   constructor(private rolesService              : RolService){
 
   }
 
   ngOnInit(): void {
-    
+    this.loadingData = true;
     this.rolesService.getListRoles().subscribe((data)=>{
+      this.loadingData = false;
       this.dataRoles = data.data;
       this.dataRoles.sort((a, b) => new Date(b.fechReg).getTime() - new Date(a.fechReg).getTime());
     })

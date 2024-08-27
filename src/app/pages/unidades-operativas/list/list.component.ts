@@ -24,7 +24,7 @@ export class ListComponent {
   @ViewChild("paginator") paginator!: MatPaginator;
   dataCompleted:any[] = [];
   dataSource = new MatTableDataSource<any>();
-  loadingData = false;
+  loadingData = true;
 
   columns: string[] = ['id','unidad', 'categoria', 'telefono', 'distrito','red','fechaRegistro'];
   pageIndex = 0;

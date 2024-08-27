@@ -29,6 +29,8 @@ export class ListComponent implements OnInit{
   dataCompleted:any[] = [];
   dataSource = new DataSourceUser();
 
+  loadingData = true;
+
   columns: string[] = ['id','fullName', 'dni', 'date', 'role','operativeUnit','status'];
   pageIndex = 0;
   pageNum = 1;
@@ -57,12 +59,12 @@ export class ListComponent implements OnInit{
   }
 
   ngOnInit(): void {
-    this.paginator._intl.itemsPerPageLabel="Registros por página";
     this.onFilter('');
   }
   onLoadData(){
     var fecInicio: any;
     var fecFin: any;
+    this.loadingData = true;
 
     if (this.form.value.frmSearchDate == '') {
       fecInicio = new Date();
@@ -83,12 +85,19 @@ export class ListComponent implements OnInit{
       pageNum: this.pageNum,
       pageSize: this.pageSize
     }).subscribe((data)=>{
+
+      this.loadingData = false;
+
+
       this.dataCompleted = data.data.list;
       this.dataSource.init(data.data.list)
 
       this.pageNum = data.data.pageNum;
       this.pageSize = data.data.pageSize;
       this.total = data.data.total;
+
+      //this.paginator._intl.itemsPerPageLabel="Registros por página";
+
     })
   }
 

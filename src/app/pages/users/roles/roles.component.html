@@ -1,4 +1,10 @@
-<div class="my-3">
+<esp-data-loading
+[dataEmpty]="dataRoles.length == 0"
+[dataLoading]="loadingData"
+[height]="'52vh'"
+></esp-data-loading>
+<div *ngIf="dataRoles.length > 0 && !loadingData">
+  <div class="my-3">
     <table
     class="w-full text-sm text-left text-gray-500 tablaDatos"
     cdk-table
@@ -55,4 +61,5 @@
                  [pageSizeOptions]="pageSizeOptions.length > 0 ? pageSizeOptions : []"
                  aria-label="Select page">
     </mat-paginator>
+</div>
 </div>
