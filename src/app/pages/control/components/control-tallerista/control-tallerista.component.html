@@ -39,7 +39,7 @@
       <ng-container cdkColumnDef="nombreTaller">
         <th cdk-header-cell class="py-[1rem] px-6" *cdkHeaderCellDef [style]="'padding-left: 0px;'" >Descripcion</th>
         <td cdk-cell class="py-[1rem] px-6 text-Name" *cdkCellDef="let row, index as i" [style]="'padding-left: 0px;'">
-          <span class=" cursor-pointer" [routerLink]="['./'+row.idProgDet]">{{ row.nombreTaller }}</span>
+          <span class=" cursor-pointer" [routerLink]="row.estado == 'SIN PROGRAMACION' ? null : ['./'+row.idProgDet]">{{ row.nombreTaller }}</span>
         </td>
       </ng-container>
 
@@ -73,7 +73,7 @@
       <ng-container cdkColumnDef="estado">
         <th cdk-header-cell class="py-[1rem] px-6" *cdkHeaderCellDef>Estado</th>
         <td cdk-cell class="py-[1rem] px-6" *cdkCellDef="let row"
-         [ngClass]="row.estado === 'PENDIENTE' ? 'text-[#DC2626]' : ''">
+         [ngClass]="(row.estado === 'PENDIENTE' ? 'text-[#DC2626]' : '') + (row.estado === 'SIN PROGRAMACION' ? 'text-[#FFBF00]' : '') + (row.estado === 'FINALIZADO' ? 'text-[#008000]' : '')">
          {{row.estado | titlecase}}</td>
       </ng-container>
     </table>
