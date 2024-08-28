@@ -39,7 +39,7 @@
       <ng-container cdkColumnDef="nombreTaller">
         <th cdk-header-cell class="py-[1rem] px-6" *cdkHeaderCellDef [style]="'padding-left: 0px;'" >Descripcion</th>
         <td cdk-cell class="py-[1rem] px-6 text-Name" *cdkCellDef="let row, index as i" [style]="'padding-left: 0px;'">
-          <span class=" cursor-pointer" [routerLink]="row.estado == 'SIN PROGRAMACION' ? null : ['./'+row.idProgDet]">{{ row.nombreTaller }}</span>
+          <span class=" cursor-pointer" [routerLink]="['./'+row.idProgDet]">{{ row.nombreTaller }}</span>
         </td>
       </ng-container>
 

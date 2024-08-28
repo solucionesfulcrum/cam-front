@@ -171,7 +171,7 @@ export class ControlTalleristaSesionesComponent {
     getDetalleTaller(idProgDet: string){
       
       this.reportService.getDataCabeceraAsistenciaTaller(idProgDet).subscribe(rpta=>{
-        
+        this.dataEmpty = false;
         this.loadingDetalleTaller = false;
         this.completeLoadingDetalleTaller = true;
         //this.dataEmpty = rpta.code == 2;
@@ -183,29 +183,50 @@ export class ControlTalleristaSesionesComponent {
           
           if(rpta.code == 2){
             this.dataEmptyMsg = "No existen registros."
+            this.sessionSeleccionada = 0;
+            this.loadingData = false;
+            let payload: RequestRegisterCabecera = {
+              idProgramacionDet: parseInt(this.idProgDet),
+              userCreacion: (JSON.parse(localStorage.getItem('camUser')!)).idUsuario,
+            };
+            this.controlService.registerDataAsistenciaCabecera(payload).subscribe((data)=>{
+              if (data.code == 0) {
+                this.getDetalleTaller(this.idProgDet);
+              }
+              else{
+                //this.statusAsistencia = 'failed';
+                this.notificationService.warning(data.message);
+              }
+            })
           }
         }
-        this.nombreServicio = rpta.data.nombreServicio;
-        this.fechaServicio = rpta.data.fechaServicio;
-        this.horaInicio = rpta.data.horaInicio;
-        this.horaFin = rpta.data.horaFin;
-        this.sesiones = rpta.data.listaProgSubDet;
-        this.idControlAsistenciaCab = rpta.data.idControlAsistenciaCab;
+        else{
+          this.nombreServicio = rpta.data.nombreServicio;
+          this.fechaServicio = rpta.data.fechaServicio;
+          this.horaInicio = rpta.data.horaInicio;
+          this.horaFin = rpta.data.horaFin;
+          this.sesiones = rpta.data.listaProgSubDet;
+          this.idControlAsistenciaCab = rpta.data.idControlAsistenciaCab;
+  
+          let fechaInicioTaller = new Date(rpta.data.fechaServicio + " " + rpta.data.horaInicio);
+          
+          this.opcionesBotones[1].deshabilitado = rpta.data.cerradoCabecera
+          this.opcionesBotones[2].deshabilitado = rpta.data.cerradoCabecera
+  
+          if(fechaInicioTaller > this.fechaActualServidor){
+            this.opcionesBotones[1].deshabilitado = true
+            this.opcionesBotones[2].deshabilitado = true
+          }
 
-        let fechaInicioTaller = new Date(rpta.data.fechaServicio + " " + rpta.data.horaInicio);
-        
-        this.opcionesBotones[1].deshabilitado = rpta.data.cerradoCabecera
-        this.opcionesBotones[2].deshabilitado = rpta.data.cerradoCabecera
 
-        if(fechaInicioTaller > this.fechaActualServidor){
-          this.opcionesBotones[1].deshabilitado = true
-          this.opcionesBotones[2].deshabilitado = true
+          if(rpta.data.listaProgSubDet.filter(e=>e.numeracion == this.sessionSeleccionada).length > 0){
+            this.idControlAsistenciaDet = rpta.data.listaProgSubDet.filter(e=>e.numeracion == this.sessionSeleccionada)[0].idControlAsistenciaDet
+            setTimeout(()=>{
+              this.loadData();
+            })
+          }
         }
-
-        this.idControlAsistenciaDet = rpta.data.listaProgSubDet.filter(e=>e.numeracion == this.sessionSeleccionada)[0].idControlAsistenciaDet
-        setTimeout(()=>{
-          this.loadData();
-        })
+       
       })
     }
 
