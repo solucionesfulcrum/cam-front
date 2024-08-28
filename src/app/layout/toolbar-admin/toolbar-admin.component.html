@@ -20,15 +20,15 @@
             <div class="example-menu" cdkMenu>
                 <div class="flex flex-col divide-y gap-2.5" cdkMenuGroup>
                     <div class="px-2.5 flex flex-col gap-2.5">
-                        <button class="elementoOpcion" cdkMenuItem routerLink="/app/admin/users" *ngIf="userRol != 'CAM'">
+                        <button class="elementoOpcion" cdkMenuItem routerLink="/app/admin/users" *ngIf="userRol != 'CAM' && userRol != 'USER'">
                             <img src="assets/svg/icon-toolbar-users.svg"/>
                             <span>Usuarios</span>
                         </button>
-                        <div class="elementoOpcion" routerLink="/app/admin/contactos" *ngIf="userRol != 'CAM'">
+                        <div class="elementoOpcion" routerLink="/app/admin/contactos" *ngIf="userRol != 'CAM' && userRol != 'USER'">
                             <img src="assets/svg/contactos.svg"/>
                             <span>Contactos</span>
                         </div>
-                       <button class="elementoOpcion" cdkMenuItem *ngIf="userRol != 'CAM'" routerLink="/app/admin/unidades-operativas">
+                       <button class="elementoOpcion" cdkMenuItem *ngIf="userRol != 'CAM' && userRol != 'USER'" routerLink="/app/admin/unidades-operativas">
                             <img src="assets/svg/icon-toolbar-unid-operativ.svg"/>
                             <span>Unidades Operativas</span>
                         </button>
