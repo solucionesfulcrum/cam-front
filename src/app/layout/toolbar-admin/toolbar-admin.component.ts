@@ -66,7 +66,8 @@ export class ToolbarAdminComponent {
   logout(){
     this.authService.logout()
     this.broadcastService.emitSessionUpdate(); // Emitir el evento global
-    this.router.navigate(['/login'])
+    this.router.navigate(['/app/admin'])
+    location.reload();
   }
   
   config(){

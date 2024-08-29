@@ -44,7 +44,8 @@ export class AppComponent {
   }
 
   updateComponents() {
-    location.href = '/';
+    this.router.navigate(['/app/admin']);
+    location.reload();
   }
 
   private isDialogOpen(): boolean {
