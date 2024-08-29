@@ -9,6 +9,7 @@ import { AuthService } from '@services/auth.service';
 import { TokenService } from '@services/token.service';
 import { SharedModule } from '@shared/shared.module';
 import { DatosGeneralesService } from 'src/app/data/services/datos-generales.service';
+import { BroadcastService } from 'src/app/data/services/gestion-app/broadcast-service.service';
 const helperJWT = new JwtHelperService();
 
 @Component({
@@ -27,7 +28,9 @@ export class ToolbarAdminComponent {
   constructor(private tokenService: TokenService,
               private authService:AuthService,
               private router:Router,
-              private datosService: DatosGeneralesService) { }
+              private datosService: DatosGeneralesService,
+              private broadcastService: BroadcastService,
+            ) { }
 
   ngOnInit(){
    // alert(this.userRol);
@@ -62,6 +65,7 @@ export class ToolbarAdminComponent {
   
   logout(){
     this.authService.logout()
+    this.broadcastService.emitSessionUpdate(); // Emitir el evento global
     this.router.navigate(['/login'])
   }
   

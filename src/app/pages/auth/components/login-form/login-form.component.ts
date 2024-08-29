@@ -7,6 +7,8 @@ import { UsersService } from '@services/users.service';
 import { NotificationService } from '@services/notification.service';
 import { JwtHelperService } from '@auth0/angular-jwt';
 import { TokenService } from '@services/token.service';
+import { environment } from '@environments/environment';
+import { BroadcastService } from 'src/app/data/services/gestion-app/broadcast-service.service';
 const helperJWT = new JwtHelperService();
 
 @Component({
@@ -30,7 +32,8 @@ export class LoginFormComponent {
     private authService: AuthService,
     private tokenService: TokenService,
     private route: ActivatedRoute,
-    private _notification: NotificationService
+    private _notification: NotificationService,
+    private broadcastService: BroadcastService,
   ) {
     this.route.queryParamMap.subscribe((params) => {
       const username = params.get('username');
@@ -48,6 +51,8 @@ export class LoginFormComponent {
       this.authService.login(username, password).subscribe({
         next: async (rta) => {
           this.userService.getUserSessionActive(rta.data.id).subscribe((data)=>{
+            localStorage.clear();
+            localStorage.setItem('environment', environment.environment);
             if (data.data) {
               localStorage.setItem('camUser', JSON.stringify(data.data));
               this.status = 'success';
@@ -61,6 +66,7 @@ export class LoginFormComponent {
                 this.router.navigate(['/app/admin']);
               }
             }
+            this.broadcastService.emitSessionUpdate(); // Emitir el evento global
             // this.router.navigate(['/app']);
             // //console.log(JSON.parse(localStorage.getItem('camUser')!));
           })

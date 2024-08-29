@@ -225,6 +225,7 @@ export class AuthService {
     localStorage.removeItem('UnidElegida');
     localStorage.removeItem('idProgramElegida');
     this.tokenService.removeRefreshToken();
+    localStorage.clear();
   }
 
 

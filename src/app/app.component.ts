@@ -1,5 +1,5 @@
 import { Component} from '@angular/core';
-import { RouterModule } from '@angular/router';
+import { ActivatedRoute, Router, RouterModule } from '@angular/router';
 import { HttpClientModule} from '@angular/common/http';
 import { ConnectionService } from '@services/connection.service';
 import { ModalSinInternetComponent } from '@shared/components/modal-sin-internet/modal-sin-internet.component';
@@ -7,6 +7,7 @@ import { MatDialog } from '@angular/material/dialog';
 import { MaterialModule } from './material/material.module';
 import { environment } from '@environments/environment';
 import { CommonModule } from '@angular/common';
+import { BroadcastService } from './data/services/gestion-app/broadcast-service.service';
 
 @Component({
   standalone: true,
@@ -22,7 +23,9 @@ export class AppComponent {
   environment = environment;
   constructor(
     private connectionService: ConnectionService, 
-    private dialog: MatDialog
+    private dialog: MatDialog,
+    private broadcastService: BroadcastService,
+    private router: Router,
   ) {}
 
   ngOnInit(): void {
@@ -34,6 +37,14 @@ export class AppComponent {
         });
       }
     });
+
+    this.broadcastService.onSessionUpdate().subscribe(() => {
+      this.updateComponents();
+    });
+  }
+
+  updateComponents() {
+    location.href = '/';
   }
 
   private isDialogOpen(): boolean {
