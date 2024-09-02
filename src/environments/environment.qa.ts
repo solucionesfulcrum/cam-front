@@ -7,6 +7,7 @@ export const environment = {
   // API_ESSI: 'https://appsqa.essalud.gob.pe/sagw/servicios-essi/apimaestra',
   // SSO_API: 'https://appsqa.essalud.gob.pe/sso-main/api',
   environmentName: 'QA',
+  mantenimiento: false,
 };
 
   //AUTH_API_URL: 'https://appsqa.essalud.gob.pe/sso-main/api/auth',

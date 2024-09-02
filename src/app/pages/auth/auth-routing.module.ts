@@ -6,26 +6,17 @@ import { RegisterComponent } from './register/register.component';
 import { RecoveryComponent } from './recovery/recovery.component';
 import { AuthComponent } from './auth/auth.component';
 import { MantenimientoComponent } from './components/mantenimiento/mantenimiento.component';
+import { environment } from '@environments/environment';
 
-const routes: Routes = [
+let routes: Routes = [
   { 
     path:'',
     component:AuthComponent,
     children:[
       {
         path:'',
-        redirectTo:'mantenimiento',
+        redirectTo: environment.mantenimiento ? 'mantenimiento' : 'login',
         pathMatch: 'full',
-      },
-      {
-        path:'**',
-        redirectTo:'mantenimiento',
-        pathMatch: 'full',
-      },
-      { 
-        path:'mantenimiento',
-        component:MantenimientoComponent,
-        title: 'mantenimiento'
       },
       { 
         path:'login',
@@ -51,6 +42,21 @@ const routes: Routes = [
   },
   
 ];
+
+if(environment.mantenimiento){
+  routes[0].children?.push(  {
+    path:'**',
+    redirectTo:'mantenimiento',
+    pathMatch: 'full',
+  },
+
+  { 
+    path:'mantenimiento',
+    component:MantenimientoComponent,
+    title: 'mantenimiento'
+  },)
+}
+
 
 @NgModule({
   imports: [RouterModule.forChild(routes)],

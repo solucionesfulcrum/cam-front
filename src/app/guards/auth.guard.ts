@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import {  CanActivate, Router} from '@angular/router';
+import { environment } from '@environments/environment';
 import { TokenService } from '@services/token.service';
 
 
@@ -16,12 +17,16 @@ export class AuthGuard implements CanActivate {
     //const token = this.tokenService.getToken()
     //const isValidToken = this.tokenService.isValidToken()
     const isValidToken = this.tokenService.isValidRefreshToken()
-    /*if (!isValidToken)
-    {
-      //this.router.navigate(['/login'])
-      this.router.navigate(['/mantenimiento'])
-      return false
-    }*/
+
+    if(!environment.mantenimiento){
+
+      if (!isValidToken)
+        {
+          this.router.navigate(['/login'])
+          return false
+        }
+    }
+  
     return true;
   }
   

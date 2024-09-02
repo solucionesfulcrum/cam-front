@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import {  CanActivate, Router} from '@angular/router';
+import { environment } from '@environments/environment';
 import { TokenService } from '@services/token.service';
 
 @Injectable({
@@ -17,8 +18,13 @@ export class RedirectGuard implements CanActivate {
     const isValidToken = this.tokenService.isValidRefreshToken()
     if (isValidToken)
     {
-      //this.router.navigate(['/app'])
-      this.router.navigate(['/mantenimiento'])
+      if(!environment.mantenimiento){
+        this.router.navigate(['/app'])
+      }
+      else{
+        this.router.navigate(['/mantenimiento'])
+      }
+     
     }
     return true;
   }

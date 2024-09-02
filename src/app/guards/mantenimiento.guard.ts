@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import { ActivatedRouteSnapshot, CanActivate, Router, RouterStateSnapshot, UrlTree } from '@angular/router';
+import { environment } from '@environments/environment';
 import { Observable } from 'rxjs';
 
 @Injectable({
@@ -14,7 +15,10 @@ export class MantenimientoGuard implements CanActivate {
     state: RouterStateSnapshot): Observable<boolean | UrlTree> | Promise<boolean | UrlTree> | boolean | UrlTree {
 
     // Redirigir siempre a la ruta de mantenimiento
-    return this.router.createUrlTree(['/mantenimiento']);
+    if(environment.mantenimiento){
+      return this.router.createUrlTree(['/mantenimiento']);
+    }
+    return true;
   }
   
 }
