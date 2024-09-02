@@ -16,11 +16,12 @@ export class AuthGuard implements CanActivate {
     //const token = this.tokenService.getToken()
     //const isValidToken = this.tokenService.isValidToken()
     const isValidToken = this.tokenService.isValidRefreshToken()
-    if (!isValidToken)
+    /*if (!isValidToken)
     {
-      this.router.navigate(['/login'])
+      //this.router.navigate(['/login'])
+      this.router.navigate(['/mantenimiento'])
       return false
-    }
+    }*/
     return true;
   }
   
