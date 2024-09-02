@@ -25,6 +25,7 @@ import { DialogCodigoActivacionComponent } from './components/dialog-codigo-acti
 import { DialogModule } from '@angular/cdk/dialog';
 import { ToastrModule, ToastrService } from 'ngx-toastr';
 import { MatAutocompleteModule } from '@angular/material/autocomplete';
+import { MantenimientoComponent } from './components/mantenimiento/mantenimiento.component';
 
 
 @NgModule({
@@ -41,7 +42,8 @@ import { MatAutocompleteModule } from '@angular/material/autocomplete';
     LoginFormComponent,
     RecoveryFormComponent,
     RegisterFormComponent,
-    DialogCodigoActivacionComponent
+    DialogCodigoActivacionComponent,
+    MantenimientoComponent
   ],
   imports: [
     CommonModule,
