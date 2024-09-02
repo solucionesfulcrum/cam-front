@@ -10,8 +10,7 @@ export const routes: Route[] = [
     canActivate:[RedirectGuard],
     loadChildren: () =>
       import('./pages/auth/auth.module').then((m) => m.AuthModule),
-
-  }, 
+  },
   {
     path: AppRoute.APP,
     canActivate:[AuthGuard, InternetGuard],
@@ -31,7 +30,6 @@ export const routes: Route[] = [
   { 
     path: '**',
     pathMatch: 'full',
-    //redirectTo: '',
     redirectTo: '',
   },
 ];
