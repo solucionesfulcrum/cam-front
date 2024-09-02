@@ -5,6 +5,7 @@ import { ForgotPasswordComponent } from './forgot-password/forgot-password.compo
 import { RegisterComponent } from './register/register.component';
 import { RecoveryComponent } from './recovery/recovery.component';
 import { AuthComponent } from './auth/auth.component';
+import { MantenimientoComponent } from './components/mantenimiento/mantenimiento.component';
 
 const routes: Routes = [
   { 
@@ -13,8 +14,18 @@ const routes: Routes = [
     children:[
       {
         path:'',
-        redirectTo:'login',
+        redirectTo:'mantenimiento',
         pathMatch: 'full',
+      },
+      {
+        path:'**',
+        redirectTo:'mantenimiento',
+        pathMatch: 'full',
+      },
+      { 
+        path:'mantenimiento',
+        component:MantenimientoComponent,
+        title: 'mantenimiento'
       },
       { 
         path:'login',
