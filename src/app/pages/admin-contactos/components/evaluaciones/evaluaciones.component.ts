@@ -204,7 +204,7 @@ export class EvaluacionesComponent {
       const blob: Blob = new Blob([data], { type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet' });
       const url = window.URL.createObjectURL(blob);
       const anchor = document.createElement('a');
-      anchor.download = 'Reporte_Asegurados.xlsx';
+      anchor.download = 'Reporte_Evaluaciones.xlsx';
       anchor.href = url;
       anchor.click();
       window.URL.revokeObjectURL(url);

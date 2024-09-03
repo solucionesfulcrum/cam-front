@@ -1,4 +1,4 @@
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { FormArray, FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { environment } from '@environments/environment';
@@ -86,6 +86,6 @@ export class AfiliacionesEvaluacionesService {
 
   getExcelEvaluacionesNacional(model: RequestEvaluacionReporte){
     const url = `${environment.API}/report/evaluaciones/excel/lista-evaluaciones-nacional`;
-    return this._httpClient.post<any>(url, model);
+    return this._httpClient.post(url, model, {responseType:'blob', headers: new HttpHeaders({'Accept': 'application/octet-stream'})});
   }
 }
