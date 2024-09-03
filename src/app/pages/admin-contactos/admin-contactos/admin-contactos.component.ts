@@ -8,6 +8,7 @@ import { FormatoTab } from '@shared/components/menu-opciones/formato-tab.model';
 })
 export class AdminContactosComponent {
   links: FormatoTab[] = [
-    {url:'/app/admin-contactos/asegurados', title:'Asegurados'},
+    {url:'/app/admin/contactos/asegurados', title:'Asegurados'},
+    {url:'/app/admin/contactos/evaluaciones', title:'Evaluaciones'},
   ]
 }

@@ -24,7 +24,7 @@
                             <img src="assets/svg/icon-toolbar-users.svg"/>
                             <span>Usuarios</span>
                         </button>
-                        <div class="elementoOpcion" routerLink="/app/admin/contactos" *ngIf="userRol != 'CAM' && userRol != 'USER'">
+                        <div class="elementoOpcion" cdkMenuItem routerLink="/app/admin/contactos" *ngIf="userRol != 'CAM' && userRol != 'USER'">
                             <img src="assets/svg/contactos.svg"/>
                             <span>Contactos</span>
                         </div>

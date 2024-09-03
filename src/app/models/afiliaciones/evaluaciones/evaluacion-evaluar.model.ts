@@ -39,3 +39,15 @@ export interface SendDataResultado{
   comentario: string,
   idUsuarioReg: number
 }
+
+
+export interface RequestEvaluacionReporte{
+  idUnidOpe: number,
+  texto: string,
+  estado: number,
+  fecInicio: string,
+  fecFin: string,
+  codigoCam: string | null,
+  pageNum? : string,
+  pageSize?: string
+}

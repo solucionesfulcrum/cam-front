@@ -11,12 +11,14 @@ import { SharedModule } from '@shared/shared.module';
 import { MaterialModule } from 'src/app/material/material.module';
 import { AseguradosComponent } from './components/asegurados/asegurados.component';
 import { DataLoadingComponent } from '@shared/components/data-loading/data-loading.component';
+import { EvaluacionesComponent } from './components/evaluaciones/evaluaciones.component';
 
 
 @NgModule({
   declarations: [
     AdminContactosComponent,
-    AseguradosComponent
+    AseguradosComponent,
+    EvaluacionesComponent
   ],
   imports: [
     CommonModule,

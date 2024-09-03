@@ -2,7 +2,7 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { FormArray, FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { environment } from '@environments/environment';
-import { RequestEvaluacionRespuestas, RequestRegisterAnswersEvaluacion, RequestResultsEvaluacion, SendDataResultado } from '@models/afiliaciones/evaluaciones/evaluacion-evaluar.model';
+import { RequestEvaluacionReporte, RequestEvaluacionRespuestas, RequestRegisterAnswersEvaluacion, RequestResultsEvaluacion, SendDataResultado } from '@models/afiliaciones/evaluaciones/evaluacion-evaluar.model';
 
 const URL_BASE = `${environment.API}/evaluacion`;
 
@@ -75,6 +75,17 @@ export class AfiliacionesEvaluacionesService {
 
   registerResultsEvaluacion(model: SendDataResultado){
     const url = `${URL_BASE}-resultado/registrar`;
+    return this._httpClient.post<any>(url, model);
+  }
+
+  //REPORTES
+  getListaEvaluacionesNacional(model: RequestEvaluacionReporte){
+    const url = `${environment.API}/evaluacion/listar/nacional`;
+    return this._httpClient.post<any>(url, model);
+  }
+
+  getExcelEvaluacionesNacional(model: RequestEvaluacionReporte){
+    const url = `${environment.API}/report/evaluaciones/excel/lista-evaluaciones-nacional`;
     return this._httpClient.post<any>(url, model);
   }
 }
