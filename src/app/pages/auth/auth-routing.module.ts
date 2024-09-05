@@ -10,7 +10,16 @@ import { environment } from '@environments/environment';
 
 let routes: Routes = [];
 
-if (environment.mantenimiento) {
+// Función que verifica si hay un secretKeyPass en los query params y si coincide con el esperado
+function isMaintenanceBypassed(): {existe: boolean, iguales: boolean} {
+  const params = new URLSearchParams(window.location.search);
+  const secretKeyPass = params.get('secretKeyPass');
+  const expectedSecretKey = 'kusG2dkMa2oacXnZAm4vqpt6OSRblTGj';  // El valor esperado del secretKey
+  return {existe: secretKeyPass != null, iguales: secretKeyPass === expectedSecretKey} ;
+}
+
+
+if ((environment.mantenimiento && !isMaintenanceBypassed().existe) || (environment.mantenimiento && !isMaintenanceBypassed().iguales)) {
   routes = [
     {
       path: '',

@@ -8,7 +8,7 @@ export const environment = {
     // SSO_API: 'https://appsqa.essalud.gob.pe/sagw/sso-main/api',
     //API: 'http://localhost:80',
     environmentName: 'Dev-Local',
-    mantenimiento: false,
+    mantenimiento: true,
   
   
   };
