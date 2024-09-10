@@ -40,7 +40,7 @@ export class ContratosRedListadoComponent {
   pageSize = 10;
   pageSizeOptions:  number[] = [5,10,20];
   total = 0;
-  columns: string[] = ['marcar','numOc', 'fechaContrato', 'tallerista','monto', 'periodo_contrato','desCam', 'fecha'];
+  columns: string[] = ['marcar','numOc', 'fechaContrato', 'tallerista','monto', 'periodo_contrato','desUO', 'fecha'];
 
   loadingData: boolean = false;
 

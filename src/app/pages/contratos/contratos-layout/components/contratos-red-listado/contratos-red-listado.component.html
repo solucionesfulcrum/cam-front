@@ -87,9 +87,9 @@
         <td cdk-cell class="py-[1rem] px-6" *cdkCellDef="let row">{{(row.fechaDesde | date: 'dd/MM/yyyy') + " - " +  (row.fechaHasta | date: 'dd/MM/yyyy')}}</td>
       </ng-container>
 
-      <ng-container cdkColumnDef="desCam">
-        <th cdk-header-cell class="py-[1.25rem] px-6" *cdkHeaderCellDef>CAM</th>
-        <td cdk-cell class="py-[1rem] px-6" *cdkCellDef="let row">{{row.desCam}}</td>
+      <ng-container cdkColumnDef="desUO">
+        <th cdk-header-cell class="py-[1.25rem] px-6" *cdkHeaderCellDef>Unidad Operativa</th>
+        <td cdk-cell class="py-[1rem] px-6" *cdkCellDef="let row">{{row.tipo + " " + row.desUO}}</td>
       </ng-container>
 
 
