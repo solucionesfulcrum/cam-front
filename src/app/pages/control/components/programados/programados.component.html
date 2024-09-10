@@ -57,13 +57,13 @@
             }" (click)="selectProg(prog)">
                 <div class="px-2.5 py-[14px] flex flex-row">
                     <div class="flex flex-col items-end gap-[5px] pt-[2px] px-2.5 shrink-0 w-[65px]">
-                        <span class="font-semibold text-[40px] leading-[30px]">{{prog.fecha | date:'dd'}}</span>
+                        <span class="font-semibold text-[40px] leading-[30px]" [ngClass]="prog.esCiram ? 'colorCiram' : ''">{{prog.fecha | date:'dd'}}</span>
                         <span class="font-light leading-[20px]">{{(prog.fecha | date:'MMM') | titlecase}}</span>
                     </div>
                     <div class="flex flex-col gap-[5px] leading-[20px]">
-                        <span class="text-[18px] font-medium"> {{prog.nombre[0] + (prog.nombre.substring(1) | lowercase)}}</span>
+                        <span class="text-[18px] font-medium" [ngClass]="prog.esCiram ? 'colorCiram' : ''"> {{prog.nombre[0] + (prog.nombre.substring(1) | lowercase)}}</span>
                         <span class="text-[14px] font-light"> {{(prog.fecha | date: 'EEEE, dd') | titlecase}} de {{prog.fecha | date: 'MMMM'}} de {{((prog.fecha + ' ' + prog.horaInicio) | date:'hh:mm a -') +  ' ' + ((prog.fecha + ' ' + prog.horaFin) | date:'hh:mm a')}}</span>
-                        <span class="text-[14px] font-light">
+                        <span class="text-[14px] font-light" >
                             <ng-container *ngIf="prog.esCiram">
                                 CIRAM {{prog.nombreCiram | titlecase}}
                             </ng-container>
