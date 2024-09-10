@@ -48,6 +48,8 @@ export class TabMisTalleresComponent {
 
   statusLoadingAsistencia: boolean = false;
 
+  esCiram : boolean = false;
+
   idProgramacionElegida: string = String(JSON.parse(localStorage.getItem('idProgramElegida')!));
 
   buttons = [
@@ -136,7 +138,15 @@ export class TabMisTalleresComponent {
     this.status = 'loading';
     this.selectedProgramacion = null;
     const idUsuario = (JSON.parse(localStorage.getItem('UnidElegida')!)).idUnidOperativa
-    this.controlService.getlistaProgramacion(idUsuario, this.ctrlInit.value!, this.ctrlFin.value!, this.ctrlSearch.value!.toUpperCase()).subscribe((data) => {
+    let metodo;
+    if((JSON.parse(localStorage.getItem('UnidElegida')!)).tipo == "CIRAM"){
+      this.esCiram = true;
+      metodo = this.controlService.getlistaProgramacionCiram(idUsuario, this.ctrlInit.value!, this.ctrlFin.value!, this.ctrlSearch.value!.toUpperCase());
+    }
+    else{
+      metodo = this.controlService.getlistaProgramacion(idUsuario, this.ctrlInit.value!, this.ctrlFin.value!, this.ctrlSearch.value!.toUpperCase());
+    }
+    metodo.subscribe((data) => {
       if (data.code == 0) {
         this.status = 'success';
         this.ListaProgramacines = data.data;
@@ -183,7 +193,14 @@ export class TabMisTalleresComponent {
   consultarDataPrograma(){
     this.statusLoadingAsistencia = true;
     const idUsuario = (JSON.parse(localStorage.getItem('UnidElegida')!)).idUnidOperativa
-    this.datosService.getlistaProgramacion(idUsuario, this.ctrlInit.value!, this.ctrlFin.value!, this.ctrlSearch.value!.toUpperCase()).subscribe((data) => {
+    let metodo;
+    if((JSON.parse(localStorage.getItem('UnidElegida')!)).tipo == "CIRAM"){
+      metodo = this.controlService.getlistaProgramacionCiram(idUsuario, this.ctrlInit.value!, this.ctrlFin.value!, this.ctrlSearch.value!.toUpperCase());
+    }
+    else{
+      metodo = this.controlService.getlistaProgramacion(idUsuario, this.ctrlInit.value!, this.ctrlFin.value!, this.ctrlSearch.value!.toUpperCase());
+    }
+    metodo.subscribe((data) => {
       if (data.code == 0) {
         let programaciones = data.data as [];
         this.selectedProgramacion = programaciones.filter((programacion : any) => programacion.idProgDet == this.selectedProgramacion.idProgDet)[0];
