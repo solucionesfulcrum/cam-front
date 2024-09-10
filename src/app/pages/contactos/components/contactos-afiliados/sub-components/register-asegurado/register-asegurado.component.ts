@@ -552,8 +552,8 @@ export class RegisterAseguradoComponent {
       fecNacimiento: `${dateParts[2]}-${dateParts[1]}-${dateParts[0]}`, // yyyy-mm-dd with 0
       codEstCivil: this.infoReniec.codEstcivil ?  this.infoReniec.codEstcivil : "SIN DATOS",
       descEstCivil: this.infoReniec.desEstadoCivil ? this.infoReniec.desEstadoCivil : "SIN DATOS",
-      codSexo: this.infoReniec.GENERO == 'FEMENINO' ? "F" : this.infoReniec.GENERO == 'MASCULINO' ? "M" : "X",
-      descSexo: this.infoReniec.GENERO,
+      codSexo: this.infoReniec.codSexo,
+      descSexo: this.infoReniec.codSexo == '0' ? "FEMENINO" : this.infoReniec.GENERO == '1' ? "MASCULINO" : "X",
       codTipoAsegurado: this.dataSeguro.CONDICION[0],
       descTipoAsegurado: this.dataSeguro.CONDICION,
       codTipoSeguro: '0',
