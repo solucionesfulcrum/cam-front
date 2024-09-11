@@ -1,5 +1,5 @@
 import { Dialog } from '@angular/cdk/dialog';
-import { Component, OnInit } from '@angular/core';
+import { Component, HostListener, OnInit } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup } from '@angular/forms';
 import { PageEvent } from '@angular/material/paginator';
 import { RequestListaSAfiliadosContacto,imprimirRequest,imprimirRequestCam,listaConstactosRequest, listaContratosRedRequest } from '@models/afiliados/ficha-solicitud.model';
@@ -11,6 +11,12 @@ import { DatosGeneralesService } from 'src/app/data/services/datos-generales.ser
 import { Parametro } from '@models/parametros-busqueda.model';
 import { ParamMenu } from '@shared/components/opciones-busqueda/parametros-busqueda.model';
 import { faSpinner } from '@fortawesome/free-solid-svg-icons';
+import { ModalEditarComponent } from 'src/app/pages/control/components/sub-components/dialogs/modal-editar/modal-editar.component';
+import { ModalConfirmarComponent } from 'src/app/pages/control/components/sub-components/dialogs/modal-confirmar/modal-confirmar.component';
+import { MatDialog } from '@angular/material/dialog';
+import { AgregarACiramComponent } from './sub-components/dialog/agregar-a-ciram/agregar-a-ciram.component';
+import { ToastrService } from 'ngx-toastr';
+import { ModalConfirmarGenericoComponent } from '@shared/components/modal-confirmar-generico/modal-confirmar-generico.component';
 
 @Component({
   selector: 'app-contactos-afiliados',
@@ -37,7 +43,7 @@ export class ContactosAfiliadosComponent implements OnInit {
   pageSize = 10;
   pageSizeOptions:  number[] = [5,10,20];
   total = 0;
-  columns: string[] = ['marcar','nombres','tipoDoc','numDoc', 'edad', 'estadoCivil','ipress','fecha'];
+  columns: string[] = ['marcar','nombres','tipoDoc','numDoc', 'edad', 'estadoCivil','ipress', 'ciram', 'fecha'];
 
   rol: string = '';
 
@@ -45,14 +51,18 @@ export class ContactosAfiliadosComponent implements OnInit {
 
   loadingData: boolean = false;
 
+  dropdownOpen: boolean = false;
+
   
   opciones_cam: Parametro[] = [];
 
   constructor(private fb                      : FormBuilder, 
-              private dialog                  : Dialog,
+              private dialog                  : MatDialog,
               private notificationService     : NotificationService,
               private datosService            : DatosGeneralesService,
-              private afiliacionesService     : AfiliacionesSolicitudesService,) { }
+              private afiliacionesService     : AfiliacionesSolicitudesService,
+              private toast: ToastrService
+            ) { }
 
   ngOnInit(): void {
     this.datosService.getTipoParametros('ESTADO_FICHA_ADMISION').subscribe((data)=>{
@@ -198,7 +208,7 @@ export class ContactosAfiliadosComponent implements OnInit {
     let element = evento.target as HTMLInputElement;
     this.dataSource = this.dataSource.map(data => { return {...data, marcar: Boolean(element.checked)}});
     if(element.checked)
-      this.seleccionados =  this.dataSource.map(data => { return data.idInscripcion});
+      this.seleccionados =  this.dataSource.filter(data => data.estado == 'ACTIVO').map(data => { return data.id});
     else
       this.seleccionados = [];
   }
@@ -213,4 +223,62 @@ export class ContactosAfiliadosComponent implements OnInit {
       this.seleccionados = this.seleccionados.filter(item => item != parseInt(element.value));
   
   }
+
+  editaSeleccionado(evento : Event) : void{
+    evento.preventDefault();
+    const dialog = this.dialog.open(AgregarACiramComponent,{
+      width: "30%"
+    }).afterClosed().subscribe(data=>{
+      if(data.idUnidadOperativa){
+        this.afiliacionesService.asignarACiram(data.idUnidadOperativa, this.seleccionados).subscribe(data=>{
+          if(data.code == 0){
+            this.toast.success(data.message);
+            this.seleccionados = [];
+            this.onLoadData();
+          }
+          else{
+            this.toast.warning(data.message);
+          }
+        })
+      }
+    });
+
+  }
+
+  eliminaSeleccionados(evento : Event) : void{
+    const dialog = this.dialog.open(ModalConfirmarGenericoComponent,{
+      width: "30%",
+      data:{
+        message: "¿Desea desvincular a los afiliados seleccionados del CIRAM actual?"
+      }
+    });
+
+    dialog.afterClosed().subscribe((result : {success: boolean}) => {
+      if(result.success){
+        this.afiliacionesService.quitarDeCiram(this.seleccionados).subscribe(data=>{
+          if(data.code == 0){
+            this.toast.success(data.message);
+            this.seleccionados = [];
+            this.onLoadData();
+          }
+          else{
+            this.toast.warning(data.message);
+          }
+        })
+      }
+    });
+  }
+
+  toggleDropdown() {
+    this.dropdownOpen = !this.dropdownOpen;
+  }
+
+  @HostListener('document:click', ['$event'])
+  onClick(event: MouseEvent) {
+    const target = event.target as HTMLElement;
+    if (!target.closest('.dropdown-container, .checkbox-select')) {
+      this.dropdownOpen = false; // Cierra el dropdown si se hace clic fuera de él
+    }
+  }
+
 }

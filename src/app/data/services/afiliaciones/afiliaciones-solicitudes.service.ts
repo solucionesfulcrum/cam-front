@@ -2,7 +2,9 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { RequestAdminAseguradosCam } from '@models/adm-uo/adm-uo';
 import { RegisterNota, RegisterSolicitud } from '@models/afiliaciones/register-afiliacion.model';
+import { ResponseAsignarCiram, ResponseQuitarCiram } from '@models/afiliados/edit-ficha-solicitud';
 import { RequestListaSAfiliadosContacto, RequestListaSolicitudesAfiliados,imprimirRequest,imprimirRequestCam,listaConstactosRequest } from '@models/afiliados/ficha-solicitud.model';
+import { DtGenericoSinPaginar } from '@models/generico/dt-generico';
 import { Observable } from 'rxjs';
 import { environment } from 'src/environments/environment';
 
@@ -90,5 +92,15 @@ export class AfiliacionesSolicitudesService {
   getDataAfiliado(tipoDoc: string, numDoc: string){
     const url = `${URL_BASE}/ficha-afiliado?tipDoc=${tipoDoc}&numDoc=${numDoc}`;
     return this._httpClient.get<any>(url);
+  }
+
+  asignarACiram(idUnidadOperativa: number, idFichasAdmision: number[]){
+    const url = `${api_URL}/ficha-admision/asignar-a-ciram`;
+    return this._httpClient.post<DtGenericoSinPaginar<ResponseAsignarCiram>>(url,{idUnidadOperativa, idFichasAdmision});
+  }
+
+  quitarDeCiram(idFichasAdmision: number[]){
+    const url = `${api_URL}/ficha-admision/quitar-ciram`;
+    return this._httpClient.post<DtGenericoSinPaginar<ResponseQuitarCiram>>(url,{idFichasAdmision});
   }
 }

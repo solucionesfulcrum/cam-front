@@ -77,3 +77,13 @@ export interface EditModalidadAsegurado{
     nomCerps?: string,
     nomCam?: string
 }
+
+export interface ResponseAsignarCiram{
+    idUnidadOperativa: number, 
+    idFichasAdmision: number[]
+}
+
+export interface ResponseQuitarCiram{
+    idFichasAdmision: number[]
+}
+
