@@ -56,6 +56,7 @@ export class RegisterAseguradoComponent {
   feFallecimiento: string = '';
 
   infoReniec: any = Object();
+  estadoCivil: {[x: string]: string} = {"x":"x"};
   
   // <!---------------------------------------------------- Segundo paso: Datos de direcciones                    --------------------------------------------------->
 
@@ -220,6 +221,17 @@ export class RegisterAseguradoComponent {
             this.administrarDirecciones('RENIEC', this.infoReniec);
 
             this.wait = true;
+          }
+          else{
+            this._notificacionService.warning(datos.message);
+          }
+        })
+
+        this._datoGeneralesService.getTipoParametros('ESTADO_CIVIL').subscribe((datos)=>{
+          if (datos.code == 0) {
+            datos.data.map(row =>{
+              this.estadoCivil["0"+row.valor1] = row.nombre
+            })
           }
           else{
             this._notificacionService.warning(datos.message);
@@ -551,7 +563,7 @@ export class RegisterAseguradoComponent {
       ubigeoNacim: this.infoReniec.codUbgNac,
       fecNacimiento: `${dateParts[2]}-${dateParts[1]}-${dateParts[0]}`, // yyyy-mm-dd with 0
       codEstCivil: this.infoReniec.codEstcivil ?  this.infoReniec.codEstcivil : "SIN DATOS",
-      descEstCivil: this.infoReniec.desEstadoCivil ? this.infoReniec.desEstadoCivil : "SIN DATOS",
+      descEstCivil: this.estadoCivil[this.infoReniec.codEstcivil],
       codSexo: this.infoReniec.codSexo,
       descSexo: this.infoReniec.codSexo == '0' ? "FEMENINO" : this.infoReniec.GENERO == '1' ? "MASCULINO" : "X",
       codTipoAsegurado: this.dataSeguro.CONDICION[0],
