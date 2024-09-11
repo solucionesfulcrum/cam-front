@@ -40,7 +40,7 @@
             <!-- <p class="py-1">{{dataPersona.persona.datosNacimiento.fechaNacimiento}}</p> -->
             <!-- <p class="py-1"><b class="font-semibold">Sexo</b> {{dataPersona.persona.datosAdicionales.descripcionSexo[0]}}</p> -->
             <p class="py-1 font-semibold">Estado Civil</p>
-            <p class="py-1">{{infoReniec.desEstadoCivil | titlecase}}</p>
+            <p class="py-1">{{estadoCivil[infoReniec.codEstcivil] | titlecase}}</p>
             <!-- <p class="py-1">{{dataPersona.persona.datosAdicionales.descripcionEstadoCivil | titlecase}}</p> -->
             <p class="py-1 text-sky-600 font-bold">Datos Del Seguro</p>
             <p class="py-1 font-semibold">Tipo de Asegurado</p>
