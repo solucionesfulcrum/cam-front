@@ -364,10 +364,9 @@ export class EditAseguradoComponent {
 
   
   getDataAsegurado(): EditAseguradoAfiliado{
-
     return {
-      tipDocIdent: this.parametroDocumento.valor1,
-      descTipDocIdent: this.parametroDocumento.nombre,
+      tipDocIdent: this.dataFichaAfiliado.asegurado.tipoDoc,
+      descTipDocIdent: this.dataFichaAfiliado.asegurado.descTipoDoc,
       numDocIdent: this.dataFichaAfiliado.asegurado.numDoc,
       nombres: this.dataFichaAfiliado.asegurado.nombres,
       apePaterno: this.dataFichaAfiliado.asegurado.apePaterno,

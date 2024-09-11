@@ -25,7 +25,7 @@
                     <img src="data:image/JPEG;base64,{{dataFichaAfiliado.asegurado.foto}}" class="my-1 w-[120px] h-[150px] justify-self-center">
                     <p class="bordColorEstablecido font-bold text-2xl">{{dataFichaAfiliado.asegurado.apePaterno + ' ' + dataFichaAfiliado.asegurado.apeMaterno | titlecase}}</p>
                     <p class="font-semibold text-lg">{{dataFichaAfiliado.asegurado.nombres | titlecase}}</p>
-                    <p>{{parametroDocumento.idParametros == 6 ? 'DNI' : parametroDocumento.nombre | titlecase}} {{dataFichaAfiliado.asegurado.numDoc}}</p>
+                    <p>{{dataFichaAfiliado.asegurado.descTipoDoc}} {{dataFichaAfiliado.asegurado.numDoc}}</p>
                 </div>
                 <div class="border-t-2 mt-3">
                     <p class="py-1 bordColorEstablecido font-bold">Datos Generales</p>
