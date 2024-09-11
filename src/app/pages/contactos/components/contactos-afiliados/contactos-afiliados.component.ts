@@ -48,10 +48,10 @@ export class ContactosAfiliadosComponent implements OnInit {
   rol: string = '';
 
   seleccionados: number[] = [];
-
   loadingData: boolean = false;
-
   dropdownOpen: boolean = false;
+  ciramSelected: boolean = false;
+  sinAsignarCiramSelected: boolean = false;
 
   
   opciones_cam: Parametro[] = [];
@@ -221,7 +221,15 @@ export class ContactosAfiliadosComponent implements OnInit {
       this.seleccionados.push(parseInt(element.value))
     else
       this.seleccionados = this.seleccionados.filter(item => item != parseInt(element.value));
-  
+
+    this.ciramSelected = this.dataSource.filter(data => data.estado == 'ACTIVO' && data.nomCiram).filter(data => { 
+      return this.seleccionados.indexOf(data.id) > -1
+    }).length > 0;
+
+    this.sinAsignarCiramSelected = this.dataSource.filter(data => data.estado == 'ACTIVO' && !data.nomCiram).filter(data => { 
+      return this.seleccionados.indexOf(data.id) > -1
+    }).length > 0;
+    
   }
 
   editaSeleccionado(evento : Event) : void{
