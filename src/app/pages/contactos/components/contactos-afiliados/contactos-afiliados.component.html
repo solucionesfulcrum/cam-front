@@ -71,15 +71,16 @@
                 <a 
                     class="block px-4 py-2 text-sm cursor-pointer"
                     [ngClass]="{'text-gray-700 hover:bg-gray-100': !ciramSelected, 'text-gray-400 cursor-not-allowed': ciramSelected}"
-                    [style.pointer-events]="seleccionados.length > 1 ? 'none' : 'auto'"
+                    [style.pointer-events]="ciramSelected ? 'none' : 'auto'"
                     (click)="editaSeleccionado($event)"
                     role="menuitem">
                     Asignar a CIRAM
                 </a>
                 <a class="block px-4 py-2 text-sm " 
+                [style.pointer-events]="sinAsignarCiramSelected ? 'none' : 'auto'"
                 [ngClass]="{'text-gray-400 cursor-not-allowed': sinAsignarCiramSelected, 'text-gray-700 hover:bg-gray-100 cursor-pointer': ciramSelected && !sinAsignarCiramSelected}"
                 role="menuitem" (click)="eliminaSeleccionados($event)">
-                    Quitar de CIRAM
+                    Retirar de CIRAM
                 </a>
               </div>
             </div>
