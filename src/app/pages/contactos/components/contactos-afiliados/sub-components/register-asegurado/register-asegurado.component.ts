@@ -507,7 +507,9 @@ export class RegisterAseguradoComponent {
               this.solicitudesService.registerSolicitudAsegurado(this.getPayloadRegisterSolicitud()).subscribe((datos)=>{
                 if (datos.code == 0) {
                   this._notificacionService.success('Se ha registrado con éxito la ficha de admisión');
-                  this.router.navigate(['/app/afiliados']);
+                  this.router.navigate(['/app/afiliados/show', datos.data.idSolicitud], {
+                    queryParams: { flagEval: 1 }
+                  });
                   this.status = 'success';
                 }
                 else{

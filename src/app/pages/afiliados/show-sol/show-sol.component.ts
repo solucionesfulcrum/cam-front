@@ -41,6 +41,8 @@ export class ShowSolComponent implements OnInit {
 
   direcciones: direccionFichaFront[] = [];
 
+  flagEval: string = '';
+
   formContacto = this.fb.nonNullable.group({
     frmTelefono:[''],
     frmCelular:[''],
@@ -57,6 +59,10 @@ export class ShowSolComponent implements OnInit {
     private dialog : Dialog,
     private _afiliaddoService: AfiliacionesSolicitudesService ) {
       this.idSolicitud = this.activeRoute.snapshot.paramMap.get('idSolicitud')!;
+      this.activeRoute.queryParams.subscribe(params => {
+        this.flagEval = params['flagEval'] || null; // Asigna el valor a la variable
+        console.log('flagEval:', this.flagEval);
+      });
   }
 
   ngOnInit(): void {
@@ -127,6 +133,9 @@ export class ShowSolComponent implements OnInit {
         }
         else{
           this.notificationService.warning(dataUbicacion.message);
+        }
+        if(this.flagEval == "1"){
+          this.EvalAfiliado();
         }
       })
     })
