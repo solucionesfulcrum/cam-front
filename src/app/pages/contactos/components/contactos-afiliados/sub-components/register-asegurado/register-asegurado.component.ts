@@ -141,7 +141,9 @@ export class RegisterAseguradoComponent {
               private solicitudesService                : AfiliacionesSolicitudesService,
               private _contactoService                  : ContactosAfiliadosService,
               private _notificacionService              : NotificationService,
-              private _datoGeneralesService             : DatosGeneralesService) {
+              private _datoGeneralesService             : DatosGeneralesService,
+              private datosGeneralesServices        : DatosGeneralesService,
+            ) {
                 this.numDoc = this.activeRoute.snapshot.paramMap.get('numDoc')!;
                 this.tipoDoc = this.activeRoute.snapshot.paramMap.get('tipoDoc')!;
               }
@@ -507,9 +509,10 @@ export class RegisterAseguradoComponent {
               this.solicitudesService.registerSolicitudAsegurado(this.getPayloadRegisterSolicitud()).subscribe((datos)=>{
                 if (datos.code == 0) {
                   this._notificacionService.success('Se ha registrado con éxito la ficha de admisión');
-                  this.router.navigate(['/app/afiliados/show', datos.data.idSolicitud], {
+                  /*this.router.navigate(['/app/afiliados/show', datos.data.idSolicitud], {
                     queryParams: { flagEval: 1 }
-                  });
+                  });*/
+                  this.EvalAfiliado(datos.data.idSolicitud, data.data.fichaAdmision.idFichaAdmision)
                   this.status = 'success';
                 }
                 else{
@@ -529,6 +532,30 @@ export class RegisterAseguradoComponent {
       this.msgFaltante = true;
     }
   }
+
+  EvalAfiliado(idSolicitud: string, idFichaAdmision: string){
+    this.datosGeneralesServices.validarAdmisionIngreso(this.parametroDocumento.valor1, this.numDoc, this.idUnidadOperativaUser, 2).subscribe((data)=>{
+      if (data.code == 0) {
+        //this.opcionesBotones[1].loading = false;
+        if (data.data.acreditado) {
+          localStorage.setItem('idFichaEvaluada', idFichaAdmision);
+          localStorage.setItem('datosEvaluacion', JSON.stringify({tipoEvaluacion: 'SOLICITUD', idOrigen: parseInt(idSolicitud)}));
+          this.router.navigate(['/app/afiliados/evaluacion/agregaEval'])
+        }
+        else{
+          //this.notificationService.warning(data.data.mensaje);
+        }
+      }
+      else{
+        //this.opcionesBotones[1].loading = false;
+        //this.notificationService.warning(data.message);
+      }
+    });
+
+
+  }
+
+
   showForm(){
     //console.log('Request Ficha:')
     //console.log(this.getRequestFicha())
