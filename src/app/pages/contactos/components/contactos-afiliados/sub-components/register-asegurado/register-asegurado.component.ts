@@ -565,7 +565,7 @@ export class RegisterAseguradoComponent {
       codEstCivil: this.infoReniec.codEstcivil ?  this.infoReniec.codEstcivil : "SIN DATOS",
       descEstCivil: this.estadoCivil[this.infoReniec.codEstcivil],
       codSexo: this.infoReniec.codSexo,
-      descSexo: this.infoReniec.codSexo == '0' ? "FEMENINO" : this.infoReniec.GENERO == '1' ? "MASCULINO" : "X",
+      descSexo: this.infoReniec.codSexo == '0' ? "FEMENINO" : this.infoReniec.codSexo == '1' ? "MASCULINO" : "X",
       codTipoAsegurado: this.dataSeguro.CONDICION[0],
       descTipoAsegurado: this.dataSeguro.CONDICION,
       codTipoSeguro: '0',
