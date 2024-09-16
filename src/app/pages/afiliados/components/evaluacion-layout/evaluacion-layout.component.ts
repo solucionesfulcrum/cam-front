@@ -25,7 +25,7 @@ export class EvaluacionLayoutComponent {
   opcionesBotones: FormatoBoton[] = [
     {texto: 'Notas', esImagen: true, rutaIcono: 'assets/svg/iconFileEdit.svg'},
     {texto: 'Cancelar', colorBtn:'bordeado'},
-    {texto: 'Guardar Evaluación', colorBtn:'mezclado', loading: false},
+    //{texto: 'Guardar Evaluación', colorBtn:'mezclado', loading: false},
   ];
 
   constructor(public evaluacionService              : AfiliacionesEvaluacionesService,

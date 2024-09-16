@@ -29,7 +29,7 @@ export class EvaluacionResultadosComponent {
   opcionesBotones: FormatoBoton[] = [
     {texto: 'Notas', esImagen: true, rutaIcono: 'assets/svg/iconFileEdit.svg'},
     {texto: 'Cancelar', colorBtn:'bordeado'},
-    {texto: 'Finalizar Evaluación', colorBtn:'mezclado', loading: false},
+    //{texto: 'Finalizar Evaluación', colorBtn:'mezclado', loading: false},
   ];
   
   formResultados = this.fb.group({
@@ -51,7 +51,7 @@ export class EvaluacionResultadosComponent {
   sedData(){
     if (this.evaluacionService.formDataTestPfi.valid && this.evaluacionService.formDataTestKatz.valid && this.evaluacionService.formDataTestGij.valid && this.evaluacionService.formDataTestYesa.valid) {
       if (this.formResultados.valid) {
-        this.opcionesBotones[2].loading = true;
+        //this.opcionesBotones[2].loading = true;
         this.status = 'loading';
         this.evaluacionService.registerResultsEvaluacion(this.getModelSend()).subscribe((data)=>{
           if (data.code == 0) {
@@ -64,12 +64,12 @@ export class EvaluacionResultadosComponent {
               this.notificationService.success('Se ha registrado la evaluación sobre la ficha de asegurado');
             }
             this.status = 'success';
-            this.opcionesBotones[2].loading = false;
+            //this.opcionesBotones[2].loading = false;
           }
           else{
             this.notificationService.warning(data.message);
             this.status = 'failed';
-            this.opcionesBotones[2].loading = false;
+            //this.opcionesBotones[2].loading = false;
           }
         })
       }
