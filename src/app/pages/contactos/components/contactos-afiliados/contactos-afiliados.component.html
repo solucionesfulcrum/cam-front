@@ -44,12 +44,13 @@
       
       <ng-container cdkColumnDef="marcar">
         <th cdk-header-cell class="py-[1.25rem] px-6" [style]="'width: 0%;'" *cdkHeaderCellDef> 
-          <input type="checkbox" [checked]="seleccionados.length == this.dataSource.length" (change)="afectarTodo($event)"/> 
+          <!--
+          <input type="checkbox" [checked]="seleccionados.length == this.dataSource.length" (change)="afectarTodo($event)"/> -->
         </th>
         <td cdk-cell class="py-[1rem] px-6" [style]="'width: 0%;'" *cdkCellDef="let row"> 
-          <ng-container *ngIf="row.estado == 'ACTIVO'">
+          <!--<ng-container *ngIf="row.estado == 'ACTIVO'">
             <input type="checkbox" class="checkbox-select" (change)="seleccionarFila($event)" [value]="row.id" [checked]="row.marcar"/> 
-          </ng-container>
+          </ng-container>-->
         </td>
       </ng-container>
 
@@ -115,10 +116,10 @@
         <td cdk-cell class="py-[1rem] px-6" *cdkCellDef="let row">{{row.nomIpressAdscrip }}</td>
       </ng-container>
 
-      <ng-container cdkColumnDef="ciram">
+      <!--<ng-container cdkColumnDef="ciram">
         <th cdk-header-cell class="py-[1rem] px-0" *cdkHeaderCellDef>CIRAM</th>
         <td cdk-cell class="py-[1rem] px-0" *cdkCellDef="let row">{{row.nomCiram  }}</td>
-      </ng-container>
+      </ng-container>-->
       
 
       <ng-container cdkColumnDef="fecha">
