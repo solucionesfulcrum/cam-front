@@ -13,7 +13,9 @@
             <div class="flex flex-col">
                 <div class="flex flex-col gap-1 py-2 items-center relative leading-5">
                     <p class="py-1 px-3 bg-cam absolute right-0 text-white text-lg bg-black">{{edadPersona}} Años</p>
-                    <img src="data:image/JPEG;base64,{{dataFicha.asegurado.foto}}" class="w-[60px] h-[75px]">
+                    <!--<img src="data:image/JPEG;base64,{{dataFicha.asegurado.foto}}" class="w-[60px] h-[75px]">-->
+                      <!--<img class="my-2 imagen" src='data:image/jpeg;base64,{{dataFichaAfiliado.asegurado.foto}}'>-->
+                    <img  class="w-[60px] h-[75px]" src='assets/images/imgReemplazo.png'>
                     <!-- <img src="assets/images/avatar-user.png" class="w-[75px] rounded-full border-2 border-[var(--color-CAM)]"> -->
                     <p class="font-bold text-2xl text-sky-600 text-center">{{dataFicha.asegurado.apePaterno + ' ' + dataFicha.asegurado.apeMaterno | titlecase}}</p>
                     <p class="font-semibold text-lg m-0">{{dataFicha.asegurado.nombres | titlecase}}</p>
