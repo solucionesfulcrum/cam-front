@@ -96,9 +96,11 @@ export class ShowAfiliadoComponent implements OnInit {
     this.aseguradoServices.obtenerFichaAsegurado(this.idFicha).subscribe((data)=>{
       if (data.code == 0) {
 
-        this.opcionesBotones[0].deshabilitado = false;
-        this.opcionesBotones[1].deshabilitado = false;
-        this.opcionesBotones[2].deshabilitado = false;
+        if(this.opcionesBotones.length > 0){
+          this.opcionesBotones[0].deshabilitado = false;
+          this.opcionesBotones[1].deshabilitado = false;
+          this.opcionesBotones[2].deshabilitado = false;
+        }
 
         
         //console.log(data.data)
@@ -117,8 +119,11 @@ export class ShowAfiliadoComponent implements OnInit {
           this.opcionesBotones[1].deshabilitado = true;
           this.opcionesBotones[2].deshabilitado = true;
         }
-        if (this.dataFichaAfiliado.fichaAdmision.datosAfiliacion.estadoAfi !== 'ACTIVO') {
-          this.opcionesBotones[2].deshabilitado = true;
+
+        if(this.opcionesBotones.length > 0){
+          if (this.dataFichaAfiliado.fichaAdmision.datosAfiliacion.estadoAfi !== 'ACTIVO') {
+            this.opcionesBotones[2].deshabilitado = true;
+          }
         }
         var dateObject = new Date(data.data.asegurado.fecNacimiento); 
         var timeDiff = Math.abs(Date.now() - dateObject.getTime());
