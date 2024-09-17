@@ -22,9 +22,9 @@ import { DialogNotasComponent } from 'src/app/pages/afiliados/show-sol/dialog-no
 })
 export class ShowAfiliadoComponent implements OnInit {
   opcionesBotones: FormatoBoton[] = [
-    {texto: 'Notas', esImagen: true, rutaIcono: 'assets/svg/iconFileEdit.svg'},
-    {texto: 'Actualizar Datos', esImagen: true, rutaIcono: 'assets/svg/icon-edit-data.svg'},
-    {texto: 'Dar de Baja', esImagen: true, rutaIcono: 'assets/svg/dar-de-baja.svg', colorBtn: 'bordeado'},
+    {texto: 'Notas', esImagen: true, rutaIcono: 'assets/svg/iconFileEdit.svg', deshabilitado: true},
+    {texto: 'Actualizar Datos', esImagen: true, rutaIcono: 'assets/svg/icon-edit-data.svg', deshabilitado: true},
+    {texto: 'Dar de Baja', esImagen: true, rutaIcono: 'assets/svg/dar-de-baja.svg', colorBtn: 'bordeado', deshabilitado: true},
   ];
   idUnidadOperativaUser = (JSON.parse(localStorage.getItem('UnidElegida')!)).idUnidOperativa;
 
@@ -96,6 +96,10 @@ export class ShowAfiliadoComponent implements OnInit {
     this.aseguradoServices.obtenerFichaAsegurado(this.idFicha).subscribe((data)=>{
       if (data.code == 0) {
 
+        this.opcionesBotones[0].deshabilitado = false;
+        this.opcionesBotones[1].deshabilitado = false;
+        this.opcionesBotones[2].deshabilitado = false;
+
         
         //console.log(data.data)
         this.dataFichaAfiliado = data.data;
@@ -113,9 +117,9 @@ export class ShowAfiliadoComponent implements OnInit {
           this.opcionesBotones[1].deshabilitado = true;
           this.opcionesBotones[2].deshabilitado = true;
         }
-        /*if (this.dataFichaAfiliado.fichaAdmision.datosAfiliacion.estadoAfi !== 'ACTIVO') {
+        if (this.dataFichaAfiliado.fichaAdmision.datosAfiliacion.estadoAfi !== 'ACTIVO') {
           this.opcionesBotones[2].deshabilitado = true;
-        }*/
+        }
         var dateObject = new Date(data.data.asegurado.fecNacimiento); 
         var timeDiff = Math.abs(Date.now() - dateObject.getTime());
         this.edadPersona = Math.floor(timeDiff / (1000 * 3600 * 24) / 365.25);
