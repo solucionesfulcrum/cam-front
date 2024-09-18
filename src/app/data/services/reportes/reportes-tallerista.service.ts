@@ -22,6 +22,11 @@ export class ReportesTalleristaService {
     return this._httpClient.post<DtGenericoPaginado<ItemReporteTallerista[]>>(url,payload);
   }
 
+  getDataReporteTalleristasCiram(payload: ReportesTalleristaPayload){
+    const url = `${environment.API}/tallerista/listar/talleres-ciram`; 
+    return this._httpClient.post<DtGenericoPaginado<ItemReporteTallerista[]>>(url,payload);
+  }
+
   getDataCabeceraAsistenciaTaller(idProgDet: string){
     const url = `${environment.API}/control/obtener/cabecera/asistencia/reporte/${idProgDet}`; 
     return this._httpClient.get<ResponseGenerico<CabeceraAsistenciaReporte>>(url);
