@@ -389,7 +389,7 @@ export class TabAsistenciaProfCamComponent {
       metodo = this.controlService.getListAseguradosCiramFindByText(texto, 1, 10, this.codUoCiram);
     }
     else{
-      metodo = this.controlService.getListAseguradosFindByText(texto, 1, 10);
+      metodo = this.controlService.getListAseguradosSoloCamFindByText(texto, 1, 10);
     }
     metodo.subscribe((data)=>{
       this.esperaBusqueda = false;
@@ -418,7 +418,7 @@ export class TabAsistenciaProfCamComponent {
       metodo = this.controlService.getListAseguradosCiramFindByText(this.txtScroll, this.pageScroll, 10, this.codUoCiram);
     }
     else{
-      metodo = this.controlService.getListAseguradosFindByText(this.txtScroll, this.pageScroll, 10);
+      metodo = this.controlService.getListAseguradosSoloCamFindByText(this.txtScroll, this.pageScroll, 10);
     }
     metodo.subscribe((data)=>{
       this.esperaBusqueda = false;
@@ -445,7 +445,7 @@ export class TabAsistenciaProfCamComponent {
       metodo = this.controlService.getListAseguradosCiram(this.codUoCiram);
     }
     else{
-      metodo = this.controlService.getListAsegurados();
+      metodo = this.controlService.getListAseguradosSoloCam();
     }
     metodo.subscribe((data)=>{
       this.esperaBusqueda = false;

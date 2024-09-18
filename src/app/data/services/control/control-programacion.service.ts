@@ -145,6 +145,17 @@ export class ControlProgramacionService {
     return this._httpClient.post<any>(url, payload);
   }
 
+  getListAseguradosSoloCam() {
+    const payload = {
+      idUnidadOperativa:(JSON.parse(localStorage.getItem('UnidElegida')!)).idUnidOperativa,
+      texto : '',
+      pageNum : 1,
+      pageSize : 10
+    }
+    const url = `${environment.API}/asegurado/buscar/nombres/solo-cam`;
+    return this._httpClient.post<any>(url, payload);
+  }
+
   getListAseguradosCiramFindByText(texto: string, pageNum: number, pageSize: number, idUOCiram: string) {
     const payload = {
       idUnidadOperativa: idUOCiram,
@@ -164,6 +175,17 @@ export class ControlProgramacionService {
       pageSize
     }
     const url = `${environment.API}/asegurado/buscar/nombres`;
+    return this._httpClient.post<any>(url, payload);
+  }
+
+  getListAseguradosSoloCamFindByText(texto: string, pageNum: number, pageSize: number) {
+    const payload = {
+      idUnidadOperativa: (JSON.parse(localStorage.getItem('UnidElegida')!)).idUnidOperativa,
+      texto,
+      pageNum,
+      pageSize
+    }
+    const url = `${environment.API}/asegurado/buscar/nombres/solo-cam`;
     return this._httpClient.post<any>(url, payload);
   }
 
