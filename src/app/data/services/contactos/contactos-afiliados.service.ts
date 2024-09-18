@@ -53,6 +53,11 @@ export class ContactosAfiliadosService {
     return this._httpClient.post<any>(url,data);
   }
 
+  corregirUbigeo(data : {tipo: string, codUbigeo: string, idAsegurado: string, idFichaAdmision: string} ){
+    const url = `${environment.API}/utilidades/corregir-desc-nacimiento`;
+    return this._httpClient.post<any>(url,data);
+  }
+
   //Servicios SIGPS -------------------------------------------------------------------------------------------------------
 
   searchUnidadOperativa(tipo: string, text: string){ //Obtener lista de CERPS

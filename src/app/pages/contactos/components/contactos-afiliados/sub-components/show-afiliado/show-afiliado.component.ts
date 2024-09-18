@@ -112,6 +112,39 @@ export class ShowAfiliadoComponent implements OnInit {
          tipoDoc}).subscribe(response=>{
            this.fechaVigencia = response.data.dataAfiliado[0].fecVigHasta
        })
+
+       this.aseguradoServices.servicioObtenerDataPersona("0" + tipoDoc, String(this.dataFichaAfiliado.asegurado.numDoc)).subscribe(dataIndetiApi=>{
+        let rpta = dataIndetiApi.data.data;
+        if(dataIndetiApi.code == 0){
+          let codUbigeoNac = rpta.codUbgNac;
+          
+          this.datosService.searchByUbigeo(codUbigeoNac).subscribe(dataUbigeoNac=>{
+            if(dataUbigeoNac.code == 0){
+              if(
+                this.dataFichaAfiliado.asegurado.distriNacimiento != dataUbigeoNac.data.distrito ||
+                this.dataFichaAfiliado.asegurado.provinNacimiento != dataUbigeoNac.data.provincia ||
+                this.dataFichaAfiliado.asegurado.departNacimiento != dataUbigeoNac.data.region ||
+                this.dataFichaAfiliado.asegurado.ubigeoNacimiento != codUbigeoNac
+              ){
+                this.aseguradoServices.corregirUbigeo({
+                  tipo: "NACIMIENTO",
+                  codUbigeo: codUbigeoNac,
+                  idAsegurado: this.dataFichaAfiliado.asegurado.idAsegurado,
+                  idFichaAdmision: ""
+                }).subscribe(correcion =>{
+                  if(correcion.code == 0){
+                    this.dataFichaAfiliado.asegurado.distriNacimiento != dataUbigeoNac.data.distrito
+                    this.dataFichaAfiliado.asegurado.provinNacimiento != dataUbigeoNac.data.provincia
+                    this.dataFichaAfiliado.asegurado.departNacimiento != dataUbigeoNac.data.region
+                  }
+                })
+              }
+            }
+           })
+        }
+       })
+
+     
        
         
         if(this.dataFichaAfiliado.fichaAdmision.estado != "13" && this.dataFichaAfiliado.fichaAdmision.estado != "14" && !this.buscaAfiliado){
