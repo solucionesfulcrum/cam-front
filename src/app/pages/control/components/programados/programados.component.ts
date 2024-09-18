@@ -223,6 +223,7 @@ export class ProgramadosComponent {
       if (data.code == 0) {
         this.statusAsistencia = 'success';
         localStorage.setItem('idProgramElegida', JSON.stringify(this.selectedProgramacion.idProgDet));    
+        localStorage.setItem('codUOCiram', JSON.stringify(this.selectedProgramacion.codUOCiram));    
         this.router.navigate(['/app/control/asistencias-profesional-cam'])
       }
       else{

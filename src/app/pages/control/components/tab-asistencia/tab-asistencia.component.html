@@ -54,7 +54,8 @@
                         (optionsScroll)="onAutocompleteScroll()">
                             <mat-option *ngFor="let option of listFilteredBusqueda" [value]="option">
                                 <div class="flex flex-row gap-2 items-center">
-                                    <img class="h-10 rounded" src='data:image/jpeg;base64,{{option.foto}}'>
+                                     <!--<img class="h-10 rounded" src='data:image/jpeg;base64,{{option.foto}}'>-->
+                                     <img class="h-10 rounded" src='assets/images/imgReemplazo.png'>
                                     <div class="flex flex-col gap-1 text-[##64748B]">
                                         <span class="text-[14px] font-medium">{{option.nombreCompleto | titlecase}}</span>
                                         <span class="text-[10px] leading-[10px] font-light"> <span class="!font-normal">{{option.tipoDoc === 'DNI' ? option.tipoDoc : option.tipoDoc | titlecase}}</span> {{option.numDoc}}</span>

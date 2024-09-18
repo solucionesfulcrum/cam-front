@@ -91,6 +91,8 @@ export class TabAsistenciaProfCamComponent {
   txtScroll: string = '';
   pageScroll: number = 1;
 
+  codUoCiram: string = '';
+
   /*
   marcar: boolean;
     orden: number;
@@ -151,10 +153,9 @@ export class TabAsistenciaProfCamComponent {
       this.setDocumentValidators(value!);
     })
 
-    
     this.getDataCabecera();
     this.getParametros();
-    this.getListAsegurados();
+    //this.getListAsegurados();
     this.setListeners();
   }
 
@@ -191,6 +192,8 @@ export class TabAsistenciaProfCamComponent {
         let horas = Math.floor(seconds/(60*60));
         let minutos = Math.floor(seconds/60) - horas*60;
         this.datoProgramacion.margenHorario = horas + 'h ' +  minutos + ' m';
+        this.codUoCiram = data.data.codUOCiram;
+        this.getListAsegurados()
         ////console.log(Math.floor(seconds/(60*60)) + 'h ' +  Math.floor(seconds/60) + ' m')
       }
       else{
@@ -381,7 +384,14 @@ export class TabAsistenciaProfCamComponent {
     this.txtScroll = texto;
     this.isMaxScroll = false;
     this.esperaBusqueda = true;
-    this.controlService.getListAseguradosFindByText(texto, 1, 10).subscribe((data)=>{
+    let metodo;
+    if(this.codUoCiram){
+      metodo = this.controlService.getListAseguradosCiramFindByText(texto, 1, 10, this.codUoCiram);
+    }
+    else{
+      metodo = this.controlService.getListAseguradosFindByText(texto, 1, 10);
+    }
+    metodo.subscribe((data)=>{
       this.esperaBusqueda = false;
       this.loadingPaginacion = false;
       if (data.code == 0) {
@@ -403,7 +413,14 @@ export class TabAsistenciaProfCamComponent {
 
   getListAseguradosScroll(){
     this.esperaBusqueda = true;
-    this.controlService.getListAseguradosFindByText(this.txtScroll, this.pageScroll, 10).subscribe((data)=>{
+    let metodo;
+    if(this.codUoCiram){
+      metodo = this.controlService.getListAseguradosCiramFindByText(this.txtScroll, this.pageScroll, 10, this.codUoCiram);
+    }
+    else{
+      metodo = this.controlService.getListAseguradosFindByText(this.txtScroll, this.pageScroll, 10);
+    }
+    metodo.subscribe((data)=>{
       this.esperaBusqueda = false;
       this.loadingPaginacion = false;
       if (data.code == 0) {
@@ -423,7 +440,14 @@ export class TabAsistenciaProfCamComponent {
 
   getListAsegurados(){
     this.esperaBusqueda = true;
-    this.controlService.getListAsegurados().subscribe((data)=>{
+    let metodo;
+    if(this.codUoCiram){
+      metodo = this.controlService.getListAseguradosCiram(this.codUoCiram);
+    }
+    else{
+      metodo = this.controlService.getListAsegurados();
+    }
+    metodo.subscribe((data)=>{
       this.esperaBusqueda = false;
       if (data.code == 0) {
         this.listBusqueda = [];
