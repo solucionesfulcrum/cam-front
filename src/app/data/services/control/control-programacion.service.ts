@@ -124,8 +124,15 @@ export class ControlProgramacionService {
   }
 
   getListAsegurados() {
+    let codUo;
+    if((JSON.parse(localStorage.getItem('UnidElegida')!)).tipo == 'CIRAM'){
+      codUo = (JSON.parse(localStorage.getItem('UnidElegida')!)).unidOperativaCam
+    }
+    else{
+      codUo = (JSON.parse(localStorage.getItem('UnidElegida')!)).idUnidOperativa;
+    }
     const payload = {
-      idUnidadOperativa: (JSON.parse(localStorage.getItem('UnidElegida')!)).idUnidOperativa,
+      idUnidadOperativa: codUo,
       texto : '',
       pageNum : 1,
       pageSize : 10
@@ -168,8 +175,17 @@ export class ControlProgramacionService {
   }
 
   getListAseguradosFindByText(texto: string, pageNum: number, pageSize: number) {
+
+    let codUo;
+    if((JSON.parse(localStorage.getItem('UnidElegida')!)).tipo == 'CIRAM'){
+      codUo = (JSON.parse(localStorage.getItem('UnidElegida')!)).unidOperativaCam
+    }
+    else{
+      codUo = (JSON.parse(localStorage.getItem('UnidElegida')!)).idUnidOperativa;
+    }
+
     const payload = {
-      idUnidadOperativa: (JSON.parse(localStorage.getItem('UnidElegida')!)).idUnidOperativa,
+      idUnidadOperativa: codUo,
       texto,
       pageNum,
       pageSize
