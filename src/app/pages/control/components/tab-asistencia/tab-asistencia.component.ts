@@ -189,8 +189,15 @@ export class TabAsistenciaComponent {
 
   // Busqueda y Tipeo de Asegurado --------------------------------------------------------------
   onAseguradoSelect(event: any){
+    let codUo;
+    if((JSON.parse(localStorage.getItem('UnidElegida')!)).tipo == 'CIRAM'){
+      codUo = (JSON.parse(localStorage.getItem('UnidElegida')!)).unidOperativaCam
+    }
+    else{
+      codUo = (JSON.parse(localStorage.getItem('UnidElegida')!)).idUnidOperativa;
+    }
     let payload: RequestBuscarApto = {
-      idUnidadOperativa: (JSON.parse(localStorage.getItem('UnidElegida')!)).idUnidOperativa,
+      idUnidadOperativa: codUo,
       tipDoc: event.option.value.tipoDoc === 'DNI' ? '1' : '4',
       numDoc: event.option.value.numDoc
     }
@@ -279,8 +286,15 @@ export class TabAsistenciaComponent {
   }
 
   searchSiApto(tipoDoc: string, numDoc: string){
+    let codUo;
+    if((JSON.parse(localStorage.getItem('UnidElegida')!)).tipo == 'CIRAM'){
+      codUo = (JSON.parse(localStorage.getItem('UnidElegida')!)).unidOperativaCam
+    }
+    else{
+      codUo = (JSON.parse(localStorage.getItem('UnidElegida')!)).idUnidOperativa;
+    }
     let payload: RequestBuscarApto = {
-      idUnidadOperativa: (JSON.parse(localStorage.getItem('UnidElegida')!)).idUnidOperativa,
+      idUnidadOperativa: codUo,
       tipDoc: tipoDoc,
       numDoc: numDoc
     }
