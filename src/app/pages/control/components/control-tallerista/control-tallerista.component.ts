@@ -75,7 +75,14 @@ loadData(){
 
   setTimeout(() => {
     this.loadingData = true;
-    this.reportService.getDataReporteTalleristas(this.getPayloadList()).subscribe((data)=>{
+    let metodo;
+    if(JSON.parse(localStorage.getItem("UnidElegida")!).tipo == "CIRAM"){
+      metodo = this.reportService.getDataReporteTalleristasCiram(this.getPayloadList());
+    }
+    else{
+      metodo = this.reportService.getDataReporteTalleristas(this.getPayloadList());
+    }
+    metodo.subscribe((data)=>{
       this.loadingData = false;
       if (data.code == 0) {
         this.dataSource = data.data.list;
