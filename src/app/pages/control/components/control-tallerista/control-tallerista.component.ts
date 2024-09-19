@@ -131,7 +131,15 @@ imprimirLista(){
     pageSize: this.pageSize
   };
 
-  this.reportService.getExcelTalleresTallerista(payload).subscribe((data)=>{
+  let metodo;
+  if(JSON.parse(localStorage.getItem("UnidElegida")!).tipo == "CIRAM"){
+    metodo = this.reportService.getExcelTalleresTalleristaCiram(payload);
+  }
+  else{
+    metodo = this.reportService.getExcelTalleresTallerista(payload);
+  }
+
+  metodo.subscribe((data)=>{
     this.notificationService.success('Se esta descargando el reporte');
     const blob: Blob = new Blob([data], { type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet' });
     const url = window.URL.createObjectURL(blob);
