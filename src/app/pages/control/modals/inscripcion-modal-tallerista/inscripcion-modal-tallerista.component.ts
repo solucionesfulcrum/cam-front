@@ -160,8 +160,15 @@ export class InscripcionModalTalleristaComponent {
     if(this.form.valid){
       if(!this.existeRepetido(this.form.get("frmNumdoc")!.value)){
         this.status = 'loading';
+      let codUo;
+      if((JSON.parse(localStorage.getItem('UnidElegida')!)).tipo == 'CIRAM'){
+        codUo = (JSON.parse(localStorage.getItem('UnidElegida')!)).unidOperativaCam
+      }
+      else{
+        codUo = (JSON.parse(localStorage.getItem('UnidElegida')!)).idUnidOperativa;
+      }
       this.inscripcionService.buscarApto(
-        (JSON.parse(localStorage.getItem('UnidElegida')!)).idUnidOperativa,
+        codUo,
         this.form.get("frmTipoDoc")!.value,
         this.form.get("frmNumdoc")!.value,
       )
