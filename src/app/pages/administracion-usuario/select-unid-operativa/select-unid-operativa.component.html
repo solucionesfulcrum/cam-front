@@ -1,8 +1,13 @@
 <div class="flex justify-center">
     <div class="p-6 flex flex-col gap-3 !text-[var(--color-black-alt)] botonApariencia bg-white">
-        <div class="flex flex-col py-2 px-4 justify-center items-center">
+        <div class="flex flex-col pt-2 px-4 justify-center items-center">
             <span class="text-[26px]">Administración de SCAM</span>
             <span>Seleccionar una Unidad Operativa</span>
+            <span class="my-2 py-0">
+                <app-btn class="botonApariencia flex" type="submit" color="mezclado">
+                    Programar Taller
+                </app-btn>
+            </span>
         </div>
         <div class="flex flex-col gap-2.5 bg-[#F4F5F7] py-4 px-3">
             <ng-container *ngIf="listUnidOperativa == undefined">

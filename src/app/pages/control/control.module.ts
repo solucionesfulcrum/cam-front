@@ -34,6 +34,7 @@ import { DataLoadingComponent } from '@shared/components/data-loading/data-loadi
 import { ControlTalleristaSesionesComponent } from './components/control-tallerista-sesiones/control-tallerista-sesiones.component';
 import { InscripcionModalTalleristaComponent } from './modals/inscripcion-modal-tallerista/inscripcion-modal-tallerista.component';
 import { InscripcionTalleristaControlService } from 'src/app/events/control/inscripcion-tallerista-control.service';
+import { AsistenciaRapidaListaComponent } from './components/asistencia-rapida-lista/asistencia-rapida-lista.component';
 
 
 @NgModule({
@@ -56,6 +57,7 @@ import { InscripcionTalleristaControlService } from 'src/app/events/control/insc
     ControlTalleristaComponent,
     ControlTalleristaSesionesComponent,
     InscripcionModalTalleristaComponent,
+    AsistenciaRapidaListaComponent,
   ],
   imports: [
     CommonModule,

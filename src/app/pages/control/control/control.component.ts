@@ -16,6 +16,7 @@ export class ControlComponent {
         {url: `/app/control/mis-talleres`, title: 'Mis Talleres'},
         {url: `/app/control/control-asistencia`, title: 'Asistencias', disabled: true},
         {url: `/app/control/control-talleres`, title: 'Control'},
+        {url: `/app/control/asistencia-rapida`, title: 'Asistencia Rápida'},
       ];
     }
     else if(this.userInfo.rol == "PROFESIONAL CAM"){
