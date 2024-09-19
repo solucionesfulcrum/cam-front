@@ -16,6 +16,7 @@ import { ModalConfirmarComponent } from '../sub-components/dialogs/modal-confirm
 import { ModalEditarComponent } from '../sub-components/dialogs/modal-editar/modal-editar.component';
 import { DataSourceList } from '../tab-asistencia-prof-cam/data-source';
 import { DialogConfirmDataAsistenciaComponent } from '../tab-asistencia/dialog/dialog-confirm-data-asistencia/dialog-confirm-data-asistencia.component';
+import { dataTest } from './dataTest';
 
 @Component({
   selector: 'esp-crear-cabecera-asistencia-rapida',
@@ -180,7 +181,8 @@ export class CrearCabeceraAsistenciaRapidaComponent {
  
 
   getDataCabecera(){
-    this.controlService.getCabeceraProgramacion(JSON.parse(localStorage.getItem('idProgramElegida')!)).subscribe((data)=>{
+    //this.controlService.getCabeceraProgramacion(JSON.parse(localStorage.getItem('idProgramElegida')!)).subscribe((data)=>{
+    let data = dataTest as any;
       if (data.code == 0) {
         this.datoProgramacion = data.data;
         ////console.log(this.datoProgramacion)
@@ -195,7 +197,8 @@ export class CrearCabeceraAsistenciaRapidaComponent {
       else{
         this.notificacionService.warning(data.message);
       }
-    })
+    //})
+
   }
 
   differenceInDays(date1: string): number {

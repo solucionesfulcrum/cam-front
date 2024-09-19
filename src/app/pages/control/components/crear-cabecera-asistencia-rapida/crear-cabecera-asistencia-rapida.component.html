@@ -12,12 +12,12 @@
             <div class="py-3">
                 <div class="flex flex-row gap-2.5">
                     <div class="flex flex-col gap-[5px] shrink-0 w-[46px]">
-                        <span class="font-semibold text-[40px] leading-[30px]">{{datoProgramacion.fechaServicio | date:'dd'}}</span>
-                        <span class="font-light leading-[20px]">{{(datoProgramacion.fechaServicio | date:'MMM') | titlecase}}</span>
+                        <span class="font-semibold text-[40px] leading-[30px]">XX</span>
+                        <span class="font-light leading-[20px]">[MES]</span>
                     </div>
                     <div class="flex flex-col gap-[5px] leading-[20px]">
-                        <span class="text-[18px] font-medium"> {{datoProgramacion.nombreServicio[0] + (datoProgramacion.nombreServicio.substring(1) | lowercase)}}</span>
-                        <span class="text-[14px] font-light"> {{(datoProgramacion.fechaServicio | date: 'EEEE, dd' : 'es') | titlecase}} de {{(datoProgramacion.fechaServicio | date: 'MMMM') | titlecase}} de {{((datoProgramacion.fechaServicio + ' ' + datoProgramacion.horaInicio) | date:'hh:mm aa -') +  ' ' + ((datoProgramacion.fechaServicio + ' ' + datoProgramacion.horaFin) | date:'hh:mm aa')}}</span>
+                        <span class="text-[18px] font-medium"> [INGRESE CLASE]</span>
+                        <span class="text-[14px] font-light">[FECHA CLASE EN ESPAÑOL]</span>
                     </div>
                 </div>
             </div>
@@ -30,6 +30,7 @@
                                 <img src="assets/svg/icon-search-typing.svg">
                             </label>
                         </li>
+                        
                        <li>
                             <input type="radio" id="search-bar-code" [formControl]="ctrlTypeSearch" [value]="2" class="hidden peer">
                             <label for="search-bar-code" class="flex items-center justify-center w-10 h-10 border border-[#D4D4D4] rounded cursor-pointer peer-checked:bg-cam peer-checked:colorWhite hover:bg-[#057EC933]">
@@ -112,8 +113,17 @@
                     <img class="select-none" src="assets/svg/icon-class-lesson.svg">
                 </div>
                 <div class="flex flex-col text-[#64748B]">
-                    <span class="leading-4">{{comienzoSesiones}} de {{datoProgramacion.numSesiones}}</span>
-                    <span class="font-light leading-[10px] text-[10px]">{{datoProgramacion.numSesiones > 1 ? 'Sesiones' : 'Sesión'}}</span>
+                    <span class="leading-4">1</span>
+                    <span class="font-light leading-[10px] text-[10px]">Sesión</span>
+                </div>
+            </div>
+            <div class="flex flex-row gap-2 py-[2px]">
+                <div class="flex items-center justify-center w-6">
+                    <img class="select-none" src="assets/svg/icon-class-lesson.svg">
+                </div>
+                <div class="flex flex-col text-[#64748B]">
+                    <span class="leading-4">Propio</span>
+                    <span class="font-light leading-[10px] text-[10px]">Presupuesto</span>
                 </div>
             </div>
             <div class="flex flex-row gap-2 py-[2px]">
@@ -121,8 +131,8 @@
                     <img class="iconoEscalaGris select-none w-[14px]" src="assets/svg/icon-control-time.svg">
                 </div>
                 <div class="flex flex-col text-[#64748B]">
-                    <span class="leading-4">{{datoProgramacion.margenHorario}}</span>
-                    <span class="font-light leading-[10px] text-[10px]">Tiempo</span>
+                    <span class="leading-4">Presencial</span>
+                    <span class="font-light leading-[10px] text-[10px]">Modalidad</span>
                 </div>
             </div>
             <div class="flex flex-row gap-2 py-[2px]">
