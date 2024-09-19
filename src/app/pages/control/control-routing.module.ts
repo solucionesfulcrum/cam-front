@@ -10,6 +10,7 @@ import { CalendarioProgramacionComponent } from './components/calendario-program
 import { ControlTalleristaComponent } from './components/control-tallerista/control-tallerista.component';
 import { ControlTalleristaSesionesComponent } from './components/control-tallerista-sesiones/control-tallerista-sesiones.component';
 import { AsistenciaRapidaListaComponent } from './components/asistencia-rapida-lista/asistencia-rapida-lista.component';
+import { CrearCabeceraAsistenciaRapidaComponent } from './components/crear-cabecera-asistencia-rapida/crear-cabecera-asistencia-rapida.component';
 
 const routes: Routes = [
   {
@@ -52,6 +53,11 @@ const routes: Routes = [
       {
         path: 'asistencia-rapida',
         component: AsistenciaRapidaListaComponent,
+        title: 'Control de Talleres'
+      },
+      {
+        path: 'asistencia-rapida/crear-cabecera',
+        component: CrearCabeceraAsistenciaRapidaComponent,
         title: 'Control de Talleres'
       },
       {

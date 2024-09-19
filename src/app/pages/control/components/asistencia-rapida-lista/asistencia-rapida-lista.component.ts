@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { FormGroup, FormControl, FormBuilder } from '@angular/forms';
 import { PageEvent } from '@angular/material/paginator';
+import { Router } from '@angular/router';
 import { Parametro } from '@models/parametros-busqueda.model';
 import { imprimirRequestTalleresTallerista, ReportesTalleristaPayload } from '@models/reportes/reportes-tallerista';
 import { NotificationService } from '@services/notification.service';
@@ -53,7 +54,8 @@ export class AsistenciaRapidaListaComponent {
     private programacionService     : ProgramacionContratosService,
     private datosService             : DatosGeneralesService,
     private notificationService     : NotificationService,
-    private reportService : ReportesTalleristaService
+    private reportService : ReportesTalleristaService,
+    private router : Router
 ) { }
 
 ngOnInit(){
@@ -237,4 +239,8 @@ transformarHora(hora24 : string) {
   // Retornamos la hora en el nuevo formato
   return `${hora12Str}:${minutosStr} ${periodo}`;
 }
+
+  irAAsistencia(){
+    this.router.navigate(['/app/control/asistencia-rapida/crear-cabecera'])
+  }
 }
