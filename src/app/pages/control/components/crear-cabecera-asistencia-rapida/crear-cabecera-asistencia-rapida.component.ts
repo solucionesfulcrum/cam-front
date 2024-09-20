@@ -31,6 +31,13 @@ export class CrearCabeceraAsistenciaRapidaComponent {
   currentDay!: number;
   selectedDay!: number;
   daysInMonth: number[] = [];
+
+   // Variables para los campos
+   sesion: number = 1; // Valor inicial para la sesión
+   presupuesto: string = 'Propio'; // Valor inicial para el presupuesto
+   modalidad: string = 'Presencial'; // Valor inicial para la modalidad
+   total: number = 0; // Variable autocalculada
+   
   months = [
     { name: 'Enero', value: 1 },
     { name: 'Febrero', value: 2 },
@@ -91,7 +98,6 @@ export class CrearCabeceraAsistenciaRapidaComponent {
   pageNum = 1;
   pageSize = 10;
   pageSizeOptions:  number[] = [5,10,20];
-  total = 0;
   columns: string[] = ['marcar',
     'orden',
     'nombreCompleto',

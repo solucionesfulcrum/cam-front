@@ -16,9 +16,9 @@
         <div class="flex flex-col justify-between grow">
             <div class="py-3">
                 <div class="flex flex-row gap-2.5">
-                    <div class="flex flex-col gap-[5px] shrink-0 w-[200px]">
+                    <div class="flex flex-col gap-[5px] shrink-0 w-[160px]">
                         <span class="font-semibold text-[40px] leading-[30px]">
-                            <select [(ngModel)]="selectedDay" class="font-semibold text-[40px] leading-[40px] w-[150px]">
+                            <select [(ngModel)]="selectedDay" class="font-semibold text-[40px] leading-[40px] w-[120px]">
                                 <option *ngFor="let day of daysInMonth" [disabled]="day < currentDay" [value]="day">{{ day }}</option>
                               </select>
                         </span>
@@ -122,50 +122,51 @@
                 </div>                
             </div>
         </div>
-        <div class="flex flex-col gap-[2px] shrink-0">
+        <div class="flex flex-col gap-[2px] shrink-0 w-[150px]">
+           
             <div class="flex flex-row gap-2 py-[2px]">
                 <div class="flex items-center justify-center w-6">
-                    <img class="select-none" src="assets/svg/icon-class-lesson.svg">
+                <img class="select-none" src="assets/svg/icon-class-lesson.svg">
                 </div>
                 <div class="flex flex-col text-[#64748B]">
-                    <span class="leading-4">1</span>
-                    <span class="font-light leading-[10px] text-[10px]">Sesión</span>
+                <input type="number" [(ngModel)]="sesion" min="1" class="w-[120px] text-center text-[10px] leading-4 border border-[#64748B] rounded" />
+                <span class="font-light leading-[10px] text-[10px] py-1">Sesión</span>
                 </div>
             </div>
             <div class="flex flex-row gap-2 py-[2px]">
                 <div class="flex items-center justify-center w-6">
-                    <img class="select-none" src="assets/svg/icon-class-lesson.svg">
+                <img class="select-none" src="assets/svg/icon-class-lesson.svg">
                 </div>
                 <div class="flex flex-col text-[#64748B]">
-                    <span class="leading-4">Propio</span>
-                    <span class="font-light leading-[10px] text-[10px]">Presupuesto</span>
+                <select [(ngModel)]="presupuesto" class="text-[10px] leading-4 border border-[#64748B] rounded w-[120px]">
+                    <option value="Propio">Propio</option>
+                    <option value="Financiado">Financiado</option>
+                </select>
+                <span class="font-light leading-[10px] text-[10px] py-1">Presupuesto</span>
                 </div>
             </div>
             <div class="flex flex-row gap-2 py-[2px]">
                 <div class="flex items-center justify-center w-6">
-                    <img class="iconoEscalaGris select-none w-[14px]" src="assets/svg/icon-control-time.svg">
+                <img class="iconoEscalaGris select-none w-[14px]" src="assets/svg/icon-control-time.svg">
                 </div>
                 <div class="flex flex-col text-[#64748B]">
-                    <span class="leading-4">Presencial</span>
-                    <span class="font-light leading-[10px] text-[10px]">Modalidad</span>
+                <select [(ngModel)]="modalidad" class="text-[10px] leading-4 border border-[#64748B] rounded w-[120px]">
+                    <option value="Presencial">Presencial</option>
+                    <option value="Virtual">Virtual</option>
+                </select>
+                <span class="font-light leading-[10px] text-[10px] py-1">Modalidad</span>
                 </div>
             </div>
             <div class="flex flex-row gap-2 py-[2px]">
                 <div class="flex items-center justify-center w-6">
-                    <img class="iconoEscalaGris select-none" src="assets/svg/icon-person-group.svg">
+                <img class="iconoEscalaGris select-none" src="assets/svg/icon-person-group.svg">
                 </div>
                 <div class="flex flex-col">
-                    <span class="leading-4 text-[var(--color-black-alt)]">{{total}}</span>
-                    <span class="font-light leading-[10px] text-[10px] text-[#64748B]">Participantes</span>
+                <span class="leading-4 text-[var(--color-black-alt)] text-[10px]">{{total}}</span>
+                <span class="font-light leading-[10px] text-[10px] text-[#64748B]">Participantes</span>
                 </div>
             </div>
-            <!--
-            <app-btn class="botonApariencia flex h-10" color="mezclado" [disabled]="true">
-                <div class="flex flex-row items-center gap-[5px]">
-                    <img class="self-center" src="assets/svg/icon-list-assignments.svg">
-                    <span>{{comienzoSesiones}} Hora</span>
-                </div>
-            </app-btn>-->
+            
         </div>
     </div>
     <!--
