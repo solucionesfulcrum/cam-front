@@ -25,6 +25,28 @@ import { dataTest } from './dataTest';
 })
 export class CrearCabeceraAsistenciaRapidaComponent {
 
+  currentYear!: number;
+  currentMonth!: number;
+  selectedMonth!: number;
+  currentDay!: number;
+  selectedDay!: number;
+  daysInMonth: number[] = [];
+  months = [
+    { name: 'Enero', value: 1 },
+    { name: 'Febrero', value: 2 },
+    { name: 'Marzo', value: 3 },
+    { name: 'Abril', value: 4 },
+    { name: 'Mayo', value: 5 },
+    { name: 'Junio', value: 6 },
+    { name: 'Julio', value: 7 },
+    { name: 'Agosto', value: 8 },
+    { name: 'Septiembre', value: 9 },
+    { name: 'Octubre', value: 10 },
+    { name: 'Noviembre', value: 11 },
+    { name: 'Diciembre', value: 12 }
+  ];
+
+
   svgDir = faArrowsUpToLine;
   
   status: RequestStatus = 'init';
@@ -126,6 +148,14 @@ export class CrearCabeceraAsistenciaRapidaComponent {
 
   ngOnInit(){
 
+    const today = new Date();
+    this.currentYear = today.getFullYear();
+    this.selectedMonth = today.getMonth() + 1; // Mes actual (0 indexado, por eso sumamos 1)
+    this.currentMonth = today.getMonth() + 1; // Mes actual (0 indexado, por eso sumamos 1)
+    this.selectedDay = today.getDate(); // Día actual
+    this.currentDay = today.getDate(); // Día actual
+    this.updateDaysInMonth();
+
     this.setDocumentValidators("1");
 
     this.ctrlTypeSearch.valueChanges.subscribe(ctrlType=>{
@@ -154,6 +184,26 @@ export class CrearCabeceraAsistenciaRapidaComponent {
     this.getParametros();
     //this.getListAsegurados();
     this.setListeners();
+  }
+
+  //SELECCIONAR DIA
+  onMonthChange(): void {
+    this.updateDaysInMonth();
+  }
+
+  updateDaysInMonth(): void {
+    const daysInSelectedMonth = new Date(this.currentYear, this.selectedMonth, 0).getDate();
+    // Si es el mes actual, filtra los días anteriores al día actual
+    if (this.selectedMonth === this.currentMonth) {
+      this.daysInMonth = Array.from({ length: daysInSelectedMonth - this.currentDay + 1 }, (v, k) => k + this.currentDay);
+    } else {
+      this.daysInMonth = Array.from({ length: daysInSelectedMonth }, (v, k) => k + 1);
+    }
+  }
+
+  getFilteredMonths() {
+    // Filtra solo meses desde el mes actual hacia adelante
+    return this.months.filter(month => month.value >= this.currentMonth);
   }
 
   getParametros(){
