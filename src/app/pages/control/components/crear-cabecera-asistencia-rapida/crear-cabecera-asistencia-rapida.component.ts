@@ -178,19 +178,17 @@ export class CrearCabeceraAsistenciaRapidaComponent {
       debounceTime(300),  // Espera 300ms antes de hacer la llamada
       switchMap(value => {
         if (value && value.trim().length > 0) {
-          this.esperaBusqueda = true;
           return this.contratosAdministracionService.getListServiciosByTxt(value);
         } else {
-          this.esperaBusqueda = false;
           return of([]);  // Si no hay texto, devuelve un array vacío para evitar borrar la lista
         }
       })
     ).subscribe(response => {
       this.esperaBusqueda = false;
       if (response && response.data) {
-        this.listFilteredBusqueda = response.data.slice(0, 5); // Mostrar solo los primeros 5 resultados
+        this.serviciosFiltrados = response.data.slice(0, 5); // Mostrar solo los primeros 5 resultados
       } else {
-        this.listFilteredBusqueda = [];
+        this.serviciosFiltrados = [];
       }
     });
 

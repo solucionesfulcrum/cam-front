@@ -43,7 +43,7 @@
                             <mat-autocomplete #servicios="matAutocomplete" 
                             [displayWith]="displayServicioFiltered" 
                             (optionSelected)="onServicioSelect($event)">
-                            <mat-option *ngFor="let option of listFilteredBusqueda" [value]="option">
+                            <mat-option *ngFor="let option of serviciosFiltrados" [value]="option">
                                 {{ option.nombre }}
                             </mat-option>
                             </mat-autocomplete>
