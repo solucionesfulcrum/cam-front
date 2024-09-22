@@ -31,6 +31,9 @@ export class CrearCabeceraAsistenciaRapidaComponent {
   servicioControl = new FormControl();
   serviciosFiltrados: any[] = [];
 
+  horaInicioControl = new FormControl();
+  horaFin: string = '';
+
   currentYear!: number;
   currentMonth!: number;
   selectedMonth!: number;
@@ -218,6 +221,38 @@ export class CrearCabeceraAsistenciaRapidaComponent {
     this.getParametros();
     //this.getListAsegurados();
     this.setListeners();
+  }
+
+  onHoraInicioChange() {
+    const horaInicio = this.horaInicioControl.value;
+    if (horaInicio) {
+      if (this.validarHora(horaInicio)) {
+        this.horaFin = this.calcularHoraFin(horaInicio);
+        if (this.horaFin > '18:15') {
+          this.horaFin = '18:15';  // Ajusta la hora de fin a 6:15 p.m. si excede
+        }
+      } else {
+        this.horaInicioControl.setValue('07:00');  // Establece 7:00 a.m. si el valor no es válido
+        this.horaFin = this.calcularHoraFin('07:00');
+      }
+    }
+  }
+
+  calcularHoraFin(horaInicio: string): string {
+    const [hora, minutos] = horaInicio.split(':').map(Number);
+    const fecha = new Date();
+    fecha.setHours(hora, minutos);
+    fecha.setMinutes(fecha.getMinutes() + 45);  // Añadir 45 minutos
+
+    // Formatear la hora de fin a HH:MM
+    const horaFin = fecha.getHours().toString().padStart(2, '0');
+    const minutosFin = fecha.getMinutes().toString().padStart(2, '0');
+    return `${horaFin}:${minutosFin}`;
+  }
+
+  validarHora(hora: string): boolean {
+    // Verifica que la hora esté en el rango de 07:00 a 18:15
+    return hora >= '07:00' && hora <= '18:15';
   }
 
   displayServicioFiltered(option: any): string {
