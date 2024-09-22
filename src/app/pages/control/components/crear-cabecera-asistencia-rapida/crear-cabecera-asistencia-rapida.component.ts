@@ -19,6 +19,7 @@ import { DialogConfirmDataAsistenciaComponent } from '../tab-asistencia/dialog/d
 import { dataTest } from './dataTest';
 import { ContratosAdministracionService } from 'src/app/data/services/contratos/contratos-administracion.service';
 import { debounceTime, of, switchMap } from 'rxjs';
+import { MatAutocompleteTrigger } from '@angular/material/autocomplete';
 
 @Component({
   selector: 'esp-crear-cabecera-asistencia-rapida',
@@ -26,7 +27,6 @@ import { debounceTime, of, switchMap } from 'rxjs';
   styleUrls: ['./crear-cabecera-asistencia-rapida.component.scss']
 })
 export class CrearCabeceraAsistenciaRapidaComponent {
-
 
   servicioControl = new FormControl();
   serviciosFiltrados: any[] = [];
@@ -176,15 +176,25 @@ export class CrearCabeceraAsistenciaRapidaComponent {
     this.updateDaysInMonth();
 
     this.setDocumentValidators("1");
-
+  
     this.ctrlSearchServicio.valueChanges.pipe(
       debounceTime(300),  // Espera 300ms antes de hacer la llamada
-      switchMap(value => {
-        if (value && value.trim().length > 0) {
-          return this.contratosAdministracionService.getListServiciosByTxt(value);
-        } else {
-          return of([]);  // Si no hay texto, devuelve un array vacío para evitar borrar la lista
+      switchMap((value : any) => {
+        if(typeof value === "string"){
+          if (value && value.trim().length > 0) {
+            return this.contratosAdministracionService.getListServiciosByTxt(value);
+          } else {
+            return of([]);  // Si no hay texto, devuelve un array vacío
+          }
         }
+        else{
+          if (value.nombre && value.nombre.trim().length > 0) {
+            return this.contratosAdministracionService.getListServiciosByTxt(value.nombre);
+          } else {
+            return of([]);  // Si no hay texto, devuelve un array vacío
+          }
+        }
+       
       })
     ).subscribe(response => {
       this.esperaBusqueda = false;
@@ -195,6 +205,10 @@ export class CrearCabeceraAsistenciaRapidaComponent {
       }
     });
 
+    setTimeout(() =>{
+      this.ctrlSearchServicio.setValue('a');
+    })
+   
     this.ctrlTypeSearch.valueChanges.subscribe(ctrlType=>{
       if(ctrlType == 3){
         this.setFocusOnFrmDoc();
