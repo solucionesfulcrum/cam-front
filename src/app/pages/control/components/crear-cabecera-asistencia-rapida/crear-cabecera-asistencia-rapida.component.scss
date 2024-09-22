@@ -7,3 +7,12 @@
           filter: brightness(284.5);
       }
   }
+
+  @keyframes slide-down {
+    0% {
+      transform: scaleY(0);
+    }
+    100% {
+      transform: scaleY(1);
+    }
+  }

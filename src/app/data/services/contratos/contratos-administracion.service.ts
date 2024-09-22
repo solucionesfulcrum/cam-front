@@ -24,6 +24,12 @@ export class ContratosAdministracionService {
     return this._httpClient.get<any>(url);
   }
 
+  getListServiciosByTxt(txt : String){
+    const url = `${environment.API}/servicio/buscar/activos?texto=${txt}`;
+    return this._httpClient.get<any>(url);
+  }
+
+
   getListContratos(model: RequestListContracts){
     const url = `${URL_BASE}/listar`;
     return this._httpClient.post<any>(url, model);

@@ -17,6 +17,8 @@ import { ModalEditarComponent } from '../sub-components/dialogs/modal-editar/mod
 import { DataSourceList } from '../tab-asistencia-prof-cam/data-source';
 import { DialogConfirmDataAsistenciaComponent } from '../tab-asistencia/dialog/dialog-confirm-data-asistencia/dialog-confirm-data-asistencia.component';
 import { dataTest } from './dataTest';
+import { ContratosAdministracionService } from 'src/app/data/services/contratos/contratos-administracion.service';
+import { debounceTime, of, switchMap } from 'rxjs';
 
 @Component({
   selector: 'esp-crear-cabecera-asistencia-rapida',
@@ -24,6 +26,10 @@ import { dataTest } from './dataTest';
   styleUrls: ['./crear-cabecera-asistencia-rapida.component.scss']
 })
 export class CrearCabeceraAsistenciaRapidaComponent {
+
+
+  servicioControl = new FormControl();
+  serviciosFiltrados: any[] = [];
 
   currentYear!: number;
   currentMonth!: number;
@@ -60,6 +66,7 @@ export class CrearCabeceraAsistenciaRapidaComponent {
   listAsistentes: any[] = [];
   opciones: Parametro[] = [];
   ctrlSearch = new FormControl('');
+  ctrlSearchServicio = new FormControl('');
   ctrlTypeSearch = new FormControl(1);
   public formNewContrato = this.fb.nonNullable.group({
     frmSelectDoc: new FormControl(''),
@@ -141,7 +148,10 @@ export class CrearCabeceraAsistenciaRapidaComponent {
               private toast                             : ToastrService,
               private cdr: ChangeDetectorRef,
               private controlProgramacionService : ControlProgramacionService,
-              private renderer: Renderer2) 
+              private renderer: Renderer2,
+              private contratosAdministracionService: ContratosAdministracionService,
+              private elementRef: ElementRef
+            ) 
   { }
 
   setFocusOnFrmDoc() {
@@ -163,6 +173,26 @@ export class CrearCabeceraAsistenciaRapidaComponent {
     this.updateDaysInMonth();
 
     this.setDocumentValidators("1");
+
+    this.ctrlSearchServicio.valueChanges.pipe(
+      debounceTime(300),  // Espera 300ms antes de hacer la llamada
+      switchMap(value => {
+        if (value && value.trim().length > 0) {
+          this.esperaBusqueda = true;
+          return this.contratosAdministracionService.getListServiciosByTxt(value);
+        } else {
+          this.esperaBusqueda = false;
+          return of([]);  // Si no hay texto, devuelve un array vacío para evitar borrar la lista
+        }
+      })
+    ).subscribe(response => {
+      this.esperaBusqueda = false;
+      if (response && response.data) {
+        this.listFilteredBusqueda = response.data.slice(0, 5); // Mostrar solo los primeros 5 resultados
+      } else {
+        this.listFilteredBusqueda = [];
+      }
+    });
 
     this.ctrlTypeSearch.valueChanges.subscribe(ctrlType=>{
       if(ctrlType == 3){
@@ -190,6 +220,14 @@ export class CrearCabeceraAsistenciaRapidaComponent {
     this.getParametros();
     //this.getListAsegurados();
     this.setListeners();
+  }
+
+  displayServicioFiltered(option: any): string {
+    return option ? option.nombre : '';
+  }
+
+  onServicioSelect(event: any) {
+    console.log('Servicio seleccionado:', event.option.value);
   }
 
   //SELECCIONAR DIA
@@ -232,9 +270,6 @@ export class CrearCabeceraAsistenciaRapidaComponent {
       }, 500); 
     })
   }
-
-  
- 
 
   getDataCabecera(){
     //this.controlService.getCabeceraProgramacion(JSON.parse(localStorage.getItem('idProgramElegida')!)).subscribe((data)=>{
@@ -287,24 +322,27 @@ export class CrearCabeceraAsistenciaRapidaComponent {
       pageNum: 1
     })
     .subscribe(data => {
-      let dataAsistentes = (data.data as AsistenciaLista[]).map((asistente : AsistenciaLista, index: number)=>{
+      // let dataAsistentes = (data.data as AsistenciaLista[]).map((asistente : AsistenciaLista, index: number)=>{
   
-        return {...asistente, 
-          orden: index + 1, 
-          marcar: false,
-          tipoDoc : this.opciones.filter(e=>e.valor1 == asistente.tipoDoc)[0].nombre
-        }
-      });
-      this.llenarDatosTabla({
-        data: {
-          list: dataAsistentes,
-          pageNum: 1,
-          pageSize: 5,
-          total: dataAsistentes.length
-        }
-      });
+      //   return {...asistente, 
+      //     orden: index + 1, 
+      //     marcar: false,
+      //     tipoDoc : this.opciones.filter(e=>e.valor1 == asistente.tipoDoc)[0].nombre
+      //   }
+      // });
+      // this.llenarDatosTabla({
+      //   data: {
+      //     list: dataAsistentes,
+      //     pageNum: 1,
+      //     pageSize: 5,
+      //     total: dataAsistentes.length
+      //   }
+      // });
 
-    });
+    }
+  
+  
+  );
   }
 
  

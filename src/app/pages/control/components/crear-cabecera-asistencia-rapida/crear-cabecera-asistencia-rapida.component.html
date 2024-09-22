@@ -30,9 +30,23 @@
                               </div>
                         </span>
                     </div>
-                    <div class="flex flex-col gap-[5px] leading-[20px]">
+                    <div class="flex flex-col gap-[5px] leading-[20px] w-[400px]">
                         <span class="text-[18px] font-medium"> 
-                            [INGRESE CLASE]
+                            <input type="text" 
+                            class="inputTextoDialog focusCampo" 
+                            [formControl]="ctrlSearchServicio" 
+                            [readonly]="esperaBusqueda" 
+                            [matAutocomplete]="servicios" 
+                            [placeholder]="esperaBusqueda ? 'Cargando data...' : 'Buscador'"
+                            [ngClass]="{'bg-gray-100': esperaBusqueda}"
+                            >
+                            <mat-autocomplete #servicios="matAutocomplete" 
+                            [displayWith]="displayServicioFiltered" 
+                            (optionSelected)="onServicioSelect($event)">
+                            <mat-option *ngFor="let option of listFilteredBusqueda" [value]="option">
+                                {{ option.nombre }}
+                            </mat-option>
+                            </mat-autocomplete>
                         </span>
                         <span class="text-[14px] font-light">[FECHA CLASE EN ESPAÑOL]</span>
                     </div>
