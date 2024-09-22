@@ -6,6 +6,7 @@ import { Parametro } from '@models/parametros-busqueda.model';
 import { imprimirRequestTalleresTallerista, ReportesTalleristaPayload } from '@models/reportes/reportes-tallerista';
 import { NotificationService } from '@services/notification.service';
 import { ParamMenu } from '@shared/components/opciones-busqueda/parametros-busqueda.model';
+import { ControlProgramacionService } from 'src/app/data/services/control/control-programacion.service';
 import { DatosGeneralesService } from 'src/app/data/services/datos-generales.service';
 import { ProgramacionContratosService } from 'src/app/data/services/programacion/programacion-contratos.service';
 import { ReportesTalleristaService } from 'src/app/data/services/reportes/reportes-tallerista.service';
@@ -31,12 +32,13 @@ export class AsistenciaRapidaListaComponent {
   dataSource: any[] = [];
   columns: string[] = [
     'marcar',
-    'nombreTaller',
-    'tipo',
-    'fechaTaller',
-    'horaInicio', 
+    'descripcion',
+    'modalidad',
+    'presupuesto',
+    'fecha',
+    'horaIni', 
     'horaFin', 
-    'numeroSesiones',
+    'sesiones',
     'estado',
   ];
   pageIndex = 0;
@@ -55,6 +57,7 @@ export class AsistenciaRapidaListaComponent {
     private datosService             : DatosGeneralesService,
     private notificationService     : NotificationService,
     private reportService : ReportesTalleristaService,
+    private controlServ : ControlProgramacionService,
     private router : Router
 ) { }
 
@@ -76,13 +79,7 @@ loadData(){
 
   setTimeout(() => {
     this.loadingData = true;
-    let metodo;
-    if(JSON.parse(localStorage.getItem("UnidElegida")!).tipo == "CIRAM"){
-      metodo = this.reportService.getDataReporteTalleristasCiram(this.getPayloadList());
-    }
-    else{
-      metodo = this.reportService.getDataReporteTalleristas(this.getPayloadList());
-    }
+    let metodo = this.controlServ.getDataAsistenciaRapida(this.getPayloadList());
     metodo.subscribe((data)=>{
       this.loadingData = false;
       if (data.code == 0) {

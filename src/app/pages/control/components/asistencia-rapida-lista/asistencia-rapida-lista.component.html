@@ -40,26 +40,31 @@
         <td cdk-cell class="py-[1rem] px-6" [style]="'width: 0%;'" *cdkCellDef="let row"> <input type="checkbox" class="checkbox-select" (change)="seleccionarFila($event)" [value]="row.idInscripcion" [checked]="row.marcar"/> </td>
       </ng-container>
 
-      <ng-container cdkColumnDef="nombreTaller">
+      <ng-container cdkColumnDef="descripcion">
         <th cdk-header-cell class="py-[1rem] px-6" *cdkHeaderCellDef [style]="'padding-left: 0px;'" >Descripcion</th>
         <td cdk-cell class="py-[1rem] px-6 text-Name" *cdkCellDef="let row, index as i" [style]="'padding-left: 0px;'">
-          <span class=" cursor-pointer" [routerLink]="['./'+row.idProgDet]">{{ row.nombreTaller }}</span>
+          <span class=" cursor-pointer" [routerLink]="['./'+row.idProgDet]">{{ row.descripcion }}</span>
         </td>
       </ng-container>
 
-      <ng-container cdkColumnDef="tipo">
-        <th cdk-header-cell class="py-[1rem] px-6" *cdkHeaderCellDef>Tipo</th>
-        <td cdk-cell class="py-[1rem] px-6" *cdkCellDef="let row">Taller</td>
+      <ng-container cdkColumnDef="modalidad">
+        <th cdk-header-cell class="py-[1rem] px-6" *cdkHeaderCellDef>Modalidad</th>
+        <td cdk-cell class="py-[1rem] px-6" *cdkCellDef="let row">{{row.modalidad}}</td>
       </ng-container>
 
-      <ng-container cdkColumnDef="fechaTaller">
+      <ng-container cdkColumnDef="presupuesto">
+        <th cdk-header-cell class="py-[1rem] px-6" *cdkHeaderCellDef>Presupuesto</th>
+        <td cdk-cell class="py-[1rem] px-6" *cdkCellDef="let row">{{row.presupuesto}}</td>
+      </ng-container>
+
+      <ng-container cdkColumnDef="fecha">
         <th cdk-header-cell class="py-[1rem] px-6" *cdkHeaderCellDef>Fecha</th>
-        <td cdk-cell class="py-[1rem] px-6" *cdkCellDef="let row">{{formatDate(row.fechaTaller) }}</td>
+        <td cdk-cell class="py-[1rem] px-6" *cdkCellDef="let row">{{row.fecha | date : 'dd/MM/yyyy' }}</td>
       </ng-container>
 
-      <ng-container cdkColumnDef="horaInicio">
+      <ng-container cdkColumnDef="horaIni">
         <th cdk-header-cell class="py-[1rem] px-6" *cdkHeaderCellDef>Hora Inicio</th>
-        <td cdk-cell class="py-[1rem] px-6" *cdkCellDef="let row">{{transformarHora(row.horaInicio) }}</td>
+        <td cdk-cell class="py-[1rem] px-6" *cdkCellDef="let row">{{transformarHora(row.horaIni) }}</td>
       </ng-container>
       
       <ng-container cdkColumnDef="horaFin">
@@ -67,10 +72,10 @@
         <td cdk-cell class="py-[1rem] px-6" *cdkCellDef="let row">{{transformarHora(row.horaFin) }}</td>
       </ng-container>
 
-      <ng-container cdkColumnDef="numeroSesiones">
+      <ng-container cdkColumnDef="sesiones">
         <th cdk-header-cell class="py-[1rem] px-6" *cdkHeaderCellDef>N° de Sesiones</th>
-        <td cdk-cell class="py-[1rem] px-6" *cdkCellDef="let row">{{row.numeroSesiones }}
-          {{row.numeroSesiones > 1 ? 'Sesiones' : 'Sesión'}}
+        <td cdk-cell class="py-[1rem] px-6" *cdkCellDef="let row">{{row.sesiones }}
+          {{row.sesiones > 1 ? 'Sesiones' : 'Sesión'}}
         </td>
       </ng-container>
 

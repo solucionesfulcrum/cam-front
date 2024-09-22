@@ -10,6 +10,17 @@ export interface ReportesTalleristaPayload {
     idServicio?: number
 }
 
+export interface AsistenciaRapidaListaPayload {
+    idUsuario: string,
+    idUnidadOperativa: string,
+    texto: string,
+    fecInicio: string,
+    fecFin: string,
+    estado: string,
+    pageNum: number,
+    pageSize: number,
+}
+
 export interface ItemReporteTallerista{
     nombreTaller: string,
     fechaTaller: string,

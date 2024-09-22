@@ -1,8 +1,11 @@
 import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { environment } from '@environments/environment';
+import { ItemListaAsistenciaRapida } from '@models/control/asistencia-rapida/asistencia-rapida';
 import { RequestBuscarApto } from '@models/control/asistencia/crud-asistencia.model';
 import { RequestCambioHorario, RequestRegisterAsegurado, RequestRegisterAsistio, RequestRegisterCabecera, RequestRegisterDet } from '@models/control/asistencia/service-asistencia.model';
+import { DtGenericoPaginado } from '@models/generico/dt-generico';
+import { AsistenciaRapidaListaPayload } from '@models/reportes/reportes-tallerista';
 
 const URL_BASE = `${environment.API}/control`;
 
@@ -253,6 +256,14 @@ export class ControlProgramacionService {
   
     return this._httpClient.post<any>(url, lista);
   }
+
+
+  //ASISTENCIA RAPIDA
+  getDataAsistenciaRapida(payload: AsistenciaRapidaListaPayload){
+    const url = `${environment.API}/control/asistencia-rapida/listar-clases`; 
+    return this._httpClient.post<DtGenericoPaginado<ItemListaAsistenciaRapida[]>>(url,payload);
+  }
+
 
   //control/inscripcion/registrar
 }

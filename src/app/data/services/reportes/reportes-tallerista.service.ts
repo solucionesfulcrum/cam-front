@@ -3,7 +3,7 @@ import { Injectable } from '@angular/core';
 import { environment } from '@environments/environment';
 import { PayloadReportes, ResponseAsistencia } from '@models/dashboard/dashboard.model';
 import { DtGenericoPaginado, DtGenericoSinPaginar, ResponseGenerico } from '@models/generico/dt-generico';
-import { AsistenciaTaller, CabeceraAsistenciaReporte, ItemReporteAsistenciaTaller, ItemReporteTallerista, imprimirRequestTalleresTallerista } from '@models/reportes/reportes-tallerista';
+import { AsistenciaRapidaListaPayload, AsistenciaTaller, CabeceraAsistenciaReporte, ItemReporteAsistenciaTaller, ItemReporteTallerista, imprimirRequestTalleresTallerista } from '@models/reportes/reportes-tallerista';
 import { ReportesTalleristaPayload } from '@models/reportes/reportes-tallerista';
 import { of, delay, Observable } from 'rxjs';
 
