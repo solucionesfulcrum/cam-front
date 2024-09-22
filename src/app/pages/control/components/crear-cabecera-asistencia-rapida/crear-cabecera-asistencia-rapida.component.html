@@ -30,7 +30,7 @@
                               </div>
                         </span>
                     </div>
-                    <div class="flex flex-col gap-[5px] leading-[20px] w-[400px]">
+                    <div class="flex flex-col gap-[5px] leading-[20px] w-[500px]">
                         <span class="text-[18px] font-medium"> 
                             <input type="text" 
                             class="inputTextoDialog focusCampo" 
@@ -48,14 +48,14 @@
                             </mat-option>
                             </mat-autocomplete>
                         </span>
-                        <span class="text-[14px] font-light">
+                        <span class="text-[14px] font-light mt-2">
                             <span class="text-[14px] font-light">
                                 Hora Inicio:
                               </span>
                               <input type="time" [formControl]="horaInicioControl" (change)="onHoraInicioChange()"
                                      class="border px-2 py-1 rounded" min="07:00" max="18:15" />
                             
-                              <span class="text-[14px] font-light">
+                              <span class="text-[14px] font-light ml-2">
                                 Hora Fin:
                               </span>
                               <input type="time" [value]="horaFin" readonly class="border px-2 py-1 rounded bg-gray-100" />
