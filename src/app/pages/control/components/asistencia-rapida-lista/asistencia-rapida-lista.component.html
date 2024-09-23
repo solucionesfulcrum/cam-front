@@ -73,9 +73,9 @@
       </ng-container>
 
       <ng-container cdkColumnDef="sesiones">
-        <th cdk-header-cell class="py-[1rem] px-6" *cdkHeaderCellDef>N° de Sesiones</th>
-        <td cdk-cell class="py-[1rem] px-6" *cdkCellDef="let row">{{row.sesiones }}
-          {{row.sesiones > 1 ? 'Sesiones' : 'Sesión'}}
+        <th cdk-header-cell class="py-[1rem] px-6" *cdkHeaderCellDef>N° de Sesión</th>
+        <td cdk-cell class="py-[1rem] px-6 text-center" *cdkCellDef="let row">
+          {{row.sesiones}}
         </td>
       </ng-container>
 
