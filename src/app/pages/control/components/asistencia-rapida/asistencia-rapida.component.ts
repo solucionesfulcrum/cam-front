@@ -17,6 +17,7 @@ import { ModalEditarComponent } from '../sub-components/dialogs/modal-editar/mod
 import { DialogConfirmDataAsistenciaComponent } from '../tab-asistencia/dialog/dialog-confirm-data-asistencia/dialog-confirm-data-asistencia.component';
 import { dataTest } from '../crear-cabecera-asistencia-rapida/dataTest';
 import { DataSourceList } from './data-source';
+import { ModalConfirmarGenericoComponent } from '@shared/components/modal-confirmar-generico/modal-confirmar-generico.component';
 
 @Component({
   selector: 'esp-asistencia-rapida',
@@ -567,6 +568,33 @@ export class AsistenciaRapidaComponent {
       this.getListAseguradosScroll();
     }
   }
+
+  modalFinalizarClase(){
+    this.dialog.open(ModalConfirmarGenericoComponent, {
+      data:{
+        message: 'Finalizar la Clase'
+      }
+    }).afterClosed().subscribe(data=>{
+      if(data.success){
+        this.finalizarClase();
+      }
+    });
+  }
+
+  finalizarClase(){
+    this.controlService.finalizarClase(this.idAsisRap).subscribe(data=>{
+      if(data.code == 0){
+        this.toast.success("La clase ha sido finalizada");
+        this.datoProgramacion.estado = "FINALIZADO";
+      }
+      else{
+        this.toast.warning(data.message);
+      }
+    }, (error) => {
+      this.toast.error("Ocurrió un error")
+    });
+  }
+
 
   irAEditarClase(){
     this.router.navigate(['/app/control/asistencia-rapida/editar-cabecera/'+this.idAsisRap])

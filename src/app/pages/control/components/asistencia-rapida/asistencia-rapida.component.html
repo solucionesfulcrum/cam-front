@@ -25,7 +25,7 @@
                             <span class="flex items-center">
                                 {{datoProgramacion.nombreServicio[0] + (datoProgramacion.nombreServicio.substring(1) | lowercase)}}
                             </span>
-                            <span class="flex items-center justify-center">
+                            <span class="flex items-center justify-center" *ngIf="datoProgramacion.estado != 'FINALIZADO'">
                                 <label (click)="irAEditarClase()" class="flex items-center justify-center w-7 h-7 rounded cursor-pointer peer-checked:bg-cam peer-checked:colorWhite hover:bg-[#057EC933]">
                                     <img src="assets/svg/editar-clase.svg" class="w-6 h-6"> <!-- Ajusta el tamaño del ícono si es necesario -->
                                 </label>
@@ -36,7 +36,7 @@
                 </div>
             </div>
             <div>
-                <div class="flex flex-row gap-[14px]">
+                <div class="flex flex-row gap-[14px]" *ngIf="datoProgramacion.estado != 'FINALIZADO'">
                     <ul class="flex flex-row gap-1.5">
                         <li>
                             <input type="radio" id="search-typing" [formControl]="ctrlTypeSearch" [value]="1" class="hidden peer" required />
@@ -166,6 +166,13 @@
                     <span class="font-light leading-[10px] text-[10px] text-[#64748B]">Participantes</span>
                 </div>
             </div>
+
+            <app-btn (click)="modalFinalizarClase()" *ngIf="datoProgramacion.estado != 'FINALIZADO'"  class="botonApariencia flex flex-row h-10 w-[180px]" [disabled]="total == 0">
+                <div class="flex flex-row items-right gap-[5px]">
+                    <img class="self-center" src="assets/svg/icon-list-assignments.svg">
+                    <span>Finalizar Clase</span> 
+                </div>
+            </app-btn>
             <!--
             <app-btn class="botonApariencia flex h-10" color="mezclado" [disabled]="true">
                 <div class="flex flex-row items-center gap-[5px]">
