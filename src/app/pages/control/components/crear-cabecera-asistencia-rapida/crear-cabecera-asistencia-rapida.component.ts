@@ -182,7 +182,7 @@ export class CrearCabeceraAsistenciaRapidaComponent {
           if (value && value.trim().length > 0) {
             return this.contratosAdministracionService.getListServiciosByTxt(value);
           } else {
-            return of([]);  // Si no hay texto, devuelve un array vacío
+            return this.contratosAdministracionService.getListServiciosByTxt("a");  // Si no hay texto, devuelve un array vacío
           }
         }
         else{
