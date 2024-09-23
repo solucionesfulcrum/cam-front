@@ -4,7 +4,7 @@ import { MatDialog } from '@angular/material/dialog';
 import { PageEvent } from '@angular/material/paginator';
 import { ActivatedRoute, Router } from '@angular/router';
 import { faArrowsUpToLine, faSpinner } from '@fortawesome/free-solid-svg-icons';
-import { AsistenciaLista, DataResponse, RequestBuscarApto } from '@models/control/asistencia/crud-asistencia.model';
+import { AsistenciaLista, AsistenciaRapidaLista, DataResponse, DataResponseAsistenciaRapida, RequestBuscarApto, RequestBuscarAptoNacional } from '@models/control/asistencia/crud-asistencia.model';
 import { Parametro } from '@models/parametros-busqueda.model';
 import { RequestStatus } from '@models/request-status.model';
 import { NotificationService } from '@services/notification.service';
@@ -14,9 +14,9 @@ import { ControlProgramacionService } from 'src/app/data/services/control/contro
 import { DatosGeneralesService } from 'src/app/data/services/datos-generales.service';
 import { ModalConfirmarComponent } from '../sub-components/dialogs/modal-confirmar/modal-confirmar.component';
 import { ModalEditarComponent } from '../sub-components/dialogs/modal-editar/modal-editar.component';
-import { DataSourceList } from '../tab-asistencia-prof-cam/data-source';
 import { DialogConfirmDataAsistenciaComponent } from '../tab-asistencia/dialog/dialog-confirm-data-asistencia/dialog-confirm-data-asistencia.component';
 import { dataTest } from '../crear-cabecera-asistencia-rapida/dataTest';
+import { DataSourceList } from './data-source';
 
 @Component({
   selector: 'esp-asistencia-rapida',
@@ -65,8 +65,8 @@ export class AsistenciaRapidaComponent {
 
 
   //DATA PRUEBA
-  dataPrueba: AsistenciaLista[] = [];
-  dataSource: AsistenciaLista[] = [];
+  dataPrueba: AsistenciaRapidaLista[] = [];
+  dataSource: AsistenciaRapidaLista[] = [];
   pageIndex = 0;
   pageNum = 1;
   pageSize = 10;
@@ -221,19 +221,15 @@ export class AsistenciaRapidaComponent {
     let element = evento.target as HTMLInputElement;
     this.dataSource = this.dataSource.map(data => { return {...data, marcar: Boolean(element.checked)}});
     if(element.checked)
-      this.seleccionados =  this.dataSource.map(data => { return data.idInscripcion});
+      this.seleccionados =  this.dataSource.map(data => { return data.idAsisRapidDet});
     else
       this.seleccionados = [];
   }
 
   getListTablaAsegurados() : void{
-    this.controlService.listarAsistencia({
-      idProgDet: String(JSON.parse(localStorage.getItem('idProgramElegida')!)),
-      pageSize: 5,
-      pageNum: 1
-    })
+    this.controlService.listarAsistenciaRapida(this.idAsisRap)
     .subscribe(data => {
-      let dataAsistentes = (data.data as AsistenciaLista[]).map((asistente : AsistenciaLista, index: number)=>{
+      let dataAsistentes = (data.data as AsistenciaRapidaLista[]).map((asistente : AsistenciaRapidaLista, index: number)=>{
   
         return {...asistente, 
           orden: index + 1, 
@@ -254,7 +250,7 @@ export class AsistenciaRapidaComponent {
   }
 
  
-  llenarDatosTabla(data : DataResponse<AsistenciaLista>){
+  llenarDatosTabla(data : DataResponseAsistenciaRapida<AsistenciaRapidaLista>){
     this.dataSource = data.data.list;
     this.dataSourceList.init(data.data.list)
 
@@ -265,12 +261,11 @@ export class AsistenciaRapidaComponent {
 
    // Busqueda y Tipeo de Asegurado --------------------------------------------------------------
    onAseguradoSelect(event: any){
-    let payload: RequestBuscarApto = {
-      idUnidadOperativa: (JSON.parse(localStorage.getItem('UnidElegida')!)).idUnidOperativa,
+    let payload: RequestBuscarAptoNacional = {
       tipDoc: event.option.value.tipoDoc === 'DNI' ? '1' : '4',
       numDoc: event.option.value.numDoc
     }
-    this.controlService.getSiEsApto(payload).subscribe((data)=>{
+    this.controlService.getSiEsAptoNacional(payload).subscribe((data)=>{
       if ((data.code == 0 || data.code == 2) && data.data) {
         let conexion: boolean;
         if (data.code == 2) {
@@ -283,15 +278,9 @@ export class AsistenciaRapidaComponent {
           this.notificacionService.warning(data.message);
         }
         if(data.data[0].acreditacion){
-          let unidadOperativa : string = (JSON.parse(localStorage.getItem('UnidElegida')!)).idUnidOperativa;
-          let selectedProgramacion : string = String(localStorage.getItem('idProgramElegida'));
-          this.controlProgramacionService.registrarInscripcion({
-            idFichaAdmision: data.data[0].idFichaAsegurado,
-            idUnidadOperativa: unidadOperativa,
-            idProgramacionDet: selectedProgramacion,
-            acreditado: data.data[0].acreditacion,
-            idUsuarioReg: (JSON.parse(localStorage.getItem('camUser')!)).idUsuario,
-            conConexion: conexion
+          this.controlProgramacionService.registrarInscripcionAsistenciaRapida({
+            idAsegurado: data.data[0].idAsegurado,
+            idAsisRapid: this.datoProgramacion.idAsisRapido
           }).subscribe(data => {
             if(data.code == "0"){
               this.getListTablaAsegurados();
@@ -324,13 +313,12 @@ export class AsistenciaRapidaComponent {
   }
 
   searchSiApto(tipoDoc: string, numDoc: string){
-    let payload: RequestBuscarApto = {
-      idUnidadOperativa: (JSON.parse(localStorage.getItem('UnidElegida')!)).idUnidOperativa,
+    let payload: RequestBuscarAptoNacional = {
       tipDoc: tipoDoc,
       numDoc: numDoc
     }
     this.esperaBusqueda = true;
-    this.controlService.getSiEsApto(payload).subscribe((data)=>{
+    this.controlService.getSiEsAptoNacional(payload).subscribe((data)=>{
       if (data.code == 0) {
         ////console.log(data.data);
         const dialogRef = this.dialog.open(DialogConfirmDataAsistenciaComponent,{
@@ -355,6 +343,7 @@ export class AsistenciaRapidaComponent {
 
   seleccionarFila(evento: Event) {
     let element = evento.target as HTMLInputElement;
+    console.log(element);
     if(element.checked)
       this.seleccionados.push(parseInt(element.value))
     else
@@ -364,11 +353,11 @@ export class AsistenciaRapidaComponent {
 
   eliminarAsegurados(){
     let asistentesEliminar: number[] = this.dataSource
-    .filter((asistente: AsistenciaLista) => this.seleccionados.includes(asistente.idInscripcion))
-    .map((asistente: AsistenciaLista) => asistente.idInscripcion as number);
+    .filter((asistente: AsistenciaRapidaLista) => this.seleccionados.includes(asistente.idAsisRapidDet))
+    .map((asistente: AsistenciaRapidaLista) => asistente.idAsisRapidDet as number);
 
     ////console.log(asistentesEliminar);
-    this.controlService.eliminarRegistrados(asistentesEliminar).subscribe(data=>{
+    this.controlService.eliminarRegistradosAsistenciaRapida(asistentesEliminar).subscribe(data=>{
       if(data.code == 0){
         this.toast.success("Los registros han sido eliminados");
         this.getListTablaAsegurados();
@@ -386,12 +375,7 @@ export class AsistenciaRapidaComponent {
     this.isMaxScroll = false;
     this.esperaBusqueda = true;
     let metodo;
-    if(this.codUoCiram){
-      metodo = this.controlService.getListAseguradosCiramFindByText(texto, 1, 10, this.codUoCiram);
-    }
-    else{
-      metodo = this.controlService.getListAseguradosSoloCamFindByText(texto, 1, 10);
-    }
+    metodo = this.controlService.getListAseguradosNacional(texto, 1, 10);
     metodo.subscribe((data)=>{
       this.esperaBusqueda = false;
       this.loadingPaginacion = false;
@@ -415,12 +399,7 @@ export class AsistenciaRapidaComponent {
   getListAseguradosScroll(){
     this.esperaBusqueda = true;
     let metodo;
-    if(this.codUoCiram){
-      metodo = this.controlService.getListAseguradosCiramFindByText(this.txtScroll, this.pageScroll, 10, this.codUoCiram);
-    }
-    else{
-      metodo = this.controlService.getListAseguradosSoloCamFindByText(this.txtScroll, this.pageScroll, 10);
-    }
+    metodo = this.controlService.getListAseguradosNacional(this.txtScroll, this.pageScroll, 10);
     metodo.subscribe((data)=>{
       this.esperaBusqueda = false;
       this.loadingPaginacion = false;
@@ -442,12 +421,7 @@ export class AsistenciaRapidaComponent {
   getListAsegurados(){
     this.esperaBusqueda = true;
     let metodo;
-    if(this.codUoCiram){
-      metodo = this.controlService.getListAseguradosCiram(this.codUoCiram);
-    }
-    else{
-      metodo = this.controlService.getListAseguradosSoloCam();
-    }
+    metodo = this.controlService.getListAseguradosNacional("", 1, 10);
     metodo.subscribe((data)=>{
       this.esperaBusqueda = false;
       if (data.code == 0) {
@@ -537,14 +511,13 @@ export class AsistenciaRapidaComponent {
     if(!this.formBuscarPersona.get("frmDoc")?.valid){
       return ;
     }
-    let payload: RequestBuscarApto = {
-      idUnidadOperativa: (JSON.parse(localStorage.getItem('UnidElegida')!)).idUnidOperativa,
+    let payload: RequestBuscarAptoNacional = {
       tipDoc:  String(this.formBuscarPersona.get("frmSelectDoc")?.value),
       numDoc: String(this.formBuscarPersona.get("frmDoc")?.value)
     }
     this.statusLoadingBarra = true;
     this.formBuscarPersona.get("frmDoc")?.setValue('');
-    this.controlService.getSiEsApto(payload).subscribe((data)=>{
+    this.controlService.getSiEsAptoNacional(payload).subscribe((data)=>{
       if ((data.code == 0 || data.code == 2) && (data.data && data.data.length > 0)) {
         let conexion: boolean;
         if (data.code == 2) {
@@ -561,13 +534,9 @@ export class AsistenciaRapidaComponent {
         let selectedProgramacion : string = String(localStorage.getItem('idProgramElegida'));
         
         if(data.data[0].acreditacion)
-        this.controlProgramacionService.registrarInscripcion({
-          idFichaAdmision: data.data[0].idFichaAsegurado,
-          idUnidadOperativa: unidadOperativa,
-          idProgramacionDet: selectedProgramacion,
-          acreditado: data.data[0].acreditacion,
-          idUsuarioReg: (JSON.parse(localStorage.getItem('camUser')!)).idUsuario,
-          conConexion: conexion
+        this.controlProgramacionService.registrarInscripcionAsistenciaRapida({
+          idAsegurado: data.data[0].idAsegurado,
+          idAsisRapid: this.datoProgramacion.idAsisRapido
         }).subscribe(data => {
           if(data.code == "0"){
             if(this.ctrlTypeSearch.value == 3){

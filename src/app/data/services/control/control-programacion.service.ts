@@ -2,7 +2,7 @@ import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { environment } from '@environments/environment';
 import { ItemListaAsistenciaRapida } from '@models/control/asistencia-rapida/asistencia-rapida';
-import { RequestBuscarApto } from '@models/control/asistencia/crud-asistencia.model';
+import { RequestBuscarApto, RequestBuscarAptoNacional } from '@models/control/asistencia/crud-asistencia.model';
 import { RequestCambioHorario, RequestRegisterAsegurado, RequestRegisterAsistio, RequestRegisterCabecera, RequestRegisterDet } from '@models/control/asistencia/service-asistencia.model';
 import { DtGenericoPaginado } from '@models/generico/dt-generico';
 import { AsistenciaRapidaListaPayload } from '@models/reportes/reportes-tallerista';
@@ -132,6 +132,11 @@ export class ControlProgramacionService {
     return this._httpClient.post<any>(url, model);
   }
 
+  getSiEsAptoNacional(model: RequestBuscarAptoNacional) {
+    const url = `${environment.API}/asegurado/buscar/aptos-nacional`;
+    return this._httpClient.post<any>(url, model);
+  }
+
   getListAsegurados() {
     let codUo;
     if((JSON.parse(localStorage.getItem('UnidElegida')!)).tipo == 'CIRAM'){
@@ -169,6 +174,16 @@ export class ControlProgramacionService {
       pageSize : 10
     }
     const url = `${environment.API}/asegurado/buscar/nombres/solo-cam`;
+    return this._httpClient.post<any>(url, payload);
+  }
+
+  getListAseguradosNacional(texto: string, pageNum: number, pageSize: number) {
+    const payload = {
+      texto,
+      pageNum,
+      pageSize
+    }
+    const url = `${environment.API}/asegurado/buscar/nombres/nacional`;
     return this._httpClient.post<any>(url, payload);
   }
 
@@ -232,6 +247,11 @@ export class ControlProgramacionService {
     return this._httpClient.post<any>(url, payload);
   }
 
+  registrarInscripcionAsistenciaRapida(payload: {idAsisRapid : number, idAsegurado: number}){
+    const url = `${URL_BASE}/registrar/asistencia-rapida-detalle`;
+    return this._httpClient.post<any>(url, payload);
+  }
+
   listarAsistencia(payload: {
     idProgDet: string,
     pageNum: number,
@@ -242,6 +262,18 @@ export class ControlProgramacionService {
     const url = `${URL_BASE}/listar/inscripcion`;
     return this._httpClient.post<any>(url, payload);
 
+  }
+
+  
+  listarAsistenciaRapida(idAsisRap : number
+   ){
+    const url = `${URL_BASE}/asistencia-rapida/listar-asistencia-clase/${idAsisRap}`;
+    return this._httpClient.get<any>(url);
+  }
+
+  eliminarRegistradosAsistenciaRapida(lista : number[]){
+    const url = `${URL_BASE}/asistencia-rapida/eliminar-asegurado`;
+    return this._httpClient.post<any>(url, lista);
   }
 
   eliminarRegistrados(lista : number[]){

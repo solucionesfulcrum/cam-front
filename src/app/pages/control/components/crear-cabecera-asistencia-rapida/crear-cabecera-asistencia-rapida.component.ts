@@ -288,12 +288,15 @@ export class CrearCabeceraAsistenciaRapidaComponent {
   
     this.contratosAdministracionService.grabarCrearClase(data).subscribe(
       (response) => {
-        this.toast.success('Clase creada exitosamente.');
-        console.log('Respuesta:', response);
+        if(response.code == 0){
+          this.router.navigate(['/app/control/asistencia-rapida/asistencias/'+response.data.idAsisRapid])
+        }
+        else{
+          this.toast.warning(response.message);
+        }
       },
       (error) => {
         this.toast.error('Error al crear la clase.');
-        console.error('Error:', error);
       }
     );
   }

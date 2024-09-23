@@ -3,6 +3,7 @@ import { Injectable } from '@angular/core';
 import { environment } from '@environments/environment';
 import { imprimirRequest, imprimirRequestCam, listaConstactosRequest } from '@models/afiliados/ficha-solicitud.model';
 import { RequestContratoDetalle, RequestEditCabecera, RequestListContracts, RequestSaveClase, RequestSearchUser, RequestSendCabeceraContrato, ResponseSaveClase } from '@models/contratos/contratos-administracion.model';
+import { DtGenericoSinPaginar } from '@models/generico/dt-generico';
 import { Observable } from 'rxjs';
 
 const URL_BASE = `${environment.API}/contrato`;
@@ -31,7 +32,7 @@ export class ContratosAdministracionService {
 
   grabarCrearClase(model : RequestSaveClase){
     const url = `${environment.API}/control/registrar/asistencia-rapida`;
-    return this._httpClient.post<ResponseSaveClase>(url, model);
+    return this._httpClient.post<DtGenericoSinPaginar<ResponseSaveClase>>(url, model);
   }
 
   getListContratos(model: RequestListContracts){

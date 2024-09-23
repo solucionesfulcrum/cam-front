@@ -189,7 +189,7 @@
               <tr cdk-row class="bg-white border-b" *cdkRowDef="let row; columns: columns"></tr>
               <ng-container cdkColumnDef="marcar">
                 <th cdk-header-cell class="py-[1.25rem] px-6" *cdkHeaderCellDef [style]="'width: 0%;'"> <input type="checkbox" [checked]="seleccionados.length == this.dataSource.length" (change)="afectarTodo($event)"/> </th>
-                <td cdk-cell class="py-[1rem] px-6" *cdkCellDef="let row" [style]="'width: 0%;'"> <input type="checkbox" class="checkbox-select" (change)="seleccionarFila($event)" [value]="row.idInscripcion" [checked]="row.marcar"/> </td>
+                <td cdk-cell class="py-[1rem] px-6" *cdkCellDef="let row" [style]="'width: 0%;'"> <input type="checkbox" class="checkbox-select" (change)="seleccionarFila($event)" [value]="row.idAsisRapidDet" [checked]="row.marcar"/> </td>
               </ng-container>
         
               <ng-container cdkColumnDef="orden">
@@ -229,7 +229,7 @@
                     </ng-container>
                     </th>
                 <td cdk-cell class="py-[1rem] px-6 font-semibold" *cdkCellDef="let row" style="color: rgba(0, 139, 210, 1);" [style]="'padding-left: 0px;'">
-                    {{ row.nombreCompleto }}
+                    {{ row.nombre }}
                 </td>
               </ng-container>
         
@@ -245,7 +245,7 @@
         
               <ng-container cdkColumnDef="horaAsistencia">
                 <th cdk-header-cell class="py-[1.25rem] px-6" *cdkHeaderCellDef>Registrado</th>
-                <td cdk-cell class="py-[1rem] px-6" *cdkCellDef="let row">{{ row.fechaReg |  date:'dd/MM/yyyy - h:mm a' }}</td>
+                <td cdk-cell class="py-[1rem] px-6" *cdkCellDef="let row">{{ row.fechaRegistro |  date:'dd/MM/yyyy - h:mm a' }}</td>
               </ng-container>
         
               <ng-container cdkColumnDef="birthday">

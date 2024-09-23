@@ -4,6 +4,11 @@ export interface RequestBuscarApto {
     numDoc: string
 }
 
+export interface RequestBuscarAptoNacional {
+  tipDoc: string,
+  numDoc: string
+}
+
 //ESTATICOS
 interface Data {
     list: AsistenciaLista[];
@@ -11,9 +16,20 @@ interface Data {
     pageSize: number;
     total: number;
   }
+
+  interface DataAsistenciaRapida {
+    list: AsistenciaRapidaLista[];
+    pageNum: number;
+    pageSize: number;
+    total: number;
+  }
   
   export interface DataResponse<T> {
     data: Data;
+  }
+
+  export interface DataResponseAsistenciaRapida<T> {
+    data: DataAsistenciaRapida;
   }
 
   
@@ -27,5 +43,18 @@ interface Data {
     fechaReg: string;
     aseguradoNuevo: false;
     tipoDoc: string;
+    numDoc: string;
+  }
+
+   
+  export interface AsistenciaRapidaLista {
+    idAsisRapidDet: number;
+    marcar: boolean;
+    orden: number;
+    
+    nombre: string;
+    fechaRegistro: string;
+    tipoDoc: string;
+    descTipoDoc: string;
     numDoc: string;
   }
