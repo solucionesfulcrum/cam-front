@@ -1,11 +1,13 @@
 import { Dialog } from '@angular/cdk/dialog';
 import { Component } from '@angular/core';
 import { FormBuilder, FormControl, Validators } from '@angular/forms';
+import { MatDialog } from '@angular/material/dialog';
 import { Router } from '@angular/router';
 import { faSpinner } from '@fortawesome/free-solid-svg-icons';
 import { RequestResultsEvaluacion, SendDataResultado } from '@models/afiliaciones/evaluaciones/evaluacion-evaluar.model';
 import { RequestStatus } from '@models/request-status.model';
 import { NotificationService } from '@services/notification.service';
+import { ModalConfirmarGenericoComponent } from '@shared/components/modal-confirmar-generico/modal-confirmar-generico.component';
 import { FormatoBoton } from '@shared/components/opciones-botones/formato-boton.model';
 import { AfiliacionesEvaluacionesService } from 'src/app/data/services/afiliaciones/afiliaciones-evaluaciones.service';
 import { ContactosAfiliadosService } from 'src/app/data/services/contactos/contactos-afiliados.service';
@@ -41,6 +43,7 @@ export class EvaluacionResultadosComponent {
               public contactosAfiliadosService      : ContactosAfiliadosService,
               public notificationService            : NotificationService,
               private dialog                        : Dialog,
+              private matDialog                     : MatDialog,
               public router                         : Router,
               public evaluacionService              : AfiliacionesEvaluacionesService){}
 
@@ -49,27 +52,42 @@ export class EvaluacionResultadosComponent {
   }
 
   sedData(){
+
     if (this.evaluacionService.formDataTestPfi.valid && this.evaluacionService.formDataTestKatz.valid && this.evaluacionService.formDataTestGij.valid && this.evaluacionService.formDataTestYesa.valid) {
       if (this.formResultados.valid) {
-        //this.opcionesBotones[2].loading = true;
-        this.status = 'loading';
-        this.evaluacionService.registerResultsEvaluacion(this.getModelSend()).subscribe((data)=>{
-          if (data.code == 0) {
-            if (JSON.parse(localStorage.getItem('datosEvaluacion')!).tipoEvaluacion == 'SOLICITUD') {
-              this.router.navigate(['app/afiliados']);
-              this.notificationService.success('Se ha registrado la evaluación sobre la ficha de solicitud');
-            }
-            else if (JSON.parse(localStorage.getItem('datosEvaluacion')!).tipoEvaluacion == 'FICHA_ADMISION'){
-              this.router.navigate(['app/contactos']);
-              this.notificationService.success('Se ha registrado la evaluación sobre la ficha de asegurado');
-            }
-            this.status = 'success';
-            //this.opcionesBotones[2].loading = false;
+        let texto = "";
+        if(this.formResultados.controls.ctrlAdmitido.value == 'Si'){
+          texto = "El asegurado está siendo evaluado como APTO ¿Está seguro?";
+        }
+        else{
+          texto = "El asegurado está siendo evaluado como NO APTO ¿Está seguro?";
+        }
+        this.matDialog.open(ModalConfirmarGenericoComponent, {
+          data: {
+            message : texto
           }
-          else{
-            this.notificationService.warning(data.message);
-            this.status = 'failed';
-            //this.opcionesBotones[2].loading = false;
+        }).afterClosed().subscribe(data=>{
+          if(data.success){
+            this.status = 'loading';
+            this.evaluacionService.registerResultsEvaluacion(this.getModelSend()).subscribe((data)=>{
+              if (data.code == 0) {
+                if (JSON.parse(localStorage.getItem('datosEvaluacion')!).tipoEvaluacion == 'SOLICITUD') {
+                  this.router.navigate(['app/afiliados']);
+                  this.notificationService.success('Se ha registrado la evaluación sobre la ficha de solicitud');
+                }
+                else if (JSON.parse(localStorage.getItem('datosEvaluacion')!).tipoEvaluacion == 'FICHA_ADMISION'){
+                  this.router.navigate(['app/contactos']);
+                  this.notificationService.success('Se ha registrado la evaluación sobre la ficha de asegurado');
+                }
+                this.status = 'success';
+                //this.opcionesBotones[2].loading = false;
+              }
+              else{
+                this.notificationService.warning(data.message);
+                this.status = 'failed';
+                //this.opcionesBotones[2].loading = false;
+              }
+            })
           }
         })
       }
@@ -84,6 +102,7 @@ export class EvaluacionResultadosComponent {
       this.evaluacionService.formDataTestGij.markAllAsTouched();
       this.evaluacionService.formDataTestYesa.markAllAsTouched();
     }
+   
   }
 
   getModelSend(): SendDataResultado{
