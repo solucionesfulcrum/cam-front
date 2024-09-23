@@ -567,4 +567,8 @@ export class AsistenciaRapidaComponent {
       this.getListAseguradosScroll();
     }
   }
+
+  irAEditarClase(){
+    this.router.navigate(['/app/control/asistencia-rapida/editar-cabecera/'+this.idAsisRap])
+  }
 }

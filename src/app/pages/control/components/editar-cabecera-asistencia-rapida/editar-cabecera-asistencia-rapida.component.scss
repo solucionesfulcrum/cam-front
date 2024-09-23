@@ -1,0 +1,18 @@
+.peer:checked ~ .peer-checked\:bg-cam{
+    background: var(--color-CAM-Mezclado);
+  }
+  
+  .peer:checked ~ .peer-checked\:colorWhite{
+      img{
+          filter: brightness(284.5);
+      }
+  }
+
+  @keyframes slide-down {
+    0% {
+      transform: scaleY(0);
+    }
+    100% {
+      transform: scaleY(1);
+    }
+  }

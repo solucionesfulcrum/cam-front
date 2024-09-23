@@ -35,6 +35,11 @@ export class ContratosAdministracionService {
     return this._httpClient.post<DtGenericoSinPaginar<ResponseSaveClase>>(url, model);
   }
 
+  actualizarClase(idAsisRapido: string, model : RequestSaveClase){
+    const url = `${environment.API}/control/editar/asistencia-rapida/${idAsisRapido}`;
+    return this._httpClient.put<DtGenericoSinPaginar<ResponseSaveClase>>(url, model);
+  }
+
   getListContratos(model: RequestListContracts){
     const url = `${URL_BASE}/listar`;
     return this._httpClient.post<any>(url, model);
