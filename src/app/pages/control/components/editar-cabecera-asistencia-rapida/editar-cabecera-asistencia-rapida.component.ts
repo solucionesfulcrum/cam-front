@@ -226,8 +226,8 @@ export class EditarCabeceraAsistenciaRapidaComponent {
         const fecha = new Date(this.datoProgramacion.fecha);
         this.selectedDay = fecha.getUTCDate();
         this.selectedMonth = fecha.getUTCMonth() + 1;
-        this.horaInicioControl.setValue(this.datoProgramacion.horaIni);
-        this.horaFin = this.datoProgramacion.horaFin;
+        this.horaInicioControl.setValue(this.formatHour(this.datoProgramacion.horaIni));
+        this.horaFin = this.formatHour(this.datoProgramacion.horaFin);
         this.ctrlSearchServicio.setValue(this.datoProgramacion.nombreServicio)
         this.sesion=this.datoProgramacion.sesiones
         this.presupuesto=this.datoProgramacion.presupuesto
@@ -240,6 +240,13 @@ export class EditarCabeceraAsistenciaRapidaComponent {
       }
     })
   }
+
+    // Función para formatear la hora asegurando que las horas menores a 10 tengan un cero inicial
+  formatHour(hour: string): string {
+    const [h, m] = hour.split(':'); // Separar la hora y los minutos
+    return `${h.padStart(2, '0')}:${m}`; // Asegurar que la hora tenga dos dígitos
+  }
+
 
   onHoraInicioChange() {
     const horaInicio = this.horaInicioControl.value;
