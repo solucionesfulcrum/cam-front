@@ -3,15 +3,7 @@
     [rutaRegreso]="'..'" >
     </esp-opciones-botones>
   </div>
-<div class="px-4 py-3 bg-white w-full mt-3 grid botonApariencia" *ngIf="!datoProgramacion">
-    <div class="text-gray-600 w-full text-center">
-        <p class="py-1 font-semibold text-2xl">
-            <fa-icon class="mr-2" [icon]="faSpinner" [pulse]="true"></fa-icon>
-            Obteniendo datos...
-        </p>
-    </div>
-</div>
-<div class="flex flex-col gap-3" *ngIf="datoProgramacion">
+<div class="flex flex-col gap-3">
     <div class="flex flex-row gap-3 px-3 botonApariencia bg-white py-1.5">
         <div class="flex flex-col justify-between grow">
             <div class="py-3">
@@ -64,7 +56,7 @@
                 </div>
             </div>
             <div class="py-3 flex justify-center items-center">
-                <app-btn class="botonApariencia flex flex-row h-10 w-[160px] transform translate-x-20 text-center">
+                <app-btn class="botonApariencia flex flex-row h-10 w-[160px] transform translate-x-20 text-center" >
                     <div class="flex flex-row items-right gap-[5px] text-center justify-center">
                         <!--<img class="self-center" src="assets/svg/icon-list-assignments.svg">-->
                         <span class="items-center">Crear Clase</span> <!-- Texto fijo -->
