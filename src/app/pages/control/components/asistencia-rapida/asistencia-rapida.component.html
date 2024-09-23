@@ -117,11 +117,29 @@
                     <img class="select-none" src="assets/svg/icon-class-lesson.svg">
                 </div>
                 <div class="flex flex-col text-[#64748B]">
-                    <span class="leading-4">{{comienzoSesiones}} de {{datoProgramacion.numSesiones}}</span>
-                    <span class="font-light leading-[10px] text-[10px]">{{datoProgramacion.numSesiones > 1 ? 'Sesiones' : 'Sesión'}}</span>
+                    <span class="leading-4">{{datoProgramacion.sesiones}}</span>
+                    <span class="font-light leading-[10px] text-[10px]">Sesión</span>
                 </div>
             </div>
             <div class="flex flex-row gap-2 py-[2px]">
+                <div class="flex items-center justify-center w-6">
+                    <img class="select-none" src="assets/svg/icon-class-lesson.svg">
+                </div>
+                <div class="flex flex-col text-[#64748B]">
+                    <span class="leading-4">{{datoProgramacion.presupuesto | titlecase}}</span>
+                    <span class="font-light leading-[10px] text-[10px]">Presupuesto</span>
+                </div>
+            </div>
+            <div class="flex flex-row gap-2 py-[2px]">
+                <div class="flex items-center justify-center w-6">
+                    <img class="select-none" src="assets/svg/icon-class-lesson.svg">
+                </div>
+                <div class="flex flex-col text-[#64748B]">
+                    <span class="leading-4">{{datoProgramacion.modalidad | titlecase}}</span>
+                    <span class="font-light leading-[10px] text-[10px]">Modalidad</span>
+                </div>
+            </div>
+            <!--<div class="flex flex-row gap-2 py-[2px]">
                 <div class="flex items-center justify-center w-6">
                     <img class="iconoEscalaGris select-none w-[14px]" src="assets/svg/icon-control-time.svg">
                 </div>
@@ -129,7 +147,7 @@
                     <span class="leading-4">{{datoProgramacion.margenHorario}}</span>
                     <span class="font-light leading-[10px] text-[10px]">Tiempo</span>
                 </div>
-            </div>
+            </div>-->
             <div class="flex flex-row gap-2 py-[2px]">
                 <div class="flex items-center justify-center w-6">
                     <img class="iconoEscalaGris select-none" src="assets/svg/icon-person-group.svg">
