@@ -389,7 +389,7 @@ export class EditAseguradoComponent {
       codRedAsisten: this.dataFichaAfiliado.asegurado.codRedAsisten,
       nomRedAsisten: this.dataFichaAfiliado.asegurado.nomRedAsisten,
       usuarioModId: this.idUserSession,
-      foto: this.dataFichaAfiliado.asegurado.foto,
+      foto: " ",
       fecFallecimiento:  null!
     };
   }

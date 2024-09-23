@@ -186,7 +186,7 @@
                 <ul class="grupoOpciones grid w-full gap-3 md:grid-cols-3 mb-2">
                     <!--Propiedad checked="true" para marcar un radio predefinidamente-->
                     <li class="elementoSeleccionable" *ngFor="let modalidad of listParamModIngr, index as i">
-                        <input type="radio" [id]="modalidad.tipo + i" name="modalidad" [formControl]="frmCtrlModIngr" [value]="modalidad.idParametros" class="peer focusCampo" (click)="showDatosProcedencia(modalidad.idParametros,modalidad.tipo + i)" [attr.disabled]="modalidad.idParametros == 23 ? true : null">
+                        <input type="radio" [id]="modalidad.tipo + i" name="modalidad" [formControl]="frmCtrlModIngr" [value]="modalidad.idParametros" class="peer focusCampo" (click)="showDatosProcedencia(modalidad.idParametros,modalidad.tipo + i)" [attr.disabled]="true">
                         <label [for]="modalidad.tipo + i" class="cuadroRadioButton" [ngClass]="modalidad.idParametros == 23 ? 'opacity-50' : null">
                             <div class="flex justify-center w-full">
                                 <div class="w-full text-center pl-2.5">{{modalidad.nombre | titlecase}}</div>
