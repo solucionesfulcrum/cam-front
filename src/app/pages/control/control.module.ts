@@ -36,6 +36,7 @@ import { InscripcionModalTalleristaComponent } from './modals/inscripcion-modal-
 import { InscripcionTalleristaControlService } from 'src/app/events/control/inscripcion-tallerista-control.service';
 import { AsistenciaRapidaListaComponent } from './components/asistencia-rapida-lista/asistencia-rapida-lista.component';
 import { CrearCabeceraAsistenciaRapidaComponent } from './components/crear-cabecera-asistencia-rapida/crear-cabecera-asistencia-rapida.component';
+import { AsistenciaRapidaComponent } from './components/asistencia-rapida/asistencia-rapida.component';
 
 
 @NgModule({
@@ -60,6 +61,7 @@ import { CrearCabeceraAsistenciaRapidaComponent } from './components/crear-cabec
     InscripcionModalTalleristaComponent,
     AsistenciaRapidaListaComponent,
     CrearCabeceraAsistenciaRapidaComponent,
+    AsistenciaRapidaComponent,
   ],
   imports: [
     CommonModule,

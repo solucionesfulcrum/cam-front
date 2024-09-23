@@ -11,6 +11,7 @@ import { ControlTalleristaComponent } from './components/control-tallerista/cont
 import { ControlTalleristaSesionesComponent } from './components/control-tallerista-sesiones/control-tallerista-sesiones.component';
 import { AsistenciaRapidaListaComponent } from './components/asistencia-rapida-lista/asistencia-rapida-lista.component';
 import { CrearCabeceraAsistenciaRapidaComponent } from './components/crear-cabecera-asistencia-rapida/crear-cabecera-asistencia-rapida.component';
+import { AsistenciaRapidaComponent } from './components/asistencia-rapida/asistencia-rapida.component';
 
 const routes: Routes = [
   {
@@ -53,6 +54,11 @@ const routes: Routes = [
       {
         path: 'asistencia-rapida',
         component: AsistenciaRapidaListaComponent,
+        title: 'Control de Talleres'
+      },
+      {
+        path: 'asistencia-rapida/asistencias/:idAsisRap',
+        component: AsistenciaRapidaComponent,
         title: 'Control de Talleres'
       },
       {

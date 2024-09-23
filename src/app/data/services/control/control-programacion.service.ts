@@ -36,6 +36,12 @@ export class ControlProgramacionService {
     return this._httpClient.get<any>(url);
   }
 
+  getCabeceraClaseRapida(idProgDet: number) {
+    const url = `${URL_BASE}/asistencia-rapida/obtener-cabecera-clase/${idProgDet}`;
+    return this._httpClient.get<any>(url);
+  }
+
+
   // Servicios Asistencia -----------------------------------------------------------
   
   registerDataAsistenciaCabecera(model: RequestRegisterCabecera) {

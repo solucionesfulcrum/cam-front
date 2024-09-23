@@ -1,78 +1,40 @@
 <div>
     <esp-opciones-botones 
-    [rutaRegreso]="'..'" >
+    [rutaRegreso]="'../..'" >
     </esp-opciones-botones>
   </div>
-<div class="flex flex-col gap-3">
+<div class="px-4 py-3 bg-white w-full mt-3 grid botonApariencia" *ngIf="!datoProgramacion">
+    <div class="text-gray-600 w-full text-center">
+        <p class="py-1 font-semibold text-2xl">
+            <fa-icon class="mr-2" [icon]="faSpinner" [pulse]="true"></fa-icon>
+            Obteniendo datos...
+        </p>
+    </div>
+</div>
+<div class="flex flex-col gap-3" *ngIf="datoProgramacion">
     <div class="flex flex-row gap-3 px-3 botonApariencia bg-white py-1.5">
         <div class="flex flex-col justify-between grow">
             <div class="py-3">
                 <div class="flex flex-row gap-2.5">
-                    <div class="flex flex-col gap-[5px] shrink-0 w-[160px]">
-                        <span class="font-semibold text-[40px] leading-[30px]">
-                            <select [(ngModel)]="selectedDay" class="font-semibold text-[40px] leading-[40px] w-[120px]">
-                                <option *ngFor="let day of daysInMonth" [disabled]="day < currentDay" [value]="day">{{ day }}</option>
-                              </select>
-                        </span>
-                        <span class="font-light leading-[20px]">
-                            <div class="flex flex-col gap-[5px] leading-[20px]">
-                                <select [(ngModel)]="selectedMonth" (change)="onMonthChange()" class="text-[18px] font-medium">
-                                  <option *ngFor="let month of getFilteredMonths()" [disabled]="month.value < currentMonth" [value]="month.value">{{ month.name }}</option>
-                                </select>
-                              </div>
-                        </span>
+                    <div class="flex flex-col gap-[5px] shrink-0 w-[46px]">
+                        <span class="font-semibold text-[40px] leading-[30px]">{{datoProgramacion.fecha | date:'dd'}}</span>
+                        <span class="font-light leading-[20px]">{{(datoProgramacion.fecha | date:'MMM') | titlecase}}</span>
                     </div>
-                    <div class="flex flex-col gap-[5px] leading-[20px] w-[500px]">
-                        <span class="text-[18px] font-medium"> 
-                            <input type="text" 
-                            class="inputTextoDialog focusCampo" 
-                            [formControl]="ctrlSearchServicio" 
-                            [readonly]="esperaBusqueda" 
-                            [matAutocomplete]="servicios" 
-                            [placeholder]="esperaBusqueda ? 'Cargando data...' : 'Seleccione el servicio'"
-                            [ngClass]="{'bg-gray-100': esperaBusqueda}"
-                            >
-                            <mat-autocomplete #servicios="matAutocomplete" 
-                            [displayWith]="displayServicioFiltered" 
-                            (optionSelected)="onServicioSelect($event)">
-                            <mat-option *ngFor="let option of serviciosFiltrados" [value]="option">
-                                {{ option.nombre }}
-                            </mat-option>
-                            </mat-autocomplete>
-                        </span>
-                        <span class="text-[14px] font-light mt-2">
-                            <span class="text-[14px] font-light">
-                                Hora Inicio:
-                              </span>
-                              <input type="time" [formControl]="horaInicioControl" (change)="onHoraInicioChange()"
-                                     class="border px-2 py-1 rounded" min="07:00" max="18:15" />
-                            
-                              <span class="text-[14px] font-light ml-2">
-                                Hora Fin:
-                              </span>
-                              <input type="time" [value]="horaFin" readonly class="border px-2 py-1 rounded bg-gray-100" />
-                        </span>
+                    <div class="flex flex-col gap-[5px] leading-[20px]">
+                        <span class="text-[18px] font-medium"> {{datoProgramacion.nombreServicio[0] + (datoProgramacion.nombreServicio.substring(1) | lowercase)}}</span>
+                        <span class="text-[14px] font-light"> {{(datoProgramacion.fecha | date: 'EEEE, dd' : 'es') | titlecase}} de {{(datoProgramacion.fecha | date: 'MMMM') | titlecase}} de {{((datoProgramacion.fecha + ' ' + datoProgramacion.horaIni) | date:'hh:mm aa -') +  ' ' + ((datoProgramacion.fecha + ' ' + datoProgramacion.horaFin) | date:'hh:mm aa')}}</span>
                     </div>
                 </div>
             </div>
-            <div class="py-3 flex justify-center items-center">
-                <app-btn class="botonApariencia flex flex-row h-10 w-[160px] transform translate-x-20 text-center" (click)="crearClase()">
-                    <div class="flex flex-row items-right gap-[5px] text-center justify-center">
-                        <!--<img class="self-center" src="assets/svg/icon-list-assignments.svg">-->
-                        <span class="items-center">Crear Clase</span> <!-- Texto fijo -->
-                    </div>
-                </app-btn>
-              </div>
             <div>
                 <div class="flex flex-row gap-[14px]">
-                    <!-- <ul class="flex flex-row gap-1.5">
+                    <ul class="flex flex-row gap-1.5">
                         <li>
                             <input type="radio" id="search-typing" [formControl]="ctrlTypeSearch" [value]="1" class="hidden peer" required />
                             <label for="search-typing" class="flex items-center justify-center w-10 h-10 border border-[#D4D4D4] rounded cursor-pointer peer-checked:bg-cam peer-checked:colorWhite hover:bg-[#057EC933]">
                                 <img src="assets/svg/icon-search-typing.svg">
                             </label>
                         </li>
-                        
                        <li>
                             <input type="radio" id="search-bar-code" [formControl]="ctrlTypeSearch" [value]="2" class="hidden peer">
                             <label for="search-bar-code" class="flex items-center justify-center w-10 h-10 border border-[#D4D4D4] rounded cursor-pointer peer-checked:bg-cam peer-checked:colorWhite hover:bg-[#057EC933]">
@@ -86,7 +48,6 @@
                             </label>
                         </li>
                     </ul>
-                   
                     <div class="flex flex-row gap-3 grow">
                         <input type="text" 
                         class="inputTextoDialog focusCampo" *ngIf="ctrlTypeSearch.value == 1" [formControl]="ctrlSearch" 
@@ -97,9 +58,9 @@
                         >
                         <mat-autocomplete #asegurados="matAutocomplete" [displayWith]="displayAseguradoFiltered" (optionSelected)="onAseguradoSelect($event)"
                         (optionsScroll)="onAutocompleteScroll()" >
-                        
                             <mat-option *ngFor="let option of listFilteredBusqueda" [value]="option">
                                 <div class="flex flex-row gap-2 items-center">
+                                    <!--<img class="h-10 rounded" src='data:image/jpeg;base64,{{option.foto}}'>-->
                                     <img class="h-10 rounded" src='assets/images/imgReemplazo.png'>
                                     <div class="flex flex-col gap-1 text-[##64748B]">
                                         <span class="text-[14px] font-medium">{{option.nombreCompleto | titlecase}}</span>
@@ -117,6 +78,7 @@
                                   <option value="" disabled selected>Seleccione su tipo de documento</option>
                                   <option *ngFor="let documento of opciones" [value]='documento.valor1'>{{documento.nombre | titlecase}}
                                   </option>
+                                  <!-- <option value="1">Registrado</option> -->
                                 </select>
                               </div>
                             </div>
@@ -140,68 +102,50 @@
                               </div>
                         </ng-container>
                       
-   
+                       <!-- <div class="w-[34px] h-10 flex items-center justify-center border border-gray-400 rounded shrink-0" *ngIf="ctrlTypeSearch.value == 1" [ngClass]="esperaBusqueda ? 'relative' : 'cursor-pointer hover:bg-slate-200'" (click)="!esperaBusqueda ? getListAseguradosFindByText('') : null">
+                          <img src="assets/svg/icons8-refresh-2.svg" class="select-none" [ngClass]="esperaBusqueda ? 'opacity-0' : null">
+                          <fa-icon *ngIf="esperaBusqueda" class="absolute" [icon]="faSpinner" [pulse]="true"></fa-icon>
+                        </div>-->
+
                     </div>
-                -->
                 </div>                
             </div>
         </div>
-        <div class="flex flex-col gap-[2px] shrink-0 w-[160px]">
-           
+        <div class="flex flex-col gap-[2px] shrink-0">
             <div class="flex flex-row gap-2 py-[2px]">
                 <div class="flex items-center justify-center w-6">
-                <img class="select-none" src="assets/svg/icon-class-lesson.svg">
+                    <img class="select-none" src="assets/svg/icon-class-lesson.svg">
                 </div>
                 <div class="flex flex-col text-[#64748B]">
-                <input type="number" [(ngModel)]="sesion" min="1" class="w-[130px] text-center text-[13px] leading-4 border border-[#64748B] rounded" />
-                <span class="font-light leading-[10px] text-[10px] py-1">Sesión</span>
+                    <span class="leading-4">{{comienzoSesiones}} de {{datoProgramacion.numSesiones}}</span>
+                    <span class="font-light leading-[10px] text-[10px]">{{datoProgramacion.numSesiones > 1 ? 'Sesiones' : 'Sesión'}}</span>
                 </div>
             </div>
             <div class="flex flex-row gap-2 py-[2px]">
                 <div class="flex items-center justify-center w-6">
-                <img class="select-none" src="assets/svg/icon-class-lesson.svg">
+                    <img class="iconoEscalaGris select-none w-[14px]" src="assets/svg/icon-control-time.svg">
                 </div>
                 <div class="flex flex-col text-[#64748B]">
-                <select [(ngModel)]="presupuesto" class="text-[13px] leading-4 border border-[#64748B] rounded w-[130px]">
-                    <option value="PROPIO">PROPIO</option>
-                    <option value="FINANCIADO">FINANCIADO</option>
-                </select>
-                <span class="font-light leading-[10px] text-[10px] py-1">Presupuesto</span>
+                    <span class="leading-4">{{datoProgramacion.margenHorario}}</span>
+                    <span class="font-light leading-[10px] text-[10px]">Tiempo</span>
                 </div>
             </div>
             <div class="flex flex-row gap-2 py-[2px]">
                 <div class="flex items-center justify-center w-6">
-                <img class="iconoEscalaGris select-none w-[14px]" src="assets/svg/icon-control-time.svg">
-                </div>
-                <div class="flex flex-col text-[#64748B]">
-                <select [(ngModel)]="modalidad" class="text-[13px] leading-4 border border-[#64748B] rounded w-[130px]">
-                    <option value="PRESENCIAL">PRESENCIAL</option>
-                    <option value="VIRTUAL">VIRTUAL</option>
-                </select>
-                <span class="font-light leading-[10px] text-[10px] py-1">Modalidad</span>
-                </div>
-            </div>
-          <!--  <div class="flex flex-row gap-2 py-[2px]">
-                <div class="flex items-center justify-center w-6">
-                <img class="iconoEscalaGris select-none" src="assets/svg/icon-person-group.svg">
+                    <img class="iconoEscalaGris select-none" src="assets/svg/icon-person-group.svg">
                 </div>
                 <div class="flex flex-col">
-                <span class="leading-4 text-[var(--color-black-alt)] text-[10px]">{{total}}</span>
-                <span class="font-light leading-[10px] text-[10px] text-[#64748B]">Participantes</span>
+                    <span class="leading-4 text-[var(--color-black-alt)]">{{total}}</span>
+                    <span class="font-light leading-[10px] text-[10px] text-[#64748B]">Participantes</span>
                 </div>
-            </div>-->
-
-            <div class="flex flex-row">
-
-              <!--  <app-btn class="botonApariencia flex flex-row h-10 w-[160px]">
-                    <div class="flex flex-row items-right gap-[5px]">
-                        <img class="self-center" src="assets/svg/icon-list-assignments.svg">
-                        <span>Crear Clase</span> 
-                    </div>
-                </app-btn>-->
             </div>
-            
-            
+            <!--
+            <app-btn class="botonApariencia flex h-10" color="mezclado" [disabled]="true">
+                <div class="flex flex-row items-center gap-[5px]">
+                    <img class="self-center" src="assets/svg/icon-list-assignments.svg">
+                    <span>{{comienzoSesiones}} Hora</span>
+                </div>
+            </app-btn>-->
         </div>
     </div>
     <!--
@@ -213,7 +157,6 @@
     tipoDoc: string;
     numDoc: string;
     -->
-    <!--
     <div *ngIf="dataSource.length == 0" class="w-full h-3/4 flex items-center bg-white botonApariencia">
         <div class="m-auto w-fit text-center py-6">
           <img class="m-auto" src="assets/svg/empty-data.svg" alt="">
@@ -293,6 +236,16 @@
               </ng-container>
         
             </table>
+           <!-- <mat-paginator #paginator class="demo-paginator paginatorDatos" 
+            (page)="handlePageEvent($event)"
+            [length]="total"
+            [pageSize]="pageSize"
+            showFirstLastButtons="true"
+            [pageSizeOptions]="pageSizeOptions.length > 0 ? pageSizeOptions : []"
+            [pageIndex]="pageIndex"
+            aria-label="Select page">
+            </mat-paginator>
+            -->
         </div>      
-    </div>-->
+    </div>
 </div>

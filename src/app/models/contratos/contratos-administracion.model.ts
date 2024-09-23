@@ -28,6 +28,31 @@ export interface RequestListContracts{
     pageSize: number
 }
 
+export interface RequestSaveClase{
+    fecha : string,
+    horaInicio : string,
+    horaFin : string,
+    idServicio : number,
+    idunidadOperativa : number,
+    idUsuario : number,
+    sesion : number,
+    modalidad : string, //VIRTUAL
+    presupuesto : string //COFINANCIADO
+}
+
+export interface ResponseSaveClase{
+    idAsisRapid: number,
+    fecha : string,
+    horaInicio : string,
+    horaFin : string,
+    idServicio : number,
+    idunidadOperativa : number,
+    idUsuario : number,
+    sesion : number,
+    modalidad : string, //VIRTUAL
+    presupuesto : string //COFINANCIADO
+}
+
 export interface ContratoCabecera{
     tipoOrigen: string,
     idUnidadOperativa: number,

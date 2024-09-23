@@ -33,6 +33,7 @@ export class CrearCabeceraAsistenciaRapidaComponent {
 
   horaInicioControl = new FormControl();
   horaFin: string = '';
+  idServicio!: number;
 
   currentYear!: number;
   currentMonth!: number;
@@ -43,8 +44,8 @@ export class CrearCabeceraAsistenciaRapidaComponent {
 
    // Variables para los campos
    sesion: number = 1; // Valor inicial para la sesión
-   presupuesto: string = 'Propio'; // Valor inicial para el presupuesto
-   modalidad: string = 'Presencial'; // Valor inicial para la modalidad
+   presupuesto: string = 'PROPIO'; // Valor inicial para el presupuesto
+   modalidad: string = 'PRESENCIAL'; // Valor inicial para la modalidad
    total: number = 0; // Variable autocalculada
    
   months = [
@@ -186,6 +187,7 @@ export class CrearCabeceraAsistenciaRapidaComponent {
         }
         else{
           if (value.nombre && value.nombre.trim().length > 0) {
+            this.idServicio = value.idServicio;
             return this.contratosAdministracionService.getListServiciosByTxt(value.nombre);
           } else {
             return of([]);  // Si no hay texto, devuelve un array vacío
@@ -267,6 +269,33 @@ export class CrearCabeceraAsistenciaRapidaComponent {
     // Filtra solo meses desde el mes actual hacia adelante
     return this.months.filter(month => month.value >= this.currentMonth);
   }
- 
 
+  crearClase() {
+
+  const fecha = new Date(this.currentYear, this.selectedMonth - 1, this.selectedDay);
+  const fechaFormateada = fecha.toISOString().split('T')[0]; 
+    const data = {
+      fecha: fechaFormateada, 
+      horaInicio: this.horaInicioControl.value,
+      horaFin: this.horaFin,
+      idServicio: this.idServicio, 
+      idunidadOperativa: (JSON.parse(localStorage.getItem('UnidElegida')!)).idUnidOperativa,
+      idUsuario: (JSON.parse(localStorage.getItem('camUser')!)).idUsuario,
+      sesion: this.sesion, 
+      modalidad: this.modalidad,
+      presupuesto: this.presupuesto 
+    };
+  
+    this.contratosAdministracionService.grabarCrearClase(data).subscribe(
+      (response) => {
+        this.toast.success('Clase creada exitosamente.');
+        console.log('Respuesta:', response);
+      },
+      (error) => {
+        this.toast.error('Error al crear la clase.');
+        console.error('Error:', error);
+      }
+    );
+  }
+ 
 }

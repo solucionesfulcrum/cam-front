@@ -43,7 +43,7 @@
       <ng-container cdkColumnDef="descripcion">
         <th cdk-header-cell class="py-[1rem] px-6" *cdkHeaderCellDef [style]="'padding-left: 0px;'" >Descripcion</th>
         <td cdk-cell class="py-[1rem] px-6 text-Name" *cdkCellDef="let row, index as i" [style]="'padding-left: 0px;'">
-          <span class=" cursor-pointer" [routerLink]="['./'+row.idProgDet]">{{ row.descripcion }}</span>
+          <span class=" cursor-pointer" [routerLink]="['./asistencias/'+row.idAsisRapido]">{{ row.descripcion }}</span>
         </td>
       </ng-container>
 
