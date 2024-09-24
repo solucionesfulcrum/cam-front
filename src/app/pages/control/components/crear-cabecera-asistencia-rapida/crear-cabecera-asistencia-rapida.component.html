@@ -50,7 +50,11 @@
                               <span class="text-[14px] font-light ml-2">
                                 Hora Fin:
                               </span>
-                              <input type="time" [value]="horaFin" readonly class="border px-2 py-1 rounded bg-gray-100" />
+                              <select [(ngModel)]="horaFin" class="border px-2 py-1 rounded bg-gray-100 w-[200px]">
+                                <option *ngFor="let opcion of horasFinOptions" [value]="opcion.valor">
+                                  {{ opcion.texto }}
+                                </option>
+                              </select>
                         </span>
                     </div>
                 </div>

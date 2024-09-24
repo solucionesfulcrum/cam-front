@@ -30,6 +30,7 @@ export class EditarCabeceraAsistenciaRapidaComponent {
 
   horaInicioControl = new FormControl();
   horaFin: string = '';
+  horasFinOptions: { valor: string, texto: string }[] = []; // Añadido
   idServicio!: number;
 
   currentYear!: number;
@@ -227,6 +228,8 @@ export class EditarCabeceraAsistenciaRapidaComponent {
         this.selectedDay = fecha.getUTCDate();
         this.selectedMonth = fecha.getUTCMonth() + 1;
         this.horaInicioControl.setValue(this.formatHour(this.datoProgramacion.horaIni));
+
+        this.generarOpcionesHoraFin(this.formatHour(this.datoProgramacion.horaIni));
         this.horaFin = this.formatHour(this.datoProgramacion.horaFin);
         this.ctrlSearchServicio.setValue(this.datoProgramacion.nombreServicio)
         this.sesion=this.datoProgramacion.sesiones
@@ -252,14 +255,47 @@ export class EditarCabeceraAsistenciaRapidaComponent {
     const horaInicio = this.horaInicioControl.value;
     if (horaInicio) {
       if (this.validarHora(horaInicio)) {
-        this.horaFin = this.calcularHoraFin(horaInicio);
-        if (this.horaFin > '18:15') {
-          this.horaFin = '18:15';  // Ajusta la hora de fin a 6:15 p.m. si excede
+        this.generarOpcionesHoraFin(horaInicio); // Generamos las opciones de hora fin
+        if (this.horasFinOptions.length > 0) {
+          this.horaFin = this.horasFinOptions[0].valor; // Seleccionamos la primera opción por defecto
+        } else {
+          this.horaFin = ''; // No hay opciones disponibles
         }
       } else {
         this.horaInicioControl.setValue('07:00');  // Establece 7:00 a.m. si el valor no es válido
-        this.horaFin = this.calcularHoraFin('07:00');
+        this.generarOpcionesHoraFin('07:00');
+        if (this.horasFinOptions.length > 0) {
+          this.horaFin = this.horasFinOptions[0].valor;
+        } else {
+          this.horaFin = '';
+        }
       }
+    }
+  }
+
+  generarOpcionesHoraFin(horaInicio: string) {
+    this.horasFinOptions = [];
+    const [horaInicioH, horaInicioM] = horaInicio.split(':').map(Number);
+    const inicioEnMinutos = horaInicioH * 60 + horaInicioM;
+
+    const finMaxEnMinutos = 19 * 60; // 19:00 en minutos
+
+    const incrementos = [45, 90, 135];
+
+    incrementos.forEach(incremento => {
+      const finEnMinutos = inicioEnMinutos + incremento;
+      if (finEnMinutos <= finMaxEnMinutos) {
+        const horaFinH = Math.floor(finEnMinutos / 60).toString().padStart(2, '0');
+        const horaFinM = (finEnMinutos % 60).toString().padStart(2, '0');
+        const valor = `${horaFinH}:${horaFinM}`;
+        const texto = `${valor} - ${incremento} minutos`;
+        this.horasFinOptions.push({ valor, texto });
+      }
+    });
+
+    // Si no hay opciones válidas, restablecer la hora fin
+    if (this.horasFinOptions.length === 0) {
+      this.horaFin = '';
     }
   }
 

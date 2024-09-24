@@ -33,6 +33,7 @@ export class CrearCabeceraAsistenciaRapidaComponent {
 
   horaInicioControl = new FormControl();
   horaFin: string = '';
+  horasFinOptions: { valor: string, texto: string }[] = []; // Añadido
   idServicio!: number;
 
   currentYear!: number;
@@ -62,7 +63,6 @@ export class CrearCabeceraAsistenciaRapidaComponent {
     { name: 'Noviembre', value: 11 },
     { name: 'Diciembre', value: 12 }
   ];
-
 
   svgDir = faArrowsUpToLine;
   
@@ -101,7 +101,6 @@ export class CrearCabeceraAsistenciaRapidaComponent {
   dropdownOpen: boolean = false;
   chkHeader: boolean = false;
 
-
   //DATA PRUEBA
   dataPrueba: AsistenciaLista[] = [];
   dataSource: AsistenciaLista[] = [];
@@ -127,18 +126,6 @@ export class CrearCabeceraAsistenciaRapidaComponent {
   pageScroll: number = 1;
 
   codUoCiram: string = '';
-
-  /*
-  marcar: boolean;
-    orden: number;
-    
-    nombreCompleto: string;
-    birthday : false;
-    horaAsistencia: string;
-    aseguradoNuevo: false;
-    tipoDoc: string;
-    numDoc: string;
-  */
 
   constructor(
               private fb                                : FormBuilder,
@@ -214,31 +201,51 @@ export class CrearCabeceraAsistenciaRapidaComponent {
     const horaInicio = this.horaInicioControl.value;
     if (horaInicio) {
       if (this.validarHora(horaInicio)) {
-        this.horaFin = this.calcularHoraFin(horaInicio);
-        if (this.horaFin > '18:15') {
-          this.horaFin = '18:15';  // Ajusta la hora de fin a 6:15 p.m. si excede
+        this.generarOpcionesHoraFin(horaInicio); // Generamos las opciones de hora fin
+        if (this.horasFinOptions.length > 0) {
+          this.horaFin = this.horasFinOptions[0].valor; // Seleccionamos la primera opción por defecto
+        } else {
+          this.horaFin = ''; // No hay opciones disponibles
         }
       } else {
         this.horaInicioControl.setValue('07:00');  // Establece 7:00 a.m. si el valor no es válido
-        this.horaFin = this.calcularHoraFin('07:00');
+        this.generarOpcionesHoraFin('07:00');
+        if (this.horasFinOptions.length > 0) {
+          this.horaFin = this.horasFinOptions[0].valor;
+        } else {
+          this.horaFin = '';
+        }
       }
     }
   }
 
-  calcularHoraFin(horaInicio: string): string {
-    const [hora, minutos] = horaInicio.split(':').map(Number);
-    const fecha = new Date();
-    fecha.setHours(hora, minutos);
-    fecha.setMinutes(fecha.getMinutes() + 45);  // Añadir 45 minutos
+  generarOpcionesHoraFin(horaInicio: string) {
+    this.horasFinOptions = [];
+    const [horaInicioH, horaInicioM] = horaInicio.split(':').map(Number);
+    const inicioEnMinutos = horaInicioH * 60 + horaInicioM;
 
-    // Formatear la hora de fin a HH:MM
-    const horaFin = fecha.getHours().toString().padStart(2, '0');
-    const minutosFin = fecha.getMinutes().toString().padStart(2, '0');
-    return `${horaFin}:${minutosFin}`;
+    const finMaxEnMinutos = 19 * 60; // 19:00 en minutos
+
+    const incrementos = [45, 90, 135];
+
+    incrementos.forEach(incremento => {
+      const finEnMinutos = inicioEnMinutos + incremento;
+      if (finEnMinutos <= finMaxEnMinutos) {
+        const horaFinH = Math.floor(finEnMinutos / 60).toString().padStart(2, '0');
+        const horaFinM = (finEnMinutos % 60).toString().padStart(2, '0');
+        const valor = `${horaFinH}:${horaFinM}`;
+        const texto = `${valor} - ${incremento} minutos`;
+        this.horasFinOptions.push({ valor, texto });
+      }
+    });
+
+    // Si no hay opciones válidas, restablecer la hora fin
+    if (this.horasFinOptions.length === 0) {
+      this.horaFin = '';
+    }
   }
 
   validarHora(hora: string): boolean {
-    // Verifica que la hora esté en el rango de 07:00 a 18:15
     return hora >= '07:00' && hora <= '18:15';
   }
 
@@ -250,7 +257,7 @@ export class CrearCabeceraAsistenciaRapidaComponent {
     console.log('Servicio seleccionado:', event.option.value);
   }
 
-  //SELECCIONAR DIA
+  //SELECCIONAR DÍA
   onMonthChange(): void {
     this.updateDaysInMonth();
   }
@@ -258,17 +265,9 @@ export class CrearCabeceraAsistenciaRapidaComponent {
   updateDaysInMonth(): void {
     const daysInSelectedMonth = new Date(this.currentYear, this.selectedMonth, 0).getDate();
     this.daysInMonth = Array.from({ length: daysInSelectedMonth }, (v, k) => k + 1);
-    // Si es el mes actual, filtra los días anteriores al día actual
-    //if (this.selectedMonth === this.currentMonth) {
-    //  this.daysInMonth = Array.from({ length: daysInSelectedMonth - this.currentDay + 1 }, (v, k) => k + this.currentDay);
-    //} else {
-    //  this.daysInMonth = Array.from({ length: daysInSelectedMonth }, (v, k) => k + 1);
-    //}
   }
 
   getFilteredMonths() {
-    // Filtra solo meses desde el mes actual hacia adelante
-    //return this.months.filter(month => month.value >= this.currentMonth);
     return this.months;
   }
 
