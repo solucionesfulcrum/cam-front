@@ -228,7 +228,11 @@ export class ShowAfiliadoComponent implements OnInit {
   levantarModalDarDeBaja(){
     const dialogRef = this.matDialog.open(FormularioBajaComponent,{
       minWidth:'800px',
-      maxWidth:'50%',     
+      maxWidth:'50%',
+      data: {
+        numdoc: this.dataFichaAfiliado.asegurado.numDoc,
+        tipDoc: this.dataFichaAfiliado.asegurado.tipoDoc,
+      }     
     })
     dialogRef.afterClosed().subscribe(response=>{
       if(response.success){

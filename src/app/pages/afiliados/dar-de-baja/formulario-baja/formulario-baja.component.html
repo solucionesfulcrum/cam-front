@@ -20,7 +20,12 @@
         <p *ngIf="frmCtrlMotivo.hasError('required')" class="font-medium text-red-500 text-xs mt-1 ml-1">
         Debe ingresar un motivo
         </p>
+        <!-- Mostrar error personalizado si no cumple la condición -->
+        <p *ngIf="frmCtrlMotivo.hasError('conditionNotMet')" class="font-medium text-red-500 text-xs mt-1 ml-1">
+        La persona no tiene una fecha de fallecimiento.
+        </p>
     </div>
+
     <div >
         <p  class="text-sm mt-1 ml-1">
         Descripción del motivo de baja:

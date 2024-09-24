@@ -10,6 +10,7 @@ import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { ModalConfirmarGenericoComponent } from '@shared/components/modal-confirmar-generico/modal-confirmar-generico.component';
 import { DatosGeneralesService } from 'src/app/data/services/datos-generales.service';
 import { Parametro } from '@models/parametros-busqueda.model';
+import { ContactosAfiliadosService } from 'src/app/data/services/contactos/contactos-afiliados.service';
 
 @Component({
   selector: 'esp-formulario-baja',
@@ -25,14 +26,20 @@ export class FormularioBajaComponent {
   registrosNotas: any[] = [];
   idUserSession = (JSON.parse(localStorage.getItem('camUser')!)).idUsuario;
 
+  numdoc: string = "";
+  tipDoc: string = "";
+
   constructor(@Inject(DIALOG_DATA) public data                : any,
               private solicitudServicio                       : AfiliacionesSolicitudesService,
               private notificationService                     : NotificationService,
               private fb                                      : FormBuilder,
               private dialog: MatDialog,
               private _dialogRef                              : MatDialogRef<DialogNotasComponent>,
-              private datosService             : DatosGeneralesService,) {
-
+              private datosService             : DatosGeneralesService,
+              private _contactosAfi: ContactosAfiliadosService
+            ) {
+      this.numdoc = data.numdoc;
+      this.tipDoc = data.tipDoc;
   }
 
   ngOnInit(){
@@ -63,14 +70,35 @@ export class FormularioBajaComponent {
     this.frmCtrlMotivo.markAsTouched();
     this.frmCtrlDescMotivo.markAsTouched();
     if(this.frmCtrlMotivo.valid && this.frmCtrlDescMotivo.valid){
-      this._dialogRef.close({
-        success: true,
-        data:{
-          motivo: this.frmCtrlMotivo.value,
-          txtMotivo: this.txtMotivo,
-          descripcion: this.frmCtrlDescMotivo.value,
-        }
-      });
+      if(this.frmCtrlMotivo.value == "66"){
+        this._contactosAfi.servicioObtenerDataPersona("0"+this.tipDoc, this.numdoc).subscribe(data=>{
+          if(data.data.data.fefallecid){
+            this._dialogRef.close({
+              success: true,
+              data:{
+                motivo: this.frmCtrlMotivo.value,
+                txtMotivo: this.txtMotivo,
+                descripcion: this.frmCtrlDescMotivo.value,
+              }
+            });
+          }
+          else{
+            this.frmCtrlMotivo.setErrors({ conditionNotMet: true });
+            this.notificationService.warning('La persona no está fallecida, no puede continuar.');
+          }
+        })
+      }
+      else{
+        this._dialogRef.close({
+          success: true,
+          data:{
+            motivo: this.frmCtrlMotivo.value,
+            txtMotivo: this.txtMotivo,
+            descripcion: this.frmCtrlDescMotivo.value,
+          }
+        });
+      }
+    
     }
   }
 
