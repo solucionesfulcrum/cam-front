@@ -82,7 +82,7 @@ export class RegisterAseguradoComponent {
 
   // <!---------------------------------------------------- Cuarto paso:  Datos de Procedencia                    --------------------------------------------------->
 
-  frmCtrlModIngr = new FormControl(null);
+  frmCtrlModIngr = new FormControl(18);
 
   selectProcedenciaDerivOtro: string = '';
   datoProcedenciaDerivOtro: string = '';
@@ -262,7 +262,7 @@ export class RegisterAseguradoComponent {
       this.parametroDocumento = data.data.find((x) => x.valor1 == this.tipoDoc)!;
     })
     this._datoGeneralesService.getTipoParametros('MOD_INGRESO_ADMISION').pipe(map(msg => msg.data.sort((a1: Parametro, a2: Parametro) => parseInt(a1.valor1) - parseInt(a2.valor1)))).subscribe((data)=>{
-      this.listParamModIngr = data;
+      this.listParamModIngr = data.filter(param => param.idParametros == 18);
     })
   }
 

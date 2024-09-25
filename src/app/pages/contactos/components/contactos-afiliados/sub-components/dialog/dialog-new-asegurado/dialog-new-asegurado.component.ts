@@ -21,6 +21,7 @@ export class DialogNewAseguradoComponent {
   public formNewFicha = this.fb.nonNullable.group({
     frmSelectDoc:new FormControl("1"),
     frmDoc:['', [Validators.required, Validators.minLength(8)]],
+    fechaNac:['', []],
   });
 
   unidOpeUserSession: any; 

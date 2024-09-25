@@ -181,7 +181,7 @@ export class SolicitudesComponent implements OnInit {
 
   nuevoAsegurado(){
     const dialogRef = this.dialog.open(DialogNewAseguradoComponent,{
-      minWidth:'800px',
+      minWidth:'900px',
       maxWidth:'50%',
       data:{}
     })

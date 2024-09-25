@@ -43,7 +43,7 @@ export class ContactosAfiliadosComponent implements OnInit {
   pageSize = 10;
   pageSizeOptions:  number[] = [5,10,20];
   total = 0;
-  columns: string[] = ['marcar','nombres','tipoDoc','numDoc', 'edad', 'estadoCivil','ipress', 'ciram', 'fecha'];
+  columns: string[] = ['marcar','nombres','tipoDoc','numDoc', 'edad', 'estadoCivil','ipress', 'ciram', 'estado'];
    //columns: string[] = ['marcar','nombres','tipoDoc','numDoc', 'edad', 'estadoCivil','ipress', 'fecha'];
 
   rol: string = '';
