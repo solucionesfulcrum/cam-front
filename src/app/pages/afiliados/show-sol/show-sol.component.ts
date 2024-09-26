@@ -13,6 +13,8 @@ import { DatosGeneralesService } from 'src/app/data/services/datos-generales.ser
 import { Parametro } from '@models/parametros-busqueda.model';
 import { DialogNotasComponent } from './dialog-notas/dialog-notas.component';
 import { ContactosAfiliadosService } from 'src/app/data/services/contactos/contactos-afiliados.service';
+import { ModalConfirmarGenericoComponent } from '@shared/components/modal-confirmar-generico/modal-confirmar-generico.component';
+import { MatDialog } from '@angular/material/dialog';
 
 @Component({
   selector: 'app-show-sol',
@@ -59,6 +61,7 @@ export class ShowSolComponent implements OnInit {
     private datosGeneralesServices        : DatosGeneralesService,
     private contactosAfiServ : ContactosAfiliadosService,
     private dialog : Dialog,
+    private matDialog : MatDialog,
     private _afiliaddoService: AfiliacionesSolicitudesService ) {
       this.idSolicitud = this.activeRoute.snapshot.paramMap.get('idSolicitud')!;
       this.activeRoute.queryParams.subscribe(params => {
@@ -72,6 +75,10 @@ export class ShowSolComponent implements OnInit {
       if (data.code == 0) {
         // //console.log(data.data);
         this.dataSolicitud = data.data;
+
+        if(this.dataSolicitud.solicitud.appOrigen == 'MOVIL_CAM'){
+          this.opcionesBotones[2]={texto: 'No contestó', colorBtn:'danger', loading: false, esImagen: true, rutaIcono: 'assets/svg/llamada-cancelada.svg'}
+        }
         if (this.dataSolicitud.solicitud.estado === 'EVALUADO') {
           this.opcionesBotones[1].deshabilitado = true;
         }
@@ -169,7 +176,7 @@ export class ShowSolComponent implements OnInit {
             idEstado: 16
           }).subscribe(data =>{
              this.router.navigate(['/app/afiliados/']);
-            this.notificationService.warning(data.data.mensaje);
+            this.notificationService.info(data.message);
           })
         }
       }
@@ -193,6 +200,24 @@ export class ShowSolComponent implements OnInit {
     dialogRef.closed.subscribe(out =>{
       // //console.log(out)
     })
+  }
+
+  noContesto(){
+    this.matDialog.open(ModalConfirmarGenericoComponent, {
+      data:{
+        message: '¿Desea marcar esta solicitud como "NO CONTESTÓ"?'
+      }
+    }).afterClosed().subscribe(data=>{
+      if(data.success){
+        this.contactosAfiServ.cambiarDeEstado({
+          idFichaAdmision: this.dataSolicitud.fichaAdmision.idFichaAdmision,
+          idEstado: 71
+        }).subscribe(data =>{
+           this.router.navigate(['/app/afiliados/']);
+           this.notificationService.success(data.message);
+        })
+      }
+    });
   }
 
   
