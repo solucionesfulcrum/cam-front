@@ -205,7 +205,7 @@ export class ShowSolComponent implements OnInit {
   noContesto(){
     this.matDialog.open(ModalConfirmarGenericoComponent, {
       data:{
-        message: '¿Desea marcar esta solicitud como "NO CONTESTÓ"?'
+        message: '¿Desea marcar esta solicitud como "SIN RESPUESTA"?'
       }
     }).afterClosed().subscribe(data=>{
       if(data.success){
