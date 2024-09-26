@@ -71,8 +71,8 @@ export class FormularioBajaComponent {
     this.frmCtrlDescMotivo.markAsTouched();
     if(this.frmCtrlMotivo.valid && this.frmCtrlDescMotivo.valid){
       if(this.frmCtrlMotivo.value == "66"){
-        this._contactosAfi.servicioObtenerDataPersona("0"+this.tipDoc, this.numdoc).subscribe(data=>{
-          if(data.data.data.fefallecid){
+        this._contactosAfi.getDatoSeguro(this.tipDoc, this.numdoc).subscribe(data=>{
+          if(data.data[0].DGAFFAL){
             this._dialogRef.close({
               success: true,
               data:{
