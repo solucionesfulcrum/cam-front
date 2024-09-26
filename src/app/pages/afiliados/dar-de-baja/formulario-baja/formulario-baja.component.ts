@@ -72,7 +72,7 @@ export class FormularioBajaComponent {
     if(this.frmCtrlMotivo.valid && this.frmCtrlDescMotivo.valid){
       if(this.frmCtrlMotivo.value == "66"){
         this._contactosAfi.getDatoSeguro(this.tipDoc, this.numdoc).subscribe(data=>{
-          if(data.data[0].DGAFFAL){
+          if(data.data[0].DGAFFAL != "01/01/0001"){
             this._dialogRef.close({
               success: true,
               data:{
