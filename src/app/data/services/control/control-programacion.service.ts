@@ -41,6 +41,11 @@ export class ControlProgramacionService {
     return this._httpClient.get<any>(url);
   }
 
+  getSesionClaseRapida(model: {idAsisRapid: number, idUser: number, nroSesion: number}) {
+    const url = `${URL_BASE}/asistencia-rapida/obtener-sesion-clase`;
+    return this._httpClient.post<any>(url, model);
+  }
+
   finalizarClase(idAsisRapido: number){
     const url = `${URL_BASE}/finalizar-clase/asistencia-rapida/${idAsisRapido}`;
     return this._httpClient.put<any>(url, {});
@@ -252,7 +257,7 @@ export class ControlProgramacionService {
     return this._httpClient.post<any>(url, payload);
   }
 
-  registrarInscripcionAsistenciaRapida(payload: {idAsisRapid : number, idAsegurado: number}){
+  registrarInscripcionAsistenciaRapida(payload: {idAsisSesionRapid : number, idAsegurado: number}){
     const url = `${URL_BASE}/registrar/asistencia-rapida-detalle`;
     return this._httpClient.post<any>(url, payload);
   }
@@ -270,9 +275,9 @@ export class ControlProgramacionService {
   }
 
   
-  listarAsistenciaRapida(idAsisRap : number
+  listarAsistenciaRapida(idSesion : number
    ){
-    const url = `${URL_BASE}/asistencia-rapida/listar-asistencia-clase/${idAsisRap}`;
+    const url = `${URL_BASE}/asistencia-rapida/listar-asistencia-clase/${idSesion}`;
     return this._httpClient.get<any>(url);
   }
 

@@ -87,6 +87,10 @@ export class AsistenciaRapidaComponent {
 
   loadingPaginacion : boolean = false;
 
+  cierreDeClases: boolean = false;
+  idSesionActual: number = 0;
+  estadoSesionActual: string = "0";
+
   txtBusca : string = '';
 
   private searchTimeout: any;
@@ -167,8 +171,24 @@ export class AsistenciaRapidaComponent {
   getParametros(){
     this.datosService.getTipoParametros('TIPO_DOCUMENTO_IDENTIDAD').subscribe((data) =>{
       this.opciones = data.data;
-      this.getListTablaAsegurados();
+      
+      this.getSesion();
     });
+  }
+
+  getSesion(){
+    this.controlProgramacionService.getSesionClaseRapida({
+      idAsisRapid: this.idAsisRap,
+      idUser: (JSON.parse(localStorage.getItem('camUser')!)).idUsuario,
+      nroSesion: this.sesionActual
+    }).subscribe(data=>{
+      this.idSesionActual = data.data.idSesion;
+      this.estadoSesionActual = data.data.estado;
+      this.cierreDeClases = data.data.cierreDeClases;
+
+      this.getListTablaAsegurados();
+    })
+    
   }
 
   setListeners(){
@@ -216,11 +236,7 @@ export class AsistenciaRapidaComponent {
 
   cambiarSesion(movimiento: number){
     this.sesionActual += movimiento;
-  }
-
-  getDatosSesion(movimiento: number){
-    this.sesionActual += movimiento;
-
+    this.getSesion();
   }
 
   differenceInDays(date1: string): number {
@@ -247,7 +263,7 @@ export class AsistenciaRapidaComponent {
   }
 
   getListTablaAsegurados() : void{
-    this.controlService.listarAsistenciaRapida(this.idAsisRap)
+    this.controlService.listarAsistenciaRapida(this.idSesionActual)
     .subscribe(data => {
       let dataAsistentes = (data.data as AsistenciaRapidaLista[]).map((asistente : AsistenciaRapidaLista, index: number)=>{
   
@@ -300,7 +316,7 @@ export class AsistenciaRapidaComponent {
         if(data.data[0].acreditacion){
           this.controlProgramacionService.registrarInscripcionAsistenciaRapida({
             idAsegurado: data.data[0].idAsegurado,
-            idAsisRapid: this.datoProgramacion.idAsisRapido
+            idAsisSesionRapid: this.idSesionActual
           }).subscribe(data => {
             if(data.code == "0"){
               this.getListTablaAsegurados();
@@ -556,7 +572,7 @@ export class AsistenciaRapidaComponent {
         if(data.data[0].acreditacion)
         this.controlProgramacionService.registrarInscripcionAsistenciaRapida({
           idAsegurado: data.data[0].idAsegurado,
-          idAsisRapid: this.datoProgramacion.idAsisRapido
+          idAsisSesionRapid: this.idSesionActual
         }).subscribe(data => {
           if(data.code == "0"){
             if(this.ctrlTypeSearch.value == 3){
