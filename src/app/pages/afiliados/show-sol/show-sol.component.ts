@@ -175,8 +175,12 @@ export class ShowSolComponent implements OnInit {
             idFichaAdmision: this.dataSolicitud.fichaAdmision.idFichaAdmision,
             idEstado: 16
           }).subscribe(data =>{
-             this.router.navigate(['/app/afiliados/']);
-            this.notificationService.info(data.message);
+              this.contactosAfiServ.cambiarDeEstadoSolicitud( this.dataSolicitud.solicitud.idSolicitud,{
+                estado: 72
+              }).subscribe(data =>{
+              this.router.navigate(['/app/afiliados/']);
+              this.notificationService.warning("Usuario no acreditado, será evaluado como no apto");
+              })
           })
         }
       }
@@ -211,10 +215,14 @@ export class ShowSolComponent implements OnInit {
       if(data.success){
         this.contactosAfiServ.cambiarDeEstado({
           idFichaAdmision: this.dataSolicitud.fichaAdmision.idFichaAdmision,
-          idEstado: 71
+          idEstado: 16
         }).subscribe(data =>{
-           this.router.navigate(['/app/afiliados/']);
-           this.notificationService.success(data.message);
+            this.contactosAfiServ.cambiarDeEstadoSolicitud( this.dataSolicitud.solicitud.idSolicitud,{
+              estado: 72
+            }).subscribe(data =>{
+            this.router.navigate(['/app/afiliados/']);
+            this.notificationService.warning("Usuario no acreditado, será evaluado como no apto");
+            })
         })
       }
     });

@@ -65,6 +65,11 @@ export class ContactosAfiliadosService {
     return this._httpClient.post<any>(url,data);
   }
 
+  cambiarDeEstadoSolicitud(idSolicitud: string , data : {estado: number} ){
+    const url = `${environment.API}/solicitud/cambia-estado/${idSolicitud}`;
+    return this._httpClient.post<any>(url,data);
+  }
+
   corregirUbigeo(data : {tipo: string, codUbigeo: string, idAsegurado: string, idFichaAdmision: string} ){
     const url = `${environment.API}/utilidades/corregir-desc-nacimiento`;
     return this._httpClient.post<any>(url,data);
