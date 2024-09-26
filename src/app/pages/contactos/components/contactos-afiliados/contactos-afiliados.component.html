@@ -127,6 +127,7 @@
           
           <img [src]="row.estado == 'REGISTRADO' ? 'assets/svg/userReg.svg' : (row.estado == 'NO APTO' ? 'assets/svg/userNonAct.svg' : (row.estado == 'ACTIVO' ? 'assets/svg/userAct.svg' : ''))" [matTooltip]= "row.estado | titlecase">
           <img *ngIf="row.estado == 'BAJA'" src="assets/svg/dado-baja.svg" matTooltip= "baja">
+          <img *ngIf="row.estado == 'SIN RESPUESTA'" src="assets/svg/sin-respuesta-lista.svg" class="w-5 h-5" matTooltip= "Sin respuesta">
           <span style="width: 100px; margin-left: 5px; font-size: 12px;">
             {{row.estado}}
           </span>
