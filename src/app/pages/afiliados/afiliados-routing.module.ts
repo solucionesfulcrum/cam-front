@@ -87,6 +87,11 @@ const routes: Routes = [
     component: RegisterAseguradoComponent,
     title: 'Registrar Asegurado'
   },
+  {
+    path: 'register/:tipoDoc/:numDoc/:fecNac',
+    component: RegisterAseguradoComponent,
+    title: 'Registrar Asegurado'
+  },
   // { 
   //   path: '', 
   //   component: AfiliadosComponent,

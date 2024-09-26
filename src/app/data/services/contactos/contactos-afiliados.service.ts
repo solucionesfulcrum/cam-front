@@ -43,6 +43,13 @@ export class ContactosAfiliadosService {
     const url = `${environment.API}/client/afiliado/sagw-qa-identapi-v2/busqueda?tipodoc=${tipoDoc}&numerodocumento=${numDoc}&busqueda=1&codigo=0H2YU123&file=1`
     return this._httpClient.get<any>(url);
   }
+
+  
+  ServicioObetenerDataPersonaNoDni(model : {codOpcion: number, codTipDoc: string, numDoc: string, fecNacimiento: string}){
+    const url = `${environment.API}/client/afiliado/sgss-paciente-map-ficha-afiliado`;
+    return this._httpClient.post<any>(url, model);
+  }
+
   getDatoSeguro(tipo: string, numDoc: string){
     const url = `${environment.API}/client/afiliado/viva-mestros-asegurado?tipoDoc=${tipo}&nroDoc=${numDoc}`;
     return this._httpClient.get<any>(url);

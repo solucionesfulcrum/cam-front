@@ -20,8 +20,8 @@ export class DialogNewAseguradoComponent {
   
   public formNewFicha = this.fb.nonNullable.group({
     frmSelectDoc:new FormControl("1"),
-    frmDoc:['', [Validators.required, Validators.minLength(8)]],
-    fechaNac:['', []],
+    frmDoc:['', [Validators.required, Validators.minLength(6)]],
+    fechaNac:[''],
   });
 
   unidOpeUserSession: any; 
@@ -59,36 +59,43 @@ export class DialogNewAseguradoComponent {
       const numDoc=this.formNewFicha.value.frmDoc
       const unidadOpera = this.unidOpeUserSession.idUnidOperativa
       // //console.log("data de respuesta",this.unidOpeUserSession.idUnidOperativa)
-      this.datosService.validarAdmisionIngreso(tipoDoc,numDoc!,unidadOpera, 1)
-      .subscribe((data) => {
-        // //console.log("data de respuesta",data.data.acreditado)
-        if(data.code == 0){
-          this.status = 'success';
-          this.tipoMsg = data.data.acreditado;
-          this.msgRespuesta = data.data.mensaje;
-          if (this.tipoMsg == true) {
-            this.setLink2(this.createRequest().numDoc, this.createRequest().tipoDoc)
+      if(tipoDoc == "1"){
+        this.datosService.validarAdmisionIngreso(tipoDoc,numDoc!,unidadOpera, 1)
+        .subscribe((data) => {
+          // //console.log("data de respuesta",data.data.acreditado)
+          if(data.code == 0){
+            this.status = 'success';
+            this.tipoMsg = data.data.acreditado;
+            this.msgRespuesta = data.data.mensaje;
+            if (this.tipoMsg == true) {
+              this.setLink2(this.createRequest().numDoc, this.createRequest().tipoDoc , this.createRequest().fecNac!)
+            }
+            //this.hayMsg = true;
           }
-          //this.hayMsg = true;
-        }
-        else{
-          this.status = 'failed';
-          this.notificationService.warning(data.message);
-        }
-      });
-    }else{
-      
-    }
+          else{
+            this.status = 'failed';
+            this.notificationService.warning(data.message);
+          }
+        });
+      }else{
+        this.setLink2(this.createRequest().numDoc, this.createRequest().tipoDoc , this.createRequest().fecNac!)
+      }
+      }
+      else{
+        
+      }
+    
   }
   createRequest(): AcreditarFichaPostulante{
     return {
       idUnidadOpe: this.unidOpeUserSession.idUnidOperativa,
       tipoDoc: this.formNewFicha.value.frmSelectDoc!,
-      numDoc: this.formNewFicha.value.frmDoc!
+      numDoc: this.formNewFicha.value.frmDoc!,
+      fecNac: this.formNewFicha.value.fechaNac
     }
   }
-  setLink2(codigo:string, tipo:string){
-    this.router.navigate(['/app/afiliados/register/', tipo, codigo]);
+  setLink2(codigo:string, tipo:string, fecNac: string){
+    this.router.navigate(['/app/afiliados/register/', tipo, codigo, fecNac]);
     this._dialogRef.close();
 }
 }

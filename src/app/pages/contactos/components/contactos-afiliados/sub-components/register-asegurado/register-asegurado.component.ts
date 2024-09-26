@@ -32,6 +32,7 @@ export class RegisterAseguradoComponent {
   idUserSession = (JSON.parse(localStorage.getItem('camUser')!)).idUsuario;
   numDoc: string = '';
   tipoDoc: string = '';
+  fecNac: string = '';
 
   regionNac: string = '';
   provNac: string = '';
@@ -146,59 +147,101 @@ export class RegisterAseguradoComponent {
             ) {
                 this.numDoc = this.activeRoute.snapshot.paramMap.get('numDoc')!;
                 this.tipoDoc = this.activeRoute.snapshot.paramMap.get('tipoDoc')!;
+                let fecNac = this.activeRoute.snapshot.paramMap.get('fecNac')!;
+                if(fecNac){
+                  let fechaSplit = fecNac.split("-");
+                  this.fecNac = fechaSplit[2]+"/"+fechaSplit[1]+"/"+fechaSplit[0];
+                }
+
               }
   
   ngOnInit(){
-    this._datoGeneralesService.validarAdmisionIngreso(this.tipoDoc, this.numDoc, this.idUnidadOperativaUser, 1).subscribe((data)=>{
-      if (data.code == 0) {
-        if (data.data.acreditado) {
-          this.getParametros();
-          this.getDataFromServices();
-          this.frmCtrlDireccion.valueChanges.subscribe((data)=>{
-            if(data!>=0){
-              this.direccionesPersona.map(x=>{
-                x.activo = 0
-              });
-              this.direccionesPersona[data!].activo = 1;
-            }
-          })
-      
-          this.frmCtrlDireccion.addValidators([Validators.required]);
-          this.frmCtrlModIngr.addValidators([Validators.required]);
+    if(this.tipoDoc == "1"){
+      this._datoGeneralesService.validarAdmisionIngreso(this.tipoDoc, this.numDoc, this.idUnidadOperativaUser, 1).subscribe((data)=>{
+        if (data.code == 0) {
+          if (data.data.acreditado) {
+            this.getParametros();
+            this.getDataFromServices();
+            this.frmCtrlDireccion.valueChanges.subscribe((data)=>{
+              if(data!>=0){
+                this.direccionesPersona.map(x=>{
+                  x.activo = 0
+                });
+                this.direccionesPersona[data!].activo = 1;
+              }
+            })
+        
+            this.frmCtrlDireccion.addValidators([Validators.required]);
+            this.frmCtrlModIngr.addValidators([Validators.required]);
+          }
+          else{
+            this._notificacionService.warning(data.data.mensaje);
+            this.router.navigate(['/app/afiliados']);
+          }
         }
         else{
-          this._notificacionService.warning(data.data.mensaje);
-          this.router.navigate(['/app/afiliados']);
+          this._notificacionService.warning(data.message);
         }
-      }
-      else{
-        this._notificacionService.warning(data.message);
-      }
-    })
+      })
+    }
+    else{
+      this.getParametros();
+      this.getDataFromServices();
+      this.frmCtrlDireccion.valueChanges.subscribe((data)=>{
+        if(data!>=0){
+          this.direccionesPersona.map(x=>{
+            x.activo = 0
+          });
+          this.direccionesPersona[data!].activo = 1;
+        }
+      })
+  
+      this.frmCtrlDireccion.addValidators([Validators.required]);
+      this.frmCtrlModIngr.addValidators([Validators.required]);
+    }
+
   }
 
   getDataFromServices(){
     // Obtener codCentro ------------------------------------------------------------------------------------------------------------------------------
-    this._contactoService.servicioObtenerCodCentro(this.requestDataCodCentro()).subscribe((data)=>{
-      if (data.code == 0) {
-        this._datoGeneralesService.getRedesAsistenciales().subscribe((datos)=>{
-          if (datos.code == 0) {
-            this.dataRed = datos.data.data.find((x: any)=> {return x.cod_CENTRO  === data.data.dataAfiliado[0].codCentro});
-            this.feFallecimiento = data.data.dataPersona.fefallecid;
-            // //console.log(this.dataRed)
-          }
-          else{
-            this._notificacionService.warning(datos.message);
-          }
-        })
-      }
-      else{
-        this._notificacionService.warning(data.message);
-      }
-    });
+    
+    if(!this.fecNac){
+      this._contactoService.servicioObtenerCodCentro(this.requestDataCodCentro()).subscribe((data)=>{
+        if (data.code == 0) {
+          this._datoGeneralesService.getRedesAsistenciales().subscribe((datos)=>{
+            if (datos.code == 0) {
+              this.dataRed = datos.data.data.find((x: any)=> {return x.cod_CENTRO  === data.data.dataAfiliado[0].codCentro});
+              this.feFallecimiento = data.data.dataPersona.fefallecid;
+              // //console.log(this.dataRed)
+            }
+            else{
+              this._notificacionService.warning(datos.message);
+            }
+          })
+        }
+        else{
+          this._notificacionService.warning(data.message);
+        }
+      });
+    }
+
+
+    let metodo;
+    if(this.fecNac){
+      metodo = this._contactoService.ServicioObetenerDataPersonaNoDni({
+        codOpcion: 1,
+        //codTipDoc: this.tipoDoc,
+        codTipDoc: "2",
+        numDoc: this.numDoc,
+        fecNacimiento: this.fecNac
+      })
+    }
+    else{
+      metodo = this._contactoService.servicioObtenerDataPersona((`0${this.tipoDoc}`).slice(-2), this.numDoc);
+    }
 
     // Obtener Info Persona ------------------------------------------------------------------------------------------------------------------------------
-    this._contactoService.servicioObtenerDataPersona((`0${this.tipoDoc}`).slice(-2), this.numDoc).subscribe((data)=>{
+    metodo.subscribe((data)=>{
       if (data.code == 0) {
         this.infoReniec = data.data.data;
         //this.imagenAdmision = data.data.data.fotoBase64;
@@ -246,14 +289,17 @@ export class RegisterAseguradoComponent {
     })
     
     // Obtener Info Seguro ------------------------------------------------------------------------------------------------------------------------------
-    this._contactoService.getDatoSeguro(this.tipoDoc,this.numDoc).subscribe((data)=>{
-      if (data.code == 0) {
-        this.dataSeguro = Object(data.data[0]);
-      }
-      else{
-        this._notificacionService.warning(data.message);
-      }
-    })
+    if(!this.fecNac){
+      this._contactoService.getDatoSeguro(this.tipoDoc,this.numDoc).subscribe((data)=>{
+        if (data.code == 0) {
+          this.dataSeguro = Object(data.data[0]);
+        }
+        else{
+          this._notificacionService.warning(data.message);
+        }
+      })
+    }
+   
   }
 
   getParametros(){
@@ -307,7 +353,7 @@ export class RegisterAseguradoComponent {
           this.direccionesPersona.push(direccionObj)
         }
         else{
-          this._notificacionService.warning(data.mensaje);
+          this._notificacionService.warning(data.message);
         }
       })
     }

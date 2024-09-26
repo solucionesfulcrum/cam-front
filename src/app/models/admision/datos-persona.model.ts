@@ -174,5 +174,6 @@ export interface dataSeguro{
 export interface AcreditarFichaPostulante{
     tipoDoc: string,
     numDoc: string,
-    idUnidadOpe: string
+    idUnidadOpe: string,
+    fecNac?: string
 }

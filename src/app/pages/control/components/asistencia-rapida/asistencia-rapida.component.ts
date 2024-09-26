@@ -64,6 +64,9 @@ export class AsistenciaRapidaComponent {
   dropdownOpen: boolean = false;
   chkHeader: boolean = false;
 
+  intervalos: number = 1;
+  sesionActual: number = 1;
+
 
   //DATA PRUEBA
   dataPrueba: AsistenciaRapidaLista[] = [];
@@ -192,8 +195,15 @@ export class AsistenciaRapidaComponent {
         ////console.log(this.datoProgramacion)
         let seconds = Math.floor((new Date(this.datoProgramacion.fecha + ' ' + this.datoProgramacion.horaFin).getTime() - new Date(this.datoProgramacion.fecha + ' ' + this.datoProgramacion.horaIni).getTime())/1000);
         let horas = Math.floor(seconds/(60*60));
+
+        let totalMinutes = Math.floor(seconds / 60); // Convertir segundos a minutos
+        let intervals = Math.floor(totalMinutes / 45); // Dividir minutos entre 45 para obtener los intervalos
+
         let minutos = Math.floor(seconds/60) - horas*60;
         this.datoProgramacion.margenHorario = horas + 'h ' +  minutos + ' m';
+
+        this.intervalos = intervals; // Guardar los intervalos
+
         this.codUoCiram = "";
         this.getListAsegurados()
         ////console.log(Math.floor(seconds/(60*60)) + 'h ' +  Math.floor(seconds/60) + ' m')
@@ -202,6 +212,15 @@ export class AsistenciaRapidaComponent {
         this.notificacionService.warning(data.message);
       }
     })
+  }
+
+  cambiarSesion(movimiento: number){
+    this.sesionActual += movimiento;
+  }
+
+  getDatosSesion(movimiento: number){
+    this.sesionActual += movimiento;
+
   }
 
   differenceInDays(date1: string): number {
