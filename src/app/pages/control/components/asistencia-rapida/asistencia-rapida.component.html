@@ -36,7 +36,7 @@
                 </div>
             </div>
             <div>
-                <div class="flex flex-row gap-[14px]" *ngIf="datoProgramacion.estado != 'FINALIZADO'">
+                <div class="flex flex-row gap-[14px]" *ngIf="estadoSesionActual != 'FINALIZADO'">
                     <ul class="flex flex-row gap-1.5">
                         <li>
                             <input type="radio" id="search-typing" [formControl]="ctrlTypeSearch" [value]="1" class="hidden peer" required />
@@ -168,21 +168,43 @@
             </div>
 
             <div class="flex flex-row gap-1">
-                <div class="w-[28px] h-10 flex items-center justify-center border border-gray-400 rounded shrink-0 cursor-pointer hover:bg-slate-200" (click)="cambiarSesion(-1)" *ngIf="intervalos > 1 && sesionActual > 1">
-                    <img src="assets/svg/icon-asistencia-preview.svg" class="select-none h-5 w-5">
-                    <!--<fa-icon class="absolute" [icon]="faSpinner" [pulse]="true"></fa-icon>-->
-                </div>
-                <app-btn (click)="modalFinalizarClase()" *ngIf="datoProgramacion.estado != 'FINALIZADO'"  class="botonApariencia flex flex-row h-10 w-[160px]" [disabled]="total == 0">
-                    <div class="flex flex-row items-right gap-[5px]"  style="font-size: 13px !important;">
-                        <img class="self-center h-5 w-5" src="assets/svg/icon-list-assignments.svg">
-                        <span>Finalizar Clase</span> 
+               
+                <ng-container *ngIf="!finalizaClaseStep" >
+                    <div class="w-[28px] h-10 flex items-center justify-center border border-gray-400 rounded shrink-0 cursor-pointer hover:bg-slate-200" (click)="cambiarSesion(-1)" *ngIf="intervalos > 1 && sesionActual > 1">
+                        <img src="assets/svg/icon-asistencia-preview.svg" class="select-none h-5 w-5">
+                        <!--<fa-icon class="absolute" [icon]="faSpinner" [pulse]="true"></fa-icon>-->
                     </div>
-                </app-btn>
-                <div class="w-[28px] h-10 flex items-center justify-center border border-gray-400 rounded shrink-0 cursor-pointer hover:bg-slate-200" (click)="cambiarSesion(1)" *ngIf="intervalos > 1 && sesionActual < intervalos">
-                    <img src="assets/svg/icon-asistencia-next.svg" class="select-none  h-5 w-5">
-                     <!--<fa-icon class="absolute" [icon]="faSpinner" [pulse]="true"></fa-icon>-->
-                </div>
+                    <app-btn (click)="modalFinalizarSesion()" class="botonApariencia flex flex-row h-10 w-[170px]" [disabled]="total == 0 || estadoSesionActual == 'FINALIZADO'">
+                        <div class="flex flex-row items-right gap-[5px]"  style="font-size: 12px !important;">
+                            <img class="self-center h-5 w-5" src="assets/svg/icon-list-assignments.svg">
+                            <span>Terminar Sesion</span> 
+                        </div>
+                    </app-btn>
+                    <div class="w-[28px] h-10 flex items-center justify-center border border-gray-400 rounded shrink-0 cursor-pointer hover:bg-slate-200" (click)="cambiarSesion(1)" *ngIf="intervalos > 1 && sesionActual < intervalos">
+                        <img src="assets/svg/icon-asistencia-next.svg" class="select-none  h-5 w-5">
+                         <!--<fa-icon class="absolute" [icon]="faSpinner" [pulse]="true"></fa-icon>-->
+                    </div>
+                </ng-container>
+                <ng-container *ngIf="(sesionActual == intervalos && cierreDeClases) && !finalizaClaseStep">
+                    <div class="w-[28px] h-10 flex items-center justify-center border border-gray-400 rounded shrink-0 cursor-pointer hover:bg-slate-200" (click)="activarFinalizarClase(true)" >
+                        <img src="assets/svg/icon-asistencia-next.svg" class="select-none  h-5 w-5">
+                    </div>
+                </ng-container>
+                <ng-container *ngIf="finalizaClaseStep">
+                    <div class="w-[28px] h-10 flex items-center justify-center border border-gray-400 rounded shrink-0 cursor-pointer hover:bg-slate-200" (click)="activarFinalizarClase(false)">
+                        <img src="assets/svg/icon-asistencia-preview.svg" class="select-none h-5 w-5">
+                        <!--<fa-icon class="absolute" [icon]="faSpinner" [pulse]="true"></fa-icon>-->
+                    </div>
+                    <app-btn (click)="modalFinalizarClase()" class="botonApariencia flex flex-row h-10 w-[170px]" [disabled]="total == 0 || datoProgramacion.estado == 'FINALIZADO'">
+                        <div class="flex flex-row items-right gap-[5px]"  style="font-size: 12px !important;">
+                            <img class="self-center h-5 w-5" src="assets/svg/icon-list-assignments.svg">
+                            <span>Terminar Clases</span> 
+                        </div>
+                    </app-btn>
+                </ng-container>
             </div>
+         
+
           
             <!--
             <app-btn class="botonApariencia flex h-10" color="mezclado" [disabled]="true">
@@ -215,8 +237,12 @@
               <tr cdk-header-row class="text-xs text-gray-700 bg-gray-50" *cdkHeaderRowDef="columns"></tr>
               <tr cdk-row class="bg-white border-b" *cdkRowDef="let row; columns: columns"></tr>
               <ng-container cdkColumnDef="marcar">
-                <th cdk-header-cell class="py-[1.25rem] px-6" *cdkHeaderCellDef [style]="'width: 0%;'"> <input type="checkbox" [checked]="seleccionados.length == this.dataSource.length" (change)="afectarTodo($event)"/> </th>
-                <td cdk-cell class="py-[1rem] px-6" *cdkCellDef="let row" [style]="'width: 0%;'"> <input type="checkbox" class="checkbox-select" (change)="seleccionarFila($event)" [value]="row.idAsisRapidDet" [checked]="row.marcar"/> </td>
+                <th cdk-header-cell class="py-[1.25rem] px-6" *cdkHeaderCellDef [style]="'width: 0%;'">
+                    <input type="checkbox" *ngIf="estadoSesionActual != 'FINALIZADO'" [checked]="seleccionados.length == this.dataSource.length" (change)="afectarTodo($event)"/>
+                </th>
+                <td cdk-cell class="py-[1rem] px-6" *cdkCellDef="let row" [style]="'width: 0%;'"> 
+                    <input type="checkbox" *ngIf="estadoSesionActual != 'FINALIZADO'" class="checkbox-select" (change)="seleccionarFila($event)" [value]="row.idAsisRapidDet" [checked]="row.marcar"/> 
+                </td>
               </ng-container>
         
               <ng-container cdkColumnDef="orden">

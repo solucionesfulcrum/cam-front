@@ -40,6 +40,7 @@ export class AsistenciaRapidaComponent {
   faSpinner = faSpinner;
   comienzoSesiones = 1;
   datoProgramacion: any;
+  finalizaClaseStep: boolean = false;
 
   idAsisRap! : number;
 
@@ -234,8 +235,13 @@ export class AsistenciaRapidaComponent {
     })
   }
 
+  activarFinalizarClase(status: boolean){
+    this.finalizaClaseStep = status;
+  }
+
   cambiarSesion(movimiento: number){
     this.sesionActual += movimiento;
+    this.seleccionados = [];
     this.getSesion();
   }
 
@@ -604,10 +610,22 @@ export class AsistenciaRapidaComponent {
     }
   }
 
+  modalFinalizarSesion(){
+    this.dialog.open(ModalConfirmarGenericoComponent, {
+      data:{
+        message: '¿Desea finalizar la sesión?'
+      }
+    }).afterClosed().subscribe(data=>{
+      if(data.success){
+        this.finalizarSesion();
+      }
+    });
+  }
+
   modalFinalizarClase(){
     this.dialog.open(ModalConfirmarGenericoComponent, {
       data:{
-        message: 'Finalizar la Clase'
+        message: '¿Desea finalizar la clase?'
       }
     }).afterClosed().subscribe(data=>{
       if(data.success){
@@ -616,7 +634,28 @@ export class AsistenciaRapidaComponent {
     });
   }
 
+  finalizarSesion(){
+      this.controlService.finalizarSesion(this.idSesionActual).subscribe(data=>{
+        if(data.code == 0){
+          this.toast.success("La sesion ha sido finalizada");
+          this.idSesionActual = data.data.idSesion;
+          this.estadoSesionActual = data.data.estado;
+          this.cierreDeClases = data.data.cierreDeClases;
+
+
+        }
+        else{
+          this.toast.warning(data.message);
+        }
+      }, (error) => {
+        this.toast.error("Ocurrió un error")
+      });
+    
+  }
+
   finalizarClase(){
+    
+    if(this.cierreDeClases){
     this.controlService.finalizarClase(this.idAsisRap).subscribe(data=>{
       if(data.code == 0){
         this.toast.success("La clase ha sido finalizada");
@@ -628,6 +667,7 @@ export class AsistenciaRapidaComponent {
     }, (error) => {
       this.toast.error("Ocurrió un error")
     });
+    }
   }
 
 

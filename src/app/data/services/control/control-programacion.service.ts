@@ -51,6 +51,11 @@ export class ControlProgramacionService {
     return this._httpClient.put<any>(url, {});
   }
 
+  finalizarSesion(idAsisSesion: number){
+    const url = `${URL_BASE}/asistencia-rapida/finalizar-sesion/${idAsisSesion}`;
+    return this._httpClient.get<any>(url, {});
+  }
+
 
   // Servicios Asistencia -----------------------------------------------------------
   
