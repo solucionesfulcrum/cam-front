@@ -205,7 +205,7 @@ export class RegisterAseguradoComponent {
   getDataFromServices(){
     // Obtener codCentro ------------------------------------------------------------------------------------------------------------------------------
     
-    if(!this.fecNac){
+    if(!this.fecNac || true){
       this._contactoService.servicioObtenerCodCentro(this.requestDataCodCentro()).subscribe((data)=>{
         if (data.code == 0) {
           this._datoGeneralesService.getRedesAsistenciales().subscribe((datos)=>{
@@ -289,7 +289,7 @@ export class RegisterAseguradoComponent {
     })
     
     // Obtener Info Seguro ------------------------------------------------------------------------------------------------------------------------------
-    if(!this.fecNac){
+    if(!this.fecNac || true){
       this._contactoService.getDatoSeguro(this.tipoDoc,this.numDoc).subscribe((data)=>{
         if (data.code == 0) {
           this.dataSeguro = Object(data.data[0]);
