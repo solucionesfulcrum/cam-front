@@ -12,6 +12,7 @@ import { direccionFichaFront } from '@models/afiliados/ficha-solicitud.model';
 import { DatosGeneralesService } from 'src/app/data/services/datos-generales.service';
 import { Parametro } from '@models/parametros-busqueda.model';
 import { DialogNotasComponent } from './dialog-notas/dialog-notas.component';
+import { ContactosAfiliadosService } from 'src/app/data/services/contactos/contactos-afiliados.service';
 
 @Component({
   selector: 'app-show-sol',
@@ -56,6 +57,7 @@ export class ShowSolComponent implements OnInit {
     private fb: FormBuilder,
     private notificationService      : ToastrService,
     private datosGeneralesServices        : DatosGeneralesService,
+    private contactosAfiServ : ContactosAfiliadosService,
     private dialog : Dialog,
     private _afiliaddoService: AfiliacionesSolicitudesService ) {
       this.idSolicitud = this.activeRoute.snapshot.paramMap.get('idSolicitud')!;
@@ -162,7 +164,13 @@ export class ShowSolComponent implements OnInit {
           this.router.navigate(['/app/afiliados/evaluacion/agregaEval'])
         }
         else{
-          this.notificationService.warning(data.data.mensaje);
+          this.contactosAfiServ.cambiarDeEstado({
+            idFichaAdmision: this.dataSolicitud.fichaAdmision.idFichaAdmision,
+            idEstado: 16
+          }).subscribe(data =>{
+             this.router.navigate(['/app/afiliados/']);
+            this.notificationService.warning(data.data.mensaje);
+          })
         }
       }
       else{
