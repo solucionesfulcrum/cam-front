@@ -215,10 +215,10 @@ export class ShowSolComponent implements OnInit {
       if(data.success){
         this.contactosAfiServ.cambiarDeEstado({
           idFichaAdmision: this.dataSolicitud.fichaAdmision.idFichaAdmision,
-          idEstado: 16
+          idEstado: 71
         }).subscribe(data =>{
             this.contactosAfiServ.cambiarDeEstadoSolicitud( this.dataSolicitud.solicitud.idSolicitud,{
-              estado: 71
+              estado: 72
             }).subscribe(data =>{
             this.router.navigate(['/app/afiliados/']);
             this.notificationService.success("La solicitud fué marcada como 'SIN RESPUESTA'");
