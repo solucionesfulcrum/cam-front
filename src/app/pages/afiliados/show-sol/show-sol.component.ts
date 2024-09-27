@@ -218,10 +218,10 @@ export class ShowSolComponent implements OnInit {
           idEstado: 16
         }).subscribe(data =>{
             this.contactosAfiServ.cambiarDeEstadoSolicitud( this.dataSolicitud.solicitud.idSolicitud,{
-              estado: 72
+              estado: 71
             }).subscribe(data =>{
             this.router.navigate(['/app/afiliados/']);
-            this.notificationService.warning("Usuario no acreditado, será evaluado como no apto");
+            this.notificationService.success("La solicitud fué marcada como 'SIN RESPUESTA'");
             })
         })
       }
