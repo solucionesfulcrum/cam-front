@@ -241,7 +241,7 @@ export class ContactosAfiliadosComponent implements OnInit {
       if(data.idUnidadOperativa){
         this.afiliacionesService.asignarACiram(data.idUnidadOperativa, this.seleccionados).subscribe(data=>{
           if(data.code == 0){
-            this.toast.success(data.message);
+            this.toast.success("Acción realizada satisfactoriamente");
             this.seleccionados = [];
             this.onLoadData();
           }
@@ -266,7 +266,7 @@ export class ContactosAfiliadosComponent implements OnInit {
       if(result.success){
         this.afiliacionesService.quitarDeCiram(this.seleccionados).subscribe(data=>{
           if(data.code == 0){
-            this.toast.success(data.message);
+            this.toast.success("Se ha desvinculado al usuario/usuarios del CIRAM");
             this.seleccionados = [];
             this.onLoadData();
           }

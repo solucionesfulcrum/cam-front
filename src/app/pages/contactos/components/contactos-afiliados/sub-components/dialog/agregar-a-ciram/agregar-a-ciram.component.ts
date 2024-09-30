@@ -39,6 +39,11 @@ ngOnInit(){
   if(localStorage.getItem('UnidElegida') != 'null'){
     this.authService.getListarCiram(parseInt(this.unid.idUnidOperativa)).subscribe((data) => {
       this.listCiram = data.data
+      if(this.listCiram.length > 0){
+        this.selectedCiram = this.listCiram[0].idUnidadOperativa!
+        this.form.get('idUnidadOperativa')?.setValue(this.selectedCiram);
+
+      }
     })
   }
 }
