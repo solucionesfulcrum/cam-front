@@ -55,6 +55,11 @@ export class ContactosAfiliadosService {
     return this._httpClient.get<any>(url);
   }
 
+  corregirDatoSeguro(model: {idAsegurado: number, tipoDoc: string, numDoc: string}){
+    const url = `${environment.API}/utilidades/corregir-seguro-ficha`;
+    return this._httpClient.post<any>(url, model);
+  }
+
   darDeBajaAsegurado(data : {idFichaAdmision: string, idMotivoBaja: number, descMotivoBaja: string, idUsuarioReg: string} ){
     const url = `${environment.API}/ficha-admision/baja`;
     return this._httpClient.post<any>(url,data);
