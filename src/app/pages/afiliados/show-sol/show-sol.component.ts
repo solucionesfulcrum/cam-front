@@ -176,7 +176,9 @@ export class ShowSolComponent implements OnInit {
             idEstado: 16
           }).subscribe(data =>{
               this.contactosAfiServ.cambiarDeEstadoSolicitud( this.dataSolicitud.solicitud.idSolicitud,{
-                estado: 72
+                estado: 72,
+                descripcion: 'Considerado como NO APTO por falta de acreditación',
+                idUsuarioReg: (JSON.parse(localStorage.getItem('camUser')!)).idUsuario
               }).subscribe(data =>{
               this.router.navigate(['/app/afiliados/']);
               this.notificationService.warning("Usuario no acreditado, será evaluado como no apto");
@@ -202,7 +204,7 @@ export class ShowSolComponent implements OnInit {
       }
     })
     dialogRef.closed.subscribe(out =>{
-      // //console.log(out)
+      // //console.log(out)p
     })
   }
 
@@ -218,7 +220,9 @@ export class ShowSolComponent implements OnInit {
           idEstado: 71
         }).subscribe(data =>{
             this.contactosAfiServ.cambiarDeEstadoSolicitud( this.dataSolicitud.solicitud.idSolicitud,{
-              estado: 72
+              estado: 72,
+              descripcion: 'No ha respondido la llamada',
+              idUsuarioReg: (JSON.parse(localStorage.getItem('camUser')!)).idUsuario
             }).subscribe(data =>{
             this.router.navigate(['/app/afiliados/']);
             this.notificationService.success("La solicitud fué marcada como 'SIN RESPUESTA'");

@@ -65,7 +65,7 @@ export class ContactosAfiliadosService {
     return this._httpClient.post<any>(url,data);
   }
 
-  cambiarDeEstadoSolicitud(idSolicitud: string , data : {estado: number} ){
+  cambiarDeEstadoSolicitud(idSolicitud: string , data : {estado: number, descripcion: string, idUsuarioReg: string} ){
     const url = `${environment.API}/solicitud/cambia-estado/${idSolicitud}`;
     return this._httpClient.post<any>(url,data);
   }
