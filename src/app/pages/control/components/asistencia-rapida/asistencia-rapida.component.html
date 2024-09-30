@@ -177,7 +177,7 @@
                     <app-btn (click)="modalFinalizarSesion()" class="botonApariencia flex flex-row h-10 w-[170px]" [disabled]="total == 0 || estadoSesionActual == 'FINALIZADO'">
                         <div class="flex flex-row items-right gap-[5px]"  style="font-size: 12px !important;">
                             <img class="self-center h-5 w-5" src="assets/svg/icon-list-assignments.svg">
-                            <span>Terminar Sesion</span> 
+                            <span>Cerrar Asistencia</span> 
                         </div>
                     </app-btn>
                     <div class="w-[28px] h-10 flex items-center justify-center border border-gray-400 rounded shrink-0 cursor-pointer hover:bg-slate-200" (click)="cambiarSesion(1)" *ngIf="intervalos > 1 && sesionActual < intervalos">
@@ -198,7 +198,7 @@
                     <app-btn (click)="modalFinalizarClase()" class="botonApariencia flex flex-row h-10 w-[170px]" [disabled]="total == 0 || datoProgramacion.estado == 'FINALIZADO'">
                         <div class="flex flex-row items-right gap-[5px]"  style="font-size: 12px !important;">
                             <img class="self-center h-5 w-5" src="assets/svg/icon-list-assignments.svg">
-                            <span>Terminar Clases</span> 
+                            <span>Finalizar Taller</span> 
                         </div>
                     </app-btn>
                 </ng-container>
