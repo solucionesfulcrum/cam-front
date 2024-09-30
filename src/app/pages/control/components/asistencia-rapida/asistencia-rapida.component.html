@@ -171,34 +171,48 @@
                
                 <ng-container *ngIf="!finalizaClaseStep" >
                     <div class="w-[28px] h-10 flex items-center justify-center border border-gray-400 rounded shrink-0 cursor-pointer hover:bg-slate-200" (click)="cambiarSesion(-1)" *ngIf="intervalos > 1 && sesionActual > 1">
-                        <img src="assets/svg/icon-asistencia-preview.svg" class="select-none h-5 w-5">
+                        <img class="self-center h-5 w-5" src="assets/svg/icon-asistencia-preview.svg" *ngIf="!loadingSesion">
+                        <fa-icon class="" [icon]="faSpinner" [pulse]="true" *ngIf="loadingSesion"></fa-icon>
                         <!--<fa-icon class="absolute" [icon]="faSpinner" [pulse]="true"></fa-icon>-->
                     </div>
-                    <ng-container *ngIf="estadoSesionActual == 'FINALIZADO'">
-                        <app-btn (click)="finalizarSesion()" class="botonApariencia flex flex-row h-10 w-[170px]" [disabled]="total == 0 || estadoSesionActual == 'FINALIZADO'">
+                    <ng-container *ngIf="estadoSesionActual == 'FINALIZADO' ">
+                        <app-btn (click)="IrAHora()" class="botonApariencia flex flex-row h-10 w-[170px]" [disabled]="(sesionActual == intervalos && cierreDeClases) || siguienteActivo" >  
                             <div class="flex flex-row items-right gap-[5px]"  style="font-size: 12px !important;">
-                                <img class="self-center h-5 w-5" src="assets/svg/icon-list-assignments.svg">
-                                <span>Ir a la Hora {{sesionActual + 1}} </span> 
+                                <img class="self-center h-5 w-5" src="assets/svg/icon-list-assignments.svg" *ngIf="!loadingSesion">
+                                <fa-icon class="" [icon]="faSpinner" [pulse]="true" *ngIf="loadingSesion"></fa-icon>
+                                <ng-container *ngIf="(sesionActual == intervalos && cierreDeClases)">
+                                    <span>Cerrar Asistencia</span> 
+                                </ng-container>
+                                <ng-container *ngIf="!(sesionActual == intervalos && cierreDeClases)">
+                                    <span>Ir a la Hora {{sesionActual + 1}} </span> 
+                                </ng-container>
+                             
                             </div>
                         </app-btn>
                     </ng-container>
                     <ng-container *ngIf="estadoSesionActual != 'FINALIZADO'">
                         <app-btn (click)="finalizarSesion()" class="botonApariencia flex flex-row h-10 w-[170px]" [disabled]="total == 0 || estadoSesionActual == 'FINALIZADO'">
                             <div class="flex flex-row items-right gap-[5px]"  style="font-size: 12px !important;">
-                                <img class="self-center h-5 w-5" src="assets/svg/icon-list-assignments.svg">
+                                <img class="self-center h-5 w-5" src="assets/svg/icon-list-assignments.svg" *ngIf="!loadingSesion">
+                                <fa-icon class="" [icon]="faSpinner" [pulse]="true" *ngIf="loadingSesion"></fa-icon>
                                 <span>Cerrar Asistencia</span> 
                             </div>
                         </app-btn>
                     </ng-container>
-                   
-                    <div class="w-[28px] h-10 flex items-center justify-center border border-gray-400 rounded shrink-0 cursor-pointer hover:bg-slate-200" (click)="cambiarSesion(1)" *ngIf="intervalos > 1 && sesionActual < intervalos">
+                   <ng-container *ngIf="this.siguienteActivo">
+                    <div class="w-[28px] h-10 flex items-center justify-center border border-gray-400 rounded shrink-0 cursor-pointer hover:bg-slate-200" 
+                    (click)="cambiarSesion(1)" *ngIf="intervalos > 1 && sesionActual < intervalos"
+                    >
                         <img src="assets/svg/icon-asistencia-next.svg" class="select-none  h-5 w-5">
                          <!--<fa-icon class="absolute" [icon]="faSpinner" [pulse]="true"></fa-icon>-->
                     </div>
+                   </ng-container>
+                   
                 </ng-container>
                 <ng-container *ngIf="(sesionActual == intervalos && cierreDeClases) && !finalizaClaseStep">
                     <div class="w-[28px] h-10 flex items-center justify-center border border-gray-400 rounded shrink-0 cursor-pointer hover:bg-slate-200" (click)="activarFinalizarClase(true)" >
-                        <img src="assets/svg/icon-asistencia-next.svg" class="select-none  h-5 w-5">
+                        <img src="assets/svg/icon-asistencia-next.svg" class="select-none  h-5 w-5" *ngIf="!loadingSesion">
+                        <fa-icon class="" [icon]="faSpinner" [pulse]="true" *ngIf="loadingSesion"></fa-icon>
                     </div>
                 </ng-container>
                 <ng-container *ngIf="finalizaClaseStep">
@@ -284,10 +298,30 @@
                       </div>
                     </ng-container>
                     </th>
-                <td cdk-cell class="py-[1rem] px-6 font-semibold" *cdkCellDef="let row" style="color: rgba(0, 139, 210, 1);" [style]="'padding-left: 0px;'">
-                    {{ row.nombre }}
+                <td cdk-cell class="py-[1rem] px-6 font-semibold flex" *cdkCellDef="let row" style="color: rgba(0, 139, 210, 1);" [style]="'padding-left: 0px;'">
+                    <span class="display-">
+                        {{ row.nombre }}
+                    </span>
                 </td>
               </ng-container>
+
+              <ng-container cdkColumnDef="continua">
+                <th cdk-header-cell class="py-[1.25rem] px-6" *cdkHeaderCellDef>Continua el Taller</th>
+                <td cdk-cell class="py-[1rem] px-6" *cdkCellDef="let row">
+                    <div class="mx-4">
+                        <label>
+                            <span class="font-semibold mx-2">Sí</span>
+                             <input type="radio" [(ngModel)]="selectedOptions[row.idAsegurado]" [value]="true" name="option-{{row.idAsegurado}}" /> 
+                        </label>
+                        <label>
+                            <span class="font-semibold mx-2">No</span>
+                            <input type="radio" [(ngModel)]="selectedOptions[row.idAsegurado]" [value]="false" name="option-{{row.idAsegurado}}" /> 
+                        </label>
+                    </div>
+                </td>
+              </ng-container>
+
+
         
               <ng-container cdkColumnDef="tipoDoc">
                 <th cdk-header-cell class="py-[1.25rem] px-6" *cdkHeaderCellDef>Documento</th>

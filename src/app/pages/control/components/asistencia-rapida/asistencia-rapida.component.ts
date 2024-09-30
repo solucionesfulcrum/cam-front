@@ -27,6 +27,7 @@ import { ModalConfirmarGenericoComponent } from '@shared/components/modal-confir
 export class AsistenciaRapidaComponent {
 
   svgDir = faArrowsUpToLine;
+  loadingSesion = false;
   
   status: RequestStatus = 'init';
   listAsistentes: any[] = [];
@@ -41,6 +42,8 @@ export class AsistenciaRapidaComponent {
   comienzoSesiones = 1;
   datoProgramacion: any;
   finalizaClaseStep: boolean = false;
+
+  selectedOptions: {[key : number] : boolean} = [];
 
   idAsisRap! : number;
 
@@ -89,6 +92,7 @@ export class AsistenciaRapidaComponent {
   loadingPaginacion : boolean = false;
 
   cierreDeClases: boolean = false;
+  siguienteActivo: boolean = false;
   idSesionActual: number = 0;
   estadoSesionActual: string = "0";
 
@@ -177,19 +181,57 @@ export class AsistenciaRapidaComponent {
     });
   }
 
+  getKeysWithTrueValues(selectedOptions: { [key: number]: boolean }): number[] {
+    return Object.keys(selectedOptions)
+      .filter(key => selectedOptions[parseInt(key)]) // Filtra solo las claves cuyo valor es true
+      .map(key => parseInt(key)); // Convierte las claves a números
+  }
+
   getSesion(){
     this.controlProgramacionService.getSesionClaseRapida({
       idAsisRapid: this.idAsisRap,
       idUser: (JSON.parse(localStorage.getItem('camUser')!)).idUsuario,
-      nroSesion: this.sesionActual
+      nroSesion: this.sesionActual,
+      usuarios: this.getKeysWithTrueValues(this.selectedOptions)
     }).subscribe(data=>{
+      this.loadingSesion = false;
       this.idSesionActual = data.data.idSesion;
       this.estadoSesionActual = data.data.estado;
       this.cierreDeClases = data.data.cierreDeClases;
+      this.siguienteActivo = data.data.siguienteActivo;
+      this.selectedOptions = [];
+
+      if(!data.data.siguienteActivo && this.estadoSesionActual == 'FINALIZADO' && !this.cierreDeClases){
+        this.columns = ['marcar',
+          'orden',
+          'nombreCompleto',
+          'continua',
+          'tipoDoc',
+          'numDoc',
+          'horaAsistencia',
+          'birthday'
+        ];
+      }
+      else{
+        this.columns = ['marcar',
+          'orden',
+          'nombreCompleto',
+          'tipoDoc',
+          'numDoc',
+          'horaAsistencia',
+          'birthday'
+        ];
+      }
 
       this.getListTablaAsegurados();
     })
     
+  }
+
+  IrAHora(){
+    if(!(this.sesionActual == this.intervalos && this.cierreDeClases)){
+      this.cambiarSesion(1);
+    }
   }
 
   setListeners(){
@@ -240,6 +282,7 @@ export class AsistenciaRapidaComponent {
   }
 
   cambiarSesion(movimiento: number){
+    this.loadingSesion = true;
     this.sesionActual += movimiento;
     this.seleccionados = [];
     this.getSesion();
@@ -295,6 +338,10 @@ export class AsistenciaRapidaComponent {
   llenarDatosTabla(data : DataResponseAsistenciaRapida<AsistenciaRapidaLista>){
     this.dataSource = data.data.list;
     this.dataSourceList.init(data.data.list)
+
+    this.dataSource.map(data => {
+      this.selectedOptions[data.idAsegurado] = true;
+    })
 
     this.pageNum = data.data.pageNum;
     this.pageSize = data.data.pageSize;
@@ -641,7 +688,7 @@ export class AsistenciaRapidaComponent {
           this.idSesionActual = data.data.idSesion;
           this.estadoSesionActual = data.data.estado;
           this.cierreDeClases = data.data.cierreDeClases;
-
+          this.getSesion();
 
         }
         else{

@@ -49,6 +49,7 @@ interface Data {
    
   export interface AsistenciaRapidaLista {
     idAsisRapidDet: number;
+    idAsegurado: number;
     marcar: boolean;
     orden: number;
     

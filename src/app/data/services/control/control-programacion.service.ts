@@ -41,7 +41,7 @@ export class ControlProgramacionService {
     return this._httpClient.get<any>(url);
   }
 
-  getSesionClaseRapida(model: {idAsisRapid: number, idUser: number, nroSesion: number}) {
+  getSesionClaseRapida(model: {idAsisRapid: number, idUser: number, nroSesion: number, usuarios: number[]}) {
     const url = `${URL_BASE}/asistencia-rapida/obtener-sesion-clase`;
     return this._httpClient.post<any>(url, model);
   }
