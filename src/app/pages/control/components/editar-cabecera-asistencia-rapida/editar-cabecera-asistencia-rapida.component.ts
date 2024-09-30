@@ -361,8 +361,8 @@ export class EditarCabeceraAsistenciaRapidaComponent {
   const fechaFormateada = fecha.toISOString().split('T')[0]; 
     const data = {
       fecha: fechaFormateada, 
-      horaInicio: this.horaInicioControl.value,
-      horaFin: this.horaFin,
+      horaInicio: this.datoProgramacion.horaIni,
+      horaFin: this.datoProgramacion.horaFin,
       idServicio: this.idServicio, 
       idunidadOperativa: (JSON.parse(localStorage.getItem('UnidElegida')!)).idUnidOperativa,
       idUsuario: (JSON.parse(localStorage.getItem('camUser')!)).idUsuario,

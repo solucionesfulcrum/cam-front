@@ -52,13 +52,17 @@
                             <span class="text-[14px] font-light">
                                 Hora Inicio:
                               </span>
-                              <input type="time" [formControl]="horaInicioControl" (change)="onHoraInicioChange()"
+                              <input type="time" [formControl]="horaInicioControl" (change)="onHoraInicioChange()" 
+                                      [disabled]="true"
+                                      [readOnly]="true"
                                      class="border px-2 py-1 rounded" min="07:00" max="18:15" />
                             
                                      <span class="text-[14px] font-light ml-2">
                                         Hora Fin:
                                       </span>
-                                      <select [(ngModel)]="horaFin" class="border px-2 py-1 rounded bg-gray-100 w-[200px]">
+                                      <select [(ngModel)]="horaFin" class="border px-2 py-1 rounded bg-gray-100 w-[200px]"
+                                      [disabled]="true"
+                                      >
                                         <option *ngFor="let opcion of horasFinOptions" [value]="opcion.valor">
                                           {{ opcion.texto }}
                                         </option>
