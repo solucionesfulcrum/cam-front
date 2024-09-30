@@ -78,8 +78,11 @@ export class ShowSolComponent implements OnInit {
 
         if(this.dataSolicitud.solicitud.appOrigen == 'MOVIL_CAM'){
           this.opcionesBotones[2]={texto: 'No contestó', colorBtn:'danger', loading: false, esImagen: true, rutaIcono: 'assets/svg/llamada-cancelada.svg'}
+          if (this.dataSolicitud.solicitud.estado === 'EVALUADO' || this.dataSolicitud.solicitud.estado === 'SIN EVALUACION') {
+            this.opcionesBotones[2].deshabilitado = true;
+          }
         }
-        if (this.dataSolicitud.solicitud.estado === 'EVALUADO') {
+        if (this.dataSolicitud.solicitud.estado === 'EVALUADO' || this.dataSolicitud.solicitud.estado === 'SIN EVALUACION') {
           this.opcionesBotones[1].deshabilitado = true;
         }
         if (data.data.asegurado.fecNacimiento) {
