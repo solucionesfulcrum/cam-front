@@ -1,3 +1,23 @@
+/* Personaliza el ancho del scrollbar */
 ::-webkit-scrollbar {
-    display: none;
+    width: 12px;
+    height: 12px;
+}
+
+/* Estilo del track (fondo del scrollbar) */
+::-webkit-scrollbar-track {
+    background: #f1f1f1; /* Color de fondo */
+    border-radius: 10px; /* Bordes redondeados */
+}
+
+/* Estilo del slider (parte que se mueve) */
+::-webkit-scrollbar-thumb {
+    background-color: #888; /* Color del slider */
+    border-radius: 10px; /* Bordes redondeados */
+    border: 2px solid #f1f1f1; /* Espacio entre el slider y el track */
+}
+
+/* Hover del slider */
+::-webkit-scrollbar-thumb:hover {
+    background-color: #555; /* Color cuando se pasa el mouse */
 }
