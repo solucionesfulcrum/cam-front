@@ -27,6 +27,7 @@ export class ControlComponent {
         {url: `/app/control/mis-talleres-3`, title: 'Talleres'},*/
         {url: `/app/control/asistencias-profesional-cam`, title: 'Pre-Registro', disabled: true},
         {url: `/app/control/control-asistencia`, title: 'Asistencias', disabled: true},
+        {url: `/app/control/asistencia-rapida`, title: 'Asistencia Rápida'},
       ];
     }
     else{
