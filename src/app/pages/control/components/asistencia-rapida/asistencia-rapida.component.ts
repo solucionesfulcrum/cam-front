@@ -717,6 +717,34 @@ export class AsistenciaRapidaComponent {
     }
   }
 
+  finalizarSesionYTaller(){
+    this.dialog.open(ModalConfirmarGenericoComponent, {
+      data:{
+        message: '¿Desea finalizar la clase?'
+      }
+    }).afterClosed().subscribe(data=>{
+      if(data.success){
+        this.controlService.finalizarSesion(this.idSesionActual).subscribe(data=>{
+          if(data.code == 0){
+            this.toast.success("La sesion ha sido finalizada");
+            this.idSesionActual = data.data.idSesion;
+            this.estadoSesionActual = data.data.estado;
+            this.cierreDeClases = data.data.cierreDeClases;
+            this.getSesion();
+            this.finalizarClase();
+  
+          }
+          else{
+            this.toast.warning(data.message);
+          }
+        }, (error) => {
+          this.toast.error("Ocurrió un error")
+        });
+      
+      }
+    });
+  }
+
 
   irAEditarClase(){
     this.router.navigate(['/app/control/asistencia-rapida/editar-cabecera/'+this.idAsisRap])
