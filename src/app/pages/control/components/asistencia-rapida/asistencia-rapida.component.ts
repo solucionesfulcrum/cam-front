@@ -610,7 +610,7 @@ export class AsistenciaRapidaComponent {
     }
   }
 
-  modalFinalizarSesion(){
+  /*modalFinalizarSesion(){
     this.dialog.open(ModalConfirmarGenericoComponent, {
       data:{
         message: '¿Desea finalizar la sesión?'
@@ -620,7 +620,7 @@ export class AsistenciaRapidaComponent {
         this.finalizarSesion();
       }
     });
-  }
+  }*/
 
   modalFinalizarClase(){
     this.dialog.open(ModalConfirmarGenericoComponent, {

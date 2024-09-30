@@ -174,12 +174,23 @@
                         <img src="assets/svg/icon-asistencia-preview.svg" class="select-none h-5 w-5">
                         <!--<fa-icon class="absolute" [icon]="faSpinner" [pulse]="true"></fa-icon>-->
                     </div>
-                    <app-btn (click)="modalFinalizarSesion()" class="botonApariencia flex flex-row h-10 w-[170px]" [disabled]="total == 0 || estadoSesionActual == 'FINALIZADO'">
-                        <div class="flex flex-row items-right gap-[5px]"  style="font-size: 12px !important;">
-                            <img class="self-center h-5 w-5" src="assets/svg/icon-list-assignments.svg">
-                            <span>Cerrar Asistencia</span> 
-                        </div>
-                    </app-btn>
+                    <ng-container *ngIf="estadoSesionActual == 'FINALIZADO'">
+                        <app-btn (click)="finalizarSesion()" class="botonApariencia flex flex-row h-10 w-[170px]" [disabled]="total == 0 || estadoSesionActual == 'FINALIZADO'">
+                            <div class="flex flex-row items-right gap-[5px]"  style="font-size: 12px !important;">
+                                <img class="self-center h-5 w-5" src="assets/svg/icon-list-assignments.svg">
+                                <span>Ir a la Hora {{sesionActual + 1}} </span> 
+                            </div>
+                        </app-btn>
+                    </ng-container>
+                    <ng-container *ngIf="estadoSesionActual != 'FINALIZADO'">
+                        <app-btn (click)="finalizarSesion()" class="botonApariencia flex flex-row h-10 w-[170px]" [disabled]="total == 0 || estadoSesionActual == 'FINALIZADO'">
+                            <div class="flex flex-row items-right gap-[5px]"  style="font-size: 12px !important;">
+                                <img class="self-center h-5 w-5" src="assets/svg/icon-list-assignments.svg">
+                                <span>Cerrar Asistencia</span> 
+                            </div>
+                        </app-btn>
+                    </ng-container>
+                   
                     <div class="w-[28px] h-10 flex items-center justify-center border border-gray-400 rounded shrink-0 cursor-pointer hover:bg-slate-200" (click)="cambiarSesion(1)" *ngIf="intervalos > 1 && sesionActual < intervalos">
                         <img src="assets/svg/icon-asistencia-next.svg" class="select-none  h-5 w-5">
                          <!--<fa-icon class="absolute" [icon]="faSpinner" [pulse]="true"></fa-icon>-->
