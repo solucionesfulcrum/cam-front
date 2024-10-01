@@ -143,6 +143,13 @@ export class AsistenciaRapidaComponent {
 
   ngOnInit(){
 
+    if((JSON.parse(localStorage.getItem('UnidElegida')!)).tipo === 'CIRAM'){
+      this.codUoCiram = (JSON.parse(localStorage.getItem('UnidElegida')!)).idUnidOperativa;
+    }
+    else{
+      this.codUoCiram = "";
+    }
+
     this.setDocumentValidators("1");
 
     this.ctrlTypeSearch.valueChanges.subscribe(ctrlType=>{
@@ -267,7 +274,6 @@ export class AsistenciaRapidaComponent {
 
         this.intervalos = intervals; // Guardar los intervalos
 
-        this.codUoCiram = "";
         this.getListAsegurados()
         ////console.log(Math.floor(seconds/(60*60)) + 'h ' +  Math.floor(seconds/60) + ' m')
       }
@@ -464,7 +470,13 @@ export class AsistenciaRapidaComponent {
     this.isMaxScroll = false;
     this.esperaBusqueda = true;
     let metodo;
-    metodo = this.controlService.getListAseguradosNacional(texto, 1, 10);
+    //metodo = this.controlService.getListAseguradosNacional(texto, 1, 10);
+    if(this.codUoCiram){
+      metodo = this.controlService.getListAseguradosCiramFindByText(texto, 1, 10, this.codUoCiram);
+    }
+    else{
+      metodo = this.controlService.getListAseguradosSoloCamFindByText(texto, 1, 10);
+    }
     metodo.subscribe((data)=>{
       this.esperaBusqueda = false;
       this.loadingPaginacion = false;
@@ -488,7 +500,13 @@ export class AsistenciaRapidaComponent {
   getListAseguradosScroll(){
     this.esperaBusqueda = true;
     let metodo;
-    metodo = this.controlService.getListAseguradosNacional(this.txtScroll, this.pageScroll, 10);
+    //metodo = this.controlService.getListAseguradosNacional(this.txtScroll, this.pageScroll, 10);
+    if(this.codUoCiram){
+      metodo = this.controlService.getListAseguradosCiramFindByText(this.txtScroll, this.pageScroll, 10, this.codUoCiram);
+    }
+    else{
+      metodo = this.controlService.getListAseguradosSoloCamFindByText(this.txtScroll, this.pageScroll, 10);
+    }
     metodo.subscribe((data)=>{
       this.esperaBusqueda = false;
       this.loadingPaginacion = false;
@@ -510,7 +528,13 @@ export class AsistenciaRapidaComponent {
   getListAsegurados(){
     this.esperaBusqueda = true;
     let metodo;
-    metodo = this.controlService.getListAseguradosNacional("", 1, 10);
+    //metodo = this.controlService.getListAseguradosNacional("", 1, 10);
+    if(this.codUoCiram){
+      metodo = this.controlService.getListAseguradosCiram(this.codUoCiram);
+    }
+    else{
+      metodo = this.controlService.getListAseguradosSoloCam();
+    }
     metodo.subscribe((data)=>{
       this.esperaBusqueda = false;
       if (data.code == 0) {
