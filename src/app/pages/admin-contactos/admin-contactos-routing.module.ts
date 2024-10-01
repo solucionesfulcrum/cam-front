@@ -19,10 +19,6 @@ const routes: Routes = [
         component: EvaluacionesComponent
       },
       {
-        path: 'asistencia-rapida',
-        component: AsistenciaRapidaComponent
-      },
-      {
         path: '',
         redirectTo: 'asegurados',
         pathMatch: 'full'

@@ -10,6 +10,5 @@ export class AdminContactosComponent {
   links: FormatoTab[] = [
     {url:'/app/admin/contactos/asegurados', title:'Asegurados'},
     {url:'/app/admin/contactos/evaluaciones', title:'Evaluaciones'},
-    {url:'/app/admin/contactos/asistencia-rapida', title:'Asistencia rápida'},
   ]
 }
