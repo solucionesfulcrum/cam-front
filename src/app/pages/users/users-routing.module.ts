@@ -6,6 +6,7 @@ import { RolesComponent } from './roles/roles.component';
 import { ShowComponent } from './show/show.component';
 import { ShowRoleComponent } from './show-role/show-role.component';
 import { ShowRoleDetalleComponent } from './show-role-detalle/show-role-detalle.component';
+import { ListaServiciosRolComponent } from './componentes/lista-servicios-rol/lista-servicios-rol.component';
 
 const routes: Routes = [
   {
@@ -24,7 +25,10 @@ const routes: Routes = [
         path: 'roles/:roleId',
         component: ShowRoleDetalleComponent,
         children: [
-     
+          {
+            path: '',
+            component: ListaServiciosRolComponent
+          }
         ]
       },
       {

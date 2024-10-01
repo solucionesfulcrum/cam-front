@@ -19,6 +19,7 @@ import { ShowRoleComponent } from './show-role/show-role.component';
 import { AsignarRolModalComponent } from './asignar-rol-modal/asignar-rol-modal.component';
 import { DataLoadingComponent } from '@shared/components/data-loading/data-loading.component';
 import { ShowRoleDetalleComponent } from './show-role-detalle/show-role-detalle.component';
+import { ListaServiciosRolComponent } from './componentes/lista-servicios-rol/lista-servicios-rol.component';
 
 
 @NgModule({
@@ -30,7 +31,8 @@ import { ShowRoleDetalleComponent } from './show-role-detalle/show-role-detalle.
     ShowRoleComponent,
     ActiveUserModalComponent,
     AsignarRolModalComponent,
-    ShowRoleDetalleComponent
+    ShowRoleDetalleComponent,
+    ListaServiciosRolComponent
   ],
   imports: [
     CommonModule,
