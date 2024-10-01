@@ -169,7 +169,7 @@
                 <img class="select-none" src="assets/svg/icon-class-lesson.svg">
                 </div>
                 <div class="flex flex-col text-[#64748B]">
-                <input type="number" [(ngModel)]="sesion" min="1" class="w-[160px] text-center text-[13px] leading-4 border border-[#64748B] rounded" />
+                <input type="number" [(ngModel)]="sesion" [readOnly]="true" min="1" class="w-[160px] text-center text-[13px] leading-4 border border-[#64748B] rounded" />
                 <span class="font-light leading-[10px] text-[10px] py-1">Sesión</span>
                 </div>
             </div>
