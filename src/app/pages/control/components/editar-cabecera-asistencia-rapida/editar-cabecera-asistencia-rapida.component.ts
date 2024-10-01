@@ -141,6 +141,7 @@ export class EditarCabeceraAsistenciaRapidaComponent {
     tipoDoc: string;
     numDoc: string;
   */
+  idRol!: number;
 
   constructor(
               private fb                                : FormBuilder,
@@ -172,6 +173,14 @@ export class EditarCabeceraAsistenciaRapidaComponent {
 
   ngOnInit(){
 
+    if((JSON.parse(localStorage.getItem('UnidElegida')!)).rol === 'TALLERISTA'){
+      this.idRol = 7;
+    }
+
+    if((JSON.parse(localStorage.getItem('UnidElegida')!)).rol === 'PROFESIONAL CAM'){
+      this.idRol = 9;
+    }
+
     const today = new Date();
     this.currentYear = today.getFullYear();
     this.selectedMonth = today.getMonth() + 1; // Mes actual (0 indexado, por eso sumamos 1)
@@ -185,16 +194,17 @@ export class EditarCabeceraAsistenciaRapidaComponent {
     this.ctrlSearchServicio.valueChanges.pipe(
       debounceTime(300),  // Espera 300ms antes de hacer la llamada
       switchMap((value: any) => {
-        if (typeof value === "string") {
+        if(typeof value === "string"){
           if (value && value.trim().length > 0) {
-            return this.contratosAdministracionService.getListServiciosByTxt(value);
+            return this.contratosAdministracionService.getListServiciosByTxtYRol(value, this.idRol);
           } else {
-            return this.contratosAdministracionService.getListServiciosByTxt("a");  // Si no hay texto, devuelve una lista predeterminada
+            return this.contratosAdministracionService.getListServiciosByTxtYRol("a", this.idRol);  // Si no hay texto, devuelve un array vacío
           }
-        } else {
+        }
+        else{
           if (value.nombre && value.nombre.trim().length > 0) {
             this.idServicio = value.idServicio;
-            return this.contratosAdministracionService.getListServiciosByTxt(value.nombre);
+            return this.contratosAdministracionService.getListServiciosByTxtYRol(value.nombre, this.idRol);
           } else {
             return of([]);  // Si no hay texto, devuelve un array vacío
           }

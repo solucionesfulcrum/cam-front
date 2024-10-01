@@ -126,6 +126,7 @@ export class CrearCabeceraAsistenciaRapidaComponent {
   pageScroll: number = 1;
 
   codUoCiram: string = '';
+  idRol!: number;
 
   constructor(
               private fb                                : FormBuilder,
@@ -153,6 +154,13 @@ export class CrearCabeceraAsistenciaRapidaComponent {
   }
 
   ngOnInit(){
+    if((JSON.parse(localStorage.getItem('UnidElegida')!)).rol === 'TALLERISTA'){
+      this.idRol = 7;
+    }
+
+    if((JSON.parse(localStorage.getItem('UnidElegida')!)).rol === 'PROFESIONAL CAM'){
+      this.idRol = 9;
+    }
 
     const today = new Date();
     this.currentYear = today.getFullYear();
@@ -211,15 +219,15 @@ export class CrearCabeceraAsistenciaRapidaComponent {
       switchMap((value : any) => {
         if(typeof value === "string"){
           if (value && value.trim().length > 0) {
-            return this.contratosAdministracionService.getListServiciosByTxt(value);
+            return this.contratosAdministracionService.getListServiciosByTxtYRol(value, this.idRol);
           } else {
-            return this.contratosAdministracionService.getListServiciosByTxt("a");  // Si no hay texto, devuelve un array vacío
+            return this.contratosAdministracionService.getListServiciosByTxtYRol("a", this.idRol);  // Si no hay texto, devuelve un array vacío
           }
         }
         else{
           if (value.nombre && value.nombre.trim().length > 0) {
             this.idServicio = value.idServicio;
-            return this.contratosAdministracionService.getListServiciosByTxt(value.nombre);
+            return this.contratosAdministracionService.getListServiciosByTxtYRol(value.nombre, this.idRol);
           } else {
             return of([]);  // Si no hay texto, devuelve un array vacío
           }

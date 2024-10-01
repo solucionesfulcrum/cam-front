@@ -30,6 +30,11 @@ export class ContratosAdministracionService {
     return this._httpClient.get<any>(url);
   }
 
+  getListServiciosByTxtYRol(txt : String, rol: number){
+    const url = `${environment.API}/servicio/buscar/por-rol/${rol}?texto=${txt}`;
+    return this._httpClient.get<any>(url);
+  }
+
   grabarCrearClase(model : RequestSaveClase){
     const url = `${environment.API}/control/registrar/asistencia-rapida`;
     return this._httpClient.post<DtGenericoSinPaginar<ResponseSaveClase>>(url, model);
