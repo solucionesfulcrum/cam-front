@@ -24,6 +24,11 @@ export class RolService {
     return this._httpClient.get<any>(url);
   }
 
+  getDatosRol(idRol: number){
+    const url = `${URL_BASE}/get-datos-rol/${idRol}`;
+    return this._httpClient.get<any>(url);
+  }
+
   getPermisosRoles() : Observable<Http<RolPemisos>> {
     const permisos : Http<RolPemisos> ={
       data: [

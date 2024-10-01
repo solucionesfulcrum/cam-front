@@ -18,6 +18,7 @@ import { MatAutocompleteModule } from '@angular/material/autocomplete';
 import { ShowRoleComponent } from './show-role/show-role.component';
 import { AsignarRolModalComponent } from './asignar-rol-modal/asignar-rol-modal.component';
 import { DataLoadingComponent } from '@shared/components/data-loading/data-loading.component';
+import { ShowRoleDetalleComponent } from './show-role-detalle/show-role-detalle.component';
 
 
 @NgModule({
@@ -28,7 +29,8 @@ import { DataLoadingComponent } from '@shared/components/data-loading/data-loadi
     ShowComponent,
     ShowRoleComponent,
     ActiveUserModalComponent,
-    AsignarRolModalComponent
+    AsignarRolModalComponent,
+    ShowRoleDetalleComponent
   ],
   imports: [
     CommonModule,

@@ -1,0 +1,48 @@
+<div class="my-2 w-full flex place-content-between">
+    <div class="flex cursor-pointer" [routerLink]="['..']">
+        <img class="h-6 self-center" src="assets/svg/circle-arrow-left.svg"> <span class="self-center ml-2">Regresar</span>
+    </div>
+    <div class="flex space-x-3 items-center">
+        <app-btn typeBtn="submit" class="botonApariencia" color="white" [routerLink]="['..']">
+            Cancelar
+        </app-btn>
+        <app-btn class="botonApariencia" color="white" >
+          <!-- [routerLink]="['../edit/'+idFicha]" -->
+            <div class="flex"><img class="h-5 self-center" src="assets/svg/iconFileEdit.svg">Editar</div>
+        </app-btn>
+    </div>
+  </div>
+  <div class="grid grid-cols-[25%_auto] gap-5">
+    <div class="bg-white">
+      <div class="pt-11 px-7 pb-6">
+        <h1 class="font-semibold text-xl mb-3"></h1>
+        <div class="flex flex-col items-center mb-4 space-y-1">
+          <!-- Primera fila con la imagen centrada -->
+          <div class="flex justify-center">
+            <img src="assets/svg/material-symbols_image-search-sharp.svg" alt="Imagen" class="w-24 h-16 object-cover">
+          </div>
+        
+          <!-- Segunda fila con texto en bold y color azul -->
+          <div class="flex justify-center">
+            <span class="font-bold text-primary-700">{{dataRol.nombre}}</span>
+          </div>
+        
+          <!-- Tercera fila con texto normal -->
+        </div>
+        <ul class="max-h-[41vh] overflow-auto">
+          <!--
+          <li class="mb-3"><span class="font-bold">Registrado </span>{{dataRol.registrado| date:'dd/MM/yyyy'}}</li>
+          <li class="mb-3"><span class="font-bold">Estado: </span> 
+            <span [ngClass]="dataRol.estado === 'ACTIVADO' ? 'text-green-500' : 'text-blue-500'" class="text-green-500">{{dataRol.estado | titlecase}}</span></li>-->
+          <li class="mb-3"><span class="font-bold">Descripción: </span> </li>
+          <li class="mb-3">
+            {{dataRol.descripcion}}
+          </li>
+        </ul>
+      </div>
+    </div>
+    <div class="bg-white px-6 py-8">
+      <router-outlet></router-outlet>
+    </div>
+  </div>
+  
