@@ -152,7 +152,8 @@ export class AsistenciaRapidaComponent {
       pageNum: this.pageNum.toString(),
       pageSize: this.pageSize.toString(),
       estado: this.formBuscar.get('frmSearchEstado')?.value,
-      codigoCam : this.formBuscar.get('frmSearchCam')?.value
+      codigoCam : this.formBuscar.get('frmSearchCam')?.value,
+      idRol: 9
     }
   }
 

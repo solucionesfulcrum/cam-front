@@ -38,6 +38,7 @@ export interface RequestSaveClase{
     sesion : number,
     modalidad : string, //VIRTUAL
     presupuesto : string //COFINANCIADO
+    idRol?: number
 }
 
 export interface ResponseSaveClase{

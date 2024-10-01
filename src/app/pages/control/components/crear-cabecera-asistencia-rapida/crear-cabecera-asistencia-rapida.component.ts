@@ -336,7 +336,8 @@ export class CrearCabeceraAsistenciaRapidaComponent {
       idUsuario: (JSON.parse(localStorage.getItem('camUser')!)).idUsuario,
       sesion: this.sesion, 
       modalidad: this.modalidad,
-      presupuesto: this.presupuesto 
+      presupuesto: this.presupuesto,
+      idRol: this.idRol
     };
   
     this.contratosAdministracionService.grabarCrearClase(data).subscribe(

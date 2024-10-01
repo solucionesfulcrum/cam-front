@@ -41,7 +41,8 @@ export interface RequestAdminAsistenciasRap{
     fecInicio: string,
     fecFin: string,
     codigoCam: string | null,
+    idRol: number,
     pageNum? : string,
-    pageSize?: string
+    pageSize?: string,
   }
   
