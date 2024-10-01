@@ -149,6 +149,13 @@ export const pagesAdminRoutes: Route[] = [
           import('./admin-contactos/admin-contactos.module').then((m) => m.AdminContactosModule),
       },
       {
+        path: AppRoute.ASISTENCIA_RAPIDA,
+        canActivate:[AuthGuard],
+        title:'Asistencia rápida',
+        loadChildren: () =>
+          import('./asistencia-rapida/asistencia-rapida.module').then((m) => m.AsistenciaRapidaModule),
+      },
+      {
         path: '',
         canActivate:[AuthGuard],
         title:'Administración de usuario',

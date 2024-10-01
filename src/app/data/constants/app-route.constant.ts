@@ -4,6 +4,7 @@ export class AppRoute {
   static readonly USUARIOS = 'users';
   static readonly UNIDADES_OP = 'unidades-operativas';
   static readonly CONTACTOS = 'contactos';
+  static readonly ASISTENCIA_RAPIDA = 'asistencia-rapida';
   static readonly EDIT_USER = 'edit-user';
   //---------------------------------------------------------------------------------------------------------- RUTAS CONTRATOS
   static readonly CONTRATOS = 'contratos';
