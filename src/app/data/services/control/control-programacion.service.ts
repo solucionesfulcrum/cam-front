@@ -1,9 +1,9 @@
 import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { environment } from '@environments/environment';
-import { ItemListaAsistenciaRapida } from '@models/control/asistencia-rapida/asistencia-rapida';
+import { ItemListaAsistenciaRapida, ItemListaAsistenciaRapidaNacional } from '@models/control/asistencia-rapida/asistencia-rapida';
 import { RequestBuscarApto, RequestBuscarAptoNacional } from '@models/control/asistencia/crud-asistencia.model';
-import { RequestCambioHorario, RequestRegisterAsegurado, RequestRegisterAsistio, RequestRegisterCabecera, RequestRegisterDet } from '@models/control/asistencia/service-asistencia.model';
+import { RequestAdminAsistenciasRap, RequestCambioHorario, RequestRegisterAsegurado, RequestRegisterAsistio, RequestRegisterCabecera, RequestRegisterDet } from '@models/control/asistencia/service-asistencia.model';
 import { DtGenericoPaginado } from '@models/generico/dt-generico';
 import { AsistenciaRapidaListaPayload } from '@models/reportes/reportes-tallerista';
 
@@ -55,6 +55,14 @@ export class ControlProgramacionService {
     const url = `${URL_BASE}/asistencia-rapida/finalizar-sesion/${idAsisSesion}`;
     return this._httpClient.get<any>(url, {});
   }
+  /*
+    getListaContactoAdmin(model: RequestAdminAseguradosCam){
+    const url = `${api_URL}/ficha-admision/listar/nacional`;
+    return this._httpClient.post<any>(url, model);
+  }
+
+  */
+  
 
 
   // Servicios Asistencia -----------------------------------------------------------
@@ -315,6 +323,11 @@ export class ControlProgramacionService {
   getDataAsistenciaRapida(payload: AsistenciaRapidaListaPayload){
     const url = `${environment.API}/control/asistencia-rapida/listar-clases`; 
     return this._httpClient.post<DtGenericoPaginado<ItemListaAsistenciaRapida[]>>(url,payload);
+  }
+
+  getClaseNacional(model: RequestAdminAsistenciasRap){
+    const url = `${URL_BASE}/asistencia-rapida/listar-clases/nacional`;
+    return this._httpClient.post<DtGenericoPaginado<ItemListaAsistenciaRapidaNacional[]>>(url,model);
   }
 
 

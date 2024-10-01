@@ -32,3 +32,16 @@ export interface RequestRegisterAsistio {
 export interface AsistenciaSesion{
     idControlAsistenciaSubDet: number
 }
+
+
+export interface RequestAdminAsistenciasRap{
+    codigoRed: string | null,
+    texto: string,
+    estado: number,
+    fecInicio: string,
+    fecFin: string,
+    codigoCam: string | null,
+    pageNum? : string,
+    pageSize?: string
+  }
+  
