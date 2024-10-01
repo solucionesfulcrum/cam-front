@@ -26,7 +26,7 @@ export class AsistenciaRapidaListaComponent {
   });
 
   dataAcciones: ParamMenu[] = [
-    {texto: 'Descargar Excel', svgDir: 'assets/svg/icon-excel.svg'}
+   /* {texto: 'Descargar Excel', svgDir: 'assets/svg/icon-excel.svg'}*/
   ];
 
   dataSource: any[] = [];
@@ -36,8 +36,6 @@ export class AsistenciaRapidaListaComponent {
     'modalidad',
     'presupuesto',
     'fecha',
-    'horaIni', 
-    'horaFin', 
     'sesiones',
     'estado',
   ];

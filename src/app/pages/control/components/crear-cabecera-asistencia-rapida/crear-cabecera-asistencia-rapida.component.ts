@@ -161,6 +161,50 @@ export class CrearCabeceraAsistenciaRapidaComponent {
     this.selectedDay = today.getDate(); // Día actual
     this.currentDay = today.getDate(); // Día actual
     this.updateDaysInMonth();
+
+    this.datosService.getFechaServidor().subscribe(data => {
+      let fechaActual = new Date(data.data.fechaHoraActual);
+    
+      // Configurar límites
+      const horaMinima = 7;  // 7 AM
+      const horaMaxima = 19; // 7 PM
+    
+      // Obtener la hora y los minutos actuales
+      let horasActuales = fechaActual.getHours();
+      let minutosActuales = fechaActual.getMinutes();
+    
+      // Ajustar la hora de inicio si es menor que las 7 AM
+      if (horasActuales < horaMinima) {
+        horasActuales = horaMinima;
+        minutosActuales = 0; // Ajustar los minutos a 00
+      }
+    
+      // Hora actual en formato HH:MM
+      let horaActual = `${horasActuales.toString().padStart(2, '0')}:${minutosActuales.toString().padStart(2, '0')}`;
+      //alert(`Hora Actual (ajustada si es necesario): ${horaActual}`);
+    
+      // Sumar 45 minutos a la hora actual
+      fechaActual.setHours(horasActuales);
+      fechaActual.setMinutes(minutosActuales + 45);
+    
+      // Obtener la nueva hora después de sumar 45 minutos
+      let horasFin = fechaActual.getHours();
+      let minutosFin = fechaActual.getMinutes();
+    
+      // Ajustar la hora de fin si es mayor que las 7 PM
+      if (horasFin > horaMaxima) {
+        horasFin = horaMaxima;
+        minutosFin = 0; // Ajustar los minutos a 00
+      }
+    
+      // Hora final en formato HH:MM
+      let horaFin = `${horasFin.toString().padStart(2, '0')}:${minutosFin.toString().padStart(2, '0')}`;
+      //alert(`Hora Fin (ajustada si es necesario): ${horaFin}`);
+
+      this.horaInicioControl.setValue(horaActual);
+      this.horaFin = horaFin;
+    });
+    
   
     this.ctrlSearchServicio.valueChanges.pipe(
       debounceTime(300),  // Espera 300ms antes de hacer la llamada
