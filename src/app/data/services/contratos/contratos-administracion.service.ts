@@ -35,6 +35,11 @@ export class ContratosAdministracionService {
     return this._httpClient.get<any>(url);
   }
 
+  getListServiciosAll(txt : String){
+    const url = `${environment.API}/servicio/buscar/todos?texto=${txt}`;
+    return this._httpClient.get<any>(url);
+  }
+
   grabarCrearClase(model : RequestSaveClase){
     const url = `${environment.API}/control/registrar/asistencia-rapida`;
     return this._httpClient.post<DtGenericoSinPaginar<ResponseSaveClase>>(url, model);

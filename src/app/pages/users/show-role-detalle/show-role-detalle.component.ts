@@ -5,6 +5,7 @@ import { faSpinner } from '@fortawesome/free-solid-svg-icons';
 import { RolPemisos } from '@models/rol/rol-data.model';
 import { RolService } from '@services/rol.service';
 import { ActiveUserModalComponent } from '../active-user-modal/active-user-modal.component';
+import { FormatoTab } from '@shared/components/menu-opciones/formato-tab.model';
 
 @Component({
   selector: 'esp-show-role-detalle',
@@ -12,6 +13,11 @@ import { ActiveUserModalComponent } from '../active-user-modal/active-user-modal
   styleUrls: ['./show-role-detalle.component.scss']
 })
 export class ShowRoleDetalleComponent {
+
+  links: FormatoTab[] = [
+    {url:'/app/admin/users/roles/', title:'Servicios Asistencia'},
+  ]
+  
   user:any = Object();
   idUser: any;
 
@@ -33,6 +39,7 @@ export class ShowRoleDetalleComponent {
     private dialog : Dialog) {
       this.route.params.subscribe(params => {
         this.idRol = params['roleId']; // Aquí recibes el idRol de la URL
+        this.links[0].url = '/app/admin/users/roles/'+this.idRol
         this.onLoadData(); // Llamas a la función de carga de datos
       });
 

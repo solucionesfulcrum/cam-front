@@ -2,10 +2,14 @@ import { Component } from '@angular/core';
 import { FormGroup, FormControl, FormBuilder } from '@angular/forms';
 import { PageEvent } from '@angular/material/paginator';
 import { ActivatedRoute, Route, Router } from '@angular/router';
+import { RequestRolServicios } from '@models/control/asistencia/service-asistencia.model';
 import { Parametro } from '@models/parametros-busqueda.model';
 import { imprimirRequestTalleresTallerista, ReportesTalleristaPayload } from '@models/reportes/reportes-tallerista';
 import { NotificationService } from '@services/notification.service';
+import { RolService } from '@services/rol.service';
 import { ParamMenu } from '@shared/components/opciones-busqueda/parametros-busqueda.model';
+import { debounceTime, of, switchMap } from 'rxjs';
+import { ContratosAdministracionService } from 'src/app/data/services/contratos/contratos-administracion.service';
 import { ControlProgramacionService } from 'src/app/data/services/control/control-programacion.service';
 import { DatosGeneralesService } from 'src/app/data/services/datos-generales.service';
 import { ProgramacionContratosService } from 'src/app/data/services/programacion/programacion-contratos.service';
@@ -17,6 +21,12 @@ import { ReportesTalleristaService } from 'src/app/data/services/reportes/report
   styleUrls: ['./lista-servicios-rol.component.scss']
 })
 export class ListaServiciosRolComponent {
+
+  ctrlSearchServicio = new FormControl('');
+  esperaBusqueda: boolean = false;
+  serviciosFiltrados: any[] = [];
+  idServicio!: number;
+
   opciones: Parametro[] = [];
 
   formBuscar: FormGroup = this.fb.group({
@@ -33,16 +43,11 @@ export class ListaServiciosRolComponent {
   columns: string[] = [
     'marcar',
     'descripcion',
-    'modalidad',
-    'presupuesto',
-    'fecha',
-    'sesiones',
-    'estado',
   ];
   pageIndex = 0;
   pageNum = 1;
-  pageSize = 10;
-  pageSizeOptions:  number[] = [5,10,20];
+  pageSize = 100;
+  pageSizeOptions:  number[] = [5,10,20,100];
   total = 0;
 
   loadingData : boolean = false;
@@ -57,7 +62,9 @@ export class ListaServiciosRolComponent {
     private datosService             : DatosGeneralesService,
     private notificationService     : NotificationService,
     private reportService : ReportesTalleristaService,
+    private rolService:RolService,
     private controlServ : ControlProgramacionService,
+    private contratosAdministracionService: ContratosAdministracionService,
     private router : Router,
     private route : ActivatedRoute,
 ) { 
@@ -78,20 +85,63 @@ ngOnInit(){
       this.notificationService.warning(data.message);
     }
   });
+
+  this.ctrlSearchServicio.valueChanges.pipe(
+    debounceTime(300),  // Espera 300ms antes de hacer la llamada
+    switchMap((value : any) => {
+      if(typeof value === "string"){
+        if (value && value.trim().length > 0) {
+          return this.contratosAdministracionService.getListServiciosAll(value);
+        } else {
+          return this.contratosAdministracionService.getListServiciosAll("a");  // Si no hay texto, devuelve un array vacío
+        }
+      }
+      else{
+        if (value.nombre && value.nombre.trim().length > 0) {
+          this.idServicio = value.idServicio;
+          return this.contratosAdministracionService.getListServiciosAll(value.nombre);
+        } else {
+          return of([]);  // Si no hay texto, devuelve un array vacío
+        }
+      }
+     
+    })
+  ).subscribe(response => {
+    this.esperaBusqueda = false;
+    if (response && response.data) {
+      this.serviciosFiltrados = response.data.slice(0, 5); // Mostrar solo los primeros 5 resultados
+    } else {
+      this.serviciosFiltrados = [];
+    }
+  });
+
+  setTimeout(() =>{
+    this.ctrlSearchServicio.setValue('a');
+  })
+
   this.loadData();
 }
+
+displayServicioFiltered(option: any): string {
+  return option ? option.nombre : '';
+}
+
+onServicioSelect(event: any) {
+  console.log('Servicio seleccionado:', event.option.value);
+}
+
 
 loadData(){
 
   setTimeout(() => {
     this.loadingData = true;
-    let metodo = this.controlServ.getDataAsistenciaRapida(this.getPayloadList());
+    let metodo = this.rolService.getServiciosDelRol(this.idRol);
     metodo.subscribe((data)=>{
       this.loadingData = false;
       if (data.code == 0) {
-        this.dataSource = data.data.list;
-        this.pageNum = data.data.pageNum;
-        this.total = data.data.total;
+        this.dataSource = data.data;
+        this.pageNum = 1;
+        this.total = data.data.length;
       }
       else {
         this.notificationService.warning(data.message);
@@ -101,100 +151,7 @@ loadData(){
   
 }
 
-imprimirLista(){
-  var fecInicio: any;
-  var fecFin: any;
 
-  var fechaSinFormatInit = this.formBuscar.value.frmSearchDate.split(' - ')[0];
-  var fechaSinFormatFin = this.formBuscar.value.frmSearchDate.split(' - ')[1];
-
- /* const today = new Date();
-  const day = String(today.getDate()).padStart(2, '0'); // Día con dos dígitos
-  const month = String(today.getMonth() + 1).padStart(2, '0'); // Mes con dos dígitos
-  const year = today.getFullYear();
-  var fechaSinFormatFin = `${day}/${month}/${year}`;
-  var fechaSinFormatInit = '01/01/2023';*/
-
-   // var fechaSinFormatInit = this.formBuscar.value.frmSearchDate.split(' - ')[0];
-  //var fechaSinFormatFin = this.formBuscar.value.frmSearchDate.split(' - ')[1];
-  
-  fecInicio = `${fechaSinFormatInit.split('/')[2]}-${fechaSinFormatInit.split('/')[1]}-${fechaSinFormatInit.split('/')[0]}`;
-  fecFin = `${fechaSinFormatFin.split('/')[2]}-${fechaSinFormatFin.split('/')[1]}-${fechaSinFormatFin.split('/')[0]}`;
-  fecInicio = `${fechaSinFormatInit.split('/')[2]}-${fechaSinFormatInit.split('/')[1]}-${fechaSinFormatInit.split('/')[0]}`;
-  fecFin = `${fechaSinFormatFin.split('/')[2]}-${fechaSinFormatFin.split('/')[1]}-${fechaSinFormatFin.split('/')[0]}`;
-  var idUnidOpe = JSON.parse(localStorage.getItem("UnidElegida")!);
-
-  let payload: imprimirRequestTalleresTallerista = {
-    idUnidadOperativa: JSON.parse(localStorage.getItem("UnidElegida")!).idUnidOperativa,
-    idUsuario: (JSON.parse(localStorage.getItem('camUser')!)).idUsuario,
-    texto: this.formBuscar.controls['frmSearch'].value,
-    fecInicio: fecInicio,
-    fecFin: fecFin,
-    estado: this.formBuscar.get('frmSearchEstado')?.value,
-    pageNum: this.pageNum,
-    pageSize: this.pageSize
-  };
-
-  let metodo;
-  if(JSON.parse(localStorage.getItem("UnidElegida")!).tipo == "CIRAM"){
-    metodo = this.reportService.getExcelTalleresTalleristaCiram(payload);
-  }
-  else{
-    metodo = this.reportService.getExcelTalleresTallerista(payload);
-  }
-
-  metodo.subscribe((data)=>{
-    this.notificationService.success('Se esta descargando el reporte');
-    const blob: Blob = new Blob([data], { type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet' });
-    const url = window.URL.createObjectURL(blob);
-    const anchor = document.createElement('a');
-    anchor.download = 'Reporte_Talleres_Del_Tallerista.xlsx';
-    anchor.href = url;
-    anchor.click();
-    window.URL.revokeObjectURL(url);
-  })
-
-}
-
-
-getPayloadList(): ReportesTalleristaPayload{
-  var fecInicio: any;
-  var fecFin: any;
-
-  var fechaSinFormatInit = this.formBuscar.value.frmSearchDate.split(' - ')[0];
-  var fechaSinFormatFin = this.formBuscar.value.frmSearchDate.split(' - ')[1];
-
- /* const today = new Date();
-  const day = String(today.getDate()).padStart(2, '0'); // Día con dos dígitos
-  const month = String(today.getMonth() + 1).padStart(2, '0'); // Mes con dos dígitos
-  const year = today.getFullYear();
-  var fechaSinFormatFin = `${day}/${month}/${year}`;
-  var fechaSinFormatInit = '01/01/2023';*/
-
-   // var fechaSinFormatInit = this.formBuscar.value.frmSearchDate.split(' - ')[0];
-  //var fechaSinFormatFin = this.formBuscar.value.frmSearchDate.split(' - ')[1];
-  
-  fecInicio = `${fechaSinFormatInit.split('/')[2]}-${fechaSinFormatInit.split('/')[1]}-${fechaSinFormatInit.split('/')[0]}`;
-  fecFin = `${fechaSinFormatFin.split('/')[2]}-${fechaSinFormatFin.split('/')[1]}-${fechaSinFormatFin.split('/')[0]}`;
-
-  return {
-    idUnidadOperativa: JSON.parse(localStorage.getItem("UnidElegida")!).idUnidOperativa,
-    idUsuario: (JSON.parse(localStorage.getItem('camUser')!)).idUsuario,
-    texto: this.formBuscar.controls['frmSearch'].value,
-    fecInicio: fecInicio,
-    fecFin: fecFin,
-    estado: this.formBuscar.get('frmSearchEstado')?.value,
-    pageNum: this.pageNum,
-    pageSize: this.pageSize
-  }
-}
-
-handlePageEvent(event: PageEvent) {
-  this.pageSize = event.pageSize;
-  this.pageIndex = event.pageIndex;
-  this.pageNum = event.pageIndex + 1;
-  this.loadData();
-}
 
 afectarTodo(evento: Event): void{
   let element = evento.target as HTMLInputElement;
@@ -203,6 +160,17 @@ afectarTodo(evento: Event): void{
     this.seleccionados =  this.dataSource.map(data => { return data.idInscripcion});
   else
     this.seleccionados = [];
+}
+
+
+
+
+getPayloadList(): RequestRolServicios{
+ 
+  return {
+    idRol: JSON.parse(localStorage.getItem("UnidElegida")!).idUnidOperativa,
+    texto: "",
+  };
 }
 
 
