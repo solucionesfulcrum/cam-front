@@ -15,7 +15,7 @@
 (searchInputValue)="formBuscar.get('frmSearch')?.setValue($event.toUpperCase()); loadData()"
 [searchInputPlaceHolder]="'Buscar Talleres'"
 [searchInputAdjustWidth]="true"
-[showFirstDisplayFilter]="true"
+[showFirstDisplayFilter]="false"
 [firstDisplayFilterPlaceholder]="{indicador: true, placeholder: 'Todos los estados'}"
 (firstDisplayFilterSendValue)="formBuscar.get('frmSearchEstado')?.setValue($event); loadData()"
 [firstDisplayFilterData]="opciones"
