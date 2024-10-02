@@ -15,7 +15,7 @@ import { FormatoTab } from '@shared/components/menu-opciones/formato-tab.model';
 export class ShowRoleDetalleComponent {
 
   links: FormatoTab[] = [
-    {url:'/app/admin/users/roles/', title:'Servicios Asistencia'},
+    {url:'/app/admin/users/roles/', title:'Servicios Asistencia Rápida'},
   ]
   
   user:any = Object();
