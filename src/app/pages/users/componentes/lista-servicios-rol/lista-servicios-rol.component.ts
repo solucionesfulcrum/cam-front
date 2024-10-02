@@ -1,19 +1,24 @@
-import { Component } from '@angular/core';
+import { Component, HostListener } from '@angular/core';
 import { FormGroup, FormControl, FormBuilder } from '@angular/forms';
+import { MatDialog } from '@angular/material/dialog';
 import { PageEvent } from '@angular/material/paginator';
 import { ActivatedRoute, Route, Router } from '@angular/router';
 import { RequestRolServicios } from '@models/control/asistencia/service-asistencia.model';
 import { Parametro } from '@models/parametros-busqueda.model';
 import { imprimirRequestTalleresTallerista, ReportesTalleristaPayload } from '@models/reportes/reportes-tallerista';
+import { RolServicios } from '@models/rol/rol-data.model';
 import { NotificationService } from '@services/notification.service';
 import { RolService } from '@services/rol.service';
+import { ModalConfirmarGenericoComponent } from '@shared/components/modal-confirmar-generico/modal-confirmar-generico.component';
 import { ParamMenu } from '@shared/components/opciones-busqueda/parametros-busqueda.model';
+import { ToastrService } from 'ngx-toastr';
 import { debounceTime, of, switchMap } from 'rxjs';
 import { ContratosAdministracionService } from 'src/app/data/services/contratos/contratos-administracion.service';
 import { ControlProgramacionService } from 'src/app/data/services/control/control-programacion.service';
 import { DatosGeneralesService } from 'src/app/data/services/datos-generales.service';
 import { ProgramacionContratosService } from 'src/app/data/services/programacion/programacion-contratos.service';
 import { ReportesTalleristaService } from 'src/app/data/services/reportes/reportes-tallerista.service';
+import { ModalConfirmarComponent } from 'src/app/pages/control/components/sub-components/dialogs/modal-confirmar/modal-confirmar.component';
 
 @Component({
   selector: 'esp-lista-servicios-rol',
@@ -39,7 +44,7 @@ export class ListaServiciosRolComponent {
    /* {texto: 'Descargar Excel', svgDir: 'assets/svg/icon-excel.svg'}*/
   ];
 
-  dataSource: any[] = [];
+  dataSource: RolServicios[] = [];
   columns: string[] = [
     'marcar',
     'descripcion',
@@ -55,6 +60,7 @@ export class ListaServiciosRolComponent {
   seleccionados : number[] = [];
 
   idRol!: number;
+  dropdownOpen: boolean = false;
   
   constructor(
     private fb                      : FormBuilder,
@@ -65,6 +71,9 @@ export class ListaServiciosRolComponent {
     private rolService:RolService,
     private controlServ : ControlProgramacionService,
     private contratosAdministracionService: ContratosAdministracionService,
+    private toast: ToastrService,
+    
+    private dialog: MatDialog,
     private router : Router,
     private route : ActivatedRoute,
 ) { 
@@ -109,7 +118,7 @@ ngOnInit(){
   ).subscribe(response => {
     this.esperaBusqueda = false;
     if (response && response.data) {
-      this.serviciosFiltrados = response.data.slice(0, 5); // Mostrar solo los primeros 5 resultados
+      this.serviciosFiltrados = response.data.slice(0, 10); // Mostrar solo los primeros 5 resultados
     } else {
       this.serviciosFiltrados = [];
     }
@@ -127,7 +136,20 @@ displayServicioFiltered(option: any): string {
 }
 
 onServicioSelect(event: any) {
-  console.log('Servicio seleccionado:', event.option.value);
+  let idServicio = event.option.value.idServicio;
+  this.rolService.agregarServiciosRol([
+    {idServicio: idServicio, idRol: this.idRol}
+  ]).subscribe(data => {
+    if(data.code == 0){
+      this.toast.success("Se ha agregado un nuevo servicio al Rol");
+      this.ctrlSearchServicio.setValue("");
+      this.loadData();
+      this.seleccionados = [];
+    }
+    else{
+      this.toast.error("Ocurrió un error agregando los servicios");
+    }
+  })
 }
 
 
@@ -157,7 +179,7 @@ afectarTodo(evento: Event): void{
   let element = evento.target as HTMLInputElement;
   this.dataSource = this.dataSource.map(data => { return {...data, marcar: Boolean(element.checked)}});
   if(element.checked)
-    this.seleccionados =  this.dataSource.map(data => { return data.idInscripcion});
+    this.seleccionados =  this.dataSource.map(data => { return data.idServicioRol});
   else
     this.seleccionados = [];
 }
@@ -211,7 +233,54 @@ transformarHora(hora24 : string) {
   return `${hora12Str}:${minutosStr} ${periodo}`;
 }
 
-  irAAsistencia(){
-    this.router.navigate(['/app/control/asistencia-rapida/crear-cabecera'])
+toggleDropdown() {
+  this.dropdownOpen = !this.dropdownOpen;
+}
+
+onOptionSelected(option: number) {
+  //console.log('Opción seleccionada:', option);
+  // Realiza la acción deseada con la opción seleccionada
+  this.dropdownOpen = false; // Cierra el dropdown después de seleccionar una opción
+}
+
+@HostListener('document:click', ['$event'])
+onClick(event: MouseEvent) {
+  const target = event.target as HTMLElement;
+  if (!target.closest('.dropdown-container, .checkbox-select')) {
+    this.dropdownOpen = false; // Cierra el dropdown si se hace clic fuera de él
   }
+}
+
+eliminaSeleccionados(evento : Event) : void{
+  const dialog = this.dialog.open(ModalConfirmarGenericoComponent,{
+    data:{
+      message: '¿Seguro de eliminar los servicios seleccionados de este rol?'
+    },
+    width: "30%"
+  });
+
+  dialog.afterClosed().subscribe((result : {success: boolean}) => {
+    if(result.success){
+      this.eliminarServiciosRol();
+    }
+  });
+}
+
+eliminarServiciosRol(){
+  let asistentesEliminar: number[] = this.dataSource
+  .filter((asistente: RolServicios) => this.seleccionados.includes(asistente.idServicioRol))
+  .map((asistente: RolServicios) => asistente.idServicioRol as number);
+
+  ////console.log(asistentesEliminar);
+  this.rolService.eliminarServiciosRol(asistentesEliminar).subscribe(data=>{
+    if(data.code == 0){
+      this.toast.success("Los registros han sido eliminados");
+      this.loadData();
+      this.seleccionados = [];
+    }
+    else{
+      this.toast.error("Ocurrió un error eliminando los registros");
+    }
+  })
+}
 }

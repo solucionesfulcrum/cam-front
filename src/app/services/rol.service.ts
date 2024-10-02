@@ -1,8 +1,9 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { environment } from '@environments/environment';
+import { DtGenericoSinPaginar } from '@models/generico/dt-generico';
 import { Http } from '@models/generico/http';
-import { RolPemisos } from '@models/rol/rol-data.model';
+import { RolPemisos, RolServicios } from '@models/rol/rol-data.model';
 import { Observable, delay, of } from 'rxjs';
 
 const URL_BASE = `${environment.API}/roles`;
@@ -31,7 +32,17 @@ export class RolService {
 
   getServiciosDelRol(idRol: number){
     const url = `${URL_BASE}/get-servicios-rol/${idRol}`;
-    return this._httpClient.get<any>(url);
+    return this._httpClient.get<DtGenericoSinPaginar<RolServicios[]>>(url);
+  }
+
+  agregarServiciosRol(data : {idServicio: number, idRol: number}[]){
+    const url = `${URL_BASE}/agregar-servicios-por-rol`;
+    return this._httpClient.post<any>(url, data);
+  }
+
+  eliminarServiciosRol(idRolesServicio: number[]){
+    const url = `${URL_BASE}/eliminar-servicios-rol`;
+    return this._httpClient.post<any>(url, idRolesServicio);
   }
 
 

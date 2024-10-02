@@ -13,3 +13,12 @@ export interface RolPemisos {
   estado: boolean;
   children?: {descripcion: string, estado: boolean}[]
 }
+
+export interface RolServicios {
+  idServicioRol: number;
+  idServicio: number;
+  marcar: boolean;
+  orden: number;
+  
+  nombreServicio: string;
+}

@@ -24,7 +24,6 @@
 [showButton]="false"
 [buttonBg]="'var(--color-CAM-Mezclado)'"
 [buttonText]="'Nueva'"
-(buttonAccion)="irAAsistencia()"
 [filterDateAppearance]="2"
 [setFilterDateSelectionBg]="'var(--color-CAM-Claro)'"
 [setFilterDateButtonBg]="'var(--color-CAM-Claro)'"
@@ -45,6 +44,7 @@
 <esp-data-loading
 [dataEmpty]="dataSource.length == 0"
 [dataLoading]="loadingData"
+[height]="'50vh'"
 ></esp-data-loading>
 
 <div *ngIf="!loadingData && dataSource.length > 0">
@@ -55,13 +55,35 @@
       <tr cdk-row class="bg-white border-b" *cdkRowDef="let row; columns: columns"></tr>
       <ng-container cdkColumnDef="marcar">
         <th cdk-header-cell class="py-[1.25rem] px-6" [style]="'width: 0%;'" *cdkHeaderCellDef> <input type="checkbox" [checked]="seleccionados.length == this.dataSource.length" (change)="afectarTodo($event)"/> </th>
-        <td cdk-cell class="py-[1rem] px-6" [style]="'width: 0%;'" *cdkCellDef="let row"> <input type="checkbox" class="checkbox-select" (change)="seleccionarFila($event)" [value]="row.idInscripcion" [checked]="row.marcar"/> </td>
+        <td cdk-cell class="py-[1rem] px-6" [style]="'width: 0%;'" *cdkCellDef="let row"> <input type="checkbox" class="checkbox-select" (change)="seleccionarFila($event)" [value]="row.idServicioRol" [checked]="row.marcar"/> </td>
       </ng-container>
 
       <ng-container cdkColumnDef="descripcion">
-        <th cdk-header-cell class="py-[1rem] px-6" *cdkHeaderCellDef [style]="'padding-left: 0px;'" >Servicio</th>
+        <th cdk-header-cell class="py-[1rem] px-6" *cdkHeaderCellDef [style]="'padding-left: 0px;'" >
+          <ng-container *ngIf="seleccionados.length == 0">
+            Nombre Servicio
+        </ng-container>
+        <ng-container *ngIf="seleccionados.length > 0">
+           {{seleccionados.length + " Seleccionados(s)"}} 
+
+           <div class="relative inline-block text-left px-2 dropdown-container">
+            <button type="button" class="inline-flex justify-center w-full rounded-md bg-cam border border-gray-300 shadow-sm px-4 py-2 bg-white text-sm font-medium text-white hover:bg-gray-50 focus:outline-none" (click)="toggleDropdown()">
+              Acciones
+              <img src="assets/svg/icon-dropdown-white.svg" class="my-2 pl-2">
+            </button>
+            <div *ngIf="dropdownOpen" class="origin-top-right absolute right-0 mt-1 w-56 mx-2 rounded-md shadow-lg bg-white ring-1 ring-black ring-opacity-5 focus:outline-none">
+              <div class="py-1" role="menu" aria-orientation="vertical" aria-labelledby="options-menu">
+                <a class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 cursor-pointer" role="menuitem" (click)="eliminaSeleccionados($event)">
+                    Eliminar Seleccionado
+                </a>
+              </div>
+            </div>
+          </div>
+        </ng-container>
+        </th>
         <td cdk-cell class="py-[1rem] px-6 text-Name" *cdkCellDef="let row, index as i" [style]="'padding-left: 0px;'">
           <span>{{ row.nombreServicio }}</span>
+          
         </td>
       </ng-container>
 
