@@ -6,6 +6,7 @@ import { RequestBuscarApto, RequestBuscarAptoNacional } from '@models/control/as
 import { RequestAdminAsistenciasRap, RequestCambioHorario, RequestRegisterAsegurado, RequestRegisterAsistio, RequestRegisterCabecera, RequestRegisterDet } from '@models/control/asistencia/service-asistencia.model';
 import { DtGenericoPaginado } from '@models/generico/dt-generico';
 import { AsistenciaRapidaListaPayload } from '@models/reportes/reportes-tallerista';
+import { Observable } from 'rxjs';
 
 const URL_BASE = `${environment.API}/control`;
 
@@ -328,6 +329,11 @@ export class ControlProgramacionService {
   getClaseNacional(model: RequestAdminAsistenciasRap){
     const url = `${URL_BASE}/asistencia-rapida/listar-clases/nacional`;
     return this._httpClient.post<DtGenericoPaginado<ItemListaAsistenciaRapidaNacional[]>>(url,model);
+  }
+
+  getClaseNacionalExcel(model: RequestAdminAsistenciasRap): Observable<Blob>{
+    const url = `${environment.API}/report/control/excel/asistencia-rapida/lista-nacional`;
+    return this._httpClient.post(url, model, {responseType:'blob', headers: new HttpHeaders({'Accept': 'application/octet-stream'})});
   }
 
 

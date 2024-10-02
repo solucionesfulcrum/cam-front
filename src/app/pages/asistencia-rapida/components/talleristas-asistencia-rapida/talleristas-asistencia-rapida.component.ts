@@ -173,30 +173,24 @@ export class TalleristasAsistenciaRapidaComponent {
       fecFin = `${fechaSinFormatFin.split('/')[2]}-${fechaSinFormatFin.split('/')[1]}-${fechaSinFormatFin.split('/')[0]}`;
     }
 
-    /*
-    var fechaSinFormatInit = this.formBuscar.value.frmSearchDate.split(' - ')[0];
-    var fechaSinFormatFin = this.formBuscar.value.frmSearchDate.split(' - ')[1];
-    fecInicio = `${fechaSinFormatInit.split('/')[2]}-${fechaSinFormatInit.split('/')[1]}-${fechaSinFormatInit.split('/')[0]}`;
-    fecFin = `${fechaSinFormatFin.split('/')[2]}-${fechaSinFormatFin.split('/')[1]}-${fechaSinFormatFin.split('/')[0]}`;
-    var idUnidOpe = JSON.parse(localStorage.getItem("UnidElegida")!);*/
-
-    let payload: RequestAdminAseguradosCam = {
-      idUnidOpe: this.formBuscar.get('frmSearchRed')?.value,
+    let payload: RequestAdminAsistenciasRap = {
+      codigoRed: this.formBuscar.get('frmSearchRed')?.value,
       texto: this.formBuscar.controls['frmSearch'].value,
       estado: parseInt(this.formBuscar.get('frmSearchEstado')?.value),
       fecInicio: fecInicio,
       fecFin: fecFin,
-      codigoCam : this.formBuscar.get('frmSearchCam')?.value
+      codigoCam : this.formBuscar.get('frmSearchCam')?.value,
+      idRol: 7
     };
 
-    let servicioMetodo = this.afiliacionesService.getExcelAseguradosAdmin(payload);
+    let servicioMetodo = this.controlProgramacionService.getClaseNacionalExcel(payload);
     
     servicioMetodo.subscribe((data)=>{
       this.notificationService.success('Se esta descargando el reporte');
       const blob: Blob = new Blob([data], { type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet' });
       const url = window.URL.createObjectURL(blob);
       const anchor = document.createElement('a');
-      anchor.download = 'Reporte_Asegurados.xlsx';
+      anchor.download = 'Reporte_Asistencia_Rapida_tallerista.xlsx';
       anchor.href = url;
       anchor.click();
       window.URL.revokeObjectURL(url);
