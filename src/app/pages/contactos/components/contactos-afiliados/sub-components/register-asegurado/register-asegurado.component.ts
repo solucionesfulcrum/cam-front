@@ -16,6 +16,7 @@ import { RegisterSolicitud } from '@models/afiliaciones/register-afiliacion.mode
 import { AfiliacionesSolicitudesService } from 'src/app/data/services/afiliaciones/afiliaciones-solicitudes.service';
 import { RequestStatus } from '@models/request-status.model';
 import { base64Img } from './data';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'esp-register-asegurado',
@@ -45,6 +46,11 @@ export class RegisterAseguradoComponent {
 
   tipoDocMap : any = {
     "2" : "4",
+    "1" : "1"
+  }
+
+  tipoDocMapReverse : any = {
+    "4" : "2",
     "1" : "1"
   }
   
@@ -145,6 +151,7 @@ export class RegisterAseguradoComponent {
               private fb                                : FormBuilder,
               private router                            : Router,
               private activeRoute                       : ActivatedRoute,
+              private toast : ToastrService,
               private solicitudesService                : AfiliacionesSolicitudesService,
               private _contactoService                  : ContactosAfiliadosService,
               private _notificacionService              : NotificationService,
@@ -569,7 +576,7 @@ export class RegisterAseguradoComponent {
   }
 
   EvalAfiliado(idSolicitud: string, idFichaAdmision: string){
-    this.datosGeneralesServices.validarAdmisionIngreso(this.parametroDocumento.valor1, this.numDoc, this.idUnidadOperativaUser, 2).subscribe((data)=>{
+    this.datosGeneralesServices.validarAdmisionIngreso( this.tipoDocMapReverse[this.parametroDocumento.valor1] , this.numDoc  , this.idUnidadOperativaUser, 2, this.fecNac).subscribe((data)=>{
       if (data.code == 0) {
         //this.opcionesBotones[1].loading = false;
         if (data.data.acreditado) {
@@ -578,7 +585,7 @@ export class RegisterAseguradoComponent {
           this.router.navigate(['/app/afiliados/evaluacion/agregaEval'])
         }
         else{
-          //this.notificationService.warning(data.data.mensaje);
+          this.toast.warning(data.data.mensaje);
         }
       }
       else{

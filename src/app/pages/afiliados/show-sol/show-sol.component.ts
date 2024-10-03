@@ -30,6 +30,11 @@ export class ShowSolComponent implements OnInit {
     {texto: 'Evaluar Solicitud', colorBtn:'mezclado', loading: false},
   ];
 
+  tipoDocMap : any = {
+    "4": "2",
+    "1": "1"
+  }
+
   faSpinner = faSpinner;
   idSolicitud: string = '';
   dataSolicitud: any;
@@ -165,7 +170,15 @@ export class ShowSolComponent implements OnInit {
 
   EvalAfiliado(){
     this.opcionesBotones[1].loading = true;
-    this.datosGeneralesServices.validarAdmisionIngreso(this.dataSolicitud.asegurado.tipoDoc, this.dataSolicitud.asegurado.numDoc, this.idUnidadOperativaUser, 2).subscribe((data)=>{
+    let fechaNacimiento = "";
+    let tipoDocDecode = this.tipoDocMap[this.dataSolicitud.asegurado.tipoDoc];
+
+    if(this.dataSolicitud.asegurado.tipoDoc != 1){
+      let splitFecNac = this.dataSolicitud.asegurado.fecNacimiento.split("-");
+      fechaNacimiento = splitFecNac[2] + "/" + splitFecNac[1] + "/" +splitFecNac[0];
+     
+    }
+    this.datosGeneralesServices.validarAdmisionIngreso(tipoDocDecode, this.dataSolicitud.asegurado.numDoc, this.idUnidadOperativaUser, 2, fechaNacimiento).subscribe((data)=>{
       if (data.code == 0) {
         this.opcionesBotones[1].loading = false;
         if (data.data.acreditado) {
@@ -178,7 +191,7 @@ export class ShowSolComponent implements OnInit {
             idFichaAdmision: this.dataSolicitud.fichaAdmision.idFichaAdmision,
             idEstado: 16
           }).subscribe(data =>{
-              this.contactosAfiServ.cambiarDeEstadoSolicitud( this.dataSolicitud.solicitud.idSolicitud,{
+             this.contactosAfiServ.cambiarDeEstadoSolicitud( this.dataSolicitud.solicitud.idSolicitud,{
                 estado: 72,
                 descripcion: 'Considerado como NO APTO por falta de acreditación',
                 idUsuarioReg: (JSON.parse(localStorage.getItem('camUser')!)).idUsuario
