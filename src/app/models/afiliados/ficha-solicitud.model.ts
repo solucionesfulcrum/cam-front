@@ -53,7 +53,8 @@ export interface direccionFichaFront{
 export interface dataRequest{
     codOpcion: string,
     tipoDoc: string,
-    numDoc: string
+    numDoc: string,
+    fecNacimiento?: string
 }
 
 export interface listaFichaSolicitudRequest {

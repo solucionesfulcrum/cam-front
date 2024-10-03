@@ -149,15 +149,14 @@ export class RegisterAseguradoComponent {
                 this.tipoDoc = this.activeRoute.snapshot.paramMap.get('tipoDoc')!;
                 let fecNac = this.activeRoute.snapshot.paramMap.get('fecNac')!;
                 if(fecNac){
-                  let fechaSplit = fecNac.split("-");
-                  this.fecNac = fechaSplit[2]+"/"+fechaSplit[1]+"/"+fechaSplit[0];
+                  this.fecNac = fecNac;
                 }
 
               }
   
   ngOnInit(){
-    if(this.tipoDoc == "1"){
-      this._datoGeneralesService.validarAdmisionIngreso(this.tipoDoc, this.numDoc, this.idUnidadOperativaUser, 1).subscribe((data)=>{
+   
+      this._datoGeneralesService.validarAdmisionIngreso(this.tipoDoc, this.numDoc, this.idUnidadOperativaUser, 1, this.fecNac).subscribe((data)=>{
         if (data.code == 0) {
           if (data.data.acreditado) {
             this.getParametros();
@@ -183,29 +182,12 @@ export class RegisterAseguradoComponent {
           this._notificacionService.warning(data.message);
         }
       })
-    }
-    else{
-      this.getParametros();
-      this.getDataFromServices();
-      this.frmCtrlDireccion.valueChanges.subscribe((data)=>{
-        if(data!>=0){
-          this.direccionesPersona.map(x=>{
-            x.activo = 0
-          });
-          this.direccionesPersona[data!].activo = 1;
-        }
-      })
-  
-      this.frmCtrlDireccion.addValidators([Validators.required]);
-      this.frmCtrlModIngr.addValidators([Validators.required]);
-    }
-
+   
   }
 
   getDataFromServices(){
     // Obtener codCentro ------------------------------------------------------------------------------------------------------------------------------
-    
-    if(!this.fecNac || true){
+
       this._contactoService.servicioObtenerCodCentro(this.requestDataCodCentro()).subscribe((data)=>{
         if (data.code == 0) {
           this._datoGeneralesService.getRedesAsistenciales().subscribe((datos)=>{
@@ -223,7 +205,7 @@ export class RegisterAseguradoComponent {
           this._notificacionService.warning(data.message);
         }
       });
-    }
+    
 
 
     let metodo;
@@ -231,7 +213,7 @@ export class RegisterAseguradoComponent {
       metodo = this._contactoService.ServicioObetenerDataPersonaNoDni({
         codOpcion: 1,
         //codTipDoc: this.tipoDoc,
-        codTipDoc: "2",
+        codTipDoc: this.tipoDoc,
         numDoc: this.numDoc,
         fecNacimiento: this.fecNac
       })
@@ -289,7 +271,7 @@ export class RegisterAseguradoComponent {
     })
     
     // Obtener Info Seguro ------------------------------------------------------------------------------------------------------------------------------
-    if(!this.fecNac || true){
+
       this._contactoService.getDatoSeguro(this.tipoDoc,this.numDoc).subscribe((data)=>{
         if (data.code == 0) {
           this.dataSeguro = Object(data.data[0]);
@@ -298,7 +280,7 @@ export class RegisterAseguradoComponent {
           this._notificacionService.warning(data.message);
         }
       })
-    }
+    
    
   }
 
@@ -316,7 +298,8 @@ export class RegisterAseguradoComponent {
     return {
       codOpcion: '1',
       tipoDoc: this.tipoDoc,
-      numDoc: this.numDoc 
+      numDoc: this.numDoc,
+      fecNacimiento: this.fecNac
     }
   }
 

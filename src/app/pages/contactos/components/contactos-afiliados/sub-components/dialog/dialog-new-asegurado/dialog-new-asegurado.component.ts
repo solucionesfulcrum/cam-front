@@ -17,6 +17,11 @@ export class DialogNewAseguradoComponent {
   
   opciones: Parametro[] = [];
   status: RequestStatus = 'init';
+
+  tipoDocMap : any = {
+    "4": "2",
+    "1": "1"
+  }
   
   public formNewFicha = this.fb.nonNullable.group({
     frmSelectDoc:new FormControl("1"),
@@ -55,12 +60,12 @@ export class DialogNewAseguradoComponent {
   onSearch(){
     if(this.formNewFicha.valid){
       this.status = 'loading';
-      const tipoDoc=this.formNewFicha.value.frmSelectDoc!;
+      const tipoDoc= this.tipoDocMap[this.formNewFicha.value.frmSelectDoc!];
       const numDoc=this.formNewFicha.value.frmDoc
       const unidadOpera = this.unidOpeUserSession.idUnidOperativa
       // //console.log("data de respuesta",this.unidOpeUserSession.idUnidOperativa)
-      if(tipoDoc == "1"){
-        this.datosService.validarAdmisionIngreso(tipoDoc,numDoc!,unidadOpera, 1)
+      if(true){
+        this.datosService.validarAdmisionIngreso(tipoDoc,numDoc!,unidadOpera, 1, this.createRequest().fecNac!)
         .subscribe((data) => {
           // //console.log("data de respuesta",data.data.acreditado)
           if(data.code == 0){
@@ -87,11 +92,18 @@ export class DialogNewAseguradoComponent {
     
   }
   createRequest(): AcreditarFichaPostulante{
+    let valFechaNacimiento = "";
+    let fechaNacimiento =  this.formNewFicha.value.fechaNac;
+    if(fechaNacimiento){
+      let splitFechaNacimiento = fechaNacimiento?.split("-");
+      let fechaNacimientoPayload = splitFechaNacimiento[2]+"/"+splitFechaNacimiento[1]+"/"+splitFechaNacimiento[0];
+      valFechaNacimiento = fechaNacimientoPayload;
+    }
     return {
       idUnidadOpe: this.unidOpeUserSession.idUnidOperativa,
-      tipoDoc: this.formNewFicha.value.frmSelectDoc!,
+      tipoDoc: this.tipoDocMap[this.formNewFicha.value.frmSelectDoc!],
       numDoc: this.formNewFicha.value.frmDoc!,
-      fecNac: this.formNewFicha.value.fechaNac
+      fecNac: valFechaNacimiento
     }
   }
   setLink2(codigo:string, tipo:string, fecNac: string){

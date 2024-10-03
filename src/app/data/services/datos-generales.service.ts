@@ -127,8 +127,12 @@ export class DatosGeneralesService {
     return this._httpClient.get<any>(url);
   }
 
-  validarAdmisionIngreso(tipoDoc: string, numDoc: string, idUnidadOpe: string, tipoConsulta: number) {
-    const url = `${URL_BASE}/ficha-admision/acreditar/registro?tipoDoc=${tipoDoc}&numDoc=${numDoc}&idUnidadOpe=${idUnidadOpe}&tipoConsulta=${tipoConsulta}`;
+  validarAdmisionIngreso(tipoDoc: string, numDoc: string, idUnidadOpe: string, tipoConsulta: number, fechaNacimiento?: string) {
+    let strFechaNacimiento = "";
+    if(fechaNacimiento){
+      strFechaNacimiento = `&fechaNacimiento=${fechaNacimiento}`;
+    }
+    const url = `${URL_BASE}/ficha-admision/acreditar/registro?tipoDoc=${tipoDoc}&numDoc=${numDoc}&idUnidadOpe=${idUnidadOpe}&tipoConsulta=${tipoConsulta}${strFechaNacimiento}`;
     return this._httpClient.get<any>(url);
   }
 
