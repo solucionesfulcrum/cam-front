@@ -41,6 +41,12 @@ export class RegisterAseguradoComponent {
   codRegionNac: string = '';
   codProvNac: string = '';
   codDistNac: string = '';
+
+
+  tipoDocMap : any = {
+    "2" : "4",
+    "1" : "1"
+  }
   
   
   // <!---------------------------------------------------- Primer paso:  Datos del Asegurado                     --------------------------------------------------->
@@ -287,7 +293,7 @@ export class RegisterAseguradoComponent {
   getParametros(){
     this._datoGeneralesService.getTipoParametros('TIPO_DOCUMENTO_IDENTIDAD').subscribe((data)=>{
       this.listParamDocumento = data.data;
-      this.parametroDocumento = data.data.find((x) => x.valor1 == this.tipoDoc)!;
+      this.parametroDocumento = data.data.find((x) => x.valor1 == this.tipoDocMap[this.tipoDoc])!;
     })
     this._datoGeneralesService.getTipoParametros('MOD_INGRESO_ADMISION').pipe(map(msg => msg.data.sort((a1: Parametro, a2: Parametro) => parseInt(a1.valor1) - parseInt(a2.valor1)))).subscribe((data)=>{
       this.listParamModIngr = data.filter(param => param.idParametros == 18);
