@@ -248,6 +248,7 @@ export class RegisterAseguradoComponent {
         if(!this.infoReniec.codUbgNac){
           this.infoReniec.codUbgNac = '999999'
         }
+        
         this._datoGeneralesService.searchByUbigeo(this.infoReniec.codUbgNac).subscribe((data)=>{
           this.regionNac = data.data.region;
           this.provNac = data.data.provincia;
