@@ -245,7 +245,9 @@ export class RegisterAseguradoComponent {
         var dateObject = new Date(+dateParts[2], +dateParts[1] - 1, +dateParts[0]); 
         var timeDiff = Math.abs(Date.now() - dateObject.getTime());
         this.edadPersona = Math.floor(timeDiff / (1000 * 3600 * 24) / 365.25);
-
+        if(!this.infoReniec.codUbgNac){
+          this.infoReniec.codUbgNac = '999999'
+        }
         this._datoGeneralesService.searchByUbigeo(this.infoReniec.codUbgNac).subscribe((data)=>{
           this.regionNac = data.data.region;
           this.provNac = data.data.provincia;
