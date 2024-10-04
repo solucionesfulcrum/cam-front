@@ -157,6 +157,10 @@ export class ControlProgramacionService {
   }
 
   getSiEsAptoNacional(model: RequestBuscarAptoNacional) {
+    if(model.fechaNacimiento){
+      let splitFecNac = model.fechaNacimiento.split("-");
+      model.fechaNacimiento = splitFecNac[2]+"/"+splitFecNac[1]+"/"+splitFecNac[0]
+    }
     const url = `${environment.API}/asegurado/buscar/aptos-nacional`;
     return this._httpClient.post<any>(url, model);
   }

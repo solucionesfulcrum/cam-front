@@ -6,7 +6,8 @@ export interface RequestBuscarApto {
 
 export interface RequestBuscarAptoNacional {
   tipDoc: string,
-  numDoc: string
+  numDoc: string,
+  fechaNacimiento?: string | null,
 }
 
 //ESTATICOS

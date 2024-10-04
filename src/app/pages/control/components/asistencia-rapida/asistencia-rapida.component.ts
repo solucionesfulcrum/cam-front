@@ -56,7 +56,8 @@ export class AsistenciaRapidaComponent {
 
   public formBuscarPersona = this.fb.nonNullable.group({
     frmSelectDoc: new FormControl('1'),
-    frmDoc: ['', [Validators.required, Validators.pattern(/^\d{8}$/)]],
+    frmDoc: ['', [Validators.required]],
+    fechaNac: ['']
   });
 
   esperaBusqueda: boolean = false;
@@ -162,7 +163,7 @@ export class AsistenciaRapidaComponent {
     this.formBuscarPersona.get('frmDoc')!.valueChanges.subscribe(ctrlType=>{
       if(this.ctrlTypeSearch.value == 3){
         this.setFocusOnFrmDoc();
-        if(this.formBuscarPersona.get('frmDoc')?.valid){
+        if(this.formBuscarPersona.get('frmDoc')?.valid && String(this.formBuscarPersona.get("frmSelectDoc")?.value) == "1"){
           this.onAseguradoSelectCodigoBarra("");
           this.setFocusOnFrmDoc();
         }
@@ -178,6 +179,16 @@ export class AsistenciaRapidaComponent {
     this.getParametros();
     //this.getListAsegurados();
     this.setListeners();
+  }
+
+  registrarAsistencia(){
+    if(this.ctrlTypeSearch.value == 3 || this.ctrlTypeSearch.value == 2){
+      this.setFocusOnFrmDoc();
+      if(this.formBuscarPersona.get('frmDoc')?.valid){
+        this.onAseguradoSelectCodigoBarra("");
+        this.setFocusOnFrmDoc();
+      }
+    }
   }
 
   getParametros(){
@@ -358,7 +369,8 @@ export class AsistenciaRapidaComponent {
    onAseguradoSelect(event: any){
     let payload: RequestBuscarAptoNacional = {
       tipDoc: event.option.value.tipoDoc === 'DNI' ? '1' : '4',
-      numDoc: event.option.value.numDoc
+      numDoc: event.option.value.numDoc,
+      fechaNacimiento: event.option.value.tipoDoc != 'DNI' ? event.option.value.fechNac : null,
     }
     this.controlService.getSiEsAptoNacional(payload).subscribe((data)=>{
       if ((data.code == 0 || data.code == 2) && data.data) {
@@ -408,6 +420,7 @@ export class AsistenciaRapidaComponent {
   }
 
   searchSiApto(tipoDoc: string, numDoc: string){
+    //NO SE MODIFICA, ESTO ES SOLO EN LA INSCRIPCIÓN DE CAM
     let payload: RequestBuscarAptoNacional = {
       tipDoc: tipoDoc,
       numDoc: numDoc
@@ -599,7 +612,6 @@ export class AsistenciaRapidaComponent {
     } else if (documentType === '4') {
       this.formBuscarPersona.get('frmDoc')!.setValidators([
         Validators.required,
-        Validators.pattern(/^[a-zA-Z0-9]{9}$/)
       ]);
     }
     else if (documentType === '23') { // Suponiendo que 'X' es el tipo de documento para el permiso temporal de permanencia
@@ -626,7 +638,8 @@ export class AsistenciaRapidaComponent {
     }
     let payload: RequestBuscarAptoNacional = {
       tipDoc:  String(this.formBuscarPersona.get("frmSelectDoc")?.value),
-      numDoc: String(this.formBuscarPersona.get("frmDoc")?.value)
+      numDoc: String(this.formBuscarPersona.get("frmDoc")?.value),
+      fechaNacimiento: String(this.formBuscarPersona.get("frmSelectDoc")?.value) != "1" ? this.formBuscarPersona.get("fechaNac")!.value : null
     }
     this.statusLoadingBarra = true;
     this.formBuscarPersona.get("frmDoc")?.setValue('');
