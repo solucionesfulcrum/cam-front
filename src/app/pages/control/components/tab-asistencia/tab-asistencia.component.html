@@ -76,12 +76,25 @@
                                 </select>
                               </div>
                             </div>
+                            <div class="relative rounded-md shadow-sm" *ngIf="formBuscarPersona.get('frmSelectDoc')?.value != '1'">
+                                <input
+                                   style="padding: 9px;"
+                                  formControlName="fechaNac"
+                                  placeholder="Fecha Nacimiento"
+                                  type="date"
+                                  id="fechaNac"
+                                  name="fechaNac"
+                                  class="w-full text-sm rounded bg-white border-gray-400 border-1 px-4 py-2 font-light focusCampo"
+                                  espEstiloInput
+                                />
+                                <label for="fechaNac" espEstiloLabel>Fecha Nacimiento</label>
+                              </div>
                             <input formControlName="frmDoc" placeholder="Buscador" type="text" name="doc"  id="frmDoc"
                             class="w-full text-sm rounded bg-white border-gray-400 border-1 px-4 py-2 font-light focusCampo grow" 
                             [readonly]="!dataPaginada.cerrado || datoProgramacion.cerradoCabecera"/>
                         </div>
                         <ng-container *ngIf="!datoProgramacion.cerradoCabecera">
-                            <div class="w-[34px] h-10 flex items-center justify-center border border-gray-400 rounded shrink-0" [ngClass]="esperaBusqueda ? 'relative' : 'cursor-pointer hover:bg-slate-200'" (click)="!esperaBusqueda ? searchSiApto(formBuscarPersona.controls.frmSelectDoc.value!, formBuscarPersona.controls.frmDoc.value!) : null">
+                            <div class="w-[34px] h-10 flex items-center justify-center border border-gray-400 rounded shrink-0" [ngClass]="esperaBusqueda ? 'relative' : 'cursor-pointer hover:bg-slate-200'" (click)="!esperaBusqueda ? searchSiApto(formBuscarPersona.controls.frmSelectDoc.value!, formBuscarPersona.controls.frmDoc.value!, formBuscarPersona.controls.fechaNac.value!) : null">
                                 <img src="assets/svg/icon-contrato-confirm.svg" class="select-none" [ngClass]="esperaBusqueda ? 'opacity-50' : null">
                                 <fa-icon *ngIf="esperaBusqueda" class="absolute" [icon]="faSpinner" [pulse]="true"></fa-icon>
                               </div>

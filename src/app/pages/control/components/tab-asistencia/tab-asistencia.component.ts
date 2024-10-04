@@ -57,6 +57,7 @@ export class TabAsistenciaComponent {
   public formBuscarPersona = this.fb.nonNullable.group({
     frmSelectDoc: new FormControl('1'),
     frmDoc: ['', [Validators.required, Validators.minLength(8)]],
+    fechaNac: ['']
   });
   esperaBusqueda: boolean = false;
   esperaBusquedaAsegurados: boolean = true;
@@ -159,6 +160,7 @@ export class TabAsistenciaComponent {
       }
       //console.log(data)
     })
+    
   }
   // Lista de Asistentes ------------------------------------------------------------------------
   getSeleccionadosCheck(): any[]{
@@ -199,7 +201,8 @@ export class TabAsistenciaComponent {
     let payload: RequestBuscarApto = {
       idUnidadOperativa: codUo,
       tipDoc: event.option.value.tipoDoc === 'DNI' ? '1' : '4',
-      numDoc: event.option.value.numDoc
+      numDoc: event.option.value.numDoc,
+      fechaNacimiento: event.option.value.tipoDoc != 'DNI' ? event.option.value.fechNac : null,
     }
     this.controlService.getSiEsApto(payload).subscribe((data)=>{
       if ((data.code == 0 || data.code == 2) && (data.data && data.data.length > 0)) {
@@ -285,7 +288,7 @@ export class TabAsistenciaComponent {
     return selectedoption ? selectedoption.nombreCompleto : undefined;
   }
 
-  searchSiApto(tipoDoc: string, numDoc: string){
+  searchSiApto(tipoDoc: string, numDoc: string, fechaNacimiento: string){
     let codUo;
     if((JSON.parse(localStorage.getItem('UnidElegida')!)).tipo == 'CIRAM'){
       codUo = (JSON.parse(localStorage.getItem('UnidElegida')!)).unidOperativaCam
@@ -296,7 +299,8 @@ export class TabAsistenciaComponent {
     let payload: RequestBuscarApto = {
       idUnidadOperativa: codUo,
       tipDoc: tipoDoc,
-      numDoc: numDoc
+      numDoc: numDoc,
+      fechaNacimiento: tipoDoc != "1" ? fechaNacimiento : null
     }
     this.esperaBusqueda = true;
     this.controlService.getSiEsApto(payload).subscribe((data)=>{
