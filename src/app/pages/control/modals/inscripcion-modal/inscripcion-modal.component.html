@@ -6,7 +6,7 @@
   </button>
 </div>
 <div class="px-4 py-3 bg-white">
-  <div class="grid grid-cols-3 gap-3 mt-4 mb-2" [formGroup]="form" [style.grid-template-columns]="columnWidths">
+  <div class="grid grid-cols-4 gap-3 mt-4 mb-2" [formGroup]="form" [style.grid-template-columns]="columnWidths">
     <div class="relative mt-2 rounded-md shadow-sm">
       <select formControlName="frmTipoDoc" 
         class="space-x-5 bg-slate-50 border border-gray-300 text-gray-900 text-sm rounded-lg focusCampo block w-full"
@@ -25,6 +25,29 @@
           </p>
       </div>
     </div>
+    <div>
+      <div class="relative rounded-md shadow-sm" style="top: 8px">
+        <input
+          formControlName="fechaNac"
+          style="padding: 8px;"
+          placeholder="Fecha Nacimiento"
+          type="date"
+          [disabled]="form.get('frmTipoDoc')?.value == '1'"
+          [readOnly]="form.get('frmTipoDoc')?.value == '1'"
+          id="fechaNac"
+          name="fechaNac"
+          class="w-full text-sm rounded  border-gray-400 border-1 px-4 py-2 font-light focusCampo"
+          [ngClass]="(form.get('frmTipoDoc')?.value == '1' ? 'disabled-fecha' : '')"
+          espEstiloInput
+        />
+        <label for="fechaNac" espEstiloLabel>Fecha de Nacimiento</label>
+      </div>
+      <div *ngIf="form.controls.fechaNac.touched && form.controls.fechaNac.invalid">
+        <p *ngIf="form.controls.fechaNac.hasError('required')" class="font-medium text-red-500 text-xs mt-1 ml-1">
+          La fecha de nacimiento es obligatoria
+        </p>
+      </div>
+  </div> 
     <div class="relative mt-2 rounded-md shadow-sm">
       <div class="pointer-events-none absolute inset-y-0 right-0 flex !h-9 items-center pr-3">
         <span class="text-gray-500 sm:text-sm">
@@ -68,7 +91,7 @@
       <div class="fila-content">{{nombreContacto}}</div>
     </div>
     <div class="flex justify-center shadow-sm pb-4">
-      <div class="fila-content">DNI {{numdocContacto}} </div>
+      <div class="fila-content">{{tipoDoc}} {{numdocContacto}} </div>
     </div>
   </div>
 </div>

@@ -45,6 +45,7 @@ export class InscripcionModalComponent {
   statusLoadContacto = false;
   nombreContacto = "";
   numdocContacto = "";
+  tipoDoc= "";
   idAsegurado = "";
   conConexion! : boolean;
   acreditado!: boolean;
@@ -53,6 +54,7 @@ export class InscripcionModalComponent {
   public form = this.fb.nonNullable.group({
     frmTipoDoc: ['1', [Validators.required]],
     frmNumdoc: ['', [Validators.required]],
+    fechaNac:[''],
   });
 
   
@@ -60,7 +62,7 @@ export class InscripcionModalComponent {
 
   
 
-  columnWidths: string = '50% 50% 0%';
+  columnWidths: string = '24% 23% 50% 0%';
   
   constructor(private _dialogRef: DialogRef<InscripcionModalComponent>,
     @Inject(DIALOG_DATA) public data: any,
@@ -80,6 +82,7 @@ export class InscripcionModalComponent {
   ngOnInit(): void {
     this.form.get('frmTipoDoc')!.valueChanges.subscribe(value => {
       this.setDocumentValidators(value);
+      this.form.get('fechaNac')?.setValue("");
     })
     this.getParametros();
   }
@@ -94,7 +97,7 @@ export class InscripcionModalComponent {
     } else if (documentType === '4') {
       documentNumberControl.setValidators([
         Validators.required,
-        Validators.pattern(/^[a-zA-Z0-9]{9}$/)
+       // Validators.pattern(/^[a-zA-Z0-9]{9}$/)
       ]);
     }
     else if (documentType === '23') { // Suponiendo que 'X' es el tipo de documento para el permiso temporal de permanencia
@@ -157,6 +160,7 @@ export class InscripcionModalComponent {
         (JSON.parse(localStorage.getItem('UnidElegida')!)).idUnidOperativa,
         this.form.get("frmTipoDoc")!.value,
         this.form.get("frmNumdoc")!.value,
+        this.form.get("frmTipoDoc")!.value != "1" ? this.form.get("fechaNac")!.value : null
       )
       .subscribe(data => {
         this.status = 'success';
@@ -170,10 +174,11 @@ export class InscripcionModalComponent {
             this.srcAsegurado = data.data[0].foto;
             this.nombreContacto = data.data[0].nombreCompleto;
             this.numdocContacto = data.data[0].numDoc;
+            this.tipoDoc = data.data[0].tipoDoc;
             this.acreditado = data.data[0].acreditacion;
             this.idAsegurado = data.data[0].idFichaAsegurado;
             this.conConexion = data.code == 0 ? true : false;
-            this.columnWidths = "50% 44% 6%";
+            this.columnWidths = "24% 23% 44% 6%";
           }
           else{
             this.toastrService.warning(data.message)
@@ -188,7 +193,7 @@ export class InscripcionModalComponent {
   }
 
   resetColumnWidths(){
-    this.columnWidths = "50% 50% 0%";
+    this.columnWidths = "24% 23% 50% 0%";
   }
 
   limpiarDatos(){
@@ -198,6 +203,7 @@ export class InscripcionModalComponent {
     })
     this.form.markAsUntouched();
     this.statusLoadContacto = false;
+    this.resetColumnWidths();
   }
 
   registrar(){
