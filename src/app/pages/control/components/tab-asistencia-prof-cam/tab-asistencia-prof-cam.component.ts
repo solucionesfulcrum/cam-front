@@ -52,7 +52,8 @@ export class TabAsistenciaProfCamComponent {
 
   public formBuscarPersona = this.fb.nonNullable.group({
     frmSelectDoc: new FormControl('1'),
-    frmDoc: ['', [Validators.required, Validators.pattern(/^\d{8}$/)]],
+    frmDoc: ['', [Validators.required]],
+    fechaNac: ['']
   });
 
   esperaBusqueda: boolean = false;
@@ -141,7 +142,7 @@ export class TabAsistenciaProfCamComponent {
     this.formBuscarPersona.get('frmDoc')!.valueChanges.subscribe(ctrlType=>{
       if(this.ctrlTypeSearch.value == 3){
         this.setFocusOnFrmDoc();
-        if(this.formBuscarPersona.get('frmDoc')?.valid){
+        if(this.formBuscarPersona.get('frmDoc')?.valid && String(this.formBuscarPersona.get("frmSelectDoc")?.value) == "1"){
           this.onAseguradoSelectCodigoBarra("");
           this.setFocusOnFrmDoc();
         }
@@ -158,6 +159,18 @@ export class TabAsistenciaProfCamComponent {
     //this.getListAsegurados();
     this.setListeners();
   }
+
+  
+  registrarAsistencia(){
+    if(this.ctrlTypeSearch.value == 3 || this.ctrlTypeSearch.value == 2){
+      this.setFocusOnFrmDoc();
+      if(this.formBuscarPersona.get('frmDoc')?.valid){
+        this.onAseguradoSelectCodigoBarra("");
+        this.setFocusOnFrmDoc();
+      }
+    }
+  }
+
 
   getParametros(){
     this.datosService.getTipoParametros('TIPO_DOCUMENTO_IDENTIDAD').subscribe((data) =>{
@@ -267,7 +280,8 @@ export class TabAsistenciaProfCamComponent {
     let payload: RequestBuscarApto = {
       idUnidadOperativa: (JSON.parse(localStorage.getItem('UnidElegida')!)).idUnidOperativa,
       tipDoc: event.option.value.tipoDoc === 'DNI' ? '1' : '4',
-      numDoc: event.option.value.numDoc
+      numDoc: event.option.value.numDoc,
+      fechaNacimiento: event.option.value.tipoDoc != 'DNI' ? event.option.value.fechNac : null,
     }
     this.controlService.getSiEsApto(payload).subscribe((data)=>{
       if ((data.code == 0 || data.code == 2) && data.data) {
@@ -511,7 +525,7 @@ export class TabAsistenciaProfCamComponent {
     } else if (documentType === '4') {
       this.formBuscarPersona.get('frmDoc')!.setValidators([
         Validators.required,
-        Validators.pattern(/^[a-zA-Z0-9]{9}$/)
+        //Validators.pattern(/^[a-zA-Z0-9]{9}$/)
       ]);
     }
     else if (documentType === '23') { // Suponiendo que 'X' es el tipo de documento para el permiso temporal de permanencia
@@ -539,7 +553,8 @@ export class TabAsistenciaProfCamComponent {
     let payload: RequestBuscarApto = {
       idUnidadOperativa: (JSON.parse(localStorage.getItem('UnidElegida')!)).idUnidOperativa,
       tipDoc:  String(this.formBuscarPersona.get("frmSelectDoc")?.value),
-      numDoc: String(this.formBuscarPersona.get("frmDoc")?.value)
+      numDoc: String(this.formBuscarPersona.get("frmDoc")?.value),
+      fechaNacimiento: String(this.formBuscarPersona.get("frmSelectDoc")?.value) != "1" ? this.formBuscarPersona.get("fechaNac")!.value : null
     }
     this.statusLoadingBarra = true;
     this.formBuscarPersona.get("frmDoc")?.setValue('');

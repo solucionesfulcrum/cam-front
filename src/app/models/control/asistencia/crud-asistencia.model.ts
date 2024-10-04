@@ -1,7 +1,8 @@
 export interface RequestBuscarApto {
     idUnidadOperativa: number,
     tipDoc: string,
-    numDoc: string
+    numDoc: string,
+    fechaNacimiento?: string | null,
 }
 
 export interface RequestBuscarAptoNacional {
