@@ -28,6 +28,7 @@ export class DialogNewAseguradoComponent {
     frmDoc:['', [Validators.required, Validators.minLength(3)]],
     fechaNac:[''],
   });
+  
 
   unidOpeUserSession: any; 
   tipoMsg: any;
