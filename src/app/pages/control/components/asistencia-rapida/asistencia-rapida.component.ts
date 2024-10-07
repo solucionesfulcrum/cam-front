@@ -18,6 +18,7 @@ import { DialogConfirmDataAsistenciaComponent } from '../tab-asistencia/dialog/d
 import { dataTest } from '../crear-cabecera-asistencia-rapida/dataTest';
 import { DataSourceList } from './data-source';
 import { ModalConfirmarGenericoComponent } from '@shared/components/modal-confirmar-generico/modal-confirmar-generico.component';
+import { DialogFotoFinalizaClaseComponent } from '../dialog/dialog-foto-finaliza-clase/dialog-foto-finaliza-clase.component';
 
 @Component({
   selector: 'esp-asistencia-rapida',
@@ -722,7 +723,17 @@ export class AsistenciaRapidaComponent {
       }
     }).afterClosed().subscribe(data=>{
       if(data.success){
-        this.finalizarClase();
+        this.dialog.open(DialogFotoFinalizaClaseComponent, {
+          data:{
+            idAsisRapSesion: this.idSesionActual
+          }
+        }).afterClosed().subscribe(
+          (data)=>{
+            if(false){
+              this.finalizarClase();
+            }
+          }
+        )
       }
     });
   }
@@ -770,23 +781,34 @@ export class AsistenciaRapidaComponent {
       }
     }).afterClosed().subscribe(data=>{
       if(data.success){
-        this.controlService.finalizarSesion(this.idSesionActual).subscribe(data=>{
-          if(data.code == 0){
-            this.toast.success("La sesion ha sido finalizada");
-            this.idSesionActual = data.data.idSesion;
-            this.estadoSesionActual = data.data.estado;
-            this.cierreDeClases = data.data.cierreDeClases;
-            this.getSesion();
-            this.finalizarClase();
-  
+        this.dialog.open(DialogFotoFinalizaClaseComponent, {
+          data:{
+            idAsisRapSesion: this.idSesionActual
+          },
+          width: '700px'
+        }).afterClosed().subscribe(
+          (data)=>{
+            if(data.success){
+              this.controlService.finalizarSesion(this.idSesionActual).subscribe(data=>{
+                if(data.code == 0){
+                  this.toast.success("La sesion ha sido finalizada");
+                  this.idSesionActual = data.data.idSesion;
+                  this.estadoSesionActual = data.data.estado;
+                  this.cierreDeClases = data.data.cierreDeClases;
+                  this.getSesion();
+                  this.finalizarClase();
+        
+                }
+                else{
+                  this.toast.warning(data.message);
+                }
+              }, (error) => {
+                this.toast.error("Ocurrió un error")
+              });
+            
+            }
           }
-          else{
-            this.toast.warning(data.message);
-          }
-        }, (error) => {
-          this.toast.error("Ocurrió un error")
-        });
-      
+        )
       }
     });
   }
@@ -844,6 +866,8 @@ export class AsistenciaRapidaComponent {
             this.fileUploaded = true;
             this.rutaEvidencia = data.data.rutaEvidencia;
             this.loadingSesion = false;
+
+            //QUE SE EJECUTE LA DESCARGA AQUI
           },
           (error) => {
             console.error('Error al subir el archivo', error);

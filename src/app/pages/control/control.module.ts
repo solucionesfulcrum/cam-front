@@ -38,6 +38,7 @@ import { AsistenciaRapidaListaComponent } from './components/asistencia-rapida-l
 import { CrearCabeceraAsistenciaRapidaComponent } from './components/crear-cabecera-asistencia-rapida/crear-cabecera-asistencia-rapida.component';
 import { AsistenciaRapidaComponent } from './components/asistencia-rapida/asistencia-rapida.component';
 import { EditarCabeceraAsistenciaRapidaComponent } from './components/editar-cabecera-asistencia-rapida/editar-cabecera-asistencia-rapida.component';
+import { DialogFotoFinalizaClaseComponent } from './components/dialog/dialog-foto-finaliza-clase/dialog-foto-finaliza-clase.component';
 
 
 @NgModule({
@@ -64,6 +65,7 @@ import { EditarCabeceraAsistenciaRapidaComponent } from './components/editar-cab
     CrearCabeceraAsistenciaRapidaComponent,
     AsistenciaRapidaComponent,
     EditarCabeceraAsistenciaRapidaComponent,
+    DialogFotoFinalizaClaseComponent,
   ],
   imports: [
     CommonModule,
