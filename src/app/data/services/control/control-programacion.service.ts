@@ -327,7 +327,6 @@ export class ControlProgramacionService {
     return this._httpClient.post<any>(url, lista);
   }
 
-
   //ASISTENCIA RAPIDA
   getDataAsistenciaRapida(payload: AsistenciaRapidaListaPayload){
     const url = `${environment.API}/control/asistencia-rapida/listar-clases`; 
@@ -343,6 +342,27 @@ export class ControlProgramacionService {
     const url = `${environment.API}/report/control/excel/asistencia-rapida/lista-nacional`;
     return this._httpClient.post(url, model, {responseType:'blob', headers: new HttpHeaders({'Accept': 'application/octet-stream'})});
   }
+
+  // Método para subir un archivo
+  subirEvidenciaAsistenciaRapida(file: File, idSesionActual: number): Observable<any> {
+    const formData = new FormData();
+    formData.append('file', file);
+    const url = `${environment.API}/control/upload-asistencia-rapida-evidencia/${idSesionActual}`;
+    return this._httpClient.post(url, formData, {
+      headers: new HttpHeaders({ 'Accept': 'application/json' })
+    });
+  }
+
+  // Método para descargar el archivo
+  descargarEvidenciaAsistenciaRapida(idAsistenciaRapida: number): Observable<Blob> {
+    const url = `${environment.API}/control/descargar-evidencia-asistencia-rapida/${idAsistenciaRapida}`;
+    return this._httpClient.get(url, {
+      responseType: 'blob',
+      headers: new HttpHeaders({ 'Accept': 'application/octet-stream' })
+    });
+  }
+
+
 
 
   //control/inscripcion/registrar

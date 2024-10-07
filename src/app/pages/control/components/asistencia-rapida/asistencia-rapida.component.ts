@@ -28,6 +28,11 @@ export class AsistenciaRapidaComponent {
 
   svgDir = faArrowsUpToLine;
   loadingSesion = false;
+
+  selectedFile: File | null = null;
+  fileUploaded: boolean = false; // Para detectar si ya hay un archivo subido
+  rutaEvidencia: string = "";
+
   
   status: RequestStatus = 'init';
   listAsistentes: any[] = [];
@@ -206,6 +211,7 @@ export class AsistenciaRapidaComponent {
   }
 
   getSesion(){
+    this.loadingSesion = true;
     this.controlProgramacionService.getSesionClaseRapida({
       idAsisRapid: this.idAsisRap,
       idUser: (JSON.parse(localStorage.getItem('camUser')!)).idUsuario,
@@ -218,6 +224,8 @@ export class AsistenciaRapidaComponent {
       this.cierreDeClases = data.data.cierreDeClases;
       this.siguienteActivo = data.data.siguienteActivo;
       this.selectedOptions = [];
+      this.fileUploaded = data.data.rutaEvidencia;
+      this.rutaEvidencia = data.data.rutaEvidencia;
 
       if(!data.data.siguienteActivo && this.estadoSesionActual == 'FINALIZADO' && !this.cierreDeClases){
         this.columns = ['marcar',
@@ -786,5 +794,75 @@ export class AsistenciaRapidaComponent {
 
   irAEditarClase(){
     this.router.navigate(['/app/control/asistencia-rapida/editar-cabecera/'+this.idAsisRap])
+  }
+
+  
+
+  //OPERACIONES DE ARCHIVO
+    // Método para descargar el archivo ya subido
+
+      // Método para manejar la selección de archivo
+
+    // Método para abrir el selector de archivos
+    triggerFileInput(fileInput: HTMLInputElement): void {
+      fileInput.click(); // Dispara el evento de clic en el input file
+    }
+
+    onFileSelected(event: any): void {
+        this.dialog.open(ModalConfirmarGenericoComponent, {
+          data:{
+            message: 'La evidencia de la clase no se puede cambiar ¿Seguro de subir el archivo seleccionado?'
+          }
+        }).afterClosed().subscribe(data=>{
+          if(data.success){
+            this.selectedFile = event.target.files[0] || null;
+              if (this.selectedFile) {
+                this.uploadFile();
+              }
+          }
+      });
+     
+    }
+
+
+    // Método para subir el archivo usando el servicio
+  uploadFile(): void {
+    if (this.selectedFile) {
+      this.loadingSesion = true;
+      this.controlProgramacionService.subirEvidenciaAsistenciaRapida(this.selectedFile, this.idSesionActual).subscribe(
+        (data) => {
+          console.log('Archivo subido con éxito');
+          this.fileUploaded = true;
+          this.rutaEvidencia = data.data.rutaEvidencia;
+          this.loadingSesion = false;
+        },
+        (error) => {
+          console.error('Error al subir el archivo', error);
+          this.loadingSesion = false;
+        }
+      );
+    }
+  }
+
+  // Método para descargar el archivo usando el servicio de descarga proporcionado
+  downloadFile(): void {
+    if (this.fileUploaded) {
+      this.loadingSesion = true;
+      this.controlProgramacionService.descargarEvidenciaAsistenciaRapida(this.idSesionActual).subscribe(
+        (blob) => {
+          const link = document.createElement('a');
+          const url = window.URL.createObjectURL(blob);
+          link.href = url;
+          link.download = this.rutaEvidencia;
+          link.click();
+          window.URL.revokeObjectURL(url);
+          this.loadingSesion = false;
+        },
+        (error) => {
+          console.error('Error al descargar el archivo', error);
+          this.loadingSesion = false;
+        }
+      );
+    }
   }
 }
