@@ -809,6 +809,13 @@ export class AsistenciaRapidaComponent {
     }
 
     onFileSelected(event: any): void {
+
+      const validImageTypes = ['image/jpeg', 'image/png', 'image/gif']; // Tipos MIME permitidos
+      if (!validImageTypes.includes(event.target.files[0].type)) {
+        this.toast.warning('Error: Solo se permiten archivos de imagen (JPG, PNG, GIF)')
+        return; // Detener la subida si no es una imagen
+      }
+  
         this.dialog.open(ModalConfirmarGenericoComponent, {
           data:{
             message: 'La evidencia de la clase no se puede cambiar ¿Seguro de subir el archivo seleccionado?'
@@ -826,23 +833,25 @@ export class AsistenciaRapidaComponent {
 
 
     // Método para subir el archivo usando el servicio
-  uploadFile(): void {
-    if (this.selectedFile) {
-      this.loadingSesion = true;
-      this.controlProgramacionService.subirEvidenciaAsistenciaRapida(this.selectedFile, this.idSesionActual).subscribe(
-        (data) => {
-          console.log('Archivo subido con éxito');
-          this.fileUploaded = true;
-          this.rutaEvidencia = data.data.rutaEvidencia;
-          this.loadingSesion = false;
-        },
-        (error) => {
-          console.error('Error al subir el archivo', error);
-          this.loadingSesion = false;
-        }
-      );
+    uploadFile(): void {
+      if (this.selectedFile) {
+        // Validar que el archivo sea una imagen
+
+        this.loadingSesion = true;
+        this.controlProgramacionService.subirEvidenciaAsistenciaRapida(this.selectedFile, this.idSesionActual).subscribe(
+          (data) => {
+            console.log('Archivo subido con éxito');
+            this.fileUploaded = true;
+            this.rutaEvidencia = data.data.rutaEvidencia;
+            this.loadingSesion = false;
+          },
+          (error) => {
+            console.error('Error al subir el archivo', error);
+            this.loadingSesion = false;
+          }
+        );
+      }
     }
-  }
 
   // Método para descargar el archivo usando el servicio de descarga proporcionado
   downloadFile(): void {
