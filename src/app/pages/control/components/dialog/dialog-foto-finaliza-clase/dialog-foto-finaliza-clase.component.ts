@@ -48,6 +48,7 @@ export class DialogFotoFinalizaClaseComponent {
       this.toast.warning('Error: Solo se permiten archivos de imagen (JPG, PNG, GIF)')
       return; // Detener la subida si no es una imagen
     }
+    
 
     if (file) {
       this.selectedFile = file;
