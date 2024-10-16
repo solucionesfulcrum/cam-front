@@ -91,15 +91,13 @@ export class AseguradosComponent {
   }
 
   onProgressExcel() {
-    if (this.progressValue < 100 && this.statusLoadingExcel) {
+    if (this.progressValue < 100) {
       this.reportesService.getPorcentajeProgress('NACIONAL').subscribe((data)=>{
         this.progressValue = data;
         setTimeout(()=>{
           this.onProgressExcel();
         }, 200)
       })
-    } else {
-      this.progressValue = 0;
     }
   }
 
@@ -204,10 +202,15 @@ export class AseguradosComponent {
     };
 
     let servicioMetodo = this.afiliacionesService.getExcelAseguradosAdmin(payload);
-    this.onProgressExcel();
+    this.progressValue = 0;
     this.statusLoadingExcel = true;
+    setTimeout(() =>{
+      
+    this.onProgressExcel();
+    })
+
+
     servicioMetodo.subscribe((data)=>{
-      this.statusLoadingExcel = false;
       this.notificationService.success('Se esta descargando el reporte');
       const blob: Blob = new Blob([data], { type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet' });
       const url = window.URL.createObjectURL(blob);
@@ -215,6 +218,8 @@ export class AseguradosComponent {
       anchor.download = 'Reporte_Asegurados.xlsx';
       anchor.href = url;
       anchor.click();
+      this.progressValue = 0;
+      this.statusLoadingExcel = false;
       window.URL.revokeObjectURL(url);
     }, error =>{
       this.statusLoadingExcel = false;
