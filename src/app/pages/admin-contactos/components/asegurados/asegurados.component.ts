@@ -91,7 +91,7 @@ export class AseguradosComponent {
   }
 
   onProgressExcel() {
-    if (this.progressValue < 100 || this.statusLoadingExcel) {
+    if (this.progressValue < 100 && this.statusLoadingExcel) {
       this.reportesService.getPorcentajeProgress('NACIONAL').subscribe((data)=>{
         this.progressValue = data;
         setTimeout(()=>{
