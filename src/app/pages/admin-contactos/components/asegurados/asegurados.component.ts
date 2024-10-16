@@ -91,17 +91,16 @@ export class AseguradosComponent {
   }
 
   onProgressExcel() {
-    const intervalo = setInterval(() => {
-      if (this.progressValue < 100 || this.statusLoadingExcel) {
-        this.reportesService.getPorcentajeProgress('NACIONAL').subscribe((data)=>{
-          this.progressValue = data;
-        })
-         // Incrementa el valor del progreso
-      } else {
-        this.progressValue = 0;
-        clearInterval(intervalo); // Detén la simulación cuando llega al 100%
-      }
-    }, 1000); // Actualiza cada 500ms
+    if (this.progressValue < 100 || this.statusLoadingExcel) {
+      this.reportesService.getPorcentajeProgress('NACIONAL').subscribe((data)=>{
+        this.progressValue = data;
+        setTimeout(()=>{
+          this.onProgressExcel();
+        }, 200)
+      })
+    } else {
+      this.progressValue = 0;
+    }
   }
 
   onLoadData(){
@@ -217,6 +216,9 @@ export class AseguradosComponent {
       anchor.href = url;
       anchor.click();
       window.URL.revokeObjectURL(url);
+    }, error =>{
+      this.statusLoadingExcel = false;
+      this.progressValue = 0;
     })
   }
 
