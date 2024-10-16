@@ -31,7 +31,7 @@
         [thirdDisplayFilterData]="opciones_red"
         (thirdDisplayFilterSendValue)="thirdDisplayValue($event)"
         
-        [menuOpt]="dataAcciones"
+        [menuOpt]="statusLoadingExcel ? [] : dataAcciones"
         (primerActionMenu)="imprimirLista()"
       ></esp-opciones-busqueda>
   </div>
@@ -42,6 +42,25 @@
   ></esp-data-loading>
   
   <div *ngIf="!loadingData && dataSource.length > 0">
+    <div class="w-full py-2" *ngIf="statusLoadingExcel">
+      <div class="relative w-full h-4 bg-gray-200 rounded-full overflow-hidden">
+        <div 
+          class="h-full bg-blue-500 rounded-full transition-all duration-300"
+          [style.width]="progressValue + '%'"
+        ></div>
+      </div>
+      <p class="text-right text-sm text-gray-500 mt-1">
+        <ng-container *ngIf="progressValue == 0">
+          Iniciando
+        </ng-container>
+        <ng-container *ngIf="progressValue > 0 && progressValue != 100">
+          {{ progressValue }}%
+        </ng-container>
+        <ng-container *ngIf="progressValue == 100">
+          Exportando
+        </ng-container>
+      </p>
+    </div>
     <div class="table-container">
       <table cdk-table class="w-full text-sm text-left text-gray-500" [dataSource]="dataSource" >
         <tr cdk-header-row class="text-xs text-gray-700 bg-gray-50 " *cdkHeaderRowDef="columns; sticky: true"></tr>

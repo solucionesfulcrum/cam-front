@@ -10,6 +10,7 @@ import { NotificationService } from '@services/notification.service';
 import { ParamMenu } from '@shared/components/opciones-busqueda/parametros-busqueda.model';
 import { AfiliacionesSolicitudesService } from 'src/app/data/services/afiliaciones/afiliaciones-solicitudes.service';
 import { DatosGeneralesService } from 'src/app/data/services/datos-generales.service';
+import { ReportesService } from 'src/app/data/services/reportes/reportes.service';
 
 @Component({
   selector: 'esp-asegurados',
@@ -24,6 +25,9 @@ export class AseguradosComponent {
     frmSearchCam:new FormControl(""),
     frmSearchRed:new FormControl(""),
   });
+
+  progressValue: number = 0;
+  statusLoadingExcel : boolean = false;
 
   faSpinner = faSpinner;
 
@@ -52,6 +56,7 @@ export class AseguradosComponent {
   constructor(private fb                      : FormBuilder, 
               private dialog                  : Dialog,
               private notificationService     : NotificationService,
+              private reportesService         : ReportesService,
               private datosService            : DatosGeneralesService,
               private afiliacionesService     : AfiliacionesSolicitudesService,) { }
 
@@ -83,6 +88,20 @@ export class AseguradosComponent {
     });
 
     this.onLoadData();
+  }
+
+  onProgressExcel() {
+    const intervalo = setInterval(() => {
+      if (this.progressValue < 100 || this.statusLoadingExcel) {
+        this.reportesService.getPorcentajeProgress('NACIONAL').subscribe((data)=>{
+          this.progressValue = data;
+        })
+         // Incrementa el valor del progreso
+      } else {
+        this.progressValue = 0;
+        clearInterval(intervalo); // Detén la simulación cuando llega al 100%
+      }
+    }, 1000); // Actualiza cada 500ms
   }
 
   onLoadData(){
@@ -186,8 +205,10 @@ export class AseguradosComponent {
     };
 
     let servicioMetodo = this.afiliacionesService.getExcelAseguradosAdmin(payload);
-    
+    this.onProgressExcel();
+    this.statusLoadingExcel = true;
     servicioMetodo.subscribe((data)=>{
+      this.statusLoadingExcel = false;
       this.notificationService.success('Se esta descargando el reporte');
       const blob: Blob = new Blob([data], { type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet' });
       const url = window.URL.createObjectURL(blob);

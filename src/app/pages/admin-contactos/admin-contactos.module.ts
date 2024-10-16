@@ -32,7 +32,8 @@ import { AsistenciaRapidaComponent } from './components/asistencia-rapida/asiste
     MaterialModule,
     ReactiveFormsModule,
     DialogModule,
-    DataLoadingComponent
+    DataLoadingComponent,
+    
   ]
 })
 export class AdminContactosModule { }

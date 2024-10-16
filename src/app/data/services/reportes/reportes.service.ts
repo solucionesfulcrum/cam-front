@@ -14,6 +14,11 @@ export class ReportesService {
 
   constructor(private _httpClient: HttpClient) { }
 
+  
+  getPorcentajeProgress(id: String){
+    const url = `${environment.API}/api/obtenerProgreso?id=${id}`; 
+    return this._httpClient.get<number>(url);
+  }
 
   getDataAsistenciaTalleres(payload: PayloadReportes){
     const url = `${URL_BASE}/dashboard/asistencia-cam`; 
