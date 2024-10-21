@@ -14,7 +14,7 @@
         </div>
     </div>
     <div class="flex flex-col">
-        <div class="h-10 flex flex-row items-center" *ngFor="let pregunta of preguntas, index as i">
+        <div class="h-14 flex flex-row items-center" *ngFor="let pregunta of preguntas, index as i">
             <div class="flex flex-row items-center gap-2 text-lg grow" [ngClass]="(validated && evaluacionService.formDataTestKatz.controls['pregKatz_' + i].invalid) ? 'text-red-500' : 'text-[var(--color-black-alt)]'">
                 <span class="w-[20px] text-right">{{i+1}}.</span>
                 <span class="max-w-[45vw] leading-5">{{pregunta.pregunta}}</span>
