@@ -25,7 +25,7 @@
                         <span class="font-light leading-[20px]">
                             <div class="flex flex-col gap-[5px] leading-[20px]">
                                 <select [(ngModel)]="selectedMonth" (change)="onMonthChange()" class="text-[18px] font-medium">
-                                  <option *ngFor="let month of getFilteredMonths()" [value]="month.value">{{ month.name }}</option>
+                                  <option *ngFor="let month of getFilteredMonths()" [value]="month.value" [disabled]="month.value < currentMonth">{{ month.name }}</option>
                                 </select>
                               </div>
                         </span>

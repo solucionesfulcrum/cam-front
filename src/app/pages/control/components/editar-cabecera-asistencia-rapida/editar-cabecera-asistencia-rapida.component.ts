@@ -213,7 +213,7 @@ export class EditarCabeceraAsistenciaRapidaComponent {
     ).subscribe(response => {
       this.esperaBusqueda = false;
       if (response && response.data) {
-        this.serviciosFiltrados = response.data.slice(0, 5); // Mostrar solo los primeros 5 resultados
+        this.serviciosFiltrados = response.data; // Mostrar solo los primeros 5 resultados
     
         // Seleccionar automáticamente el primer valor si existe
         if (this.primeraCarga && this.serviciosFiltrados.length > 0) {
