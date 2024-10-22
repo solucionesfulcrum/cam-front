@@ -237,7 +237,7 @@ export class CrearCabeceraAsistenciaRapidaComponent {
     ).subscribe(response => {
       this.esperaBusqueda = false;
       if (response && response.data) {
-        this.serviciosFiltrados = response.data.slice(0, 5); // Mostrar solo los primeros 5 resultados
+        this.serviciosFiltrados = response.data; // Mostrar solo los primeros 5 resultados
       } else {
         this.serviciosFiltrados = [];
       }
