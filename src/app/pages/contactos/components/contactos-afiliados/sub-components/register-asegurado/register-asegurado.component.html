@@ -47,7 +47,7 @@
             <p class="py-1">{{dataSeguro.CONDICION ? dataSeguro.CONDICION : 'Sin información' | titlecase}}</p>
             <p class="py-1 font-semibold">Tipo de seguro</p>
            <!--- <p class="py-1">{{dataSeguro.DGACTAS ? 'Seguro ' + dataSeguro.DGACTAS : 'Sin información' | titlecase}}</p>-->
-            <p class="py-1">{{dataSeguro.TIPO_ASEGURADO ? dataSeguro.TIPO_ASEGURADO : 'Sin información' | titlecase}}</p>
+            <p class="py-1">{{dataSeguro.TIPO_ASEGURADO && dataSeguro.DGACTAS ? dataSeguro.DGACTAS + " " + dataSeguro.TIPO_ASEGURADO : 'Sin información' | titlecase}}</p>
             <p class="py-1 font-semibold">IPRESS  de Adscripcion</p>
             <p class="py-1">{{dataRed.nom_CENTRO}}</p>
             <p class="py-1 font-semibold">Red Asistencial</p>
