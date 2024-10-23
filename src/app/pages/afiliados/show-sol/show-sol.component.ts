@@ -81,8 +81,8 @@ export class ShowSolComponent implements OnInit {
         // //console.log(data.data);
         this.dataSolicitud = data.data;
 
-        if(this.dataSolicitud.solicitud.appOrigen == 'MOVIL_CAM'){
-          this.opcionesBotones[2]={texto: 'No contestó', colorBtn:'danger', loading: false, esImagen: true, rutaIcono: 'assets/svg/llamada-cancelada.svg'}
+        if(this.dataSolicitud.solicitud.appOrigen == 'MOVIL_CAM' || true){
+          this.opcionesBotones[2]={texto: 'Anular Solicitud', colorBtn:'danger', loading: false, esImagen: true, rutaIcono: 'assets/svg/anular-solicitud.svg'}
           if (this.dataSolicitud.solicitud.estado === 'EVALUADO' || this.dataSolicitud.solicitud.estado === 'SIN EVALUACION') {
             this.opcionesBotones[2].deshabilitado = true;
           }
@@ -224,10 +224,10 @@ export class ShowSolComponent implements OnInit {
     })
   }
 
-  noContesto(){
+  anular(){
     this.matDialog.open(ModalConfirmarGenericoComponent, {
       data:{
-        message: '¿Desea marcar esta solicitud como "SIN RESPUESTA"?'
+        message: '¿Desea anular esta solicitud?'
       }
     }).afterClosed().subscribe(data=>{
       if(data.success){
@@ -237,11 +237,11 @@ export class ShowSolComponent implements OnInit {
         }).subscribe(data =>{
             this.contactosAfiServ.cambiarDeEstadoSolicitud( this.dataSolicitud.solicitud.idSolicitud,{
               estado: 72,
-              descripcion: 'No ha respondido la llamada',
+              descripcion: 'Se ha anulado la solicitud',
               idUsuarioReg: (JSON.parse(localStorage.getItem('camUser')!)).idUsuario
             }).subscribe(data =>{
             this.router.navigate(['/app/afiliados/']);
-            this.notificationService.success("La solicitud fué marcada como 'SIN RESPUESTA'");
+            this.notificationService.success("La solicitud fué marcada como 'ANULADO'");
             })
         })
       }
