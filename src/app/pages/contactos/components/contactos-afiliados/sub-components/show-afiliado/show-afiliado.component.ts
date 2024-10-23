@@ -146,14 +146,14 @@ export class ShowAfiliadoComponent implements OnInit {
 
        this.aseguradoServices.getDatoSeguro(tipoDoc, String(this.dataFichaAfiliado.asegurado.numDoc)).subscribe(dataSeguro => {
         if(dataSeguro.data.length > 0){
-          if(dataSeguro.data[0].TIPO_ASEGURADO != this.dataFichaAfiliado.asegurado.descTipoSeguro){
+          if(dataSeguro.data[0].DGACTAS + " " + dataSeguro.data[0].TIPO_ASEGURADO != this.dataFichaAfiliado.asegurado.descTipoSeguro){
             this.aseguradoServices.corregirDatoSeguro({
               numDoc: String(this.dataFichaAfiliado.asegurado.numDoc),
               tipoDoc: tipoDoc,
               idAsegurado: this.dataFichaAfiliado.asegurado.idAsegurado
             }).subscribe(dataFix =>{
               if(dataFix.code == 0){
-                this.dataFichaAfiliado.asegurado.descTipoSeguro = dataSeguro.data[0].TIPO_ASEGURADO
+                this.dataFichaAfiliado.asegurado.descTipoSeguro = dataSeguro.data[0].DGACTAS + " " + dataSeguro.data[0].TIPO_ASEGURADO
               }
             })
           }
