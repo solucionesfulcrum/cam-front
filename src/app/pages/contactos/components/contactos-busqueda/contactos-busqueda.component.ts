@@ -93,7 +93,7 @@ export class ContactosBusquedaComponent {
     } else if (documentType === '4') {
       documentNumberControl.setValidators([
         Validators.required,
-        Validators.pattern(/^[a-zA-Z0-9]{9}$/)
+      //  Validators.pattern(/^[a-zA-Z0-9]{9}$/)
       ]);
     }
     else if (documentType === '23') { // Suponiendo que 'X' es el tipo de documento para el permiso temporal de permanencia
