@@ -722,10 +722,8 @@ export class AsistenciaRapidaComponent {
         message: '¿Desea finalizar la clase?'
       }
     }).afterClosed().subscribe(data=>{
-      this.finalizarClase();
-     /* if(data.success){
+      if(data.success){
         this.dialog.open(DialogFotoFinalizaClaseComponent, {
-          maxWidth: '80%',
           data:{
             idAsisRapSesion: this.idSesionActual
           }
@@ -736,7 +734,7 @@ export class AsistenciaRapidaComponent {
             }
           }
         )
-      }*/
+      }
     });
   }
 
@@ -782,23 +780,7 @@ export class AsistenciaRapidaComponent {
         message: '¿Desea finalizar la clase?'
       }
     }).afterClosed().subscribe(data=>{
-      this.controlService.finalizarSesion(this.idSesionActual).subscribe(data=>{
-        if(data.code == 0){
-          this.toast.success("La sesion ha sido finalizada");
-          this.idSesionActual = data.data.idSesion;
-          this.estadoSesionActual = data.data.estado;
-          this.cierreDeClases = data.data.cierreDeClases;
-          this.getSesion();
-          this.finalizarClase();
-
-        }
-        else{
-          this.toast.warning(data.message);
-        }
-      }, (error) => {
-        this.toast.error("Ocurrió un error")
-      });
-      /*if(data.success){
+      if(data.success){
         this.dialog.open(DialogFotoFinalizaClaseComponent, {
           data:{
             idAsisRapSesion: this.idSesionActual
@@ -828,7 +810,7 @@ export class AsistenciaRapidaComponent {
           }
         )
       }
-    */});
+    });
   }
 
 
