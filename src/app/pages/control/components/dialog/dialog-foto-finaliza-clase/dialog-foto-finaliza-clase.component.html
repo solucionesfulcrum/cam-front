@@ -33,12 +33,26 @@
         </div>
   
         <!-- Mostrar la imagen subida -->
-        <div class="items-center" *ngIf="imagenUrl && finalStep">
-          <div class="items-center">
-            <img [src]="imagenUrl" alt="Imagen subida" class="w-[500px] h-max-[400px] object-cover rounded-md shadow-lg mx-auto">
+        <div class="flex flex-row gap-2.5 px-2.5" *ngIf="imagenUrl && finalStep">
+          <div class="items-center" *ngIf="imagenUrl && finalStep">
+            <div class="items-center">
+              <img [src]="imagenUrl" alt="Imagen subida" class="w-[500px] h-max-[400px] object-cover rounded-md shadow-lg mx-auto">
+            </div>
+            <div class="flex flex-col items-center gap-2.5 p-2.5 text-center leading-5">
+              <!-- Aquí puedes mostrar los resultados si es necesario -->
+            </div>
           </div>
-          <div class="flex flex-col items-center gap-2.5 p-2.5 text-center leading-5">
-            <!-- Aquí puedes mostrar los resultados si es necesario -->
+          <div class="items-center relative w-[500px] h-max-[400px]">
+            <div class="bg-[#FFFFFF88] w-full h-full z-10 absolute flex flex-col text-xl items-center justify-center gap-2.5 text-center" *ngIf="waitImagenDeteccion">
+                <fa-icon [pulse]="true" [icon]="faSpinner"></fa-icon>
+                <b>Detectando caras en la imagen</b>
+            </div>            
+            <div class="items-center" *ngIf="!waitImagenDeteccion">
+              <img [src]="imagenDetectada" alt="Imagen con detección" class=" object-cover rounded-md shadow-lg mx-auto">
+            </div>
+            <div class="flex flex-col items-center gap-2.5 p-2.5 text-center leading-5">
+              <!-- Aquí puedes mostrar los resultados si es necesario -->
+            </div>
           </div>
         </div>
   

@@ -362,6 +362,15 @@ export class ControlProgramacionService {
     });
   }
 
+  obtenerAsistentesAsistenciaRapida(file: File): Observable<any> {
+    const formData = new FormData();
+    formData.append('image', file);
+    const url = `${environment.API}/smartpy/proxy/detect_faces`;
+    return this._httpClient.post(url, formData, {
+      responseType: 'blob',
+      headers: new HttpHeaders({ 'Accept': 'application/octet-stream' })
+    });
+  }
 
 
 

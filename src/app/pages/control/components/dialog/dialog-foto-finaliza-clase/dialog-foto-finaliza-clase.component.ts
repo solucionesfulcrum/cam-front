@@ -14,6 +14,9 @@ export class DialogFotoFinalizaClaseComponent {
   loadingImage: boolean = false;
   rutaEvidencia: string = "";
   imagenUrl: string = "";
+  imagenDetectada: string = "";
+  waitImagenDeteccion = false;
+
   finalStep: boolean = false;
   faSpinner = faSpinner;
 
@@ -56,7 +59,7 @@ export class DialogFotoFinalizaClaseComponent {
       this.controlProgramacionService.subirEvidenciaAsistenciaRapida(this.selectedFile!, this.data.idAsisRapSesion).subscribe(
         (data) => {
           this.rutaEvidencia = data.data.rutaEvidencia;
-
+          this.getImageDetect(this.selectedFile);
            // Ejecutar la descarga automáticamente después de subir el archivo
           this.downloadFile(); 
         },
@@ -67,8 +70,22 @@ export class DialogFotoFinalizaClaseComponent {
     }
   }
 
-  downloadFile(): void {
+  getImageDetect(file: any){
+    this.waitImagenDeteccion = true;
     if (this.rutaEvidencia) {
+      this.controlProgramacionService.obtenerAsistentesAsistenciaRapida(file).subscribe((blob) => {
+        const url = window.URL.createObjectURL(blob);
+        this.imagenDetectada = url;
+        this.waitImagenDeteccion = false;
+      })
+    }
+  }
+
+  downloadFile(): void {
+    console.log(1)
+    console.log(this.rutaEvidencia)
+    if (this.rutaEvidencia) {
+      console.log(2)
       this.loadingImage = true;
       this.controlProgramacionService.descargarEvidenciaAsistenciaRapida(this.data.idAsisRapSesion).subscribe(
         (blob) => {
@@ -87,6 +104,7 @@ export class DialogFotoFinalizaClaseComponent {
   vuelveATomarFoto(): void {
     this.rutaEvidencia = "";
     this.imagenUrl = "";
+    this.imagenDetectada = "";
     this.continua(false);
   }
 

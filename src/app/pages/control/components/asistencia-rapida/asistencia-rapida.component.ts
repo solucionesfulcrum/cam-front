@@ -724,6 +724,7 @@ export class AsistenciaRapidaComponent {
     }).afterClosed().subscribe(data=>{
       if(data.success){
         this.dialog.open(DialogFotoFinalizaClaseComponent, {
+          maxWidth: '80%',
           data:{
             idAsisRapSesion: this.idSesionActual
           }
