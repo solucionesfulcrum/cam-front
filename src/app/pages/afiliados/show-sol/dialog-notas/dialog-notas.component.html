@@ -3,7 +3,7 @@
     <button (click)="onClose()"><esp-icon icon="faClose"></esp-icon></button>
 </div>
 <div class="px-[22px] pt-[22px] bg-white flex flex-col gap-2.5 rounded-b-lg">
-    <ng-container *ngIf="estadoAfi == 'ACTIVO' || estadoAfi == 'REGISTRADO'">
+    <ng-container *ngIf="estadoAfi == 'AFILIADO' || estadoAfi == 'REGISTRADO'">
         <div class="flex flex-row gap-[30px] items-center">
             <div class="grow">
                 <input type="text" class="inputTextoDialog focusCampo" [formControl]="frmCtrlNota" placeholder="Agrega nueva nota - Max 200 Caracteres">
@@ -22,7 +22,7 @@
             <span class="font-bold">El {{nota.fechaReg | date:'dd/MM/yyyy'}}. {{nota.usuario | titlecase}} Escribió. </span>
             <p class="py-2 pl-4 text-justify">{{nota.nota }}</p>
         </div>
-        <ng-container *ngIf="estadoAfi != 'ACTIVO' && registrosNotas.length == 0">
+        <ng-container *ngIf="estadoAfi != 'AFILIADO' && registrosNotas.length == 0">
             <div class="flex flex-col gap-2.5 mb-2 text-center">
                 <span class="font-normal">Sin Notas.</span>
             </div>

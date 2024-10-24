@@ -26,11 +26,11 @@ export class DialogNotasComponent {
               private _dialogRef                              : DialogRef<DialogNotasComponent>,) {
     this.estado = data.estado;
     if(!this.estado){
-      this.estadoAfi = 'ACTIVO';
+      this.estadoAfi = 'AFILIADO';
     }
     else{
       if(this.estado == 13 || this.estado == 14){
-        this.estadoAfi = 'ACTIVO';
+        this.estadoAfi = 'AFILIADO';
       }
       else{
         this.estadoAfi = 'BAJA';

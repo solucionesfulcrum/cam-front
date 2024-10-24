@@ -209,7 +209,7 @@ export class ContactosAfiliadosComponent implements OnInit {
     let element = evento.target as HTMLInputElement;
     this.dataSource = this.dataSource.map(data => { return {...data, marcar: Boolean(element.checked)}});
     if(element.checked)
-      this.seleccionados =  this.dataSource.filter(data => data.estado == 'ACTIVO').map(data => { return data.id});
+      this.seleccionados =  this.dataSource.filter(data => data.estado == 'AFILIADO').map(data => { return data.id});
     else
       this.seleccionados = [];
   }
@@ -223,11 +223,11 @@ export class ContactosAfiliadosComponent implements OnInit {
     else
       this.seleccionados = this.seleccionados.filter(item => item != parseInt(element.value));
 
-    this.ciramSelected = this.dataSource.filter(data => data.estado == 'ACTIVO' && data.nomCiram).filter(data => { 
+    this.ciramSelected = this.dataSource.filter(data => data.estado == 'AFILIADO' && data.nomCiram).filter(data => { 
       return this.seleccionados.indexOf(data.id) > -1
     }).length > 0;
 
-    this.sinAsignarCiramSelected = this.dataSource.filter(data => data.estado == 'ACTIVO' && !data.nomCiram).filter(data => { 
+    this.sinAsignarCiramSelected = this.dataSource.filter(data => data.estado == 'AFILIADO' && !data.nomCiram).filter(data => { 
       return this.seleccionados.indexOf(data.id) > -1
     }).length > 0;
     
