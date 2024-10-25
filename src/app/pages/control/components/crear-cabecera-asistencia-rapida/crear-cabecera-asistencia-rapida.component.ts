@@ -324,29 +324,53 @@ export class CrearCabeceraAsistenciaRapidaComponent {
   }
 
   crearClase() {
-
-  const fecha = new Date(this.currentYear, this.selectedMonth - 1, this.selectedDay);
-  const fechaFormateada = fecha.toISOString().split('T')[0]; 
+    // Obtener la fecha y hora actuales
+    const fecha = new Date(this.currentYear, this.selectedMonth - 1, this.selectedDay);
+    let horaInicio = this.horaInicioControl.value; // Hora de inicio seleccionada por el usuario
+    const [horaInicioH, horaInicioM] = horaInicio.split(':').map(Number);
+  
+    // Establecer la hora mínima y máxima
+    const horaMaxima = 19; // 7 PM (19:00)
+    const horaMinima = '07:00'; // Hora mínima para el día siguiente (7 AM)
+  
+    // Verificar si la hora de inicio seleccionada ha pasado la hora máxima (7 PM)
+    if (horaInicioH >= horaMaxima) {
+      // Incrementar un día y establecer la hora de inicio a la hora mínima (7 AM)
+      fecha.setDate(fecha.getDate() + 1);
+      horaInicio = horaMinima;
+    }
+  
+    // Establecer la hora de fin sumando 45 minutos a la hora de inicio
+    const [nuevaHoraInicioH, nuevaHoraInicioM] = horaInicio.split(':').map(Number);
+    const fechaHoraFin = new Date(fecha);
+    fechaHoraFin.setHours(nuevaHoraInicioH, nuevaHoraInicioM + 45);
+  
+    // Formatear la hora de fin
+    const horaFin = `${fechaHoraFin.getHours().toString().padStart(2, '0')}:${fechaHoraFin.getMinutes().toString().padStart(2, '0')}`;
+  
+    const fechaFormateada = fecha.toISOString().split('T')[0]; // Formato YYYY-MM-DD
+  
+    // Preparar el objeto de datos para enviar al servicio
     const data = {
-      fecha: fechaFormateada, 
-      horaInicio: this.horaInicioControl.value,
-      horaFin: this.horaFin,
-      idServicio: this.idServicio, 
+      fecha: fechaFormateada,
+      horaInicio: horaInicio,
+      horaFin: horaFin,
+      idServicio: this.idServicio,
       idunidadOperativa: (JSON.parse(localStorage.getItem('UnidElegida')!)).idUnidOperativa,
       idUsuario: (JSON.parse(localStorage.getItem('camUser')!)).idUsuario,
-      sesion: this.sesion, 
+      sesion: this.sesion,
       modalidad: this.modalidad,
       presupuesto: this.presupuesto,
       idRol: this.idRol
     };
   
+    // Llamada al servicio para grabar la clase
     this.contratosAdministracionService.grabarCrearClase(data).subscribe(
       (response) => {
-        if(response.code == 0){
+        if (response.code == 0) {
           this.toast.success("Los datos han sido actualizados");
-          this.router.navigate(['/app/control/asistencia-rapida/asistencias/'+response.data.idAsisRapid])
-        }
-        else{
+          this.router.navigate(['/app/control/asistencia-rapida/asistencias/' + response.data.idAsisRapid]);
+        } else {
           this.toast.warning(response.message);
         }
       },
@@ -355,5 +379,7 @@ export class CrearCabeceraAsistenciaRapidaComponent {
       }
     );
   }
+  
+  
  
 }
