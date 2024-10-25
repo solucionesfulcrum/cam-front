@@ -146,10 +146,6 @@ export class ShowAfiliadoComponent implements OnInit {
 
        this.aseguradoServices.getDatoSeguro(tipoDoc, String(this.dataFichaAfiliado.asegurado.numDoc)).subscribe(dataSeguro => {
         if(dataSeguro.data.length > 0){
-          alert(this.dataFichaAfiliado.asegurado.descTipoSeguro);
-          alert(this.dataFichaAfiliado.asegurado.condicion);
-          alert(this.dataFichaAfiliado.asegurado.autoGenerado);
-          alert(this.dataFichaAfiliado.asegurado.descTipoAsegurado);
           if(
             dataSeguro.data[0].DGACTAS != this.dataFichaAfiliado.asegurado.descTipoSeguro
             || dataSeguro.data[0].CONDICION != this.dataFichaAfiliado.asegurado.condicion
