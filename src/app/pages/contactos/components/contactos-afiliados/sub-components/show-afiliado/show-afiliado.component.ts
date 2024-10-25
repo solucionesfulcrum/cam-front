@@ -177,7 +177,7 @@ export class ShowAfiliadoComponent implements OnInit {
         }
 
         if(this.opcionesBotones.length > 0){
-          if (this.dataFichaAfiliado.fichaAdmision.datosAfiliacion.estadoAfi !== 'ACTIVO') {
+          if (this.dataFichaAfiliado.fichaAdmision.datosAfiliacion.estadoAfi !== 'AFILIADO') {
             this.opcionesBotones[2].deshabilitado = true;
           }
         }
