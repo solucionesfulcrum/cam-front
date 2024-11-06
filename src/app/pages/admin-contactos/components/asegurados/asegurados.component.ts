@@ -11,6 +11,7 @@ import { ParamMenu } from '@shared/components/opciones-busqueda/parametros-busqu
 import { AfiliacionesSolicitudesService } from 'src/app/data/services/afiliaciones/afiliaciones-solicitudes.service';
 import { DatosGeneralesService } from 'src/app/data/services/datos-generales.service';
 import { ReportesService } from 'src/app/data/services/reportes/reportes.service';
+import { ExcelExportService } from 'src/app/data/services/utils/ExcelExportService';
 
 @Component({
   selector: 'esp-asegurados',
@@ -58,7 +59,8 @@ export class AseguradosComponent {
               private notificationService     : NotificationService,
               private reportesService         : ReportesService,
               private datosService            : DatosGeneralesService,
-              private afiliacionesService     : AfiliacionesSolicitudesService,) { }
+              private afiliacionesService     : AfiliacionesSolicitudesService,
+              private excelExportService: ExcelExportService,) { }
 
   ngOnInit(): void {
     this.datosService.getTipoParametros('ESTADO_FICHA_ADMISION').subscribe((data)=>{
@@ -128,6 +130,45 @@ export class AseguradosComponent {
     
    
   }
+
+  getDataForExcel(){
+    let servicioMetodo = this.afiliacionesService.getListaContactoAdmin(this.getContactos());
+     
+    this.loadingData = true;
+
+    servicioMetodo.subscribe((data)=>{
+      this.loadingData = false;
+      if (data.code == 0) {
+      this.dataSource = data.data.list;
+      this.pageNum = data.data.pageNum;
+      this.pageSize = data.data.pageSize;
+      this.total = data.data.total;
+      }
+      else{
+        this.notificationService.warning(data.message);
+      }
+    })
+  }
+
+  getAllDataForExcel() {
+    const servicioMetodo = this.afiliacionesService.getListaContactoAdmin(this.getContactosAll());
+
+    servicioMetodo.subscribe((response) => {
+      const list = response.data.list;
+
+      if (list && list.length > 0) {
+        // Inferimos los encabezados a partir de las propiedades del primer elemento
+        const headers: { [key: string]: string } = Object.keys(list[0]).reduce((acc, key) => {
+          acc[key] = key; // Utiliza la misma propiedad como nombre de encabezado
+          return acc;
+        }, {} as { [key: string]: string });
+        
+
+        // Exportamos a Excel
+        this.excelExportService.exportToExcel(list, headers, 'DatosExportados');
+      }
+    });
+  }
   
   getDataFecha(value: any){
     this.formBuscar.get('frmSearchDate')?.setValue(value);
@@ -168,6 +209,24 @@ export class AseguradosComponent {
       codigoCam : this.formBuscar.get('frmSearchCam')?.value
     }
   }
+
+  getContactosAll(): RequestAdminAseguradosCam {
+    const today = new Date();
+    const formattedDate = `${today.getFullYear()}-${today.getMonth() + 1}-${today.getDate()}`;
+    
+    return {
+      idUnidOpe: "" as any,
+      texto: "",
+      fecInicio: "2020-1-1",
+      fecFin: formattedDate,  // Fecha actual
+      pageNum: "1",
+      pageSize: "1000000",
+      estado: null as any,
+      codigoCam: ""
+    }
+}
+
+
 
   imprimirLista(){
     var fecInicio: any;
