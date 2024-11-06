@@ -1,6 +1,6 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { RequestAdminAseguradosCam } from '@models/adm-uo/adm-uo';
+import { RequestAdminAseguradosCam, RequestAdminAseguradosCamExcel } from '@models/adm-uo/adm-uo';
 import { RegisterNota, RegisterSolicitud } from '@models/afiliaciones/register-afiliacion.model';
 import { ResponseAsignarCiram, ResponseQuitarCiram } from '@models/afiliados/edit-ficha-solicitud';
 import { RequestListaSAfiliadosContacto, RequestListaSolicitudesAfiliados,imprimirRequest,imprimirRequestCam,listaConstactosRequest } from '@models/afiliados/ficha-solicitud.model';
@@ -67,6 +67,12 @@ export class AfiliacionesSolicitudesService {
     const url = `${api_URL}/ficha-admision/listar/nacional`;
     return this._httpClient.post<any>(url, model);
   }
+
+  getListaContactoAdminForExcel(model: RequestAdminAseguradosCamExcel){
+    const url = `${api_URL}/report/contactos/listar/asegurados/nacional`;
+    return this._httpClient.post<any>(url, model);
+  }
+
 
 
   getExcelAsegurados(model: imprimirRequest): Observable<Blob>{

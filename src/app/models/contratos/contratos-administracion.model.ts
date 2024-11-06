@@ -36,6 +36,7 @@ export interface RequestSaveClase{
     idunidadOperativa : number,
     idUsuario : number,
     sesion : number,
+    cifra: number,
     modalidad : string, //VIRTUAL
     presupuesto : string //COFINANCIADO
     idRol?: number

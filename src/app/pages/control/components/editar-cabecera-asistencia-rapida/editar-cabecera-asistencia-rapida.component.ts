@@ -41,6 +41,7 @@ export class EditarCabeceraAsistenciaRapidaComponent {
   daysInMonth: number[] = [];
 
    // Variables para los campos
+   cifra: number = 1;
    sesion: number = 1; // Valor inicial para la sesión
    presupuesto: string = 'PROPIO'; // Valor inicial para el presupuesto
    modalidad: string = 'PRESENCIAL'; // Valor inicial para la modalidad
@@ -377,6 +378,7 @@ export class EditarCabeceraAsistenciaRapidaComponent {
       idunidadOperativa: (JSON.parse(localStorage.getItem('UnidElegida')!)).idUnidOperativa,
       idUsuario: (JSON.parse(localStorage.getItem('camUser')!)).idUsuario,
       sesion: this.sesion, 
+      cifra: this.cifra,
       modalidad: this.modalidad,
       presupuesto: this.presupuesto 
     };

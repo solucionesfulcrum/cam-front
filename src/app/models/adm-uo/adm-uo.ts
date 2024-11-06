@@ -31,6 +31,15 @@ export interface RequestAdminAseguradosCam{
     pageNum? : string,
     pageSize?: string
   }
+
+  export interface RequestAdminAseguradosCamExcel{
+    idUnidOpe: number,
+    texto: string,
+    estado: number,
+    fecInicio: string,
+    fecFin: string,
+    codigoCam: string | null,
+  }
   
 
 

@@ -3,7 +3,7 @@ import { Component } from '@angular/core';
 import { FormGroup, FormControl, FormBuilder } from '@angular/forms';
 import { PageEvent } from '@angular/material/paginator';
 import { faSpinner } from '@fortawesome/free-solid-svg-icons';
-import { RequestAdminAseguradosCam } from '@models/adm-uo/adm-uo';
+import { RequestAdminAseguradosCam, RequestAdminAseguradosCamExcel } from '@models/adm-uo/adm-uo';
 import { listaContratosRedRequest, imprimirRequestCam } from '@models/afiliados/ficha-solicitud.model';
 import { Parametro } from '@models/parametros-busqueda.model';
 import { NotificationService } from '@services/notification.service';
@@ -151,10 +151,10 @@ export class AseguradosComponent {
   }
 
   getAllDataForExcel() {
-    const servicioMetodo = this.afiliacionesService.getListaContactoAdmin(this.getContactosAll());
+    const servicioMetodo = this.afiliacionesService.getListaContactoAdminForExcel(this.getContactosAll());
 
     servicioMetodo.subscribe((response) => {
-      const list = response.data.list;
+      const list = response.data;
 
       if (list && list.length > 0) {
         // Inferimos los encabezados a partir de las propiedades del primer elemento
@@ -210,19 +210,29 @@ export class AseguradosComponent {
     }
   }
 
-  getContactosAll(): RequestAdminAseguradosCam {
-    const today = new Date();
-    const formattedDate = `${today.getFullYear()}-${today.getMonth() + 1}-${today.getDate()}`;
+  getContactosAll(): RequestAdminAseguradosCamExcel {
+    var fecInicio: any;
+    var fecFin: any;
+
+    if (this.formBuscar.value.frmSearchDate == '') {
+      //fecInicio = `${new Date().getFullYear()}-1-1`;
+      fecInicio = `2020-1-1`;
+      fecFin = `${new Date().getFullYear()}-${new Date().getMonth()+1}-${new Date().getDate()}`;
+    }
+    else{
+      var fechaSinFormatInit = this.formBuscar.value.frmSearchDate.split(' - ')[0];
+      var fechaSinFormatFin = this.formBuscar.value.frmSearchDate.split(' - ')[1];
+      fecInicio = `${fechaSinFormatInit.split('/')[2]}-${fechaSinFormatInit.split('/')[1]}-${fechaSinFormatInit.split('/')[0]}`;
+      fecFin = `${fechaSinFormatFin.split('/')[2]}-${fechaSinFormatFin.split('/')[1]}-${fechaSinFormatFin.split('/')[0]}`;
+    }
     
     return {
-      idUnidOpe: "" as any,
-      texto: "",
-      fecInicio: "2020-1-1",
-      fecFin: formattedDate,  // Fecha actual
-      pageNum: "1",
-      pageSize: "1000000",
-      estado: null as any,
-      codigoCam: ""
+      idUnidOpe: this.formBuscar.get('frmSearchRed')?.value,
+      texto: this.formBuscar.controls['frmSearch'].value,
+      fecInicio: fecInicio,
+      fecFin: fecFin,  // Fecha actual
+      estado:  this.formBuscar.get('frmSearchEstado')?.value,
+      codigoCam:  this.formBuscar.get('frmSearchCam')?.value
     }
 }
 
