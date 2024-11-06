@@ -72,11 +72,18 @@
         <td cdk-cell class="py-[1rem] px-6" *cdkCellDef="let row">{{transformarHora(row.horaFin) }}</td>
       </ng-container>
 
+      
+
       <ng-container cdkColumnDef="sesiones">
         <th cdk-header-cell class="py-[1rem] px-6" *cdkHeaderCellDef>N° de Sesión</th>
         <td cdk-cell class="py-[1rem] px-6 text-center" *cdkCellDef="let row">
           {{row.sesiones}}
         </td>
+      </ng-container>
+
+      <ng-container cdkColumnDef="nroCifra">
+        <th cdk-header-cell class="py-[1rem] px-6" *cdkHeaderCellDef>Nro Taller/Actividad</th>
+        <td cdk-cell class="py-[1rem] px-6" *cdkCellDef="let row">{{row.nroCifra}}</td>
       </ng-container>
 
       <ng-container cdkColumnDef="estado">

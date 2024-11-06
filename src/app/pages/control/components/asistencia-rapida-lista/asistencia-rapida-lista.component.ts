@@ -37,6 +37,7 @@ export class AsistenciaRapidaListaComponent {
     'presupuesto',
     'fecha',
     'sesiones',
+    'nroCifra',
     'estado',
   ];
   pageIndex = 0;
