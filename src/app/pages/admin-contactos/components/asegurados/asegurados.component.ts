@@ -50,6 +50,7 @@ export class AseguradosComponent {
 
   loadingData: boolean = false;
 
+  isCreatingExcel: boolean = false; // Indica si está creando el Excel
   
   opciones_cam: Parametro[] = [];
   opciones_red: Parametro[] = [];
@@ -131,6 +132,52 @@ export class AseguradosComponent {
    
   }
 
+  getAllDataForExcel() {
+    this.statusLoadingExcel = true;
+    this.progressValue = 0;
+
+    // Simular el progreso de "Cargando data"
+    setTimeout(() => {
+      this.progressValue = 25;
+    }, 500);
+
+    const servicioMetodo = this.afiliacionesService.getListaContactoAdminForExcel(this.getContactosAll());
+
+    servicioMetodo.subscribe(
+      (response) => {
+        this.progressValue = 50;
+        const list = response.data;
+
+        if (list && list.length > 0) {
+          const headers: { [key: string]: string } = Object.keys(list[0]).reduce((acc, key) => {
+            acc[key] = key;
+            return acc;
+          }, {} as { [key: string]: string });
+
+          // Cambiar estado a "Creando Excel" y reiniciar el progreso
+          this.isCreatingExcel = true;
+          this.progressValue = 0; // Reiniciar el progreso
+
+          // Simular el progreso de creación del Excel
+          const interval = setInterval(() => {
+            if (this.progressValue < 100) {
+              this.progressValue += 10; // Incrementar el progreso en cada intervalo
+            } else {
+              clearInterval(interval); // Detener el intervalo cuando llega al 100%
+              this.exportExcel(list, headers);
+            }
+          }, 300); // Ajustar el tiempo del intervalo según la duración deseada
+        }
+      },
+      (error) => {
+        // Manejo de errores
+        this.statusLoadingExcel = false;
+        this.isCreatingExcel = false;
+        console.error('Error al obtener datos:', error);
+      }
+    );
+  }
+
   getDataForExcel(){
     let servicioMetodo = this.afiliacionesService.getListaContactoAdmin(this.getContactos());
      
@@ -150,24 +197,15 @@ export class AseguradosComponent {
     })
   }
 
-  getAllDataForExcel() {
-    const servicioMetodo = this.afiliacionesService.getListaContactoAdminForExcel(this.getContactosAll());
+  exportExcel(data: any[], headers: { [key: string]: string }) {
+    this.excelExportService.exportToExcel(data, headers, 'DatosExportados');
+    this.progressValue = 100;
 
-    servicioMetodo.subscribe((response) => {
-      const list = response.data;
-
-      if (list && list.length > 0) {
-        // Inferimos los encabezados a partir de las propiedades del primer elemento
-        const headers: { [key: string]: string } = Object.keys(list[0]).reduce((acc, key) => {
-          acc[key] = key; // Utiliza la misma propiedad como nombre de encabezado
-          return acc;
-        }, {} as { [key: string]: string });
-        
-
-        // Exportamos a Excel
-        this.excelExportService.exportToExcel(list, headers, 'DatosExportados');
-      }
-    });
+    setTimeout(() => {
+      this.statusLoadingExcel = false;
+      this.isCreatingExcel = false;
+      this.progressValue = 0;
+    }, 1000); // Tiempo opcional para ocultar el estado de carga después de la exportación
   }
   
   getDataFecha(value: any){

@@ -45,7 +45,11 @@
     <div class="w-full py-2" *ngIf="statusLoadingExcel">
       <div class="relative w-full h-4 bg-gray-200 rounded-full overflow-hidden">
         <div 
-          class="h-full bg-blue-500 rounded-full transition-all duration-300"
+          class="h-full rounded-full transition-all duration-300"
+          [ngClass]="{
+            'bg-blue-500': !isCreatingExcel,  
+            'bg-green-500': isCreatingExcel  
+          }"
           [style.width]="progressValue + '%'"
         ></div>
       </div>
@@ -53,11 +57,11 @@
         <ng-container *ngIf="progressValue == 0">
           Iniciando
         </ng-container>
-        <ng-container *ngIf="progressValue > 0 && progressValue != 100">
+        <ng-container *ngIf="progressValue > 0 && progressValue < 100">
           {{ progressValue }}%
         </ng-container>
         <ng-container *ngIf="progressValue == 100">
-          Exportando
+          Descargando Excel
         </ng-container>
       </p>
     </div>
