@@ -143,6 +143,7 @@ export class EditarCabeceraAsistenciaRapidaComponent {
     numDoc: string;
   */
   idRol!: number;
+  descCifra!: string;
 
   constructor(
               private fb                                : FormBuilder,
@@ -176,11 +177,14 @@ export class EditarCabeceraAsistenciaRapidaComponent {
 
     if((JSON.parse(localStorage.getItem('UnidElegida')!)).rol === 'TALLERISTA'){
       this.idRol = 7;
+      this.descCifra = "Nro de Taller";
     }
 
     if((JSON.parse(localStorage.getItem('UnidElegida')!)).rol === 'PROFESIONAL CAM'){
       this.idRol = 9;
+      this.descCifra = "Nro de Actividad";
     }
+
 
     const today = new Date();
     this.currentYear = today.getFullYear();
@@ -247,6 +251,17 @@ export class EditarCabeceraAsistenciaRapidaComponent {
         this.presupuesto=this.datoProgramacion.presupuesto
         this.modalidad=this.datoProgramacion.modalidad
         this.codUoCiram = "";
+        this.cifra = this.datoProgramacion.nroCifra
+
+        if(this.datoProgramacion.idRol == 7){
+          this.descCifra = "Nro de Taller";
+        }
+
+        if(this.datoProgramacion.idRol == 9){
+          this.descCifra = "Nro de Actividad";
+        }
+
+
         ////console.log(Math.floor(seconds/(60*60)) + 'h ' +  Math.floor(seconds/60) + ' m')
       }
       else{
@@ -378,7 +393,7 @@ export class EditarCabeceraAsistenciaRapidaComponent {
       idunidadOperativa: (JSON.parse(localStorage.getItem('UnidElegida')!)).idUnidOperativa,
       idUsuario: (JSON.parse(localStorage.getItem('camUser')!)).idUsuario,
       sesion: this.sesion, 
-      cifra: this.cifra,
+      nroCifra: this.cifra,
       modalidad: this.modalidad,
       presupuesto: this.presupuesto 
     };

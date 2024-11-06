@@ -81,6 +81,9 @@ export class AsistenciaRapidaComponent {
   intervalos: number = 1;
   sesionActual: number = 1;
 
+  idRol!: number;
+  descCifra!: string;
+
 
   //DATA PRUEBA
   dataPrueba: AsistenciaRapidaLista[] = [];
@@ -296,6 +299,17 @@ export class AsistenciaRapidaComponent {
         this.datoProgramacion.margenHorario = horas + 'h ' +  minutos + ' m';
 
         this.intervalos = intervals; // Guardar los intervalos
+
+        
+        if(this.datoProgramacion.idRol == 7){
+          this.descCifra = "Nro de Taller";
+        }
+
+        if(this.datoProgramacion.idRol == 9){
+          this.descCifra = "Nro de Actividad";
+        }
+
+
 
         this.getListAsegurados()
         ////console.log(Math.floor(seconds/(60*60)) + 'h ' +  Math.floor(seconds/60) + ' m')

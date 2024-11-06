@@ -128,6 +128,7 @@ export class CrearCabeceraAsistenciaRapidaComponent {
 
   codUoCiram: string = '';
   idRol!: number;
+  descCifra!: string;
 
   constructor(
               private fb                                : FormBuilder,
@@ -157,11 +158,14 @@ export class CrearCabeceraAsistenciaRapidaComponent {
   ngOnInit(){
     if((JSON.parse(localStorage.getItem('UnidElegida')!)).rol === 'TALLERISTA'){
       this.idRol = 7;
+      this.descCifra = "Nro de Taller";
     }
 
     if((JSON.parse(localStorage.getItem('UnidElegida')!)).rol === 'PROFESIONAL CAM'){
       this.idRol = 9;
+      this.descCifra = "Nro de Actividad";
     }
+
 
     const today = new Date();
     this.currentYear = today.getFullYear();
@@ -360,7 +364,7 @@ export class CrearCabeceraAsistenciaRapidaComponent {
       idunidadOperativa: (JSON.parse(localStorage.getItem('UnidElegida')!)).idUnidOperativa,
       idUsuario: (JSON.parse(localStorage.getItem('camUser')!)).idUsuario,
       sesion: this.sesion,
-      cifra: this.cifra,
+      nroCifra: this.cifra,
       modalidad: this.modalidad,
       presupuesto: this.presupuesto,
       idRol: this.idRol
