@@ -72,7 +72,7 @@
                 </div>
             </div>
             <div class="py-3 flex justify-center items-center">
-                <app-btn class="botonApariencia flex flex-row h-10 w-[160px] transform translate-x-20 text-center" (click)="crearClase()">
+                <app-btn class="botonApariencia flex flex-row h-10 w-[160px] transform translate-x-20 text-center" (click)="crearClase()" [disabled]="statusLoadingSave">
                     <div class="flex flex-row items-right gap-[5px] text-center justify-center">
                         <!--<img class="self-center" src="assets/svg/icon-list-assignments.svg">-->
                         <span class="items-center">Editar datos</span> <!-- Texto fijo -->
@@ -173,6 +173,15 @@
               <span class="font-light leading-[10px] text-[10px] py-1">{{descCifra}}</span>
               </div>
           </div>
+          <div class="flex flex-row gap-2 py-[2px]">
+            <div class="flex items-center justify-center w-6">
+            <img class="select-none" src="assets/svg/icon-class-lesson.svg">
+            </div>
+            <div class="flex flex-col text-[#64748B]">
+            <input type="number" [(ngModel)]="sesion" min="1" class="text-[13px] leading-4 border border-[#64748B] rounded w-[160px]" />
+            <span class="font-light leading-[10px] text-[10px] py-1">Sesión</span>
+            </div>
+        </div>
             <div class="flex flex-row gap-2 py-[2px]">
                 <div class="flex items-center justify-center w-6">
                 <img class="select-none" src="assets/svg/presupuesto.svg">

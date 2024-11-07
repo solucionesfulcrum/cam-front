@@ -85,6 +85,7 @@ export class CrearCabeceraAsistenciaRapidaComponent {
   listFilteredBusqueda: any[] = [];
 
   statusLoadingBarra = false;
+  statusLoadingSave = false;
 
   @ViewChild('frmDoc') frmDocElement!: ElementRef;
 
@@ -329,6 +330,9 @@ export class CrearCabeceraAsistenciaRapidaComponent {
   }
 
   crearClase() {
+
+    this.statusLoadingSave = true;
+    
     // Obtener la fecha y hora actuales
     const fecha = new Date(this.currentYear, this.selectedMonth - 1, this.selectedDay);
     let horaInicio = this.horaInicioControl.value; // Hora de inicio seleccionada por el usuario
@@ -359,6 +363,12 @@ export class CrearCabeceraAsistenciaRapidaComponent {
       this.toast.warning('Debe ingresar el servicio');
       return; // Detener la ejecución de la función si no hay idServicio
     }
+
+    
+  if (this.sesion <= 0) {
+    this.toast.warning('El número de la sesión debe ser un número mayor que 0');
+    return; // Detener la ejecución de la función si no hay idServicio
+  }
   
     // Preparar el objeto de datos para enviar al servicio
     const data = {

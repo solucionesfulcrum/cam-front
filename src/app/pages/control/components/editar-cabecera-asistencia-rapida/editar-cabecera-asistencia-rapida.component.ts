@@ -86,6 +86,8 @@ export class EditarCabeceraAsistenciaRapidaComponent {
   statusLoadingBarra = false;
   statusLoadingData = true;
 
+  statusLoadingSave = false;
+
   @ViewChild('frmDoc') frmDocElement!: ElementRef;
 
   public formBuscarPersona = this.fb.nonNullable.group({
@@ -383,11 +385,18 @@ export class EditarCabeceraAsistenciaRapidaComponent {
 
   crearClase() {
 
+    this.statusLoadingSave = true;
+
   const fecha = new Date(this.currentYear, this.selectedMonth - 1, this.selectedDay);
   const fechaFormateada = fecha.toISOString().split('T')[0]; 
 
   if (!this.idServicio) {
     this.toast.warning('Debe ingresar el servicio');
+    return; // Detener la ejecución de la función si no hay idServicio
+  }
+
+  if (this.sesion <= 0) {
+    this.toast.warning('El número de la sesión debe ser un número mayor que 0');
     return; // Detener la ejecución de la función si no hay idServicio
   }
     const data = {

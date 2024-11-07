@@ -60,7 +60,7 @@
                 </div>
             </div>
             <div class="py-3 flex justify-center items-center">
-                <app-btn class="botonApariencia flex flex-row h-10 w-[160px] transform translate-x-20 text-center" (click)="crearClase()">
+                <app-btn class="botonApariencia flex flex-row h-10 w-[160px] transform translate-x-20 text-center" (click)="crearClase()" [disabled]="statusLoadingSave">
                     <div class="flex flex-row items-right gap-[5px] text-center justify-center">
                         <!--<img class="self-center" src="assets/svg/icon-list-assignments.svg">-->
                         <span class="items-center">Crear Clase</span> <!-- Texto fijo -->
