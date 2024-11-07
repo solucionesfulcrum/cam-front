@@ -354,6 +354,11 @@ export class CrearCabeceraAsistenciaRapidaComponent {
     const horaFin = `${fechaHoraFin.getHours().toString().padStart(2, '0')}:${fechaHoraFin.getMinutes().toString().padStart(2, '0')}`;
   
     const fechaFormateada = fecha.toISOString().split('T')[0]; // Formato YYYY-MM-DD
+
+    if (!this.idServicio) {
+      this.toast.warning('Debe ingresar el servicio');
+      return; // Detener la ejecución de la función si no hay idServicio
+    }
   
     // Preparar el objeto de datos para enviar al servicio
     const data = {

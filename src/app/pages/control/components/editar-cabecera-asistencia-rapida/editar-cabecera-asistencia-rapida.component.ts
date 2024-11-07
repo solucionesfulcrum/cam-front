@@ -385,6 +385,11 @@ export class EditarCabeceraAsistenciaRapidaComponent {
 
   const fecha = new Date(this.currentYear, this.selectedMonth - 1, this.selectedDay);
   const fechaFormateada = fecha.toISOString().split('T')[0]; 
+
+  if (!this.idServicio) {
+    this.toast.warning('Debe ingresar el servicio');
+    return; // Detener la ejecución de la función si no hay idServicio
+  }
     const data = {
       fecha: fechaFormateada, 
       horaInicio: this.datoProgramacion.horaIni,
