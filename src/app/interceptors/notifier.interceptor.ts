@@ -16,6 +16,13 @@ export class NotifierInterceptor implements HttpInterceptor {
   constructor(private _notification: NotificationService) {}
 
   intercept(request: HttpRequest<unknown>, next: HttpHandler): Observable<HttpEvent<unknown>> {
+    // Verificar si la solicitud tiene el encabezado 'Skip-Interceptor'
+    if (request.urlWithParams.includes('skipInterceptor=true')) {
+      console.log('Interceptor omitido para esta solicitud');
+      return next.handle(request);
+    }
+
+    // Manejo normal de la solicitud si no tiene el encabezado 'Skip-Interceptor'
     return next.handle(request).pipe(
       catchError((response: HttpErrorResponse) => {
         switch (response.status) {

@@ -69,7 +69,9 @@ export class AfiliacionesSolicitudesService {
   }
 
   getListaContactoAdminForExcel(model: RequestAdminAseguradosCamExcel){
-    const url = `${api_URL}/report/contactos/generar-reporte/excel/lista-asegurados-nacional`;
+    const url = `${api_URL}/report/contactos/generar-reporte/excel/lista-asegurados-nacional?skipInterceptor=true`;
+    let headers = new HttpHeaders();
+    headers = headers.set('Skip-Interceptor', 'true');
     return this._httpClient.post<any>(url, model);
   }
 

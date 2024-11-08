@@ -141,7 +141,7 @@ export class AseguradosComponent {
         // No hacer nada con la respuesta
       },
       (error) => {
-        console.error('Error al enviar la solicitud de generación de Excel:', error);
+        //console.error('Error al enviar la solicitud de generación de Excel:', error);
       }
     );
   }
