@@ -20,7 +20,7 @@ ngOnInit(){
 }
 
 onClose(){
-this._dialogRef.close();
+this._dialogRef.close({success: false});
 }
 
 okBtn(){

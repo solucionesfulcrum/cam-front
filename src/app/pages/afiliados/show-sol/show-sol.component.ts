@@ -230,7 +230,7 @@ export class ShowSolComponent implements OnInit {
         message: '¿Desea anular esta solicitud?'
       }
     }).afterClosed().subscribe(data=>{
-      if(data.success){
+      if(data && data.success){
         this.contactosAfiServ.cambiarDeEstado({
           idFichaAdmision: this.dataSolicitud.fichaAdmision.idFichaAdmision,
           idEstado: 71
