@@ -156,6 +156,13 @@ export const pagesAdminRoutes: Route[] = [
           import('./asistencia-rapida/asistencia-rapida.module').then((m) => m.AsistenciaRapidaModule),
       },
       {
+        path: AppRoute.REPORTES_GENERADOS,
+        canActivate:[AuthGuard],
+        title:'Reportes generados',
+        loadChildren: () =>
+          import('./reportes-generados/reportes-generados.module').then((m) => m.ReportesGeneradosModule),
+      },
+      {
         path: '',
         canActivate:[AuthGuard],
         title:'Administración de usuario',

@@ -133,68 +133,17 @@ export class AseguradosComponent {
   }
 
   getAllDataForExcel() {
-    this.statusLoadingExcel = true;
-    this.progressValue = 0;
-
-    // Simular el progreso de "Cargando data"
-    setTimeout(() => {
-      this.progressValue = 25;
-    }, 500);
-
-    const servicioMetodo = this.afiliacionesService.getListaContactoAdminForExcel(this.getContactosAll());
-
-    servicioMetodo.subscribe(
-      (response) => {
-        this.progressValue = 50;
-        const list = response.data;
-
-        if (list && list.length > 0) {
-          const headers: { [key: string]: string } = Object.keys(list[0]).reduce((acc, key) => {
-            acc[key] = key;
-            return acc;
-          }, {} as { [key: string]: string });
-
-          // Cambiar estado a "Creando Excel" y reiniciar el progreso
-          this.isCreatingExcel = true;
-          this.progressValue = 0; // Reiniciar el progreso
-
-          // Simular el progreso de creación del Excel
-          const interval = setInterval(() => {
-            if (this.progressValue < 100) {
-              this.progressValue += 10; // Incrementar el progreso en cada intervalo
-            } else {
-              clearInterval(interval); // Detener el intervalo cuando llega al 100%
-              this.exportExcel(list, headers);
-            }
-          }, 300); // Ajustar el tiempo del intervalo según la duración deseada
-        }
+    this.notificationService.info('Su reporte se está generando');
+  
+    // Enviar el request sin esperar respuesta
+    this.afiliacionesService.getListaContactoAdminForExcel(this.getContactosAll()).subscribe(
+      () => {
+        // No hacer nada con la respuesta
       },
       (error) => {
-        // Manejo de errores
-        this.statusLoadingExcel = false;
-        this.isCreatingExcel = false;
-        console.error('Error al obtener datos:', error);
+        console.error('Error al enviar la solicitud de generación de Excel:', error);
       }
     );
-  }
-
-  getDataForExcel(){
-    let servicioMetodo = this.afiliacionesService.getListaContactoAdmin(this.getContactos());
-     
-    this.loadingData = true;
-
-    servicioMetodo.subscribe((data)=>{
-      this.loadingData = false;
-      if (data.code == 0) {
-      this.dataSource = data.data.list;
-      this.pageNum = data.data.pageNum;
-      this.pageSize = data.data.pageSize;
-      this.total = data.data.total;
-      }
-      else{
-        this.notificationService.warning(data.message);
-      }
-    })
   }
 
   exportExcel(data: any[], headers: { [key: string]: string }) {
@@ -270,7 +219,8 @@ export class AseguradosComponent {
       fecInicio: fecInicio,
       fecFin: fecFin,  // Fecha actual
       estado:  this.formBuscar.get('frmSearchEstado')?.value,
-      codigoCam:  this.formBuscar.get('frmSearchCam')?.value
+      codigoCam:  this.formBuscar.get('frmSearchCam')?.value,
+      idUsuario: JSON.parse(localStorage.getItem('camUser')!).idUsuario
     }
 }
 

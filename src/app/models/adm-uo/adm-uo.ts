@@ -39,6 +39,7 @@ export interface RequestAdminAseguradosCam{
     fecInicio: string,
     fecFin: string,
     codigoCam: string | null,
+    idUsuario: number,
   }
   
 
