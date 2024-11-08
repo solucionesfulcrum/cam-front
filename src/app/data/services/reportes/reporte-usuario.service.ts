@@ -2,8 +2,8 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { environment } from 'src/environments/environment';
 import { Observable } from 'rxjs';
-import { ResponseGenerico } from '@models/generico/dt-generico';
-import { ReporteUsuario, ReporteUsuarioEditarRequest, ReporteUsuarioRegistrarRequest } from '@models/reporte-usuario/reporte-usuario';
+import { DtGenericoPaginado, ResponseGenerico } from '@models/generico/dt-generico';
+import { ReportesGeneradosRequest, ReporteUsuario, ReporteUsuarioEditarRequest, ReporteUsuarioRegistrarRequest } from '@models/reporte-usuario/reporte-usuario';
 
 const URL_BASE = `${environment.API}/reporte-usuario`;
 
@@ -32,6 +32,11 @@ export class ReporteUsuarioService {
   listarReportesUsuario(idUsuario: number){
     const url = `${URL_BASE}/listar/${idUsuario}`;
     return this._httpClient.get<ResponseGenerico<ReporteUsuario[]>>(url);
+  }
+
+  listarReportesUsuarioDt(model: ReportesGeneradosRequest){
+    const url = `${URL_BASE}/listar-reportes-generados`;
+    return this._httpClient.post<DtGenericoPaginado<ReporteUsuario[]>>(url, model);
   }
 
   eliminarReporteUsuario(idReporteUsuario: number){

@@ -17,14 +17,14 @@ export interface ReporteUsuarioRegistrarRequest {
     idRecurso: string;
   }
   
-  export interface ReporteUsuarioDescargaResponse {
-    nombreArchivo: string;
-    data: Blob; // Tipo de dato para manejo de archivos binarios
-  }
   
-  export interface ResponseDto<T> {
-    code: string;
-    message: string;
-    data: T;
+  export interface ReportesGeneradosRequest{
+      texto: string,
+      fecInicio: string,
+      fecFin: string,
+      estado?: string,
+      idUsuario: number,
+      pageSize: number,
+      pageNum: number
   }
   

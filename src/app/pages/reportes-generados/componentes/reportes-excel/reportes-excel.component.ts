@@ -3,7 +3,7 @@ import { FormBuilder, FormControl, FormGroup } from '@angular/forms';
 import { PageEvent } from '@angular/material/paginator';
 import { Router } from '@angular/router';
 import { faSpinner } from '@fortawesome/free-solid-svg-icons';
-import { ReporteUsuario } from '@models/reporte-usuario/reporte-usuario';
+import { ReportesGeneradosRequest, ReporteUsuario } from '@models/reporte-usuario/reporte-usuario';
 import { NotificationService } from '@services/notification.service';
 import { ReporteUsuarioService } from 'src/app/data/services/reportes/reporte-usuario.service';
 
@@ -39,28 +39,31 @@ export class ReportesExcelComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.loadData();
+    //this.loadData();
   }
 
   loadData(): void {
     this.loadingData = true;
-    const idUsuario = JSON.parse(localStorage.getItem('camUser')!).idUsuario;
-    this.reporteUsuarioService.listarReportesUsuario(idUsuario).subscribe({
-      next: (data: any) => {
-        this.loadingData = false;
-        if (data.code === 0) {
-          this.dataSource = data.data;
-          this.total = data.data.length;
-        } else {
-          this.notificationService.warning(data.message);
+    setTimeout(() => {
+      this.reporteUsuarioService.listarReportesUsuarioDt(this.getPayloadList()).subscribe({
+        next: (data) => {
+          this.loadingData = false;
+          if (data.code === 2) {
+            this.dataSource = data.data.list;
+            this.total = data.data.total;
+            this.pageIndex = data.data.pageNum - 1;
+          } else {
+            this.notificationService.warning(data.message);
+          }
+        },
+        error: (err) => {
+          this.loadingData = false;
+          this.notificationService.error('Error al cargar los reportes de usuario');
+          console.error(err);
         }
-      },
-      error: (err: any) => {
-        this.loadingData = false;
-        this.notificationService.error('Error al cargar los reportes de usuario');
-        console.error(err);
-      }
-    });
+      });
+    })
+   
   }
 
   descargarReporte(idReporteUsuario: number, row: any): void {
@@ -84,6 +87,37 @@ export class ReportesExcelComponent implements OnInit {
         row.loading = false; // Desactivar el estado de carga
       }
     });
+  }
+
+  getPayloadList(): ReportesGeneradosRequest{
+    var fecInicio: any;
+    var fecFin: any;
+  
+    var fechaSinFormatInit = this.formBuscar.value.frmSearchDate.split(' - ')[0];
+    var fechaSinFormatFin = this.formBuscar.value.frmSearchDate.split(' - ')[1];
+  
+   /* const today = new Date();
+    const day = String(today.getDate()).padStart(2, '0'); // Día con dos dígitos
+    const month = String(today.getMonth() + 1).padStart(2, '0'); // Mes con dos dígitos
+    const year = today.getFullYear();
+    var fechaSinFormatFin = `${day}/${month}/${year}`;
+    var fechaSinFormatInit = '01/01/2023';*/
+  
+     // var fechaSinFormatInit = this.formBuscar.value.frmSearchDate.split(' - ')[0];
+    //var fechaSinFormatFin = this.formBuscar.value.frmSearchDate.split(' - ')[1];
+    
+    fecInicio = `${fechaSinFormatInit.split('/')[2]}-${fechaSinFormatInit.split('/')[1]}-${fechaSinFormatInit.split('/')[0]}`;
+    fecFin = `${fechaSinFormatFin.split('/')[2]}-${fechaSinFormatFin.split('/')[1]}-${fechaSinFormatFin.split('/')[0]}`;
+  
+    return {
+      idUsuario: (JSON.parse(localStorage.getItem('camUser')!)).idUsuario,
+      texto: this.formBuscar.controls['frmSearch'].value,
+      fecInicio: fecInicio,
+      fecFin: fecFin,
+      estado: this.formBuscar.get('frmSearchEstado')?.value,
+      pageNum: this.pageNum,
+      pageSize: this.pageSize
+    }
   }
   
 
