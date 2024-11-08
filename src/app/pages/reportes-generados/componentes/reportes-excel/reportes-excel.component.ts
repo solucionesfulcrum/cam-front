@@ -43,8 +43,9 @@ export class ReportesExcelComponent implements OnInit {
   }
 
   loadData(): void {
-    this.loadingData = true;
+    
     setTimeout(() => {
+      this.loadingData = true;
       this.reporteUsuarioService.listarReportesUsuarioDt(this.getPayloadList()).subscribe({
         next: (data) => {
           this.loadingData = false;
