@@ -9,6 +9,11 @@ const routes: Routes = [
     path: '',
     children: [
       {
+        path: '',
+        pathMatch: 'full',
+        redirectTo: 'reportes-excel'
+      },
+      {
         path: 'reportes-excel',
         component: ReportesExcelComponent
       },
