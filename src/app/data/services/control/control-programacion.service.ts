@@ -183,7 +183,7 @@ export class ControlProgramacionService {
       pageNum : 1,
       pageSize : 10
     }
-    const url = `${environment.API}/asegurado/buscar/nombres`;
+    const url = `${environment.API}/asegurado/buscar/nombres/dt`;
     return this._httpClient.post<any>(url, payload);
   }
 
@@ -194,7 +194,7 @@ export class ControlProgramacionService {
       pageNum : 1,
       pageSize : 10
     }
-    const url = `${environment.API}/asegurado/buscar/nombres/ciram`;
+    const url = `${environment.API}/asegurado/buscar/nombres/dt/ciram`;
     return this._httpClient.post<any>(url, payload);
   }
 
@@ -205,7 +205,7 @@ export class ControlProgramacionService {
       pageNum : 1,
       pageSize : 10
     }
-    const url = `${environment.API}/asegurado/buscar/nombres/solo-cam`;
+    const url = `${environment.API}/asegurado/buscar/nombres/dt/solo-cam`;
     return this._httpClient.post<any>(url, payload);
   }
 
@@ -226,7 +226,7 @@ export class ControlProgramacionService {
       pageNum,
       pageSize
     }
-    const url = `${environment.API}/asegurado/buscar/nombres/ciram`;
+    const url = `${environment.API}/asegurado/buscar/nombres/dt/ciram`;
     return this._httpClient.post<any>(url, payload);
   }
 
@@ -246,7 +246,7 @@ export class ControlProgramacionService {
       pageNum,
       pageSize
     }
-    const url = `${environment.API}/asegurado/buscar/nombres`;
+    const url = `${environment.API}/asegurado/buscar/nombres/dt`;
     return this._httpClient.post<any>(url, payload);
   }
 
@@ -257,7 +257,7 @@ export class ControlProgramacionService {
       pageNum,
       pageSize
     }
-    const url = `${environment.API}/asegurado/buscar/nombres/solo-cam`;
+    const url = `${environment.API}/asegurado/buscar/nombres/dt/solo-cam`;
     return this._httpClient.post<any>(url, payload);
   }
 
