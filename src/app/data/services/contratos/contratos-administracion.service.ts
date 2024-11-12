@@ -100,6 +100,11 @@ export class ContratosAdministracionService {
     return this._httpClient.delete<any>(url);
   }
 
+  deleteContratoNacional(id: number){
+    const url = `${URL_BASE}/eliminar/rol-cordinador-nacional/${id}/usuario/${(JSON.parse(localStorage.getItem('camUser')!)).idUsuario}`;
+    return this._httpClient.delete<any>(url);
+  }
+
   contratoListarRed(model: listaConstactosRequest){
     const url = `${environment.API}/contrato/listar/red`;
     return this._httpClient.post<any>(url, model);

@@ -9,6 +9,7 @@ export interface NotificationDialog {
   message?: string;
   type: number;
   dataRequired: any;
+  estado: any;
 }
 
 @Component({
@@ -32,7 +33,15 @@ export class DialogConfirmSelectionComponent {
   onConfirm(){
     this.status = 'loading';
     if (this.data.type == 0) {
-      this.contratoService.deleteContrato(this.data.dataRequired).subscribe((data)=>{
+      let metodo;
+      if(this.data.estado == 'CONFIRMADO'){
+        metodo = this.contratoService.deleteContratoNacional(this.data.dataRequired)
+      }
+      
+      else{
+        metodo = this.contratoService.deleteContrato(this.data.dataRequired);
+      }
+      metodo.subscribe((data)=>{
         if (data.code == 0) {
           this.status = 'success';
           this._dialogRef.close(1);

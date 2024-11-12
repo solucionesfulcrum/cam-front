@@ -180,7 +180,8 @@ export class ContratosListadoComponent {
         title: '¿Quiere borrar el registro?',
         message: `Se eliminará la Orden de Compra ${dataContrato.numOc}`,
         type: 0,
-        dataRequired: dataContrato.idContrato
+        dataRequired: dataContrato.idContrato,
+        estado: dataContrato.estado,
       }
     })
 
