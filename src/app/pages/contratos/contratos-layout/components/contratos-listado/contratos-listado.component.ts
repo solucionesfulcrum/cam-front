@@ -31,6 +31,8 @@ export class ContratosListadoComponent {
   listContratos: any[] = [];
   optEstado: Parametro[] = [];
 
+  rol = (JSON.parse(localStorage.getItem('camUser')!)).nombreRol
+
   ctrlSearchCam = new FormControl();
 
   camElegido: any;
@@ -174,6 +176,10 @@ export class ContratosListadoComponent {
   }
 
   deleteItem(dataContrato: any){
+    if(this.rol != "ADMIN" && dataContrato.estado == "CONFIRMADO"){
+      this.notificationService.warning('La Orden de Compra '+ dataContrato.numOc + ' ha sido confirmada. No puede eliminarse');
+      return;
+    }
     //console.log(dataContrato)
     const dialogRef = this.dialog.open(DialogConfirmSelectionComponent,{
       data:{
