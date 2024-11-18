@@ -330,26 +330,35 @@ export class CrearCabeceraAsistenciaRapidaComponent {
   }
 
   crearClase() {
-
     this.statusLoadingSave = true;
-    
-    // Obtener la fecha y hora actuales
+  
+    // Obtener la fecha y formatearla
     const fecha = new Date(this.currentYear, this.selectedMonth - 1, this.selectedDay);
+    const fechaFormateada = fecha.toISOString().split('T')[0];
+  
     let horaInicio = this.horaInicioControl.value; // Hora de inicio seleccionada por el usuario
     const [horaInicioH, horaInicioM] = horaInicio.split(':').map(Number);
   
-    // Establecer la hora mínima y máxima
+    // Restricciones de hora mínima y máxima
+    const horaMinima = '08:00'; // 8:00 AM
     const horaMaxima = 19; // 7 PM (19:00)
-    const horaMinima = '07:00'; // Hora mínima para el día siguiente (7 AM)
+    const horaFija = '18:15'; // 6:15 PM
   
-    // Verificar si la hora de inicio seleccionada ha pasado la hora máxima (7 PM)
-    if (horaInicioH >= horaMaxima) {
-      // Incrementar un día y establecer la hora de inicio a la hora mínima (7 AM)
-      fecha.setDate(fecha.getDate() + 1);
+    // Validar y ajustar hora de inicio
+    if (horaInicioH < 8 || (horaInicioH === 8 && horaInicioM < 0)) {
+      // Si es antes de 8:00 AM, ajustar a la hora mínima
       horaInicio = horaMinima;
+      fecha.setHours(8, 0);
+    } else if (horaInicioH >= horaMaxima) {
+      // Si supera las 7 PM, ajustar a las 6:15 PM
+      horaInicio = horaFija;
+      fecha.setHours(18, 15);
+    } else {
+      // Mantener la hora de inicio seleccionada
+      fecha.setHours(horaInicioH, horaInicioM);
     }
   
-    // Establecer la hora de fin sumando 45 minutos a la hora de inicio
+    // Calcular la hora de fin sumando 45 minutos a la hora de inicio ajustada
     const [nuevaHoraInicioH, nuevaHoraInicioM] = horaInicio.split(':').map(Number);
     const fechaHoraFin = new Date(fecha);
     fechaHoraFin.setHours(nuevaHoraInicioH, nuevaHoraInicioM + 45);
@@ -357,18 +366,16 @@ export class CrearCabeceraAsistenciaRapidaComponent {
     // Formatear la hora de fin
     const horaFin = `${fechaHoraFin.getHours().toString().padStart(2, '0')}:${fechaHoraFin.getMinutes().toString().padStart(2, '0')}`;
   
-    const fechaFormateada = fecha.toISOString().split('T')[0]; // Formato YYYY-MM-DD
-
+    // Validar campos requeridos
     if (!this.idServicio) {
       this.toast.warning('Debe ingresar el servicio');
-      return; // Detener la ejecución de la función si no hay idServicio
+      return;
     }
-
-    
-  if (this.sesion <= 0) {
-    this.toast.warning('El número de la sesión debe ser un número mayor que 0');
-    return; // Detener la ejecución de la función si no hay idServicio
-  }
+  
+    if (this.sesion <= 0) {
+      this.toast.warning('El número de la sesión debe ser un número mayor que 0');
+      return;
+    }
   
     // Preparar el objeto de datos para enviar al servicio
     const data = {
@@ -376,8 +383,8 @@ export class CrearCabeceraAsistenciaRapidaComponent {
       horaInicio: horaInicio,
       horaFin: horaFin,
       idServicio: this.idServicio,
-      idunidadOperativa: (JSON.parse(localStorage.getItem('UnidElegida')!)).idUnidOperativa,
-      idUsuario: (JSON.parse(localStorage.getItem('camUser')!)).idUsuario,
+      idunidadOperativa: JSON.parse(localStorage.getItem('UnidElegida')!).idUnidOperativa,
+      idUsuario: JSON.parse(localStorage.getItem('camUser')!).idUsuario,
       sesion: this.sesion,
       nroCifra: this.cifra,
       modalidad: this.modalidad,
@@ -389,7 +396,7 @@ export class CrearCabeceraAsistenciaRapidaComponent {
     this.contratosAdministracionService.grabarCrearClase(data).subscribe(
       (response) => {
         if (response.code == 0) {
-          this.toast.success("Los datos han sido actualizados");
+          this.toast.success('Los datos han sido actualizados');
           this.router.navigate(['/app/control/asistencia-rapida/asistencias/' + response.data.idAsisRapid]);
         } else {
           this.toast.warning(response.message);
@@ -400,6 +407,8 @@ export class CrearCabeceraAsistenciaRapidaComponent {
       }
     );
   }
+  
+  
   
   
  

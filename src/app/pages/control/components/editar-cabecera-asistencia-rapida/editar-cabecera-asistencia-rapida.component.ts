@@ -384,41 +384,73 @@ export class EditarCabeceraAsistenciaRapidaComponent {
   }
 
   crearClase() {
-
     this.statusLoadingSave = true;
-
-  const fecha = new Date(this.currentYear, this.selectedMonth - 1, this.selectedDay);
-  const fechaFormateada = fecha.toISOString().split('T')[0]; 
-
-  if (!this.idServicio) {
-    this.toast.warning('Debe ingresar el servicio');
-    return; // Detener la ejecución de la función si no hay idServicio
-  }
-
-  if (this.sesion <= 0) {
-    this.toast.warning('El número de la sesión debe ser un número mayor que 0');
-    return; // Detener la ejecución de la función si no hay idServicio
-  }
+  
+    // Obtener la fecha y formatearla
+    const fecha = new Date(this.currentYear, this.selectedMonth - 1, this.selectedDay);
+    const fechaFormateada = fecha.toISOString().split('T')[0];
+  
+    // Verificar los valores requeridos
+    if (!this.idServicio) {
+      this.toast.warning('Debe ingresar el servicio');
+      return; // Detener la ejecución si no hay idServicio
+    }
+  
+    if (this.sesion <= 0) {
+      this.toast.warning('El número de la sesión debe ser un número mayor que 0');
+      return; // Detener la ejecución si la sesión no es válida
+    }
+  
+    // Lógica para ajustar las horas si están fuera del rango permitido
+    const horaMinima = '08:00'; // 8:00 AM
+    const horaMaxima = 19; // 7 PM (19:00)
+    const horaFija = '18:15'; // 6:15 PM
+  
+    let horaInicio = this.datoProgramacion.horaIni;
+    let horaFin = this.datoProgramacion.horaFin;
+  
+    const [horaInicioH, horaInicioM] = horaInicio.split(':').map(Number);
+    const [horaFinH, horaFinM] = horaFin.split(':').map(Number);
+  
+    // Ajustar hora de inicio si es antes de 8:00 AM
+    if (horaInicioH < 8 || (horaInicioH === 8 && horaInicioM < 0)) {
+      horaInicio = horaMinima;
+    }
+  
+    // Ajustar hora de inicio si supera el límite de las 7 PM
+    if (horaInicioH >= horaMaxima) {
+      horaInicio = horaFija;
+    }
+  
+    // Ajustar hora de fin si supera el límite de las 7 PM
+    if (horaFinH >= horaMaxima) {
+      const [horaFijaH, horaFijaM] = horaFija.split(':').map(Number);
+      const fechaHoraFin = new Date(fecha);
+      fechaHoraFin.setHours(horaFijaH, horaFijaM + 45);
+      horaFin = `${fechaHoraFin.getHours().toString().padStart(2, '0')}:${fechaHoraFin.getMinutes().toString().padStart(2, '0')}`;
+    }
+  
+    // Preparar el objeto de datos para enviar al servicio
     const data = {
-      fecha: fechaFormateada, 
-      horaInicio: this.datoProgramacion.horaIni,
-      horaFin: this.datoProgramacion.horaFin,
-      idServicio: this.idServicio, 
-      idunidadOperativa: (JSON.parse(localStorage.getItem('UnidElegida')!)).idUnidOperativa,
-      idUsuario: (JSON.parse(localStorage.getItem('camUser')!)).idUsuario,
-      sesion: this.sesion, 
+      fecha: fechaFormateada,
+      horaInicio: horaInicio,
+      horaFin: horaFin,
+      idServicio: this.idServicio,
+      idunidadOperativa: JSON.parse(localStorage.getItem('UnidElegida')!).idUnidOperativa,
+      idUsuario: JSON.parse(localStorage.getItem('camUser')!).idUsuario,
+      sesion: this.sesion,
       nroCifra: this.cifra,
       modalidad: this.modalidad,
-      presupuesto: this.presupuesto 
+      presupuesto: this.presupuesto
     };
-    
+  
+    // Llamada al servicio para actualizar la clase
     this.contratosAdministracionService.actualizarClase(this.datoProgramacion.idAsisRapido, data).subscribe(
       (response) => {
-        if(response.code == 0){
-          this.toast.success("Los datos han sido actualizados");
-          this.router.navigate(['/app/control/asistencia-rapida/asistencias/'+response.data.idAsisRapid])
-        }
-        else{
+        if (response.code == 0) {
+          this.toast.success('Los datos han sido actualizados');
+          this.router.navigate(['/app/control/asistencia-rapida/asistencias/' + response.data.idAsisRapid]);
+        } else {
           this.toast.warning(response.message);
         }
       },
@@ -427,4 +459,6 @@ export class EditarCabeceraAsistenciaRapidaComponent {
       }
     );
   }
+  
+  
 }
