@@ -100,6 +100,11 @@ export class ContratosAdministracionService {
     return this._httpClient.delete<any>(url);
   }
 
+  activateEditContratoNacional(id: number){
+    const url = `${URL_BASE}/editar/rol-cordinador-nacional?id-contrato=${id}&id-usuario=${(JSON.parse(localStorage.getItem('camUser')!)).idUsuario}`;
+    return this._httpClient.post<any>(url, null);
+  }
+
   deleteContratoNacional(id: number){
     const url = `${URL_BASE}/eliminar/rol-cordinador-nacional/${id}/usuario/${(JSON.parse(localStorage.getItem('camUser')!)).idUsuario}`;
     return this._httpClient.delete<any>(url);

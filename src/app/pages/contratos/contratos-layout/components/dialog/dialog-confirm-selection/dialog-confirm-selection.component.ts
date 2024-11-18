@@ -75,6 +75,20 @@ export class DialogConfirmSelectionComponent {
         }
       })
     }
+    else if (this.data.type == 2) {
+      let metodo = this.contratoService.activateEditContratoNacional(this.data.dataRequired);
+      metodo.subscribe((data)=>{
+        if (data.code == 0) {
+          this.status = 'success';
+          this._dialogRef.close(1);
+          this.notificationService.success('Se cambió el estado del registro');  
+        }
+        else {
+          this.status = 'failed';
+          this.notificationService.warning(data.message);  
+        }
+      })
+    }
   }
 
 }

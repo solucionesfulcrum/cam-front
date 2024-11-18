@@ -27,7 +27,7 @@ import { DataLoadingComponent } from '@shared/components/data-loading/data-loadi
     ContratosResumenAsignacionComponent,
     DialogNewContratoComponent,
     DialogConfirmSelectionComponent,
-    ContratosRedListadoComponent,
+    ContratosRedListadoComponent
   ],
   imports: [
     CommonModule,

@@ -197,4 +197,32 @@ export class ContratosListadoComponent {
       }
     });
   }
+
+  editItem(dataContrato: any){
+    if(this.rol != "ADMIN" && dataContrato.estado == "CONFIRMADO"){
+      this.notificationService.warning('La Orden de Compra '+ dataContrato.numOc + ' ha sido confirmada. No puede editarse')
+      return;
+    }
+
+    if(dataContrato.estado != "CONFIRMADO"){
+      this.router.navigate(['/app/'+ this.appRoute.CONTRATOS + '/' + this.appRoute.CONTRATOS_ASIGNAR_SERVICIOS + '/' + dataContrato.numOc])
+      return;
+    }
+
+    const dialogRef = this.dialog.open(DialogConfirmSelectionComponent,{
+      data:{
+        title: '¿Quiere habilitar la edición del contrato?',
+        message: `Se cambiará el estado a registrado de la Orden de Compra ${dataContrato.numOc}`,
+        type: 2,
+        dataRequired: dataContrato.idContrato,
+        estado: dataContrato.estado,
+      }
+    })
+
+    dialogRef.closed.subscribe(result => {
+      if (result == 1) {
+        this.router.navigate(['/app/'+ this.appRoute.CONTRATOS + '/' + this.appRoute.CONTRATOS_ASIGNAR_SERVICIOS + '/' + dataContrato.numOc])
+      }
+    });
+  }
 }
