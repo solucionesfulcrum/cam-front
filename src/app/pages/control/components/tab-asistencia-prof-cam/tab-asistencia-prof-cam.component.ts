@@ -295,7 +295,7 @@ export class TabAsistenciaProfCamComponent {
         if (!data.data[0].acreditacion) {
           this.notificacionService.warning(data.message);
         }
-        if(data.data[0].acreditacion){
+        if(data.data[0].acreditacion || true){
           let unidadOperativa : string = (JSON.parse(localStorage.getItem('UnidElegida')!)).idUnidOperativa;
           let selectedProgramacion : string = String(localStorage.getItem('idProgramElegida'));
           this.controlProgramacionService.registrarInscripcion({
@@ -344,7 +344,10 @@ export class TabAsistenciaProfCamComponent {
     }
     this.esperaBusqueda = true;
     this.controlService.getSiEsApto(payload).subscribe((data)=>{
-      if (data.code == 0) {
+      if (data.code == 0 || true) {
+        if(data.code == 2){
+          this.notificacionService.warning(data.message);
+        }
         ////console.log(data.data);
         const dialogRef = this.dialog.open(DialogConfirmDataAsistenciaComponent,{
           minWidth:'850px',
@@ -574,26 +577,31 @@ export class TabAsistenciaProfCamComponent {
         let unidadOperativa : string = (JSON.parse(localStorage.getItem('UnidElegida')!)).idUnidOperativa;
         let selectedProgramacion : string = String(localStorage.getItem('idProgramElegida'));
         
-        if(data.data[0].acreditacion)
-        this.controlProgramacionService.registrarInscripcion({
-          idFichaAdmision: data.data[0].idFichaAsegurado,
-          idUnidadOperativa: unidadOperativa,
-          idProgramacionDet: selectedProgramacion,
-          acreditado: data.data[0].acreditacion,
-          idUsuarioReg: (JSON.parse(localStorage.getItem('camUser')!)).idUsuario,
-          conConexion: conexion
-        }).subscribe(data => {
-          if(data.code == "0"){
-            if(this.ctrlTypeSearch.value == 3){
-              this.formBuscarPersona.get('frmDoc')?.setValue("");
-              this.formBuscarPersona.get('frmDoc')?.setValue("");
+        if(data.data[0].acreditacion || true){
+          if(data.code == 2){
+            this.notificacionService.warning(data.message);
+          }
+          this.controlProgramacionService.registrarInscripcion({
+            idFichaAdmision: data.data[0].idFichaAsegurado,
+            idUnidadOperativa: unidadOperativa,
+            idProgramacionDet: selectedProgramacion,
+            acreditado: data.data[0].acreditacion,
+            idUsuarioReg: (JSON.parse(localStorage.getItem('camUser')!)).idUsuario,
+            conConexion: conexion
+          }).subscribe(data => {
+            if(data.code == "0"){
+              if(this.ctrlTypeSearch.value == 3){
+                this.formBuscarPersona.get('frmDoc')?.setValue("");
+                this.formBuscarPersona.get('frmDoc')?.setValue("");
+              }
+              this.getListTablaAsegurados();
             }
-            this.getListTablaAsegurados();
-          }
-          else{
-            this.toast.warning(data.message);
-          }
-        })
+            else{
+              this.toast.warning(data.message);
+            }
+          })
+        }
+       
       }
       else{
         this.notificacionService.warning(data.message);

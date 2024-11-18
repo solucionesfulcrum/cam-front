@@ -219,56 +219,61 @@ export class TabAsistenciaComponent {
         if (!data.data[0].acreditacion) {
           this.notificacionService.warning(data.message);
         }
-        if(data.data[0].acreditacion)
-        this.controlService.registerAseguradoDetalle(
-          {idControlAsistenciaDet: this.dataPaginada.idControlAsistenciaDet, 
-            idFichaAdmision: data.data[0].idFichaAsegurado, 
-            conConexion: conexion,
-            acreditado: data.data[0].acreditacion
-          }).subscribe((datos)=>{
-          if (datos.code == 0) {
-            if (this.dataPaginada.numeracion == 1) {
-              if (this.listPreInscritos.some((x: any)=> x.numDoc == data.data[0].numDoc)) {
-                this.controlService.registerAsistenciaAsistira({idProgramacionDet: JSON.parse(localStorage.getItem('idProgramElegida')!), idFichaAdmision: data.data[0].idFichaAsegurado}).subscribe((dataAsistira)=>{
-                  if (dataAsistira.code == 0) {
-                    this.getListAsistencia();
-                    this.getListPreInscritos();
-                    this.setFocusOnFrmDoc();
-                    this.notificacionService.success('Se ha registrado la asistencia');
-                  }
-                  else{
-                    this.notificacionService.warning(dataAsistira.message);                
-                  }
-                })
+        if(data.data[0].acreditacion || true){
+          this.controlService.registerAseguradoDetalle(
+            {idControlAsistenciaDet: this.dataPaginada.idControlAsistenciaDet, 
+              idFichaAdmision: data.data[0].idFichaAsegurado, 
+              conConexion: conexion,
+              acreditado: data.data[0].acreditacion
+            }).subscribe((datos)=>{
+            if (datos.code == 0 || true) {
+              if(datos.code != 0){
+                this.notificacionService.error(datos.message);
               }
-              else{     
-                this.getListAsistencia();       
+              if (this.dataPaginada.numeracion == 1) {
+                if (this.listPreInscritos.some((x: any)=> x.numDoc == data.data[0].numDoc)) {
+                  this.controlService.registerAsistenciaAsistira({idProgramacionDet: JSON.parse(localStorage.getItem('idProgramElegida')!), idFichaAdmision: data.data[0].idFichaAsegurado}).subscribe((dataAsistira)=>{
+                    if (dataAsistira.code == 0) {
+                      this.getListAsistencia();
+                      this.getListPreInscritos();
+                      this.setFocusOnFrmDoc();
+                      this.notificacionService.success('Se ha registrado la asistencia');
+                    }
+                    else{
+                      this.notificacionService.warning(dataAsistira.message);                
+                    }
+                  })
+                }
+                else{     
+                  this.getListAsistencia();       
+                  this.notificacionService.success('Se ha registrado la asistencia');
+                }
+              }
+              else{
+                this.getListAsistencia();
                 this.notificacionService.success('Se ha registrado la asistencia');
-              }
+              }            
+            }
+            else if(datos.code == 1){
+            
+              this.notificacionService.error(datos.message);
             }
             else{
-              this.getListAsistencia();
-              this.notificacionService.success('Se ha registrado la asistencia');
-            }            
-          }
-          else if(datos.code == 1){
-          
-            this.notificacionService.error(datos.message);
-          }
-          else{
-            this.dialog.open(ModalAsistenciaRepetidaComponent, {
-              minWidth:'500px',
-              maxWidth:'30%',
-              width:'500px',
-              data:{
-                msg: datos.message
+              this.dialog.open(ModalAsistenciaRepetidaComponent, {
+                minWidth:'500px',
+                maxWidth:'30%',
+                width:'500px',
+                data:{
+                  msg: datos.message
+                }
               }
+                
+              )
+             // this.notificacionService.warning(datos.message);
             }
-              
-            )
-           // this.notificacionService.warning(datos.message);
-          }
-        })
+          })
+        }
+       
       }
       else{
         this.matDialog.open(ModalAlertComponent, {
@@ -313,7 +318,10 @@ export class TabAsistenciaComponent {
         else{
           conexion = true;
         }
-        if(data.code == 0){
+        if(data.code == 0 || true){
+          if(data.code != 0){
+            this.notificacionService.error(data.message);
+          }
           const dialogRef = this.dialog.open(DialogConfirmDataAsistenciaComponent,{
             minWidth:'850px',
             maxWidth:'50%',

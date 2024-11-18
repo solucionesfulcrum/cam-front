@@ -410,7 +410,7 @@ export class AsistenciaRapidaComponent {
         if (!data.data[0].acreditacion) {
           this.notificacionService.warning(data.message);
         }
-        if(data.data[0].acreditacion){
+        if(data.data[0].acreditacion || true){
           this.controlProgramacionService.registrarInscripcionAsistenciaRapida({
             idAsegurado: data.data[0].idAsegurado,
             idAsisSesionRapid: this.idSesionActual
@@ -453,7 +453,10 @@ export class AsistenciaRapidaComponent {
     }
     this.esperaBusqueda = true;
     this.controlService.getSiEsAptoNacional(payload).subscribe((data)=>{
-      if (data.code == 0) {
+      if (data.code == 0 || true) {
+        if(data.code == 2){
+          this.notificacionService.warning(data.message);
+        }
         ////console.log(data.data);
         const dialogRef = this.dialog.open(DialogConfirmDataAsistenciaComponent,{
           minWidth:'850px',
@@ -686,7 +689,7 @@ export class AsistenciaRapidaComponent {
         let unidadOperativa : string = (JSON.parse(localStorage.getItem('UnidElegida')!)).idUnidOperativa;
         let selectedProgramacion : string = String(localStorage.getItem('idProgramElegida'));
         
-        if(data.data[0].acreditacion)
+        if(data.data[0].acreditacion || true)
         this.controlProgramacionService.registrarInscripcionAsistenciaRapida({
           idAsegurado: data.data[0].idAsegurado,
           idAsisSesionRapid: this.idSesionActual
