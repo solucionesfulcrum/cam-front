@@ -34,7 +34,7 @@ export class DialogConfirmSelectionComponent {
     this.status = 'loading';
     if (this.data.type == 0) {
       let metodo;
-      if(this.data.estado == 'CONFIRMADO'){
+      if(this.data.estado == 'CONFIRMADO' || true){
         metodo = this.contratoService.deleteContratoNacional(this.data.dataRequired)
       }
       
