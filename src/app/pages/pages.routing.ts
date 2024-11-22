@@ -163,6 +163,13 @@ export const pagesAdminRoutes: Route[] = [
           import('./reportes-generados/reportes-generados.module').then((m) => m.ReportesGeneradosModule),
       },
       {
+        path: AppRoute.GESTION_SERVICIOS,
+        canActivate:[AuthGuard],
+        title:'Cartera de servicios',
+        loadChildren: () =>
+          import('./gestion-servicios/gestion-servicios.module').then((m) => m.GestionServiciosModule),
+      },
+      {
         path: '',
         canActivate:[AuthGuard],
         title:'Administración de usuario',
