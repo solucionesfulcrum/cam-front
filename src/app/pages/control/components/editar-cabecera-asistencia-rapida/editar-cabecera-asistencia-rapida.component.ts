@@ -176,6 +176,16 @@ export class EditarCabeceraAsistenciaRapidaComponent {
   }
 
   ngOnInit(){
+    this.datosService.getFechaServidor().subscribe(data => {
+      if(data.code == 0){
+        let fecha = data.data.fechaHoraActual
+        this.setVariables(fecha);
+      }
+    })
+  }
+
+
+  setVariables(fechaSistema: string){
 
     if((JSON.parse(localStorage.getItem('UnidElegida')!)).rol === 'TALLERISTA'){
       this.idRol = 7;
@@ -188,7 +198,7 @@ export class EditarCabeceraAsistenciaRapidaComponent {
     }
 
 
-    const today = new Date();
+    const today = new Date(fechaSistema);
     this.currentYear = today.getFullYear();
     this.selectedMonth = today.getMonth() + 1; // Mes actual (0 indexado, por eso sumamos 1)
     this.currentMonth = today.getMonth() + 1; // Mes actual (0 indexado, por eso sumamos 1)
@@ -433,8 +443,8 @@ export class EditarCabeceraAsistenciaRapidaComponent {
     // Preparar el objeto de datos para enviar al servicio
     const data = {
       fecha: fechaFormateada,
-      horaInicio: horaInicio,
-      horaFin: horaFin,
+      horaInicio: "00:00", //horaInicio 2024-11-25 00:00
+      horaFin: "00:00", //horaFin
       idServicio: this.idServicio,
       idunidadOperativa: JSON.parse(localStorage.getItem('UnidElegida')!).idUnidOperativa,
       idUsuario: JSON.parse(localStorage.getItem('camUser')!).idUsuario,

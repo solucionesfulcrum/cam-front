@@ -293,7 +293,7 @@ export class AsistenciaRapidaComponent {
         let horas = Math.floor(seconds/(60*60));
 
         let totalMinutes = Math.floor(seconds / 60); // Convertir segundos a minutos
-        let intervals = Math.floor(totalMinutes / 45); // Dividir minutos entre 45 para obtener los intervalos
+        let intervals = 1 //Math.floor(totalMinutes / 45); // Dividir minutos entre 45 para obtener los intervalos
 
         let minutos = Math.floor(seconds/60) - horas*60;
         this.datoProgramacion.margenHorario = horas + 'h ' +  minutos + ' m';
@@ -393,12 +393,20 @@ export class AsistenciaRapidaComponent {
 
    // Busqueda y Tipeo de Asegurado --------------------------------------------------------------
    onAseguradoSelect(event: any){
-    let payload: RequestBuscarAptoNacional = {
+    let codUo;
+    if((JSON.parse(localStorage.getItem('UnidElegida')!)).tipo == 'CIRAM'){
+      codUo = (JSON.parse(localStorage.getItem('UnidElegida')!)).unidOperativaCam
+    }
+    else{
+      codUo = (JSON.parse(localStorage.getItem('UnidElegida')!)).idUnidOperativa;
+    }
+    let payload: RequestBuscarApto = {
+      idUnidadOperativa: codUo,
       tipDoc: event.option.value.tipoDoc === 'DNI' ? '1' : '4',
       numDoc: event.option.value.numDoc,
       fechaNacimiento: event.option.value.tipoDoc != 'DNI' ? event.option.value.fechNac : null,
     }
-    this.controlService.getSiEsAptoNacional(payload).subscribe((data)=>{
+    this.controlService.getSiEsApto(payload).subscribe((data)=>{
       if ((data.code == 0 || data.code == 2) && data.data) {
         let conexion: boolean;
         if (data.code == 2) {
@@ -445,14 +453,22 @@ export class AsistenciaRapidaComponent {
     return selectedoption ? selectedoption.nombreCompleto : undefined;
   }
 
-  searchSiApto(tipoDoc: string, numDoc: string){
-    //NO SE MODIFICA, ESTO ES SOLO EN LA INSCRIPCIÓN DE CAM
-    let payload: RequestBuscarAptoNacional = {
+  searchSiApto(tipoDoc: string, numDoc: string, fechaNacimiento: string){
+    let codUo;
+    if((JSON.parse(localStorage.getItem('UnidElegida')!)).tipo == 'CIRAM'){
+      codUo = (JSON.parse(localStorage.getItem('UnidElegida')!)).unidOperativaCam
+    }
+    else{
+      codUo = (JSON.parse(localStorage.getItem('UnidElegida')!)).idUnidOperativa;
+    }
+    let payload: RequestBuscarApto = {
+      idUnidadOperativa: codUo,
       tipDoc: tipoDoc,
-      numDoc: numDoc
+      numDoc: numDoc,
+      fechaNacimiento: tipoDoc != "1" ? fechaNacimiento : null
     }
     this.esperaBusqueda = true;
-    this.controlService.getSiEsAptoNacional(payload).subscribe((data)=>{
+    this.controlService.getSiEsApto(payload).subscribe((data)=>{
       if (data.code == 0 || true) {
         if(data.code == 2){
           this.notificacionService.warning(data.message);
@@ -662,18 +678,27 @@ export class AsistenciaRapidaComponent {
   }
 
   onAseguradoSelectCodigoBarra(event: any) : void{
+    let codUo;
+    if((JSON.parse(localStorage.getItem('UnidElegida')!)).tipo == 'CIRAM'){
+      codUo = (JSON.parse(localStorage.getItem('UnidElegida')!)).unidOperativaCam
+    }
+    else{
+      codUo = (JSON.parse(localStorage.getItem('UnidElegida')!)).idUnidOperativa;
+    }
    
     if(!this.formBuscarPersona.get("frmDoc")?.valid){
       return ;
     }
-    let payload: RequestBuscarAptoNacional = {
+    let payload: RequestBuscarApto = {
+      idUnidadOperativa: codUo,
       tipDoc:  String(this.formBuscarPersona.get("frmSelectDoc")?.value),
       numDoc: String(this.formBuscarPersona.get("frmDoc")?.value),
       fechaNacimiento: String(this.formBuscarPersona.get("frmSelectDoc")?.value) != "1" ? this.formBuscarPersona.get("fechaNac")!.value : null
     }
+
     this.statusLoadingBarra = true;
     this.formBuscarPersona.get("frmDoc")?.setValue('');
-    this.controlService.getSiEsAptoNacional(payload).subscribe((data)=>{
+    this.controlService.getSiEsApto(payload).subscribe((data)=>{
       if ((data.code == 0 || data.code == 2) && (data.data && data.data.length > 0)) {
         let conexion: boolean;
         if (data.code == 2) {
