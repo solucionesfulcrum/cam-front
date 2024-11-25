@@ -42,7 +42,7 @@ export class ListaServiciosComponent implements OnInit {
   seleccionados: number[] = [];
 
   columns: string[] = [
-    'marcar',
+    'idServicio',
     'nombreServicio',
     'subPrograma',
     'programa',
@@ -195,6 +195,14 @@ export class ListaServiciosComponent implements OnInit {
     }
   }
 
+  editableContrato(item: ServicioListadoItem) : boolean {
+    return item.contContrato + item.contProgramacion == 0;
+  }
+
+  editableAsisRap(item: ServicioListadoItem) : boolean {
+    return item.contAsisRap == 0;
+  }
+
   onToggleActivo(event: Event, idServicio: number): void {
     const inputElement = event.target as HTMLInputElement; // Aseguramos el tipo
     const isChecked = inputElement.checked; // Obtenemos el estado del toggle
@@ -216,7 +224,6 @@ export class ListaServiciosComponent implements OnInit {
     const inputElement = event.target as HTMLInputElement; // Aseguramos el tipo
     const isChecked = inputElement.checked; // Obtenemos el estado del toggle
     const newValue = isChecked ? 1 : 0;
-  
     // Realizar la llamada al servicio para actualizar el estado
     /*this.carteraDeServiciosService.updateActivoAsistenciaRap(idServicio, newValue).subscribe({
       next: () => {
@@ -227,6 +234,34 @@ export class ListaServiciosComponent implements OnInit {
         this.notificationService.error('Error al actualizar el estado de asistencia rápida.');
       }
     });*/
+  }
+
+  ejecutarAccionSeleccionados(): void {
+    // Filtrar los elementos seleccionados
+    const seleccionados = this.dataSource.filter(item => item.marcar);
+  
+    if (seleccionados.length === 0) {
+      this.notificationService.error('No hay elementos seleccionados.');
+      return;
+    }
+  
+    // Realizar la acción deseada sobre los seleccionados
+    seleccionados.forEach(item => {
+      console.log(`Acción realizada sobre el servicio con ID: ${item.idServicio}`);
+      // Aquí puedes llamar a un servicio, actualizar valores, etc.
+      // Ejemplo:
+      // this.carteraDeServiciosService.realizarAccion(item.idServicio).subscribe({...});
+    });
+  
+    this.notificationService.success(`${seleccionados.length} elementos procesados correctamente.`);
+  }
+
+  todosSonEditablesContrato(): boolean {
+    return this.dataSource.every(item => this.editableContrato(item));
+  }
+  
+  todosSonEditablesAsistenciaRapida(): boolean {
+    return this.dataSource.every(item => this.editableAsisRap(item));
   }
   
   

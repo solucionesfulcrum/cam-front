@@ -35,4 +35,5 @@ export interface ServicioListadoItem {
     contContrato: number;
     contProgramacion: number;
     contAsisRap: number;
+    marcar?: boolean;
   }

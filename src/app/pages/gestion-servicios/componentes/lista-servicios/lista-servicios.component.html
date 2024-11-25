@@ -46,10 +46,17 @@
 
       <ng-container cdkColumnDef="marcar">
         <th cdk-header-cell class="py-[1.25rem] px-6" [style]="'width: 0%;'" *cdkHeaderCellDef>
-          <input type="checkbox" [checked]="seleccionados.length == dataSource.length" (change)="afectarTodo($event)" />
+         <!-- <input type="checkbox" [checked]="seleccionados.length == dataSource.length" (change)="afectarTodo($event)" />-->
         </th>
         <td cdk-cell class="py-[1rem] px-6" [style]="'width: 0%;'" *cdkCellDef="let row">
-          <input type="checkbox" class="checkbox-select" (change)="seleccionarFila($event)" [value]="row.idServicio" [checked]="row.marcar" />
+         <!--<input type="checkbox" class="checkbox-select" *ngIf="editableContrato(row) || editableAsisRap(row)" (change)="seleccionarFila($event)" [value]="row.idServicio" [checked]="row.marcar" />-->
+        </td>
+      </ng-container>
+
+      <ng-container cdkColumnDef="idServicio">
+        <th cdk-header-cell class="py-[1rem] px-6" *cdkHeaderCellDef>ID</th>
+        <td cdk-cell class="py-[1rem] px-6" *cdkCellDef="let row">
+          {{ row.idServicio }}
         </td>
       </ng-container>
 
@@ -80,10 +87,15 @@
       <ng-container cdkColumnDef="activo">
         <th cdk-header-cell class="py-[1rem] px-6" *cdkHeaderCellDef>Activo Contratos</th>
         <td cdk-cell class="py-[1rem] px-6 text-center" *cdkCellDef="let row">
-          <label class="switch">
+          <label class="switch"
+          [class.active]="row.activo === 1 && editableContrato(row)"
+          [class.inactive]="row.activo !== 1 && editableContrato(row)"
+          [class.active-disabled]="row.activo === 1 && !editableContrato(row)"
+          [class.inactive-disabled]="row.activo !== 1 && !editableContrato(row)">
             <input
               type="checkbox"
               [checked]="row.activo === 1"
+              [disabled]="!editableContrato(row)"
               (change)="onToggleActivo($event, row.idServicio)"
             />
             <span class="slider round"></span>
@@ -94,10 +106,15 @@
       <ng-container cdkColumnDef="activoAsistenciaRap">
         <th cdk-header-cell class="py-[1rem] px-6" *cdkHeaderCellDef>Activo Asistencia Rápida</th>
         <td cdk-cell class="py-[1rem] px-6 text-center" *cdkCellDef="let row">
-          <label class="switch">
+          <label class="switch" 
+          [class.active]="row.activo === 1 && editableAsisRap(row)"
+          [class.inactive]="row.activo !== 1 && editableAsisRap(row)"
+          [class.active-disabled]="row.activo === 1 && !editableAsisRap(row)"
+          [class.inactive-disabled]="row.activo !== 1 && !editableAsisRap(row)">
             <input
               type="checkbox"
               [checked]="row.activoAsistenciaRap === 1"
+              [disabled]="!editableAsisRap(row)"
               (change)="onToggleActivoAsistenciaRap($event, row.idServicio)"
             />
             <span class="slider round"></span>
