@@ -8,7 +8,7 @@ import { Parametro } from '@models/parametros-busqueda.model';
 import { RequestStatus } from '@models/request-status.model';
 import { NotificationService } from '@services/notification.service';
 import { ToastrService } from 'ngx-toastr';
-import { debounceTime, switchMap, of } from 'rxjs';
+import { debounceTime, switchMap, of, forkJoin } from 'rxjs';
 import { ContratosAdministracionService } from 'src/app/data/services/contratos/contratos-administracion.service';
 import { ControlProgramacionService } from 'src/app/data/services/control/control-programacion.service';
 import { DatosGeneralesService } from 'src/app/data/services/datos-generales.service';
@@ -85,6 +85,7 @@ export class EditarCabeceraAsistenciaRapidaComponent {
   comienzoSesiones = 1;
   datoProgramacion: any;
 
+  idCiram?: number | null;
   listBusqueda: any[] = [];
   listFilteredBusqueda: any[] = [];
 
@@ -126,6 +127,8 @@ export class EditarCabeceraAsistenciaRapidaComponent {
     'horaAsistencia',
     'birthday'
   ];
+
+  fechaServidor : string = "";
 
   loadingPaginacion : boolean = false;
 
@@ -182,23 +185,30 @@ export class EditarCabeceraAsistenciaRapidaComponent {
 
   }
 
-  setListCirams(){
-    this.esperaBusquedaCiram = true;
-    this.authService.getListarCiram(parseInt(this.unid.idUnidOperativa)).subscribe((data) => {
-      ////console.log("dataciram",data)
-      this.esperaBusquedaCiram = false;
-      this.listCiram = data.data
-    })
-  }
-
-
-  ngOnInit(){
-    this.datosService.getFechaServidor().subscribe(data => {
-      if(data.code == 0){
-        let fecha = data.data.fechaHoraActual
-        this.setVariables(fecha);
+  ngOnInit() {
+    // Cargar datos iniciales y luego ejecutar getDataCabecera
+    forkJoin({
+      fechaServidor: this.datosService.getFechaServidor(),
+      listarCiram: this.authService.getListarCiram(parseInt(this.unid.idUnidOperativa))
+    }).subscribe({
+      next: ({ fechaServidor, listarCiram }) => {
+        // Procesar la fecha del servidor
+        if (fechaServidor.code === 0) {
+          this.fechaServidor = fechaServidor.data.fechaHoraActual;
+        }
+  
+        // Manejar la lista de CIRAMs
+        this.esperaBusquedaCiram = false;
+        this.listCiram = listarCiram.data || [];
+  
+        // Llamar a getDataCabecera después de completar las tareas iniciales
+        this.setVariables(this.fechaServidor);
+      },
+      error: (err) => {
+        console.error('Error en las solicitudes iniciales:', err);
+        this.esperaBusquedaCiram = false;
       }
-    })
+    });
   }
 
 
@@ -213,8 +223,6 @@ export class EditarCabeceraAsistenciaRapidaComponent {
       this.idRol = 9;
       this.descCifra = "Nro de Actividad";
     }
-
-    this.setListCirams();
 
     const today = new Date(fechaSistema);
     this.currentYear = today.getFullYear();
@@ -263,41 +271,62 @@ export class EditarCabeceraAsistenciaRapidaComponent {
 
   }
 
-  getDataCabecera(){
-    this.controlService.getCabeceraClaseRapida(this.idAsisRap).subscribe((data)=>{
-      this.statusLoadingData = false;
-      if (data.code == 0) {
-        this.datoProgramacion = data.data;
-
-        const fecha = new Date(this.datoProgramacion.fecha);
-        this.selectedDay = fecha.getUTCDate();
-        this.selectedMonth = fecha.getUTCMonth() + 1;
-        this.horaInicioControl.setValue(this.formatHour(this.datoProgramacion.horaIni));
-
-        this.generarOpcionesHoraFin(this.formatHour(this.datoProgramacion.horaIni));
-        this.horaFin = this.formatHour(this.datoProgramacion.horaFin);
-        this.ctrlSearchServicio.setValue(this.datoProgramacion.nombreServicio)
-        this.sesion=this.datoProgramacion.sesiones
-        this.presupuesto=this.datoProgramacion.presupuesto
-        this.modalidad=this.datoProgramacion.modalidad
-        this.codUoCiram = "";
-        this.cifra = this.datoProgramacion.nroCifra
-
-        if(this.datoProgramacion.idRol == 7){
-          this.descCifra = "Nro de Taller";
+  getDataCabecera() {
+    this.controlService.getCabeceraClaseRapida(this.idAsisRap).subscribe({
+      next: (data) => {
+        this.statusLoadingData = false;
+  
+        if (data.code === 0) {
+          // Asignar datos de programación
+          this.datoProgramacion = data.data;
+  
+          // Procesar fecha y horario
+          const fecha = new Date(this.datoProgramacion.fecha);
+          this.selectedDay = fecha.getUTCDate();
+          this.selectedMonth = fecha.getUTCMonth() + 1;
+          this.horaInicioControl.setValue(this.formatHour(this.datoProgramacion.horaIni));
+  
+          this.generarOpcionesHoraFin(this.formatHour(this.datoProgramacion.horaIni));
+          this.horaFin = this.formatHour(this.datoProgramacion.horaFin);
+  
+          // Configurar valores de búsqueda
+          this.ctrlSearchServicio.setValue(this.datoProgramacion.nombreServicio);
+          this.sesion = this.datoProgramacion.sesiones;
+          this.presupuesto = this.datoProgramacion.presupuesto;
+          this.modalidad = this.datoProgramacion.modalidad;
+          this.codUoCiram = '';
+          this.cifra = this.datoProgramacion.nroCifra;
+  
+          // Preselección de CIRAM
+          if (this.datoProgramacion.esCiram) {
+            this.idCiram = this.datoProgramacion.idUnidadOperativa;
+  
+            // Buscar el CIRAM correspondiente en la lista y asignarlo
+            const ciramPreseleccionado = this.listCiram.find(
+              (ciram: any) => ciram.idUnidadOperativa === this.idCiram
+            );
+            if (ciramPreseleccionado) {
+              this.ctrlSearchCiram.setValue(ciramPreseleccionado);
+            } else {
+              this.ctrlSearchCiram.setValue(String(this.idCiram)); // Fallback
+            }
+          }
+  
+          // Configurar descripción basada en el rol
+          if (this.datoProgramacion.idRol === 7) {
+            this.descCifra = 'Nro de Taller';
+          } else if (this.datoProgramacion.idRol === 9) {
+            this.descCifra = 'Nro de Actividad';
+          }
+        } else {
+          this.notificacionService.warning(data.message);
         }
-
-        if(this.datoProgramacion.idRol == 9){
-          this.descCifra = "Nro de Actividad";
-        }
-
-
-        ////console.log(Math.floor(seconds/(60*60)) + 'h ' +  Math.floor(seconds/60) + ' m')
+      },
+      error: (err) => {
+        console.error('Error al cargar la cabecera:', err);
+        this.statusLoadingData = false;
       }
-      else{
-        this.notificacionService.warning(data.message);
-      }
-    })
+    });
   }
 
     // Función para formatear la hora asegurando que las horas menores a 10 tengan un cero inicial
@@ -380,6 +409,17 @@ export class EditarCabeceraAsistenciaRapidaComponent {
     console.log('Servicio seleccionado:', event.option.value);
   }
 
+  onCiramSelected(event: any) {
+    this.idCiram = event.option.value.idUnidadOperativa;
+  }
+
+   // Mostrar nombre en el autocomplete
+   displayCiram(ciram: any): string {
+    return ciram ? ciram.nombre : '';
+  }
+
+  // Limpiar el valor
+
   //SELECCIONAR DIA
   onMonthChange(): void {
     this.updateDaysInMonth();
@@ -459,6 +499,15 @@ export class EditarCabeceraAsistenciaRapidaComponent {
       fechaHoraFin.setHours(horaFijaH, horaFijaM + 45);
       horaFin = `${fechaHoraFin.getHours().toString().padStart(2, '0')}:${fechaHoraFin.getMinutes().toString().padStart(2, '0')}`;
     }
+
+    let idunidadOperativa;
+
+    if(this.idCiram){
+      idunidadOperativa = this.idCiram
+    }
+    else{
+      idunidadOperativa = JSON.parse(localStorage.getItem('UnidElegida')!).idUnidOperativa
+    }
   
     // Preparar el objeto de datos para enviar al servicio
     const data = {
@@ -466,7 +515,7 @@ export class EditarCabeceraAsistenciaRapidaComponent {
       horaInicio: "00:00", //horaInicio 2024-11-25 00:00
       horaFin: "00:00", //horaFin
       idServicio: this.idServicio,
-      idunidadOperativa: JSON.parse(localStorage.getItem('UnidElegida')!).idUnidOperativa,
+      idunidadOperativa: idunidadOperativa,
       idUsuario: JSON.parse(localStorage.getItem('camUser')!).idUsuario,
       sesion: this.sesion,
       nroCifra: this.cifra,
@@ -498,6 +547,7 @@ export class EditarCabeceraAsistenciaRapidaComponent {
 
   clearCiramValue() {
     this.ctrlSearchCiram.setValue('');
+    this.idCiram = null;
   }
   
   

@@ -41,7 +41,7 @@
       </ng-container>
 
       <ng-container cdkColumnDef="descripcion">
-        <th cdk-header-cell class="py-[1rem] px-6" *cdkHeaderCellDef [style]="'padding-left: 0px;'" >Descripcion</th>
+        <th cdk-header-cell class="py-[1rem] px-6" *cdkHeaderCellDef [style]="'padding-left: 0px; width: 15%'" >Descripcion</th>
         <td cdk-cell class="py-[1rem] px-6 text-Name" *cdkCellDef="let row, index as i" [style]="'padding-left: 0px;'">
           <span class=" cursor-pointer" [routerLink]="['./asistencias/'+row.idAsisRapido]">{{ row.descripcion }}</span>
         </td>
@@ -55,6 +55,11 @@
       <ng-container cdkColumnDef="presupuesto">
         <th cdk-header-cell class="py-[1rem] px-6" *cdkHeaderCellDef>Presupuesto</th>
         <td cdk-cell class="py-[1rem] px-6" *cdkCellDef="let row">{{row.presupuesto}}</td>
+      </ng-container>
+
+      <ng-container cdkColumnDef="ciram">
+        <th cdk-header-cell class="py-[1rem] px-6" *cdkHeaderCellDef>Ciram</th>
+        <td cdk-cell class="py-[1rem] px-6 text-Name" *cdkCellDef="let row">{{row.ciram}}</td>
       </ng-container>
 
       <ng-container cdkColumnDef="fecha">
@@ -82,8 +87,8 @@
       </ng-container>
 
       <ng-container cdkColumnDef="nroCifra">
-        <th cdk-header-cell class="py-[1rem] px-6" *cdkHeaderCellDef>Nro Taller/Actividad</th>
-        <td cdk-cell class="py-[1rem] px-6" *cdkCellDef="let row">{{row.nroCifra}}</td>
+        <th cdk-header-cell class="py-[1rem] px-6" style="width: 2%;" *cdkHeaderCellDef>Nro Taller/Actividad</th>
+        <td cdk-cell class="py-[1rem] px-6" style="width: 2%;" *cdkCellDef="let row">{{row.nroCifra}}</td>
       </ng-container>
 
       <ng-container cdkColumnDef="estado">

@@ -55,7 +55,7 @@ export class AsistenciaRapidaComponent {
   selectedOptions: {[key : number] : boolean} = [];
 
   idAsisRap! : number;
-
+  esCiram: boolean = false;
   listBusqueda: any[] = [];
   listFilteredBusqueda: any[] = [];
 
@@ -116,6 +116,7 @@ export class AsistenciaRapidaComponent {
   txtScroll: string = '';
   pageScroll: number = 1;
 
+  nombreCiram: string = "";
   codUoCiram: string = '';
 
   /*
@@ -299,6 +300,10 @@ export class AsistenciaRapidaComponent {
         this.datoProgramacion.margenHorario = horas + 'h ' +  minutos + ' m';
 
         this.intervalos = intervals; // Guardar los intervalos
+
+        this.nombreCiram = this.datoProgramacion.nombreUO;
+        this.esCiram = this.datoProgramacion.esCiram;
+        //esCiram
 
         
         if(this.datoProgramacion.idRol == 7){

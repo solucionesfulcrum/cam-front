@@ -69,6 +69,18 @@ ngOnInit(){
 
   if((JSON.parse(localStorage.getItem('UnidElegida')!)).rol === 'PROFESIONAL CAM'){
     this.idRol = 9;
+
+    this.columns = [
+      'marcar',
+      'descripcion',
+      'modalidad',
+      'presupuesto',
+      'fecha',
+      'sesiones',
+      'nroCifra',
+      'ciram',
+      'estado',
+    ];
   }
 
   this.datosService.getTipoParametros('ESTADO_CONTROL_ASISTENCIA').subscribe((data)=>{

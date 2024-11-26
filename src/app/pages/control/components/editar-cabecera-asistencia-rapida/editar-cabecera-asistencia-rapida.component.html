@@ -64,9 +64,16 @@
                           </mat-option>
                         </mat-autocomplete>
                       </div>
-                      <div class="w-2/5" *ngIf="idRol == 9 && listCiram.length > 0">
+                      <div class="w-2/5" *ngIf="idRol == 9 && listCiram?.length > 0">
                         <label class="block m-0 py-0 text-gray-600 h-[45px]">
-                          Seleccione el CIRAM (Opcional) <mat-icon style="font-size: 15px;" class="text-gray-500 hover:text-blue-500 h-0 py-0 my-0" matTooltip="Al seleccionar un CIRAM, este se configurará como la unidad operativa del taller">help_outline</mat-icon>
+                          Seleccione el CIRAM (Opcional)
+                          <mat-icon
+                            style="font-size: 15px;"
+                            class="text-gray-500 hover:text-blue-500 h-0 py-0 my-0"
+                            matTooltip="Al seleccionar un CIRAM, este se configurará como la unidad operativa del taller"
+                          >
+                            help_outline
+                          </mat-icon>
                         </label>
                         <div class="relative w-full">
                           <div class="relative flex items-center">
@@ -90,12 +97,18 @@
                           </div>
                         </div>
                       
-                        <mat-autocomplete #ciramsRef="matAutocomplete" [displayWith]="displayServicioFiltered" (optionSelected)="onServicioSelect($event)">
+                        <mat-autocomplete
+                          #ciramsRef="matAutocomplete"
+                          [displayWith]="displayCiram"
+                          (optionSelected)="onCiramSelected($event)"
+                        >
                           <mat-option *ngFor="let option of listCiram" [value]="option">
                             {{ option.nombre }}
                           </mat-option>
                         </mat-autocomplete>
                       </div>
+                      
+                      
                         <span class="text-[14px] font-light mt-2" *ngIf="false">
                             <span class="text-[14px] font-light">
                                 Hora Inicio:
