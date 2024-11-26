@@ -3,7 +3,12 @@
     [rutaRegreso]="'..'" >
     </esp-opciones-botones>
   </div>
-<div class="flex flex-col gap-3">
+  
+<esp-data-loading
+[dataLoading]="statusLoadingAll"
+></esp-data-loading>
+
+<div class="flex flex-col gap-3" *ngIf="!statusLoadingAll">
     <div class="flex flex-row gap-3 px-3 botonApariencia bg-white py-1.5">
         <div class="flex flex-col justify-between grow">
             <div class="py-3">
@@ -22,24 +27,74 @@
                               </div>
                         </span>
                     </div>
-                    <div class="flex flex-col gap-[5px] leading-[20px] w-[500px]">
-                        <span class="text-[18px] font-medium"> 
-                            <input type="text" 
-                            class="inputTextoDialog focusCampo" 
-                            [formControl]="ctrlSearchServicio" 
-                            [readonly]="esperaBusqueda" 
-                            [matAutocomplete]="servicios" 
-                            [placeholder]="esperaBusqueda ? 'Cargando data...' : 'Seleccione el servicio'"
-                            [ngClass]="{'bg-gray-100': esperaBusqueda}"
+                    <div class="flex flex-row gap-[5px] leading-[40px] w-[720px]">
+
+                      <div class="w-3/5">
+                        <label class="block m-0 p-0 text-gray-600 h-[50px]">
+                          Seleccione el Servicio
+                        </label>
+                        <div class="relative w-full">
+                          <div class="relative flex items-center">
+                            <input
+                              type="text"
+                              class="inputTextoDialog focusCampo w-full px-3 py-2 border rounded-md focus:ring-2 focus:ring-blue-500 focus:outline-none"
+                              [formControl]="ctrlSearchServicio"
+                              [readonly]="esperaBusqueda"
+                              [matAutocomplete]="servicios"
+                              [placeholder]="esperaBusqueda ? 'Cargando data...' : 'Seleccione el servicio'"
+                              [ngClass]="{'bg-gray-100': esperaBusqueda}"
+                            />
+                            <button
+                              type="button"
+                              *ngIf="ctrlSearchServicio.value"
+                              class="absolute right-3 top-1/2 -translate-y-1/2 text-gray-500 hover:text-red-500 focus:outline-none"
+                              (click)="clearServicioValue()"
+                              style="height: 1.5rem; width: 1.5rem; display: flex; justify-content: center; align-items: center;"
                             >
-                            <mat-autocomplete #servicios="matAutocomplete" 
-                            [displayWith]="displayServicioFiltered" 
-                            (optionSelected)="onServicioSelect($event)">
-                            <mat-option *ngFor="let option of serviciosFiltrados" [value]="option">
-                                {{ option.nombre }}
-                            </mat-option>
-                            </mat-autocomplete>
-                        </span>
+                              <mat-icon>close</mat-icon>
+                            </button>
+                          </div>
+                        </div>
+                      
+                        <mat-autocomplete #servicios="matAutocomplete" [displayWith]="displayServicioFiltered" (optionSelected)="onServicioSelect($event)">
+                          <mat-option *ngFor="let option of serviciosFiltrados" [value]="option">
+                            {{ option.nombre }}
+                          </mat-option>
+                        </mat-autocomplete>
+                      </div>
+                      <div class="w-2/5" *ngIf="idRol == 9 && listCiram.length > 0">
+                        <label class="block m-0 p-0 text-gray-600 h-[50px]">
+                          Seleccione el CIRAM (Opcional) <mat-icon style="font-size: 15px;" class="text-gray-500 hover:text-blue-500 pt-2" matTooltip="Al seleccionar un CIRAM, este se configurará como la unidad operativa del taller">help_outline</mat-icon>
+                        </label>
+                        <div class="relative w-full">
+                          <div class="relative flex items-center">
+                            <input
+                              type="text"
+                              class="inputTextoDialog focusCampo w-full px-3 py-2 border rounded-md focus:ring-2 focus:ring-blue-500 focus:outline-none"
+                              [formControl]="ctrlSearchCiram"
+                              [readonly]="esperaBusquedaCiram"
+                              [placeholder]="esperaBusquedaCiram ? 'Cargando data...' : 'Seleccione el CIRAM'"
+                              [matAutocomplete]="ciramsRef"
+                            />
+                            <button
+                              type="button"
+                              *ngIf="ctrlSearchCiram.value"
+                              class="absolute right-3 top-1/2 -translate-y-1/2 text-gray-500 hover:text-red-500 focus:outline-none"
+                              (click)="clearCiramValue()"
+                              style="height: 1.5rem; width: 1.5rem; display: flex; justify-content: center; align-items: center;"
+                            >
+                              <mat-icon>close</mat-icon>
+                            </button>
+                          </div>
+                        </div>
+                      
+                        <mat-autocomplete #ciramsRef="matAutocomplete" [displayWith]="displayServicioFiltered" (optionSelected)="onCiramSelect($event)">
+                          <mat-option *ngFor="let option of listCiram" [value]="option">
+                            {{ option.nombre }}
+                          </mat-option>
+                        </mat-autocomplete>
+                      </div>
+                      
                         <span class="text-[14px] font-light mt-2" *ngIf="false">
                             <span class="text-[14px] font-light">
                                 Hora Inicio:

@@ -29,6 +29,8 @@ export class AsistenciaRapidaListaComponent {
    /* {texto: 'Descargar Excel', svgDir: 'assets/svg/icon-excel.svg'}*/
   ];
 
+  idRol!: number;
+
   dataSource: any[] = [];
   columns: string[] = [
     'marcar',
@@ -61,6 +63,14 @@ export class AsistenciaRapidaListaComponent {
 ) { }
 
 ngOnInit(){
+  if((JSON.parse(localStorage.getItem('UnidElegida')!)).rol === 'TALLERISTA'){
+    this.idRol = 7;
+  }
+
+  if((JSON.parse(localStorage.getItem('UnidElegida')!)).rol === 'PROFESIONAL CAM'){
+    this.idRol = 9;
+  }
+
   this.datosService.getTipoParametros('ESTADO_CONTROL_ASISTENCIA').subscribe((data)=>{
     if (data.code == 0) {
       this.opciones = data.data.map(filtro => {
@@ -78,7 +88,13 @@ loadData(){
 
   setTimeout(() => {
     this.loadingData = true;
-    let metodo = this.controlServ.getDataAsistenciaRapida(this.getPayloadList());
+    let metodo;
+    if(this.idRol == 7){
+      metodo = this.controlServ.getDataAsistenciaRapida(this.getPayloadList());
+    }
+    else{
+      metodo = this.controlServ.getDataAsistenciaRapidaProfesionalCam(this.getPayloadList());
+    }
     metodo.subscribe((data)=>{
       this.loadingData = false;
       if (data.code == 0) {

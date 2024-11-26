@@ -333,6 +333,11 @@ export class ControlProgramacionService {
     return this._httpClient.post<DtGenericoPaginado<ItemListaAsistenciaRapida[]>>(url,payload);
   }
 
+  getDataAsistenciaRapidaProfesionalCam(payload: AsistenciaRapidaListaPayload){
+    const url = `${environment.API}/control/asistencia-rapida/listar-clases/profesional-cam`; 
+    return this._httpClient.post<DtGenericoPaginado<ItemListaAsistenciaRapida[]>>(url,payload);
+  }
+
   getClaseNacional(model: RequestAdminAsistenciasRap){
     const url = `${URL_BASE}/asistencia-rapida/listar-clases/nacional`;
     return this._httpClient.post<DtGenericoPaginado<ItemListaAsistenciaRapidaNacional[]>>(url,model);

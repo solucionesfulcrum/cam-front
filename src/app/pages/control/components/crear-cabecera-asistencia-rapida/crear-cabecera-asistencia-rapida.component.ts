@@ -20,6 +20,7 @@ import { dataTest } from './dataTest';
 import { ContratosAdministracionService } from 'src/app/data/services/contratos/contratos-administracion.service';
 import { debounceTime, of, switchMap } from 'rxjs';
 import { MatAutocompleteTrigger } from '@angular/material/autocomplete';
+import { AuthService } from '@services/auth.service';
 
 @Component({
   selector: 'esp-crear-cabecera-asistencia-rapida',
@@ -28,13 +29,17 @@ import { MatAutocompleteTrigger } from '@angular/material/autocomplete';
 })
 export class CrearCabeceraAsistenciaRapidaComponent {
 
+  unid = JSON.parse(localStorage.getItem('UnidElegida')!);
+
   servicioControl = new FormControl();
   serviciosFiltrados: any[] = [];
 
   horaInicioControl = new FormControl();
   horaFin: string = '';
   horasFinOptions: { valor: string, texto: string }[] = []; // Añadido
-  idServicio!: number;
+  idServicio!: number | null;
+  
+  listCiram: any = [];
 
   currentYear!: number;
   currentMonth!: number;
@@ -72,6 +77,7 @@ export class CrearCabeceraAsistenciaRapidaComponent {
   opciones: Parametro[] = [];
   ctrlSearch = new FormControl('');
   ctrlSearchServicio = new FormControl('');
+  ctrlSearchCiram = new FormControl('');
   ctrlTypeSearch = new FormControl(1);
   public formNewContrato = this.fb.nonNullable.group({
     frmSelectDoc: new FormControl(''),
@@ -81,11 +87,13 @@ export class CrearCabeceraAsistenciaRapidaComponent {
   comienzoSesiones = 1;
   datoProgramacion: any;
 
+  idCiram?: number | null;
   listBusqueda: any[] = [];
   listFilteredBusqueda: any[] = [];
 
   statusLoadingBarra = false;
-  statusLoadingSave = false;
+  statusLoadingSave = true;
+  statusLoadingAll = true;
 
   @ViewChild('frmDoc') frmDocElement!: ElementRef;
 
@@ -94,7 +102,8 @@ export class CrearCabeceraAsistenciaRapidaComponent {
     frmDoc: ['', [Validators.required, Validators.pattern(/^\d{8}$/)]],
   });
 
-  esperaBusqueda: boolean = false;
+  esperaBusqueda: boolean = true;
+  esperaBusquedaCiram: boolean = false;
 
   dataSourceList = new DataSourceList();
 
@@ -135,6 +144,7 @@ export class CrearCabeceraAsistenciaRapidaComponent {
               private fb                                : FormBuilder,
               private router                            : Router,
               private datosService                      : DatosGeneralesService,
+              private authService:AuthService,
               private controlService                    : ControlProgramacionService,
               @Inject(LOCALE_ID) private locale         : string,
               private notificacionService               : NotificationService,
@@ -182,6 +192,7 @@ export class CrearCabeceraAsistenciaRapidaComponent {
       }
     })
 
+    this.setListCirams();
 
     const today = new Date(fechaSistema);
     this.currentYear = today.getFullYear();
@@ -265,9 +276,20 @@ export class CrearCabeceraAsistenciaRapidaComponent {
     });
 
     setTimeout(() =>{
-      this.ctrlSearchServicio.setValue('a');
+      this.ctrlSearchServicio.setValue('');
     })
 
+    this.statusLoadingSave = false;
+    this.statusLoadingAll = false;
+  }
+
+  setListCirams(){
+    this.esperaBusquedaCiram = true;
+    this.authService.getListarCiram(parseInt(this.unid.idUnidOperativa)).subscribe((data) => {
+      ////console.log("dataciram",data)
+      this.esperaBusquedaCiram = false;
+      this.listCiram = data.data
+    })
   }
 
   onHoraInicioChange() {
@@ -330,6 +352,10 @@ export class CrearCabeceraAsistenciaRapidaComponent {
     console.log('Servicio seleccionado:', event.option.value);
   }
 
+  onCiramSelect(event: any) {
+    this.idCiram = event.option.value.idUnidadOperativa;
+  }
+
   //SELECCIONAR DÍA
   onMonthChange(): void {
     this.updateDaysInMonth();
@@ -384,12 +410,23 @@ export class CrearCabeceraAsistenciaRapidaComponent {
     // Validar campos requeridos
     if (!this.idServicio) {
       this.toast.warning('Debe ingresar el servicio');
+      this.statusLoadingSave = false;
       return;
     }
   
     if (this.sesion <= 0) {
       this.toast.warning('El número de la sesión debe ser un número mayor que 0');
+      this.statusLoadingSave = false;
       return;
+    }
+
+    let idunidadOperativa;
+
+    if(this.idCiram){
+      idunidadOperativa = this.idCiram
+    }
+    else{
+      idunidadOperativa = JSON.parse(localStorage.getItem('UnidElegida')!).idUnidOperativa
     }
   
     // Preparar el objeto de datos para enviar al servicio
@@ -398,7 +435,7 @@ export class CrearCabeceraAsistenciaRapidaComponent {
       horaInicio: "00:00", //horaInicio
       horaFin: "00:00", //horaFin
       idServicio: this.idServicio,
-      idunidadOperativa: JSON.parse(localStorage.getItem('UnidElegida')!).idUnidOperativa,
+      idunidadOperativa,
       idUsuario: JSON.parse(localStorage.getItem('camUser')!).idUsuario,
       sesion: this.sesion,
       nroCifra: this.cifra,
@@ -418,12 +455,22 @@ export class CrearCabeceraAsistenciaRapidaComponent {
         }
       },
       (error) => {
+        this.statusLoadingSave = false;
         this.toast.error('Error al crear la clase.');
       }
     );
   }
   
-  
+  clearCiramValue() {
+    this.ctrlSearchCiram.setValue('');
+    this.idCiram = null;
+  }
+
+  // Limpiar valor de Servicio
+  clearServicioValue() {
+    this.ctrlSearchServicio.setValue('');
+    this.idServicio = null;
+  }
   
   
  

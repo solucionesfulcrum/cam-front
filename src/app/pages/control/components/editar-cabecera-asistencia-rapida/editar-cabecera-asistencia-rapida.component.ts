@@ -14,6 +14,7 @@ import { ControlProgramacionService } from 'src/app/data/services/control/contro
 import { DatosGeneralesService } from 'src/app/data/services/datos-generales.service';
 import { DataSourceList } from '../tab-asistencia-prof-cam/data-source';
 import { MatAutocompleteTrigger } from '@angular/material/autocomplete';
+import { AuthService } from '@services/auth.service';
 
 @Component({
   selector: 'esp-editar-cabecera-asistencia-rapida',
@@ -22,7 +23,8 @@ import { MatAutocompleteTrigger } from '@angular/material/autocomplete';
 })
 export class EditarCabeceraAsistenciaRapidaComponent {
 
-  
+
+  unid = JSON.parse(localStorage.getItem('UnidElegida')!);
 
   servicioControl = new FormControl();
   serviciosFiltrados: any[] = [];
@@ -31,7 +33,9 @@ export class EditarCabeceraAsistenciaRapidaComponent {
   horaInicioControl = new FormControl();
   horaFin: string = '';
   horasFinOptions: { valor: string, texto: string }[] = []; // Añadido
-  idServicio!: number;
+  idServicio!: number | null;
+
+  listCiram: any = [];
 
   currentYear!: number;
   currentMonth!: number;
@@ -72,6 +76,7 @@ export class EditarCabeceraAsistenciaRapidaComponent {
   ctrlSearch = new FormControl('');
   ctrlSearchServicio = new FormControl('');
   ctrlTypeSearch = new FormControl(1);
+  ctrlSearchCiram = new FormControl('');
   public formNewContrato = this.fb.nonNullable.group({
     frmSelectDoc: new FormControl(''),
     frmDoc: ['', [Validators.required, Validators.minLength(8)]],
@@ -85,6 +90,7 @@ export class EditarCabeceraAsistenciaRapidaComponent {
 
   statusLoadingBarra = false;
   statusLoadingData = true;
+  esperaBusquedaCiram: boolean = false;
 
   statusLoadingSave = false;
 
@@ -95,7 +101,7 @@ export class EditarCabeceraAsistenciaRapidaComponent {
     frmDoc: ['', [Validators.required, Validators.pattern(/^\d{8}$/)]],
   });
 
-  esperaBusqueda: boolean = false;
+  esperaBusqueda: boolean = true;
 
   dataSourceList = new DataSourceList();
 
@@ -151,6 +157,7 @@ export class EditarCabeceraAsistenciaRapidaComponent {
               private fb                                : FormBuilder,
               private router                            : Router,
               private route : ActivatedRoute,
+              private authService:AuthService,
               private datosService                      : DatosGeneralesService,
               private controlService                    : ControlProgramacionService,
               @Inject(LOCALE_ID) private locale         : string,
@@ -175,6 +182,16 @@ export class EditarCabeceraAsistenciaRapidaComponent {
 
   }
 
+  setListCirams(){
+    this.esperaBusquedaCiram = true;
+    this.authService.getListarCiram(parseInt(this.unid.idUnidOperativa)).subscribe((data) => {
+      ////console.log("dataciram",data)
+      this.esperaBusquedaCiram = false;
+      this.listCiram = data.data
+    })
+  }
+
+
   ngOnInit(){
     this.datosService.getFechaServidor().subscribe(data => {
       if(data.code == 0){
@@ -197,6 +214,7 @@ export class EditarCabeceraAsistenciaRapidaComponent {
       this.descCifra = "Nro de Actividad";
     }
 
+    this.setListCirams();
 
     const today = new Date(fechaSistema);
     this.currentYear = today.getFullYear();
@@ -403,11 +421,13 @@ export class EditarCabeceraAsistenciaRapidaComponent {
     // Verificar los valores requeridos
     if (!this.idServicio) {
       this.toast.warning('Debe ingresar el servicio');
+      this.statusLoadingSave = false;
       return; // Detener la ejecución si no hay idServicio
     }
   
     if (this.sesion <= 0) {
       this.toast.warning('El número de la sesión debe ser un número mayor que 0');
+      this.statusLoadingSave = false;
       return; // Detener la ejecución si la sesión no es válida
     }
   
@@ -465,9 +485,19 @@ export class EditarCabeceraAsistenciaRapidaComponent {
         }
       },
       (error) => {
+        this.statusLoadingSave = false;
         this.toast.error('Error al crear la clase.');
       }
     );
+  }
+
+  clearServicioValue() {
+    this.ctrlSearchServicio.setValue('');
+    this.idServicio = null;
+  }
+
+  clearCiramValue() {
+    this.ctrlSearchCiram.setValue('');
   }
   
   
