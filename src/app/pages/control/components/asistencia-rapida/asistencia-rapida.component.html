@@ -23,7 +23,7 @@
                     <div class="flex flex-col gap-[5px] leading-[20px]">
                         <div class="flex items-center justify-left space-x-2 text-[18px] font-medium">
                             <span class="flex items-center">
-                                {{datoProgramacion.nombreServicio[0] + (datoProgramacion.nombreServicio.substring(1) | lowercase)}} <span *ngIf="esCiram" style="font-size: 12px;" class="text-Name px-3">CIRAM {{nombreCiram}}</span>
+                                {{datoProgramacion.nombreServicio[0] + (datoProgramacion.nombreServicio.substring(1) | lowercase)}} <span *ngIf="esCiram && idRol == 9 " style="font-size: 12px;" class="text-Name px-3">CIRAM {{nombreCiram}}</span>
                             </span>
                             <span class="flex items-center justify-center" *ngIf="datoProgramacion.estado != 'FINALIZADO'">
                                 <label (click)="irAEditarClase()" class="flex items-center justify-center w-7 h-7 rounded cursor-pointer peer-checked:bg-cam peer-checked:colorWhite hover:bg-[#057EC933]">
