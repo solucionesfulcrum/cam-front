@@ -25,7 +25,15 @@
                             <span class="flex items-center">
                                 {{datoProgramacion.nombreServicio[0] + (datoProgramacion.nombreServicio.substring(1) | lowercase)}} <span *ngIf="esCiram && idRol == 9 " style="font-size: 12px;" class="text-Name px-3">CIRAM {{nombreCiram}}</span>
                             </span>
-                            <span class="flex items-center justify-center" *ngIf="datoProgramacion.estado != 'FINALIZADO'">
+                            <span 
+                            matTooltip="Esta asistencia ha sido finalizada" 
+                            class="text-[#008000b8] flex items-center justify-center" 
+                            style="font-size: 20px; cursor: pointer;"
+                            *ngIf="datoProgramacion.estado == 'FINALIZADO'"
+                            >
+                            <mat-icon>check_circle</mat-icon>
+                            </span>
+                            <span class="flex items-center justify-center">
                                 <label (click)="irAEditarClase()" class="flex items-center justify-center w-7 h-7 rounded cursor-pointer peer-checked:bg-cam peer-checked:colorWhite hover:bg-[#057EC933]">
                                     <img src="assets/svg/editar-clase.svg" class="w-6 h-6"> <!-- Ajusta el tamaño del ícono si es necesario -->
                                 </label>

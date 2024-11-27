@@ -890,7 +890,27 @@ export class AsistenciaRapidaComponent {
 
 
   irAEditarClase(){
-    this.router.navigate(['/app/control/asistencia-rapida/editar-cabecera/'+this.idAsisRap])
+    if(this.datoProgramacion.estado == "ABIERTO"){
+      this.router.navigate(['/app/control/asistencia-rapida/editar-cabecera/'+this.idAsisRap])
+    }
+    else{
+      this.dialog.open(ModalConfirmarGenericoComponent, {
+        data:{
+          message: '¿Desea modificar el estado de la asistencia rápida finalizada?'
+        }
+      }).afterClosed().subscribe(data=>{
+        if(data.success){
+         this.controlService.reactivarAsistenciaRapida(this.idAsisRap).subscribe((data)=>{
+          if(data.code == 0){
+              this.router.navigate(['/app/control/asistencia-rapida/editar-cabecera/'+this.idAsisRap])
+          }
+          else{
+              this.toast.warning(data.message);
+          }
+         })
+        }
+      });
+    }
   }
 
   
