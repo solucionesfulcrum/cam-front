@@ -101,11 +101,11 @@
         <th cdk-header-cell class="py-[1rem] px-6" *cdkHeaderCellDef>Opciones</th>
         <td cdk-cell class="py-[1rem] px-6 flex flex-row items-center" *cdkCellDef="let row">
           <!-- Botón para editar -->
-          <button mat-icon-button (click)="editar(row)" aria-label="Editar" >
-            <mat-icon style="font-size: 18px;" class="text-[rgba(9,130,243,0.86)] p-0">edit</mat-icon> <!-- Icono de lápiz -->
+          <button mat-icon-button (click)="editar(row)" aria-label="Editar" *ngIf="row.estado == 'FINALIZADO'" matTooltip="Editar taller/actividad de asistencia rápida">
+            <mat-icon style="font-size: 18px;" class="text-[rgba(9,130,243,0.86)] p-0" >edit</mat-icon> <!-- Icono de lápiz -->
           </button>
           <!-- Botón para eliminar -->
-          <button mat-icon-button (click)="eliminar(row)" aria-label="Eliminar" class="text-[#DC2626] p-0">
+          <button mat-icon-button (click)="eliminar(row)" aria-label="Eliminar" class="text-[#DC2626] p-0"  matTooltip="Eliminar taller/actividad de asistencia rápida">
             <mat-icon style="font-size: 20px;" class="text-[#ee5555] p-0">delete</mat-icon> <!-- Icono de basura -->
           </button>
         </td>
