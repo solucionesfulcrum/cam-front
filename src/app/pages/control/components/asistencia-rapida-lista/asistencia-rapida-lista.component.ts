@@ -302,7 +302,7 @@ eliminar(row: ItemListaAsistenciaRapida): void {
     if(data.success){
      this.controlServ.desactivaAsistenciaRapida(row.idAsisRapido).subscribe((data)=>{
       if(data.code == 0){
-        this.notificationService.warning(data.message);
+        this.notificationService.success(data.message);
         this.loadData();
       }
       else{
