@@ -221,7 +221,8 @@
                     </div>
                     <ng-container  *ngIf="sesionActual == intervalos">
                         <ng-container>
-                            <app-btn (click)="finalizarSesionYTaller()" class="botonApariencia flex flex-row h-10 w-[170px]" [disabled]="total == 0 || datoProgramacion.estado == 'FINALIZADO'">
+                            <app-btn (click)="finalizarSesionYTaller()" class="botonApariencia flex flex-row h-10 w-[170px]" [matTooltip]="total == 0 ? 'Debe registrar al menos una asistencia para poder finalizar el taller/actividad' : ''"
+                             [disabled]="total == 0 || datoProgramacion.estado == 'FINALIZADO'">
                                 <div class="flex flex-row items-right gap-[5px]"  style="font-size: 12px !important;">
                                     <img class="self-center h-5 w-5" src="assets/svg/icon-list-assignments.svg" *ngIf="!loadingSesion">
                                     <fa-icon class="" [icon]="faSpinner" [pulse]="true" *ngIf="loadingSesion"></fa-icon>
@@ -278,7 +279,9 @@
                         <img src="assets/svg/icon-asistencia-preview.svg" class="select-none h-5 w-5">
                         <!--<fa-icon class="absolute" [icon]="faSpinner" [pulse]="true"></fa-icon>-->
                     </div>
-                    <app-btn (click)="modalFinalizarClase()" class="botonApariencia flex flex-row h-10 w-[170px]" [disabled]="total == 0 || datoProgramacion.estado == 'FINALIZADO'">
+                    <app-btn (click)="modalFinalizarClase()" class="botonApariencia flex flex-row h-10 w-[170px]" 
+                    
+                    [disabled]="total == 0 || datoProgramacion.estado == 'FINALIZADO'">
                         <div class="flex flex-row items-right gap-[5px]"  style="font-size: 12px !important;">
                             <img class="self-center h-5 w-5" src="assets/svg/icon-list-assignments.svg">
                             <span>Finalizar Taller</span> 
