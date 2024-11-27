@@ -7,8 +7,7 @@ export interface ReportesTalleristaPayload {
     estado: string,
     pageNum: number,
     pageSize: number,
-    idServicio?: number,
-    idRol?: number
+    idServicio?: number
 }
 
 export interface AsistenciaRapidaListaPayload {
