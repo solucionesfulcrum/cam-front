@@ -141,6 +141,7 @@ export class EditarCabeceraAsistenciaRapidaComponent {
   codUoCiram: string = '';
 
   idAsisRap! : number;
+  denominacion : string = "";
 
   /*
   marcar: boolean;
@@ -216,12 +217,14 @@ export class EditarCabeceraAsistenciaRapidaComponent {
 
     if((JSON.parse(localStorage.getItem('UnidElegida')!)).rol === 'TALLERISTA'){
       this.idRol = 7;
-      this.descCifra = "Nro de Taller";
+      this.descCifra = "Taller";
+      this.denominacion = "El "+this.descCifra;
     }
 
     if((JSON.parse(localStorage.getItem('UnidElegida')!)).rol === 'PROFESIONAL CAM'){
       this.idRol = 9;
-      this.descCifra = "Nro de Actividad";
+      this.descCifra = "Actividad";
+      this.denominacion = "La "+this.descCifra;
     }
 
     const today = new Date(fechaSistema);
