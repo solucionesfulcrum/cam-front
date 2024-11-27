@@ -83,6 +83,7 @@ export class AsistenciaRapidaComponent {
 
   idRol!: number;
   descCifra!: string;
+  idUnidadOperativaTaller: number = 0;
 
 
   //DATA PRUEBA
@@ -191,7 +192,6 @@ export class AsistenciaRapidaComponent {
     this.getDataCabecera();
     this.getParametros();
     //this.getListAsegurados();
-    this.setListeners();
   }
 
   registrarAsistencia(){
@@ -304,6 +304,7 @@ export class AsistenciaRapidaComponent {
         this.nombreCiram = this.datoProgramacion.nombreUO;
         this.esCiram = this.datoProgramacion.esCiram;
         this.idRol = this.datoProgramacion.idRol;
+        this.idUnidadOperativaTaller = this.datoProgramacion.idUnidadOperativa;
         //esCiram
 
         
@@ -316,7 +317,8 @@ export class AsistenciaRapidaComponent {
         }
 
 
-
+        
+        this.setListeners();
         this.getListAsegurados()
         ////console.log(Math.floor(seconds/(60*60)) + 'h ' +  Math.floor(seconds/60) + ' m')
       }
@@ -400,11 +402,11 @@ export class AsistenciaRapidaComponent {
    // Busqueda y Tipeo de Asegurado --------------------------------------------------------------
    onAseguradoSelect(event: any){
     let codUo;
-    if((JSON.parse(localStorage.getItem('UnidElegida')!)).tipo == 'CIRAM'){
-      codUo = (JSON.parse(localStorage.getItem('UnidElegida')!)).unidOperativaCam
+    if(this.esCiram){
+      codUo = this.idUnidadOperativaTaller;
     }
     else{
-      codUo = (JSON.parse(localStorage.getItem('UnidElegida')!)).idUnidOperativa;
+      codUo = this.idUnidadOperativaTaller;
     }
     let payload: RequestBuscarApto = {
       idUnidadOperativa: codUo,
@@ -461,11 +463,11 @@ export class AsistenciaRapidaComponent {
 
   searchSiApto(tipoDoc: string, numDoc: string, fechaNacimiento: string){
     let codUo;
-    if((JSON.parse(localStorage.getItem('UnidElegida')!)).tipo == 'CIRAM'){
-      codUo = (JSON.parse(localStorage.getItem('UnidElegida')!)).unidOperativaCam
+    if(this.esCiram){
+      codUo = this.idUnidadOperativaTaller;
     }
     else{
-      codUo = (JSON.parse(localStorage.getItem('UnidElegida')!)).idUnidOperativa;
+      codUo = this.idUnidadOperativaTaller;
     }
     let payload: RequestBuscarApto = {
       idUnidadOperativa: codUo,
@@ -535,8 +537,8 @@ export class AsistenciaRapidaComponent {
     this.esperaBusqueda = true;
     let metodo;
     //metodo = this.controlService.getListAseguradosNacional(texto, 1, 10);
-    if(this.codUoCiram){
-      metodo = this.controlService.getListAseguradosCiramFindByText(texto, 1, 10, this.codUoCiram);
+    if(this.esCiram){
+      metodo = this.controlService.getListAseguradosCiramFindByText(texto, 1, 10, String(this.idUnidadOperativaTaller));
     }
     else{
       metodo = this.controlService.getListAseguradosSoloCamFindByText(texto, 1, 10);
@@ -565,8 +567,8 @@ export class AsistenciaRapidaComponent {
     this.esperaBusqueda = true;
     let metodo;
     //metodo = this.controlService.getListAseguradosNacional(this.txtScroll, this.pageScroll, 10);
-    if(this.codUoCiram){
-      metodo = this.controlService.getListAseguradosCiramFindByText(this.txtScroll, this.pageScroll, 10, this.codUoCiram);
+    if(this.esCiram){
+      metodo = this.controlService.getListAseguradosCiramFindByText(this.txtScroll, this.pageScroll, 10, String(this.idUnidadOperativaTaller));
     }
     else{
       metodo = this.controlService.getListAseguradosSoloCamFindByText(this.txtScroll, this.pageScroll, 10);
@@ -593,8 +595,8 @@ export class AsistenciaRapidaComponent {
     this.esperaBusqueda = true;
     let metodo;
     //metodo = this.controlService.getListAseguradosNacional("", 1, 10);
-    if(this.codUoCiram){
-      metodo = this.controlService.getListAseguradosCiram(this.codUoCiram);
+    if(this.esCiram){
+      metodo = this.controlService.getListAseguradosCiram(String(this.idUnidadOperativaTaller));
     }
     else{
       metodo = this.controlService.getListAseguradosSoloCam();
@@ -685,11 +687,11 @@ export class AsistenciaRapidaComponent {
 
   onAseguradoSelectCodigoBarra(event: any) : void{
     let codUo;
-    if((JSON.parse(localStorage.getItem('UnidElegida')!)).tipo == 'CIRAM'){
-      codUo = (JSON.parse(localStorage.getItem('UnidElegida')!)).unidOperativaCam
+    if(this.esCiram){
+      codUo = this.idUnidadOperativaTaller;
     }
     else{
-      codUo = (JSON.parse(localStorage.getItem('UnidElegida')!)).idUnidOperativa;
+      codUo = this.idUnidadOperativaTaller;
     }
    
     if(!this.formBuscarPersona.get("frmDoc")?.valid){
