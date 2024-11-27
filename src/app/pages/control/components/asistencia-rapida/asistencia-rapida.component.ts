@@ -117,7 +117,7 @@ export class AsistenciaRapidaComponent {
   txtScroll: string = '';
   pageScroll: number = 1;
 
-  nombreCiram: string = "";
+  nombreUO: string = "";
   codUoCiram: string = '';
 
   /*
@@ -301,7 +301,7 @@ export class AsistenciaRapidaComponent {
 
         this.intervalos = intervals; // Guardar los intervalos
 
-        this.nombreCiram = this.datoProgramacion.nombreUO;
+        this.nombreUO = this.datoProgramacion.nombreUO;
         this.esCiram = this.datoProgramacion.esCiram;
         this.idRol = this.datoProgramacion.idRol;
         this.idUnidadOperativaTaller = this.datoProgramacion.idUnidadOperativa;
@@ -403,7 +403,7 @@ export class AsistenciaRapidaComponent {
    onAseguradoSelect(event: any){
     let codUo;
     if(this.esCiram){
-      codUo = this.idUnidadOperativaTaller;
+      codUo = (JSON.parse(localStorage.getItem('UnidElegida')!)).unidOperativaCam
     }
     else{
       codUo = this.idUnidadOperativaTaller;
@@ -464,7 +464,7 @@ export class AsistenciaRapidaComponent {
   searchSiApto(tipoDoc: string, numDoc: string, fechaNacimiento: string){
     let codUo;
     if(this.esCiram){
-      codUo = this.idUnidadOperativaTaller;
+      codUo = (JSON.parse(localStorage.getItem('UnidElegida')!)).unidOperativaCam
     }
     else{
       codUo = this.idUnidadOperativaTaller;
@@ -688,7 +688,7 @@ export class AsistenciaRapidaComponent {
   onAseguradoSelectCodigoBarra(event: any) : void{
     let codUo;
     if(this.esCiram){
-      codUo = this.idUnidadOperativaTaller;
+      codUo = (JSON.parse(localStorage.getItem('UnidElegida')!)).unidOperativaCam
     }
     else{
       codUo = this.idUnidadOperativaTaller;
