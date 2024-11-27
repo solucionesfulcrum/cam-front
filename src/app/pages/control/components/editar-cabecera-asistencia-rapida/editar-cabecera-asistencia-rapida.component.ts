@@ -234,6 +234,11 @@ export class EditarCabeceraAsistenciaRapidaComponent {
     this.getDataCabecera();
     
   
+  
+
+  }
+
+  prepareServicioAutocomplete(){
     this.ctrlSearchServicio.valueChanges.pipe(
       debounceTime(300),  // Espera 300ms antes de hacer la llamada
       switchMap((value: any) => {
@@ -268,7 +273,6 @@ export class EditarCabeceraAsistenciaRapidaComponent {
         this.serviciosFiltrados = [];
       }
     });
-
   }
 
   getDataCabecera() {
@@ -290,12 +294,15 @@ export class EditarCabeceraAsistenciaRapidaComponent {
           this.horaFin = this.formatHour(this.datoProgramacion.horaFin);
   
           // Configurar valores de búsqueda
-          this.ctrlSearchServicio.setValue(this.datoProgramacion.nombreServicio);
+       
           this.sesion = this.datoProgramacion.sesiones;
           this.presupuesto = this.datoProgramacion.presupuesto;
           this.modalidad = this.datoProgramacion.modalidad;
           this.codUoCiram = '';
           this.cifra = this.datoProgramacion.nroCifra;
+
+          this.prepareServicioAutocomplete();
+          this.ctrlSearchServicio.setValue(this.datoProgramacion.nombreServicio);
   
           // Preselección de CIRAM
           if (this.datoProgramacion.esCiram) {
@@ -402,7 +409,18 @@ export class EditarCabeceraAsistenciaRapidaComponent {
   }
 
   displayServicioFiltered(option: any): string {
-    return option ? option.nombre : '';
+    if (!option) {
+     // console.warn('displayServicioFiltered recibió un valor no definido:', option);
+      return ''; // Retorna una cadena vacía si option es undefined o null
+    }
+  
+    if (typeof option === 'string') {
+    // console.log('displayServicioFiltered recibió una cadena:', option);
+      return option; // Si es una cadena, simplemente retorna el valor
+    }
+  
+   // console.log('displayServicioFiltered recibió un objeto válido:', option);
+    return option.nombre || ''; // Si es un objeto, retorna la propiedad `nombre` o una cadena vacía si no existe
   }
 
   onServicioSelect(event: any) {
