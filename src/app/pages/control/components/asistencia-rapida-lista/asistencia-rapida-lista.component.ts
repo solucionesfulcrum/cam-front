@@ -211,7 +211,8 @@ getPayloadList(): ReportesTalleristaPayload{
     fecFin: fecFin,
     estado: this.formBuscar.get('frmSearchEstado')?.value,
     pageNum: this.pageNum,
-    pageSize: this.pageSize
+    pageSize: this.pageSize,
+    idRol: this.idRol
   }
 }
 
