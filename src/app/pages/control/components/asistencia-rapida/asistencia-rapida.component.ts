@@ -303,6 +303,7 @@ export class AsistenciaRapidaComponent {
 
         this.nombreCiram = this.datoProgramacion.nombreUO;
         this.esCiram = this.datoProgramacion.esCiram;
+        this.idRol = this.datoProgramacion.idRol;
         //esCiram
 
         

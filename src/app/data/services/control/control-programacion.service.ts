@@ -303,6 +303,18 @@ export class ControlProgramacionService {
     return this._httpClient.get<any>(url);
   }
 
+  reactivarAsistenciaRapida(idAsisRap : number
+  ){
+   const url = `${URL_BASE}/asistencia-rapida/reactivar/${idAsisRap}`;
+   return this._httpClient.get<any>(url);
+ }
+
+ desactivaAsistenciaRapida(idAsisRap : number
+ ){
+  const url = `${URL_BASE}/asistencia-rapida/eliminar/${idAsisRap}`;
+  return this._httpClient.delete<any>(url);
+}
+
   eliminarRegistradosAsistenciaRapida(lista : number[]){
     const url = `${URL_BASE}/asistencia-rapida/eliminar-asegurado`;
     return this._httpClient.post<any>(url, lista);

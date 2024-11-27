@@ -1,10 +1,13 @@
 import { Component } from '@angular/core';
 import { FormGroup, FormControl, FormBuilder } from '@angular/forms';
+import { MatDialog } from '@angular/material/dialog';
 import { PageEvent } from '@angular/material/paginator';
 import { Router } from '@angular/router';
+import { ItemListaAsistenciaRapida } from '@models/control/asistencia-rapida/asistencia-rapida';
 import { Parametro } from '@models/parametros-busqueda.model';
 import { imprimirRequestTalleresTallerista, ReportesTalleristaPayload } from '@models/reportes/reportes-tallerista';
 import { NotificationService } from '@services/notification.service';
+import { ModalConfirmarGenericoComponent } from '@shared/components/modal-confirmar-generico/modal-confirmar-generico.component';
 import { ParamMenu } from '@shared/components/opciones-busqueda/parametros-busqueda.model';
 import { ControlProgramacionService } from 'src/app/data/services/control/control-programacion.service';
 import { DatosGeneralesService } from 'src/app/data/services/datos-generales.service';
@@ -59,6 +62,7 @@ export class AsistenciaRapidaListaComponent {
     private notificationService     : NotificationService,
     private reportService : ReportesTalleristaService,
     private controlServ : ControlProgramacionService,
+    private dialog: MatDialog,
     private router : Router
 ) { }
 
@@ -80,6 +84,7 @@ ngOnInit(){
       'nroCifra',
       'ciram',
       'estado',
+      'opciones'
     ];
   }
 
@@ -262,6 +267,50 @@ transformarHora(hora24 : string) {
 
   // Retornamos la hora en el nuevo formato
   return `${hora12Str}:${minutosStr} ${periodo}`;
+}
+
+editar(row: ItemListaAsistenciaRapida): void {
+  if(row.estado == "ABIERTO"){
+    this.router.navigate(['/app/control/asistencia-rapida/editar-cabecera/'+row.idAsisRapido])
+  }
+  else{
+    this.dialog.open(ModalConfirmarGenericoComponent, {
+      data:{
+        message: '¿Desea modificar el estado de la asistencia rápida finalizada?'
+      }
+    }).afterClosed().subscribe(data=>{
+      if(data.success){
+       this.controlServ.reactivarAsistenciaRapida(row.idAsisRapido).subscribe((data)=>{
+        if(data.code == 0){
+            this.router.navigate(['/app/control/asistencia-rapida/editar-cabecera/'+row.idAsisRapido])
+        }
+        else{
+            this.notificationService.warning(data.message);
+        }
+       })
+      }
+    });
+  }
+}
+
+eliminar(row: ItemListaAsistenciaRapida): void {
+  this.dialog.open(ModalConfirmarGenericoComponent, {
+    data:{
+      message: '¿Desea eliminar la asistencia rápida?'
+    }
+  }).afterClosed().subscribe(data=>{
+    if(data.success){
+     this.controlServ.desactivaAsistenciaRapida(row.idAsisRapido).subscribe((data)=>{
+      if(data.code == 0){
+        this.notificationService.warning(data.message);
+        this.loadData();
+      }
+      else{
+          this.notificationService.warning(data.message);
+      }
+     })
+    }
+  });
 }
 
   irAAsistencia(){
