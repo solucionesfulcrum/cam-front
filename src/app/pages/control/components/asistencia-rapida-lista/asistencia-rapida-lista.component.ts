@@ -41,8 +41,8 @@ export class AsistenciaRapidaListaComponent {
     'modalidad',
     'presupuesto',
     'fecha',
-    'sesiones',
     'nroCifra',
+    'sesiones',
     'estado',
   ];
   pageIndex = 0;
