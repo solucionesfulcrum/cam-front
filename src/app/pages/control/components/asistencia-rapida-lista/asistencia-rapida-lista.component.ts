@@ -80,8 +80,8 @@ ngOnInit(){
       'modalidad',
       'presupuesto',
       'fecha',
-      'sesiones',
       'nroCifra',
+      'sesiones',
       'ciram',
       'estado',
       'opciones'
