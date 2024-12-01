@@ -44,6 +44,7 @@ export class AsistenciaRapidaListaComponent {
     'nroCifra',
     'sesiones',
     'estado',
+    'opciones',
   ];
   pageIndex = 0;
   pageNum = 1;
