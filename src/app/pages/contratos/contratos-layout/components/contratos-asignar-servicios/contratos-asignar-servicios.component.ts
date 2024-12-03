@@ -35,8 +35,10 @@ export class ContratosAsignarServiciosComponent {
   
   dataColumnas: FormatoColumna[] = [
     {nomAttribute: 'idServicio', oculto: true},
+    /*{header: 'Servicio', tipo: 'typeAndSelect', placeholder:'Buscar el servicio a contratar', optTypeSelect: this.opcionesServicios, nomAttribute: 
+      'nomServicio', resaltado: true, obligatorio: true, entity: {unique: true, pk: 'idServicio'}},*/
     {header: 'Servicio', tipo: 'typeAndSelect', placeholder:'Buscar el servicio a contratar', optTypeSelect: this.opcionesServicios, nomAttribute: 
-      'nomServicio', resaltado: true, obligatorio: true, entity: {unique: true, pk: 'idServicio'}},
+      'nomServicio', resaltado: true, obligatorio: true},
     {header: 'Tipo de Evento', tipo: 'select', opciones: this.opcionesEvento, nomAttribute: 'typeEvent', obligatorio: true},
     {header: 'Fecha de inicio', tipo: 'inputFecha', nomAttribute: 'fecInicio', obligatorio: true},
     {header: 'Fecha de Fin', tipo: 'inputFecha', nomAttribute: 'fecFin', obligatorio: true, ancladoFecIni: 'fecInicio'},
