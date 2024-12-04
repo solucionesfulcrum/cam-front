@@ -117,6 +117,7 @@ export class DialogAddProgramacionAsignacionComponent {
         tipoServicio: x.tipoServicio,
         idUnid: this.data.serviciosContrato.idUnidOpeCam,
         nomUnid: this.data.serviciosContrato.cam,
+        idContratoSubDetalle: x.idContratoSubDetalle,
         esDeCiram: false
       })
     })
@@ -136,7 +137,8 @@ export class DialogAddProgramacionAsignacionComponent {
           tipoServicio: y.tipoServicio,
           idUnid: x.idUnidOpeCiram,
           nomUnid: x.ciram,
-          esDeCiram: true
+          esDeCiram: true,
+          idContratoSubDetalle: x.idContratoSubDetalle,
         })
       });
       this.listServicios.push({
@@ -379,7 +381,9 @@ export class DialogAddProgramacionAsignacionComponent {
   }
 
   // COMPROBACIONES -----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
-  comprobarSimilaridadSemana(idServicio: any): any{
+  comprobarSimilaridadSemana(servicio: any): any{
+
+    let idObjeto = servicio.idContratoSubDetalle ? servicio.idContratoSubDetalle : servicio.idServicio;
     let servEncontrado: any;
     this.data.semanaElegida.forEach((x: Date)=> {
       if (!servEncontrado) {
@@ -394,7 +398,9 @@ export class DialogAddProgramacionAsignacionComponent {
               return !item.idUoCiram;
             }
           }).
-        filter((y: any)=> y.idServicio == idServicio && y.fecha == formatDate(x, 'yyyy-MM-dd', this.locale)).
+        filter((y: any)=> 
+          (servicio.idContratoSubDetalle ? y.idContratoSubDetalle == idObjeto : y.idServicio == idObjeto)  
+        && y.fecha == formatDate(x, 'yyyy-MM-dd', this.locale)).
         forEach((elem: any)=>{
           servEncontrado = elem;
         })
@@ -448,8 +454,9 @@ export class DialogAddProgramacionAsignacionComponent {
   }
 
 
-  comprobarCantidadSesiones(idServicio: any): number{
-    console.log(this.asAny(this.ctrlServicio.value))
+  comprobarCantidadSesiones(servicio: any): number{
+    let idObjeto = servicio.idContratoSubDetalle ? servicio.idContratoSubDetalle : servicio.idServicio;
+    //console.log(this.asAny(this.ctrlServicio.value))
     let asignacionesSemana: any[] = [];
     let numeroSesiones: number = 0;
     this.data.semanaElegida.forEach((x: any) => {
@@ -471,7 +478,7 @@ export class DialogAddProgramacionAsignacionComponent {
       )).
       filter((y: any) => y.fecha == formatDate(x, 'yyyy-MM-dd', this.locale)).forEach(
         (z: any)=> {
-          if(z.idServicio == idServicio)
+          if((servicio.idContratoSubDetalle ? z.idContratoSubDetalle == idObjeto : z.idServicio == idObjeto))
             {asignacionesSemana.push(z)}
         })
     });
@@ -480,7 +487,8 @@ export class DialogAddProgramacionAsignacionComponent {
     })
     return numeroSesiones;
   }
-  comprobarAsignacionesUnidadOper(idServicio: any){
+  comprobarAsignacionesUnidadOper(servicio: any){
+    let idObjeto = servicio.idContratoSubDetalle ? servicio.idContratoSubDetalle : servicio.idServicio;
     let objRespuesta: any = Object();
     let listIdCiram: number[] = []; this.data.serviciosCiram.forEach((x: any)=>{listIdCiram.push(x.idUnidOpeCiram)});
     let sesionesServ: number = 0;
@@ -497,7 +505,7 @@ export class DialogAddProgramacionAsignacionComponent {
       }
       ).
     filter((item: any)=> (this.data.datoEdicion ? item.idProgramacionDet != this.data.datoEdicion.idProgramacionDet : true)).filter((x: any)=> {
-      return x.idServicio == idServicio/* && ((this.ctrlPersonalizado.value && typeof this.ctrlCiram.value == 'object') ? (this.ctrlCiram.value as any).idUnidadOperativa == x.idUoCiram : true)*/;
+      return (servicio.idContratoSubDetalle ? x.idContratoSubDetalle == idObjeto : x.idServicio == idObjeto)/* && ((this.ctrlPersonalizado.value && typeof this.ctrlCiram.value == 'object') ? (this.ctrlCiram.value as any).idUnidadOperativa == x.idUoCiram : true)*/;
     })
     listSersionesAsig.forEach((element: any) => {
       sesionesServ += element.nroSesiones;
@@ -600,8 +608,11 @@ export class DialogAddProgramacionAsignacionComponent {
     return objRespuesta;
   }
 
-  comprobarLimiteSesiones(idServicio: any): number{
+  comprobarLimiteSesiones(servicio: any): number{
+
+    let idObjeto = servicio.idContratoSubDetalle ? servicio.idContratoSubDetalle : servicio.idServicio;
     let sesionesTotales: number = 0;
+    console.log(this.data.infoServiciosContratados)
     this.data.infoServiciosContratados.
     filter((item: any) =>
       {
@@ -617,7 +628,9 @@ export class DialogAddProgramacionAsignacionComponent {
     filter(
       (item: any)=> 
         (this.data.datoEdicion ? item.idProgramacionDet != this.data.datoEdicion.idProgramacionDet : true)
-    ).forEach((x: any)=> {if (x.idServicio == idServicio) { sesionesTotales += x.nroSesiones }})
+    ).forEach((x: any)=> {
+      if ((servicio.idContratoSubDetalle ? x.idContratoSubDetalle == idObjeto : x.idServicio == idObjeto)) 
+        { sesionesTotales += x.nroSesiones }})
     //console.log(sesionesTotales);
     return sesionesTotales;
   }
@@ -910,7 +923,8 @@ export class DialogAddProgramacionAsignacionComponent {
           duracion: x.duracion,
           paramServicioTipoId: x.paramServicioTipoId,
           idUoCiram: x.idUoCiram,
-          ubicacion: x.ubicacion
+          ubicacion: x.ubicacion,
+          idContratoSubDetalle: x.idContratoSubDetalle,
         })
       });
     }
@@ -923,7 +937,8 @@ export class DialogAddProgramacionAsignacionComponent {
         duracion: (this.dataTipo.valor1 ? this.dataTipo.valor1 : 60),
         paramServicioTipoId: this.dataTipo.idParametros,
         idUoCiram: (this.ctrlPersonalizado.value ? (this.ctrlCiram.value! as any).idUnidadOperativa : null),
-        ubicacion: this.ctrlDireccion.value!
+        ubicacion: this.ctrlDireccion.value!,
+        idContratoSubDetalle: (this.ctrlServicio.value! as any).idContratoSubDetalle
       })
     })
 
@@ -1010,7 +1025,8 @@ export class DialogAddProgramacionAsignacionComponent {
           duracion: x.duracion,
           paramServicioTipoId: x.paramServicioTipoId,
           idUoCiram: x.idUoCiram,
-          ubicacion: x.ubicacion
+          ubicacion: x.ubicacion,
+          idContratoSubDetalle: x.idContratoSubDetalle,
         })
       });
     }
@@ -1022,7 +1038,8 @@ export class DialogAddProgramacionAsignacionComponent {
       duracion: (this.dataTipo.valor1 ? this.dataTipo.valor1 : 60),
       paramServicioTipoId: this.dataTipo.idParametros,
       idUoCiram: (this.ctrlPersonalizado.value ? (this.ctrlCiram.value! as any).idUnidadOperativa : null),
-      ubicacion: this.ctrlDireccion.value!
+      ubicacion: this.ctrlDireccion.value!,
+      idContratoSubDetalle: (this.ctrlServicio.value! as any).idContratoSubDetalle,
     })
 
     return listServicios;

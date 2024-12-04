@@ -35,16 +35,16 @@
                             <p *ngIf="isNotObject(ctrlServicio.value)" class="font-medium text-red-500 text-xs mt-1 ml-1">
                                 Debe seleccionar una de las opciones listadas
                             </p>
-                            <p *ngIf="!isNotObject(ctrlServicio.value) ? comprobarSimilaridadSemana(asAny(ctrlServicio.value).idServicio).validacion : false" class="font-medium text-red-500 text-xs mt-1 ml-1">
+                            <p *ngIf="!isNotObject(ctrlServicio.value) ? comprobarSimilaridadSemana(asAny(ctrlServicio.value)).validacion : false" class="font-medium text-red-500 text-xs mt-1 ml-1">
                                 {{comprobarSimilaridadSemana(asAny(ctrlServicio.value).idServicio).message}}
                             </p>
                             <p *ngIf="!isNotObject(ctrlServicio.value) ? objValidacion.validacion : false" class="font-medium text-red-500 text-xs mt-1 ml-1">
                                 {{objValidacion.message}}
                             </p>
-                            <p *ngIf="!isNotObject(ctrlServicio.value) ? comprobarCantidadSesiones(asAny(ctrlServicio.value).idServicio) == 3 : false" class="font-medium text-red-500 text-xs mt-1 ml-1">
+                            <p *ngIf="!isNotObject(ctrlServicio.value) ? comprobarCantidadSesiones(asAny(ctrlServicio.value)) == 3 : false" class="font-medium text-red-500 text-xs mt-1 ml-1">
                                 El servicio alcanzó su limite de sesiones en la semana (3 sesiones)
                             </p>
-                            <p *ngIf="!isNotObject(ctrlServicio.value) ? comprobarLimiteSesiones(asAny(ctrlServicio.value).idServicio) >= (data.dataContrato.nroEntregables*12) : false"  class="font-medium text-red-500 text-xs mt-1 ml-1">
+                            <p *ngIf="!isNotObject(ctrlServicio.value) ? comprobarLimiteSesiones(asAny(ctrlServicio.value)) >= (data.dataContrato.nroEntregables*12) : false"  class="font-medium text-red-500 text-xs mt-1 ml-1">
                                 El servicio alcanzó su limite de sesiones a contratar (máx. {{data.dataContrato.nroEntregables*12}} sesiones) 
                             </p>
                         </div>

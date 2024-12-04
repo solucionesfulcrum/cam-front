@@ -22,7 +22,8 @@ export interface DetallesServicio {
   duracion: number,
   paramServicioTipoId: number,
   idUoCiram: number,
-  ubicacion: string
+  ubicacion: string,
+  idContratoSubDetalle: number,
 }
 
 export interface ServiciosOrdenados {
@@ -37,5 +38,6 @@ export interface Servicio{
   tipoServicio: string,
   idUnid: number,
   nomUnid: string,
-  esDeCiram?: boolean
+  esDeCiram?: boolean,
+  idContratoSubDetalle: number,
 }

@@ -116,7 +116,8 @@ export class DialogAddProgramacionAsignacionComponent {
         nombreServicio: x.nombreServicio,
         tipoServicio: x.tipoServicio,
         idUnid: this.data.serviciosContrato.idUnidOpeCam,
-        nomUnid: this.data.serviciosContrato.cam
+        nomUnid: this.data.serviciosContrato.cam,
+        idContratoSubDetalle: x.idContratoSubDetalle,
       })
     })
     let dataAsigServ: ServiciosOrdenados = {
@@ -134,7 +135,8 @@ export class DialogAddProgramacionAsignacionComponent {
           nombreServicio: y.nombreServicio,
           tipoServicio: y.tipoServicio,
           idUnid: x.idUnidOpeCiram,
-          nomUnid: x.ciram          
+          nomUnid: x.ciram,
+          idContratoSubDetalle: x.idContratoSubDetalle,          
         })
       });
       this.listServicios.push({
@@ -369,11 +371,14 @@ export class DialogAddProgramacionAsignacionComponent {
   }
 
   // COMPROBACIONES -----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
-  comprobarSimilaridadSemana(idServicio: any): any{
+  comprobarSimilaridadSemana(servicio: any): any{
+
+    let idObjeto = servicio.idContratoSubDetalle ? servicio.idContratoSubDetalle : servicio.idServicio;
     let servEncontrado: any;
     this.data.semanaElegida.forEach((x: Date)=> {
       if (!servEncontrado) {
-        this.data.infoServiciosContratados.filter((y: any)=> y.idServicio == idServicio && y.fecha == formatDate(x, 'yyyy-MM-dd', this.locale)).forEach((elem: any)=>{
+        this.data.infoServiciosContratados.filter((y: any)=> (servicio.idContratoSubDetalle ? y.idContratoSubDetalle == idObjeto : y.idServicio == idObjeto) 
+        && y.fecha == formatDate(x, 'yyyy-MM-dd', this.locale)).forEach((elem: any)=>{
           servEncontrado = elem;
         })
       }
@@ -417,11 +422,16 @@ export class DialogAddProgramacionAsignacionComponent {
     return servEncontrado;
   }
 
-  comprobarCantidadSesiones(idServicio: any): number{
+  comprobarCantidadSesiones(servicio: any): number{
+    let idObjeto = servicio.idContratoSubDetalle ? servicio.idContratoSubDetalle : servicio.idServicio;
+
     let asignacionesSemana: any[] = [];
     let numeroSesiones: number = 0;
     this.data.semanaElegida.forEach((x: any) => {
-      this.data.infoServiciosContratados.filter((item: any)=> (this.data.datoEdicion ? item.idProgramacionDet != this.data.datoEdicion.idProgramacionDet : true)).filter((y: any) => y.fecha == formatDate(x, 'yyyy-MM-dd', this.locale)).forEach((z: any)=> {if(z.idServicio == idServicio){asignacionesSemana.push(z)}})
+      this.data.infoServiciosContratados.filter((item: any)=> (this.data.datoEdicion ? item.idProgramacionDet != this.data.datoEdicion.idProgramacionDet : true)).filter((y: any) => y.fecha == formatDate(x, 'yyyy-MM-dd', this.locale)).forEach((z: any)=> {
+        if((servicio.idContratoSubDetalle ? z.idContratoSubDetalle == idObjeto : z.idServicio == idObjeto)){
+          asignacionesSemana.push(z)
+        }})
     });
     asignacionesSemana.forEach((x)=>{
       numeroSesiones = numeroSesiones + x.nroSesiones;
@@ -536,9 +546,14 @@ export class DialogAddProgramacionAsignacionComponent {
     return objRespuesta;
   }
 
-  comprobarLimiteSesiones(idServicio: any): number{
+  comprobarLimiteSesiones(servicio: any): number{
+
+    let idObjeto = servicio.idContratoSubDetalle ? servicio.idContratoSubDetalle : servicio.idServicio;
     let sesionesTotales: number = 0;
-    this.data.infoServiciosContratados.filter((item: any)=> (this.data.datoEdicion ? item.idProgramacionDet != this.data.datoEdicion.idProgramacionDet : true)).forEach((x: any)=> {if (x.idServicio == idServicio) { sesionesTotales += x.nroSesiones }})
+    this.data.infoServiciosContratados.filter((item: any)=> (this.data.datoEdicion ? item.idProgramacionDet != this.data.datoEdicion.idProgramacionDet : true)).forEach((x: any)=> {
+      if ((servicio.idContratoSubDetalle ? x.idContratoSubDetalle == idObjeto : x.idServicio == idObjeto)) {
+         sesionesTotales += x.nroSesiones 
+        }})
     return sesionesTotales;
   }
 
@@ -830,7 +845,8 @@ export class DialogAddProgramacionAsignacionComponent {
           duracion: x.duracion,
           paramServicioTipoId: x.paramServicioTipoId,
           idUoCiram: x.idUoCiram,
-          ubicacion: x.ubicacion
+          ubicacion: x.ubicacion,
+          idContratoSubDetalle: x.idContratoSubDetalle
         })
       });
     }
@@ -843,7 +859,8 @@ export class DialogAddProgramacionAsignacionComponent {
         duracion: (this.dataTipo.valor1 ? this.dataTipo.valor1 : 60),
         paramServicioTipoId: this.dataTipo.idParametros,
         idUoCiram: (this.ctrlPersonalizado.value ? (this.ctrlCiram.value! as any).idUnidadOperativa : null),
-        ubicacion: this.ctrlDireccion.value!
+        ubicacion: this.ctrlDireccion.value!,
+        idContratoSubDetalle: (this.ctrlServicio.value! as any).idContratoSubDetalle
       })
     })
 
@@ -930,7 +947,8 @@ export class DialogAddProgramacionAsignacionComponent {
           duracion: x.duracion,
           paramServicioTipoId: x.paramServicioTipoId,
           idUoCiram: x.idUoCiram,
-          ubicacion: x.ubicacion
+          ubicacion: x.ubicacion,
+          idContratoSubDetalle: x.idContratoSubDetalle
         })
       });
     }
@@ -942,7 +960,8 @@ export class DialogAddProgramacionAsignacionComponent {
       duracion: (this.dataTipo.valor1 ? this.dataTipo.valor1 : 60),
       paramServicioTipoId: this.dataTipo.idParametros,
       idUoCiram: (this.ctrlPersonalizado.value ? (this.ctrlCiram.value! as any).idUnidadOperativa : null),
-      ubicacion: this.ctrlDireccion.value!
+      ubicacion: this.ctrlDireccion.value!,
+      idContratoSubDetalle: (this.ctrlServicio.value! as any).idContratoSubDetalle
     })
 
     return listServicios;
