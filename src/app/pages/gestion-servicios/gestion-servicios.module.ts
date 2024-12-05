@@ -11,12 +11,16 @@ import { DataLoadingComponent } from '@shared/components/data-loading/data-loadi
 import { SharedModule } from '@shared/shared.module';
 import { MaterialModule } from 'src/app/material/material.module';
 import { ListaServiciosComponent } from './componentes/lista-servicios/lista-servicios.component';
+import { ListaSubprogramasComponent } from './componentes/lista-subprogramas/lista-subprogramas.component';
+import { ListaProgramasComponent } from './componentes/lista-programas/lista-programas.component';
 
 
 @NgModule({
   declarations: [
     GestionServiciosComponent,
-    ListaServiciosComponent
+    ListaServiciosComponent,
+    ListaSubprogramasComponent,
+    ListaProgramasComponent
   ],
   imports: [
     CommonModule,

@@ -8,6 +8,26 @@ export interface listarServiciosRequest
     pageSize: string; 
 }
 
+
+export interface listarSubProgramasRequest
+{
+    texto: string;
+    fecInicio: string; 
+    fecFin: string; 
+    pageNum: string;
+    pageSize: string; 
+}
+
+
+export interface listarProgramasRequest
+{
+    texto: string;
+    fecInicio: string; 
+    fecFin: string; 
+    pageNum: string;
+    pageSize: string; 
+}
+
 export interface ServicioRequest {
     idServicio?: number; 
     activo?: number;
@@ -37,3 +57,25 @@ export interface ServicioListadoItem {
     contAsisRap: number;
     marcar?: boolean;
   }
+
+//SUBPROGRAMAS
+export interface SubprogramaListadoItem {
+  idSubPrograma: number,
+  nombreSubPrograma: string,
+  fechaModificacion: string,
+  fechaCreacion: string,
+  activo: number,
+  idPrograma: number,
+  nombrePrograma: string,
+  marcar?: boolean
+}
+
+//PROGRAMAS
+export interface ProgramaListadoItem {
+  idPrograma: number,
+  nombrePrograma: string,
+  fechaModificacion: string,
+  fechaCreacion: string,
+  activo: number,
+  marcar?: boolean
+}

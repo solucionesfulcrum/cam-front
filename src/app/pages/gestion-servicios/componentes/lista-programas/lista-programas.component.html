@@ -1,0 +1,105 @@
+<div>
+    <esp-opciones-busqueda 
+      [showDateFilter]="true"
+      [setFilterDateOptionSelected]="'var(--color-CAM-Mezclado)'" 
+      [setFilterDateTextColour]="'#057EC9'"
+      [filterDateAppearance]="2"
+      (sendDateFilterWithCeros)="getDataFecha($event)"
+      [setFilterDateSelectionBg]="'#008BD2'"
+      [setFilterDateButtonBg]="'#008BD2'"
+      [showSearch]="true"
+      (searchInputValue)="formBuscar.get('frmSearch')?.setValue($event.toUpperCase()); onLoadData()"
+      [searchInputPlaceHolder]="'Busqueda de Servicios'"
+      [showFirstDisplayFilter]="false"
+      [firstDisplayFilterPlaceholder]="{'indicador': true, 'placeholder': 'Todos los estados'}"
+      [firstDisplayFilterData]="opciones"
+      (firstDisplayFilterSendValue)="firstDisplayValue($event)"
+      (firstDisplaySelectedValue)="false"
+  
+      [showSecondDisplayFilter]="false"
+      [secDisplayFilterPlaceholder]="{'indicador': true, 'placeholder': 'Todos los CAM'}"
+      [secDisplayFilterData]="opciones_cam"
+      (secDisplayFilterSendValue)="secDisplayValue($event)"
+  
+      [showThirdDisplayFilter]="false"
+      [thirdDisplayFilterPlaceholder]="{'indicador': true, 'placeholder': 'Todas las Redes'}"
+      [thirdDisplayFilterData]="opciones_red"
+      (thirdDisplayFilterSendValue)="thirdDisplayValue($event)"
+  
+      [showButton]="true"
+      [buttonText]="'Crear Servicio'"
+      [buttonBg]="'#057EC9'"
+      [menuOpt]="[]"
+    ></esp-opciones-busqueda>
+  </div>
+  
+  <esp-data-loading
+    [dataEmpty]="dataSource.length == 0"
+    [dataLoading]="loadingData"
+  ></esp-data-loading>
+  
+  <div *ngIf="!loadingData && dataSource.length > 0">
+    <div class="table-container">
+      <table cdk-table class="w-full text-sm text-left text-gray-500" [dataSource]="dataSource">
+        <tr cdk-header-row class="text-xs text-gray-700 bg-gray-50" *cdkHeaderRowDef="columns; sticky: true"></tr>
+        <tr cdk-row class="bg-white border-b" *cdkRowDef="let row; columns: columns"></tr>
+  
+        <ng-container cdkColumnDef="marcar">
+          <th cdk-header-cell class="py-[1.25rem] px-6" [style]="'width: 0%;'" *cdkHeaderCellDef>
+           <!-- <input type="checkbox" [checked]="seleccionados.length == dataSource.length" (change)="afectarTodo($event)" />-->
+          </th>
+          <td cdk-cell class="py-[1rem] px-6" [style]="'width: 0%;'" *cdkCellDef="let row">
+           <!--<input type="checkbox" class="checkbox-select" *ngIf="editableContrato(row) || editableAsisRap(row)" (change)="seleccionarFila($event)" [value]="row.idServicio" [checked]="row.marcar" />-->
+          </td>
+        </ng-container>
+  
+        <ng-container cdkColumnDef="idPrograma">
+          <th cdk-header-cell class="py-[1rem] px-6" *cdkHeaderCellDef>ID</th>
+          <td cdk-cell class="py-[1rem] px-6" *cdkCellDef="let row">
+            {{ row.idPrograma }}
+          </td>
+        </ng-container>
+
+        <ng-container cdkColumnDef="nombrePrograma">
+          <th cdk-header-cell class="py-[1rem] px-6" *cdkHeaderCellDef>Nombre Programa</th>
+          <td cdk-cell class="py-[1rem] px-6" *cdkCellDef="let row">
+            {{ row.nombrePrograma }}
+          </td>
+        </ng-container>
+  
+        <ng-container cdkColumnDef="fechaCreacion">
+          <th cdk-header-cell class="py-[1rem] px-6" *cdkHeaderCellDef [style]="'padding-left: 0px;'">Fecha Creacion</th>
+          <td cdk-cell class="py-[1rem] px-6 font-semibold" *cdkCellDef="let row" [style]="'padding-left: 0px;'">
+            {{ row.fechaCreacion | date: 'dd/MM/yyyy' }}
+          </td>
+        </ng-container>
+
+        <ng-container cdkColumnDef="fechaModificacion">
+          <th cdk-header-cell class="py-[1rem] px-6" *cdkHeaderCellDef [style]="'padding-left: 0px;'">Fecha Modificación</th>
+          <td cdk-cell class="py-[1rem] px-6 font-semibold" *cdkCellDef="let row" [style]="'padding-left: 0px;'">
+            {{ row.fechaModificacion | date: 'dd/MM/yyyy' }}
+          </td>
+        </ng-container>
+  
+        <ng-container cdkColumnDef="activo">
+          <th cdk-header-cell class="py-[1rem] px-6" *cdkHeaderCellDef>activo</th>
+          <td cdk-cell class="py-[1rem] px-6" *cdkCellDef="let row">{{ row.activo }}</td>
+        </ng-container>
+        
+        
+        
+      </table>
+    </div>
+    <mat-paginator
+      #paginator
+      class="demo-paginator paginatorDatos"
+      (page)="handlePageEvent($event)"
+      [length]="total"
+      [pageSize]="pageSize"
+      showFirstLastButtons="true"
+      [pageSizeOptions]="pageSizeOptions.length > 0 ? pageSizeOptions : []"
+      [pageIndex]="pageIndex"
+      aria-label="Select page">
+    </mat-paginator>
+  </div>
+  
