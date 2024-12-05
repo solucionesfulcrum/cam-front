@@ -51,7 +51,7 @@
                         <div class="dataPseudoTabla" *ngFor="let servicio of dataContrato.datosDetMismaUnidad[0].servicios, index as i">
                           <span>{{i+1}}</span>
                           <span>{{servicio.tipoServicio | titlecase}}</span>
-                          <span class="col-span-4 text-[var(--color-CAM)]">{{servicio.servicio | titlecase}}</span>
+                          <span class="col-span-4 text-[var(--color-CAM)]">{{servicio.servicio | titlecase}} {{servicio.numero ? " " + servicio.numero : ""}}</span>
                           <span class="col-span-2">{{servicio.fechaInicio | date:'dd/MM/yyyy'}}</span>
                           <span class="col-span-2">{{servicio.fechaFin | date:'dd/MM/yyyy'}}</span>
                           <span class="col-span-2">{{servicio.modalidad | titlecase}}</span>
@@ -83,7 +83,7 @@
                             <div class="dataPseudoTabla" *ngFor="let servicio of unid.servicios, index as ix">
                               <span>{{ix+1}}</span>
                               <span>{{servicio.tipoServicio | titlecase}}</span>
-                              <span class="col-span-4 text-[var(--color-CAM)]">{{servicio.servicio | titlecase}}</span>
+                              <span class="col-span-4 text-[var(--color-CAM)]">{{servicio.servicio | titlecase}} {{servicio.numero ? " " + servicio.numero : ""}}</span>
                               <span class="col-span-2">{{servicio.fechaInicio | date:'dd/MM/yyyy'}}</span>
                               <span class="col-span-2">{{servicio.fechaFin | date:'dd/MM/yyyy'}}</span>
                               <span class="col-span-2">{{servicio.modalidad | titlecase}}</span>
