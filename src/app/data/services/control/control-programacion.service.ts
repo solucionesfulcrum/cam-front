@@ -361,7 +361,7 @@ export class ControlProgramacionService {
   }
 
   generarReporteClaseNacionalExcel(model: RequestAdminAsistenciasRap){
-    const url = `${environment.API}/report/control/excel/asistencia-rapida/lista-nacional?skipInterceptor=true`;
+    const url = `${environment.API}/report/control/generar-reporte/excel/asistencia-rapida-nacional?skipInterceptor=true`;
     let headers = new HttpHeaders();
     headers = headers.set('Skip-Interceptor', 'true');
     return this._httpClient.post<any>(url, model);
