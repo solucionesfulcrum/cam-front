@@ -19,13 +19,13 @@ export class ControlAsistenciaGuard implements CanActivate {
     }
     else{
       let unid = JSON.parse(localStorage.getItem('UnidElegida')!);
-      if (unid.rol !== 'TALLERISTA' && unid.rol !== "PROFESIONAL CAM") {
+      if (unid.idRol !== 7 && unid.idRol !== 9) {
         this.router.navigate(['/app/dashboard'])
         return false;
       }
       else{
         if (JSON.parse(localStorage.getItem('idProgramElegida')!) == null) {
-          if (unid.rol == 'TALLERISTA') {
+          if (unid.idRol == 7) {
             this.router.navigate(['/app/control/mis-talleres'])
             this.notificationService.warning('Seleccione un taller para realizar el control de asistencia');
           }

@@ -11,7 +11,7 @@ export class ControlComponent {
   userInfo = (JSON.parse(localStorage.getItem('UnidElegida')!));
   links: FormatoTab[] = []
   ngOnInit(){
-    if (this.userInfo.rol === 'TALLERISTA') {
+    if (this.userInfo.idRol == 7) {
       this.links = [
         {url: `/app/control/mis-talleres`, title: 'Mis Talleres'},
         {url: `/app/control/control-asistencia`, title: 'Asistencias', disabled: true},
@@ -19,7 +19,7 @@ export class ControlComponent {
         {url: `/app/control/asistencia-rapida`, title: 'Asistencia Rápida'},
       ];
     }
-    else if(this.userInfo.rol == "PROFESIONAL CAM"){
+    else if(this.userInfo.idRol == 9){
       this.links = [
         {url: `/app/control`, title: 'Programados'},
         {url: `/app/control/en-calendario`, title: 'Calendario'},

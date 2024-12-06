@@ -40,7 +40,7 @@ export class SelectUnidOperativaComponent {
   AsignarUnidadOperativa(unidOperativ: any){
     localStorage.setItem('UnidElegida', JSON.stringify(unidOperativ));
     localStorage.removeItem('idProgramElegida');
-    if (unidOperativ.rol === 'TALLERISTA') {
+    if (unidOperativ.idRol == 7) {
       this.router.navigate(['/app/home']);
     }
     else{

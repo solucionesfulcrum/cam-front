@@ -215,13 +215,13 @@ export class EditarCabeceraAsistenciaRapidaComponent {
 
   setVariables(fechaSistema: string){
 
-    if((JSON.parse(localStorage.getItem('UnidElegida')!)).rol === 'TALLERISTA'){
+    if((JSON.parse(localStorage.getItem('UnidElegida')!)).idRol == 7){
       this.idRol = 7;
       this.descCifra = "Taller";
       this.denominacion = "El "+this.descCifra;
     }
 
-    if((JSON.parse(localStorage.getItem('UnidElegida')!)).rol === 'PROFESIONAL CAM'){
+    if((JSON.parse(localStorage.getItem('UnidElegida')!)).idRol == 9){
       this.idRol = 9;
       this.descCifra = "Actividad";
       this.denominacion = "La "+this.descCifra;
