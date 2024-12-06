@@ -360,6 +360,19 @@ export class ControlProgramacionService {
     return this._httpClient.post(url, model, {responseType:'blob', headers: new HttpHeaders({'Accept': 'application/octet-stream'})});
   }
 
+  generarReporteClaseNacionalExcel(model: RequestAdminAsistenciasRap){
+    const url = `${environment.API}/report/control/excel/asistencia-rapida/lista-nacional?skipInterceptor=true`;
+    let headers = new HttpHeaders();
+    headers = headers.set('Skip-Interceptor', 'true');
+    return this._httpClient.post<any>(url, model);
+  }
+
+
+  generarExcelAsistenciaRapidaClaseNacional(model: RequestAdminAsistenciasRap): Observable<Blob>{
+    const url = `${environment.API}/report/generar-reporte/excel/asistencia-rapida-nacional`;
+    return this._httpClient.post(url, model, {responseType:'blob', headers: new HttpHeaders({'Accept': 'application/octet-stream'})});
+  }
+
   // Método para subir un archivo
   subirEvidenciaAsistenciaRapida(file: File, idSesionActual: number): Observable<any> {
     const formData = new FormData();

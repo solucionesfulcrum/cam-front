@@ -44,6 +44,7 @@ export interface RequestAdminAsistenciasRap{
     idRol: number,
     pageNum? : string,
     pageSize?: string,
+    idUsuario?: string
   }
 
 export interface RequestRolServicios{

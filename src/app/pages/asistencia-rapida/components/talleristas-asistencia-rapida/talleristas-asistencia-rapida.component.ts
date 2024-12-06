@@ -180,21 +180,21 @@ export class TalleristasAsistenciaRapidaComponent {
       fecInicio: fecInicio,
       fecFin: fecFin,
       codigoCam : this.formBuscar.get('frmSearchCam')?.value,
-      idRol: 7
+      idRol: 7,
+      idUsuario:  JSON.parse(localStorage.getItem('camUser')!).idUsuario
     };
 
-    let servicioMetodo = this.controlProgramacionService.getClaseNacionalExcel(payload);
+    this.notificationService.info('Su reporte se está generando');
     
-    servicioMetodo.subscribe((data)=>{
-      this.notificationService.success('Se esta descargando el reporte');
-      const blob: Blob = new Blob([data], { type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet' });
-      const url = window.URL.createObjectURL(blob);
-      const anchor = document.createElement('a');
-      anchor.download = 'Reporte_Asistencia_Rapida_tallerista.xlsx';
-      anchor.href = url;
-      anchor.click();
-      window.URL.revokeObjectURL(url);
-    })
+    // Enviar el request sin esperar respuesta
+    this.controlProgramacionService.generarReporteClaseNacionalExcel(payload).subscribe(
+      () => {
+        // No hacer nada con la respuesta
+      },
+      (error) => {
+        //console.error('Error al enviar la solicitud de generación de Excel:', error);
+      }
+    );
   }
 
   firstDisplayValue(value: any){
