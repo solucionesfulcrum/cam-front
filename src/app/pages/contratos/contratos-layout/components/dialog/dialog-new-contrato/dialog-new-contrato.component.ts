@@ -342,7 +342,7 @@ export class DialogNewContratoComponent {
 
   cargaServiciosParametros() {
     this.rolesService.getListRolesActivos().subscribe((data) => {
-      this.listRoles = data.data.filter((role : any) => role.idRol != 8 && role.idRol != 10);
+      this.listRoles = data.data.filter((role : any) => role.idRol != 8 && role.idRol != 10 && (this.data.opt == 2 ? role.idRol != 9 : true));
     })
   }
 }

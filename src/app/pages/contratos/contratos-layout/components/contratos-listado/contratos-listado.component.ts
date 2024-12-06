@@ -86,7 +86,8 @@ export class ContratosListadoComponent {
         maxWidth:'50%',
         data:{
           idUnid: this.camElegido.idUnidadOperativa,
-          type: 1
+          type: 1,
+          opt: this.camElegido.opt //ES CIRAM
         }
       })
     }
