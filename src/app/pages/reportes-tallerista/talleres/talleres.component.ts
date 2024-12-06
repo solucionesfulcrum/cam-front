@@ -166,7 +166,7 @@ getPayloadList(): ReportesTalleristaPayload{
     pageNum: this.pageNum,
     pageSize: this.pageSize,
     idServicio: this.formBuscar.get('frmSearchServicio')!.value,
-    idRol: (JSON.parse(localStorage.getItem('camUser')!)).idRol,
+    idRol: (JSON.parse(localStorage.getItem('UnidElegida')!)).idRol,
   }
 }
 
