@@ -43,6 +43,7 @@ export class ContactosTalleristasComponent implements OnInit {
   faSpinner = faSpinner;
 
   rol: string = '';
+  idRol: number = 0;
 
   seleccionados: number[] = [];
   
@@ -72,8 +73,9 @@ export class ContactosTalleristasComponent implements OnInit {
 
     setTimeout(()=>{
       this.rol = JSON.parse(localStorage.getItem('UnidElegida')!).rol;
+      this.idRol = JSON.parse(localStorage.getItem('UnidElegida')!).idRol;
 
-      let servicioMetodo = this.rol == 'COORDINADOR RED' ? 
+      let servicioMetodo = this.idRol == 8 ? 
       this.talleristaService.getTalleristaListRed(this.getPayloadList()) :
       this.talleristaService.getTalleristaList(this.getPayloadList());
   
@@ -130,7 +132,7 @@ export class ContactosTalleristasComponent implements OnInit {
       codigoCam : this.formBuscar.get('frmSearchCam')?.value
     };
 
-    let servicioMetodo = this.rol == 'COORDINADOR RED' ? 
+    let servicioMetodo = this.idRol == 8 ? 
     this.talleristaService.getExcelTalleristas(payload) :
     this.talleristaService.getExcelTalleristasCam(payload);
 

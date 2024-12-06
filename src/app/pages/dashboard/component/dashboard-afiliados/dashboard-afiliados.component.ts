@@ -50,6 +50,7 @@ export class DashboardAfiliadosComponent implements OnInit {
   dataServicio: any;
   idUnidadOperativaUser = (JSON.parse(localStorage.getItem('UnidElegida')!)).idUnidOperativa;
   rol = JSON.parse(localStorage.getItem('UnidElegida')!).rol;
+  idRol = JSON.parse(localStorage.getItem('UnidElegida')!).idRol;
 
   
 
@@ -162,7 +163,7 @@ export class DashboardAfiliadosComponent implements OnInit {
 
     let metodo;
 
-    if(this.rol == "COORDINADOR RED"){
+    if(this.idRol == 8){
       metodo =  this.authService.listarDashboardRed({ fecInicio: fechaFormateadaInicio, fecFin: fechaFormateadaFin, idUnidadOperativa: this.idUnidadOperativaUser });
     }
     else{
@@ -225,7 +226,7 @@ export class DashboardAfiliadosComponent implements OnInit {
       }
     })
 
-    if(this.rol == "COORDINADOR RED"){
+    if(this.idRol == 8){
       
     this.authService.listarDashboardActivosRed({ fecInicio: fechaFormateadaInicio, fecFin: fechaFormateadaFin, idUnidadOperativa: this.idUnidadOperativaUser, estado: 14 }).subscribe((data) => {
       this.totalAfiliadosActivos=0;

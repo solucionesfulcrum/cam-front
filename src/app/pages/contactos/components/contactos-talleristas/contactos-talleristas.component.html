@@ -10,7 +10,7 @@
       [secDisplayFilterData]="opciones"
       (secDisplayFilterSendValue)="firstDisplayValue($event)"
 
-      [showFirstDisplayFilter]="rol == 'COORDINADOR RED'"
+      [showFirstDisplayFilter]="idRol == 8"
       [firstDisplayFilterPlaceholder]="{'indicador': true, 'placeholder': 'Todos los CAM'}"
       [firstDisplayFilterData]="opciones_cam"
       (firstDisplayFilterSendValue)="secDisplayValue($event)"
@@ -39,10 +39,10 @@
       <ng-container cdkColumnDef="nombres">
         <th cdk-header-cell class="py-[1rem] px-6" *cdkHeaderCellDef [style]="'padding-left: 0px;'">Apellidos y Nombre</th>
         <td cdk-cell class="py-[1rem] px-6" *cdkCellDef="let row, index as i" [style]="'padding-left: 0px;'"><span class="text-Name cursor-pointer" [style.font-weight]="700" [routerLink]="['show/' + row.idTallerista]">
-          <ng-container *ngIf="this.rol == 'COORDINADOR RED'">
+          <ng-container *ngIf="this.idRol == 8">
             {{ (row.apeTalletista | titlecase) + " " + (row.tallerista | titlecase) }}
           </ng-container>
-          <ng-container *ngIf="this.rol != 'COORDINADOR RED'">
+          <ng-container *ngIf="this.idRol != 8">
             {{ ((!row.apeTalletista ? '' : row.apeTalletista + " ") | titlecase) + (row.tallerista | titlecase) }}
           </ng-container>
         </span></td>

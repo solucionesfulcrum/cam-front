@@ -20,7 +20,7 @@ export class GuardCoordinadorGuard implements CanActivate {
     }
     else{
       let unid = JSON.parse(localStorage.getItem('UnidElegida')!);
-      if (unid.rol !== 'COORDINADOR RED') {
+      if (unid.idRol != 8) {
         this.router.navigate(['/app/dashboard'])
         return false;
       }

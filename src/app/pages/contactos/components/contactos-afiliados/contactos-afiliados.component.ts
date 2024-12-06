@@ -47,6 +47,7 @@ export class ContactosAfiliadosComponent implements OnInit {
    //columns: string[] = ['marcar','nombres','tipoDoc','numDoc', 'edad', 'estadoCivil','ipress', 'fecha'];
 
   rol: string = '';
+  idRol: number = 0;
 
   seleccionados: number[] = [];
   loadingData: boolean = false;
@@ -82,9 +83,10 @@ export class ContactosAfiliadosComponent implements OnInit {
 
     setTimeout(()=>{
       this.rol = JSON.parse(localStorage.getItem('UnidElegida')!).rol;
+      this.idRol = JSON.parse(localStorage.getItem('UnidElegida')!).idRol;
     
       //DEFINIENDO CUAL SERVICIO USAR
-      let servicioMetodo = this.rol == 'COORDINADOR RED' ? 
+      let servicioMetodo = this.idRol == 8 ? 
       this.afiliacionesService.getListaContactoRed(this.getContactos()) :
       this.afiliacionesService.getListaContacto(this.getContactos());
   
@@ -178,7 +180,7 @@ export class ContactosAfiliadosComponent implements OnInit {
       codigoCam : this.formBuscar.get('frmSearchCam')?.value
     };
 
-    let servicioMetodo = this.rol == 'COORDINADOR RED' ? 
+    let servicioMetodo = this.idRol == 8 ? 
     this.afiliacionesService.getExcelAseguradosRed(payload) :
     this.afiliacionesService.getExcelAsegurados(payload);
     

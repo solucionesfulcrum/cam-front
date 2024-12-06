@@ -25,6 +25,7 @@ export class DashboardAsistenciasComponent {
   totalAfiliadosActivos: number = 0;
   dataServicio: any;
   rol = JSON.parse(localStorage.getItem('UnidElegida')!).rol;
+  idRol = JSON.parse(localStorage.getItem('UnidElegida')!).idRol;
   idUnidadOperativaUser = (JSON.parse(localStorage.getItem('UnidElegida')!)).idUnidOperativa;
   fechaDesde: string = "";
   fechaHasta: string = "";
