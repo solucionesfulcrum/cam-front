@@ -17,7 +17,7 @@
                     <div class="flex flex-col gap-2 font-light">
                         <span class="text-[18px] font-normal">{{dataContrato.datosTallerista.usuarioTallerista | uppercase}}</span>
                         <span><span class="font-medium">DNI:</span> {{dataContrato.datosTallerista.nroDoc}}</span>
-                        <span><span class="font-medium">ROL:</span> {{dataContrato.datosContrato.nombreRol}}</span>
+                        <span><span class="font-medium">ROL:</span> {{dataContrato.datosContrato.nombreRol ? dataContrato.datosContrato.nombreRol : 'TALLERISTA TERCERO'}}</span>
                     </div>
                 </div>
             </div>
