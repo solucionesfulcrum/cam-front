@@ -81,7 +81,6 @@ export class ContratosAsignarServiciosComponent {
                 this.dataContrato = data.data;
 
                 //AGREGAR DATOS DE LA TABLA
-                let idRol = this.dataContrato.datosContrato.idRol ? this.dataContrato.datosContrato.idRol : 7;
                 let metodo;
                 if(!this.dataContrato.datosContrato.idRol){
                   metodo = this.contratoService.getListServicios();
