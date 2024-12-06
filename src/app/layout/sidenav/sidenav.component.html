@@ -18,7 +18,7 @@
           <span>Dashboard</span>
         </a>
       </li>
-      <li *ngIf="unid.idRol === 7">
+      <li *ngIf="unid.idRol === 7 || unid.idRol === 1">
         <a routerLink="/app/home" routerLinkActive="list-item-activo" (select)="true">
           <img src="assets/svg/nav-icon-dashboard.svg" />
           <span>Inicio</span>
@@ -30,7 +30,7 @@
           <span>Contratos</span>
         </a>
       </li>
-      <li *ngIf="unid.idRol !== 7">
+      <li *ngIf="unid.idRol !== 7 && unid.idRol !== 1">
         <a routerLink="/app/contactos" routerLinkActive="list-item-activo">
           <img class="" src="assets/svg/nav-icon-contacto.svg" />
           <span>Contactos</span>
@@ -49,13 +49,13 @@
           <span>Programación</span>
         </a>
       </li>
-      <li *ngIf="unid.idRol === 9 || unid.idRol === 7">
+      <li *ngIf="unid.idRol === 9 || unid.idRol === 7 || unid.idRol === 1">
         <a [routerLink]="'/app/control'" routerLinkActive="list-item-activo" (click)="unid.idRol === 9 ? null : vistaTallerista()">
           <img class="" src="assets/svg/nav-icon-control.svg"/>
           <span>Control</span>
         </a>
       </li>
-      <li *ngIf="unid.idRol === 7">
+      <li *ngIf="unid.idRol === 7 || unid.idRol === 1">
         <a routerLink="/app/reportes-tallerista" routerLinkActive="list-item-activo">
           <img class="" src="assets/svg/reportes.svg" />
           <span>Reportes</span>

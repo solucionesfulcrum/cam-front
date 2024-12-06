@@ -215,7 +215,7 @@ export class EditarCabeceraAsistenciaRapidaComponent {
 
   setVariables(fechaSistema: string){
 
-    if((JSON.parse(localStorage.getItem('UnidElegida')!)).idRol == 7){
+    if((JSON.parse(localStorage.getItem('UnidElegida')!)).idRol == 7 || (JSON.parse(localStorage.getItem('UnidElegida')!)).idRol === 1){
       this.idRol = 7;
       this.descCifra = "Taller";
       this.denominacion = "El "+this.descCifra;
@@ -323,7 +323,7 @@ export class EditarCabeceraAsistenciaRapidaComponent {
           }
   
           // Configurar descripción basada en el rol
-          if (this.datoProgramacion.idRol === 7) {
+          if (this.datoProgramacion.idRol === 7 || this.datoProgramacion.idRol === 1) {
             this.descCifra = 'Nro de Taller';
           } else if (this.datoProgramacion.idRol === 9) {
             this.descCifra = 'Nro de Actividad';

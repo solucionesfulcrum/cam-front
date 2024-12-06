@@ -68,7 +68,7 @@ export class AsistenciaRapidaListaComponent {
 ) { }
 
 ngOnInit(){
-  if((JSON.parse(localStorage.getItem('UnidElegida')!)).idRol === 7){
+  if((JSON.parse(localStorage.getItem('UnidElegida')!)).idRol === 7 || (JSON.parse(localStorage.getItem('UnidElegida')!)).idRol === 1){
     this.idRol = 7;
   }
 

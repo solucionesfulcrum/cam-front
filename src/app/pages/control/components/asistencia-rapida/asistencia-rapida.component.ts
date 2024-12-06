@@ -308,7 +308,7 @@ export class AsistenciaRapidaComponent {
         //esCiram
 
         
-        if(this.datoProgramacion.idRol == 7){
+        if(this.datoProgramacion.idRol == 7 || this.datoProgramacion.idRol == 1){
           this.descCifra = "Nro de Taller";
         }
 

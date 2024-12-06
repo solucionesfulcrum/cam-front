@@ -176,7 +176,7 @@ export class CrearCabeceraAsistenciaRapidaComponent {
   }
 
   setVariables(fechaSistema: string){
-    if((JSON.parse(localStorage.getItem('UnidElegida')!)).idRol == 7){
+    if((JSON.parse(localStorage.getItem('UnidElegida')!)).idRol == 7 || (JSON.parse(localStorage.getItem('UnidElegida')!)).idRol === 1){
       this.idRol = 7;
       this.descCifra = "Nro de Taller";
     }

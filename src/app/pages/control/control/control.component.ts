@@ -11,7 +11,7 @@ export class ControlComponent {
   userInfo = (JSON.parse(localStorage.getItem('UnidElegida')!));
   links: FormatoTab[] = []
   ngOnInit(){
-    if (this.userInfo.idRol == 7) {
+    if (this.userInfo.idRol == 7 || this.userInfo.idRol === 1) {
       this.links = [
         {url: `/app/control/mis-talleres`, title: 'Mis Talleres'},
         {url: `/app/control/control-asistencia`, title: 'Asistencias', disabled: true},
