@@ -12,50 +12,50 @@
             </div>
         </label>
       </li> -->
-      <li *ngIf="unid.rol !== 'TALLERISTA'">
+      <li *ngIf="unid.idRol !== '7'">
         <a routerLink="/app/dashboard" routerLinkActive="list-item-activo" (select)="true">
           <img src="assets/svg/nav-icon-dashboard.svg" />
           <span>Dashboard</span>
         </a>
       </li>
-      <li *ngIf="unid.rol === 'TALLERISTA'">
+      <li *ngIf="unid.idRol === '7'">
         <a routerLink="/app/home" routerLinkActive="list-item-activo" (select)="true">
           <img src="assets/svg/nav-icon-dashboard.svg" />
           <span>Inicio</span>
         </a>
       </li>
-      <li *ngIf="unid.rol === 'COORDINADOR RED'">
+      <li *ngIf="unid.idRol === '10'">
         <a routerLink="/app/contratos" routerLinkActive="list-item-activo">
           <img class="" src="assets/svg/nav-icon-contratos.svg" />
           <span>Contratos</span>
         </a>
       </li>
-      <li *ngIf="unid.rol !== 'TALLERISTA'">
+      <li *ngIf="unid.idRol !== '7'">
         <a routerLink="/app/contactos" routerLinkActive="list-item-activo">
           <img class="" src="assets/svg/nav-icon-contacto.svg" />
           <span>Contactos</span>
         </a>
       </li>
      
-      <li *ngIf="unid.rol === 'PROFESIONAL CAM'">
+      <li *ngIf="unid.idRol === '9'">
         <a routerLink='/app/afiliados' routerLinkActive="list-item-activo">
           <img class="" src="assets/svg/nav-icon-afiliacion.svg" />
           <span>Afiliaciones</span>
         </a>
       </li>
-      <li *ngIf="unid.rol === 'PROFESIONAL CAM'">
+      <li *ngIf="unid.idRol === '9'">
         <a [routerLink]="'/app/' + rutas.PROGRAMACION" routerLinkActive="list-item-activo">
           <img class="" src="assets/svg/nav-icon-programacion.svg"/>
           <span>Programación</span>
         </a>
       </li>
-      <li *ngIf="unid.rol === 'PROFESIONAL CAM' || unid.rol === 'TALLERISTA'">
-        <a [routerLink]="'/app/control'" routerLinkActive="list-item-activo" (click)="unid.rol === 'PROFESIONAL CAM' ? null : vistaTallerista()">
+      <li *ngIf="unid.idRol === '9' || unid.idRol === '7'">
+        <a [routerLink]="'/app/control'" routerLinkActive="list-item-activo" (click)="unid.rol === '9' ? null : vistaTallerista()">
           <img class="" src="assets/svg/nav-icon-control.svg"/>
           <span>Control</span>
         </a>
       </li>
-      <li *ngIf="unid.rol === 'TALLERISTA'">
+      <li *ngIf="unid.idRol === '7'">
         <a routerLink="/app/reportes-tallerista" routerLinkActive="list-item-activo">
           <img class="" src="assets/svg/reportes.svg" />
           <span>Reportes</span>
@@ -112,7 +112,7 @@
             <span class="text-[#64748B] text-[12px]">------------------------</span>
           </div>
         </div>
-        <div class="flex flex-col gap-2.5 px-3 py-2.5" *ngIf="unid.rol === 'PROFESIONAL CAM'">
+        <div class="flex flex-col gap-2.5 px-3 py-2.5" *ngIf="unid.idRol=== '9'">
           <div class="flex flex-row items-center gap-2.5 cursor-pointer" (click)="administrarCiram()" cdkMenuItem>
             <img class="h-5 self-center" src="assets/svg/iconoCiramSidNav.svg">
             <span>Administrar CIRAM'S</span>
