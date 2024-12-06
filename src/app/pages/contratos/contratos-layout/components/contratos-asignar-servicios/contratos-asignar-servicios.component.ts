@@ -32,6 +32,7 @@ export class ContratosAsignarServiciosComponent {
   opcionesServicios: FormatoTypeAndSelect[] = [];
   opcionesModalidad: TablaOpciones[] = [];
   opcionesUnidades: any[] = [];
+  idRol: number = 0;
   
   dataColumnas: FormatoColumna[] = [
     {nomAttribute: 'idServicio', oculto: true},
@@ -74,20 +75,32 @@ export class ContratosAsignarServiciosComponent {
             })
           }
         })
-        this.contratoService.getListServicios().subscribe((data)=>{
-          if (data.code == 0) {
-            data.data.forEach((x: any)=>{
-              this.opcionesServicios.push({idOpcion: x.idServicio, nombre: x.nombre})
-            })
+
             this.contratoService.getDataFromOC(this.numOc).subscribe((data)=>{
               if (data.code == 0) {
                 this.dataContrato = data.data;
-                this.addTablaUnid(2,this.dataContrato.datosDetMismaUnidad[0], 0)
-                if (this.dataContrato.datosDetOtraUnidad.length > 0) {
-                  this.dataContrato.datosDetOtraUnidad.forEach((x: any)=>{
-                    this.addTablaUnid(2, x);
-                  })
+
+                //AGREGAR DATOS DE LA TABLA
+                let idRol = this.dataContrato.datosContrato.idRol ? this.dataContrato.datosContrato.idRol : 7;
+                let metodo;
+                if(!this.dataContrato.datosContrato.idRol){
+                  metodo = this.contratoService.getListServicios();
                 }
+                else{
+                  metodo = this.contratoService.getListServiciosByTxtYRol("",this.dataContrato.datosContrato.idRol)
+                }
+                  metodo.subscribe((data)=>{
+                  if (data.code == 0) {
+                    data.data.forEach((x: any)=>{
+                      this.opcionesServicios.push({idOpcion: x.idServicio, nombre: x.nombre})
+                    })
+
+                  this.addTablaUnid(2,this.dataContrato.datosDetMismaUnidad[0], 0)
+                  if (this.dataContrato.datosDetOtraUnidad.length > 0) {
+                    this.dataContrato.datosDetOtraUnidad.forEach((x: any)=>{
+                      this.addTablaUnid(2, x);
+                    })
+                  }
               }
               else{
                 this.notificationService.warning(data.message);
