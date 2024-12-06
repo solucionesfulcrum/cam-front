@@ -1,11 +1,13 @@
 import { Component } from '@angular/core';
 import { FormGroup, FormControl, FormBuilder } from '@angular/forms';
+import { MatDialog } from '@angular/material/dialog';
 import { PageEvent } from '@angular/material/paginator';
 import { faSpinner } from '@fortawesome/free-solid-svg-icons';
 import { ProgramaListadoItem, SubprogramaListadoItem } from '@models/cartera-de-servicios/cartera-de-servicios';
 import { Parametro } from '@models/parametros-busqueda.model';
 import { NotificationService } from '@services/notification.service';
 import { ProgramaService } from 'src/app/data/services/servicios/programa.service';
+import { CrearProgramaComponent } from '../dialogs/crear-programa/crear-programa.component';
 
 @Component({
   selector: 'esp-lista-programas',
@@ -47,7 +49,8 @@ export class ListaProgramasComponent {
   constructor(
     private fb: FormBuilder,
     private programaService: ProgramaService,
-    private notificationService: NotificationService
+    private notificationService: NotificationService,
+    private matDialog : MatDialog
   ) {}
 
   ngOnInit(): void {
@@ -241,6 +244,17 @@ export class ListaProgramasComponent {
     });
   
     this.notificationService.success(`${seleccionados.length} elementos procesados correctamente.`);
+  }
+
+  creaPrograma(){
+    this.matDialog.open(CrearProgramaComponent,
+      {
+        width: "500px",
+        data:{
+          message: ''
+        }
+      }
+    )
   }
   
 }
