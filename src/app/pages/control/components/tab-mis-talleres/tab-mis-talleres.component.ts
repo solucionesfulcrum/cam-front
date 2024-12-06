@@ -144,7 +144,7 @@ export class TabMisTalleresComponent {
       metodo = this.controlService.getlistaProgramacionCiram(idUsuario, this.ctrlInit.value!, this.ctrlFin.value!, this.ctrlSearch.value!.toUpperCase());
     }
     else{
-      metodo = this.controlService.getlistaProgramacion(idUsuario, this.ctrlInit.value!, this.ctrlFin.value!, this.ctrlSearch.value!.toUpperCase());
+      metodo = this.controlService.getlistaProgramacionCam(idUsuario, this.ctrlInit.value!, this.ctrlFin.value!, this.ctrlSearch.value!.toUpperCase());
     }
     metodo.subscribe((data) => {
       if (data.code == 0) {

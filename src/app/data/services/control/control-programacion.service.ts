@@ -22,6 +22,11 @@ export class ControlProgramacionService {
     return this._httpClient.get<any>(url);
   }
 
+  getlistaProgramacionCam(idUnidadOpe: number,fechInicio: string, fechFin: string, texto: string) {
+    const url = `${environment.API}/programacion/obtener/lista-cam/usuario/?idUnidadOperativa=${idUnidadOpe}&fechInicio=${fechInicio}&fechFin=${fechFin}&texto=${texto}&idUsuario=${(JSON.parse(localStorage.getItem('camUser')!)).idUsuario}`;
+    return this._httpClient.get<any>(url);
+  }
+
   getlistaProgramacionCiram(idUnidadOpe: number,fechInicio: string, fechFin: string, texto: string) {
     const url = `${environment.API}/programacion/obtener/lista-ciram/usuario/?idUnidadOperativa=${idUnidadOpe}&fechInicio=${fechInicio}&fechFin=${fechFin}&texto=${texto}&idUsuario=${(JSON.parse(localStorage.getItem('camUser')!)).idUsuario}`;
     return this._httpClient.get<any>(url);
