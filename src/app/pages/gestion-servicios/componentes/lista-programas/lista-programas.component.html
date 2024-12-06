@@ -56,8 +56,10 @@
   
         <ng-container cdkColumnDef="idPrograma">
           <th cdk-header-cell class="py-[1rem] px-6" *cdkHeaderCellDef>ID</th>
-          <td cdk-cell class="py-[1rem] px-6" *cdkCellDef="let row">
-            {{ row.idPrograma }}
+          <td cdk-cell class="py-[1rem] px-6 text-Name " *cdkCellDef="let row">
+            <span class="cursor-pointer" (click)="editarPrograma(row)">
+              {{ row.idPrograma }}
+            </span>
           </td>
         </ng-container>
 

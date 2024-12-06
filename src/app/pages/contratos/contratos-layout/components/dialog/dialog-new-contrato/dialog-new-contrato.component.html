@@ -6,6 +6,17 @@
   <div class="flex justify-between space-x-2 p-2.5" [formGroup]="formNewContrato">
     <div class="w-1/2">
       <div class="relative rounded-md shadow-sm">
+        <select id="searchDoc" formControlName="frmSelectRol"
+          class="space-x-5 bg-slate-50 border border-gray-300 text-gray-900 text-sm rounded-lg focusCampo block w-full h-[42px]">
+          <option value="" disabled selected>Seleccione su tipo de documento</option>
+          <option *ngFor="let rol of listRoles" [value]='rol.idRol'>{{rol.nombre | titlecase}}
+          </option>
+          <!-- <option value="1">Registrado</option> -->
+        </select>
+      </div>
+    </div>
+    <div class="w-1/2">
+      <div class="relative rounded-md shadow-sm">
         <select id="searchDoc" formControlName="frmSelectDoc"
           class="space-x-5 bg-slate-50 border border-gray-300 text-gray-900 text-sm rounded-lg focusCampo block w-full h-[42px]">
           <option value="" disabled selected>Seleccione su tipo de documento</option>

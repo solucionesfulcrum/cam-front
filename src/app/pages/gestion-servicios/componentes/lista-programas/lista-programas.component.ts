@@ -8,6 +8,7 @@ import { Parametro } from '@models/parametros-busqueda.model';
 import { NotificationService } from '@services/notification.service';
 import { ProgramaService } from 'src/app/data/services/servicios/programa.service';
 import { CrearProgramaComponent } from '../dialogs/crear-programa/crear-programa.component';
+import { EditarProgramaComponent } from '../dialogs/editar-programa/editar-programa.component';
 
 @Component({
   selector: 'esp-lista-programas',
@@ -252,6 +253,18 @@ export class ListaProgramasComponent {
         width: "500px",
         data:{
           message: ''
+        }
+      }
+    )
+  }
+
+  editarPrograma(programa: ProgramaListadoItem){
+    this.matDialog.open(EditarProgramaComponent,
+      {
+        width: "500px",
+        data:{
+          message: '',
+          programa
         }
       }
     )

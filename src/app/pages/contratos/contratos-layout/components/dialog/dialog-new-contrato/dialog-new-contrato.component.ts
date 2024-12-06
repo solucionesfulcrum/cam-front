@@ -6,7 +6,9 @@ import { Router } from '@angular/router';
 import { RequestEditCabecera, RequestSendCabeceraContrato } from '@models/contratos/contratos-administracion.model';
 import { Parametro } from '@models/parametros-busqueda.model';
 import { RequestStatus } from '@models/request-status.model';
+import { RolData } from '@models/rol/rol-data.model';
 import { NotificationService } from '@services/notification.service';
+import { RolService } from '@services/rol.service';
 import { AppRoute } from 'src/app/data/constants/app-route.constant';
 import { ContratosAdministracionService } from 'src/app/data/services/contratos/contratos-administracion.service';
 import { DatosGeneralesService } from 'src/app/data/services/datos-generales.service';
@@ -40,9 +42,13 @@ export class DialogNewContratoComponent {
   okContrato: boolean = false;
   buscaContrato: boolean = false;
 
+  
+  listRoles: RolData[] = [];
+
   talleristaInfo: any;
   
   public formNewContrato = this.fb.nonNullable.group({
+    frmSelectRol: new FormControl('7'),
     frmSelectDoc: new FormControl('1'),
     frmDoc: ['', [Validators.required, Validators.minLength(8)]],
   });
@@ -63,11 +69,13 @@ export class DialogNewContratoComponent {
               private datosService                        : DatosGeneralesService,
               private contratosService                    : ContratosAdministracionService,
               private notificationService                 : NotificationService,
+                private rolesService: RolService,
               private _dialogRef                          : DialogRef<any>) {
 
   }
 
   ngOnInit(){
+    this.cargaServiciosParametros();
     this.formNewContrato.controls.frmSelectDoc.valueChanges.subscribe((data)=>{
       this.tipoDocSelected = this.opciones.find((x)=> x.valor1 == data);
     })
@@ -210,6 +218,9 @@ export class DialogNewContratoComponent {
       this.talleristaInfo = null;
 
       this.buscaContrato = false;
+
+      //DETALLES CONTRATADO
+      this.formNewContrato.controls.frmSelectRol.setValue("7");
     }
   }
 
@@ -317,7 +328,8 @@ export class DialogNewContratoComponent {
         fechaFin: formatDate(fechaFin!.split('/')[2] + '/' + fechaFin!.split('/')[1] + '/' + fechaFin!.split('/')[0], 'yyyy-MM-dd', this.locale),
         nroEntregables: this.formDataOrden.controls.frmEntregables.value!,
         monto: this.formDataOrden.controls.frmMonto.value!,
-        usuarioRegId: (JSON.parse(localStorage.getItem('camUser')!)).idUsuario
+        usuarioRegId: (JSON.parse(localStorage.getItem('camUser')!)).idUsuario,
+        idRol: this.formNewContrato.controls.frmSelectRol.value!,
       },
       detalle: [
         {
@@ -326,5 +338,11 @@ export class DialogNewContratoComponent {
         }
       ]
     }
+  }
+
+  cargaServiciosParametros() {
+    this.rolesService.getListRolesActivos().subscribe((data) => {
+      this.listRoles = data.data.filter((role : any) => role.idRol != 8 && role.idRol != 10);
+    })
   }
 }

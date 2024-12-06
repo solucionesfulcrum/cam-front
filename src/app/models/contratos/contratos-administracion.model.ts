@@ -64,7 +64,8 @@ export interface ContratoCabecera{
     fechaFin: string,
     nroEntregables: number,
     monto: number,
-    usuarioRegId: number
+    usuarioRegId: number,
+    idRol: string
 }
 
 export interface ContratoDetalle{
