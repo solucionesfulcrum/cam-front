@@ -127,7 +127,7 @@ export class DialogAddProgramacionAsignacionComponent {
       servicios: listServ
     };
     this.listServicios.push(dataAsigServ);
-
+    
     this.data.serviciosCiram.forEach((x: any)=>{
       let serviciosX: Servicio[] = [];
       x.servicios.forEach((y: any) => {
@@ -138,7 +138,7 @@ export class DialogAddProgramacionAsignacionComponent {
           idUnid: x.idUnidOpeCiram,
           nomUnid: x.ciram,
           esDeCiram: true,
-          idContratoSubDetalle: x.idContratoSubDetalle,
+          idContratoSubDetalle: y.idContratoSubDetalle,
         })
       });
       this.listServicios.push({
