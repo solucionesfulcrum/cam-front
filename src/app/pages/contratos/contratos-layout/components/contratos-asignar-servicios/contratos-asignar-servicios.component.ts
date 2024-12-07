@@ -65,46 +65,53 @@ export class ContratosAsignarServiciosComponent {
   }
 
   getDataServices(){
-    this.contratoService.getListCamById().subscribe((data)=>{
-      if (data.code == 0) {
-        data.data[0].listarCam.forEach((x: any)=>{
-          this.opcionesUnidades.push({idUnidadOperativa: x.idUnidadOperativa, codigo: x.codigoCam, nombre: x.nombreCam})
-          if (x.listaCiram.length > 0) {
-            x.listaCiram.forEach((val: any)=>{
-              this.opcionesUnidades.push({idUnidadOperativa: val.idUnidadOperativa, codigo: val.codigo, nombre: val.nombre})
-            })
-          }
-        })
-
+    this.contratoService.getListCamById().subscribe((dataUO)=>{
+      if (dataUO.code == 0) {
             this.contratoService.getDataFromOC(this.numOc).subscribe((data)=>{
               if (data.code == 0) {
                 this.dataContrato = data.data;
 
-                //AGREGAR DATOS DE LA TABLA
-                let metodo;
-                if(!this.dataContrato.datosContrato.idRol){
-                  metodo = this.contratoService.getListServicios();
-                }
-                else{
-                  metodo = this.contratoService.getListServiciosByTxtYRol("",this.dataContrato.datosContrato.idRol)
-                }
-                  metodo.subscribe((data)=>{
-                  if (data.code == 0) {
-                    data.data.forEach((x: any)=>{
-                      this.opcionesServicios.push({idOpcion: x.idServicio, nombre: x.nombre})
-                    })
-
-                  this.addTablaUnid(2,this.dataContrato.datosDetMismaUnidad[0], 0)
-                  if (this.dataContrato.datosDetOtraUnidad.length > 0) {
-                    this.dataContrato.datosDetOtraUnidad.forEach((x: any)=>{
-                      this.addTablaUnid(2, x);
-                    })
+                //AGREGAR UNIDADES OPERATIVAS
+                dataUO.data[0].listarCam.forEach((x: any)=>{
+                  this.opcionesUnidades.push({idUnidadOperativa: x.idUnidadOperativa, codigo: x.codigoCam, nombre: x.nombreCam})
+                  if(this.dataContrato.datosContrato.idRol != 9){
+                    if (x.listaCiram.length > 0) {
+                      x.listaCiram.forEach((val: any)=>{
+                        this.opcionesUnidades.push({idUnidadOperativa: val.idUnidadOperativa, codigo: val.codigo, nombre: val.nombre})
+                      })
+                    }
                   }
-              }
-              else{
-                this.notificationService.warning(data.message);
-              }
-            })
+                })
+                
+                //AGREGAR DATOS DE LA TABLA
+                setTimeout(()=>{
+                    let metodo;
+                  if(!this.dataContrato.datosContrato.idRol){
+                    metodo = this.contratoService.getListServicios();
+                  }
+                  else{
+                    metodo = this.contratoService.getListServiciosByTxtYRol("",this.dataContrato.datosContrato.idRol)
+                  }
+
+                  metodo.subscribe((data)=>{
+                    if (data.code == 0) {
+                      data.data.forEach((x: any)=>{
+                        this.opcionesServicios.push({idOpcion: x.idServicio, nombre: x.nombre})
+                      })
+
+                      this.addTablaUnid(2,this.dataContrato.datosDetMismaUnidad[0], 0)
+                      if (this.dataContrato.datosDetOtraUnidad.length > 0) {
+                        this.dataContrato.datosDetOtraUnidad.forEach((x: any)=>{
+                          this.addTablaUnid(2, x);
+                        })
+                      }
+                    }
+                    else{
+                      this.notificationService.warning(data.message);
+                    }
+                  })
+                })
+                
           }
           else{
             this.notificationService.warning(data.message);
@@ -112,7 +119,7 @@ export class ContratosAsignarServiciosComponent {
         })
       }
       else{
-        this.notificationService.warning(data.message);
+        this.notificationService.warning(dataUO.message);
       }
     })
 
