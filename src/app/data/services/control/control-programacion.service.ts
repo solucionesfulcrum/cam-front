@@ -415,6 +415,6 @@ export class ControlProgramacionService {
   }
 
 
+  
 
-  //control/inscripcion/registrar
 }
