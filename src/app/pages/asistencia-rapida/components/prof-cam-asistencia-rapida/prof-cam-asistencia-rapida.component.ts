@@ -186,16 +186,31 @@ export class ProfCamAsistenciaRapidaComponent {
 
     
     this.notificationService.info('Su reporte se está generando');
+
+    if(this.formBuscar.get('frmSearchRed')?.value){
+      // Enviar el request sin esperar respuesta
+      this.controlProgramacionService.generarReporteClaseNacionalExcel(payload).subscribe(
+        () => {
+          // No hacer nada con la respuesta
+        },
+        (error) => {
+          //console.error('Error al enviar la solicitud de generación de Excel:', error);
+        }
+      );
+    }
+    else{
+      // Enviar el request sin esperar respuesta
+      this.controlProgramacionService.generarReporteBloqueClaseNacionalExcel(payload).subscribe(
+        () => {
+          // No hacer nada con la respuesta
+        },
+        (error) => {
+          //console.error('Error al enviar la solicitud de generación de Excel:', error);
+        }
+      );
+    }
     
-    // Enviar el request sin esperar respuesta
-    this.controlProgramacionService.generarReporteClaseNacionalExcel(payload).subscribe(
-      () => {
-        // No hacer nada con la respuesta
-      },
-      (error) => {
-        //console.error('Error al enviar la solicitud de generación de Excel:', error);
-      }
-    );
+
   }
 
   firstDisplayValue(value: any){

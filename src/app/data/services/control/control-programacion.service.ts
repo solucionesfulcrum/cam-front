@@ -372,6 +372,13 @@ export class ControlProgramacionService {
     return this._httpClient.post<any>(url, model);
   }
 
+  generarReporteBloqueClaseNacionalExcel(model: RequestAdminAsistenciasRap){
+    const url = `${environment.API}/report/control/generar-reporte-bloque/excel/asistencia-rapida-nacional?skipInterceptor=true`;
+    let headers = new HttpHeaders();
+    headers = headers.set('Skip-Interceptor', 'true');
+    return this._httpClient.post<any>(url, model);
+  }
+
 
   generarExcelAsistenciaRapidaClaseNacional(model: RequestAdminAsistenciasRap): Observable<Blob>{
     const url = `${environment.API}/report/generar-reporte/excel/asistencia-rapida-nacional`;

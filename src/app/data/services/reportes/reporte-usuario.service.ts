@@ -3,7 +3,7 @@ import { Injectable } from '@angular/core';
 import { environment } from 'src/environments/environment';
 import { Observable } from 'rxjs';
 import { DtGenericoPaginado, ResponseGenerico } from '@models/generico/dt-generico';
-import { ReportesGeneradosRequest, ReporteUsuario, ReporteUsuarioEditarRequest, ReporteUsuarioRegistrarRequest } from '@models/reporte-usuario/reporte-usuario';
+import { ReportesGeneradosRequest, ReporteUsuario, ReporteUsuarioEditarRequest, ReporteUsuarioRegistrarRequest, SubReporteUsuario } from '@models/reporte-usuario/reporte-usuario';
 
 const URL_BASE = `${environment.API}/reporte-usuario`;
 
@@ -39,6 +39,11 @@ export class ReporteUsuarioService {
     return this._httpClient.post<DtGenericoPaginado<ReporteUsuario[]>>(url, model);
   }
 
+  listarSubReportes(idReporte: number){
+    const url = `${URL_BASE}/listar-sub-reportes/${idReporte}`;
+    return this._httpClient.get<ResponseGenerico<SubReporteUsuario[]>>(url);
+  }
+
   eliminarReporteUsuario(idReporteUsuario: number){
     const url = `${URL_BASE}/eliminar/${idReporteUsuario}`;
     return this._httpClient.delete<ResponseGenerico<any>>(url);
@@ -46,6 +51,16 @@ export class ReporteUsuarioService {
 
   descargarReporte(idReporteUsuario: number) {
     const url = `${URL_BASE}/descargar-reporte/${idReporteUsuario}`;
+    return this._httpClient.get<any>(url, { responseType: 'blob' as 'json' });
+  }
+
+  descargarSubReporte(idSubReporteUsuario: number) {
+    const url = `${URL_BASE}/descargar-sub-reporte/${idSubReporteUsuario}`;
+    return this._httpClient.get<any>(url, { responseType: 'blob' as 'json' });
+  }
+
+  descargarExcelCombinado(idReporteUsuario: number) {
+    const url = `${URL_BASE}/descargar-excel-combinado/${idReporteUsuario}`;
     return this._httpClient.get<any>(url, { responseType: 'blob' as 'json' });
   }
 }

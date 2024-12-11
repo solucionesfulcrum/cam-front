@@ -1,22 +1,21 @@
-import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormControl, FormGroup } from '@angular/forms';
-import { MatDialog } from '@angular/material/dialog';
+import { Component, Inject, InjectionToken, OnInit } from '@angular/core';
+import { FormGroup, FormBuilder, FormControl } from '@angular/forms';
+import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { PageEvent } from '@angular/material/paginator';
 import { Router } from '@angular/router';
 import { faSpinner } from '@fortawesome/free-solid-svg-icons';
-import { ReportesGeneradosRequest, ReporteUsuario } from '@models/reporte-usuario/reporte-usuario';
+import { ReporteUsuario, ReportesGeneradosRequest, SubReporteUsuario } from '@models/reporte-usuario/reporte-usuario';
 import { NotificationService } from '@services/notification.service';
 import { ReporteUsuarioService } from 'src/app/data/services/reportes/reporte-usuario.service';
-import { DetalleReporteComponent } from '../dialogs/detalle-reporte/detalle-reporte.component';
 
 @Component({
-  selector: 'app-reportes-excel',
-  templateUrl: './reportes-excel.component.html',
-  styleUrls: ['./reportes-excel.component.scss']
+  selector: 'esp-detalle-reporte',
+  templateUrl: './detalle-reporte.component.html',
+  styleUrls: ['./detalle-reporte.component.scss']
 })
-export class ReportesExcelComponent implements OnInit {
+export class DetalleReporteComponent implements OnInit {
   formBuscar: FormGroup;
-  dataSource: ReporteUsuario[] = [];
+  dataSource: SubReporteUsuario[] = [];
   columns: string[] = ['nombreReporte', 'idRecurso', 'fechReg', 'fechFin', 'estado', 'acciones'];
   pageIndex = 0;
   pageNum = 1;
@@ -32,7 +31,9 @@ export class ReportesExcelComponent implements OnInit {
     private reporteUsuarioService: ReporteUsuarioService,
     private notificationService: NotificationService,
     private router: Router,
-    private matDialog: MatDialog
+    @Inject(MAT_DIALOG_DATA) public data: ReporteUsuario, // Aquí se usa @Inject correctamente
+    private _dialogRef: MatDialogRef<any>
+
   ) {
     this.formBuscar = this.fb.group({
       frmSearch: new FormControl(''),
@@ -42,20 +43,20 @@ export class ReportesExcelComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    //this.loadData();
+    this.loadData();
   }
 
   loadData(): void {
     
     setTimeout(() => {
       this.loadingData = true;
-      this.reporteUsuarioService.listarReportesUsuarioDt(this.getPayloadList()).subscribe({
+      this.reporteUsuarioService.listarSubReportes(this.data.idReporteUsuario).subscribe({
         next: (data) => {
           this.loadingData = false;
-          if (data.code === 2) {
-            this.dataSource = data.data.list;
-            this.total = data.data.total;
-            this.pageIndex = data.data.pageNum - 1;
+          if (data.code === 0) {
+            this.dataSource = data.data;
+            this.total = data.data.length;
+            this.pageIndex = 1;
           } else {
             this.notificationService.warning(data.message);
           }
@@ -70,12 +71,10 @@ export class ReportesExcelComponent implements OnInit {
    
   }
 
-  descargarReporte(idReporteUsuario: number, row: any): void {
+  descargarReporte(idReporteUsuarioAgrupado: number, row: any): void {
     row.loading = true; // Habilitar el estado de carga del botón
 
-    if(row.esAgrupado){
-      
-    this.reporteUsuarioService.descargarExcelCombinado(idReporteUsuario).subscribe({
+    this.reporteUsuarioService.descargarSubReporte(idReporteUsuarioAgrupado).subscribe({
       next: (data) => {
         this.notificationService.success('Se está descargando el reporte');
         const blob: Blob = new Blob([data], { type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet' });
@@ -93,28 +92,6 @@ export class ReportesExcelComponent implements OnInit {
         row.loading = false; // Desactivar el estado de carga
       }
     });
-    }
-    else{
-      
-    this.reporteUsuarioService.descargarReporte(idReporteUsuario).subscribe({
-      next: (data) => {
-        this.notificationService.success('Se está descargando el reporte');
-        const blob: Blob = new Blob([data], { type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet' });
-        const url = window.URL.createObjectURL(blob);
-        const anchor = document.createElement('a');
-        anchor.download = 'Reporte_Usuario.xlsx';
-        anchor.href = url;
-        anchor.click();
-        window.URL.revokeObjectURL(url);
-        row.loading = false; // Desactivar el estado de carga
-      },
-      error: (err) => {
-        this.notificationService.error('Error al descargar el reporte');
-        console.error(err);
-        row.loading = false; // Desactivar el estado de carga
-      }
-    });
-    }
   
   }
 
@@ -148,13 +125,6 @@ export class ReportesExcelComponent implements OnInit {
       pageSize: this.pageSize
     }
   }
-
-  verDetalle(row: any){
-    this.matDialog.open(DetalleReporteComponent, {
-      width: "1400px",
-      data: row
-    })
-  }
   
 
   handlePageEvent(event: PageEvent): void {
@@ -164,3 +134,5 @@ export class ReportesExcelComponent implements OnInit {
     this.loadData();
   }
 }
+
+

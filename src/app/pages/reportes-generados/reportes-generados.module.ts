@@ -11,12 +11,14 @@ import { DataLoadingComponent } from '@shared/components/data-loading/data-loadi
 import { SharedModule } from '@shared/shared.module';
 import { MaterialModule } from 'src/app/material/material.module';
 import { ReportesExcelComponent } from './componentes/reportes-excel/reportes-excel.component';
+import { DetalleReporteComponent } from './componentes/dialogs/detalle-reporte/detalle-reporte.component';
 
 
 @NgModule({
   declarations: [
     ReportesGeneradosComponent,
-    ReportesExcelComponent
+    ReportesExcelComponent,
+    DetalleReporteComponent
   ],
   imports: [
     CommonModule,
