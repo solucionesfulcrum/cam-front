@@ -16,7 +16,7 @@ export class ControlComponent {
         {url: `/app/control/mis-talleres`, title: 'Mis Talleres'},
         {url: `/app/control/control-asistencia`, title: 'Asistencias', disabled: true},
         {url: `/app/control/control-talleres`, title: 'Control'},
-        // {url: `/app/control/asistencia-rapida`, title: 'Asistencia Rápida'},
+        {url: `/app/control/asistencia-rapida`, title: 'Asistencia Rápida'},
       ];
     }
     else if(this.userInfo.idRol == 9){
@@ -27,7 +27,7 @@ export class ControlComponent {
         {url: `/app/control/mis-talleres-3`, title: 'Talleres'},*/
         {url: `/app/control/asistencias-profesional-cam`, title: 'Pre-Registro', disabled: true},
         {url: `/app/control/control-asistencia`, title: 'Asistencias', disabled: true},
-        // {url: `/app/control/asistencia-rapida`, title: 'Asistencia Rápida'},
+        {url: `/app/control/asistencia-rapida`, title: 'Asistencia Rápida'},
       ];
     }
     else{
