@@ -224,6 +224,7 @@ export class ReportesExcelComponent implements OnInit {
               workbook.xlsx.writeBuffer().then((buffer) => {
                 saveAs(new Blob([buffer]), 'Reporte_Combinado.xlsx');
               });
+              row.loading = false;
             }
           });
         });
