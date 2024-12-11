@@ -97,7 +97,12 @@ export class ForgotPasswordFormComponent {
           }
           else {
             this.statusConfirm = 'failed';
-            this._notificacion.warning(data.message);
+            try {
+                const jsonObject = JSON.parse(data.data);
+                this._notificacion.warning(jsonObject.message);
+            } catch (error) {
+                this._notificacion.warning(data.message);
+            }
           }
         })
       } else {
