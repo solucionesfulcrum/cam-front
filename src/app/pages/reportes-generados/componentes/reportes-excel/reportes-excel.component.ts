@@ -168,68 +168,70 @@ export class ReportesExcelComponent implements OnInit {
   }
 
   //PROCESAMIENTO DEL LADO DEL FRONT:
-  procesarExcelFront(row : any, idReporteUsuario: number){
-      this.reporteUsuarioService.listarSubReportes(idReporteUsuario).subscribe({
-        next: (data) => {
-          this.loadingData = false;
-          if (data.code === 0) {
-            this.combinarArchivos(row, data.data);
-          } else {
-            this.notificationService.warning(data.message);
-          }
-        },
-        error: (err) => {
-          this.loadingData = false;
-          this.notificationService.error('Error al cargar los reportes de usuario');
-          console.error(err);
+  procesarExcelFront(row: any, idReporteUsuario: number): void {
+    this.reporteUsuarioService.listarSubReportes(idReporteUsuario).subscribe({
+      next: (data) => {
+        this.loadingData = false;
+        if (data.code === 0) {
+          this.combinarArchivosSecuencial(row, data.data); // Usar el nuevo método secuencial
+        } else {
+          this.notificationService.warning(data.message);
+          row.loading = false; // Finalizar carga incluso si hay un error
         }
-      });
+      },
+      error: (err) => {
+        this.loadingData = false;
+        this.notificationService.error('Error al cargar los reportes de usuario');
+        console.error(err);
+        row.loading = false; // Finalizar carga en caso de error
+      },
+    });
   }
-
-  private combinarArchivos(row: any, reportes: SubReporteUsuario[]): void {
+  
+  private async combinarArchivosSecuencial(row: any, reportes: SubReporteUsuario[]): Promise<void> {
     const workbook = new ExcelJS.Workbook();
     const combinedSheet = workbook.addWorksheet('Reporte Combinado');
     let isHeaderCopied = false;
   
-    const promises = reportes.map((reporte) =>
-      this.reporteUsuarioService.descargarSubReporte(reporte.idReporteUsuarioAgrupado).toPromise()
-    );
-  
-    Promise.all(promises)
-      .then((blobs) => {
-        blobs.forEach((blob, index) => {
+    try {
+      for (const reporte of reportes) {
+        try {
+          const blob = await this.reporteUsuarioService.descargarSubReporte(reporte.idReporteUsuarioAgrupado).toPromise();
           const tempWorkbook = new ExcelJS.Workbook();
+          await tempWorkbook.xlsx.load(blob);
   
-          tempWorkbook.xlsx.load(blob).then(() => {
-            const tempSheet = tempWorkbook.getWorksheet(1); // Obtener la primera hoja
-            tempSheet!.eachRow((excelRow, rowIndex) => {
-              const values = excelRow.values as any[]; // Valores de la fila (incluyendo celdas vacías)
+          const tempSheet = tempWorkbook.getWorksheet(1); // Obtener la primera hoja
+          tempSheet!.eachRow((excelRow, rowIndex) => {
+            const values = excelRow.values as any[]; // Valores de la fila (incluyendo celdas vacías)
+            const hasNonEmptyCell = values.some((cell) => cell !== null && cell !== undefined && cell !== '');
   
-              // Verificar si la fila contiene al menos una celda no vacía
-              const hasNonEmptyCell = values.some((cell) => cell !== null && cell !== undefined && cell !== '');
-  
-              if (rowIndex === 1 && !isHeaderCopied) {
-                // Copiar cabecera con estilos
-                const headerRow = combinedSheet.addRow(values);
-                this.applyHeaderStyle(headerRow, combinedSheet); // Aplicar estilo y ajustar ancho de columnas
-                isHeaderCopied = true;
-              } else if (rowIndex > 1 && hasNonEmptyCell) {
-                // Agregar filas con datos (aunque tengan celdas vacías)
-                combinedSheet.addRow(values);
-              }
-            });
-  
-            // Guardar el archivo combinado una vez completado
-            if (index === blobs.length - 1) {
-              workbook.xlsx.writeBuffer().then((buffer) => {
-                saveAs(new Blob([buffer]), 'Reporte_Combinado.xlsx');
-              });
-              row.loading = false;
+            if (rowIndex === 1 && !isHeaderCopied) {
+              // Copiar cabecera con estilos
+              const headerRow = combinedSheet.addRow(values);
+              this.applyHeaderStyle(headerRow, combinedSheet);
+              isHeaderCopied = true;
+            } else if (rowIndex > 1 && hasNonEmptyCell) {
+              // Agregar filas con datos (aunque tengan celdas vacías)
+              combinedSheet.addRow(values);
             }
           });
-        });
-      })
-      .catch((err) => console.error('Error al descargar subreportes:', err));
+        } catch (err) {
+          console.error(`Error descargando subreporte ${reporte.idReporteUsuarioAgrupado}:`, err);
+          this.notificationService.error(`Error descargando subreporte ID ${reporte.idReporteUsuarioAgrupado}`);
+        }
+      }
+  
+      // Guardar el archivo combinado una vez completado
+      const buffer = await workbook.xlsx.writeBuffer();
+      saveAs(new Blob([buffer]), 'Reporte_Combinado.xlsx');
+      this.notificationService.success('El archivo combinado ha sido generado con éxito.');
+    } catch (err) {
+      console.error('Error general procesando los subreportes:', err);
+      this.notificationService.error('Error general procesando los subreportes.');
+    } finally {
+      // Asegurarse de que se detiene la carga al final
+      row.loading = false;
+    }
   }
   
   private applyHeaderStyle(row: ExcelJS.Row, worksheet: ExcelJS.Worksheet): void {
@@ -250,10 +252,11 @@ export class ReportesExcelComponent implements OnInit {
   
       // Ajustar el ancho de las columnas dinámicamente
       const cellValue = cell.value ? cell.value.toString() : '';
-      const currentWidth = worksheet.getColumn(colNumber).width || 15;
-      worksheet.getColumn(colNumber).width = Math.max(currentWidth, cellValue.length + 10);
+      const currentWidth = worksheet.getColumn(colNumber).width || 20;
+      worksheet.getColumn(colNumber).width = Math.max(currentWidth, cellValue.length + 15);
     });
   }
+  
   
   
   
