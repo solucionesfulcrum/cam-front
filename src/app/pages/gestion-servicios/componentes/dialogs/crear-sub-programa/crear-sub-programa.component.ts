@@ -26,7 +26,7 @@ export class CrearSubProgramaComponent implements OnInit {
   ) {
     this.subprogramaForm = this._fb.group({
       programa: ['', [Validators.required]],
-      nombreSubprograma: ['', [Validators.required, Validators.maxLength(50)]],
+      nombreSubprograma: ['', [Validators.required, Validators.maxLength(400)]],
       activo: [1, [Validators.required]]
     });
   }

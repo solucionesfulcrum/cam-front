@@ -22,7 +22,7 @@ export class CrearProgramaComponent implements OnInit {
     private _programaService: ProgramaService
   ) {
     this.programaForm = this._fb.group({
-      nombrePrograma: ['', [Validators.required, Validators.maxLength(50)]],
+      nombrePrograma: ['', [Validators.required, Validators.maxLength(400)]],
       fechaCreacion: [new Date().toISOString().split('T')[0], [Validators.required]],
       activo: [1, [Validators.required]]
     });

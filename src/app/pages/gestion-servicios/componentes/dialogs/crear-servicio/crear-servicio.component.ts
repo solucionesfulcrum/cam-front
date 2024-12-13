@@ -31,7 +31,7 @@ export class CrearServicioComponent implements OnInit {
     this.servicioForm = this._fb.group({
       subprograma: ['', [Validators.required]],
       tipoServicio: ['', [Validators.required]],
-      nombreServicio: ['', [Validators.required, Validators.maxLength(50)]],
+      nombreServicio: ['', [Validators.required, Validators.maxLength(400)]],
       activo: [1, [Validators.required]]
     });
   }

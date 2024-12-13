@@ -257,10 +257,11 @@ export class ListaSubprogramasComponent {
         }
       }
     ).beforeClosed().subscribe(data => {
-      if(data.success){
-        this.onLoadData()
+      if(data){
+        if(data.success){
+          this.onLoadData()
+        }
       }
-     
     })
   }
 
@@ -274,10 +275,11 @@ export class ListaSubprogramasComponent {
         }
       }
     ).beforeClosed().subscribe(data => {
-      if(data.success){
-        this.onLoadData()
+      if(data){
+        if(data.success){
+          this.onLoadData()
+        }
       }
-     
     })
   }
   

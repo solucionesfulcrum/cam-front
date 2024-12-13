@@ -34,7 +34,7 @@ export class EditarServicioComponent implements OnInit {
     this.servicioForm = this._fb.group({
       subprograma: [data.servicio.idSubPrograma, [Validators.required]],
       tipoServicio: [data.servicio.paramTipoServicio, [Validators.required]],
-      nombreServicio: [data.servicio.nombreServicio, [Validators.required, Validators.maxLength(50)]],
+      nombreServicio: [data.servicio.nombreServicio, [Validators.required, Validators.maxLength(200)]],
       idServicio: [data.servicio.idServicio, {disabled: true}],
       fechaModificacion: [{ value: data.servicio.fechaModificacion, disabled: true }],
       fechaCreacion: [{ value: data.servicio.fechaCreacion, disabled: true }],

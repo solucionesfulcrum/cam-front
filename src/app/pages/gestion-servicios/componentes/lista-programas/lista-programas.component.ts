@@ -256,10 +256,11 @@ export class ListaProgramasComponent {
         }
       }
     ).beforeClosed().subscribe(data => {
-      if(data.success){
-        this.onLoadData()
+      if(data){
+        if(data.success){
+          this.onLoadData()
+        }
       }
-     
     })
   }
 
@@ -273,10 +274,11 @@ export class ListaProgramasComponent {
         }
       }
     ).beforeClosed().subscribe(data => {
-      if(data.success){
-        this.onLoadData()
+      if(data){
+        if(data.success){
+          this.onLoadData()
+        }
       }
-     
     })
   }
   

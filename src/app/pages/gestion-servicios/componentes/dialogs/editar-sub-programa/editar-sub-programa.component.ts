@@ -26,7 +26,7 @@ export class EditarSubProgramaComponent implements OnInit {
   ) {
     this.subprogramaForm = this._fb.group({
       programa: [data.subPrograma.idPrograma, [Validators.required]],
-      nombreSubprograma: [data.subPrograma.nombreSubPrograma, [Validators.required, Validators.maxLength(50)]],
+      nombreSubprograma: [data.subPrograma.nombreSubPrograma, [Validators.required, Validators.maxLength(400)]],
       activo: [data.subPrograma.activo, [Validators.required]],
       fechaModificacion: [{ value: data.subPrograma.fechaModificacion, disabled: true }],
       fechaCreacion: [{ value: data.subPrograma.fechaCreacion, disabled: true }],

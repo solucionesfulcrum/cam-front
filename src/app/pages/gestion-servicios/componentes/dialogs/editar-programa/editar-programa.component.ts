@@ -23,7 +23,7 @@ export class EditarProgramaComponent implements OnInit {
   ) {
     this.programaForm = this._fb.group({
       idPrograma: [{ value: data.programa.idPrograma, disabled: true }],
-      nombrePrograma: [data.programa.nombrePrograma, [Validators.required, Validators.maxLength(50)]],
+      nombrePrograma: [data.programa.nombrePrograma, [Validators.required, Validators.maxLength(400)]],
       fechaModificacion: [{ value: data.programa.fechaModificacion, disabled: true }],
       fechaCreacion: [{ value: data.programa.fechaCreacion, disabled: true }],
       activo: [data.programa.activo, [Validators.required]],
