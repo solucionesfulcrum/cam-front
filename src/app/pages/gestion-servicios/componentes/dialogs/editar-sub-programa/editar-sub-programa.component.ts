@@ -66,7 +66,7 @@ export class EditarSubProgramaComponent implements OnInit {
   
       // Llamada al servicio para editar el subprograma
       this._subProgramaService.editarSubPrograma(this.data.subPrograma.idSubPrograma, payload).subscribe(
-        (response) => {
+        (response: any) => {
           this.isLoading = false;
           if (response.code === 0) {
             this._dialogRef.close({ success: true, data: response.data });

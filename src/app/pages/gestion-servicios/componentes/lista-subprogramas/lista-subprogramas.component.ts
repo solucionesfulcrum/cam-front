@@ -5,11 +5,10 @@ import { faSpinner } from '@fortawesome/free-solid-svg-icons';
 import { ServicioListadoItem, SubprogramaListadoItem } from '@models/cartera-de-servicios/cartera-de-servicios';
 import { Parametro } from '@models/parametros-busqueda.model';
 import { NotificationService } from '@services/notification.service';
-import { CarteraDeServiciosService } from 'src/app/data/services/servicios/cartera-de-servicios.service';
-import { SubProgramaService } from 'src/app/data/services/servicios/subPrograma.service';
 import { CrearSubProgramaComponent } from '../dialogs/crear-sub-programa/crear-sub-programa.component';
 import { EditarSubProgramaComponent } from '../dialogs/editar-sub-programa/editar-sub-programa.component';
 import { MatDialog } from '@angular/material/dialog';
+import { SubProgramaService } from 'src/app/data/services/servicios/subPrograma.service';
 
 @Component({
   selector: 'esp-lista-subprogramas',
@@ -85,7 +84,7 @@ export class ListaSubprogramasComponent {
       this.loadingData = true;
   
       this.subprogramaService.listarSubProgramas(this.getPayload()).subscribe({
-        next: (response) => {
+        next: (response : any) => {
           this.dataSource = response.data.list;
           this.pageNum = response.data.pageNum;
           this.pageSize = response.data.pageSize;

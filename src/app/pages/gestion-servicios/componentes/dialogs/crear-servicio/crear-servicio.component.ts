@@ -73,7 +73,7 @@ export class CrearServicioComponent implements OnInit {
   
       // Llamada al servicio para registrar el servicio
       this.carteraDeServicios.registrarServicio(payload).subscribe(
-        (response) => {
+        (response: any) => {
           this.isLoading = false;
           if (response.code === 0) {
             this.notificationService.success('Servicio creado con éxito.');
