@@ -12,6 +12,7 @@ const URL_BASE = `${environment.API}/subprograma`;
 export class SubProgramaService {
 
   constructor(private _httpClient: HttpClient) { }
+  
 
   listarSubProgramas(model : listarSubProgramasRequest){
     const url = `${URL_BASE}/dt/listar`;
