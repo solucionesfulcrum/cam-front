@@ -8,6 +8,7 @@ import { TablaOpciones } from '@shared/components/tabla-adaptable/formato-column
 import { DatosGeneralesService } from 'src/app/data/services/datos-generales.service';
 import { CarteraDeServiciosService } from 'src/app/data/services/servicios/cartera-de-servicios.service';
 import { ProgramaService } from 'src/app/data/services/servicios/programa.service';
+import { SubProgramaService } from 'src/app/data/services/servicios/sub-programa.service';
 
 @Component({
   selector: 'esp-crear-servicio',
@@ -18,6 +19,7 @@ export class CrearServicioComponent implements OnInit {
   servicioForm: FormGroup;
   isLoading = false;
   opcionesEvento: TablaOpciones[] = [];
+  opcionesSubProgramas: any[] = [];
 
   constructor(
     @Inject(DIALOG_DATA) public data: any,
@@ -26,7 +28,8 @@ export class CrearServicioComponent implements OnInit {
     private _programaService: ProgramaService,
     private datosGeneralesService: DatosGeneralesService,
     private notificationService               : NotificationService,
-    private carteraDeServicios: CarteraDeServiciosService
+    private carteraDeServicios: CarteraDeServiciosService,
+    private subProgramaService: SubProgramaService,
   ) {
     this.servicioForm = this._fb.group({
       subprograma: ['', [Validators.required]],
@@ -46,6 +49,15 @@ export class CrearServicioComponent implements OnInit {
       else{
         this.notificationService.warning(data.message);
       }
+    })
+
+    this.subProgramaService.listarActivos().subscribe((data)=>{
+      if(data.code == 0) {
+        this.opcionesSubProgramas = data.data
+      }
+      else{
+
+      }  
     })
   }
 

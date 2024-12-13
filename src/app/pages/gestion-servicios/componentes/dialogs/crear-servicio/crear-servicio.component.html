@@ -40,7 +40,9 @@
                   id="subprograma"
                   espEstiloInput
                 >
-                  <!-- Opciones dinámicas -->
+                <option *ngFor="let opcion of opcionesSubProgramas" [value]="opcion.idSubPrograma">
+                  {{opcion.nombre}}
+                </option>
                 </select>
                 <label espEstiloLabel for="subprograma">Subprograma</label>
               </div>
