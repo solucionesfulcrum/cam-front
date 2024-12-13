@@ -56,9 +56,18 @@
 
       <ng-container cdkColumnDef="idServicio">
         <th cdk-header-cell class="py-[1rem] px-6" *cdkHeaderCellDef>ID</th>
+        <td cdk-cell class="py-[1rem] px-6 font-bold" *cdkCellDef="let row">
+          <span>
+            {{ row.idServicio }}
+          </span>
+        </td>
+      </ng-container>
+
+      <ng-container cdkColumnDef="nombreServicio">
+        <th cdk-header-cell class="py-[1rem] px-6 " *cdkHeaderCellDef>Servicio</th>
         <td cdk-cell class="py-[1rem] px-6 text-Name" *cdkCellDef="let row">
           <span class="cursor-pointer"  (click)="editarServicio(row)">
-            {{ row.idServicio }}
+            {{ row.nombreServicio }}
           </span>
         </td>
       </ng-container>
@@ -67,13 +76,6 @@
         <th cdk-header-cell class="py-[1rem] px-6" *cdkHeaderCellDef [style]="'padding-left: 0px;'">Fecha</th>
         <td cdk-cell class="py-[1rem] px-6 font-semibold" *cdkCellDef="let row" [style]="'padding-left: 0px;'">
           {{ row.fechaModificacion | date: 'dd/MM/yyyy' }}
-        </td>
-      </ng-container>
-
-      <ng-container cdkColumnDef="nombreServicio">
-        <th cdk-header-cell class="py-[1rem] px-6" *cdkHeaderCellDef>Servicio</th>
-        <td cdk-cell class="py-[1rem] px-6" *cdkCellDef="let row">
-          {{ row.nombreServicio }}
         </td>
       </ng-container>
 

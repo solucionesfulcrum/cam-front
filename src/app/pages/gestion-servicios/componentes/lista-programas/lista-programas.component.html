@@ -56,17 +56,17 @@
   
         <ng-container cdkColumnDef="idPrograma">
           <th cdk-header-cell class="py-[1rem] px-6" *cdkHeaderCellDef>ID</th>
-          <td cdk-cell class="py-[1rem] px-6 text-Name " *cdkCellDef="let row">
-            <span class="cursor-pointer" (click)="editarPrograma(row)">
-              {{ row.idPrograma }}
-            </span>
+          <td cdk-cell class="py-[1rem] px-6 font-bold" *cdkCellDef="let row">
+            {{ row.idPrograma }}
           </td>
         </ng-container>
 
         <ng-container cdkColumnDef="nombrePrograma">
           <th cdk-header-cell class="py-[1rem] px-6" *cdkHeaderCellDef>Nombre Programa</th>
-          <td cdk-cell class="py-[1rem] px-6" *cdkCellDef="let row">
-            {{ row.nombrePrograma }}
+          <td cdk-cell class="py-[1rem] px-6 text-Name" *cdkCellDef="let row">
+            <span class="cursor-pointer" (click)="editarPrograma(row)">
+              {{ row.nombrePrograma }}
+            </span>
           </td>
         </ng-container>
   
