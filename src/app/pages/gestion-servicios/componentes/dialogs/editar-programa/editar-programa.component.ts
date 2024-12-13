@@ -13,6 +13,7 @@ import { ProgramaEditarRequestDto, ProgramaListadoItem } from '@models/cartera-d
 export class EditarProgramaComponent implements OnInit {
   programaForm: FormGroup;
   isLoading = false;
+  
 
   constructor(
     @Inject(DIALOG_DATA) public data: { message: string; programa: ProgramaListadoItem },
