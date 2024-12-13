@@ -4,7 +4,7 @@ import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { MatDialogRef } from '@angular/material/dialog';
 import { SubProgramaEditarRequestDto, SubprogramaListadoItem } from '@models/cartera-de-servicios/cartera-de-servicios';
 import { ProgramaService } from 'src/app/data/services/servicios/programa.service';
-import { SubProgramaService } from 'src/app/data/services/servicios/subPrograma.service';
+import { SubProgramaService } from 'src/app/data/services/servicios/sub-programa.service';
 
 // EditarSubProgramaComponent
 @Component({

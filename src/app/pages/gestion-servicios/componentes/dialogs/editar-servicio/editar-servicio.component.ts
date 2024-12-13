@@ -8,7 +8,7 @@ import { TablaOpciones } from '@shared/components/tabla-adaptable/formato-column
 import { DatosGeneralesService } from 'src/app/data/services/datos-generales.service';
 import { CarteraDeServiciosService } from 'src/app/data/services/servicios/cartera-de-servicios.service';
 import { ProgramaService } from 'src/app/data/services/servicios/programa.service';
-import { SubProgramaService } from 'src/app/data/services/servicios/subPrograma.service';
+import { SubProgramaService } from 'src/app/data/services/servicios/sub-programa.service';
 
 @Component({
   selector: 'esp-editar-servicio',

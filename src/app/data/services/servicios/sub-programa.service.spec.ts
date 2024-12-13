@@ -1,13 +1,13 @@
 import { TestBed } from '@angular/core/testing';
 
-import { SubprogramaService } from './subPrograma.service';
+import { SubProgramaService } from './sub-programa.service';
 
-describe('SubprogramasService', () => {
-  let service: SubprogramaService;
+describe('SubProgramaService', () => {
+  let service: SubProgramaService;
 
   beforeEach(() => {
     TestBed.configureTestingModule({});
-    service = TestBed.inject(SubprogramaService);
+    service = TestBed.inject(SubProgramaService);
   });
 
   it('should be created', () => {

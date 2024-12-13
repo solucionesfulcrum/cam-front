@@ -4,8 +4,8 @@ import { Component, Inject, OnInit } from '@angular/core';
 import { MatDialogRef } from '@angular/material/dialog';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ProgramaService } from 'src/app/data/services/servicios/programa.service';
-import { SubProgramaService } from 'src/app/data/services/servicios/subPrograma.service';
 import { SubProgramaCrearRequestDto } from '@models/cartera-de-servicios/cartera-de-servicios';
+import { SubProgramaService } from 'src/app/data/services/servicios/sub-programa.service';
 
 @Component({
   selector: 'esp-crear-sub-programa',

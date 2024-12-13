@@ -8,7 +8,7 @@ import { NotificationService } from '@services/notification.service';
 import { CrearSubProgramaComponent } from '../dialogs/crear-sub-programa/crear-sub-programa.component';
 import { EditarSubProgramaComponent } from '../dialogs/editar-sub-programa/editar-sub-programa.component';
 import { MatDialog } from '@angular/material/dialog';
-import { SubProgramaService } from 'src/app/data/services/servicios/subPrograma.service';
+import { SubProgramaService } from 'src/app/data/services/servicios/sub-programa.service';
 
 @Component({
   selector: 'esp-lista-subprogramas',
