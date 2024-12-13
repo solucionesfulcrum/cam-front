@@ -3,7 +3,7 @@ import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormControl, FormBuilder } from '@angular/forms';
 import { PageEvent } from '@angular/material/paginator';
 import { faSpinner } from '@fortawesome/free-solid-svg-icons';
-import { ServicioListadoItem } from '@models/cartera-de-servicios/cartera-de-servicios';
+import { EditarServicioRequestDto, ServicioListadoItem } from '@models/cartera-de-servicios/cartera-de-servicios';
 import { RequestAdminAsistenciasRap } from '@models/control/asistencia/service-asistencia.model';
 import { Parametro } from '@models/parametros-busqueda.model';
 import { NotificationService } from '@services/notification.service';
@@ -12,6 +12,9 @@ import { AfiliacionesSolicitudesService } from 'src/app/data/services/afiliacion
 import { ControlProgramacionService } from 'src/app/data/services/control/control-programacion.service';
 import { DatosGeneralesService } from 'src/app/data/services/datos-generales.service';
 import { CarteraDeServiciosService } from 'src/app/data/services/servicios/cartera-de-servicios.service';
+import { CrearServicioComponent } from '../dialogs/crear-servicio/crear-servicio.component';
+import { EditarServicioComponent } from '../dialogs/editar-servicio/editar-servicio.component';
+import { MatDialog } from '@angular/material/dialog';
 
 @Component({
   selector: 'esp-lista-servicios',
@@ -55,7 +58,8 @@ export class ListaServiciosComponent implements OnInit {
   constructor(
     private fb: FormBuilder,
     private carteraDeServiciosService: CarteraDeServiciosService,
-    private notificationService: NotificationService
+    private notificationService: NotificationService,
+    private matDialog : MatDialog
   ) {}
 
   ngOnInit(): void {
@@ -208,16 +212,19 @@ export class ListaServiciosComponent implements OnInit {
     const isChecked = inputElement.checked; // Obtenemos el estado del toggle
     const newValue = isChecked ? 1 : 0;
   
-    // Realizar la llamada al servicio para actualizar el estado
-    /*this.carteraDeServiciosService.updateActivo(idServicio, newValue).subscribe({
+    let payload: EditarServicioRequestDto = {
+      idServicio: idServicio,
+      activo: newValue
+    }
+    this.carteraDeServiciosService.editarServicio(payload).subscribe({
       next: () => {
-        this.notificationService.success('Estado actualizado correctamente.');
-        this.onLoadData(); // Refresca la tabla
+       // this.notificationService.success('Estado de asistencia rápida actualizado correctamente.');
+       // this.onLoadData(); // Refresca la tabla
       },
       error: () => {
-        this.notificationService.error('Error al actualizar el estado.');
+        this.notificationService.error('Error al actualizar el estado de asistencia rápida.');
       }
-    });*/
+    });
   }
   
   onToggleActivoAsistenciaRap(event: Event, idServicio: number): void {
@@ -225,15 +232,19 @@ export class ListaServiciosComponent implements OnInit {
     const isChecked = inputElement.checked; // Obtenemos el estado del toggle
     const newValue = isChecked ? 1 : 0;
     // Realizar la llamada al servicio para actualizar el estado
-    /*this.carteraDeServiciosService.updateActivoAsistenciaRap(idServicio, newValue).subscribe({
+    let payload: EditarServicioRequestDto = {
+      idServicio: idServicio,
+      activoAsisRap: newValue
+    }
+    this.carteraDeServiciosService.editarServicio(payload).subscribe({
       next: () => {
-        this.notificationService.success('Estado de asistencia rápida actualizado correctamente.');
-        this.onLoadData(); // Refresca la tabla
+       // this.notificationService.success('Estado de asistencia rápida actualizado correctamente.');
+        //this.onLoadData(); // Refresca la tabla
       },
       error: () => {
         this.notificationService.error('Error al actualizar el estado de asistencia rápida.');
       }
-    });*/
+    });
   }
 
   ejecutarAccionSeleccionados(): void {
@@ -263,6 +274,40 @@ export class ListaServiciosComponent implements OnInit {
   todosSonEditablesAsistenciaRapida(): boolean {
     return this.dataSource.every(item => this.editableAsisRap(item));
   }
+
+  crearServicio(){
+    this.matDialog.open(CrearServicioComponent,
+      {
+        width: "500px",
+        data:{
+          message: ''
+        }
+      }
+    ).beforeClosed().subscribe(data => {
+      if(data.success){
+        this.onLoadData()
+      }
+     
+    })
+  }
+
+  editarServicio(servicio: ServicioListadoItem){
+    this.matDialog.open(EditarServicioComponent,
+      {
+        width: "500px",
+        data:{
+          message: '',
+          servicio
+        }
+      }
+    ).beforeClosed().subscribe(data => {
+      if(data.success){
+        this.onLoadData()
+      }
+     
+    })
+  }
+  
   
   
   

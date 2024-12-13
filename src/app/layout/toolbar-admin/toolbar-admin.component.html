@@ -33,7 +33,7 @@
                             <span>Asistencia Rápida</span>
                         </div>
                         
-                        <button class="elementoOpcion" cdkMenuItem *ngIf="userRol != 'CAM' && userRol != 'USER' && false" routerLink="/app/admin/gestion-servicios">
+                        <button class="elementoOpcion" cdkMenuItem *ngIf="userRol != 'CAM' && userRol != 'USER'" routerLink="/app/admin/gestion-servicios">
                             <img src="assets/svg/cartera-servicios.svg"/>
                             <span>Cartera de Servicios</span>
                         </button>
@@ -45,6 +45,11 @@
                         <button class="elementoOpcion" cdkMenuItem *ngIf="userRol != 'CAM' && userRol != 'USER'" routerLink="/app/admin/reportes-generados">
                             <img src="assets/svg/report.svg"/>
                             <span>Reportes generados</span>
+                        </button>
+
+                        <button class="elementoOpcion" cdkMenuItem *ngIf="userRol != 'CAM' && userRol != 'USER' && false" routerLink="/app/admin/parametros">
+                            <img src="assets/svg/parametros.svg"/>
+                            <span>Parametros</span>
                         </button>
                         
                        <!-- <button class="elementoOpcion" cdkMenuItem *ngIf="userRol != 'CAM'" routerLink="/app/admin/cartera-de-servicios">

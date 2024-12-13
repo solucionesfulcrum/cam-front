@@ -29,6 +29,7 @@
     [showButton]="true"
     [buttonText]="'Crear Servicio'"
     [buttonBg]="'#057EC9'"
+    (buttonAccion)="crearServicio()"
     [menuOpt]="[]"
   ></esp-opciones-busqueda>
 </div>
@@ -55,8 +56,10 @@
 
       <ng-container cdkColumnDef="idServicio">
         <th cdk-header-cell class="py-[1rem] px-6" *cdkHeaderCellDef>ID</th>
-        <td cdk-cell class="py-[1rem] px-6" *cdkCellDef="let row">
-          {{ row.idServicio }}
+        <td cdk-cell class="py-[1rem] px-6 text-Name" *cdkCellDef="let row">
+          <span class="cursor-pointer"  (click)="editarServicio(row)">
+            {{ row.idServicio }}
+          </span>
         </td>
       </ng-container>
 

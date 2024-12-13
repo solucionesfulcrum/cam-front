@@ -255,7 +255,12 @@ export class ListaProgramasComponent {
           message: ''
         }
       }
-    )
+    ).beforeClosed().subscribe(data => {
+      if(data.success){
+        this.onLoadData()
+      }
+     
+    })
   }
 
   editarPrograma(programa: ProgramaListadoItem){
@@ -267,7 +272,12 @@ export class ListaProgramasComponent {
           programa
         }
       }
-    )
+    ).beforeClosed().subscribe(data => {
+      if(data.success){
+        this.onLoadData()
+      }
+     
+    })
   }
   
 }

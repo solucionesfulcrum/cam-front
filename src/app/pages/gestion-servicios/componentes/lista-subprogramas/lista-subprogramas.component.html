@@ -28,6 +28,7 @@
   
       [showButton]="true"
       [buttonText]="'Crear Subprorama'"
+      (buttonAccion)="creaSubPrograma()"
       [buttonBg]="'#057EC9'"
       [menuOpt]="[]"
     ></esp-opciones-busqueda>
@@ -55,8 +56,10 @@
   
         <ng-container cdkColumnDef="idSubPrograma">
           <th cdk-header-cell class="py-[1rem] px-6" *cdkHeaderCellDef>ID</th>
-          <td cdk-cell class="py-[1rem] px-6" *cdkCellDef="let row">
-            {{ row.idSubPrograma }}
+          <td cdk-cell class="py-[1rem] px-6 text-Name" *cdkCellDef="let row">
+            <span class="cursor-pointer"  (click)="editarSubPrograma(row)">
+              {{ row.idSubPrograma }}
+            </span>
           </td>
         </ng-container>
 
@@ -90,7 +93,7 @@
   
         <ng-container cdkColumnDef="activo">
           <th cdk-header-cell class="py-[1rem] px-6" *cdkHeaderCellDef>activo</th>
-          <td cdk-cell class="py-[1rem] px-6" *cdkCellDef="let row">{{ row.activo }}</td>
+          <td cdk-cell class="py-[1rem] px-6" *cdkCellDef="let row">{{ row.activo == '1' ? 'ACTIVO' : 'INACTIVO' }}</td>
         </ng-container>
         
         

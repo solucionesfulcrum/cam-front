@@ -3,7 +3,7 @@ import { Component, Inject, OnInit } from '@angular/core';
 import { MatDialogRef } from '@angular/material/dialog';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ProgramaService } from 'src/app/data/services/servicios/programa.service';
-import { ProgramaListadoItem } from '@models/cartera-de-servicios/cartera-de-servicios';
+import { ProgramaEditarRequestDto, ProgramaListadoItem } from '@models/cartera-de-servicios/cartera-de-servicios';
 
 @Component({
   selector: 'esp-editar-programa',
@@ -38,23 +38,38 @@ export class EditarProgramaComponent implements OnInit {
   updatePrograma(): void {
     if (this.programaForm.valid) {
       this.isLoading = true;
-      const updatedPrograma = {
-        ...this.data.programa,
-        ...this.programaForm.getRawValue(),
+  
+      // Obtener idUsuario desde localStorage
+      const usuarioModId = (JSON.parse(localStorage.getItem('camUser')!)).idUsuario;
+  
+      // Obtener valores del formulario
+      const formValues = this.programaForm.getRawValue();
+  
+      // Construir el payload
+      const payload: ProgramaEditarRequestDto = {
+        nombre: formValues.nombrePrograma, // Nombre del programa
+        activo: formValues.activo, // Estado activo/inactivo
+        usuarioModId // ID del usuario que modifica
       };
-
-     /* this._programaService.updatePrograma(updatedPrograma).subscribe(
+  
+      // Llamada al servicio para actualizar el programa
+      this._programaService.editarPrograma(this.data.programa.idPrograma, payload).subscribe(
         (response) => {
           this.isLoading = false;
-          this._dialogRef.close({ success: true, data: response });
+          if (response.code === 0) {
+            this._dialogRef.close({ success: true, data: response.data });
+          } else {
+            console.error('Error al actualizar el programa:', response.message);
+          }
         },
         (error) => {
           this.isLoading = false;
-          console.error('Error al actualizar el programa', error);
+          console.error('Error al actualizar el programa:', error);
         }
-      );*/
+      );
     } else {
       this.programaForm.markAllAsTouched();
     }
   }
+  
 }

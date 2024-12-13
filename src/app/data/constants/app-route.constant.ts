@@ -7,6 +7,7 @@ export class AppRoute {
   static readonly ASISTENCIA_RAPIDA = 'asistencia-rapida';
   static readonly REPORTES_GENERADOS = 'reportes-generados';
   static readonly GESTION_SERVICIOS = 'gestion-servicios';
+  static readonly PARAMETROS = 'parametros';
   static readonly EDIT_USER = 'edit-user';
   //---------------------------------------------------------------------------------------------------------- RUTAS CONTRATOS
   static readonly CONTRATOS = 'contratos';

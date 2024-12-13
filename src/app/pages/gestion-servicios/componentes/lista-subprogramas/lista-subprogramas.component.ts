@@ -6,7 +6,10 @@ import { ServicioListadoItem, SubprogramaListadoItem } from '@models/cartera-de-
 import { Parametro } from '@models/parametros-busqueda.model';
 import { NotificationService } from '@services/notification.service';
 import { CarteraDeServiciosService } from 'src/app/data/services/servicios/cartera-de-servicios.service';
-import { SubprogramaService } from 'src/app/data/services/servicios/subprograma.service';
+import { SubProgramaService } from 'src/app/data/services/servicios/subPrograma.service';
+import { CrearSubProgramaComponent } from '../dialogs/crear-sub-programa/crear-sub-programa.component';
+import { EditarSubProgramaComponent } from '../dialogs/editar-sub-programa/editar-sub-programa.component';
+import { MatDialog } from '@angular/material/dialog';
 
 @Component({
   selector: 'esp-lista-subprogramas',
@@ -48,8 +51,9 @@ export class ListaSubprogramasComponent {
 
   constructor(
     private fb: FormBuilder,
-    private subprogramaService: SubprogramaService,
-    private notificationService: NotificationService
+    private subprogramaService: SubProgramaService,
+    private notificationService: NotificationService,
+    private matDialog : MatDialog
   ) {}
 
   ngOnInit(): void {
@@ -243,6 +247,39 @@ export class ListaSubprogramasComponent {
     });
   
     this.notificationService.success(`${seleccionados.length} elementos procesados correctamente.`);
+  }
+
+  creaSubPrograma(){
+    this.matDialog.open(CrearSubProgramaComponent,
+      {
+        width: "500px",
+        data:{
+          message: ''
+        }
+      }
+    ).beforeClosed().subscribe(data => {
+      if(data.success){
+        this.onLoadData()
+      }
+     
+    })
+  }
+
+  editarSubPrograma(subPrograma: SubprogramaListadoItem){
+    this.matDialog.open(EditarSubProgramaComponent,
+      {
+        width: "500px",
+        data:{
+          message: '',
+          subPrograma
+        }
+      }
+    ).beforeClosed().subscribe(data => {
+      if(data.success){
+        this.onLoadData()
+      }
+     
+    })
   }
   
   

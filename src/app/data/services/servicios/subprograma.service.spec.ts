@@ -1,6 +1,6 @@
 import { TestBed } from '@angular/core/testing';
 
-import { SubprogramaService } from './subprograma.service';
+import { SubprogramaService } from './subPrograma.service';
 
 describe('SubprogramasService', () => {
   let service: SubprogramaService;

@@ -86,7 +86,7 @@
   
         <ng-container cdkColumnDef="activo">
           <th cdk-header-cell class="py-[1rem] px-6" *cdkHeaderCellDef>activo</th>
-          <td cdk-cell class="py-[1rem] px-6" *cdkCellDef="let row">{{ row.activo }}</td>
+          <td cdk-cell class="py-[1rem] px-6" *cdkCellDef="let row">{{  row.activo == '1' ? 'ACTIVO' : 'INACTIVO'  }}</td>
         </ng-container>
         
         

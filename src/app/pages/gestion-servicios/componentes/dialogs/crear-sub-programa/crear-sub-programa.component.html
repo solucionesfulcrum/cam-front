@@ -1,1 +1,82 @@
-<p>crear-sub-programa works!</p>
+<div class="botonApariencia">
+    <div class="px-4 py-3 bg-cam flex justify-between text-white rounded-t-md">
+      <span>Crear Subprograma</span>
+      <button (click)="onClose()"><esp-icon icon="faClose"></esp-icon></button>
+    </div>
+  
+    <form [formGroup]="subprogramaForm" (ngSubmit)="crearSubprograma()" class="bg-white flex flex-col text-[#37474F] p-3">
+      <div class="py-4">
+        <div class="w-full flex flex-col gap-4">
+
+  
+          <div class="flex flex-col">
+            <div class="relative">
+              <div class="relative">
+                <input
+                  type="text"
+                  name="nombreSubprograma"
+                  formControlName="nombreSubprograma"
+                  class="inputTextoDialog focusCampo !h-10 pr-7"
+                  id="nombreSubprograma"
+                  espEstiloInput
+                  [ngClass]="{ 'border-red-500': subprogramaForm.get('nombreSubprograma')?.invalid && subprogramaForm.get('nombreSubprograma')?.touched }"
+                />
+                <label espEstiloLabel for="nombreSubprograma">Nombre Subprograma</label>
+              </div>
+  
+              <div *ngIf="subprogramaForm.get('nombreSubprograma')?.invalid && subprogramaForm.get('nombreSubprograma')?.touched">
+                <p class="font-medium text-red-500 text-xs mt-1 ml-1">
+                  El nombre del subprograma es obligatorio y no debe exceder 50 caracteres.
+                </p>
+              </div>
+            </div>
+          </div>
+
+          <div class="flex flex-col">
+            <div class="relative">
+              <div class="relative">
+                <select
+                  name="programa"
+                  formControlName="programa"
+                  class="inputTextoDialog focusCampo !h-10 pr-7"
+                  id="programa"
+                  espEstiloInput
+                >
+                <option *ngFor="let opcion of opcionesProgramas" [value]="opcion.idPrograma">
+                  {{opcion.nombre}}
+                </option>
+                </select>
+                <label espEstiloLabel for="programa">Programa</label>
+              </div>
+            </div>
+          </div>
+  
+        <!-- <div class="flex flex-col">
+            <div class="relative">
+              <div class="relative">
+                <select
+                  name="activo"
+                  formControlName="activo"
+                  class="inputTextoDialog focusCampo !h-10 pr-7"
+                  id="activo"
+                  espEstiloInput
+                >
+                  <option [value]="1">Sí</option>
+                  <option [value]="0">No</option>
+                </select>
+                <label espEstiloLabel for="activo">Activo</label>
+              </div>
+            </div>
+          </div>-->
+        </div>
+      </div>
+  
+      <div class="flex justify-end gap-4 pt-6 pb-3 px-4 border-t border-[#F4F5F5]">
+        <app-btn color="white" (click)="onClose()">Cancelar</app-btn>
+        <app-btn type="submit" (click)="crearSubprograma()" color="mezclado" [disabled]="isLoading">
+          <span *ngIf="isLoading">Guardando...</span>
+          <span *ngIf="!isLoading">Crear Subprograma</span>
+        </app-btn>
+      </div>
+    </form>
+  </div>
