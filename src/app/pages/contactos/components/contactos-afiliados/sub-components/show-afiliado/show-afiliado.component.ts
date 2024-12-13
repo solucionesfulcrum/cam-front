@@ -116,6 +116,8 @@ export class ShowAfiliadoComponent implements OnInit {
          tipoDoc}).subscribe(response=>{
             this.dataShowFechaVigencia = true;
            this.fechaVigencia = response.data.dataAfiliado[0].fecVigHasta
+       }, error =>{
+        this.dataShowFechaVigencia = true;
        })
 
        this.aseguradoServices.servicioObtenerDataPersona("0" + tipoDoc, String(this.dataFichaAfiliado.asegurado.numDoc)).subscribe(dataIndetiApi=>{
@@ -124,6 +126,7 @@ export class ShowAfiliadoComponent implements OnInit {
           let codUbigeoNac = rpta.codUbgNac;
           
           this.datosService.searchByUbigeo(codUbigeoNac).subscribe(dataUbigeoNac=>{
+            this.dataShowDataPersona = true;
             if(dataUbigeoNac.code == 0){
               if(
                 this.dataFichaAfiliado.asegurado.distriNacimiento != dataUbigeoNac.data.distrito ||
@@ -143,18 +146,21 @@ export class ShowAfiliadoComponent implements OnInit {
                     this.dataFichaAfiliado.asegurado.provinNacimiento != dataUbigeoNac.data.provincia
                     this.dataFichaAfiliado.asegurado.departNacimiento != dataUbigeoNac.data.region
                   }
+                },
+                error=>{
+                  this.dataShowDataPersona = true;
                 })
               }
-              else{
-                this.dataShowDataPersona = true;
-              }
             }
-            else{
-              this.dataShowDataPersona = true;
-            }
-           })
+           },
+          error =>{
+            this.dataShowDataPersona = true;
+          })
         }
-       })
+       },
+      error =>{
+        this.dataShowDataPersona = true;
+      })
 
        this.aseguradoServices.getDatoSeguro(tipoDoc, String(this.dataFichaAfiliado.asegurado.numDoc)).subscribe(dataSeguro => {
         if(dataSeguro.data.length > 0){
@@ -175,6 +181,8 @@ export class ShowAfiliadoComponent implements OnInit {
                 this.dataFichaAfiliado.asegurado.descTipoSeguro = dataSeguro.data[0].DGACTAS
                 this.dataFichaAfiliado.asegurado.descTipoAsegurado = dataSeguro.data[0].TIPO_ASEGURADO
               }
+            }, err =>{
+              this.dataShowDatosSeguro = true;
             })
           }
           else{
@@ -212,6 +220,8 @@ export class ShowAfiliadoComponent implements OnInit {
               else{
                 this.notificationService.warning(datos.message);
               }
+            }, error =>{
+              this.dataShowUbigeo = true;
             })
           }
         });
