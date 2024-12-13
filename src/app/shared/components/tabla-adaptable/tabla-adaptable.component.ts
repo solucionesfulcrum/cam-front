@@ -41,7 +41,22 @@ export class TablaAdaptableComponent {
       if (data) {
         let filaForm = this.fb.group({})
         for (let j = 0; j < this.dataColumnas.length; j++) {
-          filaForm.addControl(this.dataColumnas[j].nomAttribute, new FormControl(((data[this.dataColumnas[j].nomAttribute] !== undefined) ? data[this.dataColumnas[j].nomAttribute] : null), (this.dataColumnas[j].obligatorio ? [Validators.required] : null)));
+          filaForm.addControl(this.dataColumnas[j].nomAttribute, 
+            new FormControl(((data[this.dataColumnas[j].nomAttribute] !== undefined) ? data[this.dataColumnas[j].nomAttribute] : null), (this.dataColumnas[j].obligatorio ? [Validators.required] : null)),
+          );
+          if(this.dataColumnas[j].affects){
+            filaForm.get(this.dataColumnas[j].nomAttribute)?.valueChanges.subscribe((data)=>{
+              if(this.dataColumnas[j].affects?.paramValueFk && data[this.dataColumnas[j].affects?.paramValueFk!]){
+                filaForm.get(this.dataColumnas[j].affects?.nomAttributeFk!)?.setValue(data.param1);
+              }
+              else{
+                filaForm.get(this.dataColumnas[j].affects?.nomAttributeFk!)?.setValue(this.dataColumnas[j].affects?.defaultValue)
+              }
+            })
+          }
+          if(this.dataColumnas[j].disabled){
+            filaForm.get(this.dataColumnas[j].nomAttribute)?.disable();
+          }
         }
         (this.formData.controls["data"] as FormArray).push(filaForm);
       }
@@ -59,6 +74,19 @@ export class TablaAdaptableComponent {
           let filaForm = this.fb.group({})
           for (let j = 0; j < this.dataColumnas.length; j++) {
             filaForm.addControl(this.dataColumnas[j].nomAttribute, new FormControl(x[this.dataColumnas[j].nomAttribute]));
+            if(this.dataColumnas[j].affects){
+              filaForm.get(this.dataColumnas[j].nomAttribute)?.valueChanges.subscribe((data)=>{
+               if(this.dataColumnas[j].affects?.paramValueFk && data[this.dataColumnas[j].affects?.paramValueFk!]){
+                  filaForm.get(this.dataColumnas[j].affects?.nomAttributeFk!)?.setValue(data.param1);
+                }
+                else{
+                  filaForm.get(this.dataColumnas[j].affects?.nomAttributeFk!)?.setValue(this.dataColumnas[j].affects?.defaultValue)
+                }
+              })
+            }
+            if(this.dataColumnas[j].disabled){
+              filaForm.get(this.dataColumnas[j].nomAttribute)?.disable();
+            }
           }
           (this.formData.controls["data"] as FormArray).push(filaForm);
         })

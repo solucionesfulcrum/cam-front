@@ -39,8 +39,8 @@ export class ContratosAsignarServiciosComponent {
     /*{header: 'Servicio', tipo: 'typeAndSelect', placeholder:'Buscar el servicio a contratar', optTypeSelect: this.opcionesServicios, nomAttribute: 
       'nomServicio', resaltado: true, obligatorio: true, entity: {unique: true, pk: 'idServicio'}},*/
     {header: 'Servicio', tipo: 'typeAndSelect', placeholder:'Buscar el servicio a contratar', optTypeSelect: this.opcionesServicios, nomAttribute: 
-      'nomServicio', resaltado: true, obligatorio: true},
-    {header: 'Tipo de Evento', tipo: 'select', opciones: this.opcionesEvento, nomAttribute: 'typeEvent', obligatorio: true},
+      'nomServicio', resaltado: true, obligatorio: true, affects: {nomAttributeFk: 'typeEvent', paramValueFk: 'param1', defaultValue: 'TALLER'}}, //TALLER POR DEFAULT
+    {header: 'Tipo de Evento', tipo: 'texto', opciones: this.opcionesEvento, nomAttribute: 'typeEvent', obligatorio: true},
     {header: 'Fecha de inicio', tipo: 'inputFecha', nomAttribute: 'fecInicio', obligatorio: true},
     {header: 'Fecha de Fin', tipo: 'inputFecha', nomAttribute: 'fecFin', obligatorio: true, ancladoFecIni: 'fecInicio'},
     {header: 'Modalidad', tipo: 'select', opciones: this.opcionesModalidad, nomAttribute: 'typeModalidad', obligatorio: true}
@@ -96,7 +96,7 @@ export class ContratosAsignarServiciosComponent {
                   metodo.subscribe((data)=>{
                     if (data.code == 0) {
                       data.data.forEach((x: any)=>{
-                        this.opcionesServicios.push({idOpcion: x.idServicio, nombre: x.nombre})
+                        this.opcionesServicios.push({idOpcion: x.idServicio, nombre: x.nombre, param1: x.tipoServicio})
                       })
 
                       this.addTablaUnid(2,this.dataContrato.datosDetMismaUnidad[0], 0)
@@ -168,7 +168,7 @@ export class ContratosAsignarServiciosComponent {
           {
             idServicio: 1,
             nomServicio: (val.servicio ? {idOpcion: this.opcionesServicios.find((x) => x.nombre === val.servicio)!.idOpcion, nombre: val.servicio} : ''),
-            typeEvent: (val.paramServicioTipoId ? val.paramServicioTipoId : null),
+            typeEvent: (val.tipoServicio ? val.tipoServicio : null),
             typeModalidad: (val.paramModalidadId ? val.paramModalidadId : null),
             fecInicio: (val.fechaInicio ? formatDate(val.fechaInicio, 'd/M/yyyy', this.locale) : formatDate(this.dataContrato.datosContrato.fechaInicio, 'd/M/yyyy', this.locale)),
             fecFin: (val.fechaFin ? formatDate(val.fechaFin, 'd/M/yyyy', this.locale) : formatDate(this.dataContrato.datosContrato.fechaFin, 'd/M/yyyy', this.locale))
