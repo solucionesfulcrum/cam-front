@@ -82,7 +82,7 @@ export class CrearServicioComponent implements OnInit {
             this.notificationService.warning(response.message);
           }
         },
-        (error) => {
+        (error: any) => {
           this.isLoading = false;
           console.error('Error al crear el servicio:', error);
           this.notificationService.error('Hubo un problema al crear el servicio.');

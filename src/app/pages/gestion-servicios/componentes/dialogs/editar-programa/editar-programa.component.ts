@@ -54,7 +54,7 @@ export class EditarProgramaComponent implements OnInit {
   
       // Llamada al servicio para actualizar el programa
       this._programaService.editarPrograma(this.data.programa.idPrograma, payload).subscribe(
-        (response) => {
+        (response: any) => {
           this.isLoading = false;
           if (response.code === 0) {
             this._dialogRef.close({ success: true, data: response.data });
@@ -62,7 +62,7 @@ export class EditarProgramaComponent implements OnInit {
             console.error('Error al actualizar el programa:', response.message);
           }
         },
-        (error) => {
+        (error: any) => {
           this.isLoading = false;
           console.error('Error al actualizar el programa:', error);
         }

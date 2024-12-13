@@ -81,11 +81,11 @@ export class EditarServicioComponent implements OnInit {
       };
 
       this.carteraDeServicios.editarServicio(payload).subscribe(
-        (response) => {
+        (response: any) => {
           this.isLoading = false;
           this._dialogRef.close({ success: true, data: response });
         },
-        (error) => {
+        (error: any) => {
           this.isLoading = false;
           console.error('Error al editar el servicio', error);
         }

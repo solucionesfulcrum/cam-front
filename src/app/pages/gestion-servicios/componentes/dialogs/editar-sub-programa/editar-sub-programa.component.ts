@@ -74,7 +74,7 @@ export class EditarSubProgramaComponent implements OnInit {
             console.error('Error al editar el subprograma:', response.message);
           }
         },
-        (error) => {
+        (error: any) => {
           this.isLoading = false;
           console.error('Error al editar el subprograma:', error);
         }

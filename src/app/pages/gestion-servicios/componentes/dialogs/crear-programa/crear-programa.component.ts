@@ -52,7 +52,7 @@ export class CrearProgramaComponent implements OnInit {
   
       // Llamada al servicio para registrar el programa
       this._programaService.registrarPrograma(payload).subscribe(
-        (response) => {
+        (response: any) => {
           this.isLoading = false;
           if (response.code === 0) {
             this._dialogRef.close({ success: true, data: response.data });
@@ -60,7 +60,7 @@ export class CrearProgramaComponent implements OnInit {
             console.error('Error al crear el programa:', response.message);
           }
         },
-        (error) => {
+        (error: any) => {
           this.isLoading = false;
           console.error('Error al crear el programa:', error);
         }
