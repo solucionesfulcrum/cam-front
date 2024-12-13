@@ -36,10 +36,24 @@ export class EditarServicioComponent implements OnInit {
       tipoServicio: [data.servicio.paramTipoServicio, [Validators.required]],
       nombreServicio: [data.servicio.nombreServicio, [Validators.required, Validators.maxLength(200)]],
       idServicio: [data.servicio.idServicio, {disabled: true}],
-      fechaModificacion: [{ value: data.servicio.fechaModificacion, disabled: true }],
-      fechaCreacion: [{ value: data.servicio.fechaCreacion, disabled: true }],
+      fechaModificacion: [{ value: this.formatDate(data.servicio.fechaModificacion), disabled: true }],
+      fechaCreacion: [{ value: this.formatDate(data.servicio.fechaCreacion), disabled: true }],
       activo: [data.servicio.activo, [Validators.required]]
     });
+  }
+
+  formatDate(fecha: string | null | undefined): string {
+    if (!fecha) {
+      return ''; // Retorna una cadena vacía si la fecha no es válida
+    }
+    const date = new Date(fecha);
+    if (isNaN(date.getTime())) {
+      return ''; // Maneja fechas inválidas
+    }
+    const day = date.getDate().toString().padStart(2, '0');
+    const month = (date.getMonth() + 1).toString().padStart(2, '0');
+    const year = date.getFullYear();
+    return `${day}/${month}/${year}`;
   }
 
   ngOnInit(): void {

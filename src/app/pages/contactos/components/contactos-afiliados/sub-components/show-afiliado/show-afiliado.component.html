@@ -4,7 +4,8 @@
 (secondFunction)="editDataAsegurado()"
 (thirdFunction)="levantarModalDarDeBaja()"
 ></esp-opciones-botones>
-<div class="px-4 py-3 bg-white w-full mt-3 grid botonApariencia" *ngIf="!dataShow">
+
+<div class="px-4 py-3 bg-white w-full mt-3 grid botonApariencia" *ngIf="!dataShow || !dataShowUbigeo || !dataShowDatosSeguro || !dataShowDataPersona || !dataShowFechaVigencia">
   <div class="text-gray-600 w-full text-center">
       <span class="py-1 font-bold text-2xl">
           <fa-icon class="mr-2" [icon]="faSpinner" [pulse]="true"></fa-icon>
@@ -12,7 +13,7 @@
       </span>
   </div>
 </div>
-<div *ngIf="dataShow" class="bg-white botonApariencia">
+<div *ngIf="dataShow && dataShowUbigeo && dataShowDatosSeguro && dataShowDataPersona && dataShowFechaVigencia" class="bg-white botonApariencia">
 <!-- <div class="bg-white botonApariencia"> -->
     <div class="flex flex-row justify-between py-1.5 px-2.5"> 
       <p class="text-[26px] text-[var(--color-CAM-black-alt)]"><b>Ficha de Afiliado</b></p>

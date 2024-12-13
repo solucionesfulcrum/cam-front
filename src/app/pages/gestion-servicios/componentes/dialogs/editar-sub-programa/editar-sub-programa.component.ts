@@ -28,10 +28,24 @@ export class EditarSubProgramaComponent implements OnInit {
       programa: [data.subPrograma.idPrograma, [Validators.required]],
       nombreSubprograma: [data.subPrograma.nombreSubPrograma, [Validators.required, Validators.maxLength(400)]],
       activo: [data.subPrograma.activo, [Validators.required]],
-      fechaModificacion: [{ value: data.subPrograma.fechaModificacion, disabled: true }],
-      fechaCreacion: [{ value: data.subPrograma.fechaCreacion, disabled: true }],
+      fechaModificacion: [{ value: this.formatDate(data.subPrograma.fechaModificacion), disabled: true }],
+      fechaCreacion: [{ value: this.formatDate(data.subPrograma.fechaCreacion), disabled: true }],
       idSubPrograma: [{ value: data.subPrograma.idSubPrograma, disabled: true }],
     });
+  }
+
+  formatDate(fecha: string | null | undefined): string {
+    if (!fecha) {
+      return ''; // Retorna una cadena vacía si la fecha no es válida
+    }
+    const date = new Date(fecha);
+    if (isNaN(date.getTime())) {
+      return ''; // Maneja fechas inválidas
+    }
+    const day = date.getDate().toString().padStart(2, '0');
+    const month = (date.getMonth() + 1).toString().padStart(2, '0');
+    const year = date.getFullYear();
+    return `${day}/${month}/${year}`;
   }
 
   ngOnInit(): void {

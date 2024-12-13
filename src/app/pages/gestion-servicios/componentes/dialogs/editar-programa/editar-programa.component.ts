@@ -24,10 +24,24 @@ export class EditarProgramaComponent implements OnInit {
     this.programaForm = this._fb.group({
       idPrograma: [{ value: data.programa.idPrograma, disabled: true }],
       nombrePrograma: [data.programa.nombrePrograma, [Validators.required, Validators.maxLength(400)]],
-      fechaModificacion: [{ value: data.programa.fechaModificacion, disabled: true }],
-      fechaCreacion: [{ value: data.programa.fechaCreacion, disabled: true }],
+      fechaModificacion: [{ value: this.formatDate(data.programa.fechaModificacion), disabled: true }],
+      fechaCreacion: [{ value: this.formatDate(data.programa.fechaCreacion), disabled: true }],
       activo: [data.programa.activo, [Validators.required]],
     });
+  }
+
+  formatDate(fecha: string | null | undefined): string {
+    if (!fecha) {
+      return ''; // Retorna una cadena vacía si la fecha no es válida
+    }
+    const date = new Date(fecha);
+    if (isNaN(date.getTime())) {
+      return ''; // Maneja fechas inválidas
+    }
+    const day = date.getDate().toString().padStart(2, '0');
+    const month = (date.getMonth() + 1).toString().padStart(2, '0');
+    const year = date.getFullYear();
+    return `${day}/${month}/${year}`;
   }
 
   ngOnInit(): void {}

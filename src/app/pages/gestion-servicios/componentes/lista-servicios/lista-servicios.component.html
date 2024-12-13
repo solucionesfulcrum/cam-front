@@ -73,7 +73,7 @@
       </ng-container>
 
       <ng-container cdkColumnDef="fecha">
-        <th cdk-header-cell class="py-[1rem] px-6" *cdkHeaderCellDef [style]="'padding-left: 0px;'">Fecha</th>
+        <th cdk-header-cell class="py-[1rem] px-6" *cdkHeaderCellDef [style]="'padding-left: 0px;'">Fecha Modificación</th>
         <td cdk-cell class="py-[1rem] px-6 font-semibold" *cdkCellDef="let row" [style]="'padding-left: 0px;'">
           {{ row.fechaModificacion | date: 'dd/MM/yyyy' }}
         </td>

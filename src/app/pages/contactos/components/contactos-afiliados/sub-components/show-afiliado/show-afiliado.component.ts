@@ -34,6 +34,10 @@ export class ShowAfiliadoComponent implements OnInit {
   dataFichaAfiliado: any = Object();
   direccionActual: any = Object();
   dataShow = false;
+  dataShowUbigeo = false;
+  dataShowDatosSeguro = false;
+  dataShowDataPersona = false;
+  dataShowFechaVigencia = false;
   buscaAfiliado : boolean = false;
   fechaVigencia: string = '';
 
@@ -110,6 +114,7 @@ export class ShowAfiliadoComponent implements OnInit {
         this.aseguradoServices.servicioObtenerCodCentro({codOpcion: "1",
           numDoc: String(this.dataFichaAfiliado.asegurado.numDoc),
          tipoDoc}).subscribe(response=>{
+            this.dataShowFechaVigencia = true;
            this.fechaVigencia = response.data.dataAfiliado[0].fecVigHasta
        })
 
@@ -132,6 +137,7 @@ export class ShowAfiliadoComponent implements OnInit {
                   idAsegurado: this.dataFichaAfiliado.asegurado.idAsegurado,
                   idFichaAdmision: ""
                 }).subscribe(correcion =>{
+                  this.dataShowDataPersona = true;
                   if(correcion.code == 0){
                     this.dataFichaAfiliado.asegurado.distriNacimiento != dataUbigeoNac.data.distrito
                     this.dataFichaAfiliado.asegurado.provinNacimiento != dataUbigeoNac.data.provincia
@@ -139,6 +145,12 @@ export class ShowAfiliadoComponent implements OnInit {
                   }
                 })
               }
+              else{
+                this.dataShowDataPersona = true;
+              }
+            }
+            else{
+              this.dataShowDataPersona = true;
             }
            })
         }
@@ -158,11 +170,15 @@ export class ShowAfiliadoComponent implements OnInit {
               tipoDoc: tipoDoc,
               idAsegurado: this.dataFichaAfiliado.asegurado.idAsegurado
             }).subscribe(dataFix =>{
+              this.dataShowDatosSeguro = true;
               if(dataFix.code == 0){
                 this.dataFichaAfiliado.asegurado.descTipoSeguro = dataSeguro.data[0].DGACTAS
                 this.dataFichaAfiliado.asegurado.descTipoAsegurado = dataSeguro.data[0].TIPO_ASEGURADO
               }
             })
+          }
+          else{
+            this.dataShowDatosSeguro = true;
           }
         }
        })
@@ -189,6 +205,7 @@ export class ShowAfiliadoComponent implements OnInit {
           if(x.activo == 1) {
             this.direccionActual = x;
             this.datosGeneralesServices.searchByUbigeo(x.codUbiDep + x.codUbiProv + x.codUbiDist).subscribe((datos)=>{
+              this.dataShowUbigeo = true;
               if (datos.code == 0) {
                 this.direccionActual.localizacion = datos.data.region + ' - ' + datos.data.provincia + ' - ' + datos.data.distrito;
               }
