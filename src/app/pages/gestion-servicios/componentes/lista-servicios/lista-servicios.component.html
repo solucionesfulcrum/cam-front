@@ -96,7 +96,9 @@
           [class.active]="row.activo === 1 && editableContrato(row)"
           [class.inactive]="row.activo !== 1 && editableContrato(row)"
           [class.active-disabled]="row.activo === 1 && !editableContrato(row)"
-          [class.inactive-disabled]="row.activo !== 1 && !editableContrato(row)">
+          [class.inactive-disabled]="row.activo !== 1 && !editableContrato(row)"
+          [matTooltip]="editableContrato(row) ? '' : 'Este servicio está siendo usado en uno o más contratos'"
+          >
             <input
               type="checkbox"
               [checked]="row.activo === 1"
@@ -115,7 +117,9 @@
           [class.active]="row.activo === 1 && editableAsisRap(row)"
           [class.inactive]="row.activo !== 1 && editableAsisRap(row)"
           [class.active-disabled]="row.activo === 1 && !editableAsisRap(row)"
-          [class.inactive-disabled]="row.activo !== 1 && !editableAsisRap(row)">
+          [class.inactive-disabled]="row.activo !== 1 && !editableAsisRap(row)"
+          [matTooltip]="editableAsisRap(row) ? '' : 'Este servicio está siendo usado en una o más asistencias rápidas'"
+          >
             <input
               type="checkbox"
               [checked]="row.activoAsistenciaRap === 1"

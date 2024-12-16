@@ -1,27 +1,21 @@
-import { Dialog } from '@angular/cdk/dialog';
 import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormControl, FormBuilder } from '@angular/forms';
+import { MatDialog } from '@angular/material/dialog';
 import { PageEvent } from '@angular/material/paginator';
 import { faSpinner } from '@fortawesome/free-solid-svg-icons';
-import { EditarServicioRequestDto, ServicioListadoItem } from '@models/cartera-de-servicios/cartera-de-servicios';
-import { RequestAdminAsistenciasRap } from '@models/control/asistencia/service-asistencia.model';
+import { ServicioListadoItem, EditarServicioRequestDto } from '@models/cartera-de-servicios/cartera-de-servicios';
 import { Parametro } from '@models/parametros-busqueda.model';
 import { NotificationService } from '@services/notification.service';
-import { ParamMenu } from '@shared/components/opciones-busqueda/parametros-busqueda.model';
-import { AfiliacionesSolicitudesService } from 'src/app/data/services/afiliaciones/afiliaciones-solicitudes.service';
-import { ControlProgramacionService } from 'src/app/data/services/control/control-programacion.service';
-import { DatosGeneralesService } from 'src/app/data/services/datos-generales.service';
 import { CarteraDeServiciosService } from 'src/app/data/services/servicios/cartera-de-servicios.service';
 import { CrearServicioComponent } from '../dialogs/crear-servicio/crear-servicio.component';
 import { EditarServicioComponent } from '../dialogs/editar-servicio/editar-servicio.component';
-import { MatDialog } from '@angular/material/dialog';
 
 @Component({
-  selector: 'esp-lista-servicios',
-  templateUrl: './lista-servicios.component.html',
-  styleUrls: ['./lista-servicios.component.scss']
+  selector: 'esp-lista-inactivos',
+  templateUrl: './lista-inactivos.component.html',
+  styleUrls: ['./lista-inactivos.component.scss']
 })
-export class ListaServiciosComponent implements OnInit {
+export class ListaInactivosComponent implements OnInit {
   formBuscar: FormGroup = this.fb.group({
     frmSearch: new FormControl(''),
     frmSearchDate: new FormControl(''),
@@ -130,8 +124,8 @@ export class ListaServiciosComponent implements OnInit {
       fecFin,
       pageNum: this.pageNum.toString(),
       pageSize: this.pageSize.toString(),
-      activo: 1,
-      activoAsisRap: 1
+      activo: 0,
+      activoAsisRap: 0
     };
   }
 
@@ -311,8 +305,5 @@ export class ListaServiciosComponent implements OnInit {
       }
     })
   }
-  
-  
-  
   
 }

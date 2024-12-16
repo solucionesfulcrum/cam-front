@@ -4,6 +4,7 @@ import { GestionServiciosComponent } from './gestion-servicios/gestion-servicios
 import { ListaServiciosComponent } from './componentes/lista-servicios/lista-servicios.component';
 import { ListaSubprogramasComponent } from './componentes/lista-subprogramas/lista-subprogramas.component';
 import { ListaProgramasComponent } from './componentes/lista-programas/lista-programas.component';
+import { ListaInactivosComponent } from './componentes/lista-inactivos/lista-inactivos.component';
 
 const routes: Routes = [
   {
@@ -26,7 +27,11 @@ const routes: Routes = [
       , {
         path: "lista-programas",
         component: ListaProgramasComponent
-      }
+      },
+      {
+        path: "lista-servicios-inactivos",
+        component: ListaInactivosComponent
+      },
     ]    
   }
 ];

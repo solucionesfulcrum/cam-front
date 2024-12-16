@@ -6,6 +6,8 @@ export interface listarServiciosRequest
     fecFin: string; 
     pageNum: string;
     pageSize: string; 
+    activo: number;
+    activoAsisRap: number;
 }
 
 

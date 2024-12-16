@@ -11,5 +11,6 @@ export class GestionServiciosComponent {
     {url:'/app/admin/gestion-servicios/lista-servicios', title:'Servicios'},
     {url:'/app/admin/gestion-servicios/lista-sub-programas', title:'Sub-programas'},
     {url:'/app/admin/gestion-servicios/lista-programas', title:'Programas'},
+    {url:'/app/admin/gestion-servicios/lista-servicios-inactivos', title:'Servicos Inactivos'}
   ]
 }

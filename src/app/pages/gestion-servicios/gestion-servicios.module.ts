@@ -19,6 +19,7 @@ import { EditarProgramaComponent } from './componentes/dialogs/editar-programa/e
 import { CrearServicioComponent } from './componentes/dialogs/crear-servicio/crear-servicio.component';
 import { CrearSubProgramaComponent } from './componentes/dialogs/crear-sub-programa/crear-sub-programa.component';
 import { CrearProgramaComponent } from './componentes/dialogs/crear-programa/crear-programa.component';
+import { ListaInactivosComponent } from './componentes/lista-inactivos/lista-inactivos.component';
 
 
 @NgModule({
@@ -32,7 +33,8 @@ import { CrearProgramaComponent } from './componentes/dialogs/crear-programa/cre
     EditarProgramaComponent,
     CrearServicioComponent,
     CrearSubProgramaComponent,
-    CrearProgramaComponent
+    CrearProgramaComponent,
+    ListaInactivosComponent
   ],
   imports: [
     CommonModule,
