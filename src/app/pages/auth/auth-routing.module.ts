@@ -7,19 +7,26 @@ import { RecoveryComponent } from './recovery/recovery.component';
 import { AuthComponent } from './auth/auth.component';
 import { MantenimientoComponent } from './components/mantenimiento/mantenimiento.component';
 import { environment } from '@environments/environment';
+import { MantenimientoGuard } from '@guards/mantenimiento.guard';
+
+// Función que verifica si hay un secretKeyPass en los query params y si coincide con el esperado
+function isMaintenanceBypassed(): { existe: boolean, iguales: boolean } {
+  const params = new URLSearchParams(window.location.search); // Obtener parámetros de la URL
+  const secretKeyPass = params.get('secretKeyPass'); // Obtener el parámetro 'secretKeyPass'
+  const expectedSecretKey = 'kusG2dkMa2oacXnZAm4vqpt6OSRblTGj'; // Valor esperado para el parámetro
+  return {
+    existe: secretKeyPass != null,                // True si el parámetro existe
+    iguales: secretKeyPass === expectedSecretKey  // True si el parámetro coincide con el valor esperado
+  };
+}
 
 let routes: Routes = [];
 
-// Función que verifica si hay un secretKeyPass en los query params y si coincide con el esperado
-function isMaintenanceBypassed(): {existe: boolean, iguales: boolean} {
-  const params = new URLSearchParams(window.location.search);
-  const secretKeyPass = params.get('secretKeyPass');
-  const expectedSecretKey = 'kusG2dkMa2oacXnZAm4vqpt6OSRblTGj';  // El valor esperado del secretKey
-  return {existe: secretKeyPass != null, iguales: secretKeyPass === expectedSecretKey} ;
-}
-
-
-if ((environment.mantenimiento && !isMaintenanceBypassed().existe) || (environment.mantenimiento && !isMaintenanceBypassed().iguales)) {
+if (
+  (environment.mantenimiento && !isMaintenanceBypassed().existe) || 
+  (environment.mantenimiento && !isMaintenanceBypassed().iguales)
+) {
+  // Redirigir siempre a mantenimiento si está activo y no se ha bypassed
   routes = [
     {
       path: '',
@@ -37,11 +44,11 @@ if ((environment.mantenimiento && !isMaintenanceBypassed().existe) || (environme
         }
       ]
     }
-  
   ];
 } else {
+  // Rutas normales si no está en mantenimiento o se ha bypassed
   routes = [
-    { 
+    {
       path: '',
       component: AuthComponent,
       children: [
@@ -53,36 +60,39 @@ if ((environment.mantenimiento && !isMaintenanceBypassed().existe) || (environme
         { 
           path: 'login',
           component: LoginComponent,
-          title: 'Login'
+          title: 'Login',
+          canActivate: [MantenimientoGuard], // Aplica el guard aquí
         },
         { 
           path: 'forgot-password',
           component: ForgotPasswordComponent,
-          title: 'Forgot Password'
+          title: 'Forgot Password',
+          canActivate: [MantenimientoGuard], // Aplica el guard aquí
         },
         { 
           path: 'register',
           component: RegisterComponent,
-          title: 'Registrarse'
+          title: 'Registrarse',
+          canActivate: [MantenimientoGuard], // Aplica el guard aquí
         },
         { 
           path: 'recovery',
           component: RecoveryComponent,
-          title: 'Recovery'
+          title: 'Recovery',
+          canActivate: [MantenimientoGuard], // Aplica el guard aquí
         },
         { 
-          path: '*',
-          redirectTo: 'login',
-          pathMatch: 'full',
+          path: 'mantenimiento',
+          component: MantenimientoComponent,
+          title: 'Mantenimiento',
         }
       ],
     }
   ];
 }
 
-
 @NgModule({
   imports: [RouterModule.forChild(routes)],
-  exports: [RouterModule]
+  exports: [RouterModule],
 })
-export class AuthRoutingModule { }
+export class AuthRoutingModule {}

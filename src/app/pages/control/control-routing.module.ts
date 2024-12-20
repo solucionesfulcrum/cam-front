@@ -1,7 +1,7 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-import { ControlComponent } from './control/control.component'
-import { ProgramadosComponent } from './components/programados/programados.component'
+import { ControlComponent } from './control/control.component';
+import { ProgramadosComponent } from './components/programados/programados.component';
 import { TabMisTalleresComponent } from './components/tab-mis-talleres/tab-mis-talleres.component';
 import { TabAsistenciaComponent } from './components/tab-asistencia/tab-asistencia.component';
 import { ControlAsistenciaGuard } from '@guards/control-asistencia.guard';
@@ -13,6 +13,7 @@ import { AsistenciaRapidaListaComponent } from './components/asistencia-rapida-l
 import { CrearCabeceraAsistenciaRapidaComponent } from './components/crear-cabecera-asistencia-rapida/crear-cabecera-asistencia-rapida.component';
 import { AsistenciaRapidaComponent } from './components/asistencia-rapida/asistencia-rapida.component';
 import { EditarCabeceraAsistenciaRapidaComponent } from './components/editar-cabecera-asistencia-rapida/editar-cabecera-asistencia-rapida.component';
+import { AsistenciaRapidaGuard } from '@guards/asistencia-rapida.guard'; // Nuevo guard para asistencia rápida
 
 const routes: Routes = [
   {
@@ -22,67 +23,71 @@ const routes: Routes = [
       {
         path: '',
         component: ProgramadosComponent,
-        title: 'Talleres programados'
+        title: 'Talleres programados',
       },
       {
         path: 'mis-talleres',
         component: TabMisTalleresComponent,
-        title: 'Listado mis talleres'
+        title: 'Listado mis talleres',
       },
       {
         path: 'control-asistencia',
-        canActivate:[ControlAsistenciaGuard],
+        canActivate: [ControlAsistenciaGuard],
         component: TabAsistenciaComponent,
-        title: 'Control de Asistencia'
+        title: 'Control de Asistencia',
       },
       {
         path: 'en-calendario',
-        //canActivate:[ControlAsistenciaGuard],
         component: CalendarioProgramacionComponent,
-        title: 'Calendario'
+        title: 'Calendario',
       },
       {
         path: 'asistencias-profesional-cam',
-        canActivate:[ControlAsistenciaGuard],
+        canActivate: [ControlAsistenciaGuard],
         component: TabAsistenciaProfCamComponent,
-        title: 'Control de Asistencia'
+        title: 'Control de Asistencia',
       },
       {
         path: 'control-talleres',
         component: ControlTalleristaComponent,
-        title: 'Control de Talleres'
+        title: 'Control de Talleres',
       },
+      // Rutas relacionadas con asistencia rápida
       {
         path: 'asistencia-rapida',
         component: AsistenciaRapidaListaComponent,
-        title: 'Control de Talleres'
+        title: 'Control de Talleres',
+        canActivate: [AsistenciaRapidaGuard], // Validación específica para asistencia rápida
       },
       {
         path: 'asistencia-rapida/asistencias/:idAsisRap',
         component: AsistenciaRapidaComponent,
-        title: 'Control de Talleres'
+        title: 'Control de Talleres',
+        canActivate: [AsistenciaRapidaGuard], // Validación específica para asistencia rápida
       },
       {
         path: 'asistencia-rapida/crear-cabecera',
         component: CrearCabeceraAsistenciaRapidaComponent,
-        title: 'Control de Talleres'
+        title: 'Control de Talleres',
+        canActivate: [AsistenciaRapidaGuard], // Validación específica para asistencia rápida
       },
       {
         path: 'asistencia-rapida/editar-cabecera/:idAsisRap',
         component: EditarCabeceraAsistenciaRapidaComponent,
-        title: 'Control de Talleres'
+        title: 'Control de Talleres',
+        canActivate: [AsistenciaRapidaGuard], // Validación específica para asistencia rápida
       },
       {
         path: 'control-talleres/:idProgramacion',
         component: ControlTalleristaSesionesComponent,
-        title: 'Control de sesiones del taller'
-      }
-    ]
-  }
+        title: 'Control de sesiones del taller',
+      },
+    ],
+  },
 ];
 
 @NgModule({
   imports: [RouterModule.forChild(routes)],
-  exports: [RouterModule]
+  exports: [RouterModule],
 })
-export class ControlRoutingModule { }
+export class ControlRoutingModule {}

@@ -26,6 +26,7 @@ import { DialogModule } from '@angular/cdk/dialog';
 import { ToastrModule, ToastrService } from 'ngx-toastr';
 import { MatAutocompleteModule } from '@angular/material/autocomplete';
 import { MantenimientoComponent } from './components/mantenimiento/mantenimiento.component';
+import { DataLoadingComponent } from '@shared/components/data-loading/data-loading.component';
 
 
 @NgModule({
@@ -57,7 +58,8 @@ import { MantenimientoComponent } from './components/mantenimiento/mantenimiento
     DialogModule,
     CdkStepperModule,
     NgStepperModule,
-    MatAutocompleteModule
+    MatAutocompleteModule,
+    DataLoadingComponent
   ],
   providers: [
     {provide: ToastrService, useClass: ToastrService}

@@ -11,6 +11,8 @@ export class DatosGeneralesService {
 
   unidOperativElegida: number = 0;
 
+  mensajeMantenimiento: string = "";
+
   constructor(private _httpClient: HttpClient) { }
 
   private _authBasic() {
@@ -235,6 +237,11 @@ export class DatosGeneralesService {
 
   buscarActivosServicio(){
     const url = `${URL_BASE}/servicio/buscar/activos?texto=`;
+    return this._httpClient.get<TipoParametro>(url);
+  }
+
+  consultaActivacionApp(consulta: string){
+    const url = `${URL_BASE}/utilidades/activacion/consulta/${consulta}`;
     return this._httpClient.get<TipoParametro>(url);
   }
 }

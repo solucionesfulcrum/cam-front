@@ -4,6 +4,7 @@ import { filter } from 'rxjs';
 import { FormatoTab } from '../menu-opciones/formato-tab.model';
 import { CommonModule } from '@angular/common';
 import { MatTabsModule } from '@angular/material/tabs';
+import { NotificationService } from '@services/notification.service';
 
 @Component({
   selector: 'esp-menu-opciones-v2',
@@ -31,7 +32,8 @@ export class MenuOpcionesV2Component {
   activeTab!: string;
   
   constructor(private route: ActivatedRoute,       
-              private router: Router) {
+              private router: Router,
+              private notificationService: NotificationService) {
   }
   
   ngOnInit(): void {
@@ -66,10 +68,15 @@ export class MenuOpcionesV2Component {
   }
 
 
-  setClickDinamic(url: string, tituloReflejado: FormatoTab, disabled?: boolean){
+  setClickDinamic(url: string, tituloReflejado: FormatoTab, disabled?: boolean, messageDisabled?: string){
     if(!disabled) {
       this.activeTab = url; 
       this.tituloReflejado = tituloReflejado
+    }
+    else{
+      if(messageDisabled){
+        this.notificationService.info(messageDisabled);
+      }
     }
   }
 

@@ -4,4 +4,5 @@ export interface FormatoTab{
     tituloOpcional?: string
     active?: boolean
     disabled?: boolean
+    messageDisabled?: string
 }
