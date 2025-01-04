@@ -14,6 +14,7 @@ import * as fonts from '@fortawesome/free-solid-svg-icons';
 
 export class IconComponent {
   @Input() icon:string = "";
+  @Input() pulse: boolean = false;
   public fonts:any = {
   fa0 : fonts.fa0,
   fa1 : fonts.fa1,

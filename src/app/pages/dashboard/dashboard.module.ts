@@ -10,12 +10,16 @@ import { MaterialModule } from 'src/app/material/material.module';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { NgApexchartsModule } from 'ng-apexcharts';
 import { DashboardAsistenciasComponent } from './component/dashboard-asistencias/dashboard-asistencias.component';
+import { DashboardAsistenciasRapidasComponent } from './component/dashboard-asistencias-rapidas/dashboard-asistencias-rapidas.component';
+import { DashboardAsistenciasProgramadasComponent } from './component/dashboard-asistencias-programadas/dashboard-asistencias-programadas.component';
 
 @NgModule({
   declarations: [
     DashboardComponent,
     DashboardAfiliadosComponent,
-    DashboardAsistenciasComponent
+    DashboardAsistenciasComponent,
+    DashboardAsistenciasRapidasComponent,
+    DashboardAsistenciasProgramadasComponent
   ],
   imports: [
     CommonModule,

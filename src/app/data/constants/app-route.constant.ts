@@ -9,6 +9,10 @@ export class AppRoute {
   static readonly GESTION_SERVICIOS = 'gestion-servicios';
   static readonly PARAMETROS = 'parametros';
   static readonly EDIT_USER = 'edit-user';
+  //---------------------------------------------------------------------------------------------------------- RUTAS DASHBOARD
+  static readonly DASHBOARD = 'dashboard';
+  static readonly DASHBOARD_ASISTENCIAS_RAPIDAS = 'dash-asistencias-rapidas';
+  static readonly DASHBOARD_ASISTENCIAS_PROGRAMADAS = 'dash-asistencias-programadas';
   //---------------------------------------------------------------------------------------------------------- RUTAS CONTRATOS
   static readonly CONTRATOS = 'contratos';
   static readonly CONTRATOS_ASIGNAR_SERVICIOS = 'asignar-servicios';
