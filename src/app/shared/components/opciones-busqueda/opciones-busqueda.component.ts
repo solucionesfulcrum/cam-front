@@ -137,6 +137,9 @@ export class OpcionesBusquedaComponent{
   @Input()
   menuOpt: ParamMenu[] = [];
 
+  @Input()
+  menuOptLoading: boolean = false;
+
   @Output()
   primerActionMenu = new EventEmitter<any>();
 

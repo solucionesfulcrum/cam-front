@@ -2,7 +2,15 @@
     <esp-opciones-busqueda [showDateFilter]="true" [setFilterDateOptionSelected]="'var(--color-CAM-Mezclado)'"
     [setFilterDateTextColour]="'#057EC9'" [filterDateAppearance]="2"
     (sendDateFilterWithCeros)="getDataFecha($event)" [setFilterDateSelectionBg]="'var(--color-CAM-Claro)'"
-    [setFilterDateButtonBg]="'var(--color-CAM-Claro)'" [setDateSelectedDefault]="9"></esp-opciones-busqueda>
+    [setFilterDateButtonBg]="'var(--color-CAM-Claro)'" [setDateSelectedDefault]="9"
+    [showFirstDisplayFilter]="validEsCoordinador"
+    [firstDisplayFilterPlaceholder]="{'indicador': true, 'placeholder': 'Todos los CAM'}"
+    (firstDisplayFilterSendValue)="firstDisplayValue($event)"
+    (firstDisplaySelectedValue)="false"
+    [firstDisplayFilterData]="opciones_cam"
+    [menuOpt]="dataAcciones"
+    (primerActionMenu)="procedeDescargaReporte()"
+    [menuOptLoading]="waitDownload"></esp-opciones-busqueda>
     
     <div class="px-4 py-3 bg-white w-full mt-3 grid botonApariencia" *ngIf="!dataObtenida">
         <div class="text-gray-600 w-full text-center">

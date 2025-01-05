@@ -1,0 +1,48 @@
+.infoGeneral{
+    width: 100%;
+    display: flex;
+    gap: 10px;
+}
+mat-icon{
+    padding-top: 2px;
+}
+.icono{
+    background-color: #008bd2;
+    border: 1px solid #ddd;
+    width: 45px;
+    height: 45px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 5px;
+    padding: 5px; 
+    color: white;
+}
+
+.datosAnaliticos{
+    user-select: none;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    font-weight: 600;
+    border-radius: 5px;
+    background-color: #ffffff;
+    border: 2px solid white;
+    width: 25%;
+    padding: 1%;
+    cursor: pointer;
+}
+
+.datosAnaliticos:hover, .datosSegmentado {
+    border-color: #008bd2;
+    background-color: #fbfbfb;
+}
+
+#chart {
+  max-width: 100%;
+  margin: 35px auto;
+}
+
+.colorDivRojo{
+    color: red; 
+}

@@ -1,8 +1,8 @@
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { environment } from '@environments/environment';
 import { RequestDashboardAsistenciaExportarTxt } from '@models/dashboard/dashboard.-talleresmodel';
-import { lastValueFrom } from 'rxjs';
+import { lastValueFrom, Observable } from 'rxjs';
 
 const URL_BASE = `${environment.API}/`;
 
@@ -13,9 +13,9 @@ export class DashboardService {
 
   constructor(private _httpClient: HttpClient) { }
 
-  async obtenerReporteTextPlanoAsistenciaRapida(model: RequestDashboardAsistenciaExportarTxt){
+  obtenerReporteTextPlanoAsistenciaRapida(model: RequestDashboardAsistenciaExportarTxt): Observable<string>{
     const url = `${URL_BASE}/report/control/generar-reporte/text-plano/consulta-asistencia-rapida`;
-    return await lastValueFrom(this._httpClient.post<any>(url, model));
+    return this._httpClient.post(url, model, { responseType: 'text' });
   }
 
   async obtenerReporteTextPlanoAsistenciaNacional(model: RequestDashboardAsistenciaExportarTxt){
