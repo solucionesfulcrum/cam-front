@@ -25,6 +25,7 @@ function ordenValidator(control: AbstractControl): ValidationErrors | null {
   styleUrls: ['./dialog-new-contrato.component.scss']
 })
 export class DialogNewContratoComponent {
+  textoNroDocumento: string = 'N° Orden';
   minDate = new Date();
   opciones: Parametro[] = [];
   status: RequestStatus = 'init';
@@ -76,6 +77,27 @@ export class DialogNewContratoComponent {
 
   ngOnInit(){
     this.cargaServiciosParametros();
+    this.setListeners();
+    this.datosService.getTipoParametros('TIPO_DOCUMENTO_IDENTIDAD').subscribe((data) =>{
+      // //console.log(data);
+      this.opciones = data.data;
+      if (this.data.type == 2) {
+        this.formNewContrato.controls.frmSelectDoc.setValue('1');
+        this.formNewContrato.controls.frmDoc.setValue(this.data.dataTallerista.nroDoc);
+        this.searchDataPersona(1)
+      }
+    });
+  }
+
+  setListeners(){
+    this.formNewContrato.controls.frmSelectRol.valueChanges.subscribe((data)=>{
+      if (data == '7') {
+        this.textoNroDocumento = 'N° Orden';
+      }
+      else{
+        this.textoNroDocumento = 'N° Documento';
+      }
+    })
     this.formNewContrato.controls.frmSelectDoc.valueChanges.subscribe((data)=>{
       this.tipoDocSelected = this.opciones.find((x)=> x.valor1 == data);
     })
@@ -90,15 +112,6 @@ export class DialogNewContratoComponent {
       this.formVigencia.controls.frmFinVigencia.reset()
       this.formVigencia.controls.frmFinVigencia.markAllAsTouched()
     })
-    this.datosService.getTipoParametros('TIPO_DOCUMENTO_IDENTIDAD').subscribe((data) =>{
-      // //console.log(data);
-      this.opciones = data.data;
-      if (this.data.type == 2) {
-        this.formNewContrato.controls.frmSelectDoc.setValue('1');
-        this.formNewContrato.controls.frmDoc.setValue(this.data.dataTallerista.nroDoc);
-        this.searchDataPersona(1)
-      }
-    });
   }
 
   actualizarDate(input: any, opt: number) {

@@ -8,7 +8,7 @@
       <div class="relative rounded-md shadow-sm">
         <select id="searchDoc" formControlName="frmSelectRol"
           class="space-x-5 bg-slate-50 border border-gray-300 text-gray-900 text-sm rounded-lg focusCampo block w-full h-[42px]">
-          <option value="" disabled selected>Seleccione su tipo de documento</option>
+          <option value="" disabled selected>Seleccione su tipo de perfil</option>
           <option *ngFor="let rol of listRoles" [value]='rol.idRol'>{{rol.nombre | titlecase}}
           </option>
           <!-- <option value="1">Registrado</option> -->
@@ -19,7 +19,7 @@
       <div class="relative rounded-md shadow-sm">
         <select id="searchDoc" formControlName="frmSelectDoc"
           class="space-x-5 bg-slate-50 border border-gray-300 text-gray-900 text-sm rounded-lg focusCampo block w-full h-[42px]">
-          <option value="" disabled selected>Seleccione su tipo de documento</option>
+          <option value="" disabled selected>Seleccione su tipo de perfil</option>
           <option *ngFor="let documento of opciones" [value]='documento.valor1'>{{documento.nombre | titlecase}}
           </option>
           <!-- <option value="1">Registrado</option> -->
@@ -104,15 +104,15 @@
           <div class="relative">
             <div class="relative">
               <input type="text" name="order" class="inputTextoDialog focusCampo !h-10 pr-7" formControlName="frmOrden" espEstiloInput id="orden">
-              <label espEstiloLabel for="orden">N° Orden</label>
+              <label espEstiloLabel for="orden">{{textoNroDocumento}}</label>
             </div>
 
             <div *ngIf="formDataOrden.controls.frmOrden.touched">
               <p *ngIf="formDataOrden.controls.frmOrden.value == null" class="font-medium text-red-500 text-xs mt-1 ml-1">
-                N° de Orden requerida
+                {{formNewContrato.controls.frmSelectRol.value == '7' ? 'N° de Orden requerida' : 'N° de Documento requerido'}}
               </p>
               <p *ngIf="formDataOrden.controls.frmOrden.hasError('ordenInvalida')"  class="font-medium text-red-500 text-xs mt-1 ml-1">
-                La orden debe tener 10 caracteres alfanuméricos 
+                {{formNewContrato.controls.frmSelectRol.value == '7' ? 'La orden' : 'El documento'}} debe tener 10 caracteres alfanuméricos 
               </p>
             </div>
           </div>
