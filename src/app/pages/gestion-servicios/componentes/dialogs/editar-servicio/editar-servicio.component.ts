@@ -17,6 +17,7 @@ import { SubProgramaService } from 'src/app/data/services/servicios/sub-programa
 })
 export class EditarServicioComponent implements OnInit {
   servicioForm: FormGroup;
+  dataForm: any;
   isLoading = false;
   opcionesEvento: TablaOpciones[] = [];
   opcionesSubProgramas: any[] = [];
@@ -31,6 +32,7 @@ export class EditarServicioComponent implements OnInit {
     private subProgramaService: SubProgramaService,
     private carteraDeServicios: CarteraDeServiciosService
   ) {
+    console.log(data.servicio)
     this.servicioForm = this._fb.group({
       subprograma: [data.servicio.idSubPrograma, [Validators.required]],
       tipoServicio: [data.servicio.paramTipoServicio, [Validators.required]],
@@ -40,6 +42,7 @@ export class EditarServicioComponent implements OnInit {
       fechaCreacion: [{ value: this.formatDate(data.servicio.fechaCreacion), disabled: true }],
       activo: [data.servicio.activo, [Validators.required]]
     });
+    this.dataForm = data.servicio;
   }
 
   formatDate(fecha: string | null | undefined): string {
@@ -61,7 +64,9 @@ export class EditarServicioComponent implements OnInit {
       if (data.code == 0) {
         data.data.forEach((x)=>{
           this.opcionesEvento.push({idOpcion: x.idParametros, nombre: x.nombre, value: x.idParametros})
-        })
+        });
+
+        this.dataForm.tipoServicio = data.data.find((x)=> x.idParametros == this.data.servicio.paramTipoServicio)!.nombre;
       }
       else{
         this.notificationService.warning(data.message);
@@ -70,7 +75,9 @@ export class EditarServicioComponent implements OnInit {
 
     this.subProgramaService.listarActivos().subscribe((data)=>{
       if(data.code == 0) {
-        this.opcionesSubProgramas = data.data
+        this.opcionesSubProgramas = data.data;
+        
+        this.dataForm.subprograma = this.opcionesSubProgramas.find((x)=> x.idSubPrograma == this.data.servicio.idSubPrograma)!.nombre;
       }
       else{
 

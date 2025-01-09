@@ -100,61 +100,69 @@ export class DashboardAsistenciasRapidasComponent {
 
   onLoadData(){
     this.dataCargada = false;
-    this.dashboardService.obtenerDatosGraficoAsistenciaRapida(this.getPayload()).then((data)=>{
-      if (data.code == 0) {
-        this.dataObtenida = true;
-        this.opcionesFiltroTotal[0].totalCalculado = data.data.sumaTotal;
-        this.opcionesFiltroTotal[1].totalCalculado = data.data.sumaFinalizadas;
-        this.opcionesFiltroTotal[2].totalCalculado = data.data.sumaAbiertos;
+    this.dashboardService.obtenerDatosGraficoAsistenciaRapida(this.getPayload(true, 0)).then((dataAbiertas)=>{
+      if (dataAbiertas.code == 0) {
+        this.dashboardService.obtenerDatosGraficoAsistenciaRapida(this.getPayload(true, 1)).then((dataFinalizados)=>{
+          if (dataFinalizados.code == 0) {
+            this.opcionesFiltroTotal[0].totalCalculado = dataAbiertas.data.sumaTotal;
+            this.opcionesFiltroTotal[1].totalCalculado = dataAbiertas.data.sumaFinalizadas;
+            this.opcionesFiltroTotal[2].totalCalculado = dataAbiertas.data.sumaAbiertos;
 
-        this.chartOptions.series = [
-          {
-            name: "Talleres",
-            data: data.data.contAsegurados
-          }
-        ];
-        this.chartOptions.labels = data.data.fecha;
-
-        let totalCalculados = 0;
-        data.data.contAsegurados.forEach((x: any)=> totalCalculados += x);
-        if(totalCalculados >= 4){
-        this.chartOptions.yaxis = [
-          {
-            opposite: false,
-            tickAmount: 4,
-            forceNiceScale: false,
-            min: 0,
-            labels: {
-              formatter: function (val: number) {
-                return val.toFixed(0); 
+            this.chartOptions.series = [
+              {
+                name: "Talleres Finalizados",
+                data: dataFinalizados.data.contAsegurados
+              },
+              {
+                name: "Talleres Abiertos",
+                data: dataAbiertas.data.contAsegurados
               }
-            }
-          }
-        ];
-        }else{
-          this.chartOptions.yaxis = [
-            {
-              opposite: false,
-              tickAmount: 1,
-              forceNiceScale: false,
-              min: 0,
-              labels: {
-                formatter: function (val: number) {
-                  return val.toFixed(0); 
+            ];
+            this.chartOptions.labels = dataAbiertas.data.fecha;
+            let totalCalculados = 0;
+            dataAbiertas.data.contAsegurados.forEach((x: any)=> totalCalculados += x);
+            if(totalCalculados >= 4){
+            this.chartOptions.yaxis = [
+              {
+                opposite: false,
+                tickAmount: 4,
+                forceNiceScale: false,
+                min: 0,
+                labels: {
+                  formatter: function (val: number) {
+                    return val.toFixed(0); 
+                  }
                 }
               }
+            ];
+            }else{
+              this.chartOptions.yaxis = [
+                {
+                  opposite: false,
+                  tickAmount: 1,
+                  forceNiceScale: false,
+                  min: 0,
+                  labels: {
+                    formatter: function (val: number) {
+                      return val.toFixed(0); 
+                    }
+                  }
+                }
+              ];
             }
-          ];
-        }
 
-        console.log(data.data)
+            this.dataObtenida = true;
+          }
+          else{
+            this.notificationService.warning(dataFinalizados.message);
+          }
+          this.dataCargada = true;
+        })
       }
       else{
-        this.notificationService.warning(data.message);
+        this.notificationService.warning(dataAbiertas.message);
       }
-      this.dataCargada = true;
     })
-
   }
 
   selectSegmento(value: number){
@@ -174,7 +182,7 @@ export class DashboardAsistenciasRapidasComponent {
     this.onLoadData();
   }
 
-  getPayload(): RequestDashboardAsistenciaExportarTxt{
+  getPayload(tipoEnvio?: boolean, optSegmento?: number): RequestDashboardAsistenciaExportarTxt{
     const fechaIicioComponent = this.formBuscar.get('frmSearchDate')?.value.split("-")[0].trim();
     const fechaInicio = fechaIicioComponent.split("/");
     const fechaFormateadaInicio = `${fechaInicio[2]}-${fechaInicio[1]}-${fechaInicio[0]}`;
@@ -187,7 +195,7 @@ export class DashboardAsistenciasRapidasComponent {
 
     return {
       codigoRed: AppVariables.ID_COORDINADOR_RED == this.dataUnidadSeleccionada.idRol ? this.dataUnidadSeleccionada.codigo : '',
-      estado: this.selectedTotal,
+      estado: (tipoEnvio ? optSegmento : this.selectedTotal),
       fecInicio: fechaFormateadaInicio,
       fecFin: fechaFormateadaFin,
       codigoCam: codCam,
