@@ -93,53 +93,40 @@ export class DashboardAsistenciasRapidasComponent {
         this.opciones_cam = data.data.map((e : any)=>{ //No había más solución
           return {...e, idParametros: e.codigo} as Parametro
         });
-        console.log(data.data)
       });
     }
   }
 
   onLoadData(){
     this.dataCargada = false;
-    this.dashboardService.obtenerDatosGraficoAsistenciaRapida(this.getPayload(true, 0)).then((dataAbiertas)=>{
-      if (dataAbiertas.code == 0) {
-        this.dashboardService.obtenerDatosGraficoAsistenciaRapida(this.getPayload(true, 1)).then((dataFinalizados)=>{
-          if (dataFinalizados.code == 0) {
-            this.opcionesFiltroTotal[0].totalCalculado = dataAbiertas.data.sumaTotal;
-            this.opcionesFiltroTotal[1].totalCalculado = dataAbiertas.data.sumaFinalizadas;
-            this.opcionesFiltroTotal[2].totalCalculado = dataAbiertas.data.sumaAbiertos;
-
-            this.chartOptions.series = [
-              {
-                name: "Talleres Finalizados",
-                data: dataFinalizados.data.contAsegurados
-              },
-              {
-                name: "Talleres Abiertos",
-                data: dataAbiertas.data.contAsegurados
-              }
-            ];
-            this.chartOptions.labels = dataAbiertas.data.fecha;
-            let totalCalculados = 0;
-            dataAbiertas.data.contAsegurados.forEach((x: any)=> totalCalculados += x);
-            if(totalCalculados >= 4){
-            this.chartOptions.yaxis = [
-              {
-                opposite: false,
-                tickAmount: 4,
-                forceNiceScale: false,
-                min: 0,
-                labels: {
-                  formatter: function (val: number) {
-                    return val.toFixed(0); 
-                  }
+    let payload = this.getPayload();
+    if (payload.estado == null) {
+      this.dashboardService.obtenerDatosGraficoAsistenciaRapida(this.getPayload(true, 0)).then((dataAbiertas)=>{
+        if (dataAbiertas.code == 0) {
+          this.dashboardService.obtenerDatosGraficoAsistenciaRapida(this.getPayload(true, 1)).then((dataFinalizados)=>{
+            if (dataFinalizados.code == 0) {
+              this.opcionesFiltroTotal[0].totalCalculado = dataAbiertas.data.sumaTotal;
+              this.opcionesFiltroTotal[1].totalCalculado = dataAbiertas.data.sumaFinalizadas;
+              this.opcionesFiltroTotal[2].totalCalculado = dataAbiertas.data.sumaAbiertos;
+  
+              this.chartOptions.series = [
+                {
+                  name: "Talleres Finalizados",
+                  data: dataFinalizados.data.contAsegurados
+                },
+                {
+                  name: "Talleres Abiertos",
+                  data: dataAbiertas.data.contAsegurados
                 }
-              }
-            ];
-            }else{
+              ];
+              this.chartOptions.labels = dataAbiertas.data.fecha;
+              let totalCalculados = 0;
+              dataAbiertas.data.contAsegurados.forEach((x: any)=> totalCalculados += x);
+              if(totalCalculados >= 4){
               this.chartOptions.yaxis = [
                 {
                   opposite: false,
-                  tickAmount: 1,
+                  tickAmount: 4,
                   forceNiceScale: false,
                   min: 0,
                   labels: {
@@ -149,20 +136,92 @@ export class DashboardAsistenciasRapidasComponent {
                   }
                 }
               ];
+              }else{
+                this.chartOptions.yaxis = [
+                  {
+                    opposite: false,
+                    tickAmount: 1,
+                    forceNiceScale: false,
+                    min: 0,
+                    labels: {
+                      formatter: function (val: number) {
+                        return val.toFixed(0); 
+                      }
+                    }
+                  }
+                ];
+              }
+  
+              this.dataObtenida = true;
             }
-
-            this.dataObtenida = true;
-          }
-          else{
-            this.notificationService.warning(dataFinalizados.message);
-          }
-          this.dataCargada = true;
-        })
-      }
-      else{
-        this.notificationService.warning(dataAbiertas.message);
-      }
-    })
+            else{
+              this.notificationService.warning(dataFinalizados.message);
+            }
+            this.dataCargada = true;
+          })
+        }
+        else{
+          this.notificationService.warning(dataAbiertas.message);
+        }
+      })
+    }
+    else{
+      this.dashboardService.obtenerDatosGraficoAsistenciaRapida(this.getPayload()).then((data)=>{
+        if (data.code == 0) {
+          
+              this.opcionesFiltroTotal[0].totalCalculado = data.data.sumaTotal;
+              this.opcionesFiltroTotal[1].totalCalculado = data.data.sumaFinalizadas;
+              this.opcionesFiltroTotal[2].totalCalculado = data.data.sumaAbiertos;
+  
+              this.chartOptions.series = [
+                {
+                  name: "Talleres",
+                  data: data.data.contAsegurados
+                }
+              ];
+              this.chartOptions.labels = data.data.fecha;
+              let totalCalculados = 0;
+              data.data.contAsegurados.forEach((x: any)=> totalCalculados += x);
+              if(totalCalculados >= 4){
+              this.chartOptions.yaxis = [
+                {
+                  opposite: false,
+                  tickAmount: 4,
+                  forceNiceScale: false,
+                  min: 0,
+                  labels: {
+                    formatter: function (val: number) {
+                      return val.toFixed(0); 
+                    }
+                  }
+                }
+              ];
+              }else{
+                this.chartOptions.yaxis = [
+                  {
+                    opposite: false,
+                    tickAmount: 1,
+                    forceNiceScale: false,
+                    min: 0,
+                    labels: {
+                      formatter: function (val: number) {
+                        return val.toFixed(0); 
+                      }
+                    }
+                  }
+                ];
+              }
+  
+              this.dataObtenida = true;
+              
+            this.dataCargada = true;
+        }
+        else{
+          this.notificationService.warning(data.message);
+        }
+      })
+    }
+    console.log(payload)
   }
 
   selectSegmento(value: number){
