@@ -23,6 +23,7 @@ import { ModalAlertComponent } from './components/modal-alert/modal-alert.compon
 import { ModalConfirmarGenericoComponent } from './components/modal-confirmar-generico/modal-confirmar-generico.component';
 import { EstiloInputDirective } from '../directivas/estilo-input.directive';
 import { EstiloLabelDirective } from '../directivas/estilo-label.directive';
+import { DataLoadingComponent } from './components/data-loading/data-loading.component';
 
 
 const modules:any[] = [
@@ -40,6 +41,7 @@ const modules:any[] = [
    FiltroFechaComponent,
    MenuOpcionesComponent,
    OpcionesBusquedaComponent,
+   DataLoadingComponent,
    OpcionesBotonesComponent,
    CartillaInfoComponent,
    TablaAdaptableComponent,

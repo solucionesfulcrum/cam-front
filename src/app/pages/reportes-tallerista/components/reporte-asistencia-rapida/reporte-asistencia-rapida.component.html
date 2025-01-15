@@ -1,0 +1,93 @@
+<esp-opciones-busqueda 
+[showDateFilter]="true"
+[setFilterDateOptionSelected]="'var(--color-CAM-Mezclado)'" 
+[setFilterDateTextColour]="'var(--color-CAM)'"
+[filterDateAppearance]="2"
+[setFilterDateSelectionBg]="'var(--color-CAM-Claro)'"
+[setFilterDateButtonBg]="'var(--color-CAM-Claro)'"
+[setDateSelectedDefault]="5"
+(sendDateFilterWithCeros)="formBuscar.get('frmSearchDate')?.setValue($event); loadData()"
+[showFirstDisplayFilter]="true"
+[firstDisplayFilterPlaceholder]="{indicador: true, placeholder: 'Todos los estados'}"
+(firstDisplayFilterSendValue)="formBuscar.get('frmSearchEstado')?.setValue($event); loadData()"
+[firstDisplayFilterData]="listEstados"
+
+[showSecondDisplayFilter]="true"
+[secDisplayFilterPlaceholder]="{'indicador': true, 'placeholder': 'Todos los Servicios'}"
+[secDisplayFilterData]="listServicios"
+(secDisplayFilterSendValue)="secDisplayValue($event)"
+
+[menuOpt]="dataAcciones"
+(primerActionMenu)="imprimirLista()"
+[menuOptLoading]="waitDownload"
+></esp-opciones-busqueda>
+
+<esp-data-loading
+[dataEmpty]="dataSource.length == 0"
+[dataLoading]="loadingData"
+></esp-data-loading>
+
+<div *ngIf="!loadingData && dataSource.length > 0">
+    <div class="table-container">
+      
+    <table cdk-table class="w-full text-sm text-left text-gray-500" [dataSource]="dataSource" >
+      <tr cdk-header-row class="text-xs text-gray-700 bg-gray-50" *cdkHeaderRowDef="columns; sticky: true"></tr>
+      <tr cdk-row class="bg-white border-b" *cdkRowDef="let row; columns: columns"></tr>
+      <ng-container cdkColumnDef="marcar">
+        <th cdk-header-cell class="py-[1.25rem] px-6" [style]="'width: 0%;'" *cdkHeaderCellDef> <input type="checkbox" [checked]="seleccionados.length == this.dataSource.length" (change)="afectarTodo($event)"/> </th>
+        <td cdk-cell class="py-[1rem] px-6" [style]="'width: 0%;'" *cdkCellDef="let row"> <input type="checkbox" class="checkbox-select" (change)="seleccionarFila($event)" [value]="row.idInscripcion" [checked]="row.marcar"/> </td>
+      </ng-container>
+
+      <ng-container cdkColumnDef="descripcion">
+        <th cdk-header-cell class="py-[1rem] px-6" *cdkHeaderCellDef [style]="'padding-left: 0px;'">Descripcion</th>
+        <td cdk-cell class="py-[1rem] px-6 text-Name" *cdkCellDef="let row, index as i" [style]="'padding-left: 0px;'">
+          <span class="cursor-pointer" [routerLink]="['detalle-taller/'+row.idProgDet]">{{ row.nombreTaller }}</span>
+        </td>
+      </ng-container>
+
+      <ng-container cdkColumnDef="tipo">
+        <th cdk-header-cell class="py-[1rem] px-6" *cdkHeaderCellDef>Tipo</th>
+        <td cdk-cell class="py-[1rem] px-6" *cdkCellDef="let row">{{ row.tipoTaller | titlecase }}</td>
+      </ng-container>
+
+      <ng-container cdkColumnDef="fechaRegistro">
+        <th cdk-header-cell class="py-[1rem] px-6" *cdkHeaderCellDef>Fecha Registro</th>
+        <td cdk-cell class="py-[1rem] px-6" *cdkCellDef="let row">{{ row.fechaRegistro | date:'dd/MM/yyyy' }}</td>
+      </ng-container>
+
+      <ng-container cdkColumnDef="fechaServicio">
+        <th cdk-header-cell class="py-[1rem] px-6" *cdkHeaderCellDef>Fecha Servicio</th>
+        <td cdk-cell class="py-[1rem] px-6" *cdkCellDef="let row">{{ row.fechaTaller | date:'dd/MM/yyyy' }}</td>
+      </ng-container>
+      
+      <ng-container cdkColumnDef="numTaller">
+        <th cdk-header-cell class="py-[1rem] px-6" *cdkHeaderCellDef>N° Taller</th>
+        <td cdk-cell class="py-[1rem] px-6" *cdkCellDef="let row">{{ row.numTaller }}</td>
+      </ng-container>
+
+      <ng-container cdkColumnDef="numSesion">
+        <th cdk-header-cell class="py-[1rem] px-6" *cdkHeaderCellDef>N° Sesión</th>
+        <td cdk-cell class="py-[1rem] px-6" *cdkCellDef="let row">{{ row.numActividad }}
+          {{row.numActividad > 1 ? 'Sesiones' : 'Sesión'}}
+        </td>
+      </ng-container>
+
+      <ng-container cdkColumnDef="estado">
+        <th cdk-header-cell class="py-[1rem] px-6" *cdkHeaderCellDef>Estado</th>
+        <td cdk-cell class="py-[1rem] px-6" *cdkCellDef="let row"
+         [ngClass]="row.estado === 'ABIERTO' ? 'text-[#FB0606]' : 'text-[#00bd47]'">
+         {{row.estado | titlecase}}</td>
+      </ng-container>
+    </table>
+    </div>
+   
+    <mat-paginator #paginator class="demo-paginator paginatorDatos" 
+    (page)="handlePageEvent($event)"
+    [length]="total"
+    [pageSize]="pageSize"
+    showFirstLastButtons="true"
+    [pageSizeOptions]="pageSizeOptions.length > 0 ? pageSizeOptions : []"
+    [pageIndex]="pageIndex"
+    aria-label="Select page">
+    </mat-paginator>
+</div>

@@ -45,4 +45,6 @@ export class AppRoute {
 
   //---------------------------------------------------------------------------------------------------------- RUTAS REPORTE TALLERISTA
   static readonly REPORTES_TALLERES_TALLERISTAS = 'talleres';
+  static readonly REPORTES_ASISTENCIAS_PROGRAMADAS = 'report-asistencias-programadas';
+  static readonly REPORTES_ASISTENCIA_RAPIDA = 'report-asistencia-rapidas';
 }

@@ -3,12 +3,13 @@ import { Injectable } from '@angular/core';
 import { environment } from '@environments/environment';
 import { PayloadReportes, ResponseAsistencia } from '@models/dashboard/dashboard.model';
 import { DtGenericoPaginado, DtGenericoSinPaginar, ResponseGenerico } from '@models/generico/dt-generico';
+import { RequestListTalleristaAsistenciaRapida } from '@models/reportes/reportes-asistencias.model';
 import { AsistenciaRapidaListaPayload, AsistenciaTaller, CabeceraAsistenciaReporte, ItemReporteAsistenciaTaller, ItemReporteTallerista, imprimirRequestTalleresTallerista } from '@models/reportes/reportes-tallerista';
 import { ReportesTalleristaPayload } from '@models/reportes/reportes-tallerista';
-import { of, delay, Observable } from 'rxjs';
+import { of, delay, Observable, lastValueFrom } from 'rxjs';
 
 
-const URL_BASE = `${environment.API}`;
+const URL_BASE = `${environment.API}/tallerista`;
 
 @Injectable({
   providedIn: 'root'
@@ -58,5 +59,13 @@ export class ReportesTalleristaService {
     return this._httpClient.post(url, {idProgDet}, {responseType:'blob', headers: new HttpHeaders({'Accept': 'application/octet-stream'})});
   }
 
-  
+  async getListAsistenciasRapidas(model: RequestListTalleristaAsistenciaRapida){
+    const url = `${URL_BASE}/listar/talleres/asistencia-rapida`;
+    return await lastValueFrom(this._httpClient.post<any>(url, model));
+  }
+
+  exportListAsistenciasRapidas(model: RequestListTalleristaAsistenciaRapida): Observable<Blob>{
+    const url = `${environment.API}/report/tallerista/excel/lista/asistencia-rapida`;
+    return this._httpClient.post(url, model, {responseType:'blob', headers: new HttpHeaders({'Accept': 'application/octet-stream'})});
+  }
 }

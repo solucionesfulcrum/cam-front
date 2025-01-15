@@ -13,6 +13,9 @@ import { DetalleAsistenciasTallerComponent } from './detalle-asistencias-taller/
 import { OpcionesBotonesComponent } from '@shared/components/opciones-botones/opciones-botones.component';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { MatDialogModule } from '@angular/material/dialog';
+import { ReporteAsistenciasProgramadasComponent } from './components/reporte-asistencias-programadas/reporte-asistencias-programadas.component';
+import { ReporteAsistenciaRapidaComponent } from './components/reporte-asistencia-rapida/reporte-asistencia-rapida.component';
+import { SharedModule } from '@shared/shared.module';
 
 
 
@@ -20,17 +23,17 @@ import { MatDialogModule } from '@angular/material/dialog';
     declarations: [
         ReportesTalleristaComponent,
         TalleresComponent,
-        DetalleAsistenciasTallerComponent
+        DetalleAsistenciasTallerComponent,
+        ReporteAsistenciasProgramadasComponent,
+        ReporteAsistenciaRapidaComponent
     ],
     imports: [
         CommonModule,
         MenuOpcionesComponent,
         ReportesTalleristaRoutingModule,
-        OpcionesBusquedaComponent,
-        DataLoadingComponent,
+        SharedModule,
         CdkTableModule,
         MatPaginatorModule,
-        OpcionesBotonesComponent,
         MatTooltipModule,
         MatDialogModule
     ]

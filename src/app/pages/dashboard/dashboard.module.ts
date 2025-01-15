@@ -12,6 +12,7 @@ import { NgApexchartsModule } from 'ng-apexcharts';
 import { DashboardAsistenciasComponent } from './component/dashboard-asistencias/dashboard-asistencias.component';
 import { DashboardAsistenciasRapidasComponent } from './component/dashboard-asistencias-rapidas/dashboard-asistencias-rapidas.component';
 import { DashboardAsistenciasProgramadasComponent } from './component/dashboard-asistencias-programadas/dashboard-asistencias-programadas.component';
+import { LocaleService } from 'ngx-daterangepicker-material';
 
 @NgModule({
   declarations: [

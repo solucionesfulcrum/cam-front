@@ -86,7 +86,7 @@ export class DashboardAsistenciasProgramadasComponent {
 
   ngOnInit(): void {
     console.log(this.dataUnidadSeleccionada);
-    if (AppVariables.ID_COORDINADOR_RED == this.dataUnidadSeleccionada.idRol) {
+    if (AppVariables.ID_ROL_COORDINADOR_RED == this.dataUnidadSeleccionada.idRol) {
       this.validEsCoordinador = true;
       this.datosService.getCams(this.dataUnidadSeleccionada.idUnidOperativa).subscribe((data)=>{
         this.opciones_cam = data.data.map((e : any)=>{ //No había más solución
@@ -181,10 +181,10 @@ export class DashboardAsistenciasProgramadasComponent {
     const fechaFin = fechaFinComponent.split("/");
     const fechaFormateadaFin= `${fechaFin[2]}-${fechaFin[1]}-${fechaFin[0]}`;
     
-    let codCam = (AppVariables.ID_COORDINADOR_RED == this.dataUnidadSeleccionada.idRol ? this.formBuscar.get('frmSearchCam')!.value : this.dataUnidadSeleccionada.codigo);
+    let codCam = (AppVariables.ID_ROL_COORDINADOR_RED == this.dataUnidadSeleccionada.idRol ? this.formBuscar.get('frmSearchCam')!.value : this.dataUnidadSeleccionada.codigo);
 
     return {
-      codigoRed: AppVariables.ID_COORDINADOR_RED == this.dataUnidadSeleccionada.idRol ? this.dataUnidadSeleccionada.codigo : '',
+      codigoRed: AppVariables.ID_ROL_COORDINADOR_RED == this.dataUnidadSeleccionada.idRol ? this.dataUnidadSeleccionada.codigo : '',
       estado: this.selectedTotal,
       fecInicio: fechaFormateadaInicio,
       fecFin: fechaFormateadaFin,
