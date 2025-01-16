@@ -1,0 +1,148 @@
+<esp-opciones-busqueda [showDateFilter]="true" [setFilterDateOptionSelected]="'var(--color-CAM-Mezclado)'"
+    [setFilterDateTextColour]="'var(--color-CAM-Mezclado)'" [filterDateAppearance]="2"
+    (sendDateFilterWithCeros)="getDataFecha($event)" [setFilterDateSelectionBg]="'var(--color-CAM-Claro)'"
+    [setFilterDateButtonBg]="'var(--color-CAM-Claro)'" [setDateSelectedDefault]="9"></esp-opciones-busqueda>
+<div class="px-4 py-3 bg-white w-full mt-3 grid botonApariencia" *ngIf="loading">
+    <div class="text-gray-600 w-full text-center">
+        <span class="py-1 font-bold text-2xl">
+            <fa-icon class="mr-2" [icon]="faSpinner" [pulse]="true"></fa-icon>
+            Obteniendo datos...
+        </span>
+    </div>
+</div>
+<div *ngIf="!loading">
+    
+    
+    <div class="infoGeneral text-[var(--color-black-alt)] font-semibold">
+        <div class="datosAnaliticos botonApariencia mt-5">
+            <div>
+                <div class="text-[12px]">Servicio en Cartera</div>
+                <div class="text-[18px]">{{cantidadServicioCartera}}</div>
+            </div>
+            <div>
+                <img class="self-center" src="assets/svg/icon-servicio-cartera.svg">
+            </div>
+        </div>
+        <div class="datosAnaliticos botonApariencia mt-5" *ngIf="false">
+            <div>
+                <div class="text-[12px]">Redes</div>
+                <div class="text-[18px]">30</div>
+            </div>
+            <div>
+                <img class="self-center" src="assets/svg/icon-redes.svg">
+            </div>
+        </div>
+        <div class="datosAnaliticos botonApariencia mt-5" *ngIf="idRol == 8">
+            <div>
+                <div class="text-[12px]">Unidades CAM</div>
+                <div class="text-[18px]">126</div>
+            </div>
+            <div>
+                <img class="self-center" src="assets/svg/icon-uc.svg">
+            </div>
+        </div>
+        <div class="datosAnaliticos botonApariencia mt-5">
+            <div>
+                <div class="text-[12px]">CIRAM</div>
+                <div class="text-[18px]">{{cantidadCiram}}</div> 
+            </div>
+            <div>
+                <img class="self-center" src="assets/svg/icon-ciram.svg">
+            </div>
+        </div>
+        <!--<div class="datosAnaliticos botonApariencia">
+            <div>
+                <div class="text-[12px]">Activos</div>
+                <div class="text-[18px]">3200</div>
+            </div>
+            <div class="icono">
+                <img class="self-center" src="assets/svg/iconActivos.svg">
+            </div>
+        </div>
+        <div class="datosAnaliticos botonApariencia">
+            <div>
+                <div class="colorDivRojo text-[12px]">Bajas</div>
+                <div class="text-[18px]">11</div>
+            </div>
+            <div class="icono">
+                <img class="self-center" src="assets/svg/iconBajas.svg">
+            </div>
+        </div>-->
+        
+    </div>
+    <div class="flex flex-col mt-5 botonApariencia" >
+            
+        <div class="flex flex-row gap-3 px-3  bg-white" [style.padding-top]="'1rem'">
+
+            <div class="flex flex-col justify-between grow">
+                <div class="py-1">
+                    <div class="flex flex-row gap-2.5">
+                        <div class="flex flex-col gap-[5px] shrink-0">
+                            <span class="font-semibold text-[20px] leading-[20px] mb-2">Monitoreo de asistencias a talleres</span>
+                            <span [style.font-size]="'1rem'">
+                                <strong style="font-weight: 500;">{{totalAsistencia}} Asistencias</strong>
+                                <span style="color: #808080;"> </span>
+                              </span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="flex flex-row gap-[2px] shrink-0">
+                <div class="flex flex-row gap-2 py-[2px] cursor-pointer hover:bg-gray-100 mr-4">
+
+                  <div class="flex items-center justify-start w-5 mr-2">
+                    <span class="inline-flex items-center transform rotate-90">
+                      <span [ngStyle]="{height: '0.4rem', width : '0.4rem'}" class="bg-gray-500 rounded-full mr-1"></span>
+                      <span [ngStyle]="{height: '0.4rem', width : '0.4rem'}" class="bg-gray-500 rounded-full mr-1"></span>
+                      <span [ngStyle]="{height: '0.4rem', width : '0.4rem'}" class="bg-gray-500 rounded-full"></span>
+                    </span>
+                  </div>
+                </div>
+              </div>
+        </div>
+        <div>
+            <table cdk-table class="w-full text-sm text-left text-gray-500 " [dataSource]="dataSource" >
+              <tr cdk-header-row class="text-xs text-gray-700 bg-gray-50 border-b" *cdkHeaderRowDef="columns"></tr>
+              <tr cdk-row class="bg-white border-b" *cdkRowDef="let row; columns: columns"></tr>
+
+              <ng-container cdkColumnDef="servicios">
+                <th cdk-header-cell class="py-[1.25rem] px-6" *cdkHeaderCellDef [ngStyle]="{width: '60%', color:'rgba(128, 128, 128, 0.6)'}">Servicios</th>
+                <td cdk-cell class="py-[1rem] px-6" *cdkCellDef="let row">
+                    <div class="flex items-center space-x-2">
+                        <img src="assets/images/T-Reporte.png" class="h-5 w-6 mr-2"> <!-- Ajusta el tamaño según sea necesario -->
+                        <span class="" [style.color]="'rgba(5, 126, 201, 1)'">{{ row.nombreServicio }}</span>
+                      </div>
+                </td>
+              </ng-container>
+
+              <ng-container cdkColumnDef="asistencias">
+                <th cdk-header-cell class="py-[1.25rem] px-6" *cdkHeaderCellDef [ngStyle]="{width: '20%', color:'rgba(128, 128, 128, 0.6)'}">Asistencias</th>
+                <td cdk-cell class="py-[1rem] px-6" *cdkCellDef="let row">
+                    <b>
+                        {{row.cantidadAsistencia }}
+                    </b>
+                </td>
+              </ng-container>
+              
+              <ng-container cdkColumnDef="porcentaje">
+                <th cdk-header-cell class="py-[1.25rem] px-6" *cdkHeaderCellDef [ngStyle]="{width: '20%', color:'rgba(128, 128, 128, 0.6)'}">Porcentaje %</th>
+                <td cdk-cell class="py-[1rem] px-6" *cdkCellDef="let row">
+                    <div class="flex flex-col">
+                        <span [style.color]="'rgba(5, 126, 201, 1)'"><b>{{ 100*row.cantidadAsistencia/totalAsistencia | number: '1.0-0'}}%</b></span>
+                        <div class="w-3/4 bg-gray-200 rounded-full h-1 mt-1">
+                          <div [style.background-color]="'rgba(5, 126, 201, 1)'" class="h-1 rounded-full" [style.width.%]="100*row.cantidadAsistencia/totalAsistencia | number: '1.0-0'"></div>
+                        </div>
+                      </div>
+                </td>
+              </ng-container>
+        
+        
+            </table>
+        
+        </div>     
+        
+    </div>
+
+  
+
+</div>

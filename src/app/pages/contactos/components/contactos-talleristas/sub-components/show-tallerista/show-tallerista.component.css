@@ -1,0 +1,58 @@
+.bg-image{
+    background-image: url(~src/assets/images/background.jpg);
+    background-position: center;
+    background-size: cover;
+    margin-bottom: 2.75rem;
+}
+.avatar{
+    bottom: -2.5rem;
+    background-image: url(~src/assets/images/avatar-user.png);
+    background-position: center;
+    background-size: cover;
+}
+
+.containerInfoProfesional{
+    display: flex;
+    flex-direction: row;
+    gap: 12px;
+    color: var(--color-black-alt);
+    /* width */
+    ::-webkit-scrollbar {
+        width: 10px;
+    }
+     
+    ::-webkit-scrollbar-track {
+      background: #D4D4D4;
+    }
+    ::-webkit-scrollbar-thumb {
+      background: var(--color-black-alt);
+    }
+     
+    ::-webkit-scrollbar-thumb:hover {
+        background: #28364d;
+    }
+    
+    .containerInfoDerecha{
+        flex-grow: 1;
+        display: flex;
+        flex-direction: column;
+    }
+    .containerInfoIzq{
+        padding: 0 !important;
+        flex-direction: column;
+        overflow: hidden;
+        flex-shrink: 0;
+        width: 360px;
+        .rolPersona{
+            background: var(--color-CAM-Mezclado);
+            color: white;
+        }
+    }
+    .containerInfoDerecha, .containerInfoIzq{
+        background-color: white;
+        padding: 0.75rem 1rem;
+        display: flex;
+        border-radius: 5px;
+        box-shadow: 1px 1px 4px 0px rgba(0, 0, 0, 0.4);
+    }
+}

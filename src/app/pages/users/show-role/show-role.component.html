@@ -1,0 +1,105 @@
+<div class="my-2 w-full flex place-content-between">
+  <div class="flex cursor-pointer" [routerLink]="['..']">
+      <img class="h-6 self-center" src="assets/svg/circle-arrow-left.svg"> <span class="self-center ml-2">Regresar</span>
+  </div>
+  <div class="flex space-x-3 items-center">
+      <app-btn typeBtn="submit" class="botonApariencia" color="white" [routerLink]="['..']">
+          Cancelar
+      </app-btn>
+      <app-btn class="botonApariencia" color="white" >
+        <!-- [routerLink]="['../edit/'+idFicha]" -->
+          <div class="flex"><img class="h-5 self-center" src="assets/svg/iconFileEdit.svg">Editar</div>
+      </app-btn>
+  </div>
+</div>
+<div class="grid grid-cols-[25%_auto] gap-5">
+  <div class="bg-white">
+    <div class="pt-11 px-7 pb-6">
+      <h1 class="font-semibold text-xl mb-3">{{user.nombres | titlecase}}</h1>
+      <div class="flex flex-col items-center mb-4 space-y-1">
+        <!-- Primera fila con la imagen centrada -->
+        <div class="flex justify-center">
+          <img src="assets/svg/material-symbols_image-search-sharp.svg" alt="Imagen" class="w-24 h-16 object-cover">
+        </div>
+      
+        <!-- Segunda fila con texto en bold y color azul -->
+        <div class="flex justify-center">
+          <span class="font-bold text-primary-700">Profesional CAM</span>
+        </div>
+      
+        <!-- Tercera fila con texto normal -->
+        <div class="flex justify-center">
+          <span>Permisos 90/150</span>
+        </div>
+      </div>
+      <ul class="max-h-[41vh] overflow-auto">
+        <li class="mb-3"><span class="font-bold">Registrado </span>{{dataRol.registrado| date:'dd/MM/yyyy'}}</li>
+        <li class="mb-3"><span class="font-bold">Estado: </span> 
+          <span [ngClass]="dataRol.estado === 'ACTIVADO' ? 'text-green-500' : 'text-blue-500'" class="text-green-500">{{dataRol.estado | titlecase}}</span></li>
+        <li class="mb-3"><span class="font-bold">Descripción: </span> </li>
+        <li class="mb-3">
+          {{dataRol.descripcion}}
+        </li>
+      </ul>
+    </div>
+  </div>
+  <div class="bg-white px-6 py-8">
+    <span class="border-b-2 border-primary-700 text-m text-primary-700 pb-2">Permisos</span>
+    
+    <!-- Nueva sección debajo del span -->
+    <div class="flex flex-col space-y-4 mt-10">
+      <!-- Tercera fila con texto normal -->
+      <div>
+        <span>PLATAFORMA CENTRO DEL ADULTO MAYOR -  CAM</span>
+        <hr class="my-4" >
+      </div>
+
+      <div class="px-4 py-3 bg-white w-full mt-3 grid botonApariencia" *ngIf="!statusLoad">
+        <div class="text-gray-600 w-full text-center">
+            <span class="py-1 font-bold text-2xl">
+                <fa-icon class="mr-2" [icon]="faSpinner" [pulse]="true"></fa-icon>
+                Obteniendo datos...
+            </span>
+        </div>
+    </div>
+
+      <div class="bg-white px-1" style="margin-top: 0px;" *ngIf="statusLoad">
+        <!-- Loop para recorrer el array de roles -->
+        <div *ngFor="let rol of roles" class="">
+          <!-- Nombre del rol -->
+          <span class="">
+            <!-- Ícono de Font Awesome -->
+            <div class="flex mb-6 gap-3">
+              <!-- Ícono -->
+              <div [ngClass]="{
+                'square-1': rol.estado,
+                'square-disabled': !rol.estado,
+              }"></div>
+              <!-- Descripción del rol -->
+              <span class="">{{ rol.descripcion }}</span>
+            </div>
+          </span>
+       <!--   <span *ngIf="rol.estado" class="text-green-600 ml-2">(Activo)</span>-->
+      
+          <!-- Contenedor para los subniveles -->
+          <div *ngIf="rol.children?.length" class="ml-6 mt-2 flex space-x-4 w-100 gap-12">
+            <!-- Loop para recorrer los subniveles -->
+            <div *ngFor="let subnivel of rol.children" class="flex-grow">
+              <!-- Ícono de Font Awesome -->
+              <div class="flex mb-8 gap-3">
+                <!-- Ícono -->
+                <div [ngClass]="{
+                  'square-1': subnivel.estado,
+                  'square-disabled': !subnivel.estado,
+                }"></div>
+                <!-- Descripción del rol -->
+                <span class="">{{ subnivel.descripcion }}</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+    </div>
+  </div>
+</div>

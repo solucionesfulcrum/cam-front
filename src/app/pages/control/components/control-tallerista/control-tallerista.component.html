@@ -1,0 +1,91 @@
+<esp-opciones-busqueda 
+[showDateFilter]="true"
+[setFilterDateOptionSelected]="'var(--color-CAM-Mezclado)'" 
+[setFilterDateTextColour]="'var(--color-CAM)'"
+[filterDateAppearance]="2"
+[setFilterDateSelectionBg]="'var(--color-CAM-Claro)'"
+[setFilterDateButtonBg]="'var(--color-CAM-Claro)'"
+[setDateSelectedDefault]="9"
+(sendDateFilterWithCeros)="formBuscar.get('frmSearchDate')?.setValue($event); loadData()"
+[showSearch]="true"
+(searchInputValue)="formBuscar.get('frmSearch')?.setValue($event.toUpperCase()); loadData()"
+[searchInputPlaceHolder]="'Buscar Talleres'"
+[searchInputAdjustWidth]="true"
+[showFirstDisplayFilter]="true"
+[firstDisplayFilterPlaceholder]="{indicador: true, placeholder: 'Todos los estados'}"
+(firstDisplayFilterSendValue)="formBuscar.get('frmSearchEstado')?.setValue($event); loadData()"
+[firstDisplayFilterData]="opciones"
+
+[menuOpt]="dataAcciones"
+(primerActionMenu)="imprimirLista()"
+></esp-opciones-busqueda>
+
+<esp-data-loading
+[dataEmpty]="dataSource.length == 0"
+[dataLoading]="loadingData"
+></esp-data-loading>
+
+<div *ngIf="!loadingData && dataSource.length > 0">
+    <div class="table-container">
+      
+    <table cdk-table class="w-full text-sm text-left text-gray-500" [dataSource]="dataSource" >
+      <tr cdk-header-row class="text-xs text-gray-700 bg-gray-50" *cdkHeaderRowDef="columns; sticky: true"></tr>
+      <tr cdk-row class="bg-white border-b" *cdkRowDef="let row; columns: columns"></tr>
+      <ng-container cdkColumnDef="marcar">
+        <th cdk-header-cell class="py-[1.25rem] px-6" [style]="'width: 0%;'" *cdkHeaderCellDef> <input type="checkbox" [checked]="seleccionados.length == this.dataSource.length" (change)="afectarTodo($event)"/> </th>
+        <td cdk-cell class="py-[1rem] px-6" [style]="'width: 0%;'" *cdkCellDef="let row"> <input type="checkbox" class="checkbox-select" (change)="seleccionarFila($event)" [value]="row.idInscripcion" [checked]="row.marcar"/> </td>
+      </ng-container>
+
+      <ng-container cdkColumnDef="nombreTaller">
+        <th cdk-header-cell class="py-[1rem] px-6" *cdkHeaderCellDef [style]="'padding-left: 0px;'" >Descripcion</th>
+        <td cdk-cell class="py-[1rem] px-6 text-Name" *cdkCellDef="let row, index as i" [style]="'padding-left: 0px;'">
+          <span class=" cursor-pointer" [routerLink]="['./'+row.idProgDet]">{{ row.nombreTaller }}</span>
+        </td>
+      </ng-container>
+
+      <ng-container cdkColumnDef="tipo">
+        <th cdk-header-cell class="py-[1rem] px-6" *cdkHeaderCellDef>Tipo</th>
+        <td cdk-cell class="py-[1rem] px-6" *cdkCellDef="let row">Taller</td>
+      </ng-container>
+
+      <ng-container cdkColumnDef="fechaTaller">
+        <th cdk-header-cell class="py-[1rem] px-6" *cdkHeaderCellDef>Fecha</th>
+        <td cdk-cell class="py-[1rem] px-6" *cdkCellDef="let row">{{formatDate(row.fechaTaller) }}</td>
+      </ng-container>
+
+      <ng-container cdkColumnDef="horaInicio">
+        <th cdk-header-cell class="py-[1rem] px-6" *cdkHeaderCellDef>Hora Inicio</th>
+        <td cdk-cell class="py-[1rem] px-6" *cdkCellDef="let row">{{transformarHora(row.horaInicio) }}</td>
+      </ng-container>
+      
+      <ng-container cdkColumnDef="horaFin">
+        <th cdk-header-cell class="py-[1rem] px-6" *cdkHeaderCellDef>Hora Fin</th>
+        <td cdk-cell class="py-[1rem] px-6" *cdkCellDef="let row">{{transformarHora(row.horaFin) }}</td>
+      </ng-container>
+
+      <ng-container cdkColumnDef="numeroSesiones">
+        <th cdk-header-cell class="py-[1rem] px-6" *cdkHeaderCellDef>N° de Sesiones</th>
+        <td cdk-cell class="py-[1rem] px-6" *cdkCellDef="let row">{{row.numeroSesiones }}
+          {{row.numeroSesiones > 1 ? 'Sesiones' : 'Sesión'}}
+        </td>
+      </ng-container>
+
+      <ng-container cdkColumnDef="estado">
+        <th cdk-header-cell class="py-[1rem] px-6" *cdkHeaderCellDef>Estado</th>
+        <td cdk-cell class="py-[1rem] px-6" *cdkCellDef="let row"
+         [ngClass]="(row.estado === 'PENDIENTE' ? 'text-[#DC2626]' : '') + (row.estado === 'SIN PROGRAMACION' ? 'text-[#FFBF00]' : '') + (row.estado === 'FINALIZADO' ? 'text-[#008000]' : '')">
+         {{row.estado | titlecase}}</td>
+      </ng-container>
+    </table>
+    </div>
+   
+    <mat-paginator #paginator class="demo-paginator paginatorDatos" 
+    (page)="handlePageEvent($event)"
+    [length]="total"
+    [pageSize]="pageSize"
+    showFirstLastButtons="true"
+    [pageSizeOptions]="pageSizeOptions.length > 0 ? pageSizeOptions : []"
+    [pageIndex]="pageIndex"
+    aria-label="Select page">
+    </mat-paginator>
+</div>

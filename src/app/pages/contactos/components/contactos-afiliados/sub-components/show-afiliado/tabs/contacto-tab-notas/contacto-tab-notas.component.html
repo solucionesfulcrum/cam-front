@@ -1,0 +1,30 @@
+
+<div class="mt-2">
+    <div class="px-4 py-3 w-full mt-3 grid" *ngIf="!dataShow">
+        <div class="text-gray-600 w-full text-center">
+            <span class="py-1 font-bold text-2xl">
+                <fa-icon class="mr-2" [icon]="faSpinner" [pulse]="true"></fa-icon>
+                Obteniendo datos...
+            </span>
+        </div>
+    </div>
+    <div *ngIf="dataShow">
+        <div *ngIf="listaNotas.length > 0">
+            <ng-container *ngFor="let nota of listaNotas">
+                <div class="encabezadoDia">
+                    <span>El {{nota.fechaReg | date:'dd/MM/yyyy'}}. {{nota.usuario | titlecase}} Escribió. </span>
+                </div>
+                <div  class="operacionCuadro">
+                    <span> 
+                       <span class="descripcion"> {{nota.nota }} </span> 
+                    </span>
+                </div>
+            </ng-container>
+        </div>
+        <div class="px-4 py-3 w-full mt-3 grid" *ngIf="listaNotas.length == 0">
+            <div class="text-gray-600 w-full text-center">
+                <span class="py-1 font-bold text-2xl"> No se obtuvo resultados para este periodo </span>
+            </div>
+        </div>
+    </div>
+</div>

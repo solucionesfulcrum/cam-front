@@ -1,0 +1,21 @@
+::ng-deep.botonOpciones{
+    button{
+        display: flex;
+        flex-direction: row;
+    }
+}
+
+.contenedorOpcionesBotones{
+    margin-top: 0.75rem;
+    margin-bottom: 0.75rem;
+    width: 100%;
+    display: flex;
+    place-content: space-between;
+    flex-wrap: wrap;
+    gap: 1rem;
+}
+::ng-deep.tooltipEleccion{
+    .mdc-tooltip__surface-animation{
+        text-align: center !important;
+    }
+}

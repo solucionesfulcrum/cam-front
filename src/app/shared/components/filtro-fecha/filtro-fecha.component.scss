@@ -1,0 +1,68 @@
+::root {
+    --fondo-selected-date: #14b8a6;
+    --fondo-choose-range-date: #0d9488;
+    --fondo-opcion-selected: #0088CC;
+    --color-texto-selected: #057EC9;
+}
+.indicador{
+    margin-left: 12px;
+    width: 14px;
+    height: 14px;
+}
+.example-menu {
+    display: inline-flex;
+    flex-direction: column;
+    background-color: rgb(255, 255, 255);
+    padding: 0px 8px;
+    box-shadow: 0px 8px 10px rgba(0, 0, 0, 0.14), 0px 8px 14px rgba(0, 0, 0, 0.12), 0px 8px 5px rgba(0, 0, 0, 0.2);
+    border-radius: 4px;
+}
+
+.example-menu .example-menu-item {
+width: 100%;
+}
+
+.example-menu-item{
+cursor: pointer;
+border: none;
+
+user-select: none;
+min-width: 64px;
+line-height: 36px;
+padding: 0 8px;
+
+display: flex;
+align-items: center;
+flex-direction: row;
+flex: 1;
+}
+
+.example-menu-item:hover {
+background-color: rgb(208, 208, 208);
+}
+
+.example-menu-item:active {
+background-color: rgb(170, 170, 170);
+}
+
+.example-menu-item{
+margin: 5px 0px;
+color: var(--color-texto-selected);
+background: #F5F5F5;
+}
+
+.example-menu-item[role='menuitemradio'][aria-checked='true'] {
+background: var(--fondo-opcion-selected);
+color: #FFFFFF;
+}
+.example-menu-item[role='menuitemcheckbox'][aria-checked='true'] {
+background-color: rgb(225, 225, 225);
+}
+
+
+::ng-deep.calendario .md-drppicker td.active, ::ng-deep.calendario .md-drppicker td.active:hover{
+    background-color: var(--fondo-selected-date);
+}
+::ng-deep.calendario .md-drppicker .btn, ::ng-deep.calendario .md-drppicker .btn:hover, ::ng-deep.calendario .md-drppicker .btn:focus{
+    background-color: var(--fondo-choose-range-date);
+}

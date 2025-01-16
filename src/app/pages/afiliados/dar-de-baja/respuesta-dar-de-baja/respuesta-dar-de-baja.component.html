@@ -1,0 +1,73 @@
+<div class="bg-white flex flex-col text-[#37474F my-2">
+
+         <!-- Icono de cierre -->
+         <div class="flex justify-end m-2">
+            <a (click)="onClose()" class="cursor-pointer">
+                <fa-icon class="mr-2" [icon]="faClose"></fa-icon>
+            </a>
+        </div>
+          <!-- Icono -->
+        <!-- Icono -->
+    <div class="flex justify-center">
+        <div class="border-[#37474F]  w-[100px] h-[100px] flex items-center justify-center select-none">
+            <img src="assets/svg/Alert-icons.svg">
+        </div>
+    </div>
+
+    <!-- Título -->
+    <div class="text-2xl mb-4 text-center">
+         Nuevo Registro de Baja
+    </div>
+
+     <!-- Información adicional -->
+         <!-- Información adicional -->
+         <div class="text-left px-4">
+            <table class="w-full" style="border-spacing: 0 5px !important; border-collapse: separate;">
+                <tr>
+                    <td class="font-bold bg-gray-200 text-right" [width]="'20%'">
+                        <div class="ml-2">
+                            Afiliado:
+                        </div>
+                    </td>
+                    <td>
+                        <div class="ml-2">
+                            {{afiliado}}
+                        </div>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="font-bold bg-gray-200 text-right" >
+                        <div class="ml-2">
+                            Motivo:
+                        </div>
+                    </td>
+                    <td>
+                        <div class="ml-2">
+                           {{txtMotivo}}
+                        </div>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="font-bold bg-gray-200 text-right">
+                        <div class="ml-2">
+                            Observación:
+                        </div>
+                    </td>
+                    <td rowspan="10" style="vertical-align: top;">
+                        <div class="ml-2 ">
+                            {{observacion}}
+                        </div>
+                    </td>
+                </tr>
+                <tr *ngFor="let n of [1,2,3,4]"><td></td><td></td></tr>
+            </table>
+        </div>
+
+
+    <!-- Botón -->
+    <div class="flex justify-center mb-5 gap-3">
+        <app-btn class="botonApariencia flex" color="bordeado" (click)="onClose()">Cancelar</app-btn>
+        <app-btn class="botonApariencia flex" color="mezclado" (click)="ok()">Confirma</app-btn>
+    </div>
+
+    </div>

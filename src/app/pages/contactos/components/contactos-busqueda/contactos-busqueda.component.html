@@ -1,0 +1,66 @@
+
+<div class="container" style="height: 55vh;display: flex; justify-content: center;">
+    <div style="top: 35%; position: relative; width: 75%;">
+        <div class="px-4 py-3 bg-primary-700 flex justify-between text-white font-semibold text-center">
+            <span style="width: 100%;">BÚSQUEDA DE AFILIADOS A NIVEL NACIONAL</span>
+          </div>
+          <div class="px-4 py-3 bg-white shadow-xl">
+            <div style="font-weight: 600;" class="pt-3">
+                Búsqueda por Documento:
+            </div>
+            
+            <div class="grid grid-cols-3 gap-3 mt-4 mb-2" [formGroup]="form" [style.grid-template-columns]="columnWidths">
+              <div class="relative mt-2 rounded-md shadow-sm">
+                <select formControlName="frmTipoDoc" 
+                  class="space-x-5 bg-slate-50 border border-gray-300 text-gray-900 text-sm rounded-lg focusCampo block w-full"
+                  
+                  >
+                  <!-- <option [selected]="true" disabled>Tipo de documento</option> -->
+                  <option value="" disabled [selected]="statusLoadContacto" >Tipo de Documento</option>
+                  <option *ngFor="let opcion of opciones" [value]="opcion.valor1" [selected]="statusLoadContacto && opcion.valor1 == '1'">
+                    {{opcion.nombre}}
+                  </option>
+                  <!--<option *ngFor="let rol of listRoles" [value]='rol.idRol'>{{rol.nombre | titlecase}}</option>-->
+                </select>
+                <div *ngIf="form.controls.frmTipoDoc.touched && form.controls.frmTipoDoc.invalid">
+                    <p *ngIf="form.controls.frmTipoDoc.hasError('required')" class="font-medium text-red-500 text-xs mt-1 ml-1">
+                        Seleccione un tipo de documento
+                    </p>
+                </div>
+              </div>
+              <div class="relative mt-2 rounded-md shadow-sm">
+                <div class="pointer-events-none absolute inset-y-0 right-0 flex !h-9 items-center pr-3">
+                  <span class="text-gray-500 sm:text-sm">
+                    <esp-icon icon="faSearch"></esp-icon>
+                  </span>
+                </div>
+                <input type="text" name="search"  formControlName="frmNumdoc"
+                  class="inputTextoDialog focusCampo !h-9 pr-7"
+                  placeholder="Número de documento"
+                  [readonly]="!form.controls.frmTipoDoc.value || statusLoadContacto"
+                  >
+                  
+                  <p  class="font-medium text-red-500 text-xs mt-1 ml-1">
+          
+                </p>
+                <div *ngIf="form.controls.frmNumdoc.touched && form.controls.frmNumdoc.dirty">
+                    <p *ngIf="form.controls.frmNumdoc.hasError('required')" class="font-medium text-red-500 text-xs mt-1 ml-1">
+                      Ingrese el numero de documento
+                    </p>
+                    <p *ngIf="form.controls.frmNumdoc.invalid && !form.controls.frmNumdoc.hasError('required')" class="font-medium text-red-500 text-xs mt-1 ml-1">
+                      El formato de numero de documento no corresponde al tipo documento seleccionado
+                  </p>
+                </div>
+              </div>
+            </div>
+          </div>
+          <hr >
+          <div class="flex justify-center bg-white py-3  shadow-lg">
+            <div class="flex gap-1 my-5">
+              <app-btn (click)="buscarInscripcion()" [loading]="status === 'loading'">Buscar Asegurado</app-btn>
+            </div>
+          </div>
+    </div>
+    
+      
+</div>

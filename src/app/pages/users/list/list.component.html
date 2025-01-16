@@ -1,0 +1,110 @@
+<div class="w-full h-full grow bg-white-600">
+  <esp-opciones-busqueda class="w-full"
+  [showDateFilter]="true"
+  [setFilterDateOptionSelected]="'var(--color-CAM-Mezclado)'"
+  [setFilterDateTextColour]="'#008BD2'"
+  [filterDateAppearance]="2"
+  [setDateSelectedDefault]="9"
+  (sendDateFilterWithCeros)="AsignarFiltro($event)"
+  [showSearch]="true"
+  (searchInputValue)="form.get('frmSearch')?.setValue($event); onLoadData()"
+  [searchInputPlaceHolder]="'Búsqueda de Usuarios'"
+  [showFirstDisplayFilter]="true"
+  [firstDisplayFilterPlaceholder]="{'indicador': true, 'placeholder': 'Todos los estados'}"
+  [firstDisplayFilterData]="opcionesEstado"
+  (firstDisplayFilterSendValue)="firstDisplayValue($event)"
+  [showSecondDisplayFilter]="false"
+  [secDisplayFilterPlaceholder]="{'indicador': false, 'placeholder': 'Acciones'}"
+  ></esp-opciones-busqueda>
+
+  <esp-data-loading
+  [dataEmpty]="dataCompleted.length == 0"
+  [dataLoading]="loadingData"
+  [height]="'52vh'"
+  ></esp-data-loading>
+  <div *ngIf="dataCompleted.length > 0 && !loadingData">
+    <div class="table-container">
+      <table
+      class="w-full text-sm text-left text-gray-500"
+      cdk-table
+      [dataSource]="dataCompleted"
+    >
+      <tr
+        cdk-header-row
+        class="text-xs text-gray-700 bg-gray-50"
+        *cdkHeaderRowDef="columns"
+      ></tr>
+      <tr
+        cdk-row
+        class="bg-white border-b"
+        [ngClass]="{ 'bg-red-200': row.price < 100 }"
+        *cdkRowDef="let row; columns: columns"
+      ></tr>
+      <!-- Nombres Column -->
+      <ng-container cdkColumnDef="id">
+        <th cdk-header-cell class="py-5 px-6" *cdkHeaderCellDef [style]="'width: 0%;'">
+          <input type="checkbox" value="false"
+          />
+        </th>
+        <td cdk-cell class="py-4 px-6" *cdkCellDef="let row" [style]="'width: 0%;'">
+          <input type="checkbox" value="false" />
+        </td>
+      </ng-container>
+    
+      <!-- Nombres Column -->
+      <ng-container cdkColumnDef="fullName">
+        <th cdk-header-cell class="py-5 px-6" *cdkHeaderCellDef>Nombres</th>
+        <td cdk-cell class="py-4 px-6 font-semibold" *cdkCellDef="let row">
+          <a class="text-success-500 hover:text-success-700" [routerLink]="[row.usuarioId]">{{ row.nombres }}</a>
+        </td>
+      </ng-container>
+    
+      <!-- DNI Column -->
+      <ng-container cdkColumnDef="dni">
+        <th cdk-header-cell class="py-5 px-6" *cdkHeaderCellDef>N° de Documento</th>
+        <td cdk-cell class="py-4 px-6" *cdkCellDef="let row">{{ row.numDoc }}</td>
+      </ng-container>
+    
+      <!-- Fecha de Registro Column -->
+      <ng-container cdkColumnDef="date">
+        <th cdk-header-cell class="py-5 px-6" *cdkHeaderCellDef>Fecha de Registro</th>
+        <td cdk-cell class="py-4 px-6" *cdkCellDef="let row">{{ row.fechReg | date:'dd/MM/yyyy' }}</td>
+      </ng-container>
+    
+      <!-- Rol Column -->
+      <ng-container cdkColumnDef="role">
+        <th cdk-header-cell class="py-5 px-6" *cdkHeaderCellDef>Rol</th>
+        <td cdk-cell class="py-4 px-6 font-semibold" *cdkCellDef="let row">
+          {{ row.rol ? row.rol : 'SIN ROL' }}
+        </td>
+      </ng-container>
+      <!-- Unidad Operativa Column -->
+      <ng-container cdkColumnDef="operativeUnit">
+        <th cdk-header-cell class="py-5 px-6" *cdkHeaderCellDef>Unidad Operativa</th>
+        <td cdk-cell class="py-4 px-6" *cdkCellDef="let row">
+          {{ row.unidadOperativa }}
+        </td>
+      </ng-container>
+      <!-- Rol Column -->
+      <ng-container cdkColumnDef="status">
+        <th cdk-header-cell class="py-5 px-6" *cdkHeaderCellDef>Estado</th>
+        <td cdk-cell class="py-4 px-6" style="text-align: -webkit-center;" *cdkCellDef="let row">
+          <img *ngIf="row.estado === 'ACTIVADO'" src="assets/svg/userAct.svg" [matTooltip]="row.estado | titlecase"/>
+          <img *ngIf="row.estado === 'CONFIRMADO'" src="assets/svg/userNonAct.svg" [matTooltip]="row.estado | titlecase"/>
+        </td>
+      </ng-container>
+    </table>
+    </div>
+    <mat-paginator #paginator
+                   class="demo-paginator paginatorDatos"
+                   (page)="handlePageEvent($event)"
+                   [length]="total"
+                   [pageSize]="pageSize"
+                   showFirstLastButtons="true"
+                   [pageSizeOptions]="pageSizeOptions.length > 0 ? pageSizeOptions : []"
+                   [pageIndex]="pageIndex"
+                   aria-label="Select page">
+    </mat-paginator>
+  </div>
+
+</div>

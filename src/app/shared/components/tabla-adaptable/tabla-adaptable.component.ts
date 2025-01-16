@@ -1,0 +1,171 @@
+import { CommonModule } from '@angular/common';
+import { Component, EventEmitter, Input, Output } from '@angular/core';
+import { AbstractControl, FormArray, FormBuilder, FormControl, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
+import { RouterModule } from '@angular/router';
+import { Entity, FormatoColumna, FormatoTypeAndSelect } from './formato-columna.model';
+import { MaterialModule } from 'src/app/material/material.module';
+import { MatAutocompleteModule } from '@angular/material/autocomplete';
+import { Toast, ToastrService } from 'ngx-toastr';
+
+@Component({
+  selector: 'esp-tabla-adaptable',
+  templateUrl: './tabla-adaptable.component.html',
+  styleUrls: ['./tabla-adaptable.component.scss'],
+  standalone: true,
+  imports:[CommonModule, RouterModule, FormsModule, ReactiveFormsModule, MaterialModule, MatAutocompleteModule],
+})
+export class TablaAdaptableComponent {
+  @Input()
+  identificadorVisible: boolean = true;
+
+  @Input()
+  dataColumnas: FormatoColumna[] = []; //------------------------------------------------------------------------ Información de las columnas que, a su vez, contienen los atributos de las filas, estos atributos peuden estar ocultos si se requiere
+
+  @Input()
+  dataIngresante = new FormControl(); //------------------------------------------------------------------------ Data que va a ingresarse a la tabla, es mandar un elemento y listarlo en la siguiente fila, las restricciones dependen del developer
+
+  @Input()
+  dataDefault!: any[]; //------------------------------------------------------------------------ Data de la tabal que va a guardarse por default, requiere que la información ingresada tenga el formato de la data de las columnas anteriormente ingresadas
+
+  @Output()
+  sendData = new EventEmitter<any>(); //------------------------------------------------------------------------ Esta es la puerta por donde saldrá la información y debe ser recepcionada por un formControl
+
+  formData = this.fb.group({
+    data: this.fb.array([])
+  });
+
+  constructor(private fb                          : FormBuilder, private toast: ToastrService){}
+
+  ngOnInit(){
+    this.dataIngresante.valueChanges.subscribe((data)=>{
+      if (data) {
+        let filaForm = this.fb.group({})
+        for (let j = 0; j < this.dataColumnas.length; j++) {
+          filaForm.addControl(this.dataColumnas[j].nomAttribute, 
+            new FormControl(((data[this.dataColumnas[j].nomAttribute] !== undefined) ? data[this.dataColumnas[j].nomAttribute] : null), (this.dataColumnas[j].obligatorio ? [Validators.required] : null)),
+          );
+          if(this.dataColumnas[j].affects){
+            filaForm.get(this.dataColumnas[j].nomAttribute)?.valueChanges.subscribe((data)=>{
+              if(this.dataColumnas[j].affects?.paramValueFk && data[this.dataColumnas[j].affects?.paramValueFk!]){
+                filaForm.get(this.dataColumnas[j].affects?.nomAttributeFk!)?.setValue(data.param1);
+              }
+              else{
+                filaForm.get(this.dataColumnas[j].affects?.nomAttributeFk!)?.setValue(this.dataColumnas[j].affects?.defaultValue)
+              }
+            })
+          }
+          if(this.dataColumnas[j].disabled){
+            filaForm.get(this.dataColumnas[j].nomAttribute)?.disable();
+          }
+        }
+        (this.formData.controls["data"] as FormArray).push(filaForm);
+      }
+    })
+
+    this.dataIngresante.valueChanges.subscribe((data)=>{
+    })
+    this.formData.valueChanges.subscribe((data)=>{
+      this.sendData.emit(data)
+    })
+    this.formData.controls.data.setValue([])
+    if (this.dataDefault) {
+      if (this.dataDefault.length > 0) {
+        this.dataDefault.forEach((x: any)=>{
+          let filaForm = this.fb.group({})
+          for (let j = 0; j < this.dataColumnas.length; j++) {
+            filaForm.addControl(this.dataColumnas[j].nomAttribute, new FormControl(x[this.dataColumnas[j].nomAttribute]));
+            if(this.dataColumnas[j].affects){
+              filaForm.get(this.dataColumnas[j].nomAttribute)?.valueChanges.subscribe((data)=>{
+               if(this.dataColumnas[j].affects?.paramValueFk && data[this.dataColumnas[j].affects?.paramValueFk!]){
+                  filaForm.get(this.dataColumnas[j].affects?.nomAttributeFk!)?.setValue(data.param1);
+                }
+                else{
+                  filaForm.get(this.dataColumnas[j].affects?.nomAttributeFk!)?.setValue(this.dataColumnas[j].affects?.defaultValue)
+                }
+              })
+            }
+            if(this.dataColumnas[j].disabled){
+              filaForm.get(this.dataColumnas[j].nomAttribute)?.disable();
+            }
+          }
+          (this.formData.controls["data"] as FormArray).push(filaForm);
+        })
+      }
+    }
+  }
+
+  get getDatos() {
+    return this.formData.controls["data"] as FormArray;
+  }
+
+  getValueAttribute(keyValue: FormatoColumna, whereSearch: any): any{
+    return whereSearch[keyValue.nomAttribute];
+  }
+  
+  getFormGroup(control: AbstractControl) { return control as FormGroup; }
+
+  getFormControl(dataForm: AbstractControl, controlName: string){
+    let consultado = this.getFormGroup(dataForm).get(controlName)!;
+    if (consultado.touched && consultado.invalid) {
+      if (consultado.getError('required')) {
+        return true;
+      }
+      return false;
+    }
+    else {
+      return false;
+    }
+  }
+
+  deleteElement(elementIndex: number) {
+    this.getDatos.removeAt(elementIndex);
+  }
+
+  getDateAnclado(index: number, nomAttribute: string): Date{
+    if (this.formData.controls["data"].at(index).get(nomAttribute)!.value == null) {
+      return new Date();
+    }
+    else{
+      let valueFec = this.formData.controls["data"].at(index).get(nomAttribute)!.value;
+      return new Date(parseInt(valueFec.split('/')[2]), parseInt(valueFec.split('/')[1]) - 1, parseInt(valueFec.split('/')[0]))
+    }
+  }
+  
+  actualizarDate(index: number, nomAttribute: string, value: any) {
+    if (value) {
+      this.formData.controls["data"].at(index).get(nomAttribute)?.setValue(value)
+    }
+  }
+
+  onSelectedTypeSelect(index: number, nomAttribute: string, event: any){
+    const data = this.dataColumnas.filter(e => e.nomAttribute == nomAttribute)[0];
+    if(data.entity?.unique){
+      const pk : Entity = this.dataColumnas[index].entity!;
+      const repetidos = this.formData.controls["data"].value.filter((opcion : any) => {
+        return opcion.nomServicio.nombre == event.option.value.nombre
+      });
+      if(repetidos.length > 1){
+        this.toast.warning("No se puede ingresar elementos repetidos para esta columna");
+        this.formData.controls["data"].at(index).get(nomAttribute)?.setValue('');
+        return false;
+      }
+      else{
+        this.formData.controls["data"].at(index).get(nomAttribute)?.setValue(event.option.value)
+        return true;
+      }
+    }
+    else{
+      this.formData.controls["data"].at(index).get(nomAttribute)?.setValue(event.option.value)
+      return true;
+    }
+  }
+
+  displayOptFiltered(selectedoption: any) {
+    return selectedoption ? selectedoption.nombre : undefined;
+  }
+
+  getOptionsFiltered(index: number, nomAttribute: string): FormatoTypeAndSelect[]{
+    let listTypSelect = this.dataColumnas.find((x) => x.nomAttribute == nomAttribute)!.optTypeSelect;
+    return (listTypSelect!.filter((x) => x.nombre.toLowerCase().includes((typeof this.formData.controls["data"].at(index).get(nomAttribute)!.value) === 'string' ? this.formData.controls["data"].at(index).get(nomAttribute)!.value.toLowerCase() : this.formData.controls["data"].at(index).get(nomAttribute)!.value.nombre.toLowerCase())))
+  }
+}

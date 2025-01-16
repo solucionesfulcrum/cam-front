@@ -1,0 +1,289 @@
+<div class="flex flex-col gap-3 mt-3">
+    <div class="flex flex-row gap-[14px]">
+        <input type="text" class="inputTextoDialog focusCampo" [formControl]="ctrlSearch" placeholder="Buscar servicios">
+        <ul class="flex flex-row">
+            <li>
+                <input type="radio" id="hosting-small" name="hosting" value="hosting-small" class="hidden peer" required />
+                <label for="hosting-small" class="flex items-center justify-center w-10 h-10 border-y border-x border-[var(--color-CAM)] rounded-l cursor-pointer peer-checked:bg-[#057EC933] hover:bg-[#057EC933]">
+                    <img src="assets/svg/icon-vista-cuadricular.svg">
+                </label>
+            </li>
+            <li>
+                <input type="radio" id="hosting-big" name="hosting" value="hosting-big" class="hidden peer">
+                <label for="hosting-big" class="flex items-center justify-center w-10 h-10 border-y border-r border-[var(--color-CAM)] rounded-r cursor-pointer peer-checked:bg-[#057EC933] hover:bg-[#057EC933]">
+                    <img src="assets/svg/icon-vista-lista.svg">
+                </label>
+            </li>
+        </ul>
+    </div>
+    <div class="flex flex-row justify-between items-center">
+        <div class="info-container flex gap-[14px] items-center">
+            <div *ngFor="let button of buttons; index as i" class="flex justify-start">
+                <app-btn class="botonApariencia flex" type="submit" [color]="activeButton === i ? 'mezclado' : 'white'" [disabled]="status === 'loading'" (click)="buttons[i].method()">
+                    {{ button.label }}
+                </app-btn>
+            </div>
+        </div>
+        <app-btn class="botonApariencia" color="bordeado">Historial</app-btn>
+    </div>
+    <div class="px-4 py-3 bg-white mt-3 grid botonApariencia place-self-center" *ngIf="status === 'loading'">
+        <div class="text-gray-600 text-center flex flex-col gap-2 items-center">
+            <img class="w-[12rem]" src="assets/images/logo/cam-logo.png">
+            <p class="py-1 font-semibold text-2xl">
+                <fa-icon class="mr-2" [icon]="faSpinner" [pulse]="true"></fa-icon>
+                Obteniendo datos...
+            </p>
+        </div>
+    </div>
+    <div class="px-4 py-3 bg-white mt-3 grid botonApariencia place-self-center"*ngIf="ListaProgramacines.length == 0 && status !== 'loading'" >
+        <div class="text-gray-600 text-center flex flex-col gap-2 items-center">
+            <img class="w-[12rem]" src="assets/images/logo/cam-logo.png">
+            <p class="py-1 font-semibold text-2xl">
+                <fa-icon class="mr-2" [icon]="faWarning"></fa-icon>
+                No existen programaciones para {{buttons[indexSelectedButton].label}}
+            </p>
+        </div>
+    </div>
+    <div class="flex flex-row gap-[30px] text-[#37474F] items-start" *ngIf="status !== 'loading'">
+        <div *ngIf="ListaProgramacines.length > 0" class="flex flex-col w-[435px] shrink-0 botonApariencia scrollable">
+            <div *ngFor="let prog of ListaProgramacines, index as i" 
+            class="py-2.5 border-x border-t border-[#979797]   cursor-pointer" 
+            [ngClass]="{
+            'rounded-t': i == 0, 
+            'rounded-b border-b': i == ListaProgramacines.length - 1, 
+            'programacionSelected': (selectedProgramacion ? prog.idProgDet == selectedProgramacion.idProgDet : null),
+            'bg-white': (selectedProgramacion ? prog.idProgDet != selectedProgramacion.idProgDet : null ),
+            'hover:bg-[#F0FCFE]': (selectedProgramacion ? prog.idProgDet != selectedProgramacion.idProgDet : null ),
+            }" (click)="selectProg(prog)">
+                <div class="px-2.5 py-[14px] flex flex-row">
+                    <div class="flex flex-col items-end gap-[5px] pt-[2px] px-2.5 shrink-0 w-[65px]">
+                        <span class="font-semibold text-[40px] leading-[30px]" [ngClass]="prog.esCiram ? 'colorCiram' : ''">{{prog.fecha | date:'dd'}}</span>
+                        <span class="font-light leading-[20px]">{{(prog.fecha | date:'MMM') | titlecase}}</span>
+                    </div>
+                    <div class="flex flex-col gap-[5px] leading-[20px]">
+                        <span class="text-[18px] font-medium" [ngClass]="prog.esCiram ? 'colorCiram' : ''"> {{prog.nombre[0] + (prog.nombre.substring(1) | lowercase)}}</span>
+                        <span class="text-[14px] font-light"> {{(prog.fecha | date: 'EEEE, dd') | titlecase}} de {{prog.fecha | date: 'MMMM'}} de {{((prog.fecha + ' ' + prog.horaInicio) | date:'hh:mm a -') +  ' ' + ((prog.fecha + ' ' + prog.horaFin) | date:'hh:mm a')}}</span>
+                        <span class="text-[14px] font-light" >
+                            <ng-container *ngIf="prog.esCiram">
+                                CIRAM {{prog.nombreCiram | titlecase}}
+                            </ng-container>
+                            <ng-container *ngIf="!prog.esCiram">
+                                CAM {{prog.nombreCam | titlecase}}
+                            </ng-container>
+                        </span>
+                        <span class="text-[14px] font-light">{{prog.distrito}}</span>
+                    </div>
+                    <div class="flex flex-col items-center shrink-0">
+                        <div class="p-2.5">
+                            <img class="w-[100px] h-[100px]" [src]="'assets/images/control-img/img-control-prueba-' + ((i+1) % 3 == 0 ? 3 : ((i+1) % 2 == 0 ? 2 : 1)) + '.png'">
+                        </div>
+                        <span class="text-[14px] leading-5">{{prog.modalidad | titlecase}}</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div *ngIf="selectedProgramacion" class="bg-white grow botonApariencia flex flex-col">
+            <div class="flex flex-row justify-end gap-[14px] px-4 pt-2">
+                <!--<app-btn class="botonApariencia flex" color="white">
+                    <div class="flex flex-row gap-[5px]">
+                        <img class="h-5 self-center" src="assets/svg/icon-edit-data.svg">
+                        <span>Reprogramar</span>
+                    </div>
+                </app-btn>-->
+                <app-btn class="botonApariencia flex" color="bordeado" (click)="levantarModalInscripcion()">Inscripción</app-btn>
+                <app-btn class="botonApariencia flex" color="mezclado" (click)="consultarDataPrograma()" [loading]="statusAsistencia === 'loading' || statusLoadingAsistencia">Asistencia</app-btn>
+            </div>
+            <div class="p-2.5">
+                <div class="p-2.5 flex flex-row gap-2.5">
+                    <div class="flex flex-col items-end gap-[5px] pt-[2px] px-2.5 shrink-0 w-[65px]">
+                        <span class="font-semibold text-[40px] leading-[30px]">{{selectedProgramacion.fecha | date:'dd'}}</span>
+                        <span class="font-light leading-[20px]">{{(selectedProgramacion.fecha | date:'MMM') | titlecase}}</span>
+                    </div>
+                    <div>
+                        <span class="text-[18px] font-medium leading-[20px]"> {{selectedProgramacion.nombre[0] + (selectedProgramacion.nombre.substring(1) | lowercase)}}</span>
+                    </div>
+                </div>
+            </div>
+            <div class="p-2.5">
+                <div class="p-2.5 flex flex-row gap-2.5">
+                    <div class="border-[#37474F] border w-[150px] h-[150px] flex items-center justify-center select-none">
+                        <img class="w-full h-full" src="assets/images/control-img/img-control-muestra-1.png">
+                    </div>
+                    <div class="border-[#37474F] border w-[150px] h-[150px] flex items-center justify-center select-none">
+                        <img class="w-full h-full" src="assets/images/control-img/img-control-muestra-1.png">
+                    </div>
+                    <div class="border-[#37474F] border w-[150px] h-[150px] flex items-center justify-center select-none">
+                        <img class="w-full h-full" src="assets/images/control-img/img-control-muestra-1.png">
+                    </div>
+                    <div class="border-[#37474F] border w-[150px] h-[150px] flex items-center justify-center">
+                        <img class="w-full h-full" src="assets/images/control-img/img-control-muestra-1.png">
+                    </div>
+                </div>
+            </div>
+            <div class="p-2.5 flex flex-col">
+                <div class="py-2.5 px-1.5 text-[18px] leading-5 font-medium">
+                    <span>Detalles</span>
+                </div>
+                <div class="py-1 flex flex-row gap-2.5 items-center">
+                    <div class="w-[35px] h-10 flex items-center justify-center">
+                        <img class="self-center iconoEscalaGris select-none" src="assets/svg/icon-control-time.svg">
+                    </div>
+                    <span class="text-[14px] leading-5 font-light"> {{(selectedProgramacion.fecha | date: 'EEEE, dd') | titlecase}} de {{selectedProgramacion.fecha | date: 'MMMM'}} de {{((selectedProgramacion.fecha + ' ' + selectedProgramacion.horaInicio) | date:'hh:mm a -') +  ' ' + ((selectedProgramacion.fecha + ' ' + selectedProgramacion.horaFin) | date:'hh:mm a')}}</span>
+                </div>
+                <div class="py-1 flex flex-row gap-2.5 items-center">
+                    <div class="w-[35px] h-[32px] flex items-center justify-center">
+                        <img class="self-center select-none" src="assets/svg/icon-vinieta-cam.svg">
+                    </div>
+                    <span class="text-[14px] leading-5 font-light">
+                        <ng-container *ngIf="selectedProgramacion.esCiram">
+                            CIRAM {{selectedProgramacion.nombreCiram | titlecase}}
+                        </ng-container>
+                        <ng-container *ngIf="!selectedProgramacion.esCiram">
+                            CAM {{selectedProgramacion.nombreCam | titlecase}}
+                        </ng-container>
+                      
+                    </span>
+                </div>
+                <div class="py-1 flex flex-row gap-2.5 items-center">
+                    <div class="w-[35px] h-[32px] flex items-center justify-center">
+                        <img class="self-center select-none" src="assets/svg/icon-direccion-gray.svg">
+                    </div>
+                    <span class="text-[14px] leading-5 font-light">{{selectedProgramacion.ubicacion | titlecase}}</span>
+                </div>
+                <div class="py-1 flex flex-row justify-between items-center">
+                    <div class="flex flex-row gap-2.5 items-center">
+                        <div class="w-[35px] h-[32px] flex items-center justify-center">
+                            <img class="self-center select-none" src="assets/svg/icon-control-person.svg">
+                        </div>
+                        <span class="text-[14px] leading-5 font-light">{{selectedProgramacion.nombreCompleto | titlecase}}</span>
+                    </div>
+                    <div class="flex flex-row gap-2.5 items-center pr-4">
+                        <div class="w-[35px] h-[32px] flex items-center justify-center">
+                            <img class="self-center select-none" src="assets/svg/icon-control-site.svg">
+                        </div>
+                        <span class="text-[14px] leading-5 font-light">{{selectedProgramacion.modalidad | titlecase}}</span>
+                    </div>
+                </div>
+                <div class="py-1 flex flex-row justify-between items-center">
+                    <div class="flex flex-row gap-2.5 items-center">
+                    </div>
+                    <div class="flex flex-row gap-2.5 items-center pr-4">
+
+                        <button (click)="goAsistencia()"
+                        class="w-full font-medium rounded text-sm px-5 py-2 select-none bg-white hover:bg-gray-100 ring-gray-50 text-gray-700 border border-[var(--color-black-alt)]" 
+                        type="button" ng-reflect-ng-class="[object Object]"><!--bindings={
+                            "ng-reflect-ng-if": "false"
+                          }--> Ver Inscripciones </button>
+                        
+                    </div>
+                </div>
+            </div>
+            <!-- <div class="p-4 bg-white shadow-lg">
+                <div class="info-container flex items-center">
+                    <div>
+                        <div class="text-lg font-bold text-xl mr-4">{{selectedProgramacion.fecha.split("-")[2]}}</div>
+                        <div class="text-lg text-xs mr-4">{{(selectedProgramacion.fecha |date:'MMM') | titlecase}}</div>
+                    </div>
+                    <div>
+                        <div class="mr-1">
+                            <div class="text-sm font-semibold"> TALLER DE {{selectedProgramacion.nombre}}</div>
+    
+                            <div class="text-indigo-500 text-xs">{{selectedProgramacion.distrito}}</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="info-container flex items-center">
+                    <div class="mr-12">
+                        <div *ngIf="!imagenFoto" class="my-1 imagen w-32 h-32 border-b-2 bg-gray-400"></div>
+                    </div>
+                    <div class="mr-12">
+                        <div *ngIf="!imagenFoto" class="my-1 imagen w-32 h-32 border-b-2 bg-gray-400"></div>
+                    </div>
+                    <div class="mr-12">
+                        <div *ngIf="!imagenFoto" class="my-1 imagen w-32 h-32 border-b-2 bg-gray-400"></div>
+                    </div>
+                    <div class="mr-12">
+                        <div *ngIf="!imagenFoto" class="my-1 imagen w-32 h-32 border-b-2 bg-gray-400"></div>
+                    </div>
+                </div>
+                <div>
+                    <div class="text-sm font-semibold mt-5">Detalles</div>
+                    <div class="text-gray-600 text-xs mt-4"> {{formatoFecha(selectedProgramacion.fecha)}} de
+                        {{selectedProgramacion.horaInicio}} -
+                        {{selectedProgramacion.horaFin}}</div>
+                    <div class="text-gray-600 text-xs mt-4">CAM {{selectedProgramacion.nombreCam}}</div>
+                    <div class="info-container flex justify-between items-center">
+                        <div class="text-gray-600 text-xs mt-4">{{selectedProgramacion.ubicacion}}</div>
+                        <div class="text-gray-600 text-xs mt-4">{{selectedProgramacion.modalidad}}</div>
+                    </div>
+                </div>
+            </div> -->
+        </div>
+        <!-- <div  *ngIf="ListaProgramacines.length>0" class="w-2/6 mr-4">
+            <div *ngFor="let prog of ListaProgramacines" class="">
+                <div (click)="selectProg(prog)"class="p-4 bg-white shadow-lg h-full">
+                    <div class="info-container flex justify-between items-center">
+                        <div>
+                            <div class="text-lg font-bold text-xl mr-4">{{prog.fecha.split("-")[2]}}</div>
+                            <div class="text-lg text-xs mr-4">{{(prog.fecha |date:'MMM') | titlecase}}</div>
+                        </div>
+    
+                        <div class="mr-12">
+                            <div class="text-sm font-semibold"> {{prog.nombre}}</div>
+                            <div class="text-gray-600 text-xs"> {{formatoFecha(prog.fecha)}} de {{prog.horaInicio}} -
+                                {{prog.horaFin}}</div>
+                            <div class="text-gray-600 text-xs">CAM {{prog.nombreCam}}</div>
+                            <div class="text-indigo-500 text-xs">{{prog.distrito}}</div>
+                        </div>
+                        <div class="mr-12">
+                            <div *ngIf="!imagenFoto" class="my-1 imagen w-24 h-24 border-b-2 bg-gray-400"></div>
+                            <div class="text-gray-600 text-xs ml-4">{{prog.modalidad}}</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div *ngIf="selectedProgramacion" class="w-4/6 mr-4">
+            <div class="p-4 bg-white shadow-lg">
+                <div class="info-container flex items-center">
+                    <div>
+                        <div class="text-lg font-bold text-xl mr-4">{{selectedProgramacion.fecha.split("-")[2]}}</div>
+                        <div class="text-lg text-xs mr-4">{{(selectedProgramacion.fecha |date:'MMM') | titlecase}}</div>
+                    </div>
+                    <div>
+                        <div class="mr-1">
+                            <div class="text-sm font-semibold"> TALLER DE {{selectedProgramacion.nombre}}</div>
+    
+                            <div class="text-indigo-500 text-xs">{{selectedProgramacion.distrito}}</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="info-container flex items-center">
+                    <div class="mr-12">
+                        <div *ngIf="!imagenFoto" class="my-1 imagen w-32 h-32 border-b-2 bg-gray-400"></div>
+                    </div>
+                    <div class="mr-12">
+                        <div *ngIf="!imagenFoto" class="my-1 imagen w-32 h-32 border-b-2 bg-gray-400"></div>
+                    </div>
+                    <div class="mr-12">
+                        <div *ngIf="!imagenFoto" class="my-1 imagen w-32 h-32 border-b-2 bg-gray-400"></div>
+                    </div>
+                    <div class="mr-12">
+                        <div *ngIf="!imagenFoto" class="my-1 imagen w-32 h-32 border-b-2 bg-gray-400"></div>
+                    </div>
+                </div>
+                <div>
+                    <div class="text-sm font-semibold mt-5">Detalles</div>
+                    <div class="text-gray-600 text-xs mt-4"> {{formatoFecha(selectedProgramacion.fecha)}} de
+                        {{selectedProgramacion.horaInicio}} -
+                        {{selectedProgramacion.horaFin}}</div>
+                    <div class="text-gray-600 text-xs mt-4">CAM {{selectedProgramacion.nombreCam}}</div>
+                    <div class="info-container flex justify-between items-center">
+                        <div class="text-gray-600 text-xs mt-4">{{selectedProgramacion.ubicacion}}</div>
+                        <div class="text-gray-600 text-xs mt-4">{{selectedProgramacion.modalidad}}</div>
+                    </div>
+                </div>
+            </div>
+        </div> -->
+    </div>
+</div>

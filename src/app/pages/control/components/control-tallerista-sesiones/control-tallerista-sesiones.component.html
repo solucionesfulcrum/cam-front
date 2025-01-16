@@ -1,0 +1,246 @@
+
+<div class="my-2">
+    <div *ngIf="!loadingDetalleTaller && completeLoadingDetalleTaller && dataEmpty">
+      <esp-opciones-botones 
+      [rutaRegreso]="'../..'" >
+      </esp-opciones-botones>
+    </div>
+    <esp-data-loading
+    [dataEmpty]="dataEmpty"
+    [dataLoading]="loadingDetalleTaller"
+    [dataEmptyMsg]="dataEmptyMsg"
+    [height]="'65vh'"
+    ></esp-data-loading>
+  </div>
+  
+  <div *ngIf="!loadingDetalleTaller && completeLoadingDetalleTaller && !dataEmpty">
+    <esp-opciones-botones 
+    [rutaRegreso]="'../'" 
+    [listOpciones]="opcionesBotones" 
+    (firstFunction)="imprimirLista()" 
+    (secondFunction)="modificarAsistencia()"
+    (thirdFunction)="cerrarAsistencia()"
+    >
+    </esp-opciones-botones>
+    <div class="bg-white p-2">
+        <div class=" gap-3 px-3 bg-white py-1.5">
+            <div class="flex justify-between items-start gap-5">
+                <div class="grid grid-cols-3 gap-4 w-[100%]">
+                    <span class="font-semibold text-[20px] leading-[30px] col-start-1"> {{nombreServicio}} </span>
+                    <span class="font-light leading-[26px] my-2 col-start-3 text-end"> {{formatearFechaHora(fechaServicio, horaInicio, horaFin)}} </span>
+                </div>
+            </div>
+            <div class="flex gap-1">
+    
+                <ng-container *ngFor="let sesion of sesiones; index as i">
+                    <div class="flex gap-[2px] shrink-0 py-2 px-4 rounded-t-lg hover:bg-blue-100 cursor-pointer"
+  
+                    (click)="setSesion(sesion.numeracion, sesion.idControlAsistenciaDet, sesion.countAsistencia, sesion.idProgSubDet)"
+  
+                    [ngClass]="{'border-t-2 border-l-2 border-r-2 border-blue-500 border-b-0': sesion.numeracion == sessionSeleccionada}"
+                    [ngStyle]="{
+                        'border-color': sesion.numeracion == sessionSeleccionada ? 'rgba(5, 126, 201, 1)' : ''
+                        }">
+                        <div class="flex flex-row gap-2 py-[2px]">
+                            <div class="flex items-center justify-center w-6">
+                                <img class="select-none" [src]="sesion.numeracion == sessionSeleccionada ? 'assets/svg/lesson-selected.svg' : 'assets/svg/icon-class-lesson.svg'">
+                            </div>
+                            <div class="flex flex-col text-[#64748B]">
+                                <span class="leading-4">{{sesion.numeracion}} ° </span>
+                                <span class="font-light leading-[10px] text-[10px]">Sesion</span>
+                            </div>
+                        </div>
+                        <div class="flex flex-row gap-2 py-[2px] ml-5">
+                
+                            <div class="flex flex-col text-[#64748B]">
+                                <span class="leading-4">{{sesion.countAsistencia}} </span>
+                                <span class="font-light leading-[10px] text-[10px]">Participantes</span>
+                            </div>
+                        </div>
+                    </div>
+                </ng-container>
+                <div class="ml-auto" *ngIf="modificaAsistencia">
+                    <app-btn class="botonApariencia botonOpciones" color="mezclado" (click)="levantarModalAgregarAsegurado()">
+                        Agregar Asegurado
+                    </app-btn>
+                </div>
+    
+              
+            </div>
+        </div>
+        
+        <esp-data-loading
+        [dataEmpty]="(dataSource.length == 0 && dataSourceEliminados.length == 0) || idControlAsistenciaDet == null"
+        [dataLoading]="loadingData"
+        [height]="'50vh'"
+        ></esp-data-loading>
+        <div *ngIf="!loadingData && (dataSource.length > 0 || dataSourceEliminados.length > 0)">
+            <div class="table-container" [style]="dataSourceEliminados.length == 0 ? 'height: 50vh !important' : 'height: 30vh !important' ">
+              
+            <table cdk-table class="w-full text-sm text-left text-gray-500" [dataSource]="dataSource" >
+              <tr cdk-header-row class="text-xs text-gray-700 bg-gray-50" *cdkHeaderRowDef="columns; sticky: true"></tr>
+              <tr cdk-row class="bg-white border-b" *cdkRowDef="let row; columns: columns"></tr>
+              <ng-container cdkColumnDef="marcar">
+                <th cdk-header-cell class="py-[1.25rem] px-6" [style]="'width: 0%;'" *cdkHeaderCellDef> <input type="checkbox" [checked]="seleccionados.length == this.dataSource.length && this.dataSource.length != 0" (change)="afectarTodo($event)"/> </th>
+                <td cdk-cell class="py-[1rem] px-6" [style]="'width: 0%;'" *cdkCellDef="let row"> <input type="checkbox" class="checkbox-select" (change)="seleccionarFila($event)" [value]="row.idControlAsistenciaSubDet" [checked]="row.marcar"/> </td>
+              </ng-container>
+        
+              <ng-container cdkColumnDef="indice">
+                <th cdk-header-cell class="py-[1rem] px-6" *cdkHeaderCellDef [style.width.%]="3" [style]="'padding-left: 0px;'" >
+                    N°
+                </th>
+                <td cdk-cell class="py-[1rem] px-6" *cdkCellDef="let row, index as i" [style]="'padding-left: 0px;'" >
+                  <span class="py-[1rem]" [style.width.%]="3">{{ i + 1 }}</span>
+                </td>
+              </ng-container>
+        
+              <ng-container cdkColumnDef="asegurado">
+                <th cdk-header-cell class="py-[1rem] px-6" *cdkHeaderCellDef [style]="'padding-left: 0px; width: 35%'" >
+                  <ng-container *ngIf="seleccionados.length == 0">
+                    Asegurado
+                </ng-container>
+                <ng-container *ngIf="seleccionados.length > 0">
+                   {{seleccionados.length + " Seleccionados(s)"}} 
+
+                   <div class="relative inline-block text-left px-2 dropdown-container">
+                    <button type="button" class="inline-flex justify-center w-full rounded-md bg-cam border border-gray-300 shadow-sm px-4 py-2 bg-white text-sm font-medium text-white hover:bg-gray-50 focus:outline-none" (click)="toggleDropdown()">
+                      Acciones
+                      <img src="assets/svg/icon-dropdown-white.svg" class="my-2 pl-2">
+                    </button>
+                    <div *ngIf="dropdownOpen" class="origin-top-right absolute right-0 mt-1 w-56 mx-2 rounded-md shadow-lg bg-white ring-1 ring-black ring-opacity-5 focus:outline-none">
+                      <div class="py-1" role="menu" aria-orientation="vertical" aria-labelledby="options-menu">
+                        <a class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 cursor-pointer" role="menuitem" (click)="eliminaSeleccionados($event)">
+                            Eliminar Seleccionado
+                        </a>
+                      </div>
+                    </div>
+                  </div>
+                </ng-container>
+                </th>
+                <td cdk-cell class="py-[1rem] px-6" *cdkCellDef="let row" [style]="'padding-left: 0px;'" >{{row.asegurado}}</td>
+              </ng-container>
+        
+              <ng-container cdkColumnDef="documento">
+                <th cdk-header-cell class="py-[1rem] px-6" *cdkHeaderCellDef>Documento</th>
+                <td cdk-cell class="py-[1rem] px-6" *cdkCellDef="let row">{{row.tipDocumento }}</td>
+              </ng-container>
+        
+              <ng-container cdkColumnDef="nro_documento">
+                <th cdk-header-cell class="py-[1rem] px-6" *cdkHeaderCellDef>N° de Documento</th>
+                <td cdk-cell class="py-[1rem] px-6 " *cdkCellDef="let row">{{row.nroDocumento }}</td>
+              </ng-container>
+              
+              <ng-container cdkColumnDef="hora_asistencia">
+                <th cdk-header-cell class="py-[1rem] px-6" *cdkHeaderCellDef>Hora Asistencia</th>
+                <td cdk-cell class="py-[1rem] px-6" *cdkCellDef="let row">
+                  <p>
+                   {{ row.fechaHoraAsistencia | date: 'h:mm a' }}
+                  </p>
+                  <p *ngIf="row.agregadoFueraDeFecha" class="text-xs text-gray-500" [style]="'font-size: 10px'">
+                    {{ row.fechaHoraAsistencia | date: 'dd/MM/yyyy' }}
+                  </p>
+                  </td>
+              </ng-container>
+    
+              <ng-container cdkColumnDef="condicion">
+                <th cdk-header-cell class="py-[1rem] px-6" *cdkHeaderCellDef></th>
+                <td cdk-cell class="py-[1rem] px-6" *cdkCellDef="let row">
+                    <div class="flex gap-2">
+                        <img class="w-5" *ngIf="row.agregadoFueraDeFecha" matTooltip= "¡Agregado fuera de fecha!" matTooltipPosition="above" src="assets/svg/fuera-de-fecha.svg">
+                        <img class="w-5" *ngIf="row.cumpleAnio" matTooltip= "¡Hoy es su cumpleaños!" matTooltipPosition="above" src="assets/svg/icon-asistencia-birthday.svg">
+                        <img class="w-5" *ngIf="row.nuevo" matTooltip= "¡Es su primer taller!" matTooltipPosition="above" src="assets/svg/icon-asistencia-smiley-face.svg"> 
+                        <img class="w-5" *ngIf="!row.conConexion" matTooltip= "No fue validado por error de red" matTooltipPosition="above" src="assets/svg/icon-asistencia-conexion.svg">
+                        <img class="w-5" *ngIf="!row.acreditado && esBoolean(row.acreditado)" matTooltip= "¡No está acreditado!" matTooltipPosition="above" src="assets/svg/mingcute_alert-line.svg">
+                    </div>
+                </td>
+              </ng-container>
+            </table>
+            </div>
+            <mat-paginator #paginator class="demo-paginator paginatorDatos" 
+            (page)="handlePageEvent($event)"
+            [length]="total"
+            [pageSize]="pageSize"
+            showFirstLastButtons="true"
+            [pageSizeOptions]="pageSizeOptions.length > 0 ? pageSizeOptions : []"
+            [pageIndex]="pageIndex"
+            aria-label="Select page">
+            </mat-paginator>
+            <ng-container *ngIf="dataSourceEliminados.length > 0">
+              <div class="table-container" [style]="'height: 20vh !important'">
+                
+                <table cdk-table class="w-full text-sm text-left text-gray-500" [dataSource]="dataSourceEliminados" >
+                  <tr cdk-header-row class="text-xs text-gray-700 bg-gray-50" *cdkHeaderRowDef="columns; sticky: true"></tr>
+                  <tr cdk-row class="bg-white border-b" *cdkRowDef="let row; columns: columns"></tr>
+                  <ng-container cdkColumnDef="marcar">
+                    <th cdk-header-cell class="py-[1.25rem] px-6" [style]="'width: 5%;'" *cdkHeaderCellDef> </th>
+                    <td cdk-cell class="py-[1rem] px-6" [style]="'width: 5%;'" *cdkCellDef="let row"></td>
+                  </ng-container>
+            
+                  <ng-container cdkColumnDef="indice">
+                    <th cdk-header-cell class="py-[1rem] px-6" *cdkHeaderCellDef [style.width.%]="3" [style]="'padding-left: 0px;'" >
+                        N°
+                    </th>
+                    <td cdk-cell class="py-[1rem] px-6" *cdkCellDef="let row, index as i" [style]="'padding-left: 0px;'" >
+                      <span class="py-[1rem]" [style.width.%]="3">{{ i + 1 }}</span>
+                    </td>
+                  </ng-container>
+            
+                  <ng-container cdkColumnDef="asegurado">
+                    <th cdk-header-cell class="py-[1rem] px-6" *cdkHeaderCellDef [style]="'padding-left: 0px; width: 35%'" >
+                      Asegurados Eliminados
+                    </th>
+                    <td cdk-cell class="py-[1rem] px-6" *cdkCellDef="let row" [style]="'padding-left: 0px;'" >{{row.asegurado}}</td>
+                  </ng-container>
+            
+                  <ng-container cdkColumnDef="documento">
+                    <th cdk-header-cell class="py-[1rem] px-6" *cdkHeaderCellDef>Documento</th>
+                    <td cdk-cell class="py-[1rem] px-6" *cdkCellDef="let row">{{row.tipDocumento }}</td>
+                  </ng-container>
+            
+                  <ng-container cdkColumnDef="nro_documento">
+                    <th cdk-header-cell class="py-[1rem] px-6" *cdkHeaderCellDef>N° de Documento</th>
+                    <td cdk-cell class="py-[1rem] px-6 " *cdkCellDef="let row">{{row.nroDocumento }}</td>
+                  </ng-container>
+                  
+                  <ng-container cdkColumnDef="hora_asistencia">
+                    <th cdk-header-cell class="py-[1rem] px-6" *cdkHeaderCellDef>Hora Asistencia</th>
+                    <td cdk-cell class="py-[1rem] px-6" *cdkCellDef="let row">
+                      <p>
+                       {{ row.fechaHoraAsistencia | date: 'h:mm a' }}
+                      </p>
+                      <p *ngIf="row.agregadoFueraDeFecha" class="text-xs text-gray-500" [style]="'font-size: 10px'">
+                        {{ row.fechaHoraAsistencia | date: 'dd/MM/yyyy' }}
+                      </p>
+                      </td>
+                  </ng-container>
+        
+                  <ng-container cdkColumnDef="condicion">
+                    <th cdk-header-cell class="py-[1rem] px-6" *cdkHeaderCellDef></th>
+                    <td cdk-cell class="py-[1rem] px-6" *cdkCellDef="let row">
+                        <div class="flex gap-2">
+                            <img class="w-5" *ngIf="row.agregadoFueraDeFecha" matTooltip= "¡Agregado fuera de fecha!" matTooltipPosition="above" src="assets/svg/fuera-de-fecha.svg">
+                            <img class="w-5" *ngIf="row.cumpleAnio" matTooltip= "¡Hoy es su cumpleaños!" matTooltipPosition="above" src="assets/svg/icon-asistencia-birthday.svg">
+                            <img class="w-5" *ngIf="row.nuevo" matTooltip= "¡Es su primer taller!" matTooltipPosition="above" src="assets/svg/icon-asistencia-smiley-face.svg"> 
+                            <img class="w-5" *ngIf="!row.conConexion" matTooltip= "No fue validado por error de red" matTooltipPosition="above" src="assets/svg/icon-asistencia-conexion.svg">
+                            <img class="w-5" *ngIf="!row.acreditado && esBoolean(row.acreditado)" matTooltip= "¡No está acreditado!" matTooltipPosition="above" src="assets/svg/mingcute_alert-line.svg">
+                        </div>
+                    </td>
+                  </ng-container>
+                </table>
+                </div>
+                <mat-paginator #paginator class="demo-paginator paginatorDatos" 
+                (page)="handlePageEvent($event)"
+                [length]="totalEliminados"
+                [pageSize]="pageSizeEliminados"
+                showFirstLastButtons="true"
+                [pageSizeOptions]="pageSizeOptions.length > 0 ? pageSizeOptions : []"
+                [pageIndex]="pageIndexEliminados"
+                aria-label="Select page">
+                </mat-paginator>
+            </ng-container>
+         
+        </div>
+    </div>
+    
+  </div>
+  

@@ -1,0 +1,33 @@
+<div class="max-w-5xl mx-0 p-6 bg-white rounded-lg shadow-md">
+ 
+    <div [formGroup]="formDatosSeguridad">
+        <h1 class="font-bold mt-4">Seguridad</h1>
+        <div class="relative border-b-2 border-gray-200 py-1 bg-gray-200 mt-4">
+            <span class="relative px-2 -translate-y-1/2 transform top-1/2 font-bold">
+                Datos de seguridad
+            </span>
+        </div>
+        <div class="mt-4">
+            <label class="block text-gray-700 mb-1">Contraseña actual</label>
+            <input type="password"
+                class="space-x-5 border border-gray-300 text-gray-900 text-sm rounded-lg focusCampo block w-full h-[42px]"
+                formControlName="frmContraActual">
+        </div>
+        <div class="mt-4">
+            <label class="block text-gray-700 mb-1">Nueva Contraseña</label>
+            <input type="password"
+                class="space-x-5 border border-gray-300 text-gray-900 text-sm rounded-lg focusCampo block w-full h-[42px]"
+                formControlName="frmNuevaContra">
+        </div>
+        <div class="mt-4">
+            <label class="block text-gray-700 mb-1">Repita la Nueva Contraseñaa</label>
+            <input type="password"
+                class="space-x-5 border border-gray-300 text-gray-900 text-sm rounded-lg focusCampo block w-full h-[42px]"
+                formControlName="frmRepNuevaContra">
+        </div>
+        <div class="flex justify-end mt-6">
+            <app-btn class="botonApariencia flex" type="submit" color="mezclado" (click)="grabarDatosSeguridad()">
+                Guardar Cambios
+            </app-btn>
+        </div>
+    </div>

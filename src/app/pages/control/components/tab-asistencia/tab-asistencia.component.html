@@ -1,0 +1,291 @@
+<div class="px-4 py-3 bg-white w-full mt-3 grid botonApariencia" *ngIf="!dataPaginada">
+    <div class="text-gray-600 w-full text-center">
+        <p class="py-1 font-semibold text-2xl">
+            <fa-icon class="mr-2" [icon]="faSpinner" [pulse]="true"></fa-icon>
+            Obteniendo datos...
+        </p>
+    </div>
+</div>
+<div class="flex flex-col gap-3" *ngIf="dataPaginada">
+    <div class="flex flex-row gap-3 px-3 mt-3 botonApariencia bg-white py-1.5">
+        <div class="flex flex-col justify-between grow">
+            <div class="py-3">
+                <div class="flex flex-row gap-2.5">
+                    <div class="flex flex-col gap-[5px] shrink-0 w-[46px]">
+                        <span class="font-semibold text-[40px] leading-[30px]">{{datoProgramacion.fechaServicio | date:'dd'}}</span>
+                        <span class="font-light leading-[20px]">{{(datoProgramacion.fechaServicio | date:'MMM') | titlecase}}</span>
+                    </div>
+                    <div class="flex flex-col gap-[5px] leading-[20px]">
+                        <span class="text-[18px] font-medium"> {{datoProgramacion.nombreServicio[0] + (datoProgramacion.nombreServicio.substring(1) | lowercase)}}</span>
+                        <span class="text-[14px] font-light"> {{(datoProgramacion.fechaServicio | date: 'EEEE, dd') | titlecase}} de {{(datoProgramacion.fechaServicio | date: 'MMMM') | titlecase}} de {{((datoProgramacion.fechaServicio + ' ' + datoProgramacion.horaInicio) | date:'hh:mm aa -') +  ' ' + ((datoProgramacion.fechaServicio + ' ' + datoProgramacion.horaFin) | date:'hh:mm aa')}}</span>
+                    </div>
+                </div>
+            </div>
+            <div>
+                <div class="flex flex-row gap-[14px]">
+                    <ul class="flex flex-row gap-1.5">
+                        <li>
+                            <input type="radio" id="search-typing" [formControl]="ctrlTypeSearch" [value]="1" class="hidden peer" required />
+                            <label for="search-typing" class="flex items-center justify-center w-10 h-10 border border-[#D4D4D4] rounded cursor-pointer peer-checked:bg-cam peer-checked:colorWhite hover:bg-[#057EC933]">
+                                <img src="assets/svg/icon-search-typing.svg">
+                            </label>
+                        </li>
+                        <li>
+                            <input type="radio" id="search-bar-code" [formControl]="ctrlTypeSearch" [value]="2" class="hidden peer">
+                            <label for="search-bar-code" class="flex items-center justify-center w-10 h-10 border border-[#D4D4D4] rounded cursor-pointer peer-checked:bg-cam peer-checked:colorWhite hover:bg-[#057EC933]">
+                                <img src="assets/svg/icon-search-bar-code.svg">
+                            </label>
+                        </li>
+                        <li>
+                            <input type="radio" id="search-special" [formControl]="ctrlTypeSearch" [value]="3" class="hidden peer">
+                            <label for="search-special" class="flex items-center justify-center w-10 h-10 border border-[#D4D4D4] rounded cursor-pointer peer-checked:bg-cam peer-checked:colorWhite hover:bg-[#057EC933]">
+                                <img src="assets/svg/icon-search-special.svg">
+                            </label>
+                        </li>
+                    </ul>
+                    <div class="flex flex-row gap-3 grow">
+                        <input type="text" class="inputTextoDialog focusCampo" *ngIf="ctrlTypeSearch.value == 1" 
+                        [formControl]="ctrlSearch" [matAutocomplete]="asegurados" 
+                        [readonly]="!dataPaginada.cerrado || esperaBusquedaAsegurados || datoProgramacion.cerradoCabecera"
+                        [placeholder]="!dataPaginada.cerrado || datoProgramacion.cerradoCabecera ? 'Asistencia Cerrada' :  esperaBusquedaAsegurados ?  'Cargando data' : 'Buscador' "
+                        [ngClass]="{'bg-gray-100': esperaBusquedaAsegurados || !dataPaginada.cerrado || datoProgramacion.cerradoCabecera}"
+                        >
+                        <mat-autocomplete #asegurados="matAutocomplete" [displayWith]="displayAseguradoFiltered" (optionSelected)="onAseguradoSelect($event)"
+                        (optionsScroll)="onAutocompleteScroll()">
+                            <mat-option *ngFor="let option of listFilteredBusqueda" [value]="option">
+                                <div class="flex flex-row gap-2 items-center">
+                                     <!--<img class="h-10 rounded" src='data:image/jpeg;base64,{{option.foto}}'>-->
+                                     <img class="h-10 rounded" src='assets/images/imgReemplazo.png'>
+                                    <div class="flex flex-col gap-1 text-[##64748B]">
+                                        <span class="text-[14px] font-medium">{{option.nombreCompleto | titlecase}}</span>
+                                        <span class="text-[10px] leading-[10px] font-light"> <span class="!font-normal">{{option.tipoDoc === 'DNI' ? option.tipoDoc : option.tipoDoc | titlecase}}</span> {{option.numDoc}}</span>
+                                    </div>
+                                </div>                                
+                            </mat-option>
+                        </mat-autocomplete>
+                        <div class="flex flex-row gap-3 grow" *ngIf="ctrlTypeSearch.value == 2 || ctrlTypeSearch.value == 3" [formGroup]="formBuscarPersona">
+                            <div class="shrink-0">
+                              <div class="relative rounded-md shadow-sm">
+                                <select id="searchDoc" formControlName="frmSelectDoc" 
+                                [disabled]="datoProgramacion.cerradoCabecera"
+                                  class="space-x-5 bg-slate-50 border border-gray-300 text-gray-900 text-sm rounded-lg focusCampo block w-full">
+                                  <option value="" disabled selected>Seleccione su tipo de documento</option>
+                                  <option *ngFor="let documento of opciones" [value]='documento.valor1'>{{documento.nombre | titlecase}}
+                                  </option>
+                                  <!-- <option value="1">Registrado</option> -->
+                                </select>
+                              </div>
+                            </div>
+                            <div class="relative rounded-md shadow-sm" *ngIf="formBuscarPersona.get('frmSelectDoc')?.value != '1'">
+                                <input
+                                   style="padding: 9px;"
+                                  formControlName="fechaNac"
+                                  placeholder="Fecha Nacimiento"
+                                  type="date"
+                                  id="fechaNac"
+                                  name="fechaNac"
+                                  class="w-full text-sm rounded bg-white border-gray-400 border-1 px-4 py-2 font-light focusCampo"
+                                  espEstiloInput
+                                />
+                                <label for="fechaNac" espEstiloLabel>Fecha Nacimiento</label>
+                              </div>
+                            <input formControlName="frmDoc" placeholder="Buscador" type="text" name="doc"  id="frmDoc"
+                            class="w-full text-sm rounded bg-white border-gray-400 border-1 px-4 py-2 font-light focusCampo grow" 
+                            [readonly]="!dataPaginada.cerrado || datoProgramacion.cerradoCabecera"/>
+                        </div>
+                        <ng-container *ngIf="!datoProgramacion.cerradoCabecera">
+                            <div class="w-[34px] h-10 flex items-center justify-center border border-gray-400 rounded shrink-0" [ngClass]="esperaBusqueda ? 'relative' : 'cursor-pointer hover:bg-slate-200'" (click)="!esperaBusqueda ? searchSiApto(formBuscarPersona.controls.frmSelectDoc.value!, formBuscarPersona.controls.frmDoc.value!, formBuscarPersona.controls.fechaNac.value!) : null">
+                                <img src="assets/svg/icon-contrato-confirm.svg" class="select-none" [ngClass]="esperaBusqueda ? 'opacity-50' : null">
+                                <fa-icon *ngIf="esperaBusqueda" class="absolute" [icon]="faSpinner" [pulse]="true"></fa-icon>
+                              </div>
+                        </ng-container>
+
+                       <!-- <div class="w-[34px] h-10 flex items-center justify-center border border-gray-400 rounded shrink-0" *ngIf="ctrlTypeSearch.value == 1" [ngClass]="esperaBusquedaAsegurados ? 'relative' : 'cursor-pointer hover:bg-slate-200'" (click)="!esperaBusquedaAsegurados ? getListAseguradosFindByText('') : null">
+                            <img src="assets/svg/icons8-refresh-2.svg" class="select-none" [ngClass]="esperaBusquedaAsegurados ? 'opacity-0' : null">
+                            <fa-icon *ngIf="esperaBusquedaAsegurados" class="absolute" [icon]="faSpinner" [pulse]="true"></fa-icon>
+                          </div>-->
+                    </div>
+                </div>                
+            </div>
+        </div>
+        <div class="flex flex-col gap-[2px] shrink-0">
+            <div class="flex flex-row gap-2 py-[2px]">
+                <div class="flex items-center justify-center w-6">
+                    <img class="select-none" src="assets/svg/icon-class-lesson.svg">
+                </div>
+                <div class="flex flex-col text-[#64748B]">
+                    <span class="leading-4">{{comienzoSesiones}} de {{datoProgramacion.numSesiones}}</span>
+                    <span class="font-light leading-[10px] text-[10px]">{{datoProgramacion.numSesiones > 1 ? 'Sesiones' : 'Sesión'}}</span>
+                </div>
+            </div>
+            <div class="flex flex-row gap-2 py-[2px]">
+                <div class="flex items-center justify-center w-6">
+                    <img class="iconoEscalaGris select-none w-[14px]" src="assets/svg/icon-control-time.svg">
+                </div>
+                <div class="flex flex-col text-[#64748B]">
+                    <span class="leading-4">{{datoProgramacion.margenHorario}}</span>
+                    <span class="font-light leading-[10px] text-[10px]">Tiempo</span>
+                </div>
+            </div>
+            <div class="flex flex-row gap-2 py-[2px]">
+                <div class="flex items-center justify-center w-6">
+                    <img class="iconoEscalaGris select-none opacity-50" src="assets/svg/icon-person-group.svg">
+                </div>
+                <div class="flex flex-col text-[#64748B]">
+                    <span class="leading-4">{{listAsistentes.length}}</span>
+                    <span class="font-light leading-[10px] text-[10px]">Participantes</span>
+                </div>
+            </div>
+            <div class="flex flex-row gap-2.5">
+                <div class="w-[34px] h-10 flex items-center justify-center border border-gray-400 rounded shrink-0" [ngClass]="validateActivo(0) ? (flagListas ? 'relative' : 'cursor-pointer hover:bg-slate-200') : 'relative'" (click)="validateActivo(0) ? (!flagListas ? getDataPaginada(0) : null) : null">
+                    <img src="assets/svg/icon-asistencia-preview.svg" class="select-none" [ngClass]="validateActivo(0) ? (flagListas ? 'opacity-50' : null) : 'opacity-50'">
+                    <fa-icon *ngIf="flagListas" class="absolute" [icon]="faSpinner" [pulse]="true"></fa-icon>
+                </div>
+                <app-btn class="botonApariencia flex flex-row h-10" color="mezclado" 
+                (click)="detalleAsistenciaActual.cerrado ?  cambioHora() : cerrarAsistencia()" [loading]="status === 'loading'" 
+                [disabled]="bloqueo || datoProgramacion.cerradoCabecera">
+                    <div class="flex flex-row items-center gap-[5px]">
+                        <img *ngIf="detalleAsistenciaActual.cerrado" class="self-center" src="assets/svg/icon-list-assignments.svg">
+                        <span>{{!detalleAsistenciaActual.cerrado ? 'Cerrar Asistencia' : (comienzoSesiones == datoProgramacion.numSesiones ? 'Finalizar Taller' : (comienzoSesiones + 1) + ' Hora' )}}</span>
+                    </div>
+                </app-btn>
+                <div class="w-[34px] h-10 flex items-center justify-center border border-gray-400 rounded shrink-0" [ngClass]="validateActivo(1) ? (flagListas ? 'relative' : 'cursor-pointer hover:bg-slate-200') : 'relative'" (click)="validateActivo(1) ? (!flagListas ? getDataPaginada(1) : null) : null">
+                    <img src="assets/svg/icon-asistencia-next.svg" class="select-none" [ngClass]="validateActivo(1) ? (flagListas ? 'opacity-50' : null) : 'opacity-50'">
+                    <fa-icon *ngIf="flagListas" class="absolute" [icon]="faSpinner" [pulse]="true"></fa-icon>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="flex flex-col gap-2.5 py-2 px-3 bg-white botonApariencia">
+        <div *ngIf="listAsistentes.length == 0" class="w-full flex items-center">
+          <div class="m-auto w-fit text-center">
+            <img class="m-auto" src="assets/svg/empty-data.svg" alt="">
+            <h3 class="text-gray-500 mt-2 font-light">No existen registros aun.</h3>
+          </div>
+        </div>
+        <div *ngIf="listAsistentes.length > 0" class="flex flex-col">
+            <div class="grid gap-1 border-b border-[#0000001F] py-2 text-[14px] filasPseudoTabla" [ngClass]="!dataPaginada.cerrado ? 'grid-cols-14' : 'grid-cols-13'">
+                <div class="content-center text-center">
+                    <!-- <input type="checkbox" [value]="0" [formControl]="ctrlSeleccionados"> -->
+                    <mat-checkbox class="example-margin" color="primary" [formControl]="ctrlSeleccionados"></mat-checkbox>
+                </div>
+                <span *ngIf="dataPaginada.cerrado">N°</span>
+                <div class="col-span-4 content-center flex gap-2">
+                    <span>{{getSeleccionadosCheck().length == 0 ? 'Apellidos y Nombres' : getSeleccionadosCheck().length + ' Seleccionado(s)'}}</span>
+                    <app-btn *ngIf="getSeleccionadosCheck().length > 0" class="botonApariencia flex" color="mezclado" [cdkMenuTriggerFor]="optionsTable">
+                        <div class="flex flex-row items-center gap-[5px]">
+                            <p>Acciones</p>
+                            <img src="assets/svg/icon-dropdown-white.svg">
+                        </div>
+                    </app-btn>
+                    <ng-template #optionsTable>
+                      <div class="botonApariencia bg-white text-[var(--color-black-alt)] py-2" cdkMenu>
+                        <div class="flex flex-col gap-2.5" cdkMenuGroup>
+                            <div class="leading-5 py-[5px] font-medium px-2.5 opacity-50" cdkMenuItem>
+                                <span>Editar</span>
+                            </div>
+                            <div class="leading-5 py-[5px] font-medium px-2.5" [ngClass]="dataPaginada.cerrado ? 'cursor-pointer hover:bg-slate-200' : 'opacity-50'" cdkMenuItem (click)="dataPaginada.cerrado ? deleteSelected() : null">
+                                <span>Eliminar seleccionado</span>
+                            </div>
+                        </div>
+                      </div>
+                    </ng-template>
+                </div>
+                <span class="col-span-2" *ngIf="!dataPaginada.cerrado">Continuación Taller</span>
+                <span class="col-span-2">Documento</span>
+                <span class="col-span-2">N° de Documento</span>
+                <span class="col-span-2">Hora Asistencia</span>
+            </div>
+            <div class="max-h-[52vh] contenedorDatos">
+                <!-- <div *ngFor="let activacion of activaciones, index as i" class="dataPseudoTabla">
+                  <span class="text-[#008BD2]">{{activacion.responsable}}</span>
+                  <span>{{activacion.fechInicio | date:'dd/MM/yyyy'}}</span>
+                  <span>{{activacion.fechFin | date:'dd/MM/yyyy'}}</span>
+                  <span>{{activacion.unidadOperativa}}</span>
+                  <span>{{activacion.nombreRol}}</span>
+                  <span [ngClass]="activacion.estado === 'ACTIVO' ? 'text-green-500':'text-red-500'">{{activacion.estado}}</span>
+                </div>
+              </div> -->
+              <div class="dataPseudoTabla py-2" *ngFor="let asistente of listAsistentes, index as i" [ngClass]="!dataPaginada.cerrado ? 'grid-cols-14' : 'grid-cols-13'">
+                <div class="content-center text-center">
+                    <mat-checkbox class="example-margin" color="primary" [formControl]="asistente.formCheck"></mat-checkbox>
+                </div>
+                <span *ngIf="dataPaginada.cerrado">{{listAsistentes.length - i}}</span>
+                <span class="col-span-4 text-[var(--color-CAM)]">{{asistente.asegurado}}</span>
+                <div class="col-span-2 flex flex-row gap-2 pl-4" *ngIf="!dataPaginada.cerrado">
+                    <div class="flex items-center">
+                        <input [id]="asistente.idControlAsistenciaSubDet + '_' + 1" type="radio" [value]="true" [name]="asistente.idControlAsistenciaSubDet+'_form'" [formControl]="asistente.formAsistido" class="bordColorEstablecido w-4 h-4 focusCampo dark:focusCampo">
+                        <label [for]="asistente.idControlAsistenciaSubDet + '_' + 1" class="ml-2 text-sm font-medium">Si</label>
+                    </div>
+                    <div class="flex items-center">
+                        <input [id]="asistente.idControlAsistenciaSubDet + '_' + 2" type="radio" [value]="false" [name]="asistente.idControlAsistenciaSubDet+'_form'" [formControl]="asistente.formAsistido" class="bordColorEstablecido w-4 h-4 focusCampo dark:focusCampo">
+                        <label [for]="asistente.idControlAsistenciaSubDet + '_' + 2" class="ml-2 text-sm font-medium">No</label>
+                    </div>             
+                </div>
+                <span class="col-span-2">{{asistente.tipDocumento === 'DNI' ? 'DNI' : asistente.tipDocumento | titlecase}}</span>
+                <span class="col-span-2">{{asistente.nroDocumento}}</span>
+                <span class="col-span-2">{{asistente.fechaHoraAsistencia | date:'hh:mm aa'}}</span>
+                <div class="flex flex-row gap-2">
+                    <img class="w-5" *ngIf="asistente.cumpleAnio" matTooltip= "¡Hoy es su cumpleaños!" matTooltipPosition="above" src="assets/svg/icon-asistencia-birthday.svg">
+                    <img class="w-5" *ngIf="!asistente.conConexion" matTooltip= "No fue validado por error de red" matTooltipPosition="above" src="assets/svg/icon-asistencia-conexion.svg">
+                    <img class="w-5" *ngIf="asistente.nuevo" matTooltip= "¡Es su primer taller!" matTooltipPosition="above" src="assets/svg/icon-asistencia-smiley-face.svg"> 
+                    <img class="w-5" *ngIf="!asistente.acreditado && esBoolean(asistente.acreditado)" matTooltip= "¡No está acreditado!" matTooltipPosition="above" src="assets/svg/mingcute_alert-line.svg">
+                </div>
+              </div>
+            </div>
+        </div>
+        <div *ngIf="dataPaginada.numeracion == 1" class="flex flex-col gap-2.5">
+            <div class="flex flex-row justify-between py-1">
+                <span class="font-semibold text-[18px]">Pre Inscritos</span>
+                <div class="flex flex-row gap-2 w-[168px]">
+                    <div class="flex items-center justify-center w-6">
+                        <img class="iconoEscalaGris select-none opacity-50" src="assets/svg/icon-person-group.svg">
+                    </div>
+                    <div class="flex flex-col text-[#64748B]">
+                        <span class="leading-4">{{listPreInscritos.length}}</span>
+                        <span class="font-light leading-[10px] text-[10px]">Pre Inscritos</span>
+                    </div> 
+                </div>   
+            </div>
+            <div *ngIf="listPreInscritos.length == 0" class="w-full flex items-center">
+              <div class="m-auto w-fit text-center">
+                <img class="m-auto" src="assets/svg/empty-data.svg" alt="">
+                <h3 class="text-gray-500 mt-2 font-light">No existen Pre Registrados.</h3>
+              </div>
+            </div>
+            <div *ngIf="listPreInscritos.length > 0" class="flex flex-col">
+                <div class="grid gap-1 border-b border-[#0000001F] py-2 text-[14px] filasPseudoTabla grid-cols-13">
+                    <div class="content-center text-center">
+                        <mat-checkbox class="example-margin" color="primary"></mat-checkbox>
+                    </div>
+                    <span>N°</span>
+                    <span class="col-span-4">Apellidos y Nombres</span>
+                    <span class="col-span-2">Documento</span>
+                    <span class="col-span-2">N° de Documento</span>
+                    <span class="col-span-3">Registrado</span>
+                </div>
+                <div class="max-h-[52vh] contenedorDatos">
+                    <!-- <div *ngFor="let activacion of activaciones, index as i" class="dataPseudoTabla">
+                      <span class="text-[#008BD2]">{{activacion.responsable}}</span>
+                      <span>{{activacion.fechInicio | date:'dd/MM/yyyy'}}</span>
+                      <span>{{activacion.fechFin | date:'dd/MM/yyyy'}}</span>
+                      <span>{{activacion.unidadOperativa}}</span>
+                      <span>{{activacion.nombreRol}}</span>
+                      <span [ngClass]="activacion.estado === 'ACTIVO' ? 'text-green-500':'text-red-500'">{{activacion.estado}}</span>
+                    </div>
+                  </div> -->
+                  <div class="dataPseudoTabla py-2 grid-cols-13" *ngFor="let asistente of listPreInscritos, index as i">
+                    <div class="content-center text-center">
+                        <mat-checkbox class="example-margin" color="primary"></mat-checkbox>
+                    </div>
+                    <span>{{listPreInscritos.length - i}}</span>
+                    <span class="col-span-4 text-[var(--color-CAM)]">{{asistente.nombreCompleto}}</span>
+                    <span class="col-span-2">{{asistente.tipoDoc === '1' ? 'DNI' : 'CE' | titlecase}}</span>
+                    <span class="col-span-2">{{asistente.numDoc}}</span>
+                    <span class="col-span-3">{{asistente.fechaReg | date:'dd/MM/yyyy - hh:mm aa'}}</span>
+                  </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

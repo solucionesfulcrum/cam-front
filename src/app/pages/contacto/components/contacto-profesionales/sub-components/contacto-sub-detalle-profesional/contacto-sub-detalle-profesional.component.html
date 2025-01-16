@@ -1,0 +1,45 @@
+<div class="h-full">
+    <esp-opciones-botones *ngIf="!edicionActiva" [listOpciones]="opcionesBotones" (firstFunction)="funcionesExtra(0)" (secondFunction)="funcionesExtra(1)"></esp-opciones-botones>
+    <esp-opciones-botones *ngIf="edicionActiva" [listOpciones]="opcionesEdicionBotones" (firstFunction)="funcionesExtra(3)" (secondFunction)="funcionesExtra(4)"></esp-opciones-botones>
+    
+    <div class="containerInfoProfesional">
+        <div class="containerInfoIzq">
+            <div class="w-full relative h-32 bg-red-500 bg-image">
+                <div class="avatar rounded-full absolute w-20 h-20 border-4
+                  border-white left-5 bottom-1/2"></div>
+            </div>
+            <div class="flex flex-col pl-4 pr-2 pb-6" *ngIf="infoProfesional.pefilProfesional">
+                <h1 class="font-semibold text-xl mb-3">{{infoProfesional.pefilProfesional.nombre}}</h1>
+                <div class="flex justify-center mb-4">
+                  <span class="px-4 py-1 rounded-full rolPersona font-light text-sm">{{infoProfesional.pefilProfesional.rol | titlecase}}</span>
+                </div>
+                <ul class="max-h-[41vh] overflow-auto">
+                  <li class="mb-3"><span class="font-bold">{{infoProfesional.pefilProfesional.tipoDoc === 'DOCUMENTO NACIONAL DE IDENTIDAD' ? 'DNI': infoProfesional.pefilProfesional.tipoDoc | titlecase}}: </span>{{infoProfesional.pefilProfesional.numDoc}}</li>
+                  <li class="mb-3"><span class="font-bold">Celular: </span>{{infoProfesional.pefilProfesional.celular ? infoProfesional.pefilProfesional.celular : '-'}}</li>
+                  <li class="mb-3 overflow-hidden text-ellipsis"><span class="font-bold">Correo: </span>{{infoProfesional.pefilProfesional.correoPersonal}}</li>
+                  <li class="mb-3 overflow-hidden text-ellipsis"><span class="font-bold">Correo Institucional: </span>{{infoProfesional.pefilProfesional.correoInstitucional ? infoProfesional.pefilProfesional.correoInstitucional : '-'}}</li>
+                  <li class="mb-3"><span class="font-bold">Fecha nacimiento: </span>{{infoProfesional.pefilProfesional.fechaNacimiento ? (infoProfesional.pefilProfesional.fechaNacimiento | date:'dd/MM/yyyy') : '-'}}</li>
+                  <li class="mb-3"><span class="font-bold">Edad: </span>{{infoProfesional.pefilProfesional.edad ? infoProfesional.pefilProfesional.edad : '-'}} Años</li>
+                  <li class="mb-3"><span class="font-bold">Sexo: </span>{{infoProfesional.pefilProfesional.sexo ? infoProfesional.pefilProfesional.sexo : '-'}}</li>
+                  <li class="mb-3 overflow-hidden text-ellipsis"><span class="font-bold">Direccion: </span>{{infoProfesional.pefilProfesional.direccion ? (infoProfesional.pefilProfesional.direccion | titlecase) : '-'}}</li>
+                  <li class="mb-3"><span class="font-bold">Código de planilla: </span>{{infoProfesional.pefilProfesional.codPlanilla}}</li>
+                  <li class="mb-3"><span class="font-bold">Distrito: </span>{{ ubiDist ? (ubiDist| titlecase) : '-'}}</li>
+                  <li class="mb-3"><span class="font-bold">Provincia: </span>{{ ubiProv ? (ubiProv| titlecase) : '-'}}</li>
+                  <li class="mb-3"><span class="font-bold">Región: </span>{{ ubiDepa ? (ubiDepa| titlecase) : '-'}}</li>
+                  <li class="mb-3"><span class="font-bold">Nivel Educativo: </span>{{infoProfesional.pefilProfesional.nivelEducativo ? (infoProfesional.pefilProfesional.nivelEducativo| titlecase) : '-'}}</li>
+                  <li class="mb-3"><span class="font-bold">Profesión: </span>{{infoProfesional.pefilProfesional.profesion ? (infoProfesional.pefilProfesional.profesion| titlecase) : '-'}}</li>
+                  <li class="mb-3"><span class="font-bold">RNE: </span>{{infoProfesional.pefilProfesional.rne ? (infoProfesional.pefilProfesional.rne| titlecase) : '-'}}</li>
+                  <li class="mb-3"><span class="font-bold">CMP: </span>{{infoProfesional.pefilProfesional.cmp ? (infoProfesional.pefilProfesional.cmp| titlecase) : '-'}}</li>
+                  <li class="mb-3"><span class="font-bold">Unidad Operativa: </span>{{infoProfesional.pefilProfesional.unidadOperativa ? infoProfesional.pefilProfesional.unidadOperativa : '-'}}</li>
+                  <li class="mb-3"><span class="font-bold">Fecha Registro: </span>{{infoProfesional.pefilProfesional.fechaRegistro ? (infoProfesional.pefilProfesional.fechaRegistro | date:'dd/MM/yyyy') : '-'}}</li>
+                  <li class="mb-3"><span class="font-bold">Estado: </span> <span [ngClass]="infoProfesional.pefilProfesional.estado === 'ACTIVADO' ? 'text-green-500' : 'text-blue-500'" class="text-green-500">{{infoProfesional.pefilProfesional.estado | titlecase}}</span></li>
+                </ul>
+            </div>
+        </div>
+        <div class="containerInfoDerecha">
+            <esp-menu-opciones [links]="edicionActiva ? edicionRutasProfesionales : rutasCitas" [setColorTab]="'var(--color-CAM)'" [showBottomLine]="false">
+            </esp-menu-opciones>
+            <router-outlet></router-outlet>
+        </div>
+    </div>
+</div>

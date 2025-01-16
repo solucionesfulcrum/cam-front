@@ -1,0 +1,49 @@
+<div class="flex flex-col">
+    <esp-opciones-busqueda [showDateFilter]="true" [setFilterDateOptionSelected]="'var(--color-CAM-Mezclado)'"
+    [setFilterDateTextColour]="'#057EC9'" [filterDateAppearance]="2"
+    (sendDateFilterWithCeros)="getDataFecha($event)" [setFilterDateSelectionBg]="'var(--color-CAM-Claro)'"
+    [setFilterDateButtonBg]="'var(--color-CAM-Claro)'" [setDateSelectedDefault]="9"
+    [showFirstDisplayFilter]="validEsCoordinador"
+    [firstDisplayFilterPlaceholder]="{'indicador': true, 'placeholder': 'Todos los CAM'}"
+    (firstDisplayFilterSendValue)="firstDisplayValue($event)"
+    (firstDisplaySelectedValue)="false"
+    [firstDisplayFilterData]="opciones_cam"
+    [menuOpt]="dataAcciones"
+    (primerActionMenu)="procedeDescargaReporte()"
+    [menuOptLoading]="waitDownload"></esp-opciones-busqueda>
+    
+    <div class="px-4 py-3 bg-white w-full mt-3 grid botonApariencia" *ngIf="!dataObtenida">
+        <div class="text-gray-600 w-full text-center">
+            <span class="py-1 font-bold text-2xl">
+                <esp-icon class="mr-2" icon="faSpinner" [pulse]="true"></esp-icon>
+                Obteniendo datos...
+            </span>
+        </div>
+    </div>
+    
+    <div class="mt-3 relative" *ngIf="dataObtenida">
+        <div class="absolute flex flex-col gap-2.5 items-center justify-center z-30 w-full h-full bg-[#FFFFFF88]" *ngIf="!dataCargada">
+            <span class="py-1 font-bold text-3xl">
+                <esp-icon class="mr-2" icon="faSpinner" [pulse]="true"></esp-icon>
+                Obteniendo datos...
+            </span>
+        </div>
+        <div class="infoGeneral text-[var(--color-black-alt)] font-semibold">
+            <div class="datosAnaliticos botonApariencia" *ngFor="let opcion of opcionesFiltroTotal, index as i" [ngClass]="opcion.value == selectedTotal ? 'datosSegmentado' : ''" (click)="selectSegmento(opcion.value)">
+                <div>
+                    <div class="text-[12px]">{{opcion.tituloCard}}</div>
+                    <div class="text-[18px]">{{opcion.totalCalculado ? opcion.totalCalculado : 0}}</div>
+                </div>
+                <div class="icono">
+                    <img class="self-center" [src]="'assets/svg/dashboard/' + opcion.rutaIcon + '.svg'" alt="">
+                </div>
+            </div>
+        </div>
+        <div id="chart">
+            <apx-chart [series]="chartOptions.series" [chart]="chartOptions.chart" [xaxis]="chartOptions.xaxis"
+                [stroke]="chartOptions.stroke" [dataLabels]="chartOptions.dataLabels" [yaxis]="chartOptions.yaxis"
+                [labels]="chartOptions.labels" [legend]="chartOptions.legend" [title]="chartOptions.title"
+                [subtitle]="chartOptions.subtitle"></apx-chart>
+        </div>
+    </div>
+</div>

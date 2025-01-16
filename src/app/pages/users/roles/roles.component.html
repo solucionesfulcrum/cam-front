@@ -1,0 +1,65 @@
+<esp-data-loading
+[dataEmpty]="dataRoles.length == 0"
+[dataLoading]="loadingData"
+[height]="'52vh'"
+></esp-data-loading>
+<div *ngIf="dataRoles.length > 0 && !loadingData">
+  <div class="my-3">
+    <table
+    class="w-full text-sm text-left text-gray-500 tablaDatos"
+    cdk-table
+    [dataSource]="dataRoles"
+    >
+    <tr
+      cdk-header-row
+      class="text-xs text-gray-700 bg-gray-50"
+      *cdkHeaderRowDef="columns"
+    ></tr>
+    <tr
+      cdk-row
+      class="bg-white border-b"
+      [ngClass]="{ 'bg-red-200': row.price < 100 }"
+      *cdkRowDef="let row; columns: columns"
+    ></tr>
+    <!-- Nombres Column -->
+    <ng-container cdkColumnDef="id">
+      <th cdk-header-cell class="py-5 px-6" *cdkHeaderCellDef>
+        
+      </th>
+      <td cdk-cell class="py-4 px-6" *cdkCellDef="let row, index as i">
+        {{i+1}}
+      </td>
+    </ng-container>
+    
+    <!-- Nombres Column -->
+    <ng-container cdkColumnDef="nombreRol">
+      <th cdk-header-cell class="py-5 px-6" *cdkHeaderCellDef>Nombre del rol</th>
+      <td cdk-cell class="py-4 px-6" *cdkCellDef="let row">
+        <a class="text-success-500 hover:text-success-700 font-semibold" [routerLink]="[row.idRol]">{{ row.nombre }}</a>
+      </td>
+    </ng-container>
+    
+    <!-- DNI Column -->
+    <ng-container cdkColumnDef="registro">
+      <th cdk-header-cell class="py-5 px-6" *cdkHeaderCellDef>Fecha de Registro</th>
+      <td cdk-cell class="py-4 px-6" *cdkCellDef="let row">{{ row.fechReg | date:'dd/MM/yyyy' }}</td>
+    </ng-container>
+    
+    <!-- Rol Column -->
+    <ng-container cdkColumnDef="status">
+      <th cdk-header-cell class="py-5 px-6" *cdkHeaderCellDef>Estado</th>
+      <td cdk-cell class="py-4 px-6"  [ngClass]="row.activo == 0 ? 'text-[#EF2D56]': 'text-[#0CCE6B]'" *cdkCellDef="let row">
+        {{row.activo == 0 ? 'No Activo': 'Activo'}}
+      </td>
+    </ng-container>
+    </table>
+    <mat-paginator #paginator
+                 class="demo-paginator paginatorDatos"
+                 [length]="dataRoles.length"
+                 [pageSize]="10"
+                 showFirstLastButtons="true"
+                 [pageSizeOptions]="pageSizeOptions.length > 0 ? pageSizeOptions : []"
+                 aria-label="Select page">
+    </mat-paginator>
+</div>
+</div>

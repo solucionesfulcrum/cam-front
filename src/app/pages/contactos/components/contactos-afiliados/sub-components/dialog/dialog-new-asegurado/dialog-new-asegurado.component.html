@@ -1,0 +1,90 @@
+<div class="px-4 py-3 bg-primary-700 flex justify-between text-white rounded-t-lg">
+    <span><b>Nueva solicitud de Asegurado</b></span>
+    <button (click)="onClose()"><esp-icon icon="faClose"></esp-icon></button>
+</div>
+<div class="px-4 py-3 bg-white rounded-b-lg">
+    <span class="text-[#37474F] font-bold">Unidad Operativa - {{unidOpeUserSession.unidOperativa}}</span>
+    <div class="flex justify-between space-x-2 py-2.5" [formGroup]="formNewFicha">
+        <div class="w-1/2">
+            <div class="relative rounded-md shadow-sm">
+              <select
+                id="searchDoc"
+                formControlName="frmSelectDoc"
+                class="space-x-5 bg-slate-50 border border-gray-300 text-gray-900 text-sm rounded-lg focusCampo block w-full"
+                espEstiloInput
+              >
+                <option value="" disabled selected>Seleccione su tipo de documento</option>
+                <option *ngFor="let documento of opciones" [value]='documento.valor1'>{{documento.nombre | titlecase}}</option>
+                <!-- <option value="1">Registrado</option> -->
+              </select>
+              <label for="searchDoc" espEstiloLabel>Tipo Documento</label>
+            </div>
+        </div>  
+        <div class="w-1/2">
+          <div class="relative rounded-md shadow-sm">
+            <input
+              formControlName="frmDoc"
+              placeholder="Documento"
+              type="text"
+              id="frmDoc"
+              name="doc"
+              class="w-full text-sm rounded bg-white border-gray-400 border-1 px-4 py-2 font-light focusCampo"
+              espEstiloInput
+            />
+            <label for="frmDoc" espEstiloLabel>Documento</label>
+          </div>
+          <div *ngIf="formNewFicha.controls.frmDoc.touched && formNewFicha.controls.frmDoc.invalid">
+            <p *ngIf="formNewFicha.controls.frmDoc.hasError('required')" class="font-medium text-red-500 text-xs mt-1 ml-1">
+              El documento es obligatorio
+            </p>
+          </div>
+      </div>  
+      <div class="w-1/2" *ngIf="formNewFicha.get('frmSelectDoc')!.value! != '1'">
+        <div class="relative rounded-md shadow-sm">
+          <input
+            formControlName="fechaNac"
+            placeholder="Fecha Nacimiento"
+            type="date"
+            id="fechaNac"
+            name="fechaNac"
+            class="w-full text-sm rounded bg-white border-gray-400 border-1 px-4 py-2 font-light focusCampo"
+            espEstiloInput
+          />
+          <label for="fechaNac" espEstiloLabel>Fecha de Nacimiento</label>
+        </div>
+        <div *ngIf="formNewFicha.controls.fechaNac.touched && formNewFicha.controls.fechaNac.invalid">
+          <p *ngIf="formNewFicha.controls.fechaNac.hasError('required')" class="font-medium text-red-500 text-xs mt-1 ml-1">
+            La fecha de nacimiento es obligatoria
+          </p>
+        </div>
+    </div>  
+    </div>
+    <div class="flex flex-row gap-2 justify-center pt-6 pb-3 px-4 border-t border-[#F4F5F5]">
+      <div class="w-1/2 text-wright">
+        <div class="w-fit">
+            <app-btn class="botonApariencia flex" color="white" (click)="onClose()">Cancelar
+            </app-btn>
+        </div>
+      </div>
+      <div class="w-1/2">
+        <div class="w-fit">
+            <app-btn class="botonApariencia flex" type="submit" color="mezclado" (click)="onSearch()" [loading]="status === 'loading'">Buscar Asegurado
+            </app-btn>
+        </div>
+      </div>
+    </div>
+    <div *ngIf="tipoMsg==false" class="flex justify-center space-x-2">
+      <span class="text-red-500 text-center whitespace-pre-line">{{msgRespuesta | titlecase}}</span>
+    </div>
+    <!-- <div *ngIf="tipoMsg==true" class="flex justify-center">
+      <div class="boxMsgSatisf">
+        <div class="boxSpanMsg">
+          <span class="text-green-500 text-center">{{msgRespuesta | titlecase}}</span>
+        </div>
+        <div class="btnSgte">
+          <app-btn color="mezclado" (click)="setLink2(createRequest().numDoc, createRequest().tipoDoc)">Generar Ficha de Admisión
+          </app-btn>
+        </div>
+      </div>
+    </div> -->
+</div>

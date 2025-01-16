@@ -1,0 +1,28 @@
+::root {
+    --color-tabs: #FFFFFF;
+}
+.titulo{
+    color: var(--color-black-alt);
+    font-weight: 500;
+    font-size: 18px;
+    line-height: 25px;
+    // font-family: "Nunito", sans-serif;
+}
+
+::ng-deep.mat-mdc-tab-links{
+    gap: 1rem;
+}
+
+::ng-deep.mat-mdc-tab-link:not(.mat-mdc-tab-disabled) .mdc-tab-indicator__content--underline{
+    border-color: var(--color-tabs);
+}
+
+::ng-deep.mat-mdc-tab-link:not(.mat-mdc-tab-disabled).mdc-tab--active .mdc-tab__text-label{
+    color:var(--color-tabs);
+}
+
+::ng-deep.tabsSubTemas.mdc-tab{
+    font-size: 16px;
+    padding-right: 2px;
+    padding-left: 2px;
+}

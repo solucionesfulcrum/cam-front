@@ -1,0 +1,98 @@
+<div class="px-4 py-3 bg-white w-full mt-3 grid botonApariencia" *ngIf="!dataContrato">
+    <div class="text-gray-600 w-full text-center">
+        <span class="py-1 font-bold text-2xl">
+            <fa-icon class="mr-2" [icon]="faSpinner" [pulse]="true"></fa-icon>
+            Obteniendo datos...
+        </span>
+    </div>
+</div>
+<div *ngIf="dataContrato">
+    <esp-opciones-botones [rutaRegreso]="'../..'" [listOpciones]="opcionesBotones" (firstFunction)="deleteItem()"></esp-opciones-botones>
+    <div class="flex flex-col gap-2.5">
+        <div class="bg-white botonApariencia p-3 flex flex-row text-[#37474F] leading-5">
+            <div class="flex flex-col gap-2.5 border-r border-[#D4D4D4] w-full">
+                <span class="text-[22px] text-[var(--color-CAM)] font-medium">Detalle del Contrato:</span>
+                <div class="flex flex-col gap-2 font-light">
+                    <span class="font-medium text-[18px]">{{dataContrato.datosTallerista.usuarioTallerista | uppercase}}</span>
+                    <span><span class="font-medium">DNI: </span>{{dataContrato.datosTallerista.nroDoc}}</span>
+                    <span><span class="font-medium">ROL: </span>{{dataContrato.datosContrato.nombreRol ? dataContrato.datosContrato.nombreRol : 'TALLERISTA TERCERO'}}</span>
+                    <span><span class="font-medium">Registrado: </span>{{(dataContrato.datosTallerista.fechaRegistro | date: 'EEEE d \'de\' MMMM \'del\' yyyy \'a las\' hh:mm aa') | titlecase}}</span>
+                </div>
+            </div>
+            <div class="flex flex-col gap-2.5 pl-3 w-full justify-center">
+                <div class="flex flex-col gap-2 font-light">
+                    <span class="font-medium text-[18px]">Orden de  Compra : {{dataContrato.datosContrato.nroContrato}}</span>
+                    <span><span class="font-medium">Desde: </span>{{dataContrato.datosContrato.fechaInicio | date: 'dd/MM/yyyy'}} al {{dataContrato.datosContrato.fechaFin | date: 'dd/MM/yyyy'}}</span>
+                    <span><span class="font-normal">Cantidad de Entregables :</span> {{dataContrato.datosContrato.nroEntregables}}</span>
+                    <span><span class="font-medium">Estado: </span><span class="font-medium text-green-500">{{dataContrato.datosContrato.estado | titlecase}}</span></span>
+                </div>
+            </div>
+        </div>
+        <div class="bg-white botonApariencia p-2.5 flex flex-col gap-2.5">
+            <div class="flex flex-col gap-2.5">
+                <div class="bg-[#F4F5F7] text-[var(--color-black-alt)] px-1 py-[7.5px] border-b border-[#D4D4D4]">
+                    <span class="leading-[25px] text-[18px]">{{dataContrato.datosDetMismaUnidad[0].unidadOperativa}}</span>
+                </div>
+                <div>
+                    <div class="grid grid-cols-12 gap-1 border-b-2 border-gray-300 pb-2 text-[14px] filasPseudoTabla">
+                        <span>N°</span>
+                        <span>Tipo</span>
+                        <span class="col-span-4">Nombre</span>
+                        <span class="col-span-2">Fecha Inicio</span>
+                        <span class="col-span-2">Fecha Fin</span>
+                        <span class="col-span-2">Modalidad</span>
+                    </div>
+                    <div *ngIf="dataContrato.datosDetMismaUnidad[0].servicios.length == 0" class="w-full h-3/4 flex items-center">
+                      <div class="m-auto w-fit text-center">
+                        <img class="m-auto" src="assets/svg/empty-data.svg" alt="">
+                        <h3 class="text-gray-500 mt-2 font-light">No existen registros aun.</h3>
+                      </div>
+                    </div>
+                    <div *ngIf="dataContrato.datosDetMismaUnidad[0].servicios.length > 0">
+                        <div class="dataPseudoTabla" *ngFor="let servicio of dataContrato.datosDetMismaUnidad[0].servicios, index as i">
+                          <span>{{i+1}}</span>
+                          <span>{{servicio.tipoServicio | titlecase}}</span>
+                          <span class="col-span-4 text-[var(--color-CAM)]">{{servicio.servicio | titlecase}} {{servicio.numero ? " " + servicio.numero : ""}}</span>
+                          <span class="col-span-2">{{servicio.fechaInicio | date:'dd/MM/yyyy'}}</span>
+                          <span class="col-span-2">{{servicio.fechaFin | date:'dd/MM/yyyy'}}</span>
+                          <span class="col-span-2">{{servicio.modalidad | titlecase}}</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="flex flex-col gap-2.5" *ngIf="dataContrato.datosDetOtraUnidad.length > 0">
+                <div class="flex flex-col gap-2.5" *ngFor="let unid of dataContrato.datosDetOtraUnidad, index as i">
+                    <div class="bg-[#F4F5F7] text-[var(--color-black-alt)] px-1 py-[7.5px] border-b border-[#D4D4D4]">
+                        <span class="leading-[25px] text-[18px]">{{unid.unidadOperativa}}</span>
+                    </div>
+                    <div>
+                        <div class="grid grid-cols-12 gap-1 border-b-2 border-gray-300 pb-2 text-[14px] filasPseudoTabla">
+                            <span>N°</span>
+                            <span>Tipo</span>
+                            <span class="col-span-4">Nombre</span>
+                            <span class="col-span-2">Fecha Inicio</span>
+                            <span class="col-span-2">Fecha Fin</span>
+                            <span class="col-span-2">Modalidad</span>
+                        </div>
+                        <div *ngIf="unid.servicios.length == 0" class="w-full h-3/4 flex items-center">
+                          <div class="m-auto w-fit text-center">
+                            <img class="m-auto" src="assets/svg/empty-data.svg" alt="">
+                            <h3 class="text-gray-500 mt-2 font-light">No existen registros aun.</h3>
+                          </div>
+                        </div>
+                        <div *ngIf="unid.servicios.length > 0">
+                            <div class="dataPseudoTabla" *ngFor="let servicio of unid.servicios, index as ix">
+                              <span>{{ix+1}}</span>
+                              <span>{{servicio.tipoServicio | titlecase}}</span>
+                              <span class="col-span-4 text-[var(--color-CAM)]">{{servicio.servicio | titlecase}} {{servicio.numero ? " " + servicio.numero : ""}}</span>
+                              <span class="col-span-2">{{servicio.fechaInicio | date:'dd/MM/yyyy'}}</span>
+                              <span class="col-span-2">{{servicio.fechaFin | date:'dd/MM/yyyy'}}</span>
+                              <span class="col-span-2">{{servicio.modalidad | titlecase}}</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

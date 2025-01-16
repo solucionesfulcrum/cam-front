@@ -1,0 +1,61 @@
+.peer:checked ~ .peer-checked\:bg-cam{
+  background: var(--color-CAM-Mezclado);
+}
+
+.peer:checked ~ .peer-checked\:colorWhite{
+    img{
+        filter: brightness(284.5);
+    }
+}
+
+.filasPseudoTabla{
+  background-color: #F6F6F6;
+  span{
+    align-self: center;
+    padding-left: 16px;
+    line-height: 24px;
+    font-weight: 600;
+  }
+}
+
+.grid-cols-13{
+  grid-template-columns: repeat(13, minmax(0, 1fr));
+}
+
+.grid-cols-14{
+  grid-template-columns: repeat(14, minmax(0, 1fr));
+}
+
+.dataPseudoTabla{
+  font-size: 14px;
+  --tw-border-opacity: 1;
+  border-color: rgb(209 213 219 / var(--tw-border-opacity));
+  border-bottom-width: 1px;
+  gap: 0.25rem;
+  display: grid;
+  span{
+    align-self: center;
+    padding-left: 16px;
+    line-height: 20px;
+    font-weight: 500;
+  }
+}
+
+.contenedorDatos{
+  overflow-y: overlay;
+}
+
+::-webkit-scrollbar {
+  width: 6px;
+}
+
+::-webkit-scrollbar-track {
+  background: #D4D4D4;
+}
+::-webkit-scrollbar-thumb {
+  background: var(--color-black-alt);
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #28364d;
+}

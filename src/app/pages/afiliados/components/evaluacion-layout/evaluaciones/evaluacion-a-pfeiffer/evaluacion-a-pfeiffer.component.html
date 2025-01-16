@@ -1,0 +1,49 @@
+<div class="flex flex-col">
+    <div class="flex flex-row justify-between items-center py-2.5">
+        <p class="subTitulo"> TEST PFEIFFER</p>
+        <div class="flex flex-row gap-2 select-none">
+            <div class="flex items-center justify-center border border-[var(--color-CAM)] text-Name w-[45px] h-8 cursor-pointer" (click)="selectAll(dataTestA.titulo1)" [matTooltip]= "'Marcar todas las preguntas como ' + (dataTestA.titulo1 | titlecase)" matTooltipPosition="above">
+                <span>{{dataTestA.titulo1}}</span>
+            </div>
+            <div class="flex items-center justify-center border border-[#64748B] text-[#64748B] w-[45px] h-8 cursor-pointer" (click)="selectAll(dataTestA.titulo2)" [matTooltip]= "'Marcar todas las preguntas como ' + (dataTestA.titulo2 | titlecase)" matTooltipPosition="above">
+                <span>{{dataTestA.titulo2}}</span>
+            </div>
+        </div>
+    </div>
+    <div class="flex flex-col">
+        <div class="h-10 flex flex-row items-center" *ngFor="let pregunta of preguntas, index as i">
+            <div class="flex flex-row items-center gap-2 text-lg  grow" [ngClass]="(validated && evaluacionService.formDataTestPfi.controls['pregPfi_' + i].invalid) ? 'text-red-500' : 'text-[var(--color-black-alt)]' ">
+                <span class="w-[20px] text-right">{{i+1}}.</span>
+                <span class="max-w-[45vw] leading-5">{{pregunta.pregunta}}</span>
+            </div>
+            <div class="shrink-0">
+                <ul class="flex flex-row gap-2" [formGroup]="evaluacionService.formDataTestPfi">
+                    <li class="relative w-[45px] radioBgDiferente flex items-center justify-center">
+                        <input type="radio" [id]="'pregPfi_'+ i + '_' + 1" [formControlName]="'pregPfi_' + i" [value]="dataTestA.titulo1" class="peer absolute focusCampo cursor-pointer">
+                        <label [for]="'pregPfi_'+ i + '_' + 1" class="flex selectRadioBoolean h-8">
+                        </label>
+                    </li>
+                    <li class="relative w-[45px] radioBgDiferente flex items-center justify-center">
+                        <input type="radio" [id]="'pregPfi_'+ i + '_' + 2" [formControlName]="'pregPfi_' + i" [value]="dataTestA.titulo2" class="peer absolute focusCampo cursor-pointer">
+                        <label [for]="'pregPfi_'+ i + '_' + 2" class="flex selectRadioBoolean h-8">
+                        </label>
+                    </li>
+                  </ul>
+            </div>
+        </div>
+        <div *ngIf="evaluacionService.formDataTestPfi.touched && evaluacionService.formDataTestPfi.invalid && validated" class=" text-center">
+            <span class="font-medium text-red-500 text-xs my-1 ml-1">
+                Quedan preguntas sin responder.
+            </span>
+        </div>
+        <div class="py-1.5 flex justify-center gap-2.5">
+            <app-btn class="flex flex-row botonApariencia botonOpciones" color="white" routerLink="/app/afiliados">
+                Cancelar
+            </app-btn>
+            <app-btn class="flex flex-row botonApariencia botonOpciones" color="mezclado" (click)="validateFormNextPage()" [loading]="status === 'loading'">
+                Siguiente
+                <fa-icon class="ml-2" [icon]="faArrowAltCircleRight"></fa-icon>
+            </app-btn>
+        </div>
+    </div>
+</div>

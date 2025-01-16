@@ -1,0 +1,52 @@
+.encabezadoDia, .operacionCuadro{
+    padding: 1rem;
+    font-size: 1rem;
+    line-height: 1.5rem;
+    border-width: 1px 0px 1px 0px;
+    border-style: solid;
+    border-color: #0000001F;
+}
+
+.encabezadoDia{
+    background-color: #F5F7FA;
+}
+
+.operacionCuadro{
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: 1.5rem;
+    .horaAtencion{
+        width: 90px;
+        line-height: 1rem;
+    }
+    .descripcion{
+        line-height: 1.25rem;
+        color: #00000099;
+    }
+}
+
+.scrollbarra {
+    width: 100%;
+    max-height: 54vh;
+    border-left: none;
+    border-right: none;
+    border-bottom: none;
+    padding: 5px 5px 5px 5px;
+    overflow-y: auto;
+  }
+  
+  .scrollbarra::-webkit-scrollbar {
+    width: 5px;
+}
+ 
+.scrollbarra::-webkit-scrollbar-track {
+    background: #D4D4D4;
+}
+.scrollbarra::-webkit-scrollbar-thumb {
+    background: var(--color-black-alt);
+}
+ 
+.scrollbarra::-webkit-scrollbar-thumb:hover {
+    background: #28364d;
+}

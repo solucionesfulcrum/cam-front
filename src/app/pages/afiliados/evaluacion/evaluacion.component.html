@@ -1,0 +1,48 @@
+<div class="flex items-center justify-center pt-[15vh]">
+  <div class="w-[60vw] max-w-[800px] rounded-md overflow-hidden botonApariencia">
+    <div class="bg-[var(--color-CAM)] text-[18px] text-white font-semibold px-4 py-2 text-center">
+      <span>Evaluar Afiliado</span>
+    </div>
+    <div class="bg-white text-[#37474F]">
+      <div class="flex flex-col gap-4 py-4 px-2.5" [formGroup]="formNewFicha">
+        <span class="font-semibold">Unidad Operativa - {{dataUnidadElegida.unidOperativa}}</span>
+        <div class="flex flex-row gap-[30px]">
+          <div class="w-1/2">
+            <select formControlName="frmSelectDoc"
+            class="bg-slate-50 border border-gray-300 text-gray-900 text-sm rounded-lg focusCampo block w-full">
+                <option value="" [selected]="true" disabled>Seleccione su tipo de Documento</option>
+                <option *ngFor="let documento of opciones" [value]='documento.valor1'>{{documento.nombre | titlecase}}</option>
+            </select>
+          </div>
+          <div class="w-1/2">
+            <input type="text" formControlName="frmDoc" class="inputTextoDialog focusCampo" placeholder="N° de documento">
+            <div *ngIf="formNewFicha.controls.frmDoc.touched && formNewFicha.controls.frmDoc.invalid">
+              <p *ngIf="formNewFicha.controls.frmDoc.hasError('required')" class="font-medium text-red-500 text-xs mt-1 ml-1">
+                El documento es obligatorio
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="flex flex-row gap-4 justify-center py-6 px-4 border-t border-[#F4F5F5]">
+        <div class="w-1/2 text-wright">
+          <div class="w-fit">
+            <app-btn class="flex flex-row botonApariencia" color="white">
+                <div class="flex gap-[5px]">Cancelar</div>
+            </app-btn>
+          </div>
+        </div>
+        <div class="w-1/2">
+          <div class="w-fit">
+            <app-btn class="flex flex-row botonApariencia" color="primary" (click)="onSearch()" [loading]="status === 'loading'">
+                <div class="flex gap-[5px]">Buscar Asegurado</div>
+            </app-btn>
+          </div>
+        </div>
+      </div>
+      <div class="mb-3 flex justify-center text-red-500 text-center mx-2" *ngIf="!infoObtenida.acreditado">
+        <span>{{infoObtenida.mensaje}}</span>
+      </div>
+    </div>
+  </div>
+</div>

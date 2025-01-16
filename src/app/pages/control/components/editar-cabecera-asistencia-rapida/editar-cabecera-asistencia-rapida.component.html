@@ -1,0 +1,391 @@
+<div>
+    <esp-opciones-botones 
+    [rutaRegreso]="'/app/control/asistencia-rapida/asistencias/'+idAsisRap" >
+    </esp-opciones-botones>
+  </div>
+  <div class="px-4 py-3 bg-white w-full mt-3 grid botonApariencia" *ngIf="statusLoadingData">
+    <div class="text-gray-600 w-full text-center">
+        <p class="py-1 font-semibold text-2xl">
+            <fa-icon class="mr-2" [icon]="faSpinner" [pulse]="true"></fa-icon>
+            Obteniendo datos...
+        </p>
+    </div>
+</div>
+<div class="flex flex-col gap-3" *ngIf="!statusLoadingData">
+    <div class="flex flex-row gap-3 px-3 botonApariencia bg-white py-1.5">
+        <div class="flex flex-col justify-between grow">
+            <div class="py-3">
+                <div class="flex flex-row gap-2.5">
+                    <div class="flex flex-col gap-[5px] shrink-0 w-[160px]">
+                        <span class="font-semibold text-[40px] leading-[30px]">
+                            <select [(ngModel)]="selectedDay" class="font-semibold text-[40px] leading-[40px] w-[120px]">
+                                <option *ngFor="let day of daysInMonth" [value]="day">{{ day }}</option>
+                              </select>
+                        </span>
+                        <span class="font-light leading-[20px]">
+                            <div class="flex flex-col gap-[5px] leading-[20px]">
+                                <select [(ngModel)]="selectedMonth" (change)="onMonthChange()" class="text-[18px] font-medium" [disabled]="true">
+                                  <option *ngFor="let month of getFilteredMonths()" [value]="month.value" [disabled]="month.value < currentMonth">{{ month.name }}</option>
+                                </select>
+                              </div>
+                        </span>
+                    </div>
+                    <div class="flex flex-row gap-[5px] leading-[20px] w-[720px]">
+                      <div class="w-3/5">
+                        <label class="block m-0 py-2 text-gray-600 h-[45px]">
+                          Seleccione el Servicio
+                        </label>
+                        <div class="relative w-full">
+                          <div class="relative flex items-center">
+                            <input
+                              type="text"
+                              class="inputTextoDialog focusCampo w-full px-3 py-2 border rounded-md focus:ring-2 focus:ring-blue-500 focus:outline-none"
+                              [formControl]="ctrlSearchServicio"
+                              [readonly]="esperaBusqueda"
+                              [matAutocomplete]="servicios"
+                              [placeholder]="esperaBusqueda ? 'Cargando data...' : 'Seleccione el servicio'"
+                              [ngClass]="{'bg-gray-100': esperaBusqueda}"
+                            />
+                            <button
+                              type="button"
+                              *ngIf="ctrlSearchServicio.value"
+                              class="absolute right-3 top-1/2 -translate-y-1/2 text-gray-500 hover:text-red-500 focus:outline-none"
+                              (click)="clearServicioValue()"
+                              style="height: 1.5rem; width: 1.5rem; display: flex; justify-content: center; align-items: center;"
+                            >
+                              <mat-icon>close</mat-icon>
+                            </button>
+                          </div>
+                        </div>
+                      
+                        <mat-autocomplete #servicios="matAutocomplete" [displayWith]="displayServicioFiltered" (optionSelected)="onServicioSelect($event)">
+                          <mat-option *ngFor="let option of serviciosFiltrados" [value]="option">
+                            {{ option.nombre }}
+                          </mat-option>
+                        </mat-autocomplete>
+                      </div>
+                      <div class="w-2/5" *ngIf="idRol == 9 && listCiram?.length > 0">
+                        <label class="block m-0 py-0 text-gray-600 h-[45px]">
+                          Seleccione el CIRAM (Opcional)
+                          <mat-icon
+                            style="font-size: 15px;"
+                            class="text-gray-500 hover:text-blue-500 h-0 py-0 my-0"
+                            [matTooltip]="'Al seleccionar un CIRAM, este se configurará como la unidad operativa a la que pertenece el Taller/Actividad'"
+                          >
+                            help_outline
+                          </mat-icon>
+                        </label>
+                        <div class="relative w-full">
+                          <div class="relative flex items-center">
+                            <input
+                              type="text"
+                              class="inputTextoDialog focusCampo w-full px-3 py-2 border rounded-md focus:ring-2 focus:ring-blue-500 focus:outline-none"
+                              [formControl]="ctrlSearchCiram"
+                              [readonly]="esperaBusquedaCiram"
+                              [placeholder]="esperaBusquedaCiram ? 'Cargando data...' : 'Seleccione el CIRAM'"
+                              [matTooltip]="this.datoProgramacion.tieneAsistencias ? (denominacion+' tiene asistencias registradas, para editar el CIRAM debe eliminar todas las asistencias de '+denominacion) : ''"
+                              [matAutocomplete]="ciramsRef"
+                              [disabled]="this.datoProgramacion.tieneAsistencias"
+                              [ngClass]="{
+                                'bg-gray-100 text-gray-500': this.datoProgramacion.tieneAsistencias,
+                                'bg-white text-black': !this.datoProgramacion.tieneAsistencias
+                              }"
+                            />
+                            <button
+                              type="button"
+                              *ngIf="ctrlSearchCiram.value && !this.datoProgramacion.tieneAsistencias"
+                              class="absolute right-3 top-1/2 -translate-y-1/2 text-gray-500 hover:text-red-500 focus:outline-none"
+                              (click)="clearCiramValue()"
+                              style="height: 1.5rem; width: 1.5rem; display: flex; justify-content: center; align-items: center;"
+                            >
+                              <mat-icon>close</mat-icon>
+                            </button>
+                          </div>
+                          
+                        </div>
+                      
+                        <mat-autocomplete
+                          #ciramsRef="matAutocomplete"
+                          [displayWith]="displayCiram"
+                          (optionSelected)="onCiramSelected($event)"
+                        >
+                          <mat-option *ngFor="let option of listCiram" [value]="option"  [disabled]="this.datoProgramacion.tieneAsistencias">
+                            {{ option.nombre }}
+                          </mat-option>
+                        </mat-autocomplete>
+                      </div>
+                      
+                      
+                        <span class="text-[14px] font-light mt-2" *ngIf="false">
+                            <span class="text-[14px] font-light">
+                                Hora Inicio:
+                              </span>
+                              <input type="time" [formControl]="horaInicioControl" (change)="onHoraInicioChange()" 
+                                      [disabled]="true"
+                                      [readOnly]="true"
+                                     class="border px-2 py-1 rounded" min="07:00" max="18:15" />
+                            
+                                     <span class="text-[14px] font-light ml-2">
+                                        Hora Fin:
+                                      </span>
+                                      <select [(ngModel)]="horaFin" class="border px-2 py-1 rounded bg-gray-100 w-[200px]"
+                                      [disabled]="true"
+                                      >
+                                        <option *ngFor="let opcion of horasFinOptions" [value]="opcion.valor">
+                                          {{ opcion.texto }}
+                                        </option>
+                                      </select>
+                        </span>
+                    </div>
+                </div>
+            </div>
+            <div class="py-3 flex justify-center items-center">
+                <app-btn class="botonApariencia flex flex-row h-10 w-[160px] transform translate-x-20 text-center" (click)="crearClase()" [disabled]="statusLoadingSave">
+                    <div class="flex flex-row items-right gap-[5px] text-center justify-center">
+                        <!--<img class="self-center" src="assets/svg/icon-list-assignments.svg">-->
+                        <span class="items-center">Editar datos</span> <!-- Texto fijo -->
+                    </div>
+                </app-btn>
+              </div>
+            <div>
+                <div class="flex flex-row gap-[14px]">
+                    <!-- <ul class="flex flex-row gap-1.5">
+                        <li>
+                            <input type="radio" id="search-typing" [formControl]="ctrlTypeSearch" [value]="1" class="hidden peer" required />
+                            <label for="search-typing" class="flex items-center justify-center w-10 h-10 border border-[#D4D4D4] rounded cursor-pointer peer-checked:bg-cam peer-checked:colorWhite hover:bg-[#057EC933]">
+                                <img src="assets/svg/icon-search-typing.svg">
+                            </label>
+                        </li>
+                        
+                       <li>
+                            <input type="radio" id="search-bar-code" [formControl]="ctrlTypeSearch" [value]="2" class="hidden peer">
+                            <label for="search-bar-code" class="flex items-center justify-center w-10 h-10 border border-[#D4D4D4] rounded cursor-pointer peer-checked:bg-cam peer-checked:colorWhite hover:bg-[#057EC933]">
+                                <img src="assets/svg/icon-search-bar-code.svg">
+                            </label>
+                        </li>
+                       <li>
+                            <input type="radio" id="search-special" [formControl]="ctrlTypeSearch" [value]="3" class="hidden peer">
+                            <label for="search-special" class="flex items-center justify-center w-10 h-10 border border-[#D4D4D4] rounded cursor-pointer peer-checked:bg-cam peer-checked:colorWhite hover:bg-[#057EC933]">
+                                <img src="assets/svg/icon-search-special.svg">
+                            </label>
+                        </li>
+                    </ul>
+                   
+                    <div class="flex flex-row gap-3 grow">
+                        <input type="text" 
+                        class="inputTextoDialog focusCampo" *ngIf="ctrlTypeSearch.value == 1" [formControl]="ctrlSearch" 
+                        [readonly]="esperaBusqueda || datoProgramacion.cerrado" [matAutocomplete]="asegurados" 
+                        [placeholder]="datoProgramacion.cerrado ? 'Asistencia Cerrada' : esperaBusqueda ? 'Cargando data...' : 'Buscador'"
+                        
+                        [ngClass]="{'bg-gray-100': esperaBusqueda || datoProgramacion.cerrado}"
+                        >
+                        <mat-autocomplete #asegurados="matAutocomplete" [displayWith]="displayAseguradoFiltered" (optionSelected)="onAseguradoSelect($event)"
+                        (optionsScroll)="onAutocompleteScroll()" >
+                        
+                            <mat-option *ngFor="let option of listFilteredBusqueda" [value]="option">
+                                <div class="flex flex-row gap-2 items-center">
+                                    <img class="h-10 rounded" src='assets/images/imgReemplazo.png'>
+                                    <div class="flex flex-col gap-1 text-[##64748B]">
+                                        <span class="text-[14px] font-medium">{{option.nombreCompleto | titlecase}}</span>
+                                        <span class="text-[10px] leading-[10px] font-light"> <span class="!font-normal">{{option.tipoDoc === 'DNI' ? option.tipoDoc : option.tipoDoc | titlecase}}</span> {{option.numDoc}}</span>
+                                    </div>
+                                </div>                                
+                            </mat-option>
+                        </mat-autocomplete>
+                        <div class="flex flex-row gap-3 grow" *ngIf="ctrlTypeSearch.value == 2 || ctrlTypeSearch.value == 3" [formGroup]="formBuscarPersona">
+                            <div class="shrink-0">
+                              <div class="relative rounded-md shadow-sm">
+                                <select id="searchDoc" formControlName="frmSelectDoc"
+                                [disabled]="datoProgramacion.cerrado"
+                                  class="space-x-5 bg-slate-50 border border-gray-300 text-gray-900 text-sm rounded-lg focusCampo block w-full">
+                                  <option value="" disabled selected>Seleccione su tipo de documento</option>
+                                  <option *ngFor="let documento of opciones" [value]='documento.valor1'>{{documento.nombre | titlecase}}
+                                  </option>
+                                </select>
+                              </div>
+                            </div>
+                            <input 
+                            formControlName="frmDoc" 
+                            [placeholder]="statusLoadingBarra ? 'Cargando...' : 'Buscador'" 
+                            type="text" 
+                            name="doc" 
+                            id="frmDoc"
+                            class="w-full text-sm rounded border-gray-400 border-1 px-4 py-2 font-light focusCampo grow"
+                            [readOnly]="formBuscarPersona.get('frmSelectDoc')?.value == '' || datoProgramacion.cerrado || statusLoadingBarra"
+                            [ngClass]="{'bg-slate-50': (formBuscarPersona.get('frmSelectDoc')?.value == ''&& !datoProgramacion.cerrado) || statusLoadingBarra,
+                                'bg-gray-100': datoProgramacion.cerrado || statusLoadingBarra
+                            }"
+                            [disabled]="datoProgramacion.cerrado"
+                            />
+                        </div>
+                        <ng-container *ngIf="!datoProgramacion.cerrado">
+                            <div class="w-[34px] h-10 flex items-center justify-center border border-gray-400 rounded shrink-0" *ngIf="!esperaBusqueda && ctrlTypeSearch.value == 2" (click)="!esperaBusqueda ? onAseguradoSelectCodigoBarra($event) : null">
+                                <img src="assets/svg/icon-contrato-confirm.svg" class="select-none">
+                              </div>
+                        </ng-container>
+                      
+   
+                    </div>
+                -->
+                </div>                
+            </div>
+        </div>
+        <div class="flex flex-col gap-[2px] shrink-0 w-[180px]">
+           
+          <div class="flex flex-row gap-2 py-[2px]">
+              <div class="flex items-center justify-center w-6">
+              <img class="select-none" src="assets/svg/cifra.svg">
+              </div>
+              <div class="flex flex-col text-[#64748B]">
+              <input type="number" [(ngModel)]="cifra" min="1" class="text-[13px] leading-4 border border-[#64748B] rounded w-[160px]" />
+              <span class="font-light leading-[10px] text-[10px] py-1">Nro de {{descCifra}}</span>
+              </div>
+          </div>
+          <div class="flex flex-row gap-2 py-[2px]">
+            <div class="flex items-center justify-center w-6">
+            <img class="select-none" src="assets/svg/icon-class-lesson.svg">
+            </div>
+            <div class="flex flex-col text-[#64748B]">
+            <input type="number" [(ngModel)]="sesion" min="1" class="text-[13px] leading-4 border border-[#64748B] rounded w-[160px]" />
+            <span class="font-light leading-[10px] text-[10px] py-1">Sesión</span>
+            </div>
+        </div>
+            <div class="flex flex-row gap-2 py-[2px]">
+                <div class="flex items-center justify-center w-6">
+                <img class="select-none" src="assets/svg/presupuesto.svg">
+                </div>
+                <div class="flex flex-col text-[#64748B]">
+                <select [(ngModel)]="presupuesto" class="text-[13px] leading-4 border border-[#64748B] rounded w-[160px]" [disabled]="true">
+                    <option value="PROPIO">PROPIO</option>
+                    <option value="COFINANCIADO">COFINANCIADO</option>
+                </select>
+                <span class="font-light leading-[10px] text-[10px] py-1">Presupuesto</span>
+                </div>
+            </div>
+            <div class="flex flex-row gap-2 py-[2px]">
+                <div class="flex items-center justify-center w-6">
+                <img class="iconoEscalaGris select-none" src="assets/svg/modalidad.svg">
+                </div>
+                <div class="flex flex-col text-[#64748B]">
+                <select [(ngModel)]="modalidad" class="text-[13px] leading-4 border border-[#64748B] rounded w-[160px]">
+                    <option value="PRESENCIAL">PRESENCIAL</option>
+                    <option value="VIRTUAL">VIRTUAL</option>
+                </select>
+                <span class="font-light leading-[10px] text-[10px] py-1">Modalidad</span>
+                </div>
+            </div>
+          <!--  <div class="flex flex-row gap-2 py-[2px]">
+                <div class="flex items-center justify-center w-6">
+                <img class="iconoEscalaGris select-none" src="assets/svg/icon-person-group.svg">
+                </div>
+                <div class="flex flex-col">
+                <span class="leading-4 text-[var(--color-black-alt)] text-[10px]">{{total}}</span>
+                <span class="font-light leading-[10px] text-[10px] text-[#64748B]">Participantes</span>
+                </div>
+            </div>-->
+
+            <div class="flex flex-row">
+
+              <!--  <app-btn class="botonApariencia flex flex-row h-10 w-[160px]">
+                    <div class="flex flex-row items-right gap-[5px]">
+                        <img class="self-center" src="assets/svg/icon-list-assignments.svg">
+                        <span>Crear Clase</span> 
+                    </div>
+                </app-btn>-->
+            </div>
+            
+            
+        </div>
+    </div>
+    <!--
+        nombreCompleto: string;
+    horaAsis: string;
+    birthday : false;
+    horaAsistencia: Date;
+    aseguradoNuevo: false;
+    tipoDoc: string;
+    numDoc: string;
+    -->
+    <!--
+    <div *ngIf="dataSource.length == 0" class="w-full h-3/4 flex items-center bg-white botonApariencia">
+        <div class="m-auto w-fit text-center py-6">
+          <img class="m-auto" src="assets/svg/empty-data.svg" alt="">
+          <h3 class="text-gray-500 mt-2 font-light">No existen registros.</h3>
+        </div>
+      </div>
+
+    <div *ngIf="dataSource.length > 0"  class="flex flex-col py-2 px-3 botonApariencia bg-white">
+        <div>
+            <table cdk-table class="w-full text-sm text-left text-gray-500 tablaDatos" [dataSource]="dataSource" >
+              <tr cdk-header-row class="text-xs text-gray-700 bg-gray-50" *cdkHeaderRowDef="columns"></tr>
+              <tr cdk-row class="bg-white border-b" *cdkRowDef="let row; columns: columns"></tr>
+              <ng-container cdkColumnDef="marcar">
+                <th cdk-header-cell class="py-[1.25rem] px-6" *cdkHeaderCellDef [style]="'width: 0%;'"> <input type="checkbox" [checked]="seleccionados.length == this.dataSource.length" (change)="afectarTodo($event)"/> </th>
+                <td cdk-cell class="py-[1rem] px-6" *cdkCellDef="let row" [style]="'width: 0%;'"> <input type="checkbox" class="checkbox-select" (change)="seleccionarFila($event)" [value]="row.idInscripcion" [checked]="row.marcar"/> </td>
+              </ng-container>
+        
+              <ng-container cdkColumnDef="orden">
+                <th cdk-header-cell class="py-[1.25rem] px-6" *cdkHeaderCellDef [style]="'padding-left: 0px; width: 3%'">N°</th>
+                <td cdk-cell class="py-[1rem] px-6 font-semibold" *cdkCellDef="let row, index as i" [style]="'padding-left: 0px; width: 3%'">{{ row.orden }}</td>
+              </ng-container>
+        
+              <ng-container cdkColumnDef="nombreCompleto">
+                <th cdk-header-cell class="py-[0.5rem] px-6" *cdkHeaderCellDef [style]="'padding-left: 0px;'">
+                    <ng-container *ngIf="seleccionados.length == 0">
+                        Apellidos y Nombres
+                    </ng-container>
+                    <ng-container *ngIf="seleccionados.length > 0">
+                       {{seleccionados.length + " Seleccionados(s)"}} 
+
+                       <div class="relative inline-block text-left px-2 dropdown-container">
+                        <button type="button" class="inline-flex justify-center w-full rounded-md bg-cam border border-gray-300 shadow-sm px-4 py-2 bg-white text-sm font-medium text-white hover:bg-gray-50 focus:outline-none" (click)="toggleDropdown()">
+                          Acciones
+                          <img src="assets/svg/icon-dropdown-white.svg" class="my-2 pl-2">
+                        </button>
+                        <div *ngIf="dropdownOpen" class="origin-top-right absolute right-0 mt-1 w-56 mx-2 rounded-md shadow-lg bg-white ring-1 ring-black ring-opacity-5 focus:outline-none">
+                          <div class="py-1" role="menu" aria-orientation="vertical" aria-labelledby="options-menu">
+                            <a 
+                                class="block px-4 py-2 text-sm cursor-pointer"
+                                [ngClass]="{'text-gray-700 hover:bg-gray-100': seleccionados.length == 1, 'text-gray-400 cursor-not-allowed': seleccionados.length > 1}"
+                                [style.pointer-events]="seleccionados.length > 1 ? 'none' : 'auto'"
+                                (click)="editaSeleccionado($event)"
+                                role="menuitem">
+                                Editar
+                            </a>
+                            <a class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 cursor-pointer" role="menuitem" (click)="eliminaSeleccionados($event)">
+                                Eliminar Seleccionado
+                            </a>
+                          </div>
+                        </div>
+                      </div>
+                    </ng-container>
+                    </th>
+                <td cdk-cell class="py-[1rem] px-6 font-semibold" *cdkCellDef="let row" style="color: rgba(0, 139, 210, 1);" [style]="'padding-left: 0px;'">
+                    {{ row.nombreCompleto }}
+                </td>
+              </ng-container>
+        
+              <ng-container cdkColumnDef="tipoDoc">
+                <th cdk-header-cell class="py-[1.25rem] px-6" *cdkHeaderCellDef>Documento</th>
+                <td cdk-cell class="py-[1rem] px-6" *cdkCellDef="let row">{{row.tipoDoc }}</td>
+              </ng-container>
+        
+              <ng-container cdkColumnDef="numDoc">
+                <th cdk-header-cell class="py-[1.25rem] px-6" *cdkHeaderCellDef>N° de Documento</th>
+                <td cdk-cell class="py-[1rem] px-6" *cdkCellDef="let row">{{ row.numDoc }}</td>
+              </ng-container>
+        
+              <ng-container cdkColumnDef="horaAsistencia">
+                <th cdk-header-cell class="py-[1.25rem] px-6" *cdkHeaderCellDef>Registrado</th>
+                <td cdk-cell class="py-[1rem] px-6" *cdkCellDef="let row">{{ row.fechaReg |  date:'dd/MM/yyyy - h:mm a' }}</td>
+              </ng-container>
+        
+              <ng-container cdkColumnDef="birthday">
+                <th cdk-header-cell class="py-[1.25rem] px-6" *cdkHeaderCellDef></th>
+                <td cdk-cell class="py-[1rem] px-6" *cdkCellDef="let row">  </td>
+              </ng-container>
+        
+            </table>
+        </div>      
+    </div>-->
+</div>

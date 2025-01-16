@@ -1,0 +1,87 @@
+<esp-opciones-busqueda
+  [showDateFilter]="false"
+  [setFilterDateOptionSelected]="'var(--color-CAM-Mezclado)'"
+  [setFilterDateTextColour]="'var(--color-CAM)'"
+  [showButton]="false"
+  [buttonBg]="'var(--color-CAM-Mezclado)'"
+  [buttonText]="'Nueva'"
+  [filterDateAppearance]="2"
+  [setFilterDateSelectionBg]="'var(--color-CAM-Claro)'"
+  [setFilterDateButtonBg]="'var(--color-CAM-Claro)'"
+  [setDateSelectedDefault]="9"
+  (sendDateFilterWithCeros)="formBuscar.get('frmSearchDate')?.setValue($event); loadData()"
+  [showSearch]="false"
+  (searchInputValue)="formBuscar.get('frmSearch')?.setValue($event.toUpperCase()); loadData()"
+  [searchInputPlaceHolder]="'Buscar Reportes'"
+  [searchInputAdjustWidth]="true"
+  [showFirstDisplayFilter]="false"
+  [firstDisplayFilterPlaceholder]="{indicador: true, placeholder: 'Todos los estados'}"
+  (firstDisplayFilterSendValue)="formBuscar.get('frmSearchEstado')?.setValue($event); loadData()"
+></esp-opciones-busqueda>
+
+<esp-data-loading
+  [dataEmpty]="dataSource.length == 0"
+  [dataLoading]="loadingData"
+></esp-data-loading>
+
+<div *ngIf="!loadingData && dataSource.length > 0">
+    <div class="text-xl font-bold text-gray-700 p-2 text-center">
+        SUB-REPORTES INCLUIDOS EN EL REPORTE : {{data.nombreReporte}}
+    </div>
+  <div class="table-container">
+    <table cdk-table class="w-full text-sm text-left text-gray-500" [dataSource]="dataSource">
+      <tr cdk-header-row class="text-xs text-gray-700 bg-gray-50" *cdkHeaderRowDef="columns; sticky: true"></tr>
+      <tr cdk-row class="bg-white border-b hover:bg-gray-100" *cdkRowDef="let row; columns: columns"></tr>
+
+      <ng-container cdkColumnDef="nombreReporte">
+        <th cdk-header-cell class="py-[1rem] px-6" *cdkHeaderCellDef>Nombre Reporte</th>
+        <td cdk-cell class="py-[1rem] px-6" *cdkCellDef="let row">{{ row.nombreReporte }}</td>
+      </ng-container>
+
+      <ng-container cdkColumnDef="idRecurso">
+        <th cdk-header-cell class="py-[1rem] px-6" *cdkHeaderCellDef>ID Recurso</th>
+        <td cdk-cell class="py-[1rem] px-6" *cdkCellDef="let row">{{ row.esAgrupado ? 'REPORTE COMBINADO' : row.idRecurso }}</td>
+      </ng-container>
+
+      <ng-container cdkColumnDef="fechReg">
+        <th cdk-header-cell class="py-[1rem] px-6" *cdkHeaderCellDef>Fecha Inicio</th>
+        <td cdk-cell class="py-[1rem] px-6" *cdkCellDef="let row">{{ row.fechReg | date: 'dd/MM/yyyy hh:mm' }}</td>
+      </ng-container>
+
+      <ng-container cdkColumnDef="fechFin">
+        <th cdk-header-cell class="py-[1rem] px-6" *cdkHeaderCellDef>Fecha Fin</th>
+        <td cdk-cell class="py-[1rem] px-6" *cdkCellDef="let row">{{ row.fechFin | date: 'dd/MM/yyyy hh:mm' }}</td>
+      </ng-container>
+
+      <ng-container cdkColumnDef="estado">
+        <th cdk-header-cell class="py-[1rem] px-6" *cdkHeaderCellDef>Estado</th>
+        <td cdk-cell class="py-[1rem] px-6" *cdkCellDef="let row">{{ row.estado }}</td>
+      </ng-container>
+
+      <ng-container cdkColumnDef="acciones">
+        <th cdk-header-cell class="py-[1rem] px-6 text-center" *cdkHeaderCellDef>Acciones</th>
+        <td cdk-cell class="py-[1rem] px-6 flex justify-center gap-3" *cdkCellDef="let row">
+            <app-btn
+            *ngIf="row.estado == 'FINALIZADO'"
+            class="flex items-center justify-center"
+            [disabled]="row.loading && row.estado == 'FINALIZADO'"
+            (click)="descargarReporte(row.idReporteUsuarioAgrupado, row)"
+            color="mezclado"
+          >
+            <ng-container *ngIf="!row.loading; else loadingContent">
+              Descargar
+            </ng-container>
+            <ng-template #loadingContent>
+              <span class="flex items-center space-x-2">
+                <fa-icon [icon]="faSpinner" [pulse]="true"></fa-icon>
+                <span>Descargando</span>
+              </span>
+            </ng-template>
+          </app-btn>
+          
+        </td>
+      </ng-container>
+    </table>
+  </div>
+
+</div>

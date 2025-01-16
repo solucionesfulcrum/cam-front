@@ -1,0 +1,41 @@
+.filasPseudoTabla{
+  span{
+    padding-left: 0.5rem;
+    align-self: center;
+    font-weight: 600;
+  }
+}
+
+.dataPseudoTabla{
+  font-size: 14px;
+  --tw-border-opacity: 1;
+  border-color: rgb(209 213 219 / var(--tw-border-opacity));
+  border-bottom-width: 1px;
+  gap: 0.25rem;
+  grid-template-columns: repeat(12, minmax(0, 1fr));
+  display: grid;
+  padding: 1rem 0;
+  span{
+    padding-left: 0.5rem;
+    align-self: center;
+  }
+}
+.contenedorDatos{
+  max-height: 18vh;
+  overflow-y: overlay;
+}
+
+::-webkit-scrollbar {
+  width: 6px;
+}
+
+::-webkit-scrollbar-track {
+  background: #D4D4D4;
+}
+::-webkit-scrollbar-thumb {
+  background: var(--color-black-alt);
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #28364d;
+}

@@ -1,0 +1,246 @@
+<!-- <esp-opciones-botones [rutaRegreso]="'../..'" [listOpciones]="opcionesBotones" (firstFunction)="Notas()" (secondFunction)="editDataAsegurado()" (thirdFunction)="EvalAfiliado()"></esp-opciones-botones> -->
+<esp-opciones-botones [rutaRegreso]="'../..'" [listOpciones]="opcionesBotones" 
+(firstFunction)="Notas()" 
+(secondFunction)="editDataAsegurado()"
+(thirdFunction)="levantarModalDarDeBaja()"
+></esp-opciones-botones>
+
+<div class="px-4 py-3 bg-white w-full mt-3 grid botonApariencia" *ngIf="!dataShow || !dataShowUbigeo || !dataShowDatosSeguro || !dataShowDataPersona || !dataShowFechaVigencia">
+  <div class="text-gray-600 w-full text-center">
+      <span class="py-1 font-bold text-2xl">
+          <fa-icon class="mr-2" [icon]="faSpinner" [pulse]="true"></fa-icon>
+          Obteniendo datos...
+      </span>
+  </div>
+</div>
+<div *ngIf="dataShow && dataShowUbigeo && dataShowDatosSeguro && dataShowDataPersona && dataShowFechaVigencia" class="bg-white botonApariencia">
+<!-- <div class="bg-white botonApariencia"> -->
+    <div class="flex flex-row justify-between py-1.5 px-2.5"> 
+      <p class="text-[26px] text-[var(--color-CAM-black-alt)]"><b>Ficha de Afiliado</b></p>
+      <p class="text-end text-sm text-[#64748B]">
+   <!--     <ng-container *ngIf="!buscaAfiliado">N° de Solicitud</ng-container>-->
+        <ng-container *ngIf="true">N° de Historia</ng-container>
+        <br><span class="text-[20px] text-[var(--color-CAM)]">
+       <!--   <ng-container *ngIf="!buscaAfiliado">{{dataFichaAfiliado.fichaAdmision.numHistoria}}</ng-container>-->
+          <ng-container *ngIf="true">{{dataFichaAfiliado.asegurado.numDoc}}</ng-container>
+          
+        </span>  <!--{{this.user.numHistoria}}     o   {{dataFicha.numHistoria}}-->
+      </p>
+    </div>
+  
+  <div class="flex flex-row gap-[1.25rem] text-[#37474F] pr-[10px] pb-[20px]">
+    <div class="w-[360px] shrink-0 pl-2.5">
+      <div class="grid text-center relative justify-center">
+          <!-- <p class=" py-1 px-3 my-2 mx-1 anios absolute right-0 text-white text-[18px] bg-cam">31 Años</p> -->
+          <p class=" py-1 px-3 my-2 mx-1 anios absolute right-0 text-white text-[18px] bg-cam">{{edadPersona}} Años</p>
+          <!--<img class="my-2 imagen" src='data:image/jpeg;base64,{{dataFichaAfiliado.asegurado.foto}}'>-->
+          <img class="my-2 imagen" src='assets/images/imgReemplazo.png'>
+          <div class="flex flex-col gap-1 py-2 !leading-5">
+            <span class="bordColorEstablecido font-bold text-[1.5rem] text-[var(--color-CAM)] text-sky-600">{{ dataFichaAfiliado.asegurado.apePaterno + ' ' + dataFichaAfiliado.asegurado.apeMaterno| titlecase}}</span>
+            <span class="font-medium text-[1.125rem]">{{ dataFichaAfiliado.asegurado.nombres | titlecase}}</span>
+            <span class="text-[14px]">{{dataFichaAfiliado.asegurado.tipoDoc == '1' ? 'DNI' : 'CE'}} {{dataFichaAfiliado.asegurado.numDoc}}</span>
+            <!-- <p class="font-thin">{{tipoDoc == '1' ? 'DNI' : 'CE'}} {{numDoc}}</p> -->
+          </div>
+      </div>
+      <div class="scrollbarra max-h-[47vh] overflow-auto">
+          <p class="subTitulo my-2.5 text-[18px]">Datos Personales</p>
+          <div class="info-container">
+            <p class="flex w-1/2 flex-col py-1 bg-slate-100 my-1 mx-0" style="font-weight: 600;">
+              <span class="ml-1">
+                Fecha Nacimiento 
+              </span>
+            </p> 
+            <p class="flex w-1/2 flex-col ml-2.5 my-1"> {{dataFichaAfiliado.asegurado.fecNacimiento | date: 'dd/MM/yyyy'}} </p>
+          </div>
+
+          <div class="info-container">
+            <p class="flex w-1/2 flex-col py-1 bg-slate-100 my-1 mx-0" style="font-weight: 600;"> 
+              <span class="ml-1">
+                Sexo
+              </span>
+               
+            </p> 
+            <p class="flex w-1/2 flex-col ml-2.5 my-1"> {{dataFichaAfiliado.asegurado.descSexo | titlecase}} </p>
+            <!-- <p class="flex w-1/2 flex-col ml-2.5 my-1"> {{dataSolicitud.sexo | titlecase}} </p> -->
+          </div>          
+
+          <div class="info-container">
+            <p class="flex w-1/2 flex-col py-1 bg-slate-100 my-1 mx-0" style="font-weight: 600;">
+              <span class="ml-1">
+                Estado Civil 
+              </span> 
+              </p> 
+            <p class="flex w-1/2 flex-col ml-2.5 my-1"> {{dataFichaAfiliado.asegurado.descEstCivil | titlecase}} </p>
+            <!-- <p class="flex w-1/2 flex-col ml-2.5 my-1"> {{dataSolicitud.estCivil | titlecase}} </p> -->
+          </div>
+ 
+          <p class="flex w-2/2 flex-col py-1 bg-slate-100 my-1 mx-0" style="font-weight: 600;">
+            <span class="ml-1">
+              Lugar de Nacimiento
+            </span> 
+            </p>
+          <p class="flex w-2/2 flex-col my-0"> 
+            <span class="ml-1">
+              {{dataFichaAfiliado.asegurado.distriNacimiento | titlecase}} - {{dataFichaAfiliado.asegurado.provinNacimiento | titlecase}} - {{dataFichaAfiliado.asegurado.departNacimiento | titlecase}}
+            </span>
+          </p>
+          <!-- <p class="flex w-2/2 flex-col ml-2.5 mx-1 my-0"> {{dataSolicitud.lugarNac | titlecase}}</p> -->
+
+          <p class="subTitulo my-2.5 text-[18px]">Datos De Contacto</p>
+          <div class="flex flex-col gap-[0.25rem]">
+            <div class="flex flex-col gap-[0.5rem]">
+              <p class="py-1 my-0 bg-slate-100" style="font-weight: 600;">Dirección</p>
+              <span class="ml-1">{{direccionActual.direccion | titlecase}}</span>
+              <!-- <span>{{dataSolicitud.tipoAsegurado | titlecase}} </span> -->
+            </div>
+            <div class="flex flex-col gap-[0.5rem]">
+              <p class="py-1 my-0 bg-slate-100" style="font-weight: 600;">
+                <span class="ml-1">
+                  Distrito
+                </span> 
+               </p>
+              <span class="ml-1">{{direccionActual.localizacion | titlecase}} </span>
+              <!-- <span>{{dataSolicitud.nombreSeguro | titlecase}} </span> -->
+            </div>
+            <div class="flex flex-col gap-[0.5rem]">
+              <p class="py-1 my-0 bg-slate-100" style="font-weight: 600;">
+                <span class="ml-1">
+                  Correo
+                </span> 
+                </p>
+              <span class="ml-1">{{dataFichaAfiliado.fichaAdmision.datosContacto.correo | lowercase}} </span>
+              <!-- <span>{{dataSolicitud.centroAdscripcion}} </span> -->
+            </div>
+            <!-- <div class="info-container">
+              <p class="flex w-1/2 flex-col py-1 bg-slate-100 my-1 mx-0 font-bold"> Telefono </p> 
+              <p class="flex w-1/2 flex-col ml-2.5 my-1"> {{dataFichaAfiliado.fichaAdmision.datosContacto.telefono}} </p>
+            </div> -->
+            <div class="info-container">
+              <p class="flex w-1/2 flex-col py-1 bg-slate-100 my-1 mx-0" style="font-weight: 600;">
+                <span class="ml-1">
+                  Celular
+                </span> 
+                 </p> 
+              <p class="flex w-1/2 flex-col ml-2.5 my-1 " >
+                <span class="ml-1">
+                  {{dataFichaAfiliado.fichaAdmision.datosContacto.celular}}
+                </span> 
+                 
+                 </p>
+              <!-- <p class="flex w-1/2 flex-col ml-2.5 my-1"> {{dataSolicitud.estCivil | titlecase}} </p> -->
+            </div>
+          </div>
+
+          <p class="subTitulo my-2.5 text-[18px]">Datos del Seguro</p>
+          <div class="flex flex-col gap-[0.25rem]">
+            <div class="flex flex-col gap-[0.5rem]">
+              <p class="py-1 my-0 bg-slate-100" style="font-weight: 600;">
+                <span class="ml-1">
+                  Tipo de Asegurado
+                </span> 
+                </p>
+              <span class="ml-1">{{dataFichaAfiliado.asegurado.descTipoAsegurado | titlecase}}</span>
+            </div>
+            <div class="flex flex-col gap-[0.5rem]">
+              <p class="py-1 my-0 bg-slate-100" style="font-weight: 600;">
+                <span class="ml-1">
+                  Nombre del Seguro
+                </span> 
+                </p>
+              <span class="ml-1">{{dataFichaAfiliado.asegurado.descTipoSeguro | titlecase}} </span>
+            </div>
+            <div class="flex flex-col gap-[0.5rem]">
+              <p class="py-1 my-0 bg-slate-100" style="font-weight: 600;">
+                <span class="ml-1">
+                  IPRESS de Adscripcion
+                </span> 
+                </p>
+              <span class="ml-1">{{dataFichaAfiliado.asegurado.nomIpressAdscrip | uppercase}} </span>
+            </div>
+            <div class="flex flex-col gap-[0.5rem]">
+              <p class="py-1 my-0 bg-slate-100" style="font-weight: 600;">
+                <span class="ml-1">
+                  Red Asistencial
+                </span> 
+                </p>
+              <span class="ml-1">{{dataFichaAfiliado.asegurado.nomRedAsisten | uppercase}} </span>
+            </div>
+            <div class="flex flex-col gap-[0.5rem]" *ngIf="buscaAfiliado">
+              <p class="py-1 my-0 bg-slate-100" style="font-weight: 600;">
+                <span class="ml-1">
+                  Vigencia
+                </span> 
+                </p>
+              <span class="ml-1">{{fechaVigencia | uppercase}} </span>
+            </div>
+          </div>
+
+          <p class="subTitulo my-2.5 text-[18px]">Datos De afiliación CAM</p>
+          <div class="flex flex-col gap-[0.25rem]">
+            <div class="flex flex-col gap-[0.5rem]">
+              <p class="py-1 my-0 bg-slate-100" style="font-weight: 600;">
+                <span class="ml-1">
+                  Afiliado a
+                </span> 
+                </p>
+              <span>{{dataFichaAfiliado.fichaAdmision.datosAfiliacion.unidadOperativaAfi }}</span>
+              <ng-container *ngIf="dataFichaAfiliado.fichaAdmision.nombreCiram ">
+                <p class="py-1 my-0 bg-slate-100" style="font-weight: 600;">
+                  <span class="ml-1">
+                    En el CIRAM
+                  </span> 
+                  </p>
+                <span>{{dataFichaAfiliado.fichaAdmision.nombreCiram }}</span>
+              </ng-container>
+             
+              <!-- <span>{{dataSolicitud.tipoAsegurado | titlecase}} </span> -->
+            </div>
+            <div class="flex flex-col gap-[0.5rem]">
+              <p class="py-1 my-0 bg-slate-100" style="font-weight: 600;">
+                <span class="ml-1">
+                  Usuario que lo evaluó
+                </span> 
+                </p>
+              <span>{{dataFichaAfiliado.fichaAdmision.datosAfiliacion.usuarioRegAfi | titlecase}} </span>
+              <!-- <span>{{dataSolicitud.nombreSeguro | titlecase}} </span> -->
+            </div>
+            <div class="info-container">
+              <p class="flex w-1/2 flex-col py-1 bg-slate-100 my-1 mx-0" style="font-weight: 600;"> 
+                <span class="ml-1">
+                  Desde 
+                </span> 
+                </p> 
+              <p class="flex w-1/2 flex-col ml-2.5 my-1"> {{dataFichaAfiliado.fichaAdmision.fechaIngreso | date:'dd/MM/yyyy'}} </p>
+              <!-- <p class="flex w-1/2 flex-col ml-2.5 my-1"> {{dataSolicitud.estCivil | titlecase}} </p> -->
+            </div>
+            <div class="info-container">
+              <p class="flex w-1/2 flex-col py-1 bg-slate-100 my-1 mx-0" style="font-weight: 600;"> 
+                <span class="ml-1">
+                  Estado 
+                </span> 
+                 </p> 
+              <p class="flex w-1/2 flex-col ml-2.5 my-1" 
+              [ngClass]="
+              (dataFichaAfiliado.fichaAdmision.datosAfiliacion.estadoAfi == 'NO APTO'  || 
+              dataFichaAfiliado.fichaAdmision.datosAfiliacion.estadoAfi == 'BAJA'  
+              ? 
+              'text-red-500' : '')
+              + ' '+
+              (
+                dataFichaAfiliado.fichaAdmision.datosAfiliacion.estadoAfi == 'AFILIADO' ? 'text-[#0CCE6B]' : '')
+                + ' '+
+              (
+                dataFichaAfiliado.fichaAdmision.datosAfiliacion.estadoAfi == 'SOLICITADO' ? 'text-blue-500' : '')
+              "> {{dataFichaAfiliado.fichaAdmision.datosAfiliacion.estadoAfi}} </p>
+              <!-- <p class=":flex w-1/2 flex-col ml-2.5 my-1"> {{dataSolicitud.estCivil | titlecase}} </p> -->
+            </div>
+          </div>
+      </div>
+    </div>
+    
+    <div class="grow">
+      <esp-menu-opciones [links]="links" [setColorTab]="'var(--color-CAM)'" [showBottomLine]="false"></esp-menu-opciones>
+      <router-outlet></router-outlet>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,219 @@
+<div class="main">
+  <div>
+    <div>
+      <div class="flex">
+        <div>
+          <h1 class="font-semibold text-[#008BD2] mb-3">
+            <span class="border-b-2 borderSigps pb-2"> Registro de Usuario </span>
+          </h1>
+          <div class="pl-2">
+            <h2 class="font-semibold pt-2 text-gray-700">
+              <span>Información del Usuario </span>
+            </h2>
+            <h1 class="pt-2 text-gray-500 text-sm">
+              <span>Vamos a preparar todo para que pueda verificar su cuenta de usuario</span>
+            </h1>
+          </div>
+        </div>
+        <img class="max-w-[150px] max-h-[70px]" src="assets/images/logo/cam-logo.png" alt="">
+      </div>
+      <div *ngIf="!showRegister">
+        <form [formGroup]="form" novalidate (ngSubmit)="register()">
+          <div class="space-y-6 pt-5">
+            <div class="flex space-x-2">
+              <div class="w-1/2">
+                <div>
+                  <select id="docs" formControlName="tipoDoc"
+                    class="space-x-5 bg-slate-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-400 block w-full dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
+                    <!-- <option [selected]="true" disabled>Tipo de documento</option> -->
+                    <option value="" disabled selected>Tipo de documento</option>
+                    <option *ngFor="let documento of listParamDoc" [value]='documento.valor1'>{{documento.nombre |
+                      titlecase}}</option>
+                  </select>
+                </div>
+                <div *ngIf="form.controls.tipoDoc.touched && form.controls.tipoDoc.invalid">
+                  <p *ngIf="form.controls.tipoDoc.hasError('required')"
+                    class="font-medium text-red-500 text-xs mt-1 ml-1">
+                    El tipo de documento es obligatorio
+                  </p>
+                </div>
+              </div>
+              <div class="w-1/2">
+                <div class="relative">
+                  <input formControlName="doc" placeholder="Número de documento" type="text" name="doc" #preSelected
+                    class="w-full text-sm rounded bg-white border-gray-400 border-1 px-4 py-2 font-light focus:border-blue-200 focus:border-1"
+                    [readOnly]="form.get('tipoDoc')?.value == ''"
+                    />
+                    <span *ngIf="loadingBuscaUsuario" class="absolute right-0 top-0 mt-2 mr-4">
+                      <svg class="animate-spin h-5 w-5 text-gray-500" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                        <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+                        <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                      </svg>
+                    </span>
+                </div>
+                <div *ngIf="form.controls.doc.touched && form.controls.doc.invalid">
+                  <p *ngIf="form.controls.doc.hasError('required') && form.get('tipoDoc')?.value != ''" class="font-medium text-red-500 text-xs mt-1 ml-1">
+                    El documento es obligatorio
+                  </p>
+                  <p *ngIf="form.get('tipoDoc')?.value == ''" class="font-medium text-red-500 text-xs mt-1 ml-1">
+                    Ingrese el tipo de documento antes de ingresar el número de documento
+                  </p>
+                  <p *ngIf="form.controls.doc.invalid && !form.controls.doc.hasError('required')" class="font-medium text-red-500 text-xs mt-1 ml-1">
+                    El formato de numero de documento no corresponde al tipo documento seleccionado
+                  </p>
+                </div>
+              </div>
+            </div>
+
+            <div class="flex space-x-2">
+              <div class="w-1/2">
+                <input formControlName="codigoPlanilla" placeholder="Código de planilla" type="text"
+                  name="codigoPlanilla"
+                  [class.bg-slate-200]="guiid != ''"
+                  class="w-full text-sm rounded bg-white bg-gray border-gray-400 border-1 px-4 py-2 font-light focus:border-blue-200 focus:border-1"
+                  [readOnly]="!buscaUsuario || guiid != ''"
+                  />
+              </div>
+              <div class="w-1/2">
+                <div class="relative">
+                  <input #nameInput formControlName="email" placeholder="Correo electrónico" type="email" name="email"
+                   [class.bg-slate-200]="guiid != ''"
+                    class="w-full text-sm rounded bg-white border-gray-400 border-1 px-4 py-2 font-light focus:border-blue-200 focus:border-1"
+                    [readOnly]="!buscaUsuario || guiid != ''"
+                    />
+                </div>
+                <div *ngIf="form.controls.email.touched && form.controls.email.invalid && buscaUsuario">
+                  <p *ngIf="form.controls.email.hasError('required')"
+                    class="font-medium text-red-500 text-xs mt-1 ml-1">
+                    El correo electrónico es obligatorio
+                  </p>
+                  <p *ngIf="form.controls.email.hasError('email')" class="font-medium text-red-500 text-xs mt-1 ml-1">
+                    El correo electrónico no es valido
+                  </p>
+                </div>
+              </div>
+            </div>
+
+            <div class="flex space-x-2">
+              <div class="w-1/2">
+                <input formControlName="names" placeholder="Nombres" type="text" name="names"
+                  class="w-full text-sm rounded bg-white border-gray-400 border-1 px-4 py-2 font-light focus:border-blue-200 focus:border-1" 
+                  [readOnly]="!buscaUsuario" 
+                  [class.bg-slate-200]="guiid != ''"
+                  />
+                <div *ngIf="form.controls.names.touched && form.controls.names.invalid && buscaUsuario">
+                  <p *ngIf="form.controls.names.hasError('required')"
+                    class="font-medium text-red-500 text-xs mt-1 ml-1">
+                    El nombre es obligatorio
+                  </p>
+                </div>
+              </div>
+              <div class="w-1/2">
+                <input formControlName="apellidos" placeholder="Apellidos" type="text" name="names"
+                  class="w-full text-sm rounded bg-white border-gray-400 border-1 px-4 py-2 font-light focus:border-blue-200 focus:border-1"
+                  [readOnly]="!buscaUsuario"
+                  [class.bg-slate-200]="guiid != ''"
+                  />
+                <div *ngIf="form.controls.apellidos.touched && form.controls.apellidos.invalid && buscaUsuario">
+                  <p *ngIf="form.controls.apellidos.hasError('required')"
+                    class="font-medium text-red-500 text-xs mt-1 ml-1">
+                    Los Apellidos son obligatorios
+                  </p>
+                </div>
+              </div>
+            </div>
+            <div class="flex space-x-2" *ngIf="guiid == ''">
+              <div class="w-1/2">
+                <div>
+                  <div class="relative">
+                    <input formControlName="password" placeholder="Contraseña" 
+                      [type]="showPassword ? 'text' : 'password'"
+                      class="w-full text-sm rounded bg-white border-gray-400 border-1 px-4 py-2 font-light focus:border-blue-200 focus:border-1"
+                      [readOnly]="!buscaUsuario"
+                      />
+                    <button type="button" class="p-2 absolute right-2" (click)="showPassword = !showPassword">
+                      <fa-icon [icon]="showPassword ? faEye : faEyeSlash"></fa-icon>
+                    </button>
+                  </div>
+                  <div *ngIf="form.controls.password.touched && form.controls.password.invalid && buscaUsuario">
+                    <p *ngIf="form.controls.password.hasError('required')"
+                      class="font-medium text-red-500 text-xs mt-1 ml-1">
+                      La contraseña es obligatoria
+                    </p>
+                    <p *ngIf="form.controls.password.hasError('minlength')"
+                      class="font-medium text-red-500 text-xs mt-1 ml-1">
+                      La contraseña debera tener min 8 caracteres
+                    </p>
+
+                  </div>
+                </div>
+              </div>
+              <div class="w-1/2">
+                <div>
+                  <div class="relative">
+                    <input formControlName="confirmPassword" placeholder="Confirmar Contraseña"
+                      [type]="showConfirmPassword ? 'text' : 'password'"
+                      class="w-full text-sm rounded bg-white border-gray-400 border-1 px-4 py-2 font-light focus:border-blue-200 focus:border-1"
+                      [readOnly]="!buscaUsuario"
+                      />
+                    <button type="button" class="p-2 absolute right-2"
+                      (click)="showConfirmPassword = !showConfirmPassword">
+                      <fa-icon [icon]="showConfirmPassword ? faEye : faEyeSlash"></fa-icon>
+                    </button>
+                  </div>
+                  <div *ngIf="form.controls.confirmPassword.touched && form.controls.confirmPassword.invalid && buscaUsuario">
+                    <p *ngIf="form.controls.confirmPassword.hasError('required')"
+                      class="font-medium text-red-500 text-xs mt-1 ml-1">
+                      Se debe confirmar la contraseña
+                    </p>
+                    <p *ngIf="form.controls.confirmPassword.hasError('minlength')"
+                      class="font-medium text-red-500 text-xs mt-1 ml-1">
+                      La contraseña debera tener min 8 caracteres
+                    </p>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <span class="font-semibold text-red-500 text-sm ml-2"
+              *ngIf="msgErrorPassWord != undefined">{{msgErrorPassWord}}</span>
+            <div class="flex space-x-2">
+              <div class="w-1/2">
+                <input type="text" name="search" [formControl]="frmCtrlUnidadOperativa" [matAutocomplete]="uniOper"
+                
+                  class="inputTextoDialog focusCampo !h-9 pr-7" placeholder="Unidad Operativa"  [readOnly]="!buscaUsuario">
+                <mat-autocomplete #uniOper="matAutocomplete" [displayWith]="displayFnUnidadOperativa"
+                  (optionSelected)="onSelectionChangeUnidadOperativa($event)">
+                  <mat-option *ngFor="let option of listUnidadOperativa" [value]="option">
+                    CAM - {{option.nombre}}
+                  </mat-option>
+                </mat-autocomplete>
+                <div *ngIf="frmCtrlUnidadOperativa.touched && frmCtrlUnidadOperativa.invalid && buscaUsuario">
+                  <p *ngIf="frmCtrlUnidadOperativa.hasError('required')"
+                    class="font-medium text-red-500 text-xs mt-1 ml-1">
+                    Seleccione una unidad operativa
+                  </p>
+                </div>
+              </div>
+              <div class="w-1/2">
+              </div>
+            </div>
+            <div class="flex items-center">
+              <input formControlName="terminos" id="link-checkbox" type="checkbox" value="true"
+                class="w-5 h-5 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500">
+              <label for="link-checkbox" class="ml-2 text-sm font-medium">
+                <h1 class="text-[#008BD2]"><span>Acepto terminos y condiciones</span></h1>
+              </label>
+              <span class="font-semibold text-red-500 text-sm ml-2"
+                *ngIf="msgErrorTerminos != undefined">{{msgErrorTerminos}}</span>
+            </div>
+            <div class="text-center">
+              <app-btn class="botonApariencia block " typeBtn="submit" color="primary"
+                [loading]="status === 'loading'" [disabled]="!buscaUsuario"><b>Registrarme</b></app-btn>
+              <span class="font-semibold text-red-500 text-sm" *ngIf="msgError != undefined">{{msgError}}</span>
+            </div>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>

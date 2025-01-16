@@ -1,0 +1,47 @@
+<div class="px-4 py-3 bg-primary-700 flex justify-between text-white">
+    <span><b>Confirmar correo del Usuario</b></span>
+    <button (click)="onClose()"><esp-icon icon="faClose"></esp-icon></button>
+</div>
+<div class="py-3 bg-white text-center" [formGroup]="formCodeEmail">
+    <div>
+        <h4 class="mt-4 pb-4 text-gray text-gray-500 text-lg">
+          <span>
+            Se envío un código de activación al correo electrónico:
+          </span>
+        </h4>
+        <span class="font-semibold text-[var(--color-CAM)] text-2xl">
+          {{data.correo}}
+        </span>
+    </div>
+    <div class="mt-4">
+        <span class="text-gray-500 text-lg">
+            Ingresa el código para activar tu cuenta
+        </span>
+    </div>
+        <input placeholder="Codigo de Activación" type="text" formControlName="code"
+        class="text-sm rounded bg-white border-gray-400 my-4 border-1 px-4 py-2 font-light focusCampo"/>
+        <div *ngIf="formCodeEmail.controls.code.touched && formCodeEmail.controls.code.invalid" class="mb-4">
+            <p *ngIf="formCodeEmail.controls.code.hasError('required')" class="font-medium text-red-500 text-xs mt-1 ml-1">
+                El código de activación es obligatorio
+            </p>
+        </div>
+        <div *ngIf="msgError != undefined" class="mb-4">
+            <p class="font-medium text-red-500 text-xs mt-1 ml-1">
+                {{msgError}}
+            </p>
+        </div>
+    <div class="flex justify-center space-x-2 optionsDialog">
+        <div class="w-1/4">
+            <div class="relative mt-2 rounded-md shadow-sm botonApariencia">
+                <app-btn color="white" (click)="onClose()">Cancelar
+                </app-btn>
+            </div>
+        </div>
+        <div class="w-1/4">
+            <div class="relative mt-2 rounded-md shadow-sm botonApariencia">
+                <app-btn typeBtn="submit" (click)="validateCodeEmail()">Confirmar
+                </app-btn>
+            </div>
+        </div>
+    </div>
+</div>

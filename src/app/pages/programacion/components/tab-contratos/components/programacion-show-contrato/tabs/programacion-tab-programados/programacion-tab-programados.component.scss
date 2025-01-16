@@ -1,0 +1,26 @@
+.filasPseudoTabla{
+  span{
+    padding-left: 0.5rem;
+    align-self: center;
+    font-weight: 600;
+  }
+}
+
+.dataPseudoTabla{
+  font-size: 14px;
+  --tw-border-opacity: 1;
+  border-color: rgb(209 213 219 / var(--tw-border-opacity));
+  border-bottom-width: 1px;
+  gap: 0.25rem;
+  grid-template-columns: repeat(13, minmax(0, 1fr));
+  display: grid;
+  padding: 1rem 0;
+  span{
+    padding-left: 0.5rem;
+    align-self: center;
+  }
+}
+
+.grid-cols-13{
+  grid-template-columns: repeat(13, minmax(0, 1fr));
+}

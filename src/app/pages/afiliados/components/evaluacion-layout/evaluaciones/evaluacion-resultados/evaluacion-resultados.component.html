@@ -1,0 +1,231 @@
+<div class="px-4 py-3 bg-white w-full mt-3 grid botonApariencia" *ngIf="!ready">
+    <div class="text-gray-600 w-full text-center">
+        <span class="py-1 font-bold text-2xl">
+            <fa-icon class="mr-2" [icon]="faSpinner" [pulse]="true"></fa-icon>
+            Obteniendo datos...
+        </span>
+    </div>
+</div>
+<div class="flex flex-col" *ngIf="ready">
+    <esp-opciones-botones  [listOpciones]="opcionesBotones" (firstFunction)="Notas()" (thirdFunction)="sedData()"></esp-opciones-botones>
+    
+<div *ngIf="ready" class="bg-white botonApariencia">
+    <div class="flex flex-row justify-between py-1.5 px-2.5"> 
+      <p class="text-[26px] text-[var(--color-CAM-black-alt)]"><b>Ficha de Solicitud</b></p>
+      <p class="text-end text-sm text-[#64748B]">N° de Historia 
+        <br><span class="text-[20px] text-[var(--color-CAM)]">{{dataFicha.fichaAdmision.numHistoria}}</span>
+      </p>
+    </div>
+    
+    <div class="flex flex-row text-[#37474F] pr-[10px] pb-[20px]">
+      <div class="w-[360px] shrink-0 pl-2.5">
+          <div class="grid text-center relative justify-center">
+              <!-- <p class=" py-1 px-3 my-2 mx-1 anios absolute right-0 text-white text-[18px] bg-cam">31 Años</p> -->
+              <p class=" py-1 px-3 my-2 mx-1 anios absolute right-0 text-white text-[18px] bg-cam">{{edadPersona}} Años</p>
+              <!--<img class="my-2 imagen" src='data:image/jpeg;base64,{{dataFicha.asegurado.foto}}'>-->
+              <img  class="my-2 imagen" src='assets/images/imgReemplazo.png'>
+              <div class="flex flex-col gap-1 py-2 !leading-5">
+                <span class="font-bold text-[1.5rem] text-[var(--color-CAM)] text-sky-600">{{dataFicha.asegurado.apePaterno + ' ' + dataFicha.asegurado.apeMaterno | titlecase}}</span>
+                <span class="font-medium text-[1.125rem]">{{dataFicha.asegurado.nombres | titlecase}}</span>
+                <span class="text-[14px]">{{dataFicha.asegurado.descTipoDoc}} {{dataFicha.asegurado.numDoc}}</span>
+              </div>
+          </div>
+          <div class="overflow-y mt-0 scrollbarra border-gradient max-h-[47vh] overflow-auto">
+              <p class="subTitulo my-2.5 text-[18px]">Datos Personales</p>
+              <div class="info-container">
+                <p class="flex w-1/2 flex-col py-1 bg-slate-100 my-1 mx-0 font-bold"> Fecha Nacimiento </p> 
+                <p class="flex w-1/2 flex-col ml-2.5 my-1"> {{dataFicha.asegurado.fecNacimiento | date: 'dd/MM/yyyy'}} </p>
+                <!-- <p class="flex w-1/2 flex-col ml-2.5 my-1"> {{dataFicha.fecNac}} </p> -->
+              </div>
+    
+              <div class="info-container">
+                <p class="flex w-1/2 flex-col py-1 bg-slate-100 my-1 mx-0 font-bold"> Sexo </p> 
+                <p class="flex w-1/2 flex-col ml-2.5 my-1 text-w-300"> {{dataFicha.asegurado.descSexo | titlecase}} </p>
+                <!-- <p class="flex w-1/2 flex-col ml-2.5 my-1 text-w-300"> {{dataFicha.sexo | titlecase}} </p> -->
+              </div>          
+    
+              <div class="info-container">
+                <p class="flex w-1/2 flex-col py-1 bg-slate-100 my-1 mx-0 font-bold"> Estado Civil </p> 
+                <p class="flex w-1/2 flex-col ml-2.5 my-1 text-w-300"> {{dataFicha.asegurado.descEstCivil | titlecase}} </p>
+                <!-- <p class="flex w-1/2 flex-col ml-2.5 my-1 text-w-300"> {{dataFicha.estCivil | titlecase}} </p> -->
+              </div>          
+     
+              <p class="flex w-2/2 flex-col py-1 bg-slate-100 my-1 mx-0 font-bold">Lugar de Nacimiento</p>
+              <p class="flex w-2/2 flex-col my-0 text-w-300"> {{dataFicha.asegurado.departNacimiento | titlecase}} - {{dataFicha.asegurado.provinNacimiento | titlecase}} - {{dataFicha.asegurado.distriNacimiento | titlecase}}</p>
+              <!-- <p class="flex w-2/2 flex-col ml-2.5 mx-1 my-0 text-w-300"> {{dataFicha.lugarNac | titlecase}}</p> -->
+    
+              <p class="subTitulo my-2.5 text-[18px]">Datos del Seguro</p>
+              <div class="flex flex-col gap-[0.25rem]">
+                <div class="flex flex-col gap-[0.5rem]">
+                  <p class="py-1 my-0 bg-slate-100 font-bold">Tipo de Asegurado</p>
+                  <span>{{dataFicha.asegurado.descTipoAsegurado | titlecase}}</span>
+                  <!-- <span>{{dataFicha.tipoAsegurado | titlecase}} </span> -->
+                </div>
+                <div class="flex flex-col gap-[0.5rem]">
+                  <p class="py-1 my-0 bg-slate-100 font-bold">Nombre del Seguro</p>
+                  <span>{{dataFicha.asegurado.descTipoSeguro | titlecase}} </span>
+                  <!-- <span>{{dataFicha.nombreSeguro | titlecase}} </span> -->
+                </div>
+                <div class="flex flex-col gap-[0.5rem]">
+                  <p class="py-1 my-0 bg-slate-100 font-bold">IPRESS de Adscripcion</p>
+                  <span>{{dataFicha.asegurado.nomIpressAdscrip | uppercase}} </span>
+                  <!-- <span>{{dataFicha.centroAdscripcion}} </span> -->
+                </div>
+                <div class="flex flex-col gap-[0.5rem]">
+                  <p class="py-1 my-0 bg-slate-100 font-bold">Red Asistencial</p>
+                  <span>{{dataFicha.asegurado.nomRedAsisten | uppercase}} </span>
+                  <!-- <span>{{dataFicha.redAdscripcion}} </span> -->
+                </div>
+              </div>
+          </div>
+      </div>
+      
+      <div class="grow flex flex-col gap-2 mx-2.5 text-[16px]">
+        <span class="my-2.5 subTitulo">RESULTADOS</span>
+        <div class="flex flex-col text-[var(--color-black-alt)] pl-2.5 pr-1 scrollbarra h-[60vh] overflow-auto" *ngIf="datosResultados">
+            <span class="font-bold my-2.5">1. TEST PFEIFFER</span>
+            <div class="flex flex-col pb-2.5">
+                <div class="flex flex-row gap-2.5">
+                    <div class="flex items-center justify-end w-[150px] h-[40px] bg-[#F5F8FA] py-1 px-1.5">
+                        <span>Si</span>
+                    </div>
+                    <div class="flex items-center px-2.5">
+                        <span>{{datosResultados.testPfeiffer.si}}</span>
+                    </div>
+                </div>
+                <div class="flex flex-row gap-2.5">
+                    <div class="flex items-center justify-end w-[150px] h-[40px] bg-[#F5F8FA] py-1 px-1.5">
+                        <span>No</span>
+                    </div>
+                    <div class="flex items-center px-2.5">
+                        <span>{{datosResultados.testPfeiffer.no}}</span>
+                    </div>
+                </div>
+                <div class="flex flex-row gap-2.5">
+                    <div class="flex items-center justify-end w-[150px] h-[40px] bg-[#F5F8FA] py-1 px-1.5">
+                        <span>Resultado</span>
+                    </div>
+                    <div class="flex items-center px-2.5">
+                        <span>{{datosResultados.testPfeiffer.resultado}}</span>
+                    </div>
+                </div>
+            </div>
+            <span class="font-bold my-2.5">2. TEST DE KATZ</span>
+            <div class="flex flex-col pb-2.5">
+                <div class="flex flex-row gap-2.5">
+                    <div class="flex items-center justify-end w-[150px] h-[40px] bg-[#F5F8FA] py-1 px-1.5">
+                        <span>Dependiente</span>
+                    </div>
+                    <div class="flex items-center px-2.5">
+                        <span>{{datosResultados.testCatz.dependiete}}</span>
+                    </div>
+                </div>
+                <div class="flex flex-row gap-2.5">
+                    <div class="flex items-center justify-end w-[150px] h-[40px] bg-[#F5F8FA] py-1 px-1.5">
+                        <span>Independiente</span>
+                    </div>
+                    <div class="flex items-center px-2.5">
+                        <span>{{datosResultados.testCatz.independiente}}</span>
+                    </div>
+                </div>
+                <div class="flex flex-row gap-2.5">
+                    <div class="flex items-center justify-end w-[150px] h-[40px] bg-[#F5F8FA] py-1 px-1.5">
+                        <span>Resultado</span>
+                    </div>
+                    <div class="flex items-center px-2.5">
+                        <span>{{datosResultados.testCatz.resultado}}</span>
+                    </div>
+                </div>
+            </div>
+            <span class="font-bold my-2.5">3. ESCALA DE GIJÓN</span>
+            <div class="flex flex-col pb-2.5">
+                <div class="flex flex-row gap-2.5">
+                    <div class="flex items-center justify-end w-[150px] h-[40px] bg-[#F5F8FA] py-1 px-1.5">
+                        <span>Puntuación</span>
+                    </div>
+                    <div class="flex items-center px-2.5">
+                        <span>{{datosResultados.testGijon.puntuacion}}</span>
+                    </div>
+                </div>
+                <div class="flex flex-row gap-2.5">
+                    <div class="flex items-center justify-end w-[150px] h-[40px] bg-[#F5F8FA] py-1 px-1.5">
+                        <span>Resultado</span>
+                    </div>
+                    <div class="flex items-center px-2.5">
+                        <span>{{datosResultados.testGijon.resultado}}</span>
+                    </div>
+                </div>
+            </div>
+            <span class="font-bold my-2.5">4. TEST DE YESAVAGE</span>
+            <div class="flex flex-col pb-2.5">
+                <!--<div class="flex flex-row gap-2.5">
+                    <div class="flex items-center justify-end w-[150px] h-[40px] bg-[#F5F8FA] py-1 px-1.5">
+                        <span>Si</span>
+                    </div>
+                    <div class="flex items-center px-2.5">
+                        <span>{{datosResultados.testYesavage.si}}</span>
+                    </div>
+                </div>-->
+                <div class="flex flex-row gap-2.5">
+                    <div class="flex items-center justify-end w-[150px] h-[40px] bg-[#F5F8FA] py-1 px-1.5">
+                        <span>Puntuación</span>
+                    </div>
+                    <div class="flex items-center px-2.5">
+                        <span>{{datosResultados.testYesavage.no}}</span>
+                    </div>
+                </div>
+                <div class="flex flex-row gap-2.5">
+                    <div class="flex items-center justify-end w-[150px] h-[40px] bg-[#F5F8FA] py-1 px-1.5">
+                        <span>Resultado</span>
+                    </div>
+                    <div class="flex items-center px-2.5">
+                        <span>{{datosResultados.testYesavage.resultado}}</span>
+                    </div>
+                </div>
+            </div>
+            <span class="my-1.5 subTitulo">CONCLUSIÓN</span>
+            <div class="flex flex-col" [formGroup]="formResultados">
+                <div class="flex flex-row items-center gap-2.5 py-2 pl-2.5">
+                    <span>¿Es admitido?</span>
+                    <ul class="grupoOpciones flex flex-row gap-2.5 select-none">
+                        <li class="seleccionableDerecha radioBgDiferente">
+                            <input type="radio" id="adm_Si" formControlName="ctrlAdmitido" value="Si" class="peer focusCampo">
+                            <label for="adm_Si" class="selectRadioBoolean !py-1.5 !pl-1.5 !w-[65px] !border-0">
+                                <div class="flex flex-row items-center">
+                                    <span>Si</span>
+                                </div>
+                            </label>
+                        </li>
+                        <li class="seleccionableDerecha radioBgDiferente">
+                            <input type="radio" id="adm_No" formControlName="ctrlAdmitido" value="No" class="peer focusCampo">
+                            <label for="adm_No" class="selectRadioBoolean !py-1.5 !pl-1.5 !w-[65px] !border-0">
+                                <div class="flex flex-row items-center">
+                                    <span>No</span>
+                                </div>
+                            </label>
+                        </li>
+                    </ul>
+                </div>
+                <div *ngIf="formResultados.controls.ctrlAdmitido.touched && formResultados.controls.ctrlAdmitido.invalid">
+                    <p *ngIf="formResultados.controls.ctrlAdmitido.hasError('required')" class="font-medium text-red-500 text-xs ml-1">
+                        Seleccione si es admitido o no.
+                    </p>
+                </div>
+                <textarea id="message" rows="2" formControlName="ctrlComentario" class="mt-2 text-gray-900 border-gray-300 focusCampo placeholder-gray-300" placeholder="Comentario"></textarea>
+                <div *ngIf="formResultados.controls.ctrlComentario.touched && formResultados.controls.ctrlComentario.invalid">
+                    <p *ngIf="formResultados.controls.ctrlComentario.hasError('required')" class="font-medium text-red-500 text-xs ml-1">
+                        Debe ingresarse un comentario.
+                    </p>
+                </div>
+                <div class="flex flex-row gap-2.5 py-1.5 justify-end">
+                    <app-btn class="botonApariencia" color="success" routerLink=".."> Anterior</app-btn>
+                    <app-btn class="botonApariencia" color="mezclado" (click)="sedData()" [loading]="status === 'loading'">
+                       Finalizar  <esp-icon icon="faArrowAltCircleRight"></esp-icon>
+                    </app-btn>
+                </div>
+            </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

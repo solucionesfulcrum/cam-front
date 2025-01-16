@@ -1,0 +1,105 @@
+<!-- <ng-container *ngIf="user$ | async as user"> -->
+<ng-container>
+  <nav class="supports-backdrop-blur:bg-white/95 backdrop-blur bg-white border-gray-200 px-6 py-1 shadow-lg min-h-[55px] grid border-style">
+    <div class="flex flex-wrap justify-between items-center">
+      <div>
+        <button class="text-2xl opacity-60" type="buton" (click)="onToggleSidenav()">
+          <esp-icon icon="faBars"></esp-icon>
+        </button>
+      </div>
+      <div>
+        <div class="flex gap-6 ">
+         <!-- <img class="opacity-60" src="assets/svg/toolbarCalendar.svg"/>
+          <img class="opacity-60" src="assets/svg/toolbarNotification.svg"/>-->
+          <div class="flex gap-[10px] items-center">
+            <img *ngIf="!imagenFoto"
+              class="w-8 rounded-full"
+              src="assets/images/iconUser.png"
+              alt="user photo"
+            />
+            <img *ngIf="imagenFoto"
+              class="w-8 rounded-full"
+              [src]="'data:image/JPEG;base64,' + imagenFoto"
+              alt="user photo"
+            />
+            <div class="profile-content flex flex-col justify-center max-w-[8rem] cursor-pointer" (click)="isOpen = !isOpen">
+              <!-- <h3 class="text-sm font-semibold">Norman Gordon Silva</h3>
+              <h4 class="text-xs font-light text-gray-400">Administrador RED</h4> -->
+              <h3 class="text-base font-semibold whitespace-nowrap text-ellipsis overflow-hidden">{{ userSesion | titlecase}}</h3>
+              <span class="text-[12px] font-light">{{userRol}}</span>
+              <!-- <h4 class="text-xs font-light text-gray-400">{{ user?.email }}</h4>
+              <h4 class="text-xs font-light text-gray-600 font-semibold">LIMA</h4> -->
+            </div>
+            <div class="flex cursor-pointer" >
+              <button
+                type="button"
+                aria-expanded="false"
+                class="text-sm text-gray-400"
+                type="button"
+                (click)="isOpen = !isOpen"
+                cdkOverlayOrigin
+                #menuOverlay="cdkOverlayOrigin"
+              >
+                <esp-icon icon="faChevronDown"></esp-icon>
+              </button>
+            </div>
+          </div>
+        </div>
+        <!-- <button
+        type="button"
+        class="flex rounded"
+        aria-expanded="false"
+        type="button"
+        (click)="isOpen = !isOpen"
+        cdkOverlayOrigin
+        #menuOverlay="cdkOverlayOrigin"
+      >
+        <img
+          class="w-8 h-8 rounded"
+          src="assets/images/avatar.png"
+          alt="user photo"
+        />
+      </button> -->
+      </div>
+    </div>
+  </nav>
+  <ng-template
+    cdkConnectedOverlay
+    [cdkConnectedOverlayOrigin]="menuOverlay"
+    [cdkConnectedOverlayOpen]="isOpen"
+    (overlayOutsideClick)="isOpen = !isOpen"
+  >
+    <div
+      class="z-50 my-4 text-base list-none bg-white rounded divide-y divide-gray-100 shadow">
+      <!-- <div class="py-3 px-4 flex justify-between">
+        <span class="block text-sm text-center text-success-500">{{ userRol | titlecase}}</span>
+      </div> -->
+      <ul class="py-1">
+        <li>
+          <a
+          routerLink="/app/admin/edit-user"
+            class="block py-2 px-4 text-sm text-gray-700 hover:bg-gray-100 dark:hover:bg-gray-600"
+            >Mi Datos personales</a
+          >
+        </li>
+       <!-- <li>
+          <a
+            href="#"
+            class="block py-2 px-4 text-sm text-gray-700 hover:bg-gray-100 dark:hover:bg-gray-600"
+            >Mi Actividad</a
+          >
+        </li>-->
+      </ul>
+      <ul>
+        <li>
+          <button
+            (click)="logout()"
+            class="block py-2 px-4 w-full text-sm text-gray-700 hover:bg-gray-100 dark:hover:bg-gray-600 text-left"
+          >
+            Cerrar Sesión
+          </button>
+        </li>
+      </ul>
+    </div>
+  </ng-template>
+</ng-container>

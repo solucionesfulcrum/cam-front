@@ -1,0 +1,23 @@
+
+<div class="flex items-center justify-center min-h-[300px] bg-gray-100">
+  <esp-data-loading [dataLoading]="loading" [height]="'100vh'"></esp-data-loading>
+  <div *ngIf="!loading">
+    <div class="text-center">
+      <div class="flex justify-center mb-4">
+        <esp-icon icon="faTools" class="text-gray-600 text-6xl mr-2"></esp-icon>
+        <esp-icon icon="faCog" class="text-gray-600 text-6xl"></esp-icon>
+      </div>
+      <ng-container *ngIf="mensajeMantenimiento">
+        <p class="text-gray-600">{{mensajeMantenimiento}}.</p>
+      </ng-container>
+      <ng-container  *ngIf="!mensajeMantenimiento">
+        <h1 class="text-4xl font-bold text-gray-800 mb-2">Bajo Mantenimiento</h1>
+        <p class="text-gray-600">Nuestro sitio web está actualmente en mantenimiento programado.</p>
+        <p class="text-gray-600">Pedimos disculpas por cualquier inconveniente.</p>
+      </ng-container>
+
+    </div>
+  </div>
+   
+  </div>
+  

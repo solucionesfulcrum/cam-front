@@ -1,0 +1,231 @@
+
+<div class="px-4 py-3 bg-white w-full mt-3 grid" *ngIf="!wait">
+    <div class="text-gray-600 w-full text-center">
+        <p class="py-1 font-bold text-2xl">
+            <fa-icon class="mr-2" [icon]="faSpinner" [pulse]="true"></fa-icon>
+            Obteniendo datos...
+        </p>
+    </div>
+</div>
+<div class="text-gray-600 text-[26px] font-bold" *ngIf="wait">
+    <span>Registro de Asegurado</span>
+</div>
+<div class="px-4 py-3 bg-white mt-3 grid grid-cols-3 gap-8 botonApariencia" *ngIf="wait">
+    <div class="text-gray-600">
+        <div class="grid text-center relative justify-center">
+            <!-- <div class="w-full">
+              <div class="avatar h-40  border-white left-5 bottom-1/2">
+              </div>
+            </div> -->
+            <p class=" py-1 px-3 anios absolute right-0 text-white text-xl">{{edadPersona}} Años</p>
+            <!-- <img id="imgTemp" src="assets/images/temp-patient-photo.png" class="my-1 imagen"> -->
+           <!-- <img *ngIf="imagenAdmision" src="data:image/JPEG;base64,{{imagenAdmision}}" class="my-1 imagen">-->
+           <!----> <img  src="assets/images/imgReemplazo.png" class="my-1 imagen">
+            <p class="py-1 bordColorEstablecido font-bold text-2xl">{{infoReniec.txtApepaterno | titlecase}} 
+                {{(infoReniec.txtApematcasada? infoReniec.txtApematcasada : infoReniec.txtApematerno) | titlecase}}
+            </p>
+            <p class="font-semibold text-lg">{{infoReniec.txtNombres | titlecase}}</p>
+            <!-- <p class="py-1 bordColorEstablecido font-bold text-2xl">{{dataPersona.persona.datosBasicos.nombres | titlecase}}</p>
+            <p class="font-semibold text-lg">{{dataPersona.persona.datosBasicos.apellidoPaterno | titlecase}} {{dataPersona.persona.datosBasicos.apellidoMaterno | titlecase}}</p> -->
+            <p class="" *ngIf="parametroDocumento">{{parametroDocumento.idParametros == 6 ? 'DNI' : parametroDocumento.nombre | titlecase}} {{numDoc}}</p>
+        </div>
+        <div class="border-t-2 mt-3">
+            <p class="py-1 bordColorEstablecido font-bold">Datos Generales</p>
+            <p class="py-1 font-semibold">Lugar de Nacimiento</p>
+            <p class="py-1">{{regionNac | titlecase}} - {{provNac | titlecase}} - {{distNac | titlecase}}</p>
+            <!-- <p class="py-1">{{dataPersona.persona.datosNacimiento.departamento | titlecase}} - {{dataPersona.persona.datosNacimiento.provincia | titlecase}} - {{dataPersona.persona.datosNacimiento.distrito | titlecase}}</p> -->
+            <p class="py-1 font-semibold">Fecha Nacimiento</p>
+            <p class="py-1">{{infoReniec.fecNacimiento}}</p>
+            <p class="py-1" *ngIf="infoReniec.desSexoPersona"><b class="font-semibold">Sexo</b> {{infoReniec.desSexoPersona}}</p>
+            <!-- <p class="py-1">{{dataPersona.persona.datosNacimiento.fechaNacimiento}}</p> -->
+            <!-- <p class="py-1"><b class="font-semibold">Sexo</b> {{dataPersona.persona.datosAdicionales.descripcionSexo[0]}}</p> -->
+            <p class="py-1 font-semibold">Estado Civil</p>
+            <p class="py-1">{{estadoCivil[infoReniec.codEstcivil] | titlecase}}</p>
+            <!-- <p class="py-1">{{dataPersona.persona.datosAdicionales.descripcionEstadoCivil | titlecase}}</p> -->
+            <p class="py-1 text-sky-600 font-bold">Datos Del Seguro</p>
+            <p class="py-1 font-semibold">Tipo de Asegurado</p>
+            <p class="py-1">{{dataSeguro.CONDICION ? dataSeguro.CONDICION : 'Sin información' | titlecase}}</p>
+            <p class="py-1 font-semibold">Tipo de seguro</p>
+           <!--- <p class="py-1">{{dataSeguro.DGACTAS ? 'Seguro ' + dataSeguro.DGACTAS : 'Sin información' | titlecase}}</p>-->
+            <p class="py-1">{{dataSeguro.TIPO_ASEGURADO && dataSeguro.DGACTAS ? dataSeguro.DGACTAS + " " + dataSeguro.TIPO_ASEGURADO : 'Sin información' | titlecase}}</p>
+            <p class="py-1 font-semibold">IPRESS  de Adscripcion</p>
+            <p class="py-1">{{dataRed.nom_CENTRO}}</p>
+            <p class="py-1 font-semibold">Red Asistencial</p>
+            <p class="py-1">{{dataRed.des_RED | titlecase}}</p> 
+        </div>
+    </div>
+    <div class="col-span-2">
+        <p class="border-l-4 pl-2 bordColorEstablecido font-semibold text-xl"> Verificar dirección actual <b class="text-red-500">*</b></p>
+        <div *ngIf="frmCtrlDireccion.touched && frmCtrlDireccion.invalid">
+            <p *ngIf="frmCtrlDireccion.hasError('required')" class="font-medium text-red-500 text-xs mt-1 ml-1">
+                Elija una de las direcciones.
+            </p>
+        </div>
+        <ul class="grupoDirecciones">
+            <li class="elementoSeleccionable" *ngFor="let item of direccionesPersona, index as i">
+                <img class="iconEditar" src="assets/svg/Edit.svg" *ngIf="i != 0" (click)="editDireccion(i)">
+                <input type="radio" [id]="'direccion'+i" name="direccion" [formControl]="frmCtrlDireccion" [value]="i" class="peer right-0 mt-2 mr-2 focusCampo">
+                <label [for]="'direccion'+i" class="cuadroRadioButton">
+                    <div class="flex flex-col justify-center text-center w-1/12">
+                        <esp-icon class="text-3xl" icon="faLocationDot"></esp-icon>
+                        <span>{{item.nomParametro === 'RENIEC' ? 'Datos ' + item.nomParametro : (item.nomParametro | titlecase)}}</span>
+                    </div>
+                    <div class="flex  pl-4"> 
+                        <div class="w-full flex flex-col">
+                            <div class="w-full flex space-x-2">
+                                <span class="text-gray-600 font-semibold w-[120px]">Dirección</span>
+                                <span class="font-normal">{{item.direccion | titlecase}}</span>
+                            </div>
+                            <div class="w-full flex space-x-2">
+                                <span class="text-gray-600 font-semibold w-[120px]">Distrito</span>
+                                <span>{{item.nomDist | titlecase}}</span>
+                            </div>
+                            <div class="w-full flex space-x-2">
+                                <span class="text-gray-600 font-semibold w-[120px]">Provincia</span>
+                                <span>{{item.nomProv | titlecase}}</span>
+                            </div>
+                            <div class="w-full flex space-x-2">
+                                <span class="text-gray-600 font-semibold w-[120px]">Departamento</span>
+                                <span>{{item.nomDep | titlecase}}</span>
+                            </div>
+                        </div>
+                    </div>
+                </label>
+            </li>
+        </ul>
+        <div class="flex flex-col justify-center text-center w-full bordColorEstablecido cursor-pointer border py-2 hover:bg-gray-100" (click)="showNewDireccion()">
+            <img class="h-8 m-auto" src="assets/svg/MapPointAdd.svg" alt="">
+            <span>Nueva dirección</span>
+        </div>
+        
+        <p class="border-l-4 pl-2 bordColorEstablecido font-semibold text-xl my-5"> Datos de Contacto</p>
+        <div [formGroup]="formDatosContacto">
+            <!-- <div class="flex space-x-2 my-2">
+                <div class="w-1/6 bg-slate-100 justify-end pr-2 flex items-center">
+                    <span class="font-thin align-middle">Teléfono</span>
+                </div>
+                <div class="w-5/6">
+                    <input type="text" maxlength="9" formControlName="frmTelefono" placeholder="Numero de telefono" class="block w-full p-2 text-gray-900 placeholder-gray-300 border border-gray-300 focusCampo">
+                    <div *ngIf="formDatosContacto.controls.frmTelefono.touched && formDatosContacto.controls.frmTelefono.invalid">
+                        <p *ngIf="formDatosContacto.controls.frmTelefono.hasError('required')" class="font-medium text-red-500 text-xs mt-1 ml-1">
+                            Ingrese un número telefónico.
+                        </p>
+                    </div>
+                    <div *ngIf="formDatosContacto.controls.frmTelefono.touched && formDatosContacto.controls.frmTelefono.invalid">
+                        <p *ngIf="formDatosContacto.controls.frmTelefono.hasError('minlength')" class="font-medium text-red-500 text-xs mt-1 ml-1">
+                            El número telefónico debe tener como mínimo 7 dígitos.
+                        </p>
+                    </div>
+                </div>
+            </div> -->
+            <div class="flex space-x-2 mb-2">
+                <div class="w-1/6 bg-slate-100 justify-end pr-2 flex items-center">
+                    <span >Celular <b class="text-red-500"></b></span>
+                </div>
+                <div class="w-5/6">
+                    <input type="text" pattern="[0-9]*" min="0" maxlength="10" formControlName="frmCelular" (input)="handleCelularInput($event)" placeholder="Numero de celular" class="block w-full p-2 text-gray-900 placeholder-gray-300 border border-gray-300 focusCampo">
+                    <div *ngIf="formDatosContacto.controls.frmCelular.touched && formDatosContacto.controls.frmCelular.invalid">
+                        <p *ngIf="formDatosContacto.controls.frmCelular.hasError('required')" class="font-medium text-red-500 text-xs mt-1 ml-1">
+                            Ingrese un número de celular.
+                        </p>
+                    </div>
+                    <div *ngIf="formDatosContacto.controls.frmCelular.touched && formDatosContacto.controls.frmCelular.invalid">
+                        <p *ngIf="formDatosContacto.controls.frmCelular.hasError('pattern')" class="font-medium text-red-500 text-xs mt-1 ml-1">
+                            El número de celular debe tener 9 números y debe empezar por 9.
+                        </p>
+                    </div>
+                </div>
+            </div>
+            <div class="flex space-x-2 mb-2 items-center h-[42px]">
+                <div class="w-1/6 bg-slate-100 justify-end pr-2 flex items-center h-full">
+                    <span >Whatsapp <b class="text-red-500"></b></span>
+                </div>
+                <div class="w-5/6" >
+                    <div class="flex">
+                        <div class="flex items-center mr-4">
+                            <input id="inline-radio" type="radio" value="SI" formControlName="frmWsp" class="bordColorEstablecido w-4 h-4 focusCampo dark:focusCampo">
+                            <label for="inline-radio" class="ml-2 text-sm font-medium text-gray-900 dark:text-gray-300">Si</label>
+                        </div>
+                        <div class="flex items-center mr-4">
+                            <input id="inline-2-radio" type="radio" value="NO" formControlName="frmWsp" class="bordColorEstablecido w-4 h-4 focusCampo dark:focusCampo">
+                            <label for="inline-2-radio" class="ml-2 text-sm font-medium text-gray-900 dark:text-gray-300">No</label>
+                        </div>
+                    </div>
+                    <div *ngIf="formDatosContacto.controls.frmWsp.touched && formDatosContacto.controls.frmWsp.invalid">
+                        <p *ngIf="formDatosContacto.controls.frmWsp.hasError('required')" class="font-medium text-red-500 text-xs mt-1 ml-1">
+                            Seleccione si posee WhatsApp o no.
+                        </p>
+                    </div>
+                </div>
+            </div>
+            <div class="flex space-x-2 mb-2">
+                <div class="w-1/6 bg-slate-100 justify-end pr-2 flex items-center">
+                    <span >Correo <b class="text-red-500"></b></span>
+                </div>
+                <div class="w-5/6">
+                    <input type="text" formControlName="frmCorreo" placeholder="Direccion de correo Electronico" class="block w-full p-2 text-gray-900 placeholder-gray-300 border border-gray-300 focusCampo">
+                    <div *ngIf="formDatosContacto.controls.frmCorreo.touched && formDatosContacto.controls.frmCorreo.invalid">
+                        <p *ngIf="formDatosContacto.controls.frmCorreo.hasError('required')" class="font-medium text-red-500 text-xs mt-1 ml-1">
+                            Ingrese un correo electrónico.
+                        </p>
+                    </div>
+                    <div *ngIf="formDatosContacto.controls.frmCorreo.touched && formDatosContacto.controls.frmCorreo.invalid">
+                        <p *ngIf="formDatosContacto.controls.frmCorreo.hasError('pattern')" class="font-medium text-red-500 text-xs mt-1 ml-1">
+                            Ingrese una dirección de correo electrónico válida.
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>                
+            <p class="border-l-4 pl-2 bordColorEstablecido font-semibold text-xl mt-5"> Datos de Procedencia</p>
+            <div *ngIf="frmCtrlModIngr.touched && frmCtrlModIngr.invalid">
+                <p *ngIf="frmCtrlModIngr.hasError('required')" class="font-medium text-red-500 text-xs mt-1 ml-1">
+                    Elija una de las modalidades de ingreso.
+                </p>
+            </div>
+            <p class="mb-1 font-semibold mt-5">Modalidad de ingreso <b class="text-red-500">*</b></p>
+            <ul class="grupoOpciones grid w-full gap-3 md:grid-cols-3 mb-2">
+                <!--Propiedad checked="true" para marcar un radio predefinidamente-->
+                <li class="elementoSeleccionable" *ngFor="let modalidad of listParamModIngr, index as i">
+                    <input type="radio" [id]="modalidad.tipo + i" name="modalidad" [formControl]="frmCtrlModIngr" [value]="modalidad.idParametros" class="peer focusCampo" (click)="showDatosProcedencia(modalidad.idParametros,modalidad.tipo + i)" [attr.disabled]="modalidad.idParametros == 23 ? true : null">
+                    <label [for]="modalidad.tipo + i" class="cuadroRadioButton" [ngClass]="modalidad.idParametros == 23 ? 'opacity-50' : null">
+                        <div class="flex justify-center w-full">
+                            <div class="w-full text-center pl-2.5">{{modalidad.nombre | titlecase}}</div>
+                        </div>
+                    </label>
+                </li>
+            </ul>
+            <div class="mt-2 mb-4 border-b-2 border-bg-gray-300 flex justify-between" *ngIf="datosProcedenciaExtra">
+                <div class="inline-flex items-center">
+                    <div class="bg-gray-100 py-1 px-2">
+                        <span class="font-semibold">{{selectProcedenciaDerivOtro}}</span>
+                    </div>
+                    <span class="ml-2 text-sm">{{datoProcedenciaDerivOtro}}</span>
+                </div>
+                <img class="h-4 self-center" src="assets/svg/SelectOption.svg">
+            </div>
+            <p class="border-l-4 pl-2 bordColorEstablecido font-semibold text-xl my-5"> Observación</p>
+            <textarea id="message" rows="2" class="my-2 block p-2.5 w-full text-gray-900 border border-gray-300 focusCampo placeholder-gray-300" [formControl]="frmCtrlObservacion" placeholder="Descripción"></textarea>
+            <div class="flex justify-end flex-col my-5">
+                <div class="flex justify-end space-x-2 mb-2">
+                    <!-- <app-btn typeBtn="submit" color="primary" (click)="showForm()">
+                        <esp-icon icon="faSave"></esp-icon> Mostrar Datos Consola
+                    </app-btn> -->
+                    <app-btn typeBtn="submit" class="botonApariencia" color="white" routerLink="/app/afiliados"> Cancelar</app-btn>
+                    <app-btn typeBtn="submit" color="mezclado" (click)="sendRequestFichaAdmision()" [loading]="status === 'loading'">
+                        <esp-icon icon="faSave"></esp-icon> Guardar
+                    </app-btn>
+                </div>
+                <div class="flex justify-end space-x-2">
+                    <p class="font-medium text-red-500 text-xs mt-1 ml-1">
+                        Los campos marcados con * son obligatorios
+                    </p>
+                </div>
+                <div class="flex justify-end space-x-2" *ngIf="msgFaltante">
+                    <p class="font-medium text-red-500 text-xs mt-1 ml-1" *ngIf="!validarFicha()">
+                        Hay datos faltantes, revisar la ficha de admisión.
+                    </p>
+                </div>
+            </div>
+    </div>
+</div>

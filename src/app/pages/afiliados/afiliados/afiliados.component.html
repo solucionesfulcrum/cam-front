@@ -1,0 +1,143 @@
+<div class="ml-6 mr-6 mb-3">
+<esp-opciones-busqueda 
+  [showDateFilter]="true"
+  [setFilterDateTextColour]="'#057EC9'"
+  [setFilterDateOptionSelected]="'linear-gradient(90.57deg, #057EC9 13.31%, #28C2FF 99.53%)'"
+  [setFilterDateSelectionBg]="'#008BD2'"
+  [setFilterDateButtonBg]="'#008BD2'"
+  [filterDateAppearance]="2"
+  [showSearch]="true"
+  [searchInputPlaceHolder]="'Busqueda de texto'"
+  [showFirstDisplayFilter]="true"
+  [firstDisplayFilterPlaceholder]="{'indicador': false, 'placeholder': 'Todos los estados'}"
+  [firstDisplayFilterData]="optEstados"
+  [showButton]="true"
+  [buttonText]="'+ Nuevo'"
+  (buttonAccion)="Nuevo()"
+  [buttonBg]="'#057EC9'"
+></esp-opciones-busqueda> <!-- (buttonAccion)="goToNewRol()"   -->
+</div>
+
+<div class="ml-6 mr-6 mb-3">
+    <div class="">
+      <table mat-table [dataSource] = "dataSource">
+
+        <!-- SE AGREGA COLUMNA DE SELECCION (CHECK)-->
+        <ng-container matColumnDef="selecc">
+            <th mat-header-cell *matHeaderCellDef>
+                <mat-checkbox 
+                    [(ngModel)]="selectAll" 
+                    (change)="toggleSelectAll()"
+                    matTooltip="Seleccionar todo"
+                ></mat-checkbox> 
+            </th>
+            <td mat-cell *matCellDef="let element">
+                <mat-checkbox [(ngModel)]="element.isSelected"></mat-checkbox>
+            </td>
+        </ng-container>
+              
+        <ng-container matColumnDef="tipodoc">
+            <th mat-header-cell *matHeaderCellDef class="text-s-14r" style="font-weight: 0.1px">TIPO</th>
+            <td mat-cell *matCellDef="let element" class="text-uppercase">DNI</td>
+          </ng-container>
+              
+        <ng-container matColumnDef="nombres" class="">
+          <th mat-header-cell *matHeaderCellDef class="text-s-14r" style="font-weight: 0.1px">N° de Documento</th>
+          <td
+            mat-cell
+            *matCellDef="let element"
+          >
+              {{ element.usuario }}
+          </td>
+        </ng-container>
+  
+        <ng-container matColumnDef="usuario">
+          <th mat-header-cell *matHeaderCellDef class="text-s-14r " style="font-weight: 0.1px">Nombres</th>
+          <td mat-cell *matCellDef="let element" class="justify-left text-uppercase" style="align-content: start">
+            <a
+            class="decorator-none text-primary3 text-w-semibold"
+            (click)="setLink2(element.nombres, element.guiid)"
+            routerLink="/afiliados/show-afil/{{ element.guiid }}"
+            >
+              {{ element.nombres }}
+            </a>
+          </td>
+        </ng-container>
+
+        <ng-container matColumnDef="edad">
+            <th mat-header-cell *matHeaderCellDef class="text-s-14r" style="font-weight: 0.1px">EDAD</th>
+            <td mat-cell *matCellDef="let element" class="text-uppercase"> 5 AÑOS
+              {{ element.edad }}
+            </td>
+          </ng-container>
+
+        <ng-container matColumnDef="estcivil">
+            <th mat-header-cell *matHeaderCellDef class="text-s-14r" style="font-weight: 0.1px">E. CIVIL</th>
+            <td mat-cell *matCellDef="let element"> CASADO
+              {{ element.estcivil }}
+            </td>
+        </ng-container>
+  
+        <ng-container matColumnDef="ipress">
+          <th mat-header-cell *matHeaderCellDef class="text-s-14r text-uppercase" style="font-weight: 0.1px">IPRESS</th>
+          <td mat-cell *matCellDef="let element">ALMENARA</td>
+        </ng-container>
+ 
+         <ng-container matColumnDef="tieneVigencia">
+          <th mat-header-cell *matHeaderCellDef class="text-s-14r" style="font-weight: 0.1px">Estado</th>
+          <td mat-cell *matCellDef="let element">
+            
+            <span 
+                *ngIf="!element.tieneVigencia"
+            >
+              <img class="img-logo" style="margin-left: 10px" src="assets/EstInac.svg" matTooltip="Inactivo" />
+            </span>
+  
+            <span
+                *ngIf="element.tieneVigencia"
+            >
+              <img class="img-logo" style="margin-left: 10px" src="assets/EstActv.svg" matTooltip="Activo" />
+            </span>
+  
+            <span
+                *ngIf="element.suspVigencia"  
+            >
+                <img class="img-logo" style="margin-left: 10px" src="assets/EstSusp.svg" matTooltip="Suspendido"  />
+            </span>
+
+          </td>
+        </ng-container>
+  
+        <!-- SE AGREGA COLUMNA FECHA DE REGISTRO
+        <ng-container matColumnDef="fechReg">
+          <th mat-header-cell *matHeaderCellDef class="text-s-14r" style="font-weight: 0.1px">Fecha de Registro</th>
+          <td mat-cell *matCellDef="let element">
+            {{ element.fechReg }}
+          </td>
+        </ng-container>
+        -->
+    
+        <tr
+          mat-header-row
+          *matHeaderRowDef="displayedColumns"
+          [ngClass]="{ headerRow: true }"
+        ></tr>
+        
+        <tr
+          mat-row
+          *matRowDef="let row; columns: displayedColumns; index as i"
+        ></tr>  <!-- [ngClass]="getClassRow(i)" -->
+        
+      -
+  
+  
+      </table>
+  
+      <mat-paginator
+        #paginator
+        [pageSizeOptions]="[25, 50, 100]"
+        showFirstLastButtons
+      ></mat-paginator>
+
+    </div>
+  </div>

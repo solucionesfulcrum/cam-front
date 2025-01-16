@@ -1,0 +1,238 @@
+import { DialogRef, DIALOG_DATA } from '@angular/cdk/dialog';
+import { DatePipe } from '@angular/common';
+import { Component, Inject } from '@angular/core';
+import { FormBuilder, FormControl, Validators } from '@angular/forms';
+import { ActivatedRoute } from '@angular/router';
+import { Parametro } from '@models/parametros-busqueda.model';
+import { RequestStatus } from '@models/request-status.model';
+import { RolData } from '@models/rol/rol-data.model';
+import { ActivateUserSSO, ActivateUserSigps } from '@models/usuario/user.model';
+import { NotificationService } from '@services/notification.service';
+import { RolService } from '@services/rol.service';
+import { UsersService } from '@services/users.service';
+import { ToastrService } from 'ngx-toastr';
+import { startWith, map } from 'rxjs';
+import { ControlAptosService } from 'src/app/data/services/control/control-aptos.service';
+import { ControlProgramacionService } from 'src/app/data/services/control/control-programacion.service';
+import { DatosGeneralesService } from 'src/app/data/services/datos-generales.service';
+
+@Component({
+  selector: 'esp-inscripcion-modal',
+  templateUrl: './inscripcion-modal.component.html',
+  styleUrls: ['./inscripcion-modal.component.scss']
+})
+export class InscripcionModalComponent {
+
+  minDate = new Date();
+  listRoles: RolData[] = [];
+  status: RequestStatus = 'init';
+  // frmCtrlRol = new FormControl();
+  // rolSeleccionadoTmp!: RolData;
+  idUser: any;
+  listUnidadOperativa: any[] = [];
+  frmNombre = new FormControl('',[
+    Validators.required,
+    Validators.minLength(3),
+    Validators.maxLength(50)
+  ]);
+  unidOperaSeleccionadaTmp!: any;
+
+  showMsg = false;
+  idUserSession: any;
+  userData = Object();
+
+  srcAsegurado = "";
+  statusLoadContacto = false;
+  nombreContacto = "";
+  numdocContacto = "";
+  tipoDoc= "";
+  idAsegurado = "";
+  conConexion! : boolean;
+  acreditado!: boolean;
+
+
+  public form = this.fb.nonNullable.group({
+    frmTipoDoc: ['1', [Validators.required]],
+    frmNumdoc: ['', [Validators.required]],
+    fechaNac:[''],
+  });
+
+  
+  opciones: Parametro[] = [];
+
+  
+
+  columnWidths: string = '24% 23% 50% 0%';
+  
+  constructor(private _dialogRef: DialogRef<InscripcionModalComponent>,
+    @Inject(DIALOG_DATA) public data: any,
+    private rolesService: RolService,
+    private _notification: NotificationService,
+    private datosService: DatosGeneralesService,
+    private userService: UsersService,
+    private fb: FormBuilder,
+    private route: ActivatedRoute,
+  private inscripcionService: ControlAptosService,
+  private controlProgramacionService : ControlProgramacionService,
+  private toastrService: ToastrService){
+
+    
+  }
+
+  ngOnInit(): void {
+    this.form.get('frmTipoDoc')!.valueChanges.subscribe(value => {
+      this.setDocumentValidators(value);
+      this.form.get('fechaNac')?.setValue("");
+    })
+    this.getParametros();
+  }
+
+  setDocumentValidators(documentType: string) {
+    const documentNumberControl = this.form.get('frmNumdoc')!;
+    if (documentType === '1') {
+      documentNumberControl.setValidators([
+        Validators.required,
+        Validators.pattern(/^\d{8}$/)
+      ]);
+    } else if (documentType === '4') {
+      documentNumberControl.setValidators([
+        Validators.required,
+       // Validators.pattern(/^[a-zA-Z0-9]{9}$/)
+      ]);
+    }
+    else if (documentType === '23') { // Suponiendo que 'X' es el tipo de documento para el permiso temporal de permanencia
+    documentNumberControl.setValidators([
+      Validators.required,
+      Validators.pattern(/^\d{9}$/) // Ajusta el patrón según el formato del permiso temporal de permanencia
+    ]);
+  } else if (documentType === '7') { // Suponiendo que 'P' es el tipo de documento para el pasaporte
+    documentNumberControl.setValidators([
+      Validators.required,
+      Validators.pattern(/^[a-zA-Z0-9]{9}$/) // Ajusta el patrón según el formato del pasaporte
+    ]);
+  }
+    else {
+      documentNumberControl.setValidators(Validators.required);
+    }
+    documentNumberControl.updateValueAndValidity();
+  }
+
+  cargaServiciosParametros() {
+    this.rolesService.getListRolesActivos().subscribe((data) => {
+      this.listRoles = data.data;
+    })
+  }
+
+  //Unidad Operativa --------------------------------------------------------------------------------------------------------------------------------------------------
+
+  displayFnUnidadOperativa(selectedoption: any) {
+    return selectedoption ? selectedoption.nombre : undefined;
+  }
+
+  onSelectionChangeUnidadOperativa(event: any) {
+
+    this.unidOperaSeleccionadaTmp = event.option.value.idUnidadOperativa;
+  }
+
+  //-------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+  onClose() {
+    this._dialogRef.close();
+  }
+  
+  markAllAsTouchedAndDirty() {
+    this.form.markAllAsTouched(); // Marca todos los controles como tocados
+    Object.values(this.form.controls).forEach(control => {
+      control.markAsDirty(); // Marca cada control como sucio
+    });
+  }
+
+ 
+
+
+//05110811
+  //06077426 TEST
+  buscarInscripcion(){
+    this.markAllAsTouchedAndDirty();
+    if(this.form.valid){
+      this.status = 'loading';
+      this.inscripcionService.buscarApto(
+        (JSON.parse(localStorage.getItem('UnidElegida')!)).idUnidOperativa,
+        this.form.get("frmTipoDoc")!.value,
+        this.form.get("frmNumdoc")!.value,
+        this.form.get("frmTipoDoc")!.value != "1" ? this.form.get("fechaNac")!.value : null
+      )
+      .subscribe(data => {
+        this.status = 'success';
+        if(data.data){
+
+          if(data.data.length > 0 && data.data[0].acreditacion){
+            
+            
+            this.statusLoadContacto = true;
+            //console.log(data);
+            this.srcAsegurado = data.data[0].foto;
+            this.nombreContacto = data.data[0].nombreCompleto;
+            this.numdocContacto = data.data[0].numDoc;
+            this.tipoDoc = data.data[0].tipoDoc;
+            this.acreditado = data.data[0].acreditacion;
+            this.idAsegurado = data.data[0].idFichaAsegurado;
+            this.conConexion = data.code == 0 ? true : false;
+            this.columnWidths = "24% 23% 44% 6%";
+          }
+          else{
+            this.toastrService.warning(data.message)
+          }
+        }
+        else{
+          this.toastrService.warning(data.message)
+        }
+      })
+    }
+   
+  }
+
+  resetColumnWidths(){
+    this.columnWidths = "24% 23% 50% 0%";
+  }
+
+  limpiarDatos(){
+    this.form.patchValue({
+      frmTipoDoc : "1",
+      frmNumdoc: ""
+    })
+    this.form.markAsUntouched();
+    this.statusLoadContacto = false;
+    this.resetColumnWidths();
+  }
+
+  registrar(){
+    let unidadOperativa : string = (JSON.parse(localStorage.getItem('UnidElegida')!)).idUnidOperativa;
+    let selectedProgramacion : string = String(localStorage.getItem('idProgramElegida'));
+    this.controlProgramacionService.registrarInscripcion({
+      idFichaAdmision: this.idAsegurado,
+      idUnidadOperativa: unidadOperativa,
+      idProgramacionDet: selectedProgramacion,
+      acreditado: this.acreditado,
+      idUsuarioReg: (JSON.parse(localStorage.getItem('camUser')!)).idUsuario,
+      conConexion: this.conConexion
+    }).subscribe(data => {
+      if(data.code == "0"){
+        this.toastrService.success("Registro Exitoso");
+        this.limpiarDatos();
+      }
+      else{
+        this.toastrService.warning(data.message);
+      }
+    })
+ 
+  }
+
+  getParametros(){
+    this.datosService.getTipoParametros('TIPO_DOCUMENTO_IDENTIDAD').subscribe((data) =>{
+      //console.log(data);
+      this.opciones = data.data;
+    });
+  }
+
+}

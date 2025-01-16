@@ -1,0 +1,420 @@
+<div>
+    <esp-opciones-botones 
+    [rutaRegreso]="'../..'" >
+    </esp-opciones-botones>
+  </div>
+<div class="px-4 py-3 bg-white w-full mt-3 grid botonApariencia" *ngIf="!datoProgramacion">
+    <div class="text-gray-600 w-full text-center">
+        <p class="py-1 font-semibold text-2xl">
+            <fa-icon class="mr-2" [icon]="faSpinner" [pulse]="true"></fa-icon>
+            Obteniendo datos...
+        </p>
+    </div>
+</div>
+<div class="flex flex-col gap-3" *ngIf="datoProgramacion">
+    <div class="flex flex-row gap-3 px-3 botonApariencia bg-white py-1.5">
+        <div class="flex flex-col justify-between grow">
+            <div class="py-3">
+                <div class="flex flex-row gap-2.5">
+                    <div class="flex flex-col gap-[5px] shrink-0 w-[46px]">
+                        <span class="font-semibold text-[40px] leading-[30px]">{{datoProgramacion.fecha | date:'dd'}}</span>
+                        <span class="font-light leading-[20px]">{{(datoProgramacion.fecha | date:'MMM') | titlecase}}</span>
+                    </div>
+                    <div class="flex flex-col gap-[5px] leading-[20px]">
+                        <div class="flex items-center justify-left space-x-2 text-[18px] font-medium">
+                            <span class="flex items-center">
+                                {{datoProgramacion.nombreServicio[0] + (datoProgramacion.nombreServicio.substring(1) | lowercase)}} 
+                                <span *ngIf="esCiram" style="font-size: 12px;" class="text-Name px-3">CIRAM {{nombreUO}}</span>
+                                <span *ngIf="!esCiram" style="font-size: 12px;" class="text-Name px-3">CAM {{nombreUO}}</span>
+                            </span>
+                            <span 
+                            matTooltip="Esta asistencia ha sido finalizada" 
+                            class="text-[#008000b8] flex items-center justify-center" 
+                            style="font-size: 20px; cursor: pointer;"
+                            *ngIf="datoProgramacion.estado == 'FINALIZADO'"
+                            >
+                            <mat-icon>check_circle</mat-icon>
+                            </span>
+                            <span class="flex items-center justify-center">
+                                <label (click)="irAEditarClase()" matTooltip="Editar taller/actividad de asistencia rápida" class="flex items-center justify-center w-7 h-7 rounded cursor-pointer peer-checked:bg-cam peer-checked:colorWhite hover:bg-[#057EC933]">
+                                    <img src="assets/svg/editar-clase.svg" class="w-6 h-6"> <!-- Ajusta el tamaño del ícono si es necesario -->
+                                </label>
+                            </span>
+                            <div class="flex flex-col items-center justify-center text-sm">
+                                <label class="cursor-pointer" for="file-input">
+                                  <i class="fas fa-upload text-3xl"></i> <!-- Ícono de FontAwesome -->
+                                </label>
+                                <input id="file-input" type="file" class="hidden" (change)="onFileSelected($event)" #fileInput />
+
+                                <img matTooltip="Subir evidencia" *ngIf="!fileUploaded && !loadingSesion && estadoSesionActual == 'FINALIZADO' && ['DEV', 'Local'].includes(variablesEntorno)" (click)="triggerFileInput(fileInput)" class="self-center h-8 w-8 cursor-pointer" src="assets/svg/subir-foto-evidencia.svg">
+                                <img matTooltip="Descargar evidencia" *ngIf="fileUploaded && estadoSesionActual == 'FINALIZADO' && ['DEV', 'Local'].includes(variablesEntorno)" (click)="downloadFile()" class="self-center h-7 w-7 cursor-pointer" src="assets/svg/bajar-foto-evidencia.svg">
+                                
+                              </div>
+                        </div>
+                        <span class="text-[14px] font-light"> {{(datoProgramacion.fecha | date: 'EEEE, dd' : 'es') | titlecase}} de {{(datoProgramacion.fecha | date: 'MMMM') | titlecase}} <!--de  {{((datoProgramacion.fecha + ' ' + datoProgramacion.horaIni) | date:'hh:mm aa -') +  ' ' + ((datoProgramacion.fecha + ' ' + datoProgramacion.horaFin) | date:'hh:mm aa')}} --></span>
+                    </div>
+                </div>
+            </div>
+            <div>
+                <div class="flex flex-row gap-[14px]" *ngIf="estadoSesionActual != 'FINALIZADO'">
+                    <ul class="flex flex-row gap-1.5">
+                        <li>
+                            <input type="radio" id="search-typing" [formControl]="ctrlTypeSearch" [value]="1" class="hidden peer" required />
+                            <label for="search-typing" class="flex items-center justify-center w-10 h-10 border border-[#D4D4D4] rounded cursor-pointer peer-checked:bg-cam peer-checked:colorWhite hover:bg-[#057EC933]">
+                                <img src="assets/svg/icon-search-typing.svg">
+                            </label>
+                        </li>
+                       <li>
+                            <input type="radio" id="search-bar-code" [formControl]="ctrlTypeSearch" [value]="2" class="hidden peer">
+                            <label for="search-bar-code" class="flex items-center justify-center w-10 h-10 border border-[#D4D4D4] rounded cursor-pointer peer-checked:bg-cam peer-checked:colorWhite hover:bg-[#057EC933]">
+                                <img src="assets/svg/icon-search-bar-code.svg">
+                            </label>
+                        </li>
+                       <li>
+                            <input type="radio" id="search-special" [formControl]="ctrlTypeSearch" [value]="3" class="hidden peer">
+                            <label for="search-special" class="flex items-center justify-center w-10 h-10 border border-[#D4D4D4] rounded cursor-pointer peer-checked:bg-cam peer-checked:colorWhite hover:bg-[#057EC933]">
+                                <img src="assets/svg/icon-search-special.svg">
+                            </label>
+                        </li>
+                    </ul>
+                    <div class="flex flex-row gap-3 grow">
+                        <input type="text" 
+                        class="inputTextoDialog focusCampo" *ngIf="ctrlTypeSearch.value == 1" [formControl]="ctrlSearch" 
+                        [readonly]="esperaBusqueda || datoProgramacion.cerrado" [matAutocomplete]="asegurados" 
+                        [placeholder]="datoProgramacion.cerrado ? 'Asistencia Cerrada' : esperaBusqueda ? 'Cargando data...' : 'Buscador'"
+                        
+                        [ngClass]="{'bg-gray-100': esperaBusqueda || datoProgramacion.cerrado}"
+                        >
+                        <mat-autocomplete #asegurados="matAutocomplete" [displayWith]="displayAseguradoFiltered" (optionSelected)="onAseguradoSelect($event)"
+                        (optionsScroll)="onAutocompleteScroll()" >
+                            <mat-option *ngFor="let option of listFilteredBusqueda" [value]="option">
+                                <div class="flex flex-row gap-2 items-center">
+                                    <!--<img class="h-10 rounded" src='data:image/jpeg;base64,{{option.foto}}'>-->
+                                    <img class="h-10 rounded" src='assets/images/imgReemplazo.png'>
+                                    <div class="flex flex-col gap-1 text-[##64748B]">
+                                        <span class="text-[14px] font-medium">{{option.nombreCompleto | titlecase}}</span>
+                                        <span class="text-[10px] leading-[10px] font-light"> <span class="!font-normal">{{option.tipoDoc === 'DNI' ? option.tipoDoc : option.tipoDoc | titlecase}}</span> {{option.numDoc}}</span>
+                                    </div>
+                                </div>                                
+                            </mat-option>
+                        </mat-autocomplete>
+                        <div class="flex flex-row gap-3 grow" *ngIf="ctrlTypeSearch.value == 2 || ctrlTypeSearch.value == 3" [formGroup]="formBuscarPersona">
+                            <div class="shrink-0">
+                              <div class="relative rounded-md shadow-sm">
+                                <select id="searchDoc" formControlName="frmSelectDoc"
+                                [disabled]="datoProgramacion.cerrado"
+                                  class="space-x-5 bg-slate-50 border border-gray-300 text-gray-900 text-sm rounded-lg focusCampo block w-full">
+                                  <option value="" disabled selected>Seleccione su tipo de documento</option>
+                                  <option *ngFor="let documento of opciones" [value]='documento.valor1'>{{documento.nombre | titlecase}}
+                                  </option>
+                                  <!-- <option value="1">Registrado</option> -->
+                                </select>
+                              </div>
+                             
+                            </div>
+                            <div class="relative rounded-md shadow-sm" *ngIf="formBuscarPersona.get('frmSelectDoc')?.value != '1'">
+                                <input
+                                   style="padding: 9px;"
+                                  formControlName="fechaNac"
+                                  placeholder="Fecha Nacimiento"
+                                  type="date"
+                                  id="fechaNac"
+                                  name="fechaNac"
+                                  class="w-full text-sm rounded bg-white border-gray-400 border-1 px-4 py-2 font-light focusCampo"
+                                  espEstiloInput
+                                />
+                                <label for="fechaNac" espEstiloLabel>Fecha Nacimiento</label>
+                              </div>
+                            <input 
+                            formControlName="frmDoc" 
+                            [placeholder]="statusLoadingBarra ? 'Cargando...' : 'Buscador'" 
+                            type="text" 
+                            name="doc" 
+                            id="frmDoc"
+                            (keydown.enter)="registrarAsistencia()"
+                            class="w-full text-sm rounded border-gray-400 border-1 px-4 py-2 font-light focusCampo grow"
+                            [readOnly]="formBuscarPersona.get('frmSelectDoc')?.value == '' || datoProgramacion.cerrado || statusLoadingBarra"
+                            [ngClass]="{'bg-slate-50': (formBuscarPersona.get('frmSelectDoc')?.value == ''&& !datoProgramacion.cerrado) || statusLoadingBarra,
+                                'bg-gray-100': datoProgramacion.cerrado || statusLoadingBarra
+                            }"
+                            [disabled]="datoProgramacion.cerrado"
+                            />
+                        </div>
+                        <ng-container *ngIf="!datoProgramacion.cerrado">
+                            <div class="w-[34px] h-10 flex items-center justify-center border border-gray-400 rounded shrink-0" *ngIf="!esperaBusqueda && ctrlTypeSearch.value == 2" (click)="!esperaBusqueda ? onAseguradoSelectCodigoBarra($event) : null">
+                                <img src="assets/svg/icon-contrato-confirm.svg" class="select-none">
+                              </div>
+                        </ng-container>
+                      
+                       <!-- <div class="w-[34px] h-10 flex items-center justify-center border border-gray-400 rounded shrink-0" *ngIf="ctrlTypeSearch.value == 1" [ngClass]="esperaBusqueda ? 'relative' : 'cursor-pointer hover:bg-slate-200'" (click)="!esperaBusqueda ? getListAseguradosFindByText('') : null">
+                          <img src="assets/svg/icons8-refresh-2.svg" class="select-none" [ngClass]="esperaBusqueda ? 'opacity-0' : null">
+                          <fa-icon *ngIf="esperaBusqueda" class="absolute" [icon]="faSpinner" [pulse]="true"></fa-icon>
+                        </div>-->
+
+                    </div>
+                </div>                
+            </div>
+        </div>
+        <div class="flex flex-col gap-[2px] shrink-0">
+            <div class="flex flex-row gap-2 py-[2px]">
+                <div class="flex items-center justify-center w-6">
+                    <img class="select-none" src="assets/svg/cifra.svg">
+                </div>
+                <div class="flex flex-col text-[#64748B]">
+                    <span class="leading-4">{{datoProgramacion.nroCifra}}</span>
+                    <span class="font-light leading-[10px] text-[10px]">{{descCifra}}</span>
+                </div>
+            </div>
+            <div class="flex flex-row gap-2 py-[2px]">
+                <div class="flex items-center justify-center w-6">
+                    <img class="select-none" src="assets/svg/icon-class-lesson.svg">
+                </div>
+                <div class="flex flex-col text-[#64748B]">
+                    <span class="leading-4">{{datoProgramacion.sesiones}}</span>
+                    <span class="font-light leading-[10px] text-[10px]">Sesión</span>
+                </div>
+            </div>
+            <div class="flex flex-row gap-2 py-[2px]">
+                <div class="flex items-center justify-center w-6">
+                    <img class="select-none" src="assets/svg/presupuesto.svg">
+                </div>
+                <div class="flex flex-col text-[#64748B]">
+                    <span class="leading-4">{{datoProgramacion.presupuesto | titlecase}}</span>
+                    <span class="font-light leading-[10px] text-[10px]">Presupuesto</span>
+                </div>
+            </div>
+            <div class="flex flex-row gap-2 py-[2px]">
+                <div class="flex items-center justify-center w-6">
+                    <img class="select-none" src="assets/svg/modalidad.svg">
+                </div>
+                <div class="flex flex-col text-[#64748B]">
+                    <span class="leading-4">{{datoProgramacion.modalidad | titlecase}}</span>
+                    <span class="font-light leading-[10px] text-[10px]">Modalidad</span>
+                </div>
+            </div>
+            <!--<div class="flex flex-row gap-2 py-[2px]">
+                <div class="flex items-center justify-center w-6">
+                    <img class="iconoEscalaGris select-none w-[14px]" src="assets/svg/icon-control-time.svg">
+                </div>
+                <div class="flex flex-col text-[#64748B]">
+                    <span class="leading-4">{{datoProgramacion.margenHorario}}</span>
+                    <span class="font-light leading-[10px] text-[10px]">Tiempo</span>
+                </div>
+            </div>-->
+            <div class="flex flex-row gap-2 py-[2px]">
+                <div class="flex items-center justify-center w-6">
+                    <img class="iconoEscalaGris select-none" src="assets/svg/icon-person-group.svg">
+                </div>
+                <div class="flex flex-col">
+                    <span class="leading-4 text-[var(--color-black-alt)]">{{total}}</span>
+                    <span class="font-light leading-[10px] text-[10px] text-[#64748B]">Participantes</span>
+                </div>
+            </div>
+
+            <div class="flex flex-row gap-1">
+               
+                <ng-container *ngIf="!finalizaClaseStep" >
+                    <div class="w-[28px] h-10 flex items-center justify-center border border-gray-400 rounded shrink-0 cursor-pointer hover:bg-slate-200" (click)="cambiarSesion(-1)" *ngIf="intervalos > 1 && sesionActual > 1">
+                        <img class="self-center h-5 w-5" src="assets/svg/icon-asistencia-preview.svg" *ngIf="!loadingSesion">
+                        <fa-icon class="" [icon]="faSpinner" [pulse]="true" *ngIf="loadingSesion"></fa-icon>
+                        <!--<fa-icon class="absolute" [icon]="faSpinner" [pulse]="true"></fa-icon>-->
+                    </div>
+                    <ng-container  *ngIf="sesionActual == intervalos">
+                        <ng-container>
+                            <app-btn (click)="finalizarSesionYTaller()" class="botonApariencia flex flex-row h-10 w-[170px]" [matTooltip]="total == 0 ? 'Debe registrar al menos una asistencia para poder finalizar el taller/actividad' : ''"
+                             [disabled]="total == 0 || datoProgramacion.estado == 'FINALIZADO'">
+                                <div class="flex flex-row items-right gap-[5px]"  style="font-size: 12px !important;">
+                                    <img class="self-center h-5 w-5" src="assets/svg/icon-list-assignments.svg" *ngIf="!loadingSesion">
+                                    <fa-icon class="" [icon]="faSpinner" [pulse]="true" *ngIf="loadingSesion"></fa-icon>
+                                    <span>Finalizar Taller</span> 
+                                </div>
+                            </app-btn>
+                        </ng-container>
+                    </ng-container>
+                    <ng-container  *ngIf="sesionActual != intervalos">
+                        <ng-container *ngIf="estadoSesionActual == 'FINALIZADO'">
+                            <app-btn (click)="IrAHora()" class="botonApariencia flex flex-row h-10 w-[170px]" [disabled]="((sesionActual == intervalos && cierreDeClases) || siguienteActivo) && !cierreDeClases" >  
+                                <div class="flex flex-row items-right gap-[5px]"  style="font-size: 12px !important;">
+                                    <img class="self-center h-5 w-5" src="assets/svg/icon-list-assignments.svg" *ngIf="!loadingSesion">
+                                    <fa-icon class="" [icon]="faSpinner" [pulse]="true" *ngIf="loadingSesion"></fa-icon>
+                                    <ng-container *ngIf="(sesionActual == intervalos && cierreDeClases)">
+                                        <span>Cerrar Asistencia</span> 
+                                    </ng-container>
+                                    <ng-container *ngIf="!(sesionActual == intervalos && cierreDeClases)">
+                                        <span>Ir a la Hora {{sesionActual + 1}} </span> 
+                                    </ng-container>
+                                 
+                                </div>
+                            </app-btn>
+                        </ng-container>
+                        <ng-container *ngIf="estadoSesionActual != 'FINALIZADO'">
+                            <app-btn (click)="finalizarSesion()" class="botonApariencia flex flex-row h-10 w-[170px]" [disabled]="total == 0 || estadoSesionActual == 'FINALIZADO'">
+                                <div class="flex flex-row items-right gap-[5px]"  style="font-size: 12px !important;">
+                                    <img class="self-center h-5 w-5" src="assets/svg/icon-list-assignments.svg" *ngIf="!loadingSesion">
+                                    <fa-icon class="" [icon]="faSpinner" [pulse]="true" *ngIf="loadingSesion"></fa-icon>
+                                    <span>Cerrar Asistencia</span> 
+                                </div>
+                            </app-btn>
+                        </ng-container>
+                    </ng-container>
+
+                   <ng-container *ngIf="this.siguienteActivo">
+                    <div class="w-[28px] h-10 flex items-center justify-center border border-gray-400 rounded shrink-0 cursor-pointer hover:bg-slate-200" 
+                    (click)="cambiarSesion(1)" *ngIf="intervalos > 1 && sesionActual < intervalos"
+                    >
+                        <img src="assets/svg/icon-asistencia-next.svg" class="select-none  h-5 w-5">
+                         <!--<fa-icon class="absolute" [icon]="faSpinner" [pulse]="true"></fa-icon>-->
+                    </div>
+                   </ng-container>
+                   
+                </ng-container>
+                <ng-container *ngIf="(sesionActual == intervalos && cierreDeClases) && !finalizaClaseStep && false">
+                    <div class="w-[28px] h-10 flex items-center justify-center border border-gray-400 rounded shrink-0 cursor-pointer hover:bg-slate-200" (click)="activarFinalizarClase(true)" >
+                        <img src="assets/svg/icon-asistencia-next.svg" class="select-none  h-5 w-5" *ngIf="!loadingSesion">
+                        <fa-icon class="" [icon]="faSpinner" [pulse]="true" *ngIf="loadingSesion"></fa-icon>
+                    </div>
+                </ng-container>
+                <ng-container *ngIf="finalizaClaseStep">
+                    <div class="w-[28px] h-10 flex items-center justify-center border border-gray-400 rounded shrink-0 cursor-pointer hover:bg-slate-200" (click)="activarFinalizarClase(false)">
+                        <img src="assets/svg/icon-asistencia-preview.svg" class="select-none h-5 w-5">
+                        <!--<fa-icon class="absolute" [icon]="faSpinner" [pulse]="true"></fa-icon>-->
+                    </div>
+                    <app-btn (click)="modalFinalizarClase()" class="botonApariencia flex flex-row h-10 w-[170px]" 
+                    
+                    [disabled]="total == 0 || datoProgramacion.estado == 'FINALIZADO'">
+                        <div class="flex flex-row items-right gap-[5px]"  style="font-size: 12px !important;">
+                            <img class="self-center h-5 w-5" src="assets/svg/icon-list-assignments.svg">
+                            <span>Finalizar Taller</span> 
+                        </div>
+                    </app-btn>
+                </ng-container>
+            </div>
+         
+
+          
+            <!--
+            <app-btn class="botonApariencia flex h-10" color="mezclado" [disabled]="true">
+                <div class="flex flex-row items-center gap-[5px]">
+                    <img class="self-center" src="assets/svg/icon-list-assignments.svg">
+                    <span>{{comienzoSesiones}} Hora</span>
+                </div>
+            </app-btn>-->
+        </div>
+    </div>
+    <!--
+        nombreCompleto: string;
+    horaAsis: string;
+    birthday : false;
+    horaAsistencia: Date;
+    aseguradoNuevo: false;
+    tipoDoc: string;
+    numDoc: string;
+    -->
+    <div *ngIf="dataSource.length == 0" class="w-full h-3/4 flex items-center bg-white botonApariencia">
+        <div class="m-auto w-fit text-center py-6">
+          <img class="m-auto" src="assets/svg/empty-data.svg" alt="">
+          <h3 class="text-gray-500 mt-2 font-light">No existen registros.</h3>
+        </div>
+      </div>
+
+    <div *ngIf="dataSource.length > 0"  class="flex flex-col py-2 px-3 botonApariencia bg-white">
+        <div>
+            <table cdk-table class="w-full text-sm text-left text-gray-500 tablaDatos" [dataSource]="dataSource" >
+              <tr cdk-header-row class="text-xs text-gray-700 bg-gray-50" *cdkHeaderRowDef="columns"></tr>
+              <tr cdk-row class="bg-white border-b" *cdkRowDef="let row; columns: columns"></tr>
+              <ng-container cdkColumnDef="marcar">
+                <th cdk-header-cell class="py-[1.25rem] px-6" *cdkHeaderCellDef [style]="'width: 0%;'">
+                    <input type="checkbox" *ngIf="estadoSesionActual != 'FINALIZADO'" [checked]="seleccionados.length == this.dataSource.length" (change)="afectarTodo($event)"/>
+                </th>
+                <td cdk-cell class="py-[1rem] px-6" *cdkCellDef="let row" [style]="'width: 0%;'"> 
+                    <input type="checkbox" *ngIf="estadoSesionActual != 'FINALIZADO'" class="checkbox-select" (change)="seleccionarFila($event)" [value]="row.idAsisRapidDet" [checked]="row.marcar"/> 
+                </td>
+              </ng-container>
+        
+              <ng-container cdkColumnDef="orden">
+                <th cdk-header-cell class="py-[1.25rem] px-6" *cdkHeaderCellDef [style]="'padding-left: 0px; width: 3%'">N°</th>
+                <td cdk-cell class="py-[1rem] px-6 font-semibold" *cdkCellDef="let row, index as i" [style]="'padding-left: 0px; width: 3%'">{{ row.orden }}</td>
+              </ng-container>
+        
+              <ng-container cdkColumnDef="nombreCompleto">
+                <th cdk-header-cell class="py-[0.5rem] px-6" *cdkHeaderCellDef [style]="'padding-left: 0px;'">
+                    <ng-container *ngIf="seleccionados.length == 0">
+                        Apellidos y Nombres
+                    </ng-container>
+                    <ng-container *ngIf="seleccionados.length > 0">
+                       {{seleccionados.length + " Seleccionados(s)"}} 
+
+                       <div class="relative inline-block text-left px-2 dropdown-container">
+                        <button type="button" class="inline-flex justify-center w-full rounded-md bg-cam border border-gray-300 shadow-sm px-4 py-2 bg-white text-sm font-medium text-white hover:bg-gray-50 focus:outline-none" (click)="toggleDropdown()">
+                          Acciones
+                          <img src="assets/svg/icon-dropdown-white.svg" class="my-2 pl-2">
+                        </button>
+                        <div *ngIf="dropdownOpen" class="origin-top-right absolute right-0 mt-1 w-56 mx-2 rounded-md shadow-lg bg-white ring-1 ring-black ring-opacity-5 focus:outline-none">
+                          <div class="py-1" role="menu" aria-orientation="vertical" aria-labelledby="options-menu">
+                            <a class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 cursor-pointer" role="menuitem" (click)="eliminaSeleccionados($event)">
+                                Eliminar Seleccionado
+                            </a>
+                          </div>
+                        </div>
+                      </div>
+                    </ng-container>
+                    </th>
+                <td cdk-cell class="py-[1rem] px-6 font-semibold flex" *cdkCellDef="let row" style="color: rgba(0, 139, 210, 1);" [style]="'padding-left: 0px;'">
+                    <span class="display-">
+                        {{ row.nombre }}
+                    </span>
+                </td>
+              </ng-container>
+
+              <ng-container cdkColumnDef="continua">
+                <th cdk-header-cell class="py-[1.25rem] px-6" *cdkHeaderCellDef>Continua el Taller</th>
+                <td cdk-cell class="py-[1rem] px-6" *cdkCellDef="let row">
+                    <div class="mx-4">
+                        <label>
+                            <span class="font-semibold mx-2">Sí</span>
+                             <input type="radio" [(ngModel)]="selectedOptions[row.idAsegurado]" [value]="true" name="option-{{row.idAsegurado}}" /> 
+                        </label>
+                        <label>
+                            <span class="font-semibold mx-2">No</span>
+                            <input type="radio" [(ngModel)]="selectedOptions[row.idAsegurado]" [value]="false" name="option-{{row.idAsegurado}}" /> 
+                        </label>
+                    </div>
+                </td>
+              </ng-container>
+
+
+        
+              <ng-container cdkColumnDef="tipoDoc">
+                <th cdk-header-cell class="py-[1.25rem] px-6" *cdkHeaderCellDef>Documento</th>
+                <td cdk-cell class="py-[1rem] px-6" *cdkCellDef="let row">{{row.tipoDoc }}</td>
+              </ng-container>
+        
+              <ng-container cdkColumnDef="numDoc">
+                <th cdk-header-cell class="py-[1.25rem] px-6" *cdkHeaderCellDef>N° de Documento</th>
+                <td cdk-cell class="py-[1rem] px-6" *cdkCellDef="let row">{{ row.numDoc }}</td>
+              </ng-container>
+        
+              <ng-container cdkColumnDef="horaAsistencia">
+                <th cdk-header-cell class="py-[1.25rem] px-6" *cdkHeaderCellDef>Registrado</th>
+                <td cdk-cell class="py-[1rem] px-6" *cdkCellDef="let row">{{ row.fechaRegistro |  date:'dd/MM/yyyy - h:mm a' }}</td>
+              </ng-container>
+        
+              <ng-container cdkColumnDef="birthday">
+                <th cdk-header-cell class="py-[1.25rem] px-6" *cdkHeaderCellDef></th>
+                <td cdk-cell class="py-[1rem] px-6" *cdkCellDef="let row">  </td>
+              </ng-container>
+        
+            </table>
+           <!-- <mat-paginator #paginator class="demo-paginator paginatorDatos" 
+            (page)="handlePageEvent($event)"
+            [length]="total"
+            [pageSize]="pageSize"
+            showFirstLastButtons="true"
+            [pageSizeOptions]="pageSizeOptions.length > 0 ? pageSizeOptions : []"
+            [pageIndex]="pageIndex"
+            aria-label="Select page">
+            </mat-paginator>
+            -->
+        </div>      
+    </div>
+</div>

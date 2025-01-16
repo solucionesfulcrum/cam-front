@@ -1,0 +1,140 @@
+.cardBackground{
+    padding-top: 1rem;
+    padding-bottom: 1rem;
+    background-color: white;
+    color: #344563;
+    border-radius: 5px;
+    box-shadow: 1px 1px 4px 0px rgba(0, 0, 0, 0.4);
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.inputCustom{
+    display: flex;
+    padding: 3px;
+    border-width: 0.5px;
+    border-radius: 0.25rem;
+    border-color: #979797;
+    input{
+        border-radius: 0px;
+    }
+    input:checked{
+        border-radius: 0px;
+        background: var(--color-CAM-Mezclado);
+    }
+}
+.contenedorOpcion{
+    display: flex;
+    flex-direction: row;
+    gap: 0.5rem;
+    align-items: center;
+    justify-content: space-between;
+    height: 35px;
+    .deleteDiv{
+        flex-shrink: 0;
+        display: none;
+        img{
+            cursor: pointer;
+        }
+    }
+}
+.contenedorOpcion:hover{
+    .deleteDiv{
+        display: block;
+    }
+}
+
+::ng-deep.texturizarBoton{
+    button{
+        -webkit-text-fill-color: inherit;
+        font-weight: 400;
+        font-size: 16px;
+    }
+}
+
+.pseudoTablaHorarios{
+    --border-color: #E0E0E0;
+    --width-header: 13.67673179396092%;
+    --width-fechas: 4.26287744227353%;
+
+    .horasTable{
+        display: flex;
+        flex-direction: column;
+    }
+    .contenedorHorarios{
+        display: flex;
+        flex-direction: column;
+        .filaHorariosDia{
+            display: flex;
+            flex-direction: row;
+            .hora{
+                flex-grow: 1;
+                position: relative;
+            }
+            .cuadroHorarioDia{
+                ::-webkit-scrollbar {
+                    display: none;
+                }
+                // padding: 0 0.25rem;
+                display: flex;
+                gap: 0.125rem;
+                align-items: center;
+                width: var(--width-header);
+                height: 40px;
+                flex-shrink: 0;
+                border-right-width: 1px;
+                border-top-width: 1px;
+                border-color: var(--border-color);
+                border-style: solid;
+                flex-wrap: wrap;
+            }
+        }
+    }
+    .headTable{
+        display: flex;
+        flex-direction: row;
+        justify-content: flex-end;
+        .headerFecha{
+            width: var(--width-header);
+            text-align: center;
+            height: 24px;
+            border-right-width: 1px;
+            border-color: var(--border-color);
+            border-style: solid;
+        }
+        .fechasRow{
+            width: var(--width-fechas);
+            height: 72px;
+        }
+    }
+}
+
+::ng-deep.modificarAltura{
+    .contenedorOpcionesBotones{
+        margin-top: 0 !important;
+    }
+}
+
+.menu-layout {
+    display: flex;
+    flex-direction: column;
+    background-color: rgb(255, 255, 255);
+    padding: 12px 28px;
+    box-shadow: 0px 8px 10px rgba(0, 0, 0, 0.14), 0px 8px 14px rgba(0, 0, 0, 0.12), 0px 8px 5px rgba(0, 0, 0, 0.2);
+    border-radius: 4px;
+    .iconoEscalaGris{
+        filter: invert(50%) sepia(27%) saturate(855%) hue-rotate(179deg) brightness(42%) contrast(30%);
+    }
+}
+
+.barraTarea{
+    display: flex;
+    flex-shrink: 0;
+    align-content: flex-start;
+    flex-wrap: wrap;
+    justify-content: center;
+    padding: 1px;
+    background-color: var(--color-CAM);
+    width: 9px;
+}

@@ -1,0 +1,341 @@
+/* You can add global styles to this file, and also import other style files */
+/*
+@import "~bootstrap/dist/css/bootstrap.css";
+@import './assets/styles/my-theme.scss';
+*/
+$colorPrimary: var(--color-CAM);
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+@import '@angular/cdk/overlay-prebuilt.css';
+// @import 'ngx-toastr/toastr';
+
+:root{
+  --color-CAM : #057EC9;
+  --color-CAM-Transparente : rgb(51, 153, 153, 0.3);
+  --color-CAM-Claro : #008BD2;
+  --color-fondo-claro: #F3FCFE;
+  --color-CAM-Mezclado: linear-gradient(52.75deg, #057EC9 34.02%, #0160AE 80.1%);
+  --color-black-alt: #344563;
+}
+
+.borderSigps{
+  background: var(--color-CAM-Mezclado);
+  background-size: 100% 2px;
+  background-position: bottom 0 left 0,bottom 5px left 0;
+  background-repeat: no-repeat;
+}
+
+.header {
+  text-align: center;
+  margin-bottom: 50px;
+}
+
+.required {
+  color: #f82929;
+}
+
+.step[target]:after{
+  z-index: 1;
+}
+
+.focusCampo:focus{
+    --tw-ring-color: var(--color-CAM);
+    border-color: var(--color-CAM-Claro);
+}
+
+.cuadroRadioButton, .selectRadioBoolean{
+  color: rgb(107 114 128);
+  width: 100%;
+  padding: 0.75rem;
+  background-color: white;
+  border-width: 1px;
+  cursor: pointer;
+}
+
+.selectRadioBoolean{
+  border-color: #64748B;
+}
+
+.cuadroRadioButton{
+  border-color: rgb(229 231 235);
+}
+
+.cuadroRadioButton:hover, .selectRadioBoolean:hover{
+  background-color: #f3f4f6;
+  color: #4b5563;
+}
+
+.bordColorEstablecido, li.elementoSeleccionable .peer:checked ~ label , li.elementoSeleccionable input.peer, li.seleccionableDerecha .peer:checked ~ label , li.seleccionableDerecha input.peer, li.radioBgDiferente .peer:checked ~ label , li.radioBgDiferente input.peer{
+  color: var(--color-CAM);
+  border-color: var(--color-CAM);
+}
+
+li.elementoSeleccionable input.peer:checked, li.seleccionableDerecha input.peer:checked, li.radioBgDiferente input.peer:checked{
+  background-image: url("data:image/svg+xml,%3csvg viewBox='0 0 16 16' fill='white' xmlns='http://www.w3.org/2000/svg'%3e%3ccircle cx='8' cy='8' r='3'/%3e%3c/svg%3e"), var(--color-CAM-Mezclado);
+  background-size: 1em 1em;
+  border-color: var(--color-CAM);
+}
+
+li.radioBgDiferente input.peer:not(:checked){
+  background: url("data:image/svg+xml,%3csvg viewBox='0 0 16 16' fill='white' xmlns='http://www.w3.org/2000/svg'%3e%3ccircle cx='8' cy='8' r='3'/%3e%3c/svg%3e"), #64748B;
+  border-color: #64748B;
+}
+
+ul.grupoOpciones, ul.grupoDirecciones{
+  li.elementoSeleccionable, li.seleccionableDerecha{
+    position: relative;
+    input{
+      position: absolute;
+    }
+    label{
+      display: inline-flex;
+      align-items: center;
+      height: 100%;
+    }
+  }
+
+  li.elementoSeleccionable{
+    input{
+      margin-left: 0.75rem;
+    }
+  }
+
+  li.seleccionableDerecha{
+    input{
+      margin-right: 0.75rem;
+      right: 0;
+    }
+  }
+}
+
+ul.grupoOpciones{
+  li.elementoSeleccionable, li.seleccionableDerecha{
+    display: flex;
+    align-items: center;
+  }
+}
+
+ul.grupoDirecciones{
+  gap: 0.75rem;
+  width: 100%;
+  display: grid;
+  margin-bottom: 0.75rem;
+  margin-top: 1.25rem;
+}
+
+.inputTextoDialog{	
+  display: block;
+  width: 100%;
+  border-radius: 0.375rem;
+  border-width: 0px;
+  padding-top: 0.375rem;
+  padding-bottom: 0.375rem;
+  color: rgb(17 24 39);
+  box-shadow: var(--tw-ring-inset) 0 0 0 calc(1px + var(--tw-ring-offset-width)) var(--tw-ring-color);
+  --tw-ring-inset: inset;
+  --tw-ring-color: #d1d5db;
+  height: 2.5rem;
+  font-size: 0.875rem;
+  line-height: 1.25rem;
+}
+.inputTextoDialog::placeholder{
+  color:#9ca3af;
+}
+.inputTextoDialog::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+.inputTextoDialog:focus{
+  box-shadow: var(--tw-ring-inset) 0 0 0 calc(2px + var(--tw-ring-offset-width)) var(--tw-ring-color);
+}
+.list-item-activo {
+  border-left-color: var(--color-CAM) !important;
+  img{
+    filter: none !important;
+  }
+  color: var(--color-CAM) !important;
+  esp-icon{
+    color: var(--color-CAM) !important;
+  }
+}
+.list-item-activo, .nav-list-item li a:hover,.fondoSigps{
+  background: var(--color-fondo-claro);
+  border-left-color: var(--color-fondo-claro);
+}
+.nav-list-item{
+  li{
+    a{	
+      border-left: 3px solid transparent;
+      font-size: 16px;
+      line-height: 28px;
+      font-weight: 400;
+      padding: 0.75rem 13.25px 0.75rem 13.25px;
+      display: block;
+      color: #3E4348;
+      esp-icon{
+        color:#D4D4D4;
+      }
+    }
+  }
+}
+.text-Name{
+    font-weight: 600;
+    background: var(--color-CAM-Mezclado);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+
+.subTitulo{  
+  color: var(--color-CAM);
+  border-color: var(--color-CAM);
+  font-weight: 600;
+  padding-left: 0.5rem;
+  border-left-width: 4px;
+}
+
+html, body { height: 100%; }
+body { 
+  margin: 0; 
+  font-family: 'Poppins';
+  .mdc-tab{
+    min-width: 70px;
+    font-family: 'Poppins' !important;
+    letter-spacing: 0;
+  }
+  .mat-mdc-tab-link.mdc-tab, .mat-mdc-tab.mdc-tab{
+    height: 35px !important;
+  }
+  // font-family: Roboto, "Helvetica Neue", sans-serif; 
+}
+
+.tablaDatos, .paginatorDatos, .tablaDatos thead{
+  border: #e5e7eb !important;
+  border-width: thin !important;
+  border-style: solid !important;
+}
+
+.tablaDatos th{
+  color: rgb(55 65 81 / var(--tw-text-opacity));
+  font-weight: 700;
+  background: #F6F6F6 !important;
+  font-size: 0.875rem;
+}
+
+.paginatorDatos{
+  border-top: 0 !important;
+}
+
+.botonApariencia{
+  color: #3e4348;
+  border-radius: 5px;
+  box-shadow: 1px 1px 4px 0px #00000066;
+}
+
+.bg-cam{
+  background: var(--color-CAM-Mezclado);
+}
+
+.selected-item{
+  visibility: hidden;
+  position: absolute;
+  top: 0;
+  font-family: Roboto, "Helvetica Neue", sans-serif;
+  left: 0;
+}
+
+@media print{
+  @page {
+    size: auto;
+    margin: 0mm;
+  }
+  body, mat-drawer{
+    visibility: hidden !important;
+  }
+  mat-drawer-content{
+    margin-left: 0 !important;
+  }
+  .selected-item{
+    visibility: visible !important;
+    .bg-ficha-adm{
+      background: #EAEAEA;
+      print-color-adjust: exact; 
+    }
+  }
+}
+
+.botonApariencia-shadow-low{
+  color: #3e4348;
+  border-radius: 1px;
+  border-top: 1px solid #e5e7eb !important;
+  border-left: 1px solid #e5e7eb !important;
+  border-right: 1px solid #e5e7eb !important;
+  border-bottom: 1px solid #e5e7eb !important;
+}
+
+.table-container {
+  height: 65vh; 
+  overflow-y: auto; 
+  position: relative;
+  background-color: white;
+  border-top: 1px solid #e5e7eb !important;
+  border-left: 1px solid #e5e7eb !important;
+  border-right: 1px solid #e5e7eb !important;
+}
+
+/* Estilo para la barra de desplazamiento del cuerpo de la tabla */
+.table-container::-webkit-scrollbar {
+  width: 4px; /* Ancho de la barra de desplazamiento */
+  height: 4px; /* Altura de la barra de desplazamiento (para el eje horizontal) */
+  background-color: rgb(249, 250, 251) !important; /* Color de fondo de la barra de desplazamiento */
+}
+
+/* Estilo para el pulgar (scrollbar thumb) de la barra de desplazamiento del cuerpo de la tabla */
+.table-container::-webkit-scrollbar-thumb {
+  background-color: #c1c1c1; /* Color de fondo del pulgar */
+  border-radius: 4px; /* Radio de borde del pulgar */
+}
+
+/* Estilo para el pulgar al estar en estado hover en el cuerpo de la tabla */
+.table-container::-webkit-scrollbar-thumb:hover {
+  background-color: #a8a8a8; /* Color de fondo del pulgar en estado hover */
+}
+
+.table-container table {
+  border-collapse: collapse;
+  border-spacing: 0;
+}
+
+.table-container table thead th {
+  position: -webkit-sticky;
+  background-color: rgb(249 250 251 / var(--tw-bg-opacity)) !important;
+  position: sticky;
+  top: 0px;
+  font-size: 14px;
+  z-index: 2;
+  box-shadow: inset 0 0px 0 #e5e7eb, inset 0 -1px 0 #e5e7eb;
+}
+
+
+
+
+//CODIGO DE COLORES
+$success-cam : #0CCE6B;
+$primary-cam : #057EC9;
+
+//SISTEMAS EXTERNOS
+$essi-color: #00CFE8;
+
+.text-success-cam{
+  color: $success-cam !important
+}
+
+.text-primary-cam{
+  color: $primary-cam !important
+}
+
+.text-essi{
+  color: $essi-color !important
+}
+

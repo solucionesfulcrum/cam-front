@@ -1,0 +1,22 @@
+.mat-tab-body.mat-tab-body-active {
+    overflow-y: hidden;
+}
+.titulo{
+    color:#3E4348;
+    font-weight: 550;
+}
+  
+::ng-deep.mat-mdc-tab-link:not(.mat-mdc-tab-disabled) .mdc-tab-indicator__content--underline{
+    border-color: var(--color-CAM);
+}
+
+::ng-deep.mat-mdc-tab-link:not(.mat-mdc-tab-disabled).mdc-tab--active .mdc-tab__text-label{
+    color:var(--color-CAM);
+}
+  
+::ng-deep.tabsSubTemas.mdc-tab{
+    font-size: 16px;
+    padding-right: 2px;
+    padding-left: 2px;
+    margin-right: 6px;
+}

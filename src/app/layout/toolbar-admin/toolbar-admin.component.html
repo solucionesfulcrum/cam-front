@@ -1,0 +1,118 @@
+<mat-drawer-container class="w-full h-screen grid grid-cols-[250px_calc(100vw-250px)] overflow-x-hidden">
+    <mat-drawer-content class="fondoSigps">
+        <nav class="supports-backdrop-blur:bg-white/95 backdrop-blur bg-white border-gray-200 px-6 py-1 shadow-lg min-h-[55px] flex flex-row justify-between items-center">
+            <div class="flex flex-row gap-[18px]" >
+                <img class="cursor-pointer" src="assets/svg/icon-menu-options-toolbar.svg" [cdkMenuTriggerFor]="toolbarOptions"  />
+                <div class="flex flex-row gap-2.5 items-center text-xl" >
+                    <img class="w-6 h-6" src="assets/images/img-CAM-logo-pequenio.png"/>
+                    <span class="text-[#0160AE] font-bold" routerLink="/app/admin" style="cursor: pointer;">Módulo-PAM</span>
+                    <span>Administración</span>
+                </div>
+            </div>
+            <div class="flex flex-row gap-7">
+                <img class="cursor-pointer" src="assets/svg/icon-doubt-sign-toolbar.svg"/>
+                <img class="cursor-pointer w-8 rounded-full" src="assets/images/iconUser.png" *ngIf="!imagenFoto" alt="user photo" [cdkMenuTriggerFor]="accountOptions"/>
+                <img class="cursor-pointer w-8 rounded-full"  [src]="'data:image/JPEG;base64,' + imagenFoto" *ngIf="imagenFoto" alt="user photo" [cdkMenuTriggerFor]="accountOptions"/>
+            </div>
+        </nav>
+        
+        <ng-template #toolbarOptions>
+            <div class="example-menu" cdkMenu>
+                <div class="flex flex-col divide-y gap-2.5" cdkMenuGroup>
+                    <div class="px-2.5 flex flex-col gap-2.5">
+                        <button class="elementoOpcion" cdkMenuItem routerLink="/app/admin/users" *ngIf="userRol != 'CAM' && userRol != 'USER'">
+                            <img src="assets/svg/icon-toolbar-users.svg"/>
+                            <span>Usuarios</span>
+                        </button>
+                        <div class="elementoOpcion" cdkMenuItem routerLink="/app/admin/contactos" *ngIf="userRol != 'CAM' && userRol != 'USER'">
+                            <img src="assets/svg/contactos.svg"/>
+                            <span>Contactos</span>
+                        </div>
+                        <div class="elementoOpcion" cdkMenuItem routerLink="/app/admin/asistencia-rapida" *ngIf="userRol != 'CAM' && userRol != 'USER'">
+                            <img src="assets/svg/icon-search-special-menu.svg"/>
+                            <span>Asistencia Rápida</span>
+                        </div>
+                        
+                        <button class="elementoOpcion" cdkMenuItem *ngIf="userRol != 'CAM' && userRol != 'USER'" routerLink="/app/admin/gestion-servicios">
+                            <img src="assets/svg/cartera-servicios.svg"/>
+                            <span>Cartera de Servicios</span>
+                        </button>
+                       <button class="elementoOpcion" cdkMenuItem *ngIf="userRol != 'CAM' && userRol != 'USER'" routerLink="/app/admin/unidades-operativas">
+                            <img src="assets/svg/icon-toolbar-unid-operativ.svg"/>
+                            <span>Unidades Operativas</span>
+                        </button>
+                        
+                        <button class="elementoOpcion" cdkMenuItem *ngIf="userRol != 'CAM' && userRol != 'USER'" routerLink="/app/admin/reportes-generados">
+                            <img src="assets/svg/report.svg"/>
+                            <span>Reportes generados</span>
+                        </button>
+
+                        <button class="elementoOpcion" cdkMenuItem *ngIf="userRol != 'CAM' && userRol != 'USER' && false" routerLink="/app/admin/parametros">
+                            <img src="assets/svg/parametros.svg"/>
+                            <span>Parametros</span>
+                        </button>
+                        
+                       <!-- <button class="elementoOpcion" cdkMenuItem *ngIf="userRol != 'CAM'" routerLink="/app/admin/cartera-de-servicios">
+                            <img src="assets/svg/icon-toolbar-services.svg"/>
+                            <span>Cartera de Servicios</span>
+                        </button>--> 
+                  
+                        <!--
+                        <div class="elementoOpcion">
+                            <img src="assets/svg/icon-toolbar-unid-operativ.svg"/>
+                            <span>Unidades Operativas</span>
+                        </div>
+                        <div class="elementoOpcion">
+                            <img src="assets/svg/icon-toolbar-services.svg"/>
+                            <span>Cartera de Servicios</span>
+                        </div> -->
+                    </div>
+                    <div class="px-2.5 py-1">
+                        <button class="elementoOpcion" cdkMenuItem routerLink="/app/admin">
+                            <img src="assets/svg/icon-toolbar-wheel.svg"/>
+                            <span>Administración</span>
+                        </button>
+                        <!-- <div class="elementoOpcion">
+                            <img src="assets/svg/icon-toolbar-wheel.svg"/>
+                            <span>Administración</span>
+                        </div> -->
+                    </div>
+
+                </div>
+            </div>
+        </ng-template>
+        
+        <ng-template #accountOptions>
+            <div class="example-menu !p-2.5" cdkMenu>
+                <div class="flex flex-col gap-3" cdkMenuGroup>
+                    <div class="p-2.5 flex flex-row bg-[#F4F5F7]">
+                        <img class="w-20 h-20 rounded-full"
+                         src="assets/images/iconUser.png"
+                         *ngIf="!imagenFoto"
+                         />
+                         <img class="w-20 h-20 rounded-full"
+                         [src]="'data:image/JPEG;base64,' + imagenFoto"
+                         *ngIf="imagenFoto"
+                         />
+                        <div class="p-2.5 flex flex-col gap-2.5">
+                            <span class="text-lg overflow-hidden text-ellipsis">{{userInfo.nombres | titlecase}}</span>
+                            <span>{{userInfo.correo}}</span>
+                        </div>
+                    </div>
+                    <div class="elementoOpcion px-2.5" (click)="config()" cdkMenuItem>
+                        <img src="assets/svg/icon-toolbar-wheel.svg"/>
+                        <span>Configuración de la cuenta</span>
+                    </div>
+                    <div class="elementoOpcion px-2.5" (click)="logout()" cdkMenuItem>
+                        <img src="assets/svg/icon-toolbar-logout.svg"/>
+                        <span>Cerrar sesión</span>
+                    </div>
+                </div>
+            </div>
+        </ng-template>
+        
+        <div class="px-5 py-5">
+            <router-outlet></router-outlet>
+        </div>
+    </mat-drawer-content>
+</mat-drawer-container>

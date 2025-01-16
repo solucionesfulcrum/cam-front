@@ -1,0 +1,143 @@
+<div class="botonApariencia">
+    <div class="px-4 py-3 bg-cam flex justify-between text-white rounded-t-md">
+      <span>Editar Servicio</span>
+      <button (click)="onClose()"><esp-icon icon="faClose"></esp-icon></button>
+    </div>
+  
+    <form [formGroup]="servicioForm" (ngSubmit)="editarServicio()" class="bg-white flex flex-col text-[#37474F] p-3">
+      <div class="py-4">
+        <div class="w-full flex flex-col gap-4">
+
+          <div class="flex flex-col gap-0.5">
+            <span class="font-bold text-xs">ID Servicio</span>
+            <span class="text-sm">{{dataForm.idServicio}}</span>
+            <!-- <div class="relative">
+              <input
+                type="text"
+                name="idServicio"
+                formControlName="idServicio"
+                class="inputTextoDialog focusCampo !h-10 pr-7"
+                id="idServicio"
+                espEstiloInput
+              />
+              <label espEstiloLabel for="idServicio">ID Servicio</label>
+            </div> -->
+          </div>
+
+          <div class="flex flex-col gap-0.5">
+            <span class="font-bold text-xs">Nombre Servicio</span>
+            <span class="text-sm">{{dataForm.nombreServicio}}</span>
+            <!-- <div class="relative">
+              <input
+                type="text"
+                name="nombreServicio"
+                formControlName="nombreServicio"
+                class="inputTextoDialog focusCampo !h-10 pr-7"
+                id="nombreServicio"
+                espEstiloInput
+              />
+              <label espEstiloLabel for="nombreServicio">Nombre Servicio</label>
+            </div> -->
+          </div>
+          <div class="flex flex-col gap-0.5">
+            <span class="font-bold text-xs">Subprograma</span>
+            <span class="text-sm">{{dataForm.subprograma}}</span>
+            <!-- <div class="relative">
+              <select
+                name="subprograma"
+                formControlName="subprograma"
+                class="inputTextoDialog focusCampo !h-10 pr-7"
+                id="subprograma"
+                espEstiloInput
+              >
+              <option *ngFor="let opcion of opcionesSubProgramas" [value]="opcion.idSubPrograma">
+                {{opcion.nombre}}
+              </select>
+              <label espEstiloLabel for="subprograma">Subprograma</label>
+            </div> -->
+          </div>
+  
+          <div class="flex flex-col gap-0.5">
+            <span class="font-bold text-xs">Tipo de Servicio</span>
+            <span class="text-sm">{{dataForm.tipoServicio}}</span>
+            <!-- <div class="relative">
+              <select
+                name="tipoServicio"
+                formControlName="tipoServicio"
+                class="inputTextoDialog focusCampo !h-10 pr-7"
+                id="tipoServicio"
+                espEstiloInput
+              >
+               <option *ngFor="let opcion of opcionesEvento" [value]="opcion.idOpcion">
+                {{opcion.nombre}}
+               </option>
+              </select>
+              <label espEstiloLabel for="tipoServicio">Tipo de Servicio</label>
+            </div> -->
+          </div>
+
+          <div class="flex flex-col gap-0.5">
+            <span class="font-bold text-xs">Fecha de Creación</span>
+            <span class="text-sm">{{dataForm.fechaCreacion | date:'dd/MM/yyyy'}}</span>
+            <!-- <div class="relative">
+              <div class="relative">
+                <input
+                  type="text"
+                  name="fechaCreacion"
+                  formControlName="fechaCreacion"
+                  class="inputTextoDialog focusCampo !h-10 pr-7"
+                  id="fechaCreacion"
+                  espEstiloInput
+                />
+                <label espEstiloLabel for="fechaCreacion">Fecha de Creación</label>
+              </div>
+            </div> -->
+          </div>
+  
+          <div class="flex flex-col gap-0.5">
+            <span class="font-bold text-xs">Fecha de Modificación</span>
+            <span class="text-sm">{{dataForm.fechaModificacion | date:'dd/MM/yyyy'}}</span>
+            <!-- <div class="relative">
+              <div class="relative">
+                <input
+                  type="text"
+                  name="fechaModificacion"
+                  formControlName="fechaModificacion"
+                  class="inputTextoDialog focusCampo !h-10 pr-7"
+                  id="fechaModificacion"
+                  espEstiloInput
+                />
+                <label espEstiloLabel for="fechaModificacion">Fecha de Modificación</label>
+              </div>
+            </div> -->
+          </div>
+  
+
+       <!--   <div class="flex flex-col">
+            <div class="relative">
+              <select
+                name="activo"
+                formControlName="activo"
+                class="inputTextoDialog focusCampo !h-10 pr-7"
+                id="activo"
+                espEstiloInput
+              >
+                <option [value]="1">Sí</option>
+                <option [value]="0">No</option>
+              </select>
+              <label espEstiloLabel for="activo">Activo</label>
+            </div>
+          </div>-->
+        </div>
+      </div>
+  
+      <div class="flex justify-end gap-4 pt-6 pb-3 px-4 border-t border-[#F4F5F5]">
+        <app-btn color="white" (click)="onClose()">Cancelar</app-btn>
+        <app-btn type="submit" (click)="editarServicio()" color="mezclado" [disabled]="isLoading">
+          <span *ngIf="isLoading">Guardando...</span>
+          <span *ngIf="!isLoading">Guardar Cambios</span>
+        </app-btn>
+      </div>
+    </form>
+  </div>
+  

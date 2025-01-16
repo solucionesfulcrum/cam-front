@@ -1,0 +1,16 @@
+<div class="table-responsive">
+
+  <div class="text-s-14r text-w-300" *ngFor="let actividad of datosFormato, index as i">
+
+    <div class="bg-ligth5 rowGroup text-menucolor text-s-16p text-w-300 lh-24">
+      {{ formatDateEv(actividad.date) }}         <!-- {{actividad.date}} -->     
+    </div>
+    
+    <div class="flex rowGroup" *ngFor="let acciones of actividad.actividades, index as i">
+      <div class="w-40 text-s-16p text-w-300 lh-20 ">{{acciones.hora}} </div>
+      <div class="w-100 text-s-16p text-w-300 lh-16 "> {{acciones.tarea}} </div>
+    </div>
+    
+  </div>
+    
+</div>

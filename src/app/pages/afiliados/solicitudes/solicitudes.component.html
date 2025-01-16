@@ -1,0 +1,97 @@
+<div>
+    <esp-opciones-busqueda 
+      [showDateFilter]="true"
+      [setFilterDateOptionSelected]="'var(--color-CAM-Mezclado)'" 
+      [setFilterDateTextColour]="'#057EC9'"
+      [filterDateAppearance]="2"
+      (sendDateFilterWithCeros)="getDataFecha($event)"
+      [setFilterDateSelectionBg]="'#008BD2'"
+      [setFilterDateButtonBg]="'#008BD2'"
+      [showSearch]="true"
+      (searchInputValue)="formBuscar.get('frmSearch')?.setValue($event.toUpperCase()); onLoadData()"
+      [searchInputPlaceHolder]="'Busqueda de texto'"
+      [showFirstDisplayFilter]="true"
+      [firstDisplayFilterPlaceholder]="{'indicador': true, 'placeholder': 'Todos los estados'}"
+      [firstDisplayFilterData]="opciones"
+      (firstDisplayFilterSendValue)="firstDisplayValue($event)"
+      (firstDisplaySelectedValue)="true"
+      [showButton]="true"
+      [buttonText]="'Nuevo'"
+      (buttonAccion)="nuevoAsegurado()"
+      [buttonBg]="'#057EC9'"
+      
+    ></esp-opciones-busqueda> <!-- (buttonAccion)="goToNewRol()"   -->
+</div>
+
+<esp-data-loading
+[dataEmpty]="dataSource.length == 0"
+[dataLoading]="loadingData"
+></esp-data-loading>
+
+<div *ngIf="dataSource.length > 0 && !loadingData" >
+  <div class="table-container">
+    <table cdk-table class="w-full text-sm text-left text-gray-500 tablaDatos" [dataSource]="dataSource" >
+      <tr cdk-header-row class="text-xs text-gray-700 bg-gray-50" *cdkHeaderRowDef="columns"></tr>
+      <tr cdk-row class="bg-white border-b" *cdkRowDef="let row; columns: columns"></tr>
+      <ng-container cdkColumnDef="marcar">
+        <th cdk-header-cell class="py-[1.25rem] px-6" [style]="'width: 0%;'" *cdkHeaderCellDef> <input type="checkbox" [checked]="seleccionados.length == this.dataSource.length" (change)="afectarTodo($event)"/> </th>
+                <td cdk-cell class="py-[1rem] px-6" [style]="'width: 0%;'" *cdkCellDef="let row"> <input type="checkbox" class="checkbox-select" (change)="seleccionarFila($event)" [value]="row.idInscripcion" [checked]="row.marcar"/> </td>
+      </ng-container>
+
+      <ng-container cdkColumnDef="nombres">
+        <th cdk-header-cell class="py-[1.25rem] px-6" [style]="'padding-left: 0px;'" *cdkHeaderCellDef>Apellidos y Nombres</th>
+        <td cdk-cell class="py-[1rem] px-6 text-[#057EC9]" [style]="'padding-left: 0px;'" *cdkCellDef="let row, index as i"><span class="text-Name cursor-pointer" [routerLink]="['show/' + row.idSolicitud]">{{ row.nombres | uppercase }}</span></td>
+      </ng-container>
+
+      <ng-container cdkColumnDef="tipoDoc">
+        <th cdk-header-cell class="py-[1.25rem] px-6" *cdkHeaderCellDef>TIPO</th>
+        <td cdk-cell class="py-[1rem] px-6 font-semibold" *cdkCellDef="let row">{{ row.tipoDocumento }}</td>
+      </ng-container>
+
+      <ng-container cdkColumnDef="numDoc">
+        <th cdk-header-cell class="py-[1.25rem] px-6" *cdkHeaderCellDef>N° de Documento</th>
+        <td cdk-cell class="py-[1rem] px-6" *cdkCellDef="let row">{{row.numeroDocumento }}</td>
+      </ng-container>
+
+      <ng-container cdkColumnDef="edad">
+        <th cdk-header-cell class="py-[1.25rem] px-6" *cdkHeaderCellDef>Edad</th>
+        <td cdk-cell class="py-[1rem] px-6" *cdkCellDef="let row">{{ row.edad }} Años</td>
+      </ng-container>
+
+      <ng-container cdkColumnDef="estadoCivil">
+        <th cdk-header-cell class="py-[1.25rem] px-6" *cdkHeaderCellDef>E. CIVIL</th>
+        <td cdk-cell class="py-[1rem] px-6" *cdkCellDef="let row">{{ row.estadoCivil }}</td>
+      </ng-container>
+
+      <ng-container cdkColumnDef="ipress">
+        <th cdk-header-cell class="py-[1.25rem] px-6" *cdkHeaderCellDef>IPRESS</th>
+        <td cdk-cell class="py-[1rem] px-6" *cdkCellDef="let row">{{ row.ipress }}</td>
+      </ng-container>
+
+      <ng-container cdkColumnDef="origen">
+        <th cdk-header-cell class="py-[1.25rem] px-6" *cdkHeaderCellDef></th>
+        <td cdk-cell class="py-[1rem] px-6" *cdkCellDef="let row">
+          <img class="w-5" *ngIf="row.appOrigen == 'MOVIL_CAM'" matTooltip= "MiConsulta" src="assets/svg/mi-consulta.svg">
+          <img class="w-5" *ngIf="row.appOrigen == 'WEB_ESSI'" matTooltip= "ESSI" src="assets/svg/essi.svg">
+        </td>
+      </ng-container>
+
+
+
+      <ng-container cdkColumnDef="fecha">
+        <th cdk-header-cell class="py-[1.25rem] px-6" *cdkHeaderCellDef>Fecha</th>
+        <td cdk-cell class="py-[1rem] px-6" *cdkCellDef="let row" [ngClass]="differenceInDays(row.fecha) <= 3 ? 'text-[#0CCE6B]' : (differenceInDays(row.fecha) < 10 ? 'text-[#F59E0B]' : 'text-[#DC2626]')">{{differenceInDays(row.fecha) == 0 ? 'Hoy' : (differenceInDays(row.fecha) == 1 ? 'Ayer' : 'Hace ' + differenceInDays(row.fecha) + ' días')}}</td>
+      </ng-container>
+    </table>
+  </div>
+   
+    <mat-paginator #paginator class="demo-paginator paginatorDatos" 
+    (page)="handlePageEvent($event)"
+    [length]="total"
+    [pageSize]="pageSize"
+    showFirstLastButtons="true"
+    [pageSizeOptions]="pageSizeOptions.length > 0 ? pageSizeOptions : []"
+    [pageIndex]="pageIndex"
+    aria-label="Select page">
+    </mat-paginator>
+</div>      

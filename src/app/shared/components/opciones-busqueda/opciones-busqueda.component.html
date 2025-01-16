@@ -1,0 +1,156 @@
+
+<div [formGroup]="form" class="flex justify-between my-3 space-x-2 w-full">
+  <div class="flex space-x-3">
+    <div *ngIf="showDateFilter && !restartFilterDate" class="relative rounded-md !h-9 shadow-sm" [cdkMenuTriggerFor]="prueba.menu">
+      <div class="relative">
+        <input  type="text" name="searchdate" id="searchDate" readonly formControlName="frmSearchDate"
+        style="padding-left: 2.0rem; padding-right: 1.75rem; margin-right: 4.5vw;"
+        class="inputTextoDialog focusCampo h-10 pr-10 pl-10 w-full border border-gray-300 rounded-md" placeholder="Buscar por fecha">
+        <!--<div class="pointer-events-none right-0 absolute inset-y-0 flex items-center pr-3">
+        <span datepicker class="text-gray-500 sm:text-sm">
+            <esp-icon icon="faCalendarAlt"></esp-icon>
+        </span>
+        </div>-->
+          <!-- Icono del calendario a la izquierda -->
+    <ng-container *ngIf="form">
+      <div class="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none">
+        <span datepicker class="text-gray-500 sm:text-sm">
+          <esp-icon icon="faCalendarAlt"></esp-icon>
+        </span>
+      </div>
+    
+      <!-- Icono de cierre a la derecha, visible solo si hay valor en el input -->
+      <div class="absolute inset-y-0 right-0 flex items-center pr-3">
+        <span 
+          class="text-gray-500 sm:text-sm cursor-pointer hover:text-gray-700 focus:text-gray-700"
+          (click)="clearDate($event)"
+          *ngIf="form.get('frmSearchDate')!.value"
+        >
+          <esp-icon icon="faTimes"></esp-icon>
+        </span>
+      </div>
+    </ng-container>
+
+      </div>
+
+      <esp-filtro-fecha
+      [setSelectionBg]="setFilterDateSelectionBg"
+      [setButtonBg]="setFilterDateButtonBg"
+      [setOptionSelected]="setFilterDateOptionSelected"
+      [setTextColour]="setFilterDateTextColour"
+      [setDateSelectedDefault]="setDateSelectedDefault"
+      (sendDateFilter)="setDateFilter($event)"
+      (sendDateFilterWithCeros)="setDateFilterWithCeros($event)"
+      (sendDateFilterWithoutCeros)="setDateFilterWithoutCeros($event)"
+      (sendDateFilterUSDate)="setDateFilterUSDate($event)"
+      #prueba></esp-filtro-fecha>
+    </div>
+   <!-- <div *ngIf="showSearch">
+        <div class="relative rounded-md shadow-sm">
+          <input *ngIf="!searchInputAdjustWidth" type="text" name="search" id="search" formControlName="frmSearch" #preSelected
+          class="inputTextoDialog focusCampo !h-10 pr-7"
+          style="margin-right: 4.5vw;"
+          [placeholder] = 'searchInputPlaceHolder'>
+          <input *ngIf="searchInputAdjustWidth" type="text" name="search" id="search" formControlName="frmSearch" #preSelected
+          style="margin-right: 4.5vw;"
+          class="inputTextoDialog focusCampo !h-10 pr-7"
+          [placeholder] = 'searchInputPlaceHolder' [size]="searchInputPlaceHolder.length">
+          <div class="pointer-events-none right-0 absolute inset-y-0 flex items-center pr-3 opacity-50">
+            <span class="text-gray-500 sm:text-sm">
+                <esp-icon icon="faSearch"></esp-icon>
+            </span>
+          </div>
+        </div>
+    </div>-->
+    <div *ngIf="showSearch">
+      <div class="relative rounded-md shadow-sm">
+        <input 
+          *ngIf="!searchInputAdjustWidth" type="text" name="search" id="search" formControlName="frmSearch" 
+          class="inputTextoDialog focusCampo !h-10 pr-10 w-full border border-gray-300 rounded-md" 
+          style="margin-right: 4.5vw;"
+          [placeholder]="searchInputPlaceHolder"
+        >
+    
+        <input 
+          *ngIf="searchInputAdjustWidth" type="text" name="search" id="search" formControlName="frmSearch" 
+          class="inputTextoDialog focusCampo !h-10 pr-10 w-full border border-gray-300 rounded-md" 
+          style="margin-right: 4.5vw;"
+          [placeholder]="searchInputPlaceHolder" 
+          [size]="searchInputPlaceHolder.length"
+        >
+    
+        <div class="absolute inset-y-0 right-0 flex items-center pr-3">
+          <span 
+            class="text-gray-500 sm:text-sm pointer-events-none opacity-50" 
+            *ngIf="form && !form.get('frmSearch')!.value"
+          >
+            <esp-icon icon="faSearch"></esp-icon>
+          </span>
+    
+          <span 
+            class="text-gray-500 sm:text-sm cursor-pointer hover:text-gray-700 focus:text-gray-700" 
+            *ngIf="form && form.get('frmSearch')!.value" 
+            (click)="clearSearch()"
+          >
+            <esp-icon icon="faTimes"></esp-icon>
+          </span>
+        </div>
+      </div>
+    </div>
+
+  </div>
+  <div class="flex space-x-3 items-center">
+    <div *ngIf="showThirdDisplayFilter">
+      <div class="relative rounded-md shadow-sm">
+        <select id="acciones" #secondSelect class="bg-slate-50 border border-gray-300 !h-10 text-gray-600 text-sm rounded-lg focusCampo block w-full" (change)='changeThirdFilter(secondSelect.value)'>
+          <option *ngIf="thirdDisplayFilterPlaceholder.indicador == true" [value]="null" selected>{{thirdDisplayFilterPlaceholder.placeholder}}</option> 
+          <option *ngIf="thirdDisplayFilterPlaceholder.indicador == false" disabled selected>{{thirdDisplayFilterPlaceholder.placeholder}}</option>
+          
+          <option *ngFor="let option of thirdDisplayFilterData" [value]='option.valor1'>{{option.nombre | titlecase}}</option>
+        </select>
+      </div>
+    </div>
+    <div *ngIf="showSecondDisplayFilter">
+      <div class="relative rounded-md shadow-sm">
+        <select id="acciones" #secondSelect class="bg-slate-50 border border-gray-300 !h-10 text-gray-600 text-sm rounded-lg focusCampo block w-full" (change)='changeSecondFilter(secondSelect.value)'>
+          <option *ngIf="secDisplayFilterPlaceholder.indicador == true" [value]="null" selected>{{secDisplayFilterPlaceholder.placeholder}}</option> 
+          <option *ngIf="secDisplayFilterPlaceholder.indicador == false" disabled selected>{{secDisplayFilterPlaceholder.placeholder}}</option>
+          
+          <option *ngFor="let option of secDisplayFilterData" [value]='option.valor1'>{{option.nombre | titlecase}}</option>
+        </select>
+      </div>
+    </div>
+    <div *ngIf="showFirstDisplayFilter">
+        <div class="relative rounded-md shadow-sm">
+          <select id="docs" #firstSelect class="bg-slate-50 border border-gray-300 text-gray-600 text-sm rounded-lg focusCampo !h-10 block w-full" (change)='changeFirstFilter(firstSelect.value)'>
+            <option *ngIf="firstDisplayFilterPlaceholder.indicador == true" [value]="null">{{firstDisplayFilterPlaceholder.placeholder}}</option> 
+            <option *ngIf="firstDisplayFilterPlaceholder.indicador == false" disabled selected>{{firstDisplayFilterPlaceholder.placeholder}}</option>
+            
+            <option *ngFor="let option of firstDisplayFilterData" [value]='option.idParametros' [id]="'option_' + option.idParametros" [selected]="(firstDisplaySelectedValue && option.idParametros == 24) ? true : false">{{option.nombre | titlecase}}</option>
+          </select>
+        </div>
+    </div>
+    <div *ngIf="showButton">
+        <div class="relative rounded-md">
+          <button typeBtn="submit" class="btnStructure botonApariencia" (click)="buttonAccion.emit()">
+            <esp-icon icon="faAdd"></esp-icon>
+            {{buttonText}}
+          </button>
+        </div>
+    </div>
+    <div class="relative" *ngIf="menuOpt.length > 0">
+      <div class="absolute bg-[#FFFFFF88] text-[var(--color-black-alt)] text-xl font-semibold w-full h-full flex items-center justify-center" *ngIf="menuOptLoading">
+        <esp-icon class="mr-2" icon="faSpinner" [pulse]="true"></esp-icon>
+      </div>
+      <app-btn color="bordeado" [cdkMenuTriggerFor]="accionesMenu"> <div class="flex flex-row gap-2"><span>Acciones</span><esp-icon icon="faBars"></esp-icon></div></app-btn>
+      <ng-template #accionesMenu>
+        <div class="menu-layout botonApariencia" cdkMenu>
+          <button *ngFor="let opcion of menuOpt, index as i" cdkMenuItem class="flex flex-row gap-2.5 text-[var(--color-black-alt)] px-2.5 py-2 hover:bg-gray-100 flex flex-row items-center" (click)="i == 0 ? primerActionMenu.emit() : (i == 1 ? segundoActionMenu.emit() : tercerActionMenu.emit())">
+            <span class="text-[16px] font-medium">{{opcion.texto}}</span>
+            <img [src]="opcion.svgDir"/>
+          </button>
+        </div>
+      </ng-template>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,90 @@
+<div class="px-4 py-3 bg-white w-full mt-3 grid botonApariencia" *ngIf="!dataContrato">
+    <div class="text-gray-600 w-full text-center">
+        <span class="py-1 font-bold text-2xl">
+            <fa-icon class="mr-2" [icon]="faSpinner" [pulse]="true"></fa-icon>
+            Obteniendo datos...
+        </span>
+    </div>
+</div>
+<div *ngIf="dataContrato">
+    <esp-opciones-botones [rutaRegreso]="'../..'" [listOpciones]="opcionesBotones" (firstFunction)="optFunc(1)" (secondFunction)="optFunc(2)" (thirdFunction)="optFunc(3)"></esp-opciones-botones>
+    <div class="flex flex-col gap-2.5">
+        <div class="bg-white botonApariencia p-3 flex flex-row text-[#37474F]">
+            <div class="flex flex-col gap-2.5 h-full border-r border-[#D4D4D4] w-full">
+                <span class="text-[22px] text-[var(--color-CAM)] font-medium leading-[20px]">Detalle del Contrato:</span>
+                <div class="flex flex-row gap-2.5">
+                    <img src="assets/svg/icon-contrato-person.svg">
+                    <div class="flex flex-col gap-2 font-light">
+                        <span class="text-[18px] font-normal">{{dataContrato.datosTallerista.usuarioTallerista | uppercase}}</span>
+                        <span><span class="font-medium">DNI:</span> {{dataContrato.datosTallerista.nroDoc}}</span>
+                        <span><span class="font-medium">ROL:</span> {{dataContrato.datosContrato.nombreRol ? dataContrato.datosContrato.nombreRol : 'TALLERISTA TERCERO'}}</span>
+                    </div>
+                </div>
+            </div>
+            <div class="pl-3 flex flex-col gap-2.5 border-r border-[#D4D4D4] w-full relative justify-center">
+                <!-- <span class="text-[22px] text-[var(--color-CAM)] font-medium leading-[20px]">Contrato</span> -->
+                <div class="flex flex-col gap-2 leading-5 text-[18px] font-light">
+                    <span><span class="font-normal">Orden de  Compra :</span> {{dataContrato.datosContrato.nroContrato}}</span>
+                    <span><span class="font-normal">Cantidad de Entregables :</span> {{dataContrato.datosContrato.nroEntregables}}</span>
+                    <span><span class="font-normal">Desde :</span> {{dataContrato.datosContrato.fechaInicio | date:'dd/MM/yyyy'}} al {{dataContrato.datosContrato.fechaFin | date:'dd/MM/yyyy'}}</span>
+                </div>
+                <img class="absolute bottom-0 right-2 rounded hover:bg-gray-100 p-1 cursor-pointer" (click)="editCabeceraCOntrato()" src="assets/svg/Edit.svg">
+            </div>
+            <div class="pl-3 flex items-center justify-center shrink-0">
+                <app-btn class="botonApariencia flex" color="bordeado" (click)="addTablaUnid(1)">
+                    <esp-icon icon="faAdd"></esp-icon> Mas Unidades
+                </app-btn>
+            </div>
+    
+        </div>
+        <div class="bg-white botonApariencia px-[22px] py-2.5 flex flex-col gap-3">
+            <div class="pt-2 flex flex-col gap-3" *ngFor="let controles of dataTables.controls, index as ix">
+                <ng-container [formGroup]="getFormGroup(controles)">
+                    <div class="flex flex-row justify-between items-center" *ngIf="ix > 0">
+                        <span class="font-semibold">Asignar servicios a mas de una unidad operativa.</span>
+                        <app-btn class="botonApariencia flex" color="transparenteCancel" (click)="deleteTablaUnid(ix)">Eliminar</app-btn>
+                    </div>
+                    <div class="flex flex-row gap-2">
+                        <div class="flex flex-col gap-2 w-full">
+                            <span>Unidad Operativa <span class="text-red-500">*</span></span>
+                            <div class="relative rounded-md shadow-sm">
+                                <input type="text" name="unidOperativ" formControlName="idUnidOperativ" [matAutocomplete]="typeAndSelect" [readonly]="ix == 0" id="search" class="inputTextoDialog focusCampo !h-10 pr-7" placeholder="Buscar Unidad Operativa">
+                                <div class="pointer-events-none right-0 absolute inset-y-0 flex items-center pr-3 opacity-50">
+                                    <span class="text-gray-500 sm:text-sm">
+                                        <esp-icon icon="faSearch"></esp-icon>
+                                    </span>
+                                </div>
+                                <mat-autocomplete #typeAndSelect="matAutocomplete" [displayWith]="displayOptFiltered" (optionSelected)="onSelectedTypeSelect(ix, $event)">
+                                    <mat-option *ngFor="let option of getOptionsFiltered(ix)" [value]="option">
+                                        {{option.nombre | titlecase}}
+                                    </mat-option>
+                                </mat-autocomplete>
+                            </div>
+                        </div>
+                        <div class="flex flex-col gap-2 shrink-0">
+                            <span>Fecha de Registro</span>
+                            <div class="relative">
+                              <mat-form-field style="position: absolute; visibility:hidden;">
+                                <input #input matInput formControlName="fecRegistroDef" [matDatepicker]="picker">
+                                <mat-datepicker #picker (closed)="actualizarDate(ix, input.value)"></mat-datepicker>
+                              </mat-form-field>
+                              <input type="text" name="search" readonly (click)="ix == 0 ? null : picker.open()" formControlName="fecRegistro" class="inputTextoDialog focusCampo !h-10 pr-7">
+                                <div class="absolute inset-y-0 right-0 flex items-center pr-3 z-10 !h-9" (click)="picker.open()">
+                                  <span class="text-gray-500 sm:text-sm">
+                                    <img src="assets/svg/icon-calendar-simple.svg">
+                                  </span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="flex flex-col gap-2.5 items-start">
+                        <esp-tabla-adaptable class="w-full" [identificadorVisible]="false" [dataColumnas]="dataColumnas" [dataIngresante]="getTablaAndAttribute(ix, 'dataServiciosEnviado')" (sendData)="getTablaAndAttribute(ix, 'ctrlDataObt').setValue($event)" [dataDefault]="dataTables.get(ix.toString())!.get('dataDefault')!.value"></esp-tabla-adaptable>
+                        <app-btn class="botonApariencia flex" color="transparente" (click)="addServiceToTablaUnid(ix)">
+                            <esp-icon icon="faAdd"></esp-icon> Agregar Servicio
+                        </app-btn>
+                    </div>
+                </ng-container>
+            </div>    
+        </div>
+    </div>
+</div>

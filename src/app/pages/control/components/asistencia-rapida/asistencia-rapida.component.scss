@@ -1,0 +1,9 @@
+.peer:checked ~ .peer-checked\:bg-cam{
+    background: var(--color-CAM-Mezclado);
+  }
+  
+  .peer:checked ~ .peer-checked\:colorWhite{
+      img{
+          filter: brightness(284.5);
+      }
+  }

@@ -1,0 +1,79 @@
+.infoGeneral{
+    width: 100%;
+    display: flex;
+    gap: 10px;
+
+    /* background-color: #ffffff; */
+}
+mat-icon{
+    padding-top: 2px;
+}
+.icono{
+    background-color: #008bd2;
+    border: 1px solid #ddd;
+    width: 45px;
+    height: 45px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 5px;
+    padding: 5px; 
+    color: white;
+}
+.datosAnaliticos{
+    /* width: 25%;  */
+    /* Puedes ajustar el ancho según tus necesidades */
+    /* border: 1px solid #ccc; */
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    font-weight: 600;
+    border-radius: 5px;
+    background-color: #ffffff;
+    width: 25%;
+    padding: 1%;
+    /* background-color: #ffffff; */
+}
+
+/*.datosAnaliticos > div{
+    
+    /* border: 1px solid #ccc; */
+    /* width: 25%; /* Puedes ajustar el ancho según tus necesidades */
+    /* padding: 1%; */ 
+
+/*}*/
+
+#chart {
+  max-width: 100%;
+  margin: 35px auto;
+}
+
+.colorDivRojo{
+    color: red; 
+}
+
+/* Aplica un fondo transparente a la tabla */
+table.cdk-table {
+    background-color: white;
+  }
+  
+  /* Aplica un fondo transparente a las filas de la cabecera */
+  table.cdk-table .cdk-header-row {
+    background-color: white;
+  }
+  
+  /* Aplica un fondo transparente a las celdas de la cabecera */
+  table.cdk-table .cdk-header-cell {
+    background-color: white;
+    color: gray; /* Establece el color del texto de la cabecera a gris */
+  }
+  
+  /* Aplica un fondo transparente a las filas del cuerpo */
+  table.cdk-table .cdk-row {
+    background-color: white;
+  }
+  
+  /* Aplica un fondo transparente a las celdas del cuerpo */
+  table.cdk-table .cdk-cell {
+    background-color: white;
+  }

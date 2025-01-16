@@ -1,0 +1,64 @@
+<div class="flex flex-col">
+    <esp-opciones-busqueda [showDateFilter]="true" [setFilterDateOptionSelected]="'var(--color-CAM-Mezclado)'"
+        [setFilterDateTextColour]="'#057EC9'" [filterDateAppearance]="2"
+        (sendDateFilterWithCeros)="getDataFecha($event)" [setFilterDateSelectionBg]="'var(--color-CAM-Claro)'"
+        [setFilterDateButtonBg]="'var(--color-CAM-Claro)'" [setDateSelectedDefault]="9"></esp-opciones-busqueda>
+
+    <div class="px-4 py-3 bg-white w-full mt-3 grid botonApariencia" *ngIf="!dataServicio">
+        <div class="text-gray-600 w-full text-center">
+            <span class="py-1 font-bold text-2xl">
+                <fa-icon class="mr-2" [icon]="faSpinner" [pulse]="true"></fa-icon>
+                Obteniendo datos...
+            </span>
+        </div>
+    </div>
+    
+    <div class="mt-3" *ngIf="dataServicio">
+        <div class="infoGeneral text-[var(--color-black-alt)] font-semibold">
+            <div class="datosAnaliticos botonApariencia">
+                <div>
+                    <div class="text-[12px]">Total de Asegurados</div>
+                    <div class="text-[18px]">{{totalAfiliados}}</div>
+                </div>
+                <div class="icono">
+                    <img class="self-center" src="assets/svg/iconTotalAfiliados.svg">
+                </div>
+            </div>
+            <div class="datosAnaliticos botonApariencia">
+                <div>
+                    <div class="text-[12px]">Afiliados Activos</div>
+                    <div class="text-[18px]">{{totalAfiliadosActivos}}</div>
+                </div>
+                <div class="icono">
+                    <img class="self-center" src="assets/svg/iconNuevosAfiliados.svg">
+                </div>
+            </div>
+            <!--<div class="datosAnaliticos botonApariencia">
+                <div>
+                    <div class="text-[12px]">Activos</div>
+                    <div class="text-[18px]">3200</div>
+                </div>
+                <div class="icono">
+                    <img class="self-center" src="assets/svg/iconActivos.svg">
+                </div>
+            </div>
+            <div class="datosAnaliticos botonApariencia">
+                <div>
+                    <div class="colorDivRojo text-[12px]">Bajas</div>
+                    <div class="text-[18px]">11</div>
+                </div>
+                <div class="icono">
+                    <img class="self-center" src="assets/svg/iconBajas.svg">
+                </div>
+            </div>-->
+        </div>
+        
+        <div id="chart">
+            <apx-chart [series]="chartOptions.series" [chart]="chartOptions.chart" [xaxis]="chartOptions.xaxis"
+                [stroke]="chartOptions.stroke" [dataLabels]="chartOptions.dataLabels" [yaxis]="chartOptions.yaxis"
+                [labels]="chartOptions.labels" [legend]="chartOptions.legend" [title]="chartOptions.title"
+                [subtitle]="chartOptions.subtitle"></apx-chart>
+        </div>
+
+    </div>
+</div>

@@ -1,0 +1,86 @@
+<div>
+    <esp-opciones-busqueda 
+      [showSearch]="true"
+      (searchInputValue)="formBuscar.get('frmSearch')?.setValue($event.toUpperCase()); onLoadData()"
+      [searchInputPlaceHolder]="'Buscar tallerista'"
+      [showFirstDisplayFilter]="true"
+      [firstDisplayFilterPlaceholder]="{'indicador': false, 'placeholder': 'Acciones'}"
+      [showSecondDisplayFilter]="true"
+      [secDisplayFilterPlaceholder]="{'indicador': true, 'placeholder': 'Todos los estados'}"
+      [secDisplayFilterData]="opciones"
+      (secDisplayFilterSendValue)="firstDisplayValue($event)"
+
+      [showFirstDisplayFilter]="idRol == 8"
+      [firstDisplayFilterPlaceholder]="{'indicador': true, 'placeholder': 'Todos los CAM'}"
+      [firstDisplayFilterData]="opciones_cam"
+      (firstDisplayFilterSendValue)="secDisplayValue($event)"
+
+      [menuOpt]="dataAcciones"
+      (primerActionMenu)="imprimirLista()"
+
+    ></esp-opciones-busqueda>
+</div>
+
+<esp-data-loading
+[dataEmpty]="dataSource.length == 0"
+[dataLoading]="loadingData"
+></esp-data-loading>
+
+<div  *ngIf="!loadingData && dataSource.length > 0">
+  <div class="table-container">
+    <table cdk-table class="w-full text-sm text-left text-gray-500 " [dataSource]="dataSource" >
+      <tr cdk-header-row class="text-xs text-gray-700 bg-gray-50" *cdkHeaderRowDef="columns; sticky: true"></tr>
+      <tr cdk-row class="bg-white border-b" *cdkRowDef="let row; columns: columns"></tr>
+      <ng-container cdkColumnDef="marcar">
+        <th cdk-header-cell class="py-[1.25rem] px-6" [style]="'width: 0%;'" *cdkHeaderCellDef> <input type="checkbox" [checked]="seleccionados.length == this.dataSource.length" (change)="afectarTodo($event)"/> </th>
+        <td cdk-cell class="py-[1rem] px-6" [style]="'width: 0%;'" *cdkCellDef="let row"> <input type="checkbox" class="checkbox-select" (change)="seleccionarFila($event)" [value]="false" [checked]="row.marcar"/> </td>
+      </ng-container>
+
+      <ng-container cdkColumnDef="nombres">
+        <th cdk-header-cell class="py-[1rem] px-6" *cdkHeaderCellDef [style]="'padding-left: 0px;'">Apellidos y Nombre</th>
+        <td cdk-cell class="py-[1rem] px-6" *cdkCellDef="let row, index as i" [style]="'padding-left: 0px;'"><span class="text-Name cursor-pointer" [style.font-weight]="700" [routerLink]="['show/' + row.idTallerista]">
+          <ng-container *ngIf="this.idRol == 8">
+            {{ (row.apeTalletista | titlecase) + " " + (row.tallerista | titlecase) }}
+          </ng-container>
+          <ng-container *ngIf="this.idRol != 8">
+            {{ ((!row.apeTalletista ? '' : row.apeTalletista + " ") | titlecase) + (row.tallerista | titlecase) }}
+          </ng-container>
+        </span></td>
+      </ng-container>
+
+      <ng-container cdkColumnDef="tipoDoc">
+        <th cdk-header-cell class="py-[1rem] px-6" *cdkHeaderCellDef>Doc.</th>
+        <td cdk-cell class="py-[1rem] px-6 font-medium" *cdkCellDef="let row">{{ row.tipoDoc == 1 ? 'DNI' : 'CE'}}</td>
+      </ng-container>
+
+      <ng-container cdkColumnDef="numDoc">
+        <th cdk-header-cell class="py-[1rem] px-6" *cdkHeaderCellDef>N° de Documento</th>
+        <td cdk-cell class="py-[1rem] px-6 font-medium" *cdkCellDef="let row">{{row.numDoc }}</td>
+      </ng-container>
+
+      <ng-container cdkColumnDef="telefono">
+        <th cdk-header-cell class="py-[1rem] px-6" *cdkHeaderCellDef>Teléfono</th>
+        <td cdk-cell class="py-[1rem] px-6" *cdkCellDef="let row">{{row.celular}}</td>
+      </ng-container>
+
+      <ng-container cdkColumnDef="correo">
+        <th cdk-header-cell class="py-[1rem] px-6" *cdkHeaderCellDef>E-mail</th>
+        <td cdk-cell class="py-[1rem] px-6 font-medium" *cdkCellDef="let row">{{row.correo }}</td>
+      </ng-container>
+
+      <ng-container cdkColumnDef="perfil">
+        <th cdk-header-cell class="py-[1rem] px-6" *cdkHeaderCellDef>Perfil Profesional</th>
+        <td cdk-cell class="py-[1rem] px-6 font-medium" *cdkCellDef="let row">{{row.profesion }}</td>
+      </ng-container>
+    </table>
+  </div>
+    <mat-paginator #paginator class="demo-paginator paginatorDatos" 
+    (page)="handlePageEvent($event)"
+    [length]="total"
+    [pageSize]="pageSize"
+    showFirstLastButtons="true"
+    [pageSizeOptions]="pageSizeOptions.length > 0 ? pageSizeOptions : []"
+    [pageIndex]="pageIndex"
+    aria-label="Select page">
+    </mat-paginator>
+</div>      

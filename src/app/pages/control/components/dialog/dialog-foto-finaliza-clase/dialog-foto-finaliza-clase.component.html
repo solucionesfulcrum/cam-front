@@ -1,0 +1,84 @@
+<div class="botonApariencia">
+    <div class="px-4 py-3 bg-cam flex justify-between text-white rounded-t-md">
+      <span>{{ imagenUrl || finalStep ? "RESULTADOS  FOTO GRUPAL" : "SELECCIONAR FOTO GRUPAL" }}</span>
+      <button (click)="onClose()"><esp-icon icon="faClose"></esp-icon></button>
+    </div>
+  
+    <div class="bg-white flex flex-col text-[#37474F]">
+      <div class="py-4">
+        <!-- Mostrar el input de selección de archivo -->
+        <div class="py-2.5" *ngIf="!imagenUrl && !finalStep && !loadingImage">
+          <div class="flex flex-col items-center gap-2.5 p-2.5 text-center leading-5">
+            Seleccione una foto en donde se vean todas las caras de los participantes (preferentemente tomar fotos sin sombreros)
+          </div>
+          <!-- Input para seleccionar la foto (oculto) -->
+          <input type="file" #fileInput accept="image/*" class="hidden" (change)="onFileSelected($event)" />
+          
+          <!-- Contenedor que abre el input de tipo file -->
+          <div class="border-[var(--color-black-alt)] border mx-2.5 rounded border-dashed cursor-pointer" (click)="triggerFileInput(fileInput)">
+            <div class="flex flex-col gap-2 items-center p-4">
+              <div class="flex flex-row gap-2 py-1.5 px-4 text-[var(--color-CAM)] text-[16px] rounded-[32px] border border-[#D9D9D9]">
+                <img src="assets/svg/subir-foto-evidencia.svg" class="h-6 w-6">
+                <span>Click aquí para tomar una foto</span>
+              </div>
+              <span class="text-[#9B9B9B] text-[12px]">o</span>
+              <span class="text-[#505050] text-[14px]">seleccionarla de la galería</span>
+            </div>
+          </div>
+        </div>
+  
+        <!-- Mostrar el spinner durante la carga de la imagen -->
+        <div *ngIf="loadingImage" class="flex justify-center items-center py-6">
+          <fa-icon [icon]="faSpinner" [spin]="true" class="text-4xl text-gray-500"></fa-icon>
+        </div>
+  
+        <!-- Mostrar la imagen subida -->
+        <div class="flex flex-row gap-2.5 px-2.5" *ngIf="imagenUrl && finalStep">
+          <div class="items-center" *ngIf="imagenUrl && finalStep">
+            <div class="items-center">
+              <img [src]="imagenUrl" alt="Imagen subida" class="w-[500px] h-max-[400px] object-cover rounded-md shadow-lg mx-auto">
+            </div>
+            <div class="flex flex-col items-center gap-2.5 p-2.5 text-center leading-5">
+              <!-- Aquí puedes mostrar los resultados si es necesario -->
+            </div>
+          </div>
+          <div class="items-center relative w-[500px] h-max-[400px]">
+            <div class="bg-[#FFFFFF88] w-full h-full z-10 absolute flex flex-col text-xl items-center justify-center gap-2.5 text-center" *ngIf="waitImagenDeteccion">
+                <fa-icon [pulse]="true" [icon]="faSpinner"></fa-icon>
+                <b>Detectando caras en la imagen</b>
+            </div>            
+            <div class="items-center" *ngIf="!waitImagenDeteccion">
+              <img [src]="imagenDetectada" alt="Imagen con detección" class=" object-cover rounded-md shadow-lg mx-auto">
+            </div>
+            <div class="flex flex-col items-center gap-2.5 p-2.5 text-center leading-5">
+              <!-- Aquí puedes mostrar los resultados si es necesario -->
+            </div>
+          </div>
+        </div>
+  
+        <!-- Mostrar un mensaje si no hay imagen cargada -->
+        <div class="items-center" *ngIf="!imagenUrl && finalStep">
+          <div class="flex flex-col items-center gap-2.5 p-2.5 text-center leading-5">
+            No se ha cargado ninguna imagen
+          </div>
+        </div>
+      </div>
+  
+      <!-- Botones de acción -->
+      <div class="flex flex-row gap-2 justify-center pt-6 pb-3 px-4 border-t border-[#F4F5F5]">
+        <div class="flex justify-center w-1/2 gap-6">
+          <div class="w-fit">
+            <app-btn class="botonApariencia flex" [disabled]="loadingImage" color="white" (click)="imagenUrl || finalStep ? vuelveATomarFoto() : onClose()">
+              {{ imagenUrl || finalStep ? "Volver a tomar foto" : "Cancelar" }}
+            </app-btn>
+          </div>
+          <div class="w-fit">
+            <app-btn class="botonApariencia flex" [disabled]="loadingImage" color="mezclado" (click)="imagenUrl || finalStep ? finaliza() : continua(true)">
+              {{ imagenUrl || finalStep ? "Finalizar" : "Continuar" }}
+            </app-btn>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  

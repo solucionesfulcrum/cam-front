@@ -1,0 +1,40 @@
+<div class="flex flex-col">
+    <div class="flex flex-row justify-between items-center py-2.5">
+        <div class="flex flex-row gap-3 items-center">
+            <p class="subTitulo"> ESCALA DE GIJON</p>
+            <span class="text-[#64748B] text-[14px]">Evaluación socio familiar</span>
+        </div>
+    </div>
+    <div class="flex flex-col gap-2 overflow-auto max-h-[55vh]" [formGroup]="evaluacionService.formDataTestGij">
+        <div class="flex flex-col gap-1.5 pl-3" *ngFor="let subcategoria of dataTestC.subCategoria">
+            <span class="font-bold" [ngClass]="(validated && evaluacionService.formDataTestGij.controls[subcategoria.idCuestSubCategoria == 1 ? 'pregFam' : (subcategoria.idCuestSubCategoria == 2 ? 'pregRel' : 'pregApo')].invalid) ? 'text-red-500' : 'text-[var(--color-black-alt)]'">{{subcategoria.subcategoria}}</span>
+            <ul class="grupoOpciones flex flex-col gap-1 w-full">
+                <li class="seleccionableDerecha radioBgDiferente" *ngFor="let pregunta of subcategoria.cuestionarios, index as i">
+                    <input type="radio" [id]="(subcategoria.idCuestSubCategoria == 1 ? 'pregFam_' : (subcategoria.idCuestSubCategoria == 2 ? 'pregRel_' : 'pregApo_')) + i" [formControlName]="subcategoria.idCuestSubCategoria == 1 ? 'pregFam' : (subcategoria.idCuestSubCategoria == 2 ? 'pregRel' : 'pregApo')" [value]="pregunta.idCuestionario" class="peer focusCampo">
+                    <label [for]="(subcategoria.idCuestSubCategoria == 1 ? 'pregFam_' : (subcategoria.idCuestSubCategoria == 2 ? 'pregRel_' : 'pregApo_')) + i" class="selectRadioBoolean !py-1 !pl-1.5">
+                        <div class="flex flex-row items-center w-full min-h-[35px] gap-2">
+                            <div class="flex flex-row gap-2 text-[18px] grow">
+                                <span class="w-[20px] text-right">{{i+1}}</span>
+                                <span class="max-w-[45vw]">{{pregunta.pregunta}}</span>
+                            </div>
+                        </div>
+                    </label>
+                </li>
+            </ul>
+        </div>
+        <div *ngIf="evaluacionService.formDataTestGij.touched && evaluacionService.formDataTestGij.invalid && validated" class=" text-center">
+            <span class="font-medium text-red-500 text-xs my-1 ml-1">
+                Quedan preguntas sin responder.
+            </span>
+        </div>
+        <div class="py-1.5 flex justify-center gap-2.5">
+            <app-btn class="flex flex-row botonApariencia botonOpciones" color="mezclado" routerLink="../eva-katz">
+                Anterior
+            </app-btn>
+            <app-btn class="flex flex-row botonApariencia botonOpciones" color="mezclado" (click)="validateFormNextPage()" [loading]="status === 'loading'">
+                Siguiente
+                <fa-icon class="ml-2" [icon]="faArrowAltCircleRight"></fa-icon>
+            </app-btn>
+        </div>
+    </div>
+</div>

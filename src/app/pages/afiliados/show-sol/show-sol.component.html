@@ -1,0 +1,279 @@
+
+<esp-opciones-botones [rutaRegreso]="'../..'" [listOpciones]="opcionesBotones" (thirdFunction)="anular()" (firstFunction)="Notas()" (secondFunction)="EvalAfiliado()"></esp-opciones-botones>
+
+<div class="px-4 py-3 bg-white w-full mt-3 grid botonApariencia" *ngIf="!ready">
+  <div class="text-gray-600 w-full text-center">
+      <span class="py-1 font-bold text-2xl">
+          <fa-icon class="mr-2" [icon]="faSpinner" [pulse]="true"></fa-icon>
+          Obteniendo datos...
+      </span>
+  </div>
+</div>
+<div *ngIf="ready" class="bg-white botonApariencia">
+  <div class="flex flex-row justify-between py-1.5 px-2.5"> 
+      <p ><b class="text-[26px] text-[var(--color-CAM-black-alt)]">Ficha de Solicitud</b>
+        <br>
+        <span *ngIf="this.dataSolicitud.solicitud.appOrigen == 'WEB_ESSI'" class="text-md text-essi">
+            Derivacion ESSI
+        </span>  
+        <span *ngIf="this.dataSolicitud.solicitud.appOrigen == 'WEB_CAM'" class="text-md text-essi">
+            Registrado desde el módulo PAM
+        </span>  
+        <span *ngIf="this.dataSolicitud.solicitud.appOrigen == 'MOVIL_CAM'" class="text-md text-essi">
+            Derivacion MiConsulta
+        </span>  
+      </p>
+      <p class="text-end text-sm text-[#64748B]">N° de Solicitud 
+          <br><span class="text-[20px] text-[var(--color-CAM)]">{{dataSolicitud.fichaAdmision.numHistoria}}</span>  <!--{{this.user.numHistoria}}     o   {{dataFicha.numHistoria}}-->
+      </p>
+  </div>
+  
+  <div class="flex flex-row gap-[1.25rem] text-[#37474F] pr-[10px] pb-[20px]">
+    <div class="min-w-[360px] shrink-0 pl-2.5">
+        <div class="text-gray-600">
+            <div class="grid text-center relative justify-center">
+                <p class=" py-1 px-3 bg-cam absolute right-0 text-white text-[18px] bg-cam">{{edadPersona}} Años</p>
+                <!--<img src="data:image/JPEG;base64,{{dataSolicitud.asegurado.foto}}" class="my-1 w-[60px] h-[75px] justify-self-center">-->
+                  <!--<img class="my-2 imagen" src='data:image/jpeg;base64,{{dataFichaAfiliado.asegurado.foto}}'>-->
+                <img  class="my-1 w-[60px] h-[75px] justify-self-center" src='assets/images/imgReemplazo.png'>
+                <p class="bordColorEstablecido font-bold text-2xl">{{dataSolicitud.asegurado.apePaterno + ' ' + dataSolicitud.asegurado.apeMaterno | titlecase}}</p>
+                <p class="font-semibold text-lg">{{dataSolicitud.asegurado.nombres | titlecase}}</p>
+                <p>{{parametroDocumento.idParametros == 6 ? 'DNI' : parametroDocumento.nombre | titlecase}} {{dataSolicitud.asegurado.numDoc}}</p>
+            </div>
+            <div class="scrollbarra  overflow-auto">
+                <p class="subTitulo my-2.5 text-[18px]">Datos Personales</p>
+                <div class="info-container">
+                  <p class="flex w-1/2 flex-col py-1 bg-slate-100 my-1 mx-0" style="font-weight: 600;"> 
+                    <span class="ml-1">
+                        Fecha Nacimiento 
+                    </span>
+                 </p> 
+                  <p class="flex w-1/2 flex-col ml-2.5 my-1"> {{dataSolicitud.asegurado.fecNacimiento | date: 'dd/MM/yyyy'}} </p>
+                </div>
+      
+                <div class="info-container">
+                  <p class="flex w-1/2 flex-col py-1 bg-slate-100 my-1 mx-0" style="font-weight: 600;"> 
+                    <span class="ml-1">
+                        Sexo
+                    </span>
+                </p> 
+                  <p class="flex w-1/2 flex-col ml-2.5 my-1"> {{dataSolicitud.asegurado.descSexo | titlecase}} </p>
+                  <!-- <p class="flex w-1/2 flex-col ml-2.5 my-1"> {{dataSolicitud.sexo | titlecase}} </p> -->
+                </div>          
+      
+                <div class="info-container">
+                  <p class="flex w-1/2 flex-col py-1 bg-slate-100 my-1 mx-0" style="font-weight: 600;"> 
+                    <span class="ml-1">
+                        Estado Civil 
+                    </span>
+                    
+                </p> 
+                  <p class="flex w-1/2 flex-col ml-2.5 my-1"> {{dataSolicitud.asegurado.descEstCivil | titlecase}} </p>
+                  <!-- <p class="flex w-1/2 flex-col ml-2.5 my-1"> {{dataSolicitud.estCivil | titlecase}} </p> -->
+                </div>
+       
+                <p class="flex w-2/2 flex-col py-1 bg-slate-100 my-1 mx-0" style="font-weight: 600;">
+                    <span class="ml-1">
+                        Lugar de Nacimiento
+                    </span>
+                    
+                </p>
+                <p class="flex w-2/2 flex-col my-0"> 
+                    <span class="ml-1">
+                        {{dataSolicitud.asegurado.distriNacimiento | titlecase}} - {{dataSolicitud.asegurado.provinNacimiento | titlecase}} - {{dataSolicitud.asegurado.departNacimiento | titlecase}}
+                    </span>
+                </p>
+                <!-- <p class="flex w-2/2 flex-col ml-2.5 mx-1 my-0"> {{dataSolicitud.lugarNac | titlecase}}</p> -->
+            
+                <p class="subTitulo my-2.5 text-[18px]">Datos del Seguro</p>
+                <div class="flex flex-col gap-[0.25rem]">
+                  <div class="flex flex-col gap-[0.5rem]">
+                    <p class="py-1 my-0 bg-slate-100" style="font-weight: 600;">
+                        <span class="ml-1">
+                            Tipo de Asegurado
+                        </span>
+                    </p>
+                    <span class="ml-1">{{dataSolicitud.asegurado.descTipoAsegurado | titlecase}}</span>
+                  </div>
+                  <div class="flex flex-col gap-[0.5rem]">
+                    <p class="py-1 my-0 bg-slate-100" style="font-weight: 600;">
+                        <span class="ml-1">
+                            Nombre del Seguro
+                        </span>
+                    </p>
+                    <span class="ml-1">{{dataSolicitud.asegurado.descTipoSeguro | titlecase}} </span>
+                  </div>
+                  <div class="flex flex-col gap-[0.5rem]">
+                    <p class="py-1 my-0 bg-slate-100" style="font-weight: 600;">
+                        <span class="ml-1">
+                            IPRESS de Adscripcion
+                        </span>
+                    </p>
+                    <span class="ml-1">{{dataSolicitud.asegurado.nomIpressAdscrip | uppercase}} </span>
+                  </div>
+                  <div class="flex flex-col gap-[0.5rem]">
+                    <p class="py-1 my-0 bg-slate-100" style="font-weight: 600;">
+                        <span class="ml-1">
+                            Red Asistencial
+                        </span>
+                    </p>
+                    <span class="ml-1">{{dataSolicitud.asegurado.nomRedAsisten | uppercase}} </span>
+                  </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <div class="grow scrollbarra" style="height: 65vh !important;">
+      <!-- DATOS DE DIRECCION -->
+      <p class="subTitulo mb-2.5 text-[18px] flex justify-between">
+        Datos de Dirección
+        <span class="ml-auto text-[16px] text-gray-500 font-normal">
+            Fecha {{this.dataSolicitud.solicitud.fechReg | date: "dd/MM/yyyy hh:mm a" }}
+        </span>
+    </p>
+        <ul class="grupoDirecciones">
+          <li class="elementoSeleccionable" *ngFor="let item of direcciones, index as i">
+              <input type="radio" [id]="'direccion'+i" name="direccion" [checked]="item.activo == 1" [disabled]="true" class="peer right-0 mt-2 mr-2 focusCampo">
+              <label [for]="'direccion'+i" class="flex cuadroRadioButton">                           
+                  <div class="flex flex-col justify-center text-center w-full max-w-[70px]">
+                      <esp-icon class="text-3xl" icon="faLocationDot"></esp-icon>
+                      <span>{{item.nomParametro === 'RENIEC' ? 'Datos ' + item.nomParametro : item.nomParametro | titlecase}}</span>
+                  </div>
+                  <div class="flex  pl-4"> 
+                      <div class="w-full flex flex-col">
+                          <div class="w-full flex space-x-2">
+                              <span class="text-gray-600 font-semibold w-[120px]">Dirección</span>
+                              <span>{{item.direccion | titlecase}}</span>
+                          </div>
+                          <div class="w-full flex space-x-2">
+                              <span class="text-gray-600 font-semibold w-[120px]">Distrito</span>
+                              <span>{{item.nomDist | titlecase}}</span>
+                          </div>
+                          <div class="w-full flex space-x-2">
+                              <span class="text-gray-600 font-semibold w-[120px]">Provincia</span>
+                              <span>{{item.nomProv | titlecase}}</span>
+                          </div>
+                          <div class="w-full flex space-x-2">
+                              <span class="text-gray-600 font-semibold w-[120px]">Departamento</span>
+                              <span>{{item.nomDep | titlecase}}</span>
+                          </div>
+                      </div>
+                  </div>
+              </label>
+          </li>
+      </ul>
+        <!-- DATOS DE CONTACTO -->
+        <p class="subTitulo my-2.5 text-[18px]"> Datos de Contacto</p>
+        <div class="flex flex-col gap-[10px]" [formGroup]="formContacto">
+          <!-- <div class="flex flex-row gap-[10px]">
+              <div class="w-1/6 bg-slate-100 justify-end pr-2 flex items-center">
+                  <span class="font-thin align-middle">Teléfono</span>
+              </div>
+              <div class="w-5/6">
+                  <input type="text" formControlName="frmTelefono" placeholder="Numero de telefono" class="block w-full p-2 text-gray-900 placeholder-gray-300 border border-gray-300 focusCampo">
+              </div>
+          </div> -->
+          <div class="flex flex-row gap-[10px]">
+              <div class="w-1/6 bg-slate-100 justify-end pr-2 flex items-center">
+                  <span>Celular</span>
+              </div>
+              <div class="w-5/6">
+                  <input type="text" formControlName="frmCelular" id="small-input" placeholder="Numero de celular" class="block w-full p-2 text-gray-900 placeholder-gray-300 border border-gray-300 focusCampo">
+              </div>
+          </div>
+          <div class="flex space-x-2 items-center h-[42px]">
+              <div class="w-1/6 bg-slate-100 justify-end pr-2 flex items-center h-full">
+                  <span>Whatsapp</span>
+              </div>
+              <div class="w-5/6">
+                  <div class="flex">
+                      <div class="flex items-center mr-4">
+                          <input id="inline-radio" type="radio" value="SI" formControlName="frmWsp" class="bordColorEstablecido w-4 h-4 focusCampo dark:focusCampo">
+                          <label for="inline-radio" class="ml-2 text-sm font-medium text-gray-900 dark:text-gray-300">Si</label>
+                      </div>
+                      <div class="flex items-center mr-4">
+                          <input id="inline-2-radio" type="radio" value="NO" formControlName="frmWsp" class="bordColorEstablecido w-4 h-4 focusCampo dark:focusCampo">
+                          <label for="inline-2-radio" class="ml-2 text-sm font-medium text-gray-900 dark:text-gray-300">No</label>
+                      </div>
+                  </div>
+              </div>
+          </div>
+          <div class="flex flex-row gap-[10px]">
+              <div class="w-1/6 bg-slate-100 justify-end pr-2 flex items-center">
+                  <span>Correo</span>
+              </div>
+              <div class="w-5/6">
+                  <input type="text" formControlName="frmCorreo" id="small-input" placeholder="Direccion de correo Electronico" class="block w-full p-2 text-gray-900 placeholder-gray-300 border border-gray-300 focusCampo">
+              </div>
+          </div>
+        </div>
+        <ng-container *ngIf="this.dataSolicitud.solicitud.appOrigen == 'WEB_ESSI'">
+            <p class="subTitulo my-2.5 text-[18px]"> Datos de Derivación EsSI</p>
+        <div class="flex flex-col gap-[10px]">
+          <div class="flex space-x-2 items-center h-[42px]">
+              <div class="w-1/6 bg-slate-100 justify-end pr-2 flex items-center h-full">
+                  <span>IPRESS</span>
+              </div>
+              <div class="w-5/6">
+                <span>{{this.dataSolicitud.solicitud.descIpress}}</span>
+              </div>
+          </div>
+          <div class="flex space-x-2 items-center h-[42px]">
+            <div class="w-1/6 bg-slate-100 justify-end pr-2 flex items-center h-full">
+                <span>PROFESIONAL</span>
+            </div>
+            <div class="w-5/6">
+              <span>{{this.dataSolicitud.fichaAdmision.datosProcedencia.nomProfesional}}</span>
+            </div>
+        </div>
+        <div class="flex space-x-2 items-center h-[42px]">
+            <div class="w-1/6 bg-slate-100 justify-end pr-2 flex items-center h-full">
+                <span>FECHA</span>
+            </div>
+            <div class="w-5/6">
+                <span>{{this.dataSolicitud.solicitud.fechReg | date : "yyyy-MM-dd"}}</span>
+            </div>
+        </div>
+
+        </div>
+        </ng-container>
+        <ng-container *ngIf="this.dataSolicitud.solicitud.appOrigen == 'WEB_ESSI'">
+            <p class="subTitulo my-2.5 text-[18px]">Sobre el Diagnostico</p>
+        <div class="flex flex-col gap-[10px]">
+          <div class="flex space-x-2 items-center h-[42px]" *ngIf="this.dataSolicitud.fichaAdmision.datosProcedencia.codDiag1">
+              <div class="w-1/6 bg-slate-100 justify-end pr-2 flex items-center h-full">
+                  <span>CIE10-1</span>
+              </div>
+              <div class="w-5/6">
+                <span>{{this.dataSolicitud.fichaAdmision.datosProcedencia.codDiag1}} - {{this.dataSolicitud.fichaAdmision.datosProcedencia.descDiag1}}</span>
+              </div>
+          </div>
+          <div class="flex space-x-2 items-center h-[42px]" *ngIf="this.dataSolicitud.fichaAdmision.datosProcedencia.codDiag2">
+            <div class="w-1/6 bg-slate-100 justify-end pr-2 flex items-center h-full">
+                <span>CIE10-2</span>
+            </div>
+            <div class="w-5/6">
+              <span>{{this.dataSolicitud.fichaAdmision.datosProcedencia.codDiag2}} - {{this.dataSolicitud.fichaAdmision.datosProcedencia.descDiag2}}</span>
+            </div>
+        </div>
+        </div>
+        </ng-container>
+            <!-- SOLICITUD -->
+          <p class="subTitulo my-2.5 text-[18px]">Solicitud</p>
+          <!--<textarea id="message" formControlName="frmObservacion"  class="my-2 block p-2.5 w-full text-gray-600 border border-gray-300 focusCampo placeholder-gray-300 text-s-16r" placeholder="Descripción" >
+            </textarea>-->
+            <div id="message" class="text-s-16r text-menucolor">
+            <p>Yo.  {{dataSolicitud.asegurado.nombres | titlecase}} {{dataSolicitud.asegurado.apePaterno + ' ' + dataSolicitud.asegurado.apeMaterno | titlecase}} identificado con {{parametroDocumento.idParametros == 6 ? 'DNI' : parametroDocumento.nombre | titlecase}} N° {{dataSolicitud.asegurado.numDoc}}</p> 
+            <p> Domiciliado en  {{dataSolicitud.solicitud.direccion | titlecase}}  de  {{direccionSolicitud.distrito | titlecase}} - {{direccionSolicitud.provincia | titlecase}} - {{direccionSolicitud.region | titlecase}}. Solicito ser parte del programa de ADULTO MAYOR.</p>
+            <br>
+            <p>{{dataSolicitud.solicitud.textSolicitud}}</p>
+            <br>
+            <p>Es por ello que envío mis datos de contacto. </p>
+            <p></p>  
+            <p>Gracias. </p>
+            <p></p>
+        </div>
+    </div>
+  </div>
+</div>

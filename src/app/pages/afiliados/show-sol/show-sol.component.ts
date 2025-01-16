@@ -1,0 +1,252 @@
+import { Component, OnInit, ViewChild, NgModule } from '@angular/core';
+import { FormBuilder } from '@angular/forms';
+import { ActivatedRoute, Router, RouterLink, RouterModule } from '@angular/router';
+import { AfiliadosComponent } from '../afiliados/afiliados.component';
+import { EvaluacionComponent } from '../evaluacion/evaluacion.component';
+import { Dialog } from '@angular/cdk/dialog';
+import { FormatoBoton } from '@shared/components/opciones-botones/formato-boton.model';
+import { AfiliacionesSolicitudesService } from 'src/app/data/services/afiliaciones/afiliaciones-solicitudes.service';
+import { faSpinner } from '@fortawesome/free-solid-svg-icons';
+import { ToastrService } from 'ngx-toastr';
+import { direccionFichaFront } from '@models/afiliados/ficha-solicitud.model';
+import { DatosGeneralesService } from 'src/app/data/services/datos-generales.service';
+import { Parametro } from '@models/parametros-busqueda.model';
+import { DialogNotasComponent } from './dialog-notas/dialog-notas.component';
+import { ContactosAfiliadosService } from 'src/app/data/services/contactos/contactos-afiliados.service';
+import { ModalConfirmarGenericoComponent } from '@shared/components/modal-confirmar-generico/modal-confirmar-generico.component';
+import { MatDialog } from '@angular/material/dialog';
+
+@Component({
+  selector: 'app-show-sol',
+  templateUrl: './show-sol.component.html',
+  styleUrls: ['./show-sol.component.css'],
+  
+})
+
+
+export class ShowSolComponent implements OnInit {
+  opcionesBotones: FormatoBoton[] = [
+    {texto: 'Notas', esImagen: true, rutaIcono: 'assets/svg/iconFileEdit.svg'},
+    {texto: 'Evaluar Solicitud', colorBtn:'mezclado', loading: false},
+  ];
+
+  tipoDocMap : any = {
+    "4": "2",
+    "1": "1"
+  }
+
+  faSpinner = faSpinner;
+  idSolicitud: string = '';
+  dataSolicitud: any;
+  idUnidadOperativaUser = (JSON.parse(localStorage.getItem('UnidElegida')!)).idUnidOperativa;
+  listParamDocumento: Parametro[] = [];
+  parametroDocumento!: Parametro;
+  direccionSolicitud: any = Object();
+  
+  ready: boolean = false;
+
+  edadPersona: number = 0;
+
+  direcciones: direccionFichaFront[] = [];
+
+  flagEval: string = '';
+
+  formContacto = this.fb.nonNullable.group({
+    frmTelefono:[''],
+    frmCelular:[''],
+    frmWsp: [null],
+    frmCorreo:[''],
+  });
+  //-----
+
+  constructor(private router: Router,
+    private activeRoute: ActivatedRoute,
+    private fb: FormBuilder,
+    private notificationService      : ToastrService,
+    private datosGeneralesServices        : DatosGeneralesService,
+    private contactosAfiServ : ContactosAfiliadosService,
+    private dialog : Dialog,
+    private matDialog : MatDialog,
+    private _afiliaddoService: AfiliacionesSolicitudesService ) {
+      this.idSolicitud = this.activeRoute.snapshot.paramMap.get('idSolicitud')!;
+      this.activeRoute.queryParams.subscribe(params => {
+        this.flagEval = params['flagEval'] || null; // Asigna el valor a la variable
+        console.log('flagEval:', this.flagEval);
+      });
+  }
+
+  ngOnInit(): void {
+    this._afiliaddoService.getDataSolicitud(this.idSolicitud).subscribe((data)=>{
+      if (data.code == 0) {
+        // //console.log(data.data);
+        this.dataSolicitud = data.data;
+
+        if(this.dataSolicitud.solicitud.appOrigen == 'MOVIL_CAM' || true){
+          this.opcionesBotones[2]={texto: 'Anular Solicitud', colorBtn:'danger', loading: false, esImagen: true, rutaIcono: 'assets/svg/anular-solicitud.svg'}
+          if (this.dataSolicitud.solicitud.estado === 'EVALUADO' || this.dataSolicitud.solicitud.estado === 'SIN EVALUACION') {
+            this.opcionesBotones[2].deshabilitado = true;
+          }
+        }
+        if (this.dataSolicitud.solicitud.estado === 'EVALUADO' || this.dataSolicitud.solicitud.estado === 'SIN EVALUACION') {
+          this.opcionesBotones[1].deshabilitado = true;
+        }
+        if (data.data.asegurado.fecNacimiento) {
+          var dateObject = new Date(data.data.asegurado.fecNacimiento); 
+          var timeDiff = Math.abs(Date.now() - dateObject.getTime());
+          this.edadPersona = Math.floor(timeDiff / (1000 * 3600 * 24) / 365.25);
+        }
+        else{
+          this.edadPersona = 0;
+        }
+
+        this.getParametros();
+
+        this.formContacto = this.fb.nonNullable.group({
+          frmTelefono:[{value: data.data.fichaAdmision.datosContacto.telefono, disabled:true}],
+          frmCelular:[{value: data.data.fichaAdmision.datosContacto.celular, disabled:true}],
+          frmWsp:[{value: data.data.fichaAdmision.datosContacto.tieneWhatsapp, disabled:true}],
+          frmCorreo:[{value: data.data.fichaAdmision.datosContacto.correo, disabled:true}],
+        });
+  
+        this.getDireccionDatos();
+        
+      }
+      else{
+        this.notificationService.warning(data.message)
+      }
+    })
+  }
+
+  getParametros(){
+    this.datosGeneralesServices.getTipoParametros('TIPO_DOCUMENTO_IDENTIDAD').subscribe((data)=>{
+      this.listParamDocumento = data.data;
+      this.parametroDocumento = data.data.find((x) => x.valor1 == this.dataSolicitud.asegurado.tipoDoc)!;
+
+      this.ready = true;
+    })
+  }
+
+  getDireccionDatos(){
+    this.dataSolicitud.fichaAdmision.direccion.map((dir: any) =>{
+      let direccion: direccionFichaFront = Object();
+      this.datosGeneralesServices.getTipoParametros('TIPO_DIRECCION').subscribe((data)=>{
+        direccion.nomParametro = data.data.find((x: any)=>{return x.idParametros == dir.paramTipoId})!.nombre;
+      })
+      this.datosGeneralesServices.searchByUbigeo(dir.codUbiDep + dir.codUbiProv + dir.codUbiDist).subscribe((dataUbicacion)=>{
+        if (dataUbicacion.code == 0) {
+          if (dir.activo == 1) {
+            direccion.nomDep = dataUbicacion.data.region;
+            direccion.nomProv = dataUbicacion.data.provincia;
+            direccion.nomDist = dataUbicacion.data.distrito;
+            direccion.paramTipoId = dir.paramTipoId;
+            direccion.direccion = dir.direccion;
+            direccion.pisoNumDep = dir.pisoNumDep;
+            direccion.codDep = dir.codUbiDep.trim();
+            direccion.codProv = dir.codUbiProv.trim();
+            direccion.codDist = dir.codUbiDist.trim();
+            direccion.activo = dir.activo;
+            this.direcciones.push(direccion);
+          }
+        }
+        else{
+          this.notificationService.warning(dataUbicacion.message);
+        }
+        if(this.flagEval == "1"){
+          this.EvalAfiliado();
+        }
+      })
+    })
+
+    this.datosGeneralesServices.searchByUbigeo(this.dataSolicitud.solicitud.ubigeoDireccion).subscribe((data)=>{
+      if (data.code == 0) {
+        this.direccionSolicitud = data.data;
+        // //console.log(this.direccionSolicitud)
+      }
+      else{
+        this.notificationService.warning(data.message);
+      }
+    })
+  }
+
+  EvalAfiliado(){
+    this.opcionesBotones[1].loading = true;
+    let fechaNacimiento = "";
+    let tipoDocDecode = this.tipoDocMap[this.dataSolicitud.asegurado.tipoDoc];
+
+    if(this.dataSolicitud.asegurado.tipoDoc != 1){
+      let splitFecNac = this.dataSolicitud.asegurado.fecNacimiento.split("-");
+      fechaNacimiento = splitFecNac[2] + "/" + splitFecNac[1] + "/" +splitFecNac[0];
+     
+    }
+    this.datosGeneralesServices.validarAdmisionIngreso(tipoDocDecode, this.dataSolicitud.asegurado.numDoc, this.idUnidadOperativaUser, 2, fechaNacimiento).subscribe((data)=>{
+      if (data.code == 0) {
+        this.opcionesBotones[1].loading = false;
+        if (data.data.acreditado) {
+          localStorage.setItem('idFichaEvaluada', this.dataSolicitud.fichaAdmision.idFichaAdmision);
+          localStorage.setItem('datosEvaluacion', JSON.stringify({tipoEvaluacion: 'SOLICITUD', idOrigen: parseInt(this.idSolicitud)}));
+          this.router.navigate(['/app/afiliados/evaluacion/agregaEval'])
+        }
+        else{
+          this.contactosAfiServ.cambiarDeEstado({
+            idFichaAdmision: this.dataSolicitud.fichaAdmision.idFichaAdmision,
+            idEstado: 16
+          }).subscribe(data =>{
+             this.contactosAfiServ.cambiarDeEstadoSolicitud( this.dataSolicitud.solicitud.idSolicitud,{
+                estado: 72,
+                descripcion: 'Considerado como NO APTO por falta de acreditación',
+                idUsuarioReg: (JSON.parse(localStorage.getItem('camUser')!)).idUsuario
+              }).subscribe(data =>{
+              this.router.navigate(['/app/afiliados/']);
+              this.notificationService.warning("Usuario no acreditado, será evaluado como no apto");
+              })
+          })
+        }
+      }
+      else{
+        this.opcionesBotones[1].loading = false;
+        this.notificationService.warning(data.message);
+      }
+    });
+
+
+  }
+
+  Notas(){
+    const dialogRef = this.dialog.open(DialogNotasComponent,{
+      minWidth:'800px',
+      maxWidth:'50%',        
+      data:{
+        idSolicitud: this.dataSolicitud.fichaAdmision.idFichaAdmision,
+      }
+    })
+    dialogRef.closed.subscribe(out =>{
+      // //console.log(out)p
+    })
+  }
+
+  anular(){
+    this.matDialog.open(ModalConfirmarGenericoComponent, {
+      data:{
+        message: '¿Desea anular esta solicitud?'
+      }
+    }).afterClosed().subscribe(data=>{
+      if(data && data.success){
+        this.contactosAfiServ.cambiarDeEstado({
+          idFichaAdmision: this.dataSolicitud.fichaAdmision.idFichaAdmision,
+          idEstado: 71
+        }).subscribe(data =>{
+            this.contactosAfiServ.cambiarDeEstadoSolicitud( this.dataSolicitud.solicitud.idSolicitud,{
+              estado: 72,
+              descripcion: 'Se ha anulado la solicitud',
+              idUsuarioReg: (JSON.parse(localStorage.getItem('camUser')!)).idUsuario
+            }).subscribe(data =>{
+            this.router.navigate(['/app/afiliados/']);
+            this.notificationService.success("La solicitud fué marcada como 'ANULADO'");
+            })
+        })
+      }
+    });
+  }
+
+  
+}

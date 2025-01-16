@@ -1,0 +1,31 @@
+<div class="flex flex-row gap-3 text-[#344563] mt-3">
+    <div class="flex flex-col gap-3 grow">
+        <div class="flex flex-row justify-between items-center">
+            <div class="flex flex-col">
+                <span class="text-[14px]">Pacientes hoy</span>
+                <esp-opciones-busqueda class="w-full mt-[-8px]" [showSearch]="true"></esp-opciones-busqueda>
+            </div>
+            <span class="font-semibold">{{atencionesPendientes.length > 1 ? 'Pendientes' : 'Pendiente'}} {{atencionesPendientes.length}}</span>
+        </div>
+        <esp-cartilla-info [cartillas]="atencionesPendientes" [forzarDesombreado]="true" [esFuncion]="true" (funcionBoton)="showAtencionMedica($event)"></esp-cartilla-info>
+    </div>
+    <div class="w-[310px] shrink-0 bg-card estilizadoCard">
+        <mat-calendar [(selected)]="selected" (selectedChange)="onSelect()"></mat-calendar>
+        <div class="flex flex-col px-4 py-2 gap-2">
+            <span class="text-[14px] leading-[21px] font-semibold">Horas</span>
+            <div class="flex flex-col max-h-[36vh] overflow-auto">
+                <div class="aparienciaHorario" *ngFor="let horario of horas, index as i">
+                    <div class="flex items-start justify-center font-semibold h-[46px] w-[55px] pt-2 shrink-0">
+                        <span>{{horario}}</span>
+                    </div>
+                    <div class="grow flex flex-col gap-2">
+                        <div class="bg-[#F59E0B80] w-full min-h-[36px] rounded-[3px] flex flex-col px-2 pb-2" *ngFor="let asignacion of getCitasHorario(horario), index as i">
+                            <span>{{asignacion.fechaProgramadaInicio | date:'hh:mm aa'}} - {{asignacion.fechaProgramadaFin | date:'hh:mm aa'}}</span>
+                            <span>{{asignacion.nombrePersona | titlecase}}</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

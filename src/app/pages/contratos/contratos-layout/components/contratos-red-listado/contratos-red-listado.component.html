@@ -1,0 +1,121 @@
+
+<div >
+  <div>
+    <esp-opciones-busqueda 
+      [showDateFilter]="true"
+      [setFilterDateOptionSelected]="'var(--color-CAM-Mezclado)'" 
+      [setFilterDateTextColour]="'#057EC9'"
+      [filterDateAppearance]="2"
+      (sendDateFilterWithCeros)="getDataFecha($event)"
+      [setFilterDateSelectionBg]="'#008BD2'"
+      [setFilterDateButtonBg]="'#008BD2'"
+      [setDateSelectedDefault]="9"
+      [showSearch]="true"
+      (searchInputValue)="formBuscar.get('frmSearch')?.setValue($event.toUpperCase()); onLoadData()"
+      [searchInputPlaceHolder]="'Busqueda de texto'"
+      [showFirstDisplayFilter]="true"
+      [firstDisplayFilterPlaceholder]="{'indicador': true, 'placeholder': 'Todos los CAM'}"
+      (firstDisplayFilterSendValue)="firstDisplayValue($event)"
+      (firstDisplaySelectedValue)="false"
+      [firstDisplayFilterData]="opciones_cam"
+      [showSecondDisplayFilter]="true"
+      [secDisplayFilterPlaceholder]="{'indicador': true, 'placeholder': 'Todos los estados'}"
+      [secDisplayFilterData]="opciones"
+      (secDisplayFilterSendValue)="secDisplayValue($event)"
+      [menuOpt]="dataAcciones"
+      (primerActionMenu)="imprimirLista()"
+    ></esp-opciones-busqueda>
+</div>
+<esp-data-loading
+[dataEmpty]="dataSource.length == 0"
+[dataLoading]="loadingData"
+></esp-data-loading>
+
+<div *ngIf="!loadingData && dataSource.length > 0">
+  <div class="table-container">
+    <table cdk-table class="w-full text-sm text-left text-gray-500 tablaDatos" [dataSource]="dataSource" >
+      <tr cdk-header-row class="text-xs text-gray-700 bg-gray-50" *cdkHeaderRowDef="columns; sticky: true"></tr>
+      <tr cdk-row class="bg-white border-b" *cdkRowDef="let row; columns: columns"></tr>
+      <ng-container cdkColumnDef="marcar">
+        <th cdk-header-cell class="py-[1.25rem] px-6" *cdkHeaderCellDef> <input type="checkbox" value="false"/> </th>
+        <td cdk-cell class="py-[1rem] px-6" *cdkCellDef="let row"> <input type="checkbox" value="false"/> </td>
+      </ng-container>
+
+      <ng-container cdkColumnDef="numOc">
+        <th cdk-header-cell class="py-[1.25rem] px-6" *cdkHeaderCellDef>Contrato</th>
+        <td cdk-cell class="py-[1rem] px-6 text-[#057EC9]" *cdkCellDef="let row, index as i">
+          <a [routerLink]="['/estado']">
+            <ng-container *ngIf="row.estado == 'REGISTRADO'">
+            
+              <a [routerLink]="['/app/contratos/asignar-servicios/'+row.numOc]" class="estado-link">
+                <strong>{{row.numOc}}</strong>
+                </a>
+            </ng-container>
+  
+            <ng-container *ngIf="row.estado == 'CONFIRMADO'">
+              
+            <a [routerLink]="['/app/contratos/confirm-servicios/'+row.numOc]" class="estado-link">
+              <strong>{{row.numOc}}</strong>
+              </a>
+            </ng-container>
+          </a>
+        </td>
+      </ng-container>
+
+      <ng-container cdkColumnDef="fechaContrato">
+        <th cdk-header-cell class="py-[1.25rem] px-6" *cdkHeaderCellDef>Publicado</th>
+        <td cdk-cell class="py-[1rem] px-6" *cdkCellDef="let row">{{row.fechaContrato | date : 'dd/MM/yyyy'}}</td>
+      </ng-container>
+
+      <ng-container cdkColumnDef="tallerista">
+        <th cdk-header-cell class="py-[1.25rem] px-6" *cdkHeaderCellDef>Nombres del Proveedor</th>
+        <td cdk-cell class="py-[1rem] px-6" *cdkCellDef="let row">
+          <a [routerLink]="['/app/contactos/talleristas/show/'+row.idTalllerista]" class="estado-link">
+            <strong>{{row.tallerista | titlecase}}</strong>
+          </a>
+        </td>
+      </ng-container>
+
+      <ng-container cdkColumnDef="monto">
+        <th cdk-header-cell class="py-[1.25rem] px-6" *cdkHeaderCellDef>Monto</th>
+        <td cdk-cell class="py-[1rem] px-6" *cdkCellDef="let row">{{ row.monto | number:'1.2-2' }}</td>
+      </ng-container>
+
+   
+      <ng-container cdkColumnDef="periodo_contrato">
+        <th cdk-header-cell class="py-[1.25rem] px-6" *cdkHeaderCellDef>Periodo de Contrato</th>
+        <td cdk-cell class="py-[1rem] px-6" *cdkCellDef="let row">{{(row.fechaDesde | date: 'dd/MM/yyyy') + " - " +  (row.fechaHasta | date: 'dd/MM/yyyy')}}</td>
+      </ng-container>
+
+      <ng-container cdkColumnDef="desUO">
+        <th cdk-header-cell class="py-[1.25rem] px-6" *cdkHeaderCellDef>Unidad Operativa</th>
+        <td cdk-cell class="py-[1rem] px-6" *cdkCellDef="let row">{{row.tipo + " " + row.desUO}}</td>
+      </ng-container>
+
+
+
+      <ng-container cdkColumnDef="fecha">
+        <th cdk-header-cell class="py-[1.25rem] px-6" *cdkHeaderCellDef>
+          Estado
+        </th>
+        <td cdk-cell class="py-[1rem] px-6 flex justify-center items-center select-none" *cdkCellDef="let row"
+          [ngStyle]="{'color' : colorEstado(row.estado) }"
+        >
+          {{row.estado }}
+        </td>
+      </ng-container>
+    </table>
+  </div>
+    
+    <mat-paginator #paginator class="demo-paginator paginatorDatos" 
+    (page)="handlePageEvent($event)"
+    [length]="total"
+    [pageSize]="pageSize"
+    showFirstLastButtons="true"
+    [pageSizeOptions]="pageSizeOptions.length > 0 ? pageSizeOptions : []"
+    [pageIndex]="pageIndex"
+    aria-label="Select page">
+    </mat-paginator>
+</div>    
+</div>
+  

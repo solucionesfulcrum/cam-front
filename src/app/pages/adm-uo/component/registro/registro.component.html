@@ -1,0 +1,107 @@
+<esp-opciones-botones [listOpciones]="opcionesBotones" (firstFunction)="optFunc(1)" (secondFunction)="optFunc(2)"
+    (thirdFunction)="optFunc(3)"></esp-opciones-botones>
+<div class="bg-white p-4 max-h-1366">
+    <h4 class="text-1xl font-bold mb-1">Registro de un Nuevo CIRAM</h4>
+    <h4 class="text-1xl mb-1">Por favor llene los datos para registrar un nuevo Circulo de Adulto Mayor</h4>
+    <div [formGroup]="formRegistroCiram">
+        <div class="space-y-6 pt-5">
+            <div class="flex space-x-2">
+                <div class="w-1/2">
+                    <div class="flex flex-col">
+                        <span>Código del Centro</span>
+                        <input placeholder="Código" type="text" name="codigoCentro" formControlName="frmCodigoCentro"
+                            class="w-full text-sm rounded bg-white border-gray-400 border-1 px-4 py-2 font-light focus:border-blue-200 focus:border-1" />
+                    </div>
+                </div>
+                <div class="w-1/2">
+                    <label class="block text-gray-700">Fecha de Creación</label>
+                    <mat-form-field style="position: absolute; visibility:hidden;">
+                        <input #input matInput [matDatepicker]="picker">
+                        <mat-datepicker #picker (closed)="actualizarDate(input.value, 1)"></mat-datepicker>
+                    </mat-form-field>
+                    <input type="text" name="fechCreacion" formControlName="frmFechCreacion" readonly (click)="picker.open()"
+                        class="w-full text-sm rounded border-gray-400 border-1 px-4 py-2 font-light focus:border-blue-200 focus:border-1" placeholder="Fecha de Creación">
+                    <div class="absolute inset-y-0 right-0 flex items-center pr-3 z-10 !h-9 pointer-events-none">
+                        <span class="text-gray-500 sm:text-sm">
+                            <!--<img src="assets/svg/icon-calendar-simple.svg">-->
+                        </span>
+                    </div>
+                    <!--<div
+                        *ngIf="formRegistroCiram.controls.frmFechCreacion.touched && formRegistroCiram.controls.frmFechCreacion.invalid">
+                        <p *ngIf="formRegistroCiram.controls.frmFechCreacion.hasError('required')"
+                            class="font-medium text-red-500 text-xs mt-1 ml-1">
+                            Fecha Nacimiento es obligatorio
+                        </p>
+                    </div>-->
+                </div>
+            </div>
+            <div class="flex">
+                <div class="w-full">
+                    <div class="flex flex-col">
+                        <span>Nombre del Centro</span>
+                        <input placeholder="Escriba el nombre" type="text" name="nombreCentro"
+                            formControlName="frmNombreCentro"
+                            class="w-full text-sm rounded bg-white border-gray-400 border-1 px-4 py-2 font-light focus:border-blue-200 focus:border-1" />
+                    </div>
+                </div>
+            </div>
+            <div class="flex">
+                <div class="w-full">
+                    <div class="flex flex-col">
+                        <span>Dirección</span>
+                        <input placeholder="Escriba la dirección" type="text" name="direccion"
+                            formControlName="frmDireccion"
+                            class="w-full text-sm rounded bg-white border-gray-400 border-1 px-4 py-2 font-light focus:border-blue-200 focus:border-1" />
+                    </div>
+                </div>
+            </div>
+            <div class="flex space-x-2">
+                <div class="w-1/2">
+                    <div class="flex flex-col">
+                        <span>Distrito</span>
+                        <input placeholder="Distrito - Provincia - Region" type="text" name="distrito"
+                            formControlName="frmDistrito"
+                            class="w-full text-sm rounded bg-white border-gray-400 border-1 px-4 py-2 font-light focus:border-blue-200 focus:border-1" />
+                    </div>
+                </div>
+                <div class="w-1/2">
+                    <div class="flex flex-col">
+                        <span>Centro CAM Asociado</span>
+                        <input placeholder="" type="text" name="nombreCam" formControlName="frmNombreCam"
+                            class="w-full text-sm rounded bg-gray-100 border-gray-400 border-1 px-4 py-2 font-light focus:border-blue-200 focus:border-1" />
+                    </div>
+                </div>
+            </div>
+            <div class="flex space-x-2">
+                <div class="w-1/2">
+                    <div class="flex flex-col">
+                        <input placeholder="Número de Contacto" type="text" name="numContacto"
+                            formControlName="frmNumContacto"
+                            class="w-full text-sm rounded bg-white border-gray-400 border-1 px-4 py-2 font-light focus:border-blue-200 focus:border-1" />
+                    </div>
+                </div>
+                <div class="w-1/2">
+                    <div class="flex flex-col">
+                        <input placeholder="Correo de Contacto" type="email" name="correoContacto"
+                            formControlName="frmCorreo"
+                            class="w-full text-sm rounded bg-white border-gray-400 border-1 px-4 py-2 font-light focus:border-blue-200 focus:border-1" />
+                    </div>
+                </div>
+            </div>
+            <div class="flex space-x-2">
+                <div class="w-1/2">
+                    <div class="flex flex-col">
+                        <input placeholder="Lider" type="text" name="nombreLider" formControlName="frmNombreLider"
+                            class="w-full text-sm rounded border-gray-400 border-1 px-4 py-2 font-light focus:border-blue-200 focus:border-1" />
+                    </div>
+                </div>
+                <div class="w-1/2">
+                    <div class="flex flex-col">
+                        <input placeholder="Activo" type="text" name="activo" formControlName="frmActivo"
+                            class="w-full text-sm rounded bg-gray-100 border-gray-400 border-1 px-4 py-2 font-light focus:border-blue-200 focus:border-1" />
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

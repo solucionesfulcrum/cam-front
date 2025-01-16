@@ -1,0 +1,213 @@
+<div class="px-4 py-3 bg-white w-full mt-3 grid botonApariencia" *ngIf="!dataContrato && totalProgramaciones <= -1">
+    <div class="text-gray-600 w-full text-center">
+        <p class="py-1 font-semibold text-2xl">
+            <fa-icon class="mr-2" [icon]="faSpinner" [pulse]="true"></fa-icon>
+            Obteniendo datos...
+        </p>
+    </div>
+</div>
+<div class="px-4 py-3 bg-white w-full mt-3 grid botonApariencia" *ngIf="totalProgramaciones == 0">
+    <div class="m-auto w-fit text-center py-6">
+        <img class="m-auto" src="assets/svg/empty-data.svg" alt="">
+        <h3 class="text-gray-500 mt-2 font-light">No existen registros.</h3>
+      </div>
+</div>
+<div *ngIf="dataContrato">
+    
+
+    
+    <div class="flex flex-row gap-2.5 mt-3">
+        
+        <div class="cardBackground grow px-4">
+            <div class=" justify-between w-full">
+                <div class="flex flex-row">
+                    <div class="relative rounded-md shadow-sm botonApariencia" *ngIf="!visualizacion">
+                        <app-btn color="bordeado" (click)="showScheduleCalendar(null, null)">
+                        <!-- <app-btn color="bordeado" > -->
+                            <esp-icon icon="faAdd"></esp-icon> Agregar Servicio
+                        </app-btn>
+                    </div>
+                </div>
+                  <!--
+                    <div class="contenedorOpcionesBotones">
+                        <div class="flex cursor-pointer">
+                            
+                        </div>
+                        <div class="flex">
+                            <button class="px-4 py-2 bg-blue-500 text-white rounded-l-lg hover:bg-blue-600 focus:outline-none border border-blue-500">Button 1</button>
+                            <button class="px-4 py-2 bg-green-500 text-white hover:bg-green-600 focus:outline-none border-t border-b border-green-500">Button 2</button>
+                            <button class="px-4 py-2 bg-red-500 text-white rounded-r-lg hover:bg-red-600 focus:outline-none border border-red-500">Button 3</button>
+                          </div>
+                        <div class="flex space-x-3">
+                          
+                        </div>
+                    </div>-->
+
+                    
+                    <div class="flex items-center justify-between gap-2 text-sm">
+                        <div class="flex-1 flex items-center justify-start gap-2">
+                            <div class="flex">
+                                <div class="relative rounded-md shadow-sm">
+                                  <!-- <select id="docs" #firstSelect class="bg-slate-50 border border-gray-300 text-gray-600 text-sm rounded-lg focusCampo !h-10 block w-full"
+                                   (change)="getFiltroPorTallerista($event)"
+                                   >
+                                        <option [value]="'X'">
+                                            
+                                            Talleristas
+                                        </option> 
+                                        <option [value]="" disabled>Proveedores</option> 
+                                        <option [value]="tallerista.value" *ngFor="let tallerista of dropdownOptions" > {{tallerista.label}} </option> 
+                                      
+                                    </select>-->
+                                    <esp-select-personalizado 
+                                    [options]="dropdownOptions"
+                                    placeholder="TALLERISTAS"
+                                    (optionSelected)="onOptionSelected($event)">
+                                    </esp-select-personalizado>
+                                  </div>
+                            </div>
+                        </div>
+
+                        <!-- Grupo de botones centrado -->
+                        <div class="flex-1 flex justify-center">
+                          <div class="flex">
+                           <!-- <button class="px-4 py-2 rounded-l-lg focus:outline-none border bg-white 
+                            text-[var(--color-CAM-black-alt)] border-[var(--color-CAM)] border-[0.0125rem] hover:bg-gray-300 focus:ring-gray-500">Diario</button>-->
+                            <button class="
+                            px-4 py-2 bg-green-500 text-white hover:bg-green-600 focus:outline-none border-t border-b 
+                            bg-cam text-white
+                            ">Semanal</button>
+                           <!-- <button class="px-4 py-2 rounded-r-lg focus:outline-none border bg-white 
+                            text-[var(--color-CAM-black-alt)] border-[var(--color-CAM)] border-[0.0125rem] hover:bg-gray-300 focus:ring-gray-500">Mensual</button>-->
+                          </div>
+                        </div>
+                        
+                        <!-- Fecha y flechas a la derecha -->
+                        <div class="flex flex-1 items-center justify-end gap-2">
+                          <img class="p-2 hover:bg-[#dfdfdf] hover:rounded-full cursor-pointer" src="assets/svg/icon-arrow-head.svg" (click)="changeDates(0)">
+                          <span class="text-[0.80rem] min-w-[210px] text-center">
+                            {{fechasSemana[0] | date:'dd'}} de {{(fechasSemana[0] | date:'LLL.') | titlecase}} - {{fechasSemana[fechasSemana.length-1] | date:'dd'}} de {{(fechasSemana[fechasSemana.length-1] | date:'LLL.') | titlecase}} de {{fechasSemana[fechasSemana.length-1] | date:'yyyy'}}
+                          </span>
+                          <img class="rotate-180 p-2 hover:bg-[#dfdfdf] hover:rounded-full cursor-pointer" src="assets/svg/icon-arrow-head.svg" (click)="changeDates(1)">
+                        </div>
+                      </div>
+            </div>
+            <div class="pseudoTablaHorarios">
+                <div class="headTable">
+                    <div class="headerFecha" *ngFor="let fechas of fechasSemana, index as i" [ngClass]="{'bg-[#FAFAFA]': comprobacionBloqueo(fechas)}">
+                        <span class="text-[14px]"><span class="font-light text-gray-500">{{(fechas | date:'EEE.') | titlecase}}</span> {{fechas | date:'dd/MM'}}</span>
+                    </div>
+                </div>
+                
+                <div class="contenedorHorarios">
+                    <div class="filaHorariosDia" *ngFor="let horario of horarios, index as i">
+                        <div class="hora text-xs font-semibold text-gray-500">
+                            <span>{{horario}}</span>
+                        </div>
+                        <div class="cuadroHorarioDia relative" *ngFor="let espacios of fechasSemana" [ngClass]="{'bg-[#FAFAFA]': comprobacionBloqueo(espacios), 'border-b': i == (horarios.length - 1), 'bg-[var(--color-fondo-claro)]': espacios.toLocaleDateString() == fechaActual.toLocaleDateString()}">
+                            <ng-container *ngIf="!comprobacionBloqueo(espacios)">
+                                <div (click)="verifyData(horario, espacios, $event)" class="w-full h-full hover:bg-gray-200 cursor-pointer">
+                                    <!-- <div class="absolute left-0 top-0 z-10 flex flex-row w-full" *ngIf="validarActividadRegistrada(horario, espacios)" [ngStyle]="{'height': (validarActividadRegistrada(horario, espacios) ? getDataAsignacion(horario, espacios).longitud + 'px': null), 'margin-top': (validarActividadRegistrada(horario, espacios) ? getDataAsignacion(horario, espacios).controlarInicio + 'px': null)}" [cdkMenuTriggerFor]="getDataAsignacion(horario, espacios) ? accountOptions : null" (click)="getDataServiceAsignadoSelected(getDataAsignacion(horario, espacios).idProgramacionDet, $event)">
+                                        <div class="barraTarea">
+                                            <img src="assets/svg/icon-task-small.svg">
+                                        </div>
+                                        <div class="flex items-start w-full">
+                                            <span class="text-[10px] bg-white px-1 h-[99%] text-[#333333] overflow-auto w-full">{{getDataAsignacion(horario, espacios).nombreServicio | titlecase}}, <span class="text-[var(--color-CAM)]">{{getDataAsignacion(horario, espacios).fechaHorarioInicio | date:'h aa'}}</span></span>
+                                        </div>
+                                    </div> -->
+                                    <div *ngFor="let actividad of getDataAsignacion(horario, espacios), index as i">
+                                        <div class="absolute left-0 top-0 flex flex-row w-full programacion" 
+                                        [style.left]="((actividad.indice - 1) * 1) + 'vw'"   
+                                        [style.width]="((10.4) - actividad.indice) + 'vw'"   
+                                        *ngIf="validarActividadRegistrada(horario, espacios)" 
+                                        [ngStyle]="{
+                                            'height': (validarActividadRegistrada(horario, espacios) ? actividad.longitud + 'px': null), 
+                                            'margin-top': (validarActividadRegistrada(horario, espacios) ? actividad.controlarInicio + 'px': null), 
+                                            'z-index': (10 * actividad.indice)}" 
+                                            [cdkMenuTriggerFor]="actividad ? accountOptions : null" (click)="getDataServiceAsignadoSelected(actividad.idProgramacionDet, $event, actividad.indice)"
+                                            >
+                                            
+                                            <div class="barraTarea-{{actividad.indice}}" >
+                                                <img src="assets/svg/icon-task-small.svg">
+                                            </div>
+                                            <div class="flex items-start w-full">
+                                                <span class="text-[10px] bg-white px-1 h-[99%] text-[#333333] overflow-auto w-full">
+                                                    {{actividad.nombreServicio | titlecase}}, <span class="text-[var(--color-CAM)]">
+                                                    {{actividad.fechaHorarioInicio | date:'h:mm aa'}}
+                                                </span></span>
+                                            </div>
+                                        </div>
+                                        <ng-template #accountOptions>
+                                            <div 
+                                            class="menu-layout botonApariencia min-w-[600px]"
+                                            [class]="{'menu-layout-up' : horarioTarde(actividad.fechaHorarioInicio)}"
+                                            cdkMenu 
+                                            [style.left]="((actividad.indice - 1) * 1) + 'vw'"
+                                            [style.top]="'vw'"
+                                            >
+                                                <div class="px-4 py-3 w-full grid" *ngIf="!dataAsignacionSelected">
+                                                    <div class="text-gray-600 w-full text-center">
+                                                        <p class="py-1 font-semibold text-2xl">
+                                                            <fa-icon class="mr-2" [icon]="faSpinner" [pulse]="true"></fa-icon>
+                                                            Obteniendo datos...
+                                                        </p>
+                                                    </div>
+                                                </div>
+                                                <div class="flex flex-row py-2 justify-end gap-6 items-center" *ngIf="dataAsignacionSelected">
+                                                    <button class="elementoOpcion" cdkMenuItem (click)="editAsignacion(horario, espacios, actividad)" *ngIf="!visualizacion">
+                                                        <img class="iconoEscalaGris h-6" src="assets/svg/Edit.svg"/>
+                                                    </button>
+                                                    <button class="elementoOpcion" cdkMenuItem (click)="deleteAsignacion(dataAsignacionSelected.idProgramacionDet)" *ngIf="!visualizacion">
+                                                        <img src="assets/svg/icon-trash-can.svg"/>
+                                                    </button>
+                                                    <button class="elementoOpcion" cdkMenuItem>
+                                                        <fa-icon class="flex" [icon]="faClose" [classes]="['h-6', 'w-6', 'text-[#64748B]']"></fa-icon>
+                                                    </button>
+                                                </div>
+                                                <div class="flex flex-col" *ngIf="dataAsignacionSelected">
+                                                    <span class="text-[14px] leading-[14px]">Programación de:</span>
+                                                    <div class="flex flex-row gap-2.5 items-center py-2">
+
+                                                        <div class="square-{{indiceSeleccionado}}"></div>
+                                                        <div class="flex flex-col gap-1">
+                                                            <span class="text-[18px] leading-5">{{dataAsignacionSelected.servicio | titlecase}}</span>
+                                                            <span class="text-[14px] leading-[14px] text-[#64748B]">Taller de {{dataAsignacionSelected.duracion}} min</span>
+                                                        </div>
+                                                    </div>
+                                                    <div class="flex flex-row gap-2.5 items-center py-2">
+                                                        <img class="h-5 self-center iconoEscalaGris" src="assets/svg/timeIcon.svg">
+                                                        <div>
+                                                            <span class="text-[16px] leading-5">{{dataAsignacionSelected.nroSesiones}} {{dataAsignacionSelected.nroSesiones > 1 ? 'Sesiones programados' : 'Sesión programada'}}</span>
+                                                        </div>
+                                                    </div>
+                                                    <div class="flex flex-row gap-2.5 items-center py-2">
+                                                        <img class="h-5 self-center iconoEscalaGris" src="assets/svg/icon-profesional-man.svg">
+                                                        <div class="flex flex-col gap-1">
+                                                            <span class="text-[16px] leading-5">{{dataAsignacionSelected.tallerista | titlecase}}</span>
+                                                            <span class="text-[14px] leading-[14px] text-[#64748B]">Tallerista a cargo</span>
+                                                        </div>
+                                                    </div>
+                                                    <div class="flex flex-row gap-2.5 items-center py-2">
+                                                        <img class="h-5 self-center" src="assets/svg/icon-vinieta-cam.svg">
+                                                        <span class="text-[16px] leading-5">{{dataAsignacionSelected.unidadOperativaCiram ? ('CIRAM ' + (dataAsignacionSelected.unidadOperativaCiram | titlecase)) : ('CAM ' + (dataAsignacionSelected.unidadOperativaCam | titlecase))}}</span>
+                                                    </div>
+                                                    <div class="flex flex-row gap-2.5 items-center py-2">
+                                                        <img class="h-5 self-center" src="assets/svg/icon-direccion-gray.svg">
+                                                        <div class="flex flex-col gap-1">
+                                                            <span class="text-[16px] leading-5">Ubicación</span>
+                                                            <span class="text-[14px] leading-[14px] text-[#64748B]">{{dataAsignacionSelected.ubicacion}}</span>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </ng-template>
+                                    </div>
+                                </div>
+                            </ng-container>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

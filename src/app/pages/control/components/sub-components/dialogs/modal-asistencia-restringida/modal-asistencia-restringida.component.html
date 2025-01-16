@@ -1,0 +1,55 @@
+<div  class="botonApariencia my-2">
+    <div class="bg-white flex flex-col text-[#37474F my-2">
+
+         <!-- Icono de cierre -->
+         <div class="flex justify-end m-2">
+            <a (click)="onClose(null)" class="cursor-pointer">
+                <fa-icon class="mr-2" [icon]="faClose"></fa-icon>
+            </a>
+        </div>
+          <!-- Icono -->
+        <!-- Icono -->
+    <div class="flex justify-center">
+        <div class="border-[#37474F]  w-[100px] h-[100px] flex items-center justify-center select-none">
+            <img src="assets/svg/Alert-icons.svg">
+        </div>
+    </div>
+
+    <!-- Título -->
+    <div class="text-2xl mb-2 text-center">
+        {{msg[estado].header}}
+    </div>
+
+    <!-- Subtítulo -->
+    <div class="text mb-4 text-center">
+        {{msg[estado].description}}
+    </div>
+
+    <!-- Hora actual -->
+<div class="text-base mb-4 grid grid-cols-1 items-center" *ngIf="estado == 'antes'">
+    <div class="flex items-center justify-center space-y-2 gap-3 w-100" [style.width]="'100%'">
+        <table class="w-100 border" 
+        [style.width]="'50%'"
+        [style.border-color]="'rgba(1, 96, 174, 0.3)'"
+        >
+            <tr>
+                <td [width]="'33.3%'" class="text-center">{{dias}}</td>
+                <td  [width]="'33.3%'" class="text-center">{{horas}}</td>
+                <td  [width]="'33.3%'" class="text-center">{{minutos}}</td></tr>
+            <tr>
+                <td  [width]="'33.3%'" class="text-center">Dias</td>
+                <td  [width]="'33.3%'" class="text-center">Horas</td>
+                <td  [width]="'33.3%'" class="text-center">Minutos</td></tr>
+        </table>
+    </div>
+</div>
+
+    <!-- Botón -->
+    <div class="flex justify-center mb-10">
+        <app-btn class="botonApariencia flex" color="mezclado" (click)="onClose('despues')">
+            {{estado == "despues" ? "Continuar con la asistencia" : "Aceptar"}}
+        </app-btn>
+    </div>
+
+    </div>
+</div>

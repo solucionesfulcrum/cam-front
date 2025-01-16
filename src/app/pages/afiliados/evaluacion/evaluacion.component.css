@@ -1,0 +1,32 @@
+::ng-deep.w-fit{
+    app-btn{
+        button{
+            display: flex;
+        }
+    }
+}
+.boxMsgSatisf{
+    margin-top: 16px;   
+    width: 100%; 
+    text-align: center;
+    .boxSpanMsg{
+        padding: 12px 0;
+        color: #057EC9;
+        border-bottom: 0.5px solid #3e434859;
+    }
+    .btnSgte{
+        margin: 12px 0;
+        display: flex;
+        justify-content: center;
+    }
+}
+
+.centrar {
+    justify-content: center; /* Centrar horizontalmente */
+    align-items: center; /* Centrar verticalmente */
+
+}
+
+.text-wright{
+    text-align: -webkit-right;
+}

@@ -1,0 +1,11 @@
+@import '../../../pages/afiliados/show-sol/show-sol.component.css';
+
+#imagenEscalaGrises {
+    filter: grayscale(100%);
+}
+
+#imagenEscalaOriginal {
+    filter: none;
+}
+
+  

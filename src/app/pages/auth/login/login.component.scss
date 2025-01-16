@@ -1,0 +1,18 @@
+.bg-gradient{
+  background: linear-gradient(90deg,#0160AE, #0A72A9) !important;
+}
+.grid{
+  height: 80vh;
+  .brand{
+    display: inherit;
+  }
+}
+
+@media screen and (max-width: 1023px) {
+  .grid{
+    height: 100vh;
+    .brand{
+      display: none;
+    }
+  }
+}

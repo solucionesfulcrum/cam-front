@@ -1,0 +1,80 @@
+<esp-opciones-botones [rutaRegreso]="'../..'" (secondFunction)="editarCiram()" [listOpciones]="opcionesBotones"></esp-opciones-botones>
+<!--(firstFunction)="Notas()"
+    (secondFunction)="editDataAsegurado()" (thirdFunction)="EvalAfiliado()"-->
+<div class="px-4 py-3 bg-white w-full mt-3 grid botonApariencia" *ngIf="dataShow">
+    <div class="text-gray-600 w-full text-center">
+        <span class="py-1 font-bold text-2xl">
+            <fa-icon class="mr-2" [icon]="faSpinner" [pulse]="true"></fa-icon>
+            Obteniendo datos...
+        </span>
+    </div>
+</div>
+
+<div *ngIf="!dataShow" class="">
+    <div class="flex flex-row gap-[1.25rem] text-[#37474F] pr-[10px] pb-[20px]">
+        <div class="w-[360px] shrink-0 pl-2.5 bg-white p-4">
+            <div class="grid place-items-center">
+                <img src="assets/svg/icon-unid-ciram-admUo.svg" class="my-2 fill-current mt-3" />
+                <span class="text-center font-bold">{{datosPerfilCiram.nombre}}</span>
+                <span class="text-center">ID CENTRO: {{datosPerfilCiram.idCentro}}</span>
+            </div>
+            <div class="scrollbarra max-h-[62vh] overflow-auto ">
+                <p class="subTitulo my-2.5 text-[18px]">Detalles</p>
+                <div class="info-container flex items-center">
+                    <p class="w-2/4 py-1 bg-slate-100 my-1 mx-0 font-bold">Tipo</p>
+                    <p class="w-2/4 ml-2.5 my-1 mr-2">{{datosPerfilCiram.tipo}}</p>
+                </div>
+                <div class="info-container flex items-center">
+                    <p class="w-2/4 py-1 bg-slate-100 my-1 mx-0 font-bold">F. Inscripción</p>
+                    <p class="w-2/4 ml-2.5 my-1 mr-2">{{datosPerfilCiram.fechaIncripcion.split("T")[0]}}</p>
+                </div>
+                <div class="info-container">
+                    <p class="flex w-1/1 flex-col py-1 bg-slate-100 my-1 mx-0 font-bold"> Dirección </p>
+                    <p class="flex w-1/1 flex-col">{{datosPerfilCiram.direccion}}</p>
+                </div>
+                <div class="info-container">
+                    <p class="flex w-1/1 flex-col py-1 bg-slate-100 my-1 mx-0 font-bold"> CAM </p>
+                    <p class="flex w-1/1 flex-col">CAM {{datosPerfilCiram.nombreCam}}</p>
+                </div>
+                <div class="info-container">
+                    <p class="flex w-1/1 flex-col py-1 bg-slate-100 my-1 mx-0 font-bold"> RED </p>
+                    <p class="flex w-1/1 flex-col">RED {{datosPerfilCiram.nombreRed}}</p>
+                </div>
+                <div class="info-container">
+                    <p class="flex w-1/1 flex-col py-1 bg-slate-100 my-1 mx-0 font-bold"> Lider </p>
+                    <p class="flex w-1/1 flex-col text-blue-500">{{datosPerfilCiram.lider}}</p>
+                </div>
+                <div class="info-container">
+                    <p class="flex w-1/1 flex-col py-1 bg-slate-100 my-1 mx-0 font-bold"> Correo </p>
+                    <p class="flex w-1/1 flex-col">{{datosPerfilCiram.correo}}</p>
+                </div>
+                <div class="info-container">
+                    <p class="flex w-1/1 flex-col py-1 bg-slate-100 my-1 mx-0 font-bold">Telefono</p>
+                </div>
+                <div class="info-container flex items-center">
+                    <p class="w-2/4 py-1 bg-slate-100 my-1 mx-0 font-bold">Celular</p>
+                    <p class="w-2/4 ml-2.5 my-1 mr-2">{{datosPerfilCiram.celular}} </p>
+                </div>
+                <div *ngIf="datosPerfilCiram.estado==1" class="info-container flex items-center">
+                    <p class="w-2/4 py-1 bg-slate-100 my-1 mx-0 font-bold">Estado</p>
+                    <p class="w-2/4 ml-2.5 my-1 mr-2 text-green-500">Activo</p>
+                </div>
+                <div *ngIf="datosPerfilCiram.estado==0" class="info-container flex items-center">
+                    <p class="w-2/4 py-1 bg-slate-100 my-1 mx-0 font-bold">Estado</p>
+                    <p class="w-2/4 ml-2.5 my-1 mr-2 text-red-500">DESACTIVADO</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="grow bg-white p-4" >
+            <div class="mt-2" [style.height]="'100%'" >
+                
+            <esp-menu-opciones [links]="links" [setColorTab]="'var(--color-CAM)'" *ngIf="this.idUnidadOperativa != -1"
+            [style.height]="'100%'"
+            [showBottomLine]="false"></esp-menu-opciones>
+            
+            <router-outlet></router-outlet>
+            </div>
+        </div>
+    </div>
+</div>

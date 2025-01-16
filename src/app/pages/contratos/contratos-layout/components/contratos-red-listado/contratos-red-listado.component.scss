@@ -1,0 +1,46 @@
+.scrollbarra::-webkit-scrollbar {
+    width: 5px;
+}
+ 
+.scrollbarra::-webkit-scrollbar-track {
+    background: #D4D4D4;
+}
+.scrollbarra::-webkit-scrollbar-thumb {
+    background: var(--color-black-alt);
+}
+ 
+.scrollbarra::-webkit-scrollbar-thumb:hover {
+    background: #28364d;
+}
+
+.filasPseudoTabla{
+  text-align: center;
+  span{
+    align-self: center;
+    font-weight: 600;
+  }
+}
+
+.dataPseudoTabla{
+  font-size: 14px;
+  padding-bottom: 0.5rem;
+  --tw-border-opacity: 1;
+  border-color: rgb(209 213 219 / var(--tw-border-opacity));
+  border-bottom-width: 1px;
+  gap: 0.25rem;
+  grid-template-columns: repeat(6, minmax(0, 1fr));
+  display: grid;
+  margin-top: 1rem;
+  span{
+    justify-self: center;
+    text-align: center;
+  }
+}
+
+.estado-link {
+  color: #3282cd; /* LimeGreen */
+}
+
+.estado {
+  color: #32cd3a; /* LimeGreen */
+}

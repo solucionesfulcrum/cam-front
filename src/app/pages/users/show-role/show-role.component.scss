@@ -1,0 +1,108 @@
+.bg-image{
+  background: url("./../../../../assets/images/background.jpg");
+  background-position: center;
+  background-size: cover;
+}
+.avatar{
+  bottom: -2.5rem;
+  background: url("./../../../../assets/images/avatar-user.png");
+  background-position: center;
+  background-size: cover;
+}
+.content-detail{
+  min-height: 80vh;
+}
+
+.botonApariencia{
+  color: #3e4348;
+  border-radius: 5px;
+  box-shadow: 1px 1px 4px 0px #00000066;
+}
+.botonMezclado {
+  ::ng-deep.bg-success-700{
+  background: var(--color-CAM-Mezclado) !important;
+}
+border-radius: 5px;
+box-shadow: 1px 1px 4px 0px #00000066;
+}
+
+.filasPseudoTabla{
+  text-align: center;
+  span{
+    align-self: center;
+    font-weight: 600;
+  }
+}
+
+.dataPseudoTabla{
+  font-size: 14px;
+  padding-bottom: 0.5rem;
+  --tw-border-opacity: 1;
+  border-color: rgb(209 213 219 / var(--tw-border-opacity));
+  border-bottom-width: 1px;
+  gap: 0.25rem;
+  grid-template-columns: repeat(6, minmax(0, 1fr));
+  display: grid;
+  margin-top: 1rem;
+  span{
+    justify-self: center;
+    text-align: center;
+  }
+}
+::-webkit-scrollbar {
+    width: 10px;
+}
+ 
+::-webkit-scrollbar-track {
+    background: #f1f1f1;
+}
+::-webkit-scrollbar-thumb {
+    background: #888;
+    border-radius: 5px;
+}
+ 
+::-webkit-scrollbar-thumb:hover {
+    background: #555;
+}
+
+// Colores de fondo
+$bg-colors: (
+  1: rgba(5, 126, 201, 1), // Oro
+  2: #eb8787, // Azul cielo
+  3: #FFA07A, // Salmón claro
+  4: #08da2b, // Turquesa medio
+  5: #ff2290, // Rosa fuerte
+  6: #f57d14, // Melocotón
+  7: #C0C0C0, // Plata
+  8: #7FFFD4, // Turquesa
+  9: #778899, // Gris pizarra
+  10: #FF6347 // Tomate
+);
+
+
+
+// Bucle para generar las clases .barraTarea
+@for $i from 1 through 10 {
+    .square-#{$i} {
+        width: 20px;
+        height: 20px;
+      $bg-color: map-get($bg-colors, $i); // Obtener el color del mapa
+        background: linear-gradient(to right, lighten($bg-color, 10%), $bg-color, darken($bg-color, 10%));
+        margin: 4px; /* Margen exterior alrededor del cuadrado */
+        margin-right: 0.5rem; /* Espaciado a la derecha del cuadrado */
+        outline: 4px solid rgb(255, 255, 255); /* Grosor y color del borde sin afectar el tamaño del cuadrado */
+        border-radius: 3px; /* Redondear las esquinas del cuadrado */
+        box-shadow: 0 0 0 5px rgba(128, 128, 128, 0.5); /* Borde exterior redondo y semi-transparente */
+    }
+  }
+
+  .square-disabled {
+    width: 20px;
+    height: 20px;
+    background: white;
+    margin: 4px; /* Margen exterior alrededor del cuadrado */
+    margin-right: 0.5rem; /* Espaciado a la derecha del cuadrado */
+    outline: 4px solid rgb(255, 255, 255); /* Grosor y color del borde sin afectar el tamaño del cuadrado */
+    border-radius: 3px; /* Redondear las esquinas del cuadrado */
+    box-shadow: 0 0 0 5px rgba(128, 128, 128, 0.5); /* Borde exterior redondo y semi-transparente */
+}
