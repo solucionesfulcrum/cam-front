@@ -6,7 +6,7 @@ import { RequestBuscarApto, RequestBuscarAptoNacional } from '@models/control/as
 import { RequestAdminAsistenciasRap, RequestCambioHorario, RequestRegisterAsegurado, RequestRegisterAsistio, RequestRegisterCabecera, RequestRegisterDet } from '@models/control/asistencia/service-asistencia.model';
 import { DtGenericoPaginado } from '@models/generico/dt-generico';
 import { AsistenciaRapidaListaPayload } from '@models/reportes/reportes-tallerista';
-import { Observable } from 'rxjs';
+import { lastValueFrom, Observable } from 'rxjs';
 
 const URL_BASE = `${environment.API}/control`;
 
@@ -413,8 +413,19 @@ export class ControlProgramacionService {
       headers: new HttpHeaders({ 'Accept': 'application/octet-stream' })
     });
   }
-
-
   
-
+  async getCamsHabilitadosAsistenciaRapida(idUnidOperativa: number) {
+    const url = `${URL_BASE}/lista/permitidos/asistencia-rapida/${idUnidOperativa}`;
+    return await lastValueFrom(this._httpClient.get<any>(url));
+  }
+  
+  async getCamsHabilitadosAsistenciaRapidaActivar(listUnidOperativa: number[]) {
+    const url = `${URL_BASE}/activar/permitidos/asistencia-rapida`;
+    return await lastValueFrom(this._httpClient.post<any>(url, listUnidOperativa));
+  }
+  
+  async getCamsHabilitadosAsistenciaRapidaDesactivar(listUnidOperativa: number[]) {
+    const url = `${URL_BASE}/desactivar/permitidos/asistencia-rapida`;
+    return await lastValueFrom(this._httpClient.post<any>(url, listUnidOperativa));
+  }
 }

@@ -3,6 +3,7 @@ import { Injectable } from '@angular/core';
 import { environment } from '@environments/environment';
 import { RequestChangePassword, RequestCiramRegistro, RequestDatosFormacionRegistro, RequestDatosPersonalesRegistro, changePassword } from '@models/dashboard/dashboard.model';
 import { TipoParametro } from '@models/parametros-busqueda.model';
+import { lastValueFrom } from 'rxjs';
 
 const URL_BASE = `${environment.API}`;
 
@@ -45,9 +46,9 @@ export class DatosGeneralesService {
   }
 
 
-  getReds() {
-    const url = `${environment.API}/unidad-operativa/listar/red`;
-    return this._httpClient.get<TipoParametro>(url);
+  async getReds(text?: string) {
+    const url = `${environment.API}/unidad-operativa/listar/red${text ? '?texto=' + text : ''}`;
+    return await lastValueFrom(this._httpClient.get<TipoParametro>(url));
   }
   
   

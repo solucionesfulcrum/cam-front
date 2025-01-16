@@ -79,7 +79,7 @@ export class ProfCamAsistenciaRapidaComponent {
       this.onLoadData();
     });
 
-    this.datosService.getReds().subscribe((data)=>{
+    this.datosService.getReds().then((data)=>{
       this.opciones_red = data.data.map((e : any)=>{ //No había más solución
         return {...e, valor1: e.codigo} as Parametro
       });

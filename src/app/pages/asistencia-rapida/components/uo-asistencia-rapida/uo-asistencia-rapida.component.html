@@ -1,0 +1,156 @@
+<div class="px-4 py-3 bg-white w-full mt-3 grid botonApariencia" *ngIf="!dataListCams">
+    <div class="text-gray-600 w-full text-center">
+        <span class="py-1 font-bold text-2xl">
+            <esp-icon class="mr-2" icon="faSpinner" [pulse]="true"></esp-icon>
+            Obteniendo datos...
+        </span>
+    </div>
+</div>
+
+<div class="flex flex-row gap-2.5 mt-3" *ngIf="dataListCams">
+    <div class="bg-white botonApariencia py-3 px-2.5 w-[300px] flex flex-col shrink-0">
+        <div class="py-2">
+            <div class="relative rounded-md shadow-sm">
+                <input type="text" name="red" id="search" [formControl]="ctrlSearchRed" class="inputTextoDialog focusCampo !h-10 pr-7" placeholder="Buscar">
+                <div class="pointer-events-none right-0 absolute inset-y-0 flex items-center pr-3 opacity-50">
+                    <span class="text-gray-500 sm:text-sm">
+                        <esp-icon icon="faSearch"></esp-icon>
+                    </span>
+                </div>
+            </div>
+        </div>
+        <div class="py-2 whitespace-nowrap text-ellipsis overflow-hidden text-[18px] font-semibold text-[var(--color-CAM)]">
+            <span>REDES A NIVEL NACIONAL</span>
+        </div>
+        <div class="pr-2.5 flex flex-col gap-1 overflow-auto max-h-[66vh] scrollbarra">
+            <div class="flex flex-col gap-1 text-[#64748B]" *ngFor="let red of filteredList, index as i">
+                <div class="flex flex-row justify-between items-center hover:bg-[#F0FCFE] cursor-pointer" (click)="selectRed(red)" [ngClass]="redElegida ? (red.idUnidadOperativa == redElegida.idUnidadOperativa  ? 'bg-[#F0FCFE]' : null) : null">
+                    <div class="py-2.5 pl-1.5 flex flex-row items-center gap-1.5 whitespace-nowrap text-ellipsis overflow-hidden" [ngClass]="redElegida ? (red.idUnidadOperativa == redElegida.idUnidadOperativa  ? 'text-Name' : null) : null">
+                        <img src="assets/svg/red-icono-listado.svg">
+                        <span>RED {{red.nombre}}</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="bg-white botonApariencia w-full py-3 px-5 flex flex-col gap-2.5 text-[var(--color-black-alt)]">
+        <div class="py-2 text-[18px] font-bold">
+            <span class="text-[var(--color-CAM)]">HABILITAR ASISTENCIAS RÁPIDAS</span>
+        </div>
+        <div class="flex flex-col gap-2.5">
+            <div class="flex flex-row gap-2.5 items-center">
+                <span class="text-sm font-bold text-[#626667]">RED {{redElegida.nombre}}</span>
+                <label class="relative inline-flex items-center cursor-pointer">
+                    <input type="checkbox" class="sr-only peer" [formControl]="ctrlActivarList">
+                    <div class="w-11 h-6 bg-gray-200 peer-focus:outline-none peer-focus:ring-2 peer-focus:ring-[var(--color-CAM)] rounded-full peer peer-checked:after:translate-x-full rtl:peer-checked:after:-translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:start-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-cam"></div>
+                </label>
+            </div>
+            <div class="flex flex-row justify-between gap-2.5">
+                <div class="relative rounded-md shadow-sm max-w-[24rem]">
+                    <input type="text" name="cam" id="search" [formControl]="ctrlSearchCAM" class="inputTextoDialog focusCampo !h-10 pr-7" placeholder="Buscar CAM">
+                    <div class="pointer-events-none right-0 absolute inset-y-0 flex items-center pr-3 opacity-50">
+                        <span class="text-gray-500 sm:text-sm">
+                            <esp-icon icon="faSearch"></esp-icon>
+                        </span>
+                    </div>
+                </div>
+                <div class="flex flex-row gap-2.5 items-center">
+                    <app-btn typeBtn="submit" class="flex flex-row botonApariencia" color="mezclado" (click)="ableCheckBoxs(true)" *ngIf="!edicionActiva">
+                        <div class="flex gap-[5px]"><img class="h-5 self-center" src="assets/svg/icon-edit-data-white.svg" alt="">Editar</div>
+                    </app-btn>
+                    <app-btn typeBtn="submit" class="flex flex-row botonApariencia" color="bordeado" (click)="ableCheckBoxs(false, true)" *ngIf="edicionActiva">
+                        Cancelar
+                    </app-btn>
+                    <app-btn typeBtn="submit" class="flex flex-row botonApariencia" color="mezclado" (click)="confirmActivate()" *ngIf="edicionActiva">
+                        <div class="flex gap-[5px]"><img class="h-5 self-center" src="assets/svg/icon-white-save.svg" alt="">Guardar cambios</div>
+                    </app-btn>
+                </div>
+            </div>
+            <div class="flex flex-col gap-5 mt-3 overflow-auto max-h-[61vh] scrollbarra">
+                <label class="relative inline-flex items-center cursor-pointer gap-2.5" *ngFor="let cam of listCams, index as i">
+                    <input type="checkbox" class="sr-only peer" [formControl]="cam.formCheck">
+                    <div class="w-11 h-6 bg-gray-200 peer-focus:outline-none peer-focus:ring-2 peer-focus:ring-[var(--color-CAM)] rounded-full peer peer-checked:after:translate-x-full rtl:peer-checked:after:-translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:start-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-cam"></div>
+                    <span class="font-medium">CAM {{cam.nombre}}</span>
+                </label>
+            </div>
+        </div>
+        <!-- <esp-opciones-busqueda 
+          [showDateFilter]="true"
+          [setFilterDateOptionSelected]="'var(--color-CAM-Mezclado)'" 
+          [setFilterDateTextColour]="'#057EC9'"
+          [filterDateAppearance]="2"
+          [setFilterDateSelectionBg]="'#008BD2'"
+          [setFilterDateButtonBg]="'#008BD2'"
+          [setDateSelectedDefault]="5"
+          (sendDateFilterWithCeros)="getDataFecha($event)"
+          [showSearch]="true"
+          (searchInputValue)="formBuscar.get('frmSearch')?.setValue($event.toUpperCase()); getDateFromService()"
+          [searchInputPlaceHolder]="'Buscar tallerista'"
+          [showFirstDisplayFilter]="true"
+          [firstDisplayFilterPlaceholder]="{indicador: true, placeholder: 'Todos los estados'}"
+          [firstDisplayFilterData]="optEstado"
+          (firstDisplayFilterSendValue)="formBuscar.get('frmSearchEstado')?.setValue($event); getDateFromService()"
+          [showButton]="true"
+          [buttonBg]="'var(--color-CAM-Mezclado)'"
+          [buttonText]="'Nuevo Contrato'"
+          (buttonAccion)="nuevoContrato()"
+        ></esp-opciones-busqueda>
+        <div class="mt-2 grid grid-cols-6 gap-1 border-b-2 border-gray-300 pb-2 text-[14px] filasPseudoTabla">
+          <span style="text-align: left; width: 100%; margin-left: 10%;" class="col-span-2">Tallerista</span>
+          <span  style="text-align: left; width: 100%;">Orden de Compra</span>
+          <span  style="text-align: left; width: 100%;">Fecha Registro</span>
+          <span  style="text-align: left; width: 100%;">Estado</span>
+          <span>Opc</span>
+        </div>
+        <div *ngIf="listContratos.length == 0" class="w-full h-3/4 flex items-center">
+          <div class="m-auto w-fit text-center py-6">
+            <img class="m-auto" src="assets/svg/empty-data.svg" alt="">
+            <h3 class="text-gray-500 mt-2 font-light">No existen registros aun.</h3>
+          </div>
+        </div>
+        <div *ngIf="listContratos.length > 0">
+          <div class="dataPseudoTabla" *ngFor="let contrato of listContratos, index as i">
+            <span class="col-span-1 ml-2" style="
+            margin-left: 200px !important;
+            width: 300px !important;
+            text-align: left !important;
+        ">{{contrato.tallerista | uppercase}}</span>
+            <span class="col-span-1" ></span>
+            <span style="text-align: left; width: 100%;" class="text-[var(--color-CAM)]" [routerLink]="contrato.estado === 'CONFIRMADO' ? [appRoute.CONTRATOS_CONFIRMAR_SERVICIOS + '/' + contrato.numOc] : null" [ngClass]="contrato.estado === 'CONFIRMADO' ? 'cursor-pointer' : null">{{contrato.numOc}}</span>
+            <span  style="text-align: left; width: 100%;">{{contrato.fechaContrato | date:'dd/MM/yyyy'}}</span>
+            <span 
+            style="text-align: left; width: 100%;"
+            [ngClass]="{'text-green-500' : contrato.estado == 'CONFIRMADO', 'text-red-500' : contrato.estado == 'ANULADO' || contrato.estado == 'ELIMINADO'}"
+            [ngStyle]="{'color': contrato.estado == 'REGISTRADO' ? '#F59E0B' : ''}">
+            {{contrato.estado | titlecase}}</span>
+            <div class="text-center self-center text-[20px]">
+                <esp-icon icon="faEllipsis" class="cursor-pointer" [cdkMenuTriggerFor]="optionsSidenav"></esp-icon>
+            </div>
+            <ng-template #optionsSidenav>
+                <div class="botonApariencia bg-white !text-[var(--color-black-alt)] text-sm" cdkMenu>
+                    <div class="p-1 flex flex-col gap-px"cdkMenuGroup>
+                        <div class="flex flex-row items-center gap-2 hover:bg-[#E9E9E9] px-2 py-1.5 outline-none cursor-pointer rounded" *ngIf="contrato.estado != 'ELIMINADO'" cdkMenuItem (click)="contrato.estado === 'CONFIRMADO' && false ? notificationService.warning('La Orden de Compra '+ contrato.numOc + ' ha sido confirmada. No puede editarse') : editItem(contrato)">
+                            <div class="text-[16px]">
+                                <esp-icon [icon]="'faEdit'"></esp-icon>
+                            </div>
+                            <span>Editar</span>
+                        </div>
+                        <div class="flex flex-row items-center gap-2 hover:bg-[#E9E9E9] px-2 py-1.5 outline-none cursor-pointer rounded" cdkMenuItem (click)="downloadFile(contrato)">
+                            <div class="text-[16px]">
+                                <esp-icon [icon]="'faDownload'"></esp-icon>
+                            </div>
+                            <span>Descargar OC</span>
+                        </div>
+                        <div class="flex flex-row items-center gap-2 hover:bg-[#E9E9E9] px-2 py-1.5 outline-none cursor-pointer rounded" *ngIf="contrato.estado != 'ELIMINADO'" cdkMenuItem (click)="contrato.estado === 'CONFIRMADO' && false ? notificationService.warning('La Orden de Compra '+ contrato.numOc + ' ha sido confirmada. No puede eliminarse') : deleteItem(contrato)">
+                            <div class="text-[16px]">
+                                <esp-icon [icon]="'faTrashCan'"></esp-icon>
+                            </div>
+                            <span>Eliminar</span>
+                        </div>
+                    </div>
+                </div>
+            </ng-template>
+          </div>
+        </div> -->
+    </div>
+</div>

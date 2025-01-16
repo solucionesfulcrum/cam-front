@@ -1,0 +1,18 @@
+.scrollbarra::-webkit-scrollbar {
+    width: 5px;
+}
+ 
+.scrollbarra::-webkit-scrollbar-track {
+    background: #D4D4D4;
+}
+.scrollbarra::-webkit-scrollbar-thumb {
+    background: var(--color-black-alt);
+}
+ 
+.scrollbarra::-webkit-scrollbar-thumb:hover {
+    background: #28364d;
+}
+
+.peer:checked ~ .peer-checked\:bg-cam{
+    background: var(--color-CAM-Mezclado);
+}

@@ -84,7 +84,7 @@ export class AseguradosComponent {
       this.onLoadData();
     });
 
-    this.datosService.getReds().subscribe((data)=>{
+    this.datosService.getReds().then((data)=>{
       this.opciones_red = data.data.map((e : any)=>{ //No había más solución
         return {...e, valor1: e.idUnidadOperativa} as Parametro
       });

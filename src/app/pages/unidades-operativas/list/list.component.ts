@@ -67,7 +67,7 @@ export class ListComponent {
       }
     })
 
-    this.datosGeneralesService.getReds().subscribe((data)=>{
+    this.datosGeneralesService.getReds().then((data)=>{
       //console.log(data)
       if (data.code == 0) {
         this.opcionesRed = data.data.map((red : any)=> {

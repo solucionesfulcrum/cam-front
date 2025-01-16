@@ -12,13 +12,17 @@ import { SharedModule } from '@shared/shared.module';
 import { MaterialModule } from 'src/app/material/material.module';
 import { TalleristasAsistenciaRapidaComponent } from './components/talleristas-asistencia-rapida/talleristas-asistencia-rapida.component';
 import { ProfCamAsistenciaRapidaComponent } from './components/prof-cam-asistencia-rapida/prof-cam-asistencia-rapida.component';
+import { UoAsistenciaRapidaComponent } from './components/uo-asistencia-rapida/uo-asistencia-rapida.component';
+import { DialogConfirmacionComponent } from './components/uo-asistencia-rapida/dialog-confirmacion/dialog-confirmacion.component';
 
 
 @NgModule({
   declarations: [
     AsistenciaRapidaComponent,
     TalleristasAsistenciaRapidaComponent,
-    ProfCamAsistenciaRapidaComponent
+    ProfCamAsistenciaRapidaComponent,
+    UoAsistenciaRapidaComponent,
+    DialogConfirmacionComponent
   ],
   imports: [
     CommonModule,

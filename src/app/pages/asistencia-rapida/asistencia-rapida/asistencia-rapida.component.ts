@@ -10,5 +10,6 @@ export class AsistenciaRapidaComponent {
   links: FormatoTab[] = [
     {url:'/app/admin/asistencia-rapida/talleristas', title:'Talleristas'},
     {url:'/app/admin/asistencia-rapida/profesional-cam', title:'Profesional Cam'},
+    {url:'/app/admin/asistencia-rapida/unidades-operativas', title:'Unidades Operativas'},
   ]
 }
