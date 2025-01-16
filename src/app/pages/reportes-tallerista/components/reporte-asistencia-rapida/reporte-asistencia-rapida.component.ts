@@ -160,6 +160,10 @@ export class ReporteAsistenciaRapidaComponent {
       const blob: Blob = new Blob([data], { type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet' });
       saveAs(blob, 'Reporte_Asistencia_Rapida_Del_Tallerista.xlsx');
       this.waitDownload = false;
-    })
+    },
+  (error)=>{
+    this.notificationService.warning('El rango de días no puede ser mayor a 93 días');
+    this.waitDownload = false;
+  })
   }
 }
